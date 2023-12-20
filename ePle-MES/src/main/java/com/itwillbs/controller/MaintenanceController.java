@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(value = "/maintenance/*")
-public class MaintenceController {
+public class MaintenanceController {
 
 	// http://localhost:8088/maintenance/list
 	@GetMapping(value = "/list")
