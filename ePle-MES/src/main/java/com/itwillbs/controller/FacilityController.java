@@ -56,4 +56,9 @@ public class FacilityController {
 		// 설비 삭제 액션
 		
 	}
+	
+	@GetMapping(value="/export")
+	public void listExportGET() {
+		// 설비 리스트 내보내기
+	}
 }

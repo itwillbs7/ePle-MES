@@ -103,6 +103,9 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label>날짜</label> <input type="date" class="form-control">
+						</div>
+						<div class="form-group">
 							<label>Disabled select menu</label> <select class="form-control" disabled="">
 								<option>Disabled select</option>
 							</select>

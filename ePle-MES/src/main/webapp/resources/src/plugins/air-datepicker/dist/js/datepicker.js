@@ -143,7 +143,7 @@
 
     datepicker.prototype = {
         VERSION: VERSION,
-        viewIndexes: ['days', 'months', 'years'],
+        viewIndexes: ['years','months', 'years'],
 
         init: function () {
             if (!containerBuilt && !this.opts.inline && this.elIsInput) {
