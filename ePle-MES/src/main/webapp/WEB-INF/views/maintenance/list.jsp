@@ -104,10 +104,19 @@
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
-															<label>기간</label> <input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="datetime">
+															<label>날짜</label> <input type="date" class="form-control">
 														</div>
 													</div>
-													<div class="col-md-2 col-sm-12">
+													<div class="col-md-2">
+														<div class="form-group" style="display: inline-block;">
+															<label>기간</label><input type="date" class="form-control">
+														</div>
+														<b>-</b>
+														<div class="form-group" style="display: inline-block;">
+															<input type="date" class="form-control">
+														</div>
+													</div>
+													<div class="col-md-2">
 														<div class="form-group">
 															<label>물품 종류</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="category">
 																<optgroup label="Alaskan/Hawaiian Time Zone">
@@ -316,8 +325,8 @@
 					$($(this).data("target")).show();
 				}
 			});
-			
-			$("#export").click(function(){
+
+			$("#export").click(function() {
 				openPage("/maintenance/export", 400, 700);
 			});
 		});
