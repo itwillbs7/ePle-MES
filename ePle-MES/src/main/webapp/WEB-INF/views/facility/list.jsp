@@ -170,7 +170,7 @@
 				<div class="card-box mb-30">
 					<div class="pd-20">
 						<div class="pull-left" style="margin-bottom: 15px">
-							<button type="button" class="btn btn-secondary" id="printAll">
+							<button type="button" class="btn btn-secondary" id="export">
 								<b>저장 / 인쇄</b>
 							</button>
 						</div>
@@ -329,6 +329,10 @@
 					$(this).attr("data-target", "#warning-modal");
 					$($(this).data("target")).show();
 				}
+			});
+			
+			$("#export").click(function(){
+				openPage("/facility/export", 400, 700);
 			});
 		});
 	</script>
