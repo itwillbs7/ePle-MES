@@ -1,0 +1,28 @@
+package com.itwillbs.domain;
+
+import java.sql.Timestamp;
+
+import lombok.Data;
+
+@Data
+public class RequestVO {
+	// Request 테이블
+	private String code;
+	private String client_code;
+	private String date;
+	private String deadline;
+	private String manager;
+	private String product;
+	private int amount;
+	private String unit;
+	private int stock;
+	private int currency;
+	private String status;
+	private int returns;
+	private Timestamp reg_date;
+	private String reg_emp;
+	private Timestamp update_date;
+	private String update_emp;
+	
+
+}

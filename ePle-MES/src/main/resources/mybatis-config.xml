@@ -5,5 +5,7 @@
   
   <!-- mybatis 설정 파일 -->
   <configuration>
-  	
+  	  <typeAliases>
+  		<package name="com.itwillbs.domain"/>
+  	</typeAliases>
   </configuration>

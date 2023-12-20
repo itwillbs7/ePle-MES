@@ -12,7 +12,16 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.itwillbs.controller">
-		<level value="info" />
+		<level value="debug" />
+	</logger>
+	<logger name="com.itwillbs.domain">
+		<level value="debug" />
+	</logger>
+	<logger name="com.itwillbs.persistence">
+		<level value="debug" />
+	</logger>
+	<logger name="com.itwillbs.service">
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

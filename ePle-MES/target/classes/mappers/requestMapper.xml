@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  <!--requestMapper.xml -->
+  <mapper namespace="com.itwillbs.mapper.requestMapper">
+  
+  <!-- 리스트 가져오기 -->
+  <select id="getRequestList" resultType="RequestVO">
+  	select * from REQUEST
+  </select>
+  
+  <!-- 수주번호의 정보 가져오기 -->
+  <select id="getRequestInfo" resultType="RequestVO">
+  	select * from REQUEST where code=#{code}
+  </select>
+  
+  <!-- 수주정보 검색하기 -->
+  <select id="research" resultType="RequestVO">
+
+  
+  </select>
+  
+  <!-- 수주정보 등록하기 -->
+  <select id="insertRequest">
+  insert into REQUEST
+  values (#{code},#{client_code},#{deadline},#{date},#{manager},#{product},#{amount}, 
+  #{unit},#{stock},#{currency},"등록",0,now(),"test",now(),"test");
+  
+  </select>
+  
+  <!-- 수주정보 수정하기 -->
+<update id="updateRequestInfo">
+
+</update>
+
+<!-- 수주정보 삭제하기 -->
+<delete id="deleteRequestData">
+	delete from REQUEST 
+	where code in #{code}
+</delete>
+  
+  </mapper>
