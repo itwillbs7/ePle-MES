@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
@@ -47,7 +46,7 @@
 						<div class="card">
 							<div class="card-header">
 								<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false">
-									<b>검색</b>
+									<b>상세 검색</b>
 								</button>
 							</div>
 							<div id="faq1" class="collapse" data-parent="#accordion" style="">
@@ -55,24 +54,6 @@
 									<form id="accordion-search" method="GET" action="#">
 										<div class="col-md-12">
 											<div class="form-group">
-												<div class="row">
-													<h4 class="text-blue h4">기본 검색</h4>
-													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
-														<div class="btn-group dropdown">
-															<button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-																카테고리 <span class="caret"></span>
-															</button>
-															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" href="javascript:buttonCategory();">선택</a> <a class="dropdown-item" href="javascript:buttonCategory('A');">A</a> <a class="dropdown-item" href="javascript:buttonCategory('B');">B</a> <a class="dropdown-item" href="javascript:buttonCategory('C');">C</a>
-															</div>
-														</div>
-														<input type="hidden" id="searchCategory" name="searchCategory"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
-													</div>
-												</div>
-												<hr>
-												<div class="row">
-													<h4 class="text-blue h4">상세 검색</h4>
-												</div>
 												<div class="row">
 													<div class="col-md-1 col-sm-12">
 														<label class="weight-600">체크 박스</label>
@@ -174,7 +155,12 @@
 				<!-- Checkbox select Datatable start -->
 				<div class="card-box mb-30">
 					<div class="pd-20">
-						<div class="btn-group pull-right" style="margin-bottom: 10px">
+						<div class="pull-left" style="margin-bottom: 15px">
+							<button type="button" class="btn btn-secondary" id="printAll">
+								<b>저장 / 인쇄</b>
+							</button>
+						</div>
+						<div class="btn-group pull-right" style="margin-bottom: 15px">
 							<button type="button" class="btn btn-success" id="add">
 								<b>추가</b>
 							</button>
@@ -251,15 +237,13 @@
 				</div>
 				<!-- Checkbox select Datatable End -->
 				<!-- 푸터 -->
-				<div class="footer-wrap pd-20 mb-20 card-box">
-					ePle MES made by <a href="https://github.com/dropways" target="_blank">아이티윌 부산 2023년 7월 프로젝트 2차 1조</a>
-				</div>
+				<%@ include file="../include/github.jsp"%>
 				<%@ include file="../include/footer.jsp"%>
 				<%@ include file="../include/datatable.jsp"%>
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- 모달 창 -->
 	<div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-sm modal-dialog-centered">
@@ -268,14 +252,16 @@
 					<h3 class="mb-15">
 						<i class="fa fa-exclamation-triangle"></i> 주의
 					</h3>
-					<p><b>선택된 데이터</b>가 없습니다!</p>
+					<p>
+						<b>선택된 데이터</b>가 없습니다!
+					</p>
 					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- 모달 창 -->
-	
+
 	<!-- 추가, 수정, 삭제 -->
 	<script type="text/javascript">
 		var popupWidth, popupHeight, popupX, popupY, link;
@@ -330,6 +316,7 @@
 					$($(this).data("target")).show();
 				}
 			});
+
 		});
 	</script>
 </body>

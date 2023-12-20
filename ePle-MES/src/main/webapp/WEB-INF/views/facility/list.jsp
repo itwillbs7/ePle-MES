@@ -169,6 +169,11 @@
 				<!-- Checkbox select Datatable start -->
 				<div class="card-box mb-30">
 					<div class="pd-20">
+						<div class="pull-left" style="margin-bottom: 15px">
+							<button type="button" class="btn btn-secondary" id="printAll">
+								<b>저장 / 인쇄</b>
+							</button>
+						</div>
 						<div class="btn-group pull-right" style="margin-bottom: 10px">
 							<button type="button" class="btn btn-success" id="add">
 								<b>추가</b>
@@ -246,15 +251,13 @@
 				</div>
 				<!-- Checkbox select Datatable End -->
 				<!-- 푸터 -->
-				<div class="footer-wrap pd-20 mb-20 card-box">
-					ePle MES made by <a href="https://github.com/sumin901/ePle-MES" target="_blank">아이티윌 부산 2023년 7월 프로젝트 2차 1조</a>
-				</div>
+				<%@ include file="../include/github.jsp"%>
 				<%@ include file="../include/footer.jsp"%>
 				<%@ include file="../include/datatable.jsp"%>
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- 모달 창 -->
 	<div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-sm modal-dialog-centered">
@@ -263,14 +266,16 @@
 					<h3 class="mb-15">
 						<i class="fa fa-exclamation-triangle"></i> 주의
 					</h3>
-					<p><b>선택된 데이터</b>가 없습니다!</p>
+					<p>
+						<b>선택된 데이터</b>가 없습니다!
+					</p>
 					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- 모달 창 -->
-	
+
 	<!-- 추가, 수정, 삭제 -->
 	<script type="text/javascript">
 		var popupWidth, popupHeight, popupX, popupY, link;

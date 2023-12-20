@@ -5,5 +5,7 @@
   
 <!-- maintenanceMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.MaintenanceMapper">
+	<insert id="insertMaintenance">
 	
+	</insert>
 </mapper>

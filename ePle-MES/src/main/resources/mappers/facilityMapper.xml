@@ -5,5 +5,7 @@
   
 <!-- facilityMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.FacilityMapper">
-
+	<insert id="insertFacility">
+	
+	</insert>
 </mapper>

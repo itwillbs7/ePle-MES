@@ -1,5 +1,7 @@
 package com.itwillbs.persistence;
 
-public interface FacilityDAO {
+import com.itwillbs.domain.FacilityVO;
 
+public interface FacilityDAO {
+	public void insertFacility(FacilityVO vo);
 }

@@ -1,5 +1,7 @@
 package com.itwillbs.service;
 
-public interface MaintenanceService {
+import com.itwillbs.domain.MaintenanceVO;
 
+public interface MaintenanceService {
+	public void addMaintenance(MaintenanceVO vo);
 }

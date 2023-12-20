@@ -1,5 +1,7 @@
 package com.itwillbs.persistence;
 
-public interface MaintenanceDAO {
+import com.itwillbs.domain.MaintenanceVO;
 
+public interface MaintenanceDAO {
+	public void insertMaintenance(MaintenanceVO vo);
 }

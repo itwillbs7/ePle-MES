@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class FacilityController {
 
 	// http://localhost:8088/facility/list
-	@RequestMapping(value = "/list")
+	@GetMapping(value = "/list")
 	public void facilityListGET() {
 		// 설비 목록 return
 		
