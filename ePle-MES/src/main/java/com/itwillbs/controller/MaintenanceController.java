@@ -15,6 +15,7 @@ public class MaintenanceController {
 	@GetMapping(value = "/list")
 	public void maintenanceListGET() {
 		// 설비 보전 리스트
+		
 	}
 
 	@GetMapping(value = "/add")
