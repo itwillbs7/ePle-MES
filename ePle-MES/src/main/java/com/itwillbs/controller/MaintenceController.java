@@ -1,8 +1,9 @@
 package com.itwillbs.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /** FacilityController : 설비 보전 컨트롤러 **/
 
@@ -11,18 +12,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class MaintenceController {
 
 	// http://localhost:8088/maintenance/list
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@GetMapping(value = "/list")
 	public void maintenanceListGET() {
 		// 설비 보전 리스트
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	@GetMapping(value = "/add")
 	public void maintenanceInsertGET() {
 		// 설비 보전 등록 폼
 
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@PostMapping(value = "/add")
 	public void maintenanceInsertPOST() {
 		// 설비 보전 등록 액션
 		
@@ -30,41 +31,41 @@ public class MaintenceController {
 		// -> 다른 데이터베이스에서 진행(일상 보전은 결과만)
 	}
 	
-	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	@GetMapping(value = "/update")
 	public void maintenanceUpdateGET() {
 		// 설비 보전 수정 폼
 
 	}
 	
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@PostMapping(value = "/update")
 	public void maintenanceUpdatePOST() {
 		// 설비 보전 수정 액션
 
 	}
 	
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@GetMapping(value = "/delete")
 	public void maintenanceDeleteGET() {
 		// 설비 보전 삭제 폼
 
 	}
 	
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@PostMapping(value = "/delete")
 	public void maintenanceDeletePOST() {
 		// 설비 보전 삭제 액션
 
 	}
 
-	@RequestMapping(value = "/resultList", method = RequestMethod.GET)
+	@GetMapping(value = "/resultList")
 	public void maintenanceResultListGET() {
 		// 설비 보전 결과 리스트
 	}
 
-	@RequestMapping(value = "/resultInsert", method = RequestMethod.GET)
+	@GetMapping(value = "/resultInsert")
 	public void maintenanceResultInsertGET() {
 		// 설비 보전 결과 폼
 	}
 
-	@RequestMapping(value = "/resultInsert", method = RequestMethod.POST)
+	@PostMapping(value = "/resultInsert")
 	public void maintenanceResultInsertPOST() {
 		// 설비 보전 결과 액션
 	}

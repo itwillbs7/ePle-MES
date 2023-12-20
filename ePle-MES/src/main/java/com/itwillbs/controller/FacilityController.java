@@ -1,8 +1,9 @@
 package com.itwillbs.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /** FacilityController : 설비 컨트롤러 **/
 
@@ -18,39 +19,39 @@ public class FacilityController {
 	}
 
 	// http://localhost:8088/facility/insert
-	@RequestMapping(value = "/insert", method = RequestMethod.GET)
+	@GetMapping(value = "/insert")
 	public void facilityInsertGET() {
 		// 설비 추가 폼
 		
 	}
 	
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	@PostMapping(value = "/insert")
 	public void facilityInsertPOST() {
 		// 설비 추가 액션
 		
 	}
 	
 	// http://localhost:8088/facility/update
-	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	@GetMapping(value = "/update")
 	public void facilityUpdateGET() {
 		// 설비 수정 폼
 		
 	}
 	
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@PostMapping(value = "/update")
 	public void facilityUpdatePOST() {
 		// 설비 수정 액션
 		
 	}
 	
 	// http://localhost:8088/facility/delete
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@GetMapping(value = "/delete")
 	public void facilityDeleteGET() {
 		// 설비 삭제 폼
 		
 	}
 	
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@PostMapping(value = "/delete")
 	public void facilityDeletePOST() {
 		// 설비 삭제 액션
 		
