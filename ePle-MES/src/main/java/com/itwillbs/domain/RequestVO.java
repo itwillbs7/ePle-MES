@@ -24,5 +24,7 @@ public class RequestVO {
 	private Timestamp update_date;
 	private String update_emp;
 	
+	private String clientName;
+	private String productName;
 
 }

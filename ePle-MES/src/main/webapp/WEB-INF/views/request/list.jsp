@@ -150,7 +150,6 @@
 						<div class="col-sm-30">
 							<form class="table" id="table">
 								<table class="table table-striped">
-								<c:forEach items="List">
 									<tr>
 										<td style="width: 100px;">
 											<div class="custom-control custom-checkbox mb-5">
@@ -168,6 +167,7 @@
 										<th>과부족</th>
 										<th>수주상태</th>
 									</tr>
+								<c:forEach items="List">
 									<tr>
 										<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 										<td><div class="custom-control custom-checkbox mb-5">
@@ -175,16 +175,16 @@
 												<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
 											</div></td>
 										<!-- 상세 정보 이동! -->
-										<th><a href="#"  id="info"><b class="text-blue">수주번호</b></a></th>
-										<th>수주업체명</th>
-										<th>수주일자</th>
-										<th>납품예정일</th>
-										<th>품번</th>
-										<th>품명</th>
-										<th>수주수량</th>
-										<th>재고량</th>
-										<th>과부족</th>
-										<th>수주상태</th>
+										<th>${List.code }</th>
+										<th>${List.client_code }</th>
+										<th>${List.clientName }</th>
+										<th>${List.deadline }</th>
+										<th>${List.product }</th>
+										<th>${List.productName }</th>
+										<th>${List.amount }</th>
+										<th>${List.stock }</th>
+										<th>${List.stock - List.amount }</th>
+										<th>${List.status }</th>
 										<td style="">
 										<!-- 옵션 -->
 											<div class="dropdown">

@@ -9,7 +9,10 @@
   
   <!-- 리스트 가져오기 -->
   <select id="getRequestList" resultType="RequestVO">
-  	select * from REQUEST
+SELECT r.client_code, c.name clientName ,r.product, m.name productName, s.amount stock, r.status FROM REQUEST r 
+join CLIENT c on r.client_code = c.code
+join STOCK s on r.product = s.code 
+join MAPD m on r.product = m.code;
   </select>
   
   <!-- 수주번호의 정보 가져오기 -->
