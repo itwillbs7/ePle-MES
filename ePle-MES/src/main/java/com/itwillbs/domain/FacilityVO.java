@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class FacilityVO {
 	private String code;
+	// 설비 카테고리 : 생산, 비생산, 기타
 	private String category;
 	private String name;
 	private String model;
