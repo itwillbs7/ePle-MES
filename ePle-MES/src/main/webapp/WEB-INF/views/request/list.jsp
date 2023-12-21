@@ -4,6 +4,7 @@
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
+<%-- <link href="${pageContext.requeset.contextPath }/resources/css/default.css" rel="stylesheet" type"text/css"> --%>
 <title>수주 관리</title>
 </head>
 <body>
@@ -22,24 +23,24 @@
 				<h1>수주 관리</h1>
 			</div>
 			<div class="min-height-200px">
-				<ul class="nav nav-pills">
-					<li class="nav-item"><a class="nav-link text-blue active" href="/maintenance/list">수주 목록</a></li>
-					<li class="nav-item"><a class="nav-link text-blue" href="/maintenance/resultList">수주 결과</a></li>
-				</ul>
+<!-- 				<ul class="nav nav-pills"> -->
+<!-- 					<li class="nav-item"><a class="nav-link text-blue active" href="/maintenance/list">수주 목록</a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link text-blue" href="/maintenance/resultList">수주 결과</a></li> -->
+<!-- 				</ul> -->
 				<br>
-				<div class="alert alert-success alert-dismissible fade show" role="alert">
+				<div class="alert alert-success alert-dismissible fade show" role="alert" style="display:none">
 					<strong>수주 등록</strong>이 완료되었습니다!
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="alert alert-info alert-dismissible fade show" role="alert">
+				<div class="alert alert-info alert-dismissible fade show" role="alert" style="display:none">
 					<strong>수주 수정</strong>이 완료되었습니다!
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+				<div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none">
 					<strong>수주 삭제</strong>가 완료되지 않았습니다!
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">×</span>
@@ -56,64 +57,69 @@
 							</div>
 							<div id="faq1" class="collapse" data-parent="#accordion" style="">
 								<div class="card-body">
-									<form id="accordion-search" method="GET" action="#">
+									<form id="accordion-search" method="GET" action="/request/search">
 										<div class="col-md-12">
 											<div class="form-group">
 												<div class="row">
 													<h4 class="text-blue h4">기본 검색</h4>
 													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
-														<div class="btn-group dropdown">
-															<button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-																카테고리 <span class="caret"></span>
-															</button>
-															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" href="javascript:buttonCategory();">선택</a> <a class="dropdown-item" href="javascript:buttonCategory('A');">A</a> <a class="dropdown-item" href="javascript:buttonCategory('B');">B</a> <a class="dropdown-item" href="javascript:buttonCategory('C');">C</a>
-															</div>
-														</div>
-														<input type="hidden" id="searchCategory" name="searchCategory"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
+														<label>업체명</label> 
+														<input type="hidden" id="searchCompany" name="searchCategory"> 
+														<input type="text" name="client_code" class="form-control" style="width: 100%;" placeholder="검색어 입력">
 													</div>
-												</div>
-												<hr>
-												<div class="row">
-													<h4 class="text-blue h4">상세 검색</h4>
+													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
+														<label>품명</label> 
+														<input type="hidden" id="searchProduct" name="searchCategory"> 
+														<input type="text" name="product" class="form-control" style="width: 100%;" placeholder="검색어 입력">
+													</div>
+													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
+														<label>담당자</label> 
+														<input type="hidden" id="searchManager" name="searchCategory"> 
+														<input type="text" name="manager" class="form-control" style="width: 100%;" placeholder="검색어 입력">
+													</div>
 												</div>
 												<div class="row">
 													<div class="col-md-1 col-sm-12">
-														<label class="weight-600">체크 박스</label>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheckAll"> <label class="custom-control-label" for="formCheckAll"><b>전체</b></label>
-														</div>
+														<label class="weight-600">수주 상태</label>
 													<div class="col-md-1 col-sm-12" style="margin-top: auto;">
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck1" name="formCheck"> <label class="custom-control-label" for="formCheck1">A</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck1" name="statusInput"> 
+															<label class="custom-control-label" for="formCheck1">등록</label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck2" name="formCheck"> <label class="custom-control-label" for="formCheck2">B</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck2" name="statusProduction"> 
+															<label class="custom-control-label" for="formCheck2">생산진행</label>
 														</div>
 													</div>
 													<div class="col-md-1 col-sm-12" style="margin-top: auto;">
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck3" name="formCheck"> <label class="custom-control-label" for="formCheck3">C</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck3" name="statusWait"> 
+															<label class="custom-control-label" for="formCheck3">출하대기</label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck4" name="formCheck"> <label class="custom-control-label" for="formCheck4">D</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck4" name="statusShip"> 
+															<label class="custom-control-label" for="formCheck4">출하완료</label>
 														</div>
 													</div>	
 													<div class="col-md-1 col-sm-12" style="margin-top: auto;">
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck5" name="formCheck"> <label class="custom-control-label" for="formCheck5">E</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck5" name="statusRecipt"> 
+															<label class="custom-control-label" for="formCheck5">수령</label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck6" name="formCheck"> <label class="custom-control-label" for="formCheck6">F</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck6" name="statusReturns"> 
+															<label class="custom-control-label" for="formCheck6">반품</label>
 														</div>
 													</div>										
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
-															<label>수주일자</label> <input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="datetime">
+															<label>수주일자</label> 
+															<input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="date">
 														</div>
 														<div class="form-group">
-															<label>납품예정일</label> <input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="datetime">
+															<label>납품예정일</label> 
+															<input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="deadline">
 														</div>
 													</div>
 												</div>
@@ -175,16 +181,16 @@
 												<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
 											</div></td>
 										<!-- 상세 정보 이동! -->
-										<th>${List.code }</th>
-										<th>${List.client_code }</th>
-										<th>${List.clientName }</th>
-										<th>${List.deadline }</th>
-										<th>${List.product }</th>
-										<th>${List.productName }</th>
-										<th>${List.amount }</th>
-										<th>${List.stock }</th>
-										<th>${List.stock - List.amount }</th>
-										<th>${List.status }</th>
+<%-- 										<th>${List.code }</th> --%>
+<%-- 										<th>${List.client_code }</th> --%>
+<%-- 										<th>${List.clientName }</th> --%>
+<%-- 										<th>${List.deadline }</th> --%>
+<%-- 										<th>${List.product }</th> --%>
+<%-- 										<th>${List.productName }</th> --%>
+<%-- 										<th>${List.amount }</th> --%>
+<%-- 										<th>${List.stock }</th> --%>
+<%-- 										<th>${List.stock - List.amount }</th> --%>
+<%-- 										<th>${List.status }</th> --%>
 										<td style="">
 										<!-- 옵션 -->
 											<div class="dropdown">
@@ -212,7 +218,13 @@
 							</div>
 							<div class="btn-toolbar justify-content-center mb-15">
 								<div class="btn-group">
-									<a href="#" class="btn btn-outline-primary prev"><i class="fa fa-angle-double-left"></i></a> <a href="#" class="btn btn-outline-primary">1</a> <a href="#" class="btn btn-outline-primary">2</a> <span class="btn btn-outline-primary">3</span> <a href="#" class="btn btn-outline-primary">4</a> <a href="#" class="btn btn-outline-primary">5</a> <a href="#" class="btn btn-outline-primary next"><i class="fa fa-angle-double-right"></i></a>
+									<a href="#" class="btn btn-outline-primary prev"><i class="fa fa-angle-double-left"></i></a> 
+									<a href="#" class="btn btn-outline-primary">1</a> 
+									<a href="#" class="btn btn-outline-primary">2</a> 
+									<span class="btn btn-outline-primary">3</span> 
+									<a href="#" class="btn btn-outline-primary">4</a> 
+									<a href="#" class="btn btn-outline-primary">5</a> 
+									<a href="#" class="btn btn-outline-primary next"><i class="fa fa-angle-double-right"></i></a>
 								</div>
 							</div>
 						</div>
@@ -274,7 +286,9 @@
 			// 삭제
 			$("#delete").click(function() {
 				// 가로, 세로 설정
-				openPage("/request/delete", 400, 700);
+				openPage("/request/delete?", 400, 700);
+				// 체크된 데이터열의 코드들을 보내야함!
+				
 			});
 			
 			// 상세보기
@@ -283,10 +297,61 @@
 				openPage("/request/info", 400,700);
 			});
 			
+			// 각각의 검색창
+			// 업체검색
+			$("#searchCompany").click(function() {
+				// 가로, 세로 설정
+				openPage("/request/info", 400,700);
+			});
 			
+			// 제품검색
+			$("#searchProduct").click(function() {
+				// 가로, 세로 설정
+				openPage("/request/info", 400,700);
+			});
 			
+			// 사원검색
+			$("#searchManager").click(function() {
+				// 가로, 세로 설정
+				openPage("/request/info", 400,700);
+			});
 			
+			// 검색은 ajax
+			$(".search").click(function() {
+				// 가로, 세로 설정
+				$.ajax({
+					
+				});
+				
+			});
 			
+			// 팝업창 닫을 때 list 새고 하기
+// 			function closePopUp() {
+// 				  // 팝업창을 닫습니다.
+// 				  window.parent.window.close();
+
+// 				  // 팝업창이 닫힌 후 list.jsp를 새로고침합니다.
+// 				  $.ajax({
+// 				    url: "/request/list",
+// 				    type: "get",
+// 				    success: function() {
+// 				      // 새로고침이 완료된 후 화면이 깜빡이지 않도록 합니다.
+// 				      window.location.reload();
+// 				      alert('시작');
+// 				    },
+// 				    error: function() {
+// 				      // 새로고침에 실패한 경우 처리합니다.
+// 					      alert('error');
+
+// 				    }
+// 				  });
+// 				}
+			
+			//등록 시 알럿
+// 			var result = ${result}
+// 			if(result == "AddDone"){
+// 				$(".alert-success").css("display","inline")
+// 			}
 			
 			
 		});

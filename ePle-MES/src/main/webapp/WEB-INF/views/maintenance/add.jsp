@@ -132,7 +132,7 @@
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-						<button type="submit" class="btn btn-success">
+						<button type="submit" class="btn btn-success" onclick="window.close();">
 							<b>등록</b>
 						</button>
 					</div>

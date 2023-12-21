@@ -17,7 +17,7 @@
 			<!-- 폼 -->
 			<form action="" method="post">
 				<!-- 비입력 구간 -->
-				<input class="form-control" type="hidden" value="test" placeholder="수주번호" name="code">
+				<input class="form-control" type="hidden" placeholder="수주번호" name="code" id="code" value="" >
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
@@ -73,7 +73,7 @@
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-						<button type="submit" class="btn btn-success">
+						<button type="submit" class="btn btn-success" onclick="window.close();">
 							<b>등록</b>
 						</button>
 					</div>
@@ -91,35 +91,31 @@
 	<script type="text/javascript">
 	$(document).ready(function(){
 		
-	$("#add").click(function() {
+	$("#").click(function() {
 		// 가로, 세로 설정
-		openPage("/request/add", 500, 600);
+		openPage("", 500, 600);
+	});
+	
+	$("#").click(function() {
+		// 가로, 세로 설정
+		openPage("", 400, 700);
 	});
 	
 	
-	// 수주번호 생성하기
-	// 당해 YY + OD(Order Detail)+ 수주업체코드 + MMDD+ 물품코드 +인덱스 3자리(001부터)
-	function makeCode(){
-		const year = date.getFullYear().toString().slice(-2);
-		const month = String(date.getMonth() + 1).padStart(2, "0");
-		const day = String(date.getDate()).padStart(2, "0");
-		
-		const corpCode;
-		const prodCode;
-		
-		const result = ${year}+"RQ"+${month}+${day}+"01";
-		return result;
+		// 상품번호 생성
+	function createOrderNum() {
+		  const year = date.getFullYear();
+		  const month = String(date.getMonth() + 1).padStart(2, "0");
+		  const day = String(date.getDate()).padStart(2, "0");
+
+		return "code1234"; // 총 8자리 숫자
 	}
 	
-	// 수주번호
-	const sujuCode = makeCode();
-	document.getElementById("sujuCode").value = sujuCode;
+	// 상품번호(merchant_uid)
+	const code = createOrderNum();
+	document.getElementById('code').value = code;
+	
 
-	// 날자형식
-	$('#date-picker input').datepicker({
-	    format: "yy/dd/mm",
-	    language: "ko"
-	});
 	
 	});
 	</script>

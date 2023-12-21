@@ -2,47 +2,98 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  
-  <!--requestMapper.xml -->
-  <mapper namespace="com.itwillbs.mapper.requestMapper">
-  
-  <!-- 리스트 가져오기 -->
-  <select id="getRequestList" resultType="RequestVO">
-SELECT r.client_code, c.name clientName ,r.product, m.name productName, s.amount stock, r.status FROM REQUEST r 
-join CLIENT c on r.client_code = c.code
-join STOCK s on r.product = s.code 
-join MAPD m on r.product = m.code;
-  </select>
-  
-  <!-- 수주번호의 정보 가져오기 -->
-  <select id="getRequestInfo" resultType="RequestVO">
-  	select * from REQUEST where code=#{code}
-  </select>
-  
-  <!-- 수주정보 검색하기 -->
-  <select id="research" resultType="RequestVO">
 
-  
-  </select>
-  
-  <!-- 수주정보 등록하기 -->
-  <select id="insertRequest">
-  insert into REQUEST
-  values (#{code},#{client_code},#{deadline},#{date},#{manager},#{product},#{amount}, 
-  #{unit},#{stock},#{currency},"등록",0,now(),"test",now(),"test");
-  
-  </select>
-  
-  <!-- 수주정보 수정하기 -->
-<update id="updateRequestInfo">
 
-</update>
+<!--requestMapper.xml -->
+<mapper namespace="com.itwillbs.mapper.requestMapper">
+	<resultMap type="com.itwillbs.domain.RequestVO" id="request">
+		<result property="code" column="code" />
+		<result property="client_code" column="client_code" />
+		<result property="date" column="date" />
+		<result property="deadline" column="deadline" />
+		<result property="manager" column="manager" />
+		<result property="product" column="product" />
+		<result property="amount" column="amount" />
+		<result property="unit" column="unit" />
+		<result property="stock" column="stock" />
+		<result property="currency" column="currency" />
+		<result property="status" column="status" />
+		<result property="returns" column="returns" />
+		<result property="reg_date" column="reg_date" />
+		<result property="reg_emp" column="reg_emp" />
+		<result property="update_date" column="update_date" />
+		<result property="update_emp" column="update_emp" />
+		<result property="clientName" column="clientName" />
+		<result property="productName" column="productName" />
+	</resultMap>
 
-<!-- 수주정보 삭제하기 -->
-<delete id="deleteRequestData">
-	delete from REQUEST 
-	where code in #{code}
-</delete>
-  
-  </mapper>
+	<!-- 리스트 가져오기 -->
+	<select id="getRequestList" resultType="RequestVO">
+		SELECT r.client_code, c.name clientName ,r.product, m.name productName,
+		s.amount stock, r.status FROM REQUEST r
+		join CLIENT c on r.client_code = c.code
+		join STOCK s on r.product = s.code
+		join MAPD m on r.product = m.code
+	</select>
+
+	<!-- 수주번호의 정보 가져오기 -->
+	<select id="getRequestInfo" resultType="RequestVO">
+		select * from REQUEST where code=#{code}
+	</select>
+
+	<!-- 수주정보 검색하기 -->
+	<select id="research" resultType="RequestVO">
+		SELECT r.client_code, c.name clientName ,r.product, m.name productName,
+		s.amount stock, r.status
+		FROM REQUEST r
+		join CLIENT c on r.client_code = c.code
+		join STOCK s on r.product = s.code
+		join MAPD m on r.product = m.code
+		limit #{startPage},#{pageSize}
+		<if test="client_code != null"> where client_code = #{client_code} </if>
+		<if test="client_code != null"> where client_code = #{client_code} </if>
+		<if test="client_code != null"> where client_code = #{client_code} </if>
+		<if test="client_code != null"> where client_code = #{client_code} </if>
+		<if test="client_code != null"> where client_code = #{client_code} </if>
+		<if test="client_code != null"> where client_code = #{client_code} </if>
+		<if test="client_code != null"> where client_code = #{client_code} </if>
+
+	</select>
+
+	<!-- 수주정보 등록하기 -->
+	<select id="insertRequest">
+		insert into REQUEST
+		values
+		(#{code},#{client_code},#{deadline},#{date},#{manager},#{product},#{amount},
+		#{unit},#{stock},#{currency},"등록",0,now(),"test",now(),"test");
+
+	</select>
+
+	<!-- 수주정보 수정하기 -->
+	<update id="updateRequestInfo">
+		SELECT
+		FROM REQUEST r
+		join CLIENT c on r.client_code = c.code
+		join STOCK s on r.product = s.code
+		join MAPD m on r.product = m.code
+		where r.code = #{code}
+	</update>
+
+	<!-- 수주정보 삭제하기 -->
+	<delete id="deleteRequestData">
+		delete from REQUEST
+		where code in #{code}
+	</delete>
+
+	<!-- 수주정보 페이징 -->
+	<select id="listPage" resultType="RequestVO" resultMap="request">
+		SELECT r.client_code, c.name clientName ,r.product, m.name productName,
+		s.amount stock, r.status
+		FROM REQUEST r
+		join CLIENT c on r.client_code = c.code
+		join STOCK s on r.product = s.code
+		join MAPD m on r.product = m.code
+		limit #{startPage},#{pageSize}
+	</select>
+
+</mapper>
