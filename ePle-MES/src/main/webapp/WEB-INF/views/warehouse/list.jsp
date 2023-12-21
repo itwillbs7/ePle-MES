@@ -41,6 +41,8 @@
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
+				
+				
 				<!-- 아코디언 시작 -->
 				<div class="faq-wrap">
 					<div id="accordion">
