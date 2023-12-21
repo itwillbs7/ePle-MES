@@ -38,9 +38,9 @@
 							관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="index.html">Dashboard style 1</a></li>
-						<li><a href="index2.html">Dashboard style 2</a></li>
-						<li><a href="index3.html">Dashboard style 3</a></li>
+						<li><a href="/production/instruction">작업지시 관리</a></li>
+						<li><a href="index2.html">작업자 투입</a></li>
+						<li><a href="index3.html">실적 현황</a></li>
 					</ul></li>
 				<!-- 드롭다운 -->
 				<li class="dropdown"><a href="javascript:;"

@@ -4,7 +4,21 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <!-- productionMapper.xml -->
-<mapper namespace="com.production.mapper.productionMapper">
-
+<mapper namespace="com.itwillbs.mapper.productionMapper">
+	<select id="getInstruction" resultType="com.production.domain.instructionVO">
+		SELECT * FROM INSTRUCTION
+	</select>
+	<select id="getProduct" resultType="String">
+		SELECT DISTINCT product FROM INSTRUCTION
+	</select>
+	<select id="getLine_code" resultType="String">
+		SELECT DISTINCT line_code FROM INSTRUCTION
+	</select>
+	<select id="getRequest" resultType="String">
+		SELECT DISTINCT request FROM INSTRUCTION
+	</select>
+	<select id="ajaxSearch" resultType="com.production.domain.instructionVO">
+		SELECT * FROM INSTRUCTION WHERE product IN(#{product}) AND line_code IN(#{line_code}) AND request IN(#{request})
+	</select>
 
 </mapper>
