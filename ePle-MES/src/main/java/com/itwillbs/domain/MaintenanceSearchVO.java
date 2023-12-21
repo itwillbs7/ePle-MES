@@ -23,28 +23,45 @@ public class MaintenanceSearchVO {
 	private String betweenDateLeft;
 	private String betweenDateRight;
 	
-	private String setTable;
-	
 	public String getResult() {
 		// 검색(where 지문 뒤에 작성될 코드)
 		StringBuffer sb = new StringBuffer();
 		if(searchKeyword.isBlank() || searchKeyword.isEmpty());
 		else {
 			if(searchCategory.isEmpty() || searchCategory.isBlank()) {
-				if(setTable.equals("FAC_INFO")) {
-				}
-				else if(setTable.equals("FAC_MT")) {
-					sb.append("(index =" + searchKeyword + " or ");
-					sb.append("emp_code = " + searchKeyword + " or ");
-					sb.append("fac_code = " + searchKeyword + " or ");
-					sb.append("manager = " + searchKeyword + " or ");
-					sb.append("res_info = " + searchKeyword + " ) ");
-				}
+				sb.append("(index =" + searchKeyword + " or ");
+				sb.append("emp_code = " + searchKeyword + " or ");
+				sb.append("fac_code = " + searchKeyword + " or ");
+				sb.append("manager = " + searchKeyword + " or ");
+				sb.append("res_info = " + searchKeyword + " ) and ");
 			}
 			else {
-				
+				sb.append(searchCategory + " = " + searchKeyword + " and ");
 			}
 		}
+		
+		// 체크박스
+		if(formCheck.length > 0) {
+			sb.append("(group_id = 0 and (");
+			for(int i = 0; i<formCheck.length; i++) {
+				sb.append("code_id = " + formCheck[i]);
+				if(i < formCheck.length - 1) sb.append(" or ");
+			}
+			sb.append(") and ");
+		}
+		
+		
+		// 라디오
+		if(formRadio.equals("complete")) {
+			sb.append("complete = true and");
+		}
+		else if(formRadio.equals("imcomplete")) {
+			sb.append("complete = false and");
+		}
+		
+		// 기간
+		
+		
 		return sb.toString();
 	}
 
@@ -112,19 +129,11 @@ public class MaintenanceSearchVO {
 		this.betweenDateRight = betweenDateRight;
 	}
 
-	public String getSetTable() {
-		return setTable;
-	}
-
-	public void setSetTable(String setTable) {
-		this.setTable = setTable;
-	}
-
 	@Override
 	public String toString() {
-		return "SearchVO [searchCategory=" + searchCategory + ", searchKeyword=" + searchKeyword + ", formCheck="
-				+ Arrays.toString(formCheck) + ", formRadio=" + formRadio + ", category=" + Arrays.toString(category)
-				+ ", date=" + date + ", betweenDateLeft=" + betweenDateLeft + ", betweenDateRight=" + betweenDateRight
-				+ ", setTable=" + setTable + ", toString()=" + super.toString() + "]";
+		return "MaintenanceSearchVO [searchCategory=" + searchCategory + ", searchKeyword=" + searchKeyword
+				+ ", formCheck=" + Arrays.toString(formCheck) + ", formRadio=" + formRadio + ", category="
+				+ Arrays.toString(category) + ", date=" + date + ", betweenDateLeft=" + betweenDateLeft
+				+ ", betweenDateRight=" + betweenDateRight + ", toString()=" + super.toString() + "]";
 	}
 }
