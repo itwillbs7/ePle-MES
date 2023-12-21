@@ -4,7 +4,7 @@
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
-<title>보전 목록</title>
+<title>설비 목록</title>
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -122,11 +122,11 @@
 														</div>
 													</div>
 													<div class="col-md-4 col-sm-12">
-														<div class="form-group" style="display:inline-block;">
+														<div class="form-group" style="display: inline-block;">
 															<label>기간</label> <input type="date" class="form-control">
 														</div>
 														<b>-</b>
-														<div class="form-group" style="display:inline-block;">
+														<div class="form-group" style="display: inline-block;">
 															<input type="date" class="form-control">
 														</div>
 													</div>
@@ -178,10 +178,24 @@
 				<!-- Checkbox select Datatable start -->
 				<div class="card-box mb-30">
 					<div class="pd-20">
-						<div class="pull-left" style="margin-bottom: 15px">
-							<button type="button" class="btn btn-secondary" id="export">
-								<b>저장 / 인쇄</b>
-							</button>
+						<div class="btn-group pull-left" style="margin-bottom: 15px">
+							<div class="dropdown">
+								<button type="button" id="searchCategoryButton" class="btn btn-secondary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
+									행 개수 <span class="caret"></span>
+								</button>
+								<div class="dropdown-menu" style="">
+									<a class="dropdown-item" href="javascript:rowsDisplay(10);">10</a> <a class="dropdown-item" href="javascript:rowsDisplay(25);">25</a> <a class="dropdown-item" href="javascript:rowsDisplay(50);">50</a> <a class="dropdown-item" href="javascript:rowsDisplay('all');">전체</a>
+								</div>
+							</div>
+							&nbsp;
+							<div class="dropdown">
+								<button type="button" id="searchCategoryButton" class="btn btn-secondary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
+									내보내기 <span class="caret"></span>
+								</button>
+								<div class="dropdown-menu" style="">
+									<a class="dropdown-item" href="javascript:exportData(1);">복사</a> <a class="dropdown-item" href="javascript:exportData(2);">PDF</a> <a class="dropdown-item" href="javascript:exportData(3);">CSV</a> <a class="dropdown-item" href="javascript:exportData(4);">인쇄</a>
+								</div>
+							</div>
 						</div>
 						<div class="btn-group pull-right" style="margin-bottom: 10px">
 							<button type="button" class="btn btn-success" id="add">
@@ -197,62 +211,449 @@
 					</div>
 					<div class="pb-20">
 						<div class="col-sm-30">
-							<form class="table" id="table">
-								<table class="table table-striped">
-									<tr>
-										<td style="width: 100px;">
-											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
+							<table id="datatable" class="table table-striped">
+								<tr>
+									<td style="width: 100px;">
+										<div class="custom-control custom-checkbox mb-5">
+											<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
+										</div>
+									</td>
+									<th>#</th>
+									<th>제목</th>
+									<th>컬럼2</th>
+									<th>컬럼3</th>
+									<th>컬럼4</th>
+									<th>컬럼5</th>
+									<th>옵션</th>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
 											</div>
-										</td>
-										<th>#</th>
-										<th>제목</th>
-										<th>컬럼2</th>
-										<th>컬럼3</th>
-										<th>컬럼4</th>
-										<th>컬럼5</th>
-										<th>옵션</th>
-									</tr>
-									<tr>
-										<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
-										<td><div class="custom-control custom-checkbox mb-5">
-												<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-												<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
-											</div></td>
-										<th>1</th>
-										<!-- 상세 정보 이동! -->
-										<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
-										<th>ㅁ</th>
-										<th>ㅁ</th>
-										<th>ㅁ</th>
-										<th>ㅁ</th>
-										<td style="">
-											<!-- 옵션 -->
-											<div class="dropdown">
-												<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
-												</a>
-												<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-													<!-- 링크 설정 -->
-													<!-- 상세 보기 -->
-													<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
-													<!-- 수정 -->
-													<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
-													<!-- 삭제 -->
-													<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
-												</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
 											</div>
-										</td>
-									</tr>
-								</table>
-							</form>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<td><div class="custom-control custom-checkbox mb-5">
+											<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+											<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+										</div></td>
+									<th>1</th>
+									<!-- 상세 정보 이동! -->
+									<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<th>ㅁ</th>
+									<td style="">
+										<!-- 옵션 -->
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<!-- 링크 설정 -->
+												<!-- 상세 보기 -->
+												<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+												<!-- 수정 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+												<!-- 삭제 -->
+												<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</table>
 							<div class="row">
 								<div class="col-sm-12 col-md-5">
-									<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(전체 수) 중 (검색 결과) 개</div>
+									<div class="dataTable_info" id="dataTable_info" role="status" aria-live="polite"></div>
 								</div>
 							</div>
-							<div class="btn-toolbar justify-content-center mb-15">
-								<div class="btn-group">
-									<a href="#" class="btn btn-outline-primary prev"><i class="fa fa-angle-double-left"></i></a> <a href="#" class="btn btn-outline-primary">1</a> <a href="#" class="btn btn-outline-primary">2</a> <span class="btn btn-primary current">3</span> <a href="#" class="btn btn-outline-primary">4</a> <a href="#" class="btn btn-outline-primary">5</a> <a href="#" class="btn btn-outline-primary next"><i class="fa fa-angle-double-right"></i></a>
+							<div id="buttonDiv" class="btn-toolbar justify-content-center mb-15">
+								<div class="btn-group" id="page-btn-group">
 								</div>
 							</div>
 						</div>
@@ -287,9 +688,11 @@
 
 	<!-- 추가, 수정, 삭제 -->
 	<script type="text/javascript">
+		// 팝업 설정
 		var popupWidth, popupHeight, popupX, popupY, link;
 		var set;
 
+		// 팝업 세팅 return
 		function retPopupSetting(width, height) {
 			// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
 			popupX = Math.ceil((window.screen.width - width) / 2);
@@ -309,6 +712,7 @@
 			return setting;
 		}
 
+		// 창 열기
 		function openPage(i, width, height) {
 			set = retPopupSetting(width, height);
 			return window.open(i, 'Popup_Window', set);
@@ -338,10 +742,6 @@
 					$(this).attr("data-target", "#warning-modal");
 					$($(this).data("target")).show();
 				}
-			});
-
-			$("#export").click(function() {
-				openPage("/facility/export", 800, 700);
 			});
 		});
 	</script>

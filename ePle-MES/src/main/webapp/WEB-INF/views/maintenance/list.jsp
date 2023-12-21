@@ -183,8 +183,8 @@
 					</div>
 					<div class="pb-20">
 						<div class="col-sm-30">
-							<form class="table" id="table">
-								<table class="table table-striped">
+							<form>
+								<table id="datatable" class="table table-striped">
 									<tr>
 										<td style="width: 100px;">
 											<div class="custom-control custom-checkbox mb-5">
