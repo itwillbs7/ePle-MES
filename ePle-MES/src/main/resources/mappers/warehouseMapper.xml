@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   
-  <!--warehouseMapper.xml -->
+  <!--warehouseMapper.xml d -->
   <mapper namespace="com.itwillbs.mapper.WarehouseMapper">
   
   	<resultMap type="com.itwillbs.domain.WarehouseVO" id="warehouse">
