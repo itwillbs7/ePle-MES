@@ -18,4 +18,9 @@ public class FacilityDAOImpl implements FacilityDAO {
 	public void insertFacility(FacilityVO vo) {
 		
 	}
+	
+	@Override
+	public int getFacilityCount() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getFacilityCount");
+	}
 }

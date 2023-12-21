@@ -27,33 +27,7 @@
 			y.value = i;
 		}
 	}
-
-	// 대상 테이블
-	var table = document.getElementById('datatable');
-
-	// table.rows.length - 1 = 헤더를 제외한 row 개수
-	// 테이블 행들
-	var rowList = table.rows;
-	var rowCount = table.rows.length - 1;
-
-	// 버튼 그룹 div
-	var buttonDiv = document.getElementById('buttonDiv');
-
-	// 현재 페이지
-	var currentPage = 1;
-
-	// 페이지당 행 개수
-	var rowsInPage = 10;
-
-	// 총합 페이지
-	var totalPage = 0;
-
-	// 페이지당 최대 버튼 개수
-	var pageButton = 5;
-
-	// 이전에 선택한 페이지
-	var previousPage = 0;
-
+	
 	function exportData(i) {
 		switch (i) {
 		case 1:
@@ -74,93 +48,7 @@
 			break;
 		}
 	}
-
-	// 페이지 내 row 처리
-	function changeDisplayRow(i) {
-		previousPage = currentPage;
-		switch (i) {
-		case 'next':
-			currentPage += 1;
-			if (currentPage > totalPage)
-				currentPage = totalPage;
-			break;
-		case 'prev':
-			currentPage -= 1;
-			if (currentPage < 1)
-				currentPage = 1;
-			break;
-		case 'bigNext':
-			currentPage += (currentPage % pageButton) + 1;
-			break;
-		case 'bigPrev':
-			currentPage -= pageButton;
-			currentPage = currentPage - (currentPage % pageButton) + 1;
-			break;
-		case '':
-			break;
-		default:
-			currentPage = i;
-		}
-		$("tr").css("display", "none");
-		rowList[0].style.display = "table-row";
-		if (totalPage == 1) {
-			$("tr").css("display", "table-row");
-			$(".dataTable_info").html(
-					"&nbsp;&nbsp;" + rowCount + "개 중 " + rowCount + "개");
-		} else {
-			var startRow = ((currentPage - 1) * rowsInPage) + 1
-			var endRow = (currentPage * rowsInPage) > table.rows.length ? table.rows.length
-					: (currentPage * rowsInPage);
-			for (var j = startRow; j <= endRow; j++) {
-				rowList[j].style.display = "table-row";
-			}
-			$(".dataTable_info").html(
-					"&nbsp;&nbsp;" + startRow + " - " + endRow + "(" + rowCount
-							+ "개 중 " + rowsInPage + "개)");
-		}
-		
-		$("#page-btn-group").empty();
-		var start = currentPage - (currentPage % pageButton) + 1;
-		var end = (start + pageButton) > totalPage ? totalPage
-				: (start + pageButton);
-		if (currentPage > 1) {
-			$("#page-btn-group")
-					.append(
-							'<button type="button" id="pagebtn" class="btn btn-light prev"><i class="fa fa-angle-left"></i></button>');
-			$(".prev").attr("onclick", "changeDisplayRow('prev')");
-		}
-		if (currentPage > pageButton) {
-			$("#page-btn-group")
-					.append(
-							'button type="button" id="pagebtn" class="btn btn-light bigPrev"><i class="fa fa-angle-double-left"></i></button>')
-			$(".bigPrev").attr("onclick", "changeDisplayRow('bigPrev')");
-		}
-		for (var i = start; i <= end; i++) {
-			if (i == currentPage)
-				$("#page-btn-group")
-						.append(
-								'<button type="button" id="pagebtn" class="btn btn-primary pagebtn" onclick="changeDisplayRow('
-										+ i + ')">' + i + '</button>')
-			else
-				$("#page-btn-group")
-						.append(
-								'<button type="button" id="pagebtn" class="btn btn-light pagebtn" onclick="changeDisplayRow('
-										+ i + ')">' + i + '</button>')
-		}
-		if (currentPage < totalPage) {
-			$("#page-btn-group")
-					.append(
-							'<button type="button" id="pagebtn" class="btn btn-light next"><i class="fa fa-angle-right"></i></button>')
-			$(".next").attr("onclick", "changeDisplayRow('next')");
-		}
-		if ((totalPage + (totalPage % pageButton)) - pageButton + 1 > currentPage) {
-			$("#page-btn-group")
-					.append(
-							'<button type="button" id="pagebtn" class="btn btn-light bigNext"><i class="fa fa-angle-double-right"></i></button>')
-			$(".bigNext").attr("onclick", "changeDisplayRow('bigNext')");
-		}
-	}
-
+	
 	// 페이징 처리
 	function paging() {
 		totalPage = (rowCount - (rowCount % rowsInPage)) / rowsInPage;

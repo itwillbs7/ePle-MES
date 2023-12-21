@@ -1,9 +1,14 @@
 package com.itwillbs.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.FacilitySearchVO;
 
 /** FacilityController : 설비 컨트롤러 **/
 
@@ -13,9 +18,10 @@ public class FacilityController {
 
 	// http://localhost:8088/facility/list
 	@GetMapping(value = "/list")
-	public void facilityListGET() {
+	public void facilityListGET(FacilitySearchVO searchVO, PageVO pageVO, Criteria cri, Model model) {
 		// 설비 목록 return
-		
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(11);
 	}
 
 	// http://localhost:8088/facility/insert

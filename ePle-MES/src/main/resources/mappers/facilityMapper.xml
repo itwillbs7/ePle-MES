@@ -5,7 +5,37 @@
   
 <!-- facilityMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.FacilityMapper">
+	<resultMap type="com.itwillbs.domain.FacilityVO" id="facility">
+		<result property="code" column="code"/>
+		<result property="category" column="category"/>
+		<result property="name" column="name"/>
+		<result property="model" column="model"/>
+		<result property="purchase_date" column="purchase_date"/>
+		<result property="inprice" column="inprice"/>
+		<result property="location" column="location"/>
+		<result property="line_code" column="line_code"/>
+		<result property="uph" column="uph"/>
+		<result property="image" column="image"/>
+		<result property="active" column="active"/>
+	</resultMap>
+	<!-- 입력 -->
 	<insert id="insertFacility">
 	
 	</insert>
+	<!-- 개수 계산 -->
+	<select id="getFacilityCount">
+		select count(*) from FAC_INFO where active = true
+	</select>
+	<select id="getFacilitySearchCount">
+		select count(*) from FAC_INFO where () and active = true
+	</select>
+	
+	<select id="getFacilityList" resultType="FacilityVO" resultMap="facility">
+		select * from FAC_INFO where active = true 
+		order by code desc limit #{page}, #{pageSize}
+	</select>
+	<select id="getFacilitySearchList" resultType="FacilityVO" resultMap="facility">
+		select * from FAC_INFO where () and active = true 
+		order by code desc limit #{page}, #{pageSize}
+	</select>
 </mapper>

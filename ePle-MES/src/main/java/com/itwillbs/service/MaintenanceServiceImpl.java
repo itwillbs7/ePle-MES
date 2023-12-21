@@ -17,4 +17,10 @@ public class MaintenanceServiceImpl implements MaintenanceService{
 	public void addMaintenance(MaintenanceVO vo) {
 		
 	}
+	
+	@Override
+	public int getMaintenanceListCount() throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

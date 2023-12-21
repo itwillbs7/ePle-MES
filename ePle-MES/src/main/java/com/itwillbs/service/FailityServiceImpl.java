@@ -10,4 +10,9 @@ public class FailityServiceImpl implements FacilityService {
 	public void addFacility(FacilityVO vo) {
 		
 	}
+	
+	@Override
+	public int facilityListCount() throws Exception {
+		return 0;
+	}
 }
