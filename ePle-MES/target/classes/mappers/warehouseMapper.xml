@@ -7,6 +7,17 @@
   <!--warehouseMapper.xml -->
   <mapper namespace="com.itwillbs.mapper.WarehouseMapper">
   
+  	<resultMap type="com.itwillbs.domain.WarehouseVO" id="warehouse">
+		<result property="code" column="code"/>
+		<result property="location" column="location"/>
+		<result property="group_id" column="group_id"/>
+		<result property="group_name" column="group_name"/>
+		<result property="manager" column="manager"/>
+		<result property="mng_phone" column="mng_phone"/>
+		<result property="active" column="active"/>
+	</resultMap>
+	
+	
   <!-- 모든 글 조회 -->
   <select id="getWarehouseList" resultType="WarehouseVO">
   	select * from WAREHOUSE
