@@ -17,9 +17,25 @@
 </noscript>
 <script type="text/javascript">
 	function buttonCategory(a) {
-		alert(a);
+		var buttonText = document.getElementById("searchCategoryButton");
+		var category = document.getElementById("searchCategory");
+		switch(a){
+		case 'code':
+			buttonText.innerText = "코드";
+			break;
+		case 'model':
+			buttonText.innerText = "모델";
+			break;
+		case 'name':
+			buttonText.innerText = "이름";
+			break;
+		case 'location':
+			buttonText.innerText = "위치";
+			break;
+		}
+		category.value = a;
 	}
-	
+
 	function exportData(i) {
 		switch (i) {
 		case 1:
@@ -40,43 +56,49 @@
 			break;
 		}
 	}
-	
+
 	// 페이지 이동, 상세 검색 정보 유지
-	function movePage(i){
+	function movePage(i) {
 		var isEmpty = true;
-		$('#accordion-search').find('input').each(function(){
-		    if($(this).val() != null) {
-		        isEmpty = false;
-		    }
+		$('#accordion-search').find('input').each(function() {
+			if ($(this).val() != null) {
+				isEmpty = false;
+			}
 		});
-		var link = ${requestScope['javax.servlet.forward.request_uri']} + "?page=" + i;
-		if(isEmpty){
-			location.href= link;
+		var link = $
+		{
+			requestScope['javax.servlet.forward.request_uri']
 		}
-		else{
+		+"?page=" + i;
+		if (isEmpty) {
+			location.href = link;
+		} else {
 			$('#accordion-search').attr("action", link);
 			$('#accordion-search').submit();
 		}
 	}
-	
+
 	// 페이지 이동, 상세 검색 정보 유지
-	function changePageSize(i){
+	function changePageSize(i) {
 		var isEmpty = true;
-		$('#accordion-search').find('input').each(function(){
-		    if($(this).val() != null) {
-		        isEmpty = false;
-		    }
+		$('#accordion-search').find('input').each(function() {
+			if ($(this).val() != null) {
+				isEmpty = false;
+			}
 		});
-		var link = ${requestScope['javax.servlet.forward.request_uri']} + "?pageSize=" + i;
-		if(isEmpty){
-			location.href= link;
+		var link = $
+		{
+			requestScope['javax.servlet.forward.request_uri']
 		}
-		else{
+		+"?page=1&pageSize=" + i;
+		if (isEmpty) {
+			location.href = link;
+		} else {
 			$('#accordion-search').attr("action", link);
 			$('#accordion-search').submit();
 		}
 	}
-	
+
 	$(document).ready(function() {
 		// 테이블 체크 박스 클릭 시 전체선택
 		$("#tableCheckAll").click(function() {

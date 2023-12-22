@@ -90,18 +90,20 @@
 						index="index" open="(" close=")" separator=",">
 						#{item}
 					</foreach>
-				<![CDATA[) ]]>
 				</if>
 				<!-- check box -->
 				<!-- date -->
-				<if test="search.date neq null">
+				<if test="search.date neq null and search.date.toString() neq ''">
 				<![CDATA[
 					AND purchase_date = #{search.date}
 				]]>
 				</if>
 				<!-- date -->
 				<!-- date between -->
-				<if test="search.betweenDateLeft neq null and search.betweenDateRight neq null">
+				<if test="search.betweenDateLeft neq null and 
+				search.betweenDateLeft.toString() neq '' and
+				search.betweenDateRight neq null and
+				search.betweenDateRight.toString() neq ''">
 					<![CDATA[
 					AND purchase_date BETWEEN
 					#{search.betweenDateLeft} AND
