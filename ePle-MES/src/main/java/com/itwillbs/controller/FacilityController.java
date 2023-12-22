@@ -43,45 +43,45 @@ public class FacilityController {
 
 	// http://localhost:8088/facility/insert
 	@GetMapping(value = "/insert")
-	public void facilityInsertGET() {
+	public void facilityInsertGET() throws Exception {
 		// 설비 추가 폼
 		
 	}
 	
 	@PostMapping(value = "/insert")
-	public void facilityInsertPOST() {
+	public void facilityInsertPOST() throws Exception {
 		// 설비 추가 액션
 		
 	}
 	
 	// http://localhost:8088/facility/update
 	@GetMapping(value = "/update")
-	public void facilityUpdateGET() {
+	public void facilityUpdateGET() throws Exception {
 		// 설비 수정 폼
 		
 	}
 	
 	@PostMapping(value = "/update")
-	public void facilityUpdatePOST() {
+	public void facilityUpdatePOST() throws Exception {
 		// 설비 수정 액션
 		
 	}
 	
 	// http://localhost:8088/facility/delete
 	@GetMapping(value = "/delete")
-	public void facilityDeleteGET() {
+	public void facilityDeleteGET() throws Exception {
 		// 설비 삭제 폼
 		
 	}
 	
 	@PostMapping(value = "/delete")
-	public void facilityDeletePOST() {
+	public void facilityDeletePOST() throws Exception {
 		// 설비 삭제 액션
 		
 	}
 	
 	@GetMapping(value="/export")
-	public void listExportGET() {
+	public void listExportGET() throws Exception {
 		// 설비 리스트 내보내기
 	}
 }
