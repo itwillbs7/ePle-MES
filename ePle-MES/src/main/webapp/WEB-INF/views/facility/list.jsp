@@ -58,11 +58,7 @@
 																카테고리 <span class="caret"></span>
 															</button>
 															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" id="category-none" href="javascript:buttonCategory('');">선택</a>
-																<a class="dropdown-item" href="javascript:buttonCategory('code');">코드</a>
-																<a class="dropdown-item" href="javascript:buttonCategory('model');">모델</a>
-																<a class="dropdown-item" href="javascript:buttonCategory('name');">이름</a>
-																<a class="dropdown-item" href="javascript:buttonCategory('location');">위치</a>
+																<a class="dropdown-item" id="category-none" href="javascript:buttonCategory('');">선택</a> <a class="dropdown-item" href="javascript:buttonCategory('code');">코드</a> <a class="dropdown-item" href="javascript:buttonCategory('model');">모델</a> <a class="dropdown-item" href="javascript:buttonCategory('name');">이름</a> <a class="dropdown-item" href="javascript:buttonCategory('location');">위치</a>
 															</div>
 														</div>
 														<input type="hidden" id="searchCategory" name="searchCategory"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
@@ -91,13 +87,13 @@
 													<div class="col-md-2 col-sm-12">
 														<label class="weight-600">상태</label>
 														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input"  value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
+															<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
 														</div>
 														<div class="custom-control custom-radio mb-5">
 															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" checked value="true"> <label class="custom-control-label" for="formRadio2">활성화</label>
 														</div>
 														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input"  value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
+															<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
 														</div>
 													</div>
 													<div class="col-md-2 col-sm-12">
@@ -117,9 +113,26 @@
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
 															<label>종류</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="category">
+																<optgroup label="Alaskan/Hawaiian Time Zone">
 																	<option value="AK">Alaska</option>
 																	<option value="HI">Hawaii</option>
+																</optgroup>
+																<optgroup label="Pacific Time Zone">
 																	<option value="CA">California</option>
+																	<option value="NV">Nevada</option>
+																	<option value="OR">Oregon</option>
+																	<option value="WA">Washington</option>
+																</optgroup>
+																<optgroup label="Mountain Time Zone">
+																	<option value="AZ">Arizona</option>
+																	<option value="CO">Colorado</option>
+																	<option value="ID">Idaho</option>
+																	<option value="MT">Montana</option>
+																	<option value="NE">Nebraska</option>
+																	<option value="NM">New Mexico</option>
+																	<option value="ND">North Dakota</option>
+																	<option value="UT">Utah</option>
+																	<option value="WY">Wyoming</option>
 																</optgroup>
 															</select>
 														</div>
@@ -151,10 +164,7 @@
 									행 개수 <span class="caret"></span>
 								</button>
 								<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="javascript:changePageSize(10);">10</a>
-									<a class="dropdown-item" href="javascript:changePageSize(25);">25</a>
-									<a class="dropdown-item" href="javascript:changePageSize(50);">50</a>
-									<a class="dropdown-item" href="javascript:rowsDisplay(100);">100</a>
+									<a class="dropdown-item" href="javascript:changePageSize(10);">10</a> <a class="dropdown-item" href="javascript:changePageSize(25);">25</a> <a class="dropdown-item" href="javascript:changePageSize(50);">50</a> <a class="dropdown-item" href="javascript:rowsDisplay(100);">100</a>
 								</div>
 							</div>
 							&nbsp;
@@ -163,10 +173,7 @@
 									내보내기 <span class="caret"></span>
 								</button>
 								<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="javascript:exportData(1);">복사</a>
-									<a class="dropdown-item" href="javascript:exportData(2);">PDF</a>
-									<a class="dropdown-item" href="javascript:exportData(3);">CSV</a>
-									<a class="dropdown-item" href="javascript:exportData(4);">인쇄</a>
+									<a class="dropdown-item" href="javascript:exportData(1);">복사</a> <a class="dropdown-item" href="javascript:exportData(2);">PDF</a> <a class="dropdown-item" href="javascript:exportData(3);">CSV</a> <a class="dropdown-item" href="javascript:exportData(4);">인쇄</a>
 								</div>
 							</div>
 						</div>
