@@ -49,35 +49,25 @@
 		}
 	}
 	
-	// 페이징 처리
-	function paging() {
-		totalPage = (rowCount - (rowCount % rowsInPage)) / rowsInPage;
-		totalPage += rowCount % rowsInPage == 0 ? 0 : 1;
-		if (totalPage == 1)
-			buttonDiv.style.display = "none";
-		else {
-			buttonDiv.style.display = "flex";
+	// 페이지 이동, 상세 검색 정보 유지
+	function movePage(i){
+		var isEmpty = true;
+		$('#accordion-search').find('input').each(function(){
+		    if($(this).val() != null) {
+		        isEmpty = false;
+		    }
+		});
+		var link = ${requestScope['javax.servlet.forward.request_uri']} + "?page=" + i;
+		if(isEmpty){
+			location.href= link;
 		}
-		changeDisplayRow('');
-	}
-
-	// 페이지당 보여질 행 개수 지정
-	function rowsDisplay(i) {
-
-		if (i == 'all') {
-			// 페이지 1개 내에 전체 다 보이기
-			rowsInPage = rowCount;
-		} else {
-			// 페이지당 조회 수 변경
-			rowsInPage = i;
+		else{
+			$('#accordion-search').attr("action", link);
+			$('#accordion-search').submit();
 		}
-		paging();
 	}
-
+	
 	$(document).ready(function() {
-		// 테이블 페이징 처리
-		rowsDisplay(10);
-
 		// 테이블 체크 박스 클릭 시 전체선택
 		$("#tableCheckAll").click(function() {
 			if ($("#tableCheckAll").is(":checked"))

@@ -1,11 +1,15 @@
 package com.itwillbs.persistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.FacilitySearchVO;
 import com.itwillbs.domain.FacilityVO;
+import com.itwillbs.domain.PageVO;
 
 @Repository
 public class FacilityDAOImpl implements FacilityDAO {
@@ -15,12 +19,18 @@ public class FacilityDAOImpl implements FacilityDAO {
 	private SqlSession sqlSession;
 	
 	@Override
-	public void insertFacility(FacilityVO vo) {
-		
+	public int insertFacility(FacilityVO vo) throws Exception {
+		return sqlSession.insert(NAMESPACE + "", vo);
 	}
 	
 	@Override
-	public int getFacilityCount() throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".getFacilityCount");
+	public int getFacilityCount(PageVO vo) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + "", vo);
 	}
+	
+	@Override
+	public List<FacilityVO> getFacilityList(PageVO vo) throws Exception {
+		return sqlSession.selectList(NAMESPACE + "", vo);
+	}
+	
 }

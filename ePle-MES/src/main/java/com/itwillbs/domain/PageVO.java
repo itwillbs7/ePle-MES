@@ -15,10 +15,17 @@ public class PageVO {
 
 	private int displayPageNum = 5;
 
+	// 페이지 현재 정보
 	private Criteria cri;
+	// 검색용
+	private SearchVO search;
 
 	public void setCri(Criteria cri) {
 		this.cri = cri;
+	}
+	
+	public void setSearch(SearchVO search) {
+		this.search = search;
 	}
 
 	public void setTotalCount(int totalCount) {
@@ -68,11 +75,15 @@ public class PageVO {
 	public Criteria getCri() {
 		return cri;
 	}
+	
+	public SearchVO getSearch() {
+		return search;
+	}
 
 	@Override
 	public String toString() {
 		return "PageVO [totalCount=" + totalCount + ", startPage=" + startPage + ", endPage=" + endPage + ", prev="
-				+ prev + ", next=" + next + ", displayPageNum=" + displayPageNum + ", cri=" + cri + ", toString()="
-				+ super.toString() + "]";
+				+ prev + ", next=" + next + ", displayPageNum=" + displayPageNum + ", cri=" + cri + ", search=" + search
+				+ ", toString()=" + super.toString() + "]";
 	}
 }

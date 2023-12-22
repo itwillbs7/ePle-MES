@@ -2,51 +2,23 @@ package com.itwillbs.domain;
 
 import java.util.Arrays;
 
-public class FacilitySearchVO {
+public class FacilitySearchVO implements SearchVO{
 	// 검색 카테고리(컬럼)
 	private String searchCategory;
 	private String searchKeyword;
-	
+
 	// 체크박스
 	private String[] formCheck;
-	
+
 	// 라디오
 	private String formRadio;
-	
-	// 카테고리
-	private String[] category;
-	
+
 	// 날짜
 	private String date;
-	
+
 	// 기간
 	private String betweenDateLeft;
 	private String betweenDateRight;
-	
-	private String setTable;
-	
-	public String getResult() {
-		// 검색(where 지문 뒤에 작성될 코드)
-		StringBuffer sb = new StringBuffer();
-		if(searchKeyword.isBlank() || searchKeyword.isEmpty());
-		else {
-			if(searchCategory.isEmpty() || searchCategory.isBlank()) {
-				if(setTable.equals("FAC_INFO")) {
-				}
-				else if(setTable.equals("FAC_MT")) {
-					sb.append("(index =" + searchKeyword + " or ");
-					sb.append("emp_code = " + searchKeyword + " or ");
-					sb.append("fac_code = " + searchKeyword + " or ");
-					sb.append("manager = " + searchKeyword + " or ");
-					sb.append("res_info = " + searchKeyword + " ) ");
-				}
-			}
-			else {
-				
-			}
-		}
-		return sb.toString();
-	}
 
 	public String getSearchCategory() {
 		return searchCategory;
@@ -80,14 +52,6 @@ public class FacilitySearchVO {
 		this.formRadio = formRadio;
 	}
 
-	public String[] getCategory() {
-		return category;
-	}
-
-	public void setCategory(String[] category) {
-		this.category = category;
-	}
-
 	public String getDate() {
 		return date;
 	}
@@ -112,19 +76,11 @@ public class FacilitySearchVO {
 		this.betweenDateRight = betweenDateRight;
 	}
 
-	public String getSetTable() {
-		return setTable;
-	}
-
-	public void setSetTable(String setTable) {
-		this.setTable = setTable;
-	}
-
 	@Override
 	public String toString() {
-		return "SearchVO [searchCategory=" + searchCategory + ", searchKeyword=" + searchKeyword + ", formCheck="
-				+ Arrays.toString(formCheck) + ", formRadio=" + formRadio + ", category=" + Arrays.toString(category)
-				+ ", date=" + date + ", betweenDateLeft=" + betweenDateLeft + ", betweenDateRight=" + betweenDateRight
-				+ ", setTable=" + setTable + ", toString()=" + super.toString() + "]";
+		return "FacilitySearchVO [searchCategory=" + searchCategory + ", searchKeyword=" + searchKeyword
+				+ ", formCheck=" + Arrays.toString(formCheck) + ", formRadio=" + formRadio + ", date=" + date
+				+ ", betweenDateLeft=" + betweenDateLeft + ", betweenDateRight=" + betweenDateRight + ", toString()="
+				+ super.toString() + "]";
 	}
 }

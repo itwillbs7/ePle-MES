@@ -1,5 +1,7 @@
 package com.itwillbs.controller;
 
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
+import com.itwillbs.service.FacilityService;
 import com.itwillbs.domain.FacilitySearchVO;
 
 /** FacilityController : 설비 컨트롤러 **/
@@ -16,12 +19,20 @@ import com.itwillbs.domain.FacilitySearchVO;
 @RequestMapping(value = "/facility/*")
 public class FacilityController {
 
+	@Inject
+	private FacilityService fService;
+	
 	// http://localhost:8088/facility/list
 	@GetMapping(value = "/list")
-	public void facilityListGET(FacilitySearchVO searchVO, PageVO pageVO, Criteria cri, Model model) {
+	public void facilityListGET
+	(FacilitySearchVO searchVO, PageVO pageVO, Criteria cri, Model model) 
+	throws Exception{
 		// 설비 목록 return
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(11);
+		pageVO.setSearch(searchVO);
+		pageVO.setTotalCount(fService.facilityListCount(pageVO));
+		model.addAttribute("list", fService.getFacilityList(pageVO));
+		model.addAttribute("pageVO", pageVO);
 	}
 
 	// http://localhost:8088/facility/insert

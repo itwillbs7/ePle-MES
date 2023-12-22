@@ -2,7 +2,7 @@ package com.itwillbs.domain;
 
 import java.util.Arrays;
 
-public class MaintenanceSearchVO {
+public class MaintenanceSearchVO implements SearchVO{
 	// 검색 카테고리(컬럼)
 	private String searchCategory;
 	private String searchKeyword;
