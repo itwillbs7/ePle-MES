@@ -190,7 +190,10 @@
 									내보내기 <span class="caret"></span>
 								</button>
 								<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="javascript:exportData(1);">복사</a> <a class="dropdown-item" href="javascript:exportData(2);">PDF</a> <a class="dropdown-item" href="javascript:exportData(3);">CSV</a> <a class="dropdown-item" href="javascript:exportData(4);">인쇄</a>
+									<a class="dropdown-item" href="javascript:exportData(1);">복사</a>
+									<a class="dropdown-item" href="javascript:exportData(2);">PDF</a>
+									<a class="dropdown-item" href="javascript:exportData(3);">CSV</a>
+									<a class="dropdown-item" href="javascript:exportData(4);">인쇄</a>
 								</div>
 							</div>
 						</div>
