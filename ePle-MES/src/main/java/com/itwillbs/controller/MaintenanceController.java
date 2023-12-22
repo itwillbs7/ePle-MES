@@ -28,7 +28,8 @@ public class MaintenanceController {
 
 	// http://localhost:8088/maintenance/list
 	@GetMapping(value = "/list")
-	public void maintenanceListGET(MaintenanceSearchVO searchVO, PageVO pageVO, Criteria cri, Model model)
+	public void maintenanceListGET
+	(MaintenanceSearchVO searchVO, PageVO pageVO, Criteria cri, Model model)
 			throws Exception {
 		// 설비 보전 리스트
 		pageVO.setCri(cri);
