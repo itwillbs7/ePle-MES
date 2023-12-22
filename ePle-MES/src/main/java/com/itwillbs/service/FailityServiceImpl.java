@@ -22,6 +22,18 @@ public class FailityServiceImpl implements FacilityService {
 	}
 	
 	@Override
+	public int updateFacility(FacilityVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	@Override
+	public int deleteFacility(String[] code) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	@Override
 	public int facilityListCount(PageVO vo) throws Exception {
 		return dao.getFacilityCount(vo);
 	}

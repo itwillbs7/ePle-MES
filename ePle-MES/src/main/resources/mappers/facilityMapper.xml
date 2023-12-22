@@ -116,11 +116,38 @@
 		</where>
 	</sql>
 
-	<!-- 입력 -->
+	<!-- 추가 -->
 	<insert id="insertFacility">
-
+		INSERT INTO FAC_INFO (
+		<if test="">
+			
+		</if>
+		)
 	</insert>
-
+	
+	<!-- 수정 -->
+	<update id="updateFacility">
+		UPDATE FAC_INFO
+		<set>
+			
+		</set>
+		<where>
+			code = #{code}
+		</where>
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteFacility">
+		DELETE FROM FAC_INFO
+		<where>
+			<![CDATA[ code IN ]]>
+			<foreach collection="code" item="item"
+						index="index" open="(" close=")" separator=",">
+						#{item}
+			</foreach>
+		</where>
+	</delete>
+	
 	<!-- 개수 계산 -->
 	<select id="getFacilityCount" resultType="int">
 		<![CDATA[	

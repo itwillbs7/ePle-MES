@@ -34,6 +34,20 @@
 			</if>
 		</set>
 	</insert>
+	<!-- 수정 -->
+	<update id="updateMaintenance">
+		UPDATE FAC_MT
+		<where>
+		
+		</where>
+	</update>
+	<!-- 삭제 -->
+	<delete id="deleteMaintenance">
+		DELETE FROM FAC_MT
+		<where>
+			
+		</where>
+	</delete>
 	<sql id="maintenanceSearch">
 		<where>
 			<![CDATA[index = index ]]>

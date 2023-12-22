@@ -23,6 +23,16 @@ public class MaintenanceDAOImpl implements MaintenanceDAO{
 	}
 	
 	@Override
+	public int updateMaintenance(MaintenanceVO vo) throws Exception {
+		return sqlSession.update(NAMESPACE + ".updateMaintenance", vo);
+	}
+	
+	@Override
+	public int deleteMaintenance(MaintenanceVO vo) throws Exception {
+		return sqlSession.delete(NAMESPACE + ".deleteMaintenance", vo);
+	}
+	
+	@Override
 	public int getMaintenanceCount(PageVO vo) throws Exception{
 		return sqlSession.selectOne(NAMESPACE + ".getMaintenanceCount", vo);
 	}

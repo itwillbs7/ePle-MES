@@ -23,6 +23,16 @@ public class FacilityDAOImpl implements FacilityDAO {
 	}
 	
 	@Override
+	public int updateFacility(FacilityVO vo) throws Exception {
+		return sqlSession.update(NAMESPACE + ".updateFacility", vo);
+	}
+	
+	@Override
+	public int deleteFacility(String[] code) throws Exception {
+		return sqlSession.delete(NAMESPACE + ".deleteFacility", code);
+	}
+	
+	@Override
 	public int getFacilityCount(PageVO vo) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".getFacilityCount", vo);
 	}
