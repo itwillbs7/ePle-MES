@@ -2,7 +2,6 @@ package com.itwillbs.persistence;
 
 import java.util.List;
 
-import com.itwillbs.domain.FacilitySearchVO;
 import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.PageVO;
 

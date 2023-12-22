@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.itwillbs.domain.FacilitySearchVO;
 import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.persistence.FacilityDAO;

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<title>보전 추가</title>
+<title>설비 추가</title>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->

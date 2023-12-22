@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.itwillbs.domain.FacilitySearchVO;
 import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.PageVO;
 

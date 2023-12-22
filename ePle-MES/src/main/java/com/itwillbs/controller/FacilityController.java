@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.SearchVO;
 import com.itwillbs.service.FacilityService;
-import com.itwillbs.domain.FacilitySearchVO;
 import com.itwillbs.domain.FacilityVO;
 
 /** FacilityController : 설비 컨트롤러 **/
@@ -29,7 +29,7 @@ public class FacilityController {
 	// http://localhost:8088/facility/list
 	@GetMapping(value = "/list")
 	public void facilityListGET
-	(FacilitySearchVO searchVO, PageVO pageVO, Criteria cri, Model model) 
+	(SearchVO searchVO, PageVO pageVO, Criteria cri, Model model) 
 	throws Exception{
 		// 설비 목록 return
 		pageVO.setCri(cri);
@@ -39,11 +39,6 @@ public class FacilityController {
 		if (vo == null) vo = new ArrayList<FacilityVO>();
 		model.addAttribute("list", vo);
 		model.addAttribute("pageVO", pageVO);
-	}
-	
-	@PostMapping(value="/list")
-	public void facilityListPOST(FacilitySearchVO searchVO, Model model) {
-		
 	}
 
 	// http://localhost:8088/facility/insert
