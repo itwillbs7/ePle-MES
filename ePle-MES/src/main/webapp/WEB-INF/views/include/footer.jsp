@@ -66,6 +66,23 @@
 			$('#accordion-search').submit();
 		}
 	}
+	// 페이지 이동, 상세 검색 정보 유지
+	function changePageSize(i){
+		var isEmpty = true;
+		$('#accordion-search').find('input').each(function(){
+		    if($(this).val() != null) {
+		        isEmpty = false;
+		    }
+		});
+		var link = ${requestScope['javax.servlet.forward.request_uri']} + "?pageSize=" + i;
+		if(isEmpty){
+			location.href= link;
+		}
+		else{
+			$('#accordion-search').attr("action", link);
+			$('#accordion-search').submit();
+		}
+	}
 	
 	$(document).ready(function() {
 		// 테이블 체크 박스 클릭 시 전체선택

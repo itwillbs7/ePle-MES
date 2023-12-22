@@ -178,7 +178,10 @@
 									행 개수 <span class="caret"></span>
 								</button>
 								<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="javascript:rowsDisplay(10);">10</a> <a class="dropdown-item" href="javascript:rowsDisplay(25);">25</a> <a class="dropdown-item" href="javascript:rowsDisplay(50);">50</a> <a class="dropdown-item" href="javascript:rowsDisplay('all');">전체</a>
+									<a class="dropdown-item" href="javascript:changePageSize(10);">10</a>
+									<a class="dropdown-item" href="javascript:changePageSize(25);">25</a>
+									<a class="dropdown-item" href="javascript:changePageSize(50);">50</a>
+									<a class="dropdown-item" href="javascript:rowsDisplay(100);">100</a>
 								</div>
 							</div>
 							&nbsp;
@@ -266,24 +269,26 @@
 								</div>
 							</div>
 							<div class="btn-toolbar justify-content-center mb-15">
-								<div class="btn-group">
-									<c:if test="${pageVO.prev}">
-										<a href="javascript:pageMove(${pageVO.startPage - 1})" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
-										</a>
-									</c:if>
-									<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-										<c:if test="${pageVO.cri.page == i}">
-											<span class="btn btn-primary current">${i}</span>
+								<c:if test="${pageVO.totalCount > 1}">
+									<div class="btn-group">
+										<c:if test="${pageVO.prev}">
+											<a href="javascript:pageMove(${pageVO.startPage - 1})" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+											</a>
 										</c:if>
-										<c:if test="${pageVO.cri.page != i}">
-											<a href="javascript:pageMove(${i})" class="btn btn-outline-primary">${i}</a>
+										<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+											<c:if test="${pageVO.cri.page == i}">
+												<span class="btn btn-primary current">${i}</span>
+											</c:if>
+											<c:if test="${pageVO.cri.page != i}">
+												<a href="javascript:pageMove(${i})" class="btn btn-outline-primary">${i}</a>
+											</c:if>
+										</c:forEach>
+										<c:if test="${pageVO.next}">
+											<a href="javascript:pageMove(${pageVO.endPage + 1})" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+											</a>
 										</c:if>
-									</c:forEach>
-									<c:if test="${pageVO.next}">
-										<a href="javascript:pageMove(${pageVO.endPage + 1})" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
-										</a>
-									</c:if>
-								</div>
+									</div>
+								</c:if>
 							</div>
 						</div>
 					</div>

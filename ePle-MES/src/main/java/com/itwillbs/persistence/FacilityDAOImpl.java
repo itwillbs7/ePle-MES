@@ -20,17 +20,17 @@ public class FacilityDAOImpl implements FacilityDAO {
 	
 	@Override
 	public int insertFacility(FacilityVO vo) throws Exception {
-		return sqlSession.insert(NAMESPACE + "", vo);
+		return sqlSession.insert(NAMESPACE + ".insertFacility", vo);
 	}
 	
 	@Override
 	public int getFacilityCount(PageVO vo) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + "", vo);
+		return sqlSession.selectOne(NAMESPACE + ".getFacilityCount", vo);
 	}
 	
 	@Override
 	public List<FacilityVO> getFacilityList(PageVO vo) throws Exception {
-		return sqlSession.selectList(NAMESPACE + "", vo);
+		return sqlSession.selectList(NAMESPACE + ".getFacilityList", vo);
 	}
 	
 }

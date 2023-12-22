@@ -4,7 +4,7 @@
 <html>
 <head>
 <title>로그인</title>
-<%@ include file="../include/head.jsp"%>
+<%@ include file="include/head.jsp"%>
 </head>
 
 <body class="login-page">
@@ -73,6 +73,6 @@
 			</div>
 		</div>
 	</div>
-	<%@ include file="../include/footer.jsp"%>
+	<%@ include file="include/footer.jsp"%>
 </body>
 </html>

@@ -1,5 +1,8 @@
 package com.itwillbs.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.FacilityService;
 import com.itwillbs.domain.FacilitySearchVO;
+import com.itwillbs.domain.FacilityVO;
 
 /** FacilityController : 설비 컨트롤러 **/
 
@@ -31,7 +35,9 @@ public class FacilityController {
 		pageVO.setCri(cri);
 		pageVO.setSearch(searchVO);
 		pageVO.setTotalCount(fService.facilityListCount(pageVO));
-		model.addAttribute("list", fService.getFacilityList(pageVO));
+		List<FacilityVO> vo = fService.getFacilityList(pageVO);
+		if (vo == null) vo = new ArrayList<FacilityVO>();
+		model.addAttribute("list", vo);
 		model.addAttribute("pageVO", pageVO);
 	}
 
