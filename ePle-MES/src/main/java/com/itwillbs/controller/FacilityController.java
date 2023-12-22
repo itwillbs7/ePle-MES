@@ -49,9 +49,15 @@ public class FacilityController {
 	}
 	
 	@PostMapping(value = "/insert")
-	public void facilityInsertPOST() throws Exception {
+	public void facilityInsertPOST(FacilityVO vo) throws Exception {
 		// 설비 추가 액션
-		
+		int result = fService.addFacility(vo);
+		if(result == 1) {
+			
+		}
+		else {
+			
+		}
 	}
 	
 	// http://localhost:8088/facility/update

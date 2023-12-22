@@ -48,11 +48,18 @@ public class MaintenanceController {
 	}
 
 	@PostMapping(value = "/insert")
-	public void maintenanceInsertPOST() throws Exception {
+	public void maintenanceInsertPOST(MaintenanceVO vo, Model model) throws Exception {
 		// 설비 보전 등록 액션
 
 		// 일상보전 or 사후보전 / 예방보전 / 긴급보전
 		// -> 다른 데이터베이스에서 진행(일상 보전은 결과만)
+		int result = mService.addMaintenance(vo);
+		if(result == 1) {
+			
+		}
+		else {
+			
+		}
 	}
 
 	@GetMapping(value = "/update")
