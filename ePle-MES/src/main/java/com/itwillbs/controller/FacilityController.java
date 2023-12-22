@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.FacilitySearchVO;
 import com.itwillbs.domain.PageVO;
-import com.itwillbs.domain.SearchVO;
 import com.itwillbs.service.FacilityService;
 import com.itwillbs.domain.FacilityVO;
 
@@ -29,7 +29,7 @@ public class FacilityController {
 	// http://localhost:8088/facility/list
 	@GetMapping(value = "/list")
 	public void facilityListGET
-	(SearchVO searchVO, PageVO pageVO, Criteria cri, Model model) 
+	(FacilitySearchVO searchVO, PageVO pageVO, Criteria cri, Model model) 
 	throws Exception{
 		// 설비 목록 return
 		pageVO.setCri(cri);
