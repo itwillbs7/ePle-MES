@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mapper.ProductMapper">
+	
+	<!-- 모든 글 조회(ALL) -->
+  	<select id="listALL" resultType="MAPDVO">
+  		select * from c7d2307t1_2 
+  	</select>
+	
+</mapper>
