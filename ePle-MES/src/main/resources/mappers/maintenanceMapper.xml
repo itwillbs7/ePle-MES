@@ -5,10 +5,36 @@
   
 <!-- maintenanceMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.MaintenanceMapper">
+	<resultMap type="com.itwillbs.domain.MaintenanceVO" id="maintenance">
+		<result property="index" column="index"/>
+		<result property="reg_date" column="reg_date"/>
+		<result property="emp_code" column="emp_code"/>
+		<result property="group_id" column="group_id"/>
+		<result property="code_id" column="code_id"/>
+		<result property="group_name" column="group_name"/>
+		<result property="code_name" column="code_name"/>
+		<result property="mt_content" column="mt_content"/>
+		<result property="complete" column="complete"/>
+		<result property="manager" column="manager"/>
+		<result property="res_info" column="res_info"/>
+		<result property="res_content" column="res_content"/>
+		<result property="comp_date" column="comp_date"/>
+	</resultMap>
+	
 	<insert id="insertMaintenance">
 	
 	</insert>
-	<select id="">
+	<sql id="maintenanceSearch">
+		<where>
+			<![CDATA[index = index ]]>
+		</where>
+	</sql>
+	<select id="getMaintenanceCount" resultType="int">
+		
+	</select>
+	
+	<select id="getMaintenanceList" 
+	resultType="com.itwillbs.domain.MaintenanceVO" resultMap="maintenance">
 	
 	</select>
 </mapper>

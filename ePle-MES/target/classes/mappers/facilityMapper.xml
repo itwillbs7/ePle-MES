@@ -134,7 +134,7 @@
 		<![CDATA[
 		SELECT * FROM FAC_INFO
 		]]>
-		<include refid="facilitySearch" />
+		<include refid="facilitySearch"/>
 		<![CDATA[
 		ORDER BY code DESC 
 		LIMIT #{cri.page}, #{cri.pageSize}

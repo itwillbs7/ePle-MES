@@ -1,9 +1,17 @@
 package com.itwillbs.controller;
 
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.SearchVO;
+import com.itwillbs.service.MaintenanceService;
 
 /** FacilityController : 설비 보전 컨트롤러 **/
 
@@ -11,11 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/maintenance/*")
 public class MaintenanceController {
 
+	@Inject
+	private MaintenanceService mService;
+	
 	// http://localhost:8088/maintenance/list
 	@GetMapping(value = "/list")
-	public void maintenanceListGET() {
+	public void maintenanceListGET(SearchVO searchVO, PageVO pageVO, Criteria cri, Model model) {
 		// 설비 보전 리스트
-		
+		pageVO.setCri(cri);
+		pageVO.setSearch(searchVO);
 	}
 
 	@GetMapping(value = "/insert")

@@ -1,8 +1,12 @@
 package com.itwillbs.service;
 
+import java.util.List;
+
 import com.itwillbs.domain.MaintenanceVO;
+import com.itwillbs.domain.PageVO;
 
 public interface MaintenanceService {
-	public void addMaintenance(MaintenanceVO vo) throws Exception;
-	public int getMaintenanceListCount() throws Exception;
+	public int addMaintenance(MaintenanceVO vo) throws Exception;
+	public int getMaintenanceCount(PageVO vo) throws Exception;
+	public List<MaintenanceVO> getMaintenanceList(PageVO vo) throws Exception;
 }
