@@ -58,7 +58,11 @@
 																카테고리 <span class="caret"></span>
 															</button>
 															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" href="javascript:buttonCategory();">선택</a> <a class="dropdown-item" href="javascript:buttonCategory('A');">A</a> <a class="dropdown-item" href="javascript:buttonCategory('B');">B</a> <a class="dropdown-item" href="javascript:buttonCategory('C');">C</a>
+																<a class="dropdown-item" id="category-none" href="javascript:buttonCategory('');">선택</a>
+																<a class="dropdown-item" href="javascript:buttonCategory('code');">코드</a>
+																<a class="dropdown-item" href="javascript:buttonCategory('model');">모델</a>
+																<a class="dropdown-item" href="javascript:buttonCategory('name');">이름</a>
+																<a class="dropdown-item" href="javascript:buttonCategory('location');">위치</a>
 															</div>
 														</div>
 														<input type="hidden" id="searchCategory" name="searchCategory"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
@@ -75,45 +79,25 @@
 															<input type="checkbox" class="custom-control-input" id="formCheckAll"> <label class="custom-control-label" for="formCheckAll"><b>전체</b></label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck1" name="formCheck"> <label class="custom-control-label" for="formCheck1">A</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck1" name="formCheck" value="production"> <label class="custom-control-label" for="formCheck1">생산</label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck2" name="formCheck"> <label class="custom-control-label" for="formCheck2">B</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck2" name="formCheck" value="non-production"> <label class="custom-control-label" for="formCheck2">비생산</label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck3" name="formCheck"> <label class="custom-control-label" for="formCheck3">C</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck4" name="formCheck"> <label class="custom-control-label" for="formCheck4">D</label>
-														</div>
-													</div>
-													<div class="col-md-1 col-sm-12" style="margin-top: auto;">
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck5" name="formCheck"> <label class="custom-control-label" for="formCheck5">E</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck6" name="formCheck"> <label class="custom-control-label" for="formCheck6">F</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck7" name="formCheck"> <label class="custom-control-label" for="formCheck7">G</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck8" name="formCheck"> <label class="custom-control-label" for="formCheck8">H</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck3" name="formCheck" value="etc"> <label class="custom-control-label" for="formCheck3">기타</label>
 														</div>
 													</div>
 													<div class="col-md-2 col-sm-12">
-														<label class="weight-600">라디오</label>
+														<label class="weight-600">상태</label>
 														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio1">가</label>
+															<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input"  value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
 														</div>
 														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio2">나</label>
+															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" checked value="true"> <label class="custom-control-label" for="formRadio2">활성화</label>
 														</div>
 														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio3">다</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio4" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio4">라</label>
+															<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input"  value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
 														</div>
 													</div>
 													<div class="col-md-2 col-sm-12">
@@ -132,21 +116,10 @@
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
-															<label>물품 종류</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="category">
-																<optgroup label="Alaskan/Hawaiian Time Zone">
+															<label>종류</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="category">
 																	<option value="AK">Alaska</option>
 																	<option value="HI">Hawaii</option>
-																</optgroup>
-																<optgroup label="Pacific Time Zone">
 																	<option value="CA">California</option>
-																	<option value="NV">Nevada</option>
-																	<option value="OR">Oregon</option>
-																	<option value="WA">Washington</option>
-																</optgroup>
-																<optgroup label="Mountain Time Zone">
-																	<option value="AZ">Arizona</option>
-																	<option value="CO">Colorado</option>
-																	<option value="ID">Idaho</option>
 																</optgroup>
 															</select>
 														</div>

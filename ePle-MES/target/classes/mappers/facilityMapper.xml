@@ -2,229 +2,140 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <!-- facilityMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.FacilityMapper">
-	<resultMap type="com.itwillbs.domain.FacilityVO" id="facility">
-		<result property="code" column="code"/>
-		<result property="category" column="category"/>
-		<result property="name" column="name"/>
-		<result property="model" column="model"/>
-		<result property="purchase_date" column="purchase_date"/>
-		<result property="inprice" column="inprice"/>
-		<result property="location" column="location"/>
-		<result property="line_code" column="line_code"/>
-		<result property="uph" column="uph"/>
-		<result property="image" column="image"/>
-		<result property="active" column="active"/>
+	<resultMap type="com.itwillbs.domain.FacilityVO"
+		id="facility">
+		<result property="code" column="code" />
+		<result property="category" column="category" />
+		<result property="name" column="name" />
+		<result property="model" column="model" />
+		<result property="purchase_date" column="purchase_date" />
+		<result property="inprice" column="inprice" />
+		<result property="location" column="location" />
+		<result property="line_code" column="line_code" />
+		<result property="uph" column="uph" />
+		<result property="image" column="image" />
+		<result property="active" column="active" />
 	</resultMap>
-	<!-- 입력 -->
-	<insert id="insertFacility">
-	
-	</insert>
-	<!-- 개수 계산 -->
-	<select id="getFacilityCount" resultType="int">
-		select count(*) from FAC_INFO where code = code 
-		<!-- searchVO null(활성화 된 것만 가져오기) -->
-		<if test="search eq null">
-			<![CDATA[
-				and active = true 
-			]]>
-		</if>
-		<!-- searchVO null -->
-		<!-- searchVO not null -->
-		<if test="search neq null">
-		<!-- 라디오 -->
-			<if test ="search.formRadio eq null">
-				<![CDATA[
-				and active = true 
-				]]>
+
+	<sql id="facilitySearch">
+		<where>
+			<![CDATA[code = code ]]>
+			<if test="search eq null">
+				<![CDATA[AND active = TRUE ]]>
 			</if>
-			<if test ="search.formRadio neq null">
-				<where>
+			<if test="search neq null">
+				<!-- 라디오 -->
+				<if test="search.formRadio eq null">
+				<![CDATA[AND active = TRUE ]]>
+				</if>
+				<if test="search.formRadio neq null">
 					<choose>
 						<when test="search.formRadio.toString() eq 'true'">
-							<![CDATA[
-								and active = true 
-							]]>
+							<![CDATA[AND active = TRUE ]]>
 						</when>
 						<when test="search.formRadio.toString() eq 'false'">
-							<![CDATA[
-								and active = false 
-							]]>
+							<![CDATA[AND active = FALSE ]]>
 						</when>
 					</choose>
-				</where>
-			</if>
-			<!-- 라디오 -->
-			<!-- 기본 검색 -->
-			<if test ="search.searchKeyword neq null">
-				<where>
+				</if>
+				<!-- 라디오 -->
+				<!-- 기본 검색 -->
+				<if test="search.searchKeyword neq null">
 					<choose>
 						<when test="search.searchCategory.toString() eq null">
 							<![CDATA[
-								and (
-								code like '%'||#{search.searchKeyword}||'%' or 
-								name like '%'||#{search.searchKeyword}||'%' or 
-								model like '%'||#{search.searchKeyword}||'%' or 
-								location like '%'||#{search.searchKeyword}||'%' or 
-								line_code like '%'||#{search.searchKeyword}||'%'
+								AND (code LIKE '%'||#{search.searchKeyword}||'%' OR 
+								name LIKE '%'||#{search.searchKeyword}||'%' OR 
+								model LIKE '%'||#{search.searchKeyword}||'%' OR 
+								location LIKE '%'||#{search.searchKeyword}||'%' OR 
+								line_code LIKE '%'||#{search.searchKeyword}||'%'
 								) 
 							]]>
 						</when>
 						<when test="search.searchCategory.toString() eq 'code'">
 							<![CDATA[
-								and code like '%'||#{search.searchKeyword}||'%' 
+								AND code LIKE '%'||#{search.searchKeyword}||'%' 
 							]]>
 						</when>
 						<when test="search.searchCategory.toString() eq 'name'">
 							<![CDATA[
-								and name like '%'||#{search.searchKeyword}||'%' 
+								AND name LIKE '%'||#{search.searchKeyword}||'%' 
 							]]>
 						</when>
 						<when test="search.searchCategory.toString() eq 'model'">
 							<![CDATA[
-								and model like '%'||#{search.searchKeyword}||'%' 
+								AND model LIKE '%'||#{search.searchKeyword}||'%' 
 							]]>
 						</when>
 						<when test="search.searchCategory.toString() eq 'location'">
 							<![CDATA[
-								and location like '%'||#{search.searchKeyword}||'%' 
+								AND location LIKE '%'||#{search.searchKeyword}||'%' 
 							]]>
 						</when>
 						<when test="search.searchCategory.toString() eq 'line_code'">
 							<![CDATA[
-								and line_code like '%'||#{searchKeyword}||'%' 
+								AND line_code LIKE '%'||#{searchKeyword}||'%' 
 							]]>
 						</when>
 					</choose>
-				</where>
-			</if>
-			<!-- 기본 검색 -->
-			<!-- check box -->
-			<if test="search.formCheck neq null">
-				<![CDATA[and category in]]>
-				<foreach collection="search.formCheck" item="item" index="index" open="(" close=")" separator=",">
-					#{item}
-				</foreach>
+				</if>
+				<!-- 기본 검색 -->
+				<!-- check box -->
+				<if test="search.formCheck neq null">
+				<![CDATA[AND category IN]]>
+					<foreach collection="search.formCheck" item="item"
+						index="index" open="(" close=")" separator=",">
+						#{item}
+					</foreach>
 				<![CDATA[) ]]>
+				</if>
+				<!-- check box -->
+				<!-- date -->
+				<if test="search.date neq null">
+				<![CDATA[
+					AND purchase_date = #{search.date}
+				]]>
+				</if>
+				<!-- date -->
+				<!-- date between -->
+				<if test="search.betweenDateLeft neq null and search.betweenDateRight neq null">
+					<![CDATA[
+					AND purchase_date BETWEEN
+					#{search.betweenDateLeft} AND
+					#{search.betweenDateRight}
+					]]>
+				</if>
+				<!-- date between -->
 			</if>
-			<!-- check box -->
-			<!-- date -->
-			<if test="search.date neq null">
-				and purchase_date = #{search.date} 
-			</if>
-			<!-- date -->
-			<!-- date between -->
-			<if test="search.betweenDateLeft neq null and search.betweenDateRight neq null">
-				and purchase_date between 
-				#{search.betweenDateLeft} and #{search.betweenDateRigh}
-			</if>
-			<!-- date between -->
-		</if>
-		<!-- searchVO not null -->
+			<!-- searchVO not null -->
+		</where>
+	</sql>
+
+	<!-- 입력 -->
+	<insert id="insertFacility">
+
+	</insert>
+
+	<!-- 개수 계산 -->
+	<select id="getFacilityCount" resultType="int">
+		<![CDATA[	
+		SELECT count(*) FROM FAC_INFO 
+		]]>
+		<include refid="facilitySearch" />
 	</select>
 
-	<select id="getFacilityList" resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
-		select * from FAC_INFO where code = code 
-		<!-- searchVO null(활성화 된 것만 가져오기) -->
-		<if test="search eq null">
-			<![CDATA[
-				and active = true 
-			]]>
-		</if>
-		<!-- searchVO null -->
-		<!-- searchVO not null -->
-		<if test="search neq null">
-		<!-- 라디오 -->
-			<if test ="search.formRadio eq null">
-				<![CDATA[
-				and active = true 
-				]]>
-			</if>
-			<if test ="search.formRadio neq null">
-				<where>
-					<choose>
-						<when test="search.formRadio.toString() eq 'true'">
-							<![CDATA[
-								and active = true 
-							]]>
-						</when>
-						<when test="search.formRadio.toString() eq 'false'">
-							<![CDATA[
-								and active = false 
-							]]>
-						</when>
-					</choose>
-				</where>
-			</if>
-			<!-- 라디오 -->
-			<!-- 기본 검색 -->
-			<if test ="search.searchKeyword neq null">
-				<where>
-					<choose>
-						<when test="search.searchCategory.toString eq null">
-							<![CDATA[
-								and (
-								code like '%'||#{search.searchKeyword}||'%' or 
-								name like '%'||#{search.searchKeyword}||'%' or 
-								model like '%'||#{search.searchKeyword}||'%' or 
-								location like '%'||#{search.searchKeyword}||'%' or 
-								line_code like '%'||#{search.searchKeyword}||'%'
-								) 
-							]]>
-						</when>
-						<when test="search.searchCategory.toString() eq 'code'">
-							<![CDATA[
-								and code like '%'||#{search.searchKeyword}||'%' 
-							]]>
-						</when>
-						<when test="search.searchCategory.toString() eq 'name'">
-							<![CDATA[
-								and name like '%'||#{search.searchKeyword}||'%' 
-							]]>
-						</when>
-						<when test="search.searchCategory.toString() eq 'model'">
-							<![CDATA[
-								and model like '%'||#{search.searchKeyword}||'%' 
-							]]>
-						</when>
-						<when test="search.searchCategory.toString() eq 'location'">
-							<![CDATA[
-								and location like '%'||#{search.searchKeyword}||'%' 
-							]]>
-						</when>
-						<when test="search.searchCategory.toString() eq 'line_code'">
-							<![CDATA[
-								and line_code like '%'||#{search.searchKeyword}||'%' 
-							]]>
-						</when>
-					</choose>
-				</where>
-			</if>
-			<!-- 기본 검색 -->
-			<!-- check box -->
-			<if test="search.formCheck neq null">
-				<![CDATA[and category in]]>
-				<foreach collection="search.formCheck" item="item" index="index" open="(" close=")" separator=",">
-					#{item}
-				</foreach>
-				<![CDATA[) ]]>
-			</if>
-			<!-- check box -->
-			<!-- date -->
-			<if test="search.date neq null">
-				and purchase_date = #{search.date} 
-			</if>
-			<!-- date -->
-			<!-- date between -->
-			<if test="search.betweenDateLeft neq null and search.betweenDateRight neq null">
-				and purchase_date between 
-				#{search.betweenDateLeft} and #{search.betweenDateRight} 
-			</if>
-			<!-- date between -->
-		</if>
-		<!-- searchVO not null -->
-		order by code desc limit #{cri.page}, #{cri.pageSize}
+	<select id="getFacilityList"
+		resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
+		<![CDATA[
+		SELECT * FROM FAC_INFO
+		]]>
+		<include refid="facilitySearch" />
+		<![CDATA[
+		ORDER BY code DESC 
+		LIMIT #{cri.page}, #{cri.pageSize}
+		]]>
 	</select>
 </mapper>

@@ -16,16 +16,8 @@
 	<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden"></iframe>
 </noscript>
 <script type="text/javascript">
-	function buttonCategory(i) {
-		var x = document.getElementById("searchCategoryButton");
-		var y = document.getElementById("searchCategory");
-		if (i == null) {
-			x.innerText = "카테고리";
-			y.value = null;
-		} else {
-			x.innerText = i;
-			y.value = i;
-		}
+	function buttonCategory(a) {
+		alert(a);
 	}
 	
 	function exportData(i) {
@@ -66,6 +58,7 @@
 			$('#accordion-search').submit();
 		}
 	}
+	
 	// 페이지 이동, 상세 검색 정보 유지
 	function changePageSize(i){
 		var isEmpty = true;
