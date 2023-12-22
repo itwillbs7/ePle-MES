@@ -173,7 +173,9 @@
 									내보내기 <span class="caret"></span>
 								</button>
 								<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="javascript:exportData(1);">복사</a> <a class="dropdown-item" href="javascript:exportData(2);">PDF</a> <a class="dropdown-item" href="javascript:exportData(3);">CSV</a> <a class="dropdown-item" href="javascript:exportData(4);">인쇄</a>
+									<a class="dropdown-item" href="javascript:exportData(1);">PDF</a>
+									<a class="dropdown-item" href="javascript:exportData(2);">CSV</a>
+									<a class="dropdown-item" href="javascript:exportData(3);">인쇄</a>
 								</div>
 							</div>
 						</div>
@@ -339,7 +341,7 @@
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
-				openPage("/facility/add", 500, 600);
+				openPage("/facility/insert", 500, 600);
 			});
 
 			// 수정

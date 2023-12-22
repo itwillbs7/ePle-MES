@@ -301,6 +301,7 @@
 		}
 
 		$(document).ready(function() {
+			alert(link);
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정

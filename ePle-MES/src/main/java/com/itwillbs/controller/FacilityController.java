@@ -40,6 +40,11 @@ public class FacilityController {
 		model.addAttribute("list", vo);
 		model.addAttribute("pageVO", pageVO);
 	}
+	
+	@PostMapping(value="/list")
+	public void facilityListPOST(FacilitySearchVO searchVO, Model model) {
+		
+	}
 
 	// http://localhost:8088/facility/insert
 	@GetMapping(value = "/insert")

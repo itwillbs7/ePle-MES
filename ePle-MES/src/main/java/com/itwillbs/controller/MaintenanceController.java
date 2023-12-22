@@ -18,13 +18,13 @@ public class MaintenanceController {
 		
 	}
 
-	@GetMapping(value = "/add")
+	@GetMapping(value = "/insert")
 	public void maintenanceInsertGET() {
 		// 설비 보전 등록 폼
 
 	}
 
-	@PostMapping(value = "/add")
+	@PostMapping(value = "/insert")
 	public void maintenanceInsertPOST() {
 		// 설비 보전 등록 액션
 		
