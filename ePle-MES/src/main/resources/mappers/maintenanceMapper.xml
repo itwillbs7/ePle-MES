@@ -2,39 +2,146 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
+<!-- 미완성 -->
 <!-- maintenanceMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.MaintenanceMapper">
-	<resultMap type="com.itwillbs.domain.MaintenanceVO" id="maintenance">
-		<result property="index" column="index"/>
-		<result property="reg_date" column="reg_date"/>
-		<result property="emp_code" column="emp_code"/>
-		<result property="group_id" column="group_id"/>
-		<result property="code_id" column="code_id"/>
-		<result property="group_name" column="group_name"/>
-		<result property="code_name" column="code_name"/>
-		<result property="mt_content" column="mt_content"/>
-		<result property="complete" column="complete"/>
-		<result property="manager" column="manager"/>
-		<result property="res_info" column="res_info"/>
-		<result property="res_content" column="res_content"/>
-		<result property="comp_date" column="comp_date"/>
+	<resultMap type="com.itwillbs.domain.MaintenanceVO"
+		id="maintenance">
+		<result property="index" column="index" />
+		<result property="reg_date" column="reg_date" />
+		<result property="emp_code" column="emp_code" />
+		<result property="group_id" column="group_id" />
+		<result property="code_id" column="code_id" />
+		<result property="group_name" column="group_name" />
+		<result property="code_name" column="code_name" />
+		<result property="mt_content" column="mt_content" />
+		<result property="complete" column="complete" />
+		<result property="manager" column="manager" />
+		<result property="res_info" column="res_info" />
+		<result property="res_content" column="res_content" />
+		<result property="comp_date" column="comp_date" />
 	</resultMap>
-	
+
 	<insert id="insertMaintenance">
-	
+		INSERT INTO FAC_MT
+		<set>
+			<if test="">
+
+			</if>
+			<if test="">
+
+			</if>
+		</set>
 	</insert>
 	<sql id="maintenanceSearch">
 		<where>
 			<![CDATA[index = index ]]>
+			<if test="search eq null">
+				<![CDATA[AND active = TRUE ]]>
+			</if>
+			<if test="search neq null">
+				<!-- 라디오 -->
+				<if test="search.formRadio eq null">
+				<![CDATA[AND active = TRUE ]]>
+				</if>
+				<if test="search.formRadio neq null">
+					<choose>
+						<when test="search.formRadio.toString() eq 'true'">
+							<![CDATA[AND active = TRUE ]]>
+						</when>
+						<when test="search.formRadio.toString() eq 'false'">
+							<![CDATA[AND active = FALSE ]]>
+						</when>
+					</choose>
+				</if>
+				<!-- 라디오 -->
+				<!-- 기본 검색 -->
+				<if test="search.searchKeyword neq null">
+					<choose>
+						<when test="search.searchCategory.toString() eq null">
+							<![CDATA[
+								AND (index LIKE '%'||#{search.searchKeyword}||'%' OR 
+								emp_code LIKE '%'||#{search.searchKeyword}||'%' OR 
+								fac_code LIKE '%'||#{search.searchKeyword}||'%' OR 
+								manager LIKE '%'||#{search.searchKeyword}||'%' OR 
+								res_info LIKE '%'||#{searchKeyword}||'%') 
+							]]>
+						</when>
+						<when test="search.searchCategory.toString() eq 'index'">
+							<![CDATA[
+								AND index LIKE '%'||#{search.searchKeyword}||'%' 
+							]]>
+						</when>
+						<when test="search.searchCategory.toString() eq 'emp_code'">
+							<![CDATA[
+								AND emp_code LIKE '%'||#{search.searchKeyword}||'%' 
+							]]>
+						</when>
+						<when test="search.searchCategory.toString() eq 'fac_code'">
+							<![CDATA[
+								AND fac_code LIKE '%'||#{search.searchKeyword}||'%' 
+							]]>
+						</when>
+						<when test="search.searchCategory.toString() eq 'manager'">
+							<![CDATA[
+								AND manager LIKE '%'||#{search.searchKeyword}||'%' 
+							]]>
+						</when>
+						<when test="search.searchCategory.toString() eq 'res_info'">
+							<![CDATA[
+								AND res_info LIKE '%'||#{searchKeyword}||'%' 
+							]]>
+						</when>
+					</choose>
+				</if>
+				<!-- 기본 검색 -->
+				<!-- check box -->
+				<if test="search.formCheck neq null">
+				<![CDATA[AND category IN]]>
+					<foreach collection="search.formCheck" item="item"
+						index="index" open="(" close=")" separator=",">
+						#{item}
+					</foreach>
+				</if>
+				<!-- check box -->
+				<!-- date -->
+				<if test="search.date neq null and search.date.toString() neq ''">
+				<![CDATA[
+					AND purchase_date = #{search.date}
+				]]>
+				</if>
+				<!-- date -->
+				<!-- date between -->
+				<if
+					test="search.betweenDateLeft neq null and 
+				search.betweenDateLeft.toString() neq '' and
+				search.betweenDateRight neq null and
+				search.betweenDateRight.toString() neq ''">
+					<![CDATA[
+					AND purchase_date BETWEEN
+					#{search.betweenDateLeft} AND
+					#{search.betweenDateRight}
+					]]>
+				</if>
+				<!-- date between -->
+			</if>
+			<!-- searchVO not null -->
 		</where>
 	</sql>
 	<select id="getMaintenanceCount" resultType="int">
-		
+
 	</select>
-	
-	<select id="getMaintenanceList" 
-	resultType="com.itwillbs.domain.MaintenanceVO" resultMap="maintenance">
-	
+
+	<select id="getMaintenanceList"
+		resultType="com.itwillbs.domain.MaintenanceVO" resultMap="maintenance">
+		<![CDATA[
+			SELECT * FROM FAC_MT
+		]]>
+		<include refid="maintenanceSearch" />
+		<![CDATA[
+			ORDER BY reg_date 
+			LIMIT #{cri.page}, #{cri.pageSize}
+		]]>
 	</select>
 </mapper>
