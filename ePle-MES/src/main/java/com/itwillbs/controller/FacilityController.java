@@ -86,8 +86,8 @@ public class FacilityController {
 		
 	}
 	
-	@GetMapping(value="/export")
-	public void listExportGET() throws Exception {
-		// 설비 리스트 내보내기
+	@PostMapping(value="/getAjax")
+	public void facilityAjax(FacilitySearchVO searchVO, Model model) {
+		
 	}
 }

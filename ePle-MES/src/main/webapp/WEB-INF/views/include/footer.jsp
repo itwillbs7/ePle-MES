@@ -1,24 +1,39 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!-- 푸터, 스크립트 전용 -->
 <!-- js -->
-<script src="${pageContext.request.contextPath}/resources/vendors/scripts/core.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendors/scripts/script.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendors/scripts/process.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendors/scripts/layout-settings.js"></script>
-<script src="${pageContext.request.contextPath}/resources/src/plugins/apexcharts/apexcharts.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/src/plugins/datatables/js/jquery.dataTables.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendors/scripts/dashboard.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/vendors/scripts/core.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/vendors/scripts/script.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/vendors/scripts/process.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/vendors/scripts/layout-settings.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/src/plugins/apexcharts/apexcharts.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/src/plugins/datatables/js/jquery.dataTables.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/vendors/scripts/dashboard.js"></script>
 <!-- Google Tag Manager (noscript) -->
 <noscript>
-	<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden"></iframe>
+	<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+		height="0" width="0" style="display: none; visibility: hidden"></iframe>
 </noscript>
-<div class="data" style="display: hidden">
-
-</div>
+<div class="data" style="display: hidden"></div>
 <script type="text/javascript">
+	// ex ) /facility/list
+	var contextPath = window.location.pathname;
+
+	// ex ) /facility/getAjax
+	var ajaxLink = contextPath.substr(0, contextPath.length - 4) + "getAjax";
 	function buttonCategory(a) {
 		var buttonText = document.getElementById("searchCategoryButton");
 		var category = document.getElementById("searchCategory");
@@ -39,32 +54,53 @@
 		category.value = a;
 	}
 
+	// 데이터 내보내기
+	/* var sendOption = {
+			type : 'post', // post 방식으로 전송
+			url : ajaxLink, // 데이터를 주고받을 파일 주소
+			data : sendData, // 위의 변수에 담긴 데이터를 전송해준다.
+			datatype: "html", // json 파일 형식으로 값을 담아온다.
+			success : function(data) { // 파일 주고받기가 성공했을 경우. data 변수 안에 값을 담아온다.
+				$('.data').html(data); // 영역 안에 data안에 담긴 html 코드를 넣어준다. 
+			}; */
+
 	function exportData(i) {
 		// 전체 데이터 받아오기
 		var input = "";
 		var isEmpty = true;
-		$('#accordion-search').find('input').each(function() {
-			if ($(this).val() != null) {
-				isEmpty = false;
-				input += $(this).attr("name") + "=" + $(this).val(); + "&";
+		var rightDate = new Date();
+		var leftDate = new Date(rightDate.setMonth(rightDate.getMonth() - 1));
+		rightDate = new Date();
+		if ($("#dateLeft") != null && $("#dateRight") != null) {
+			if ($("#dateLeft").attr("val") == null
+					&& $("#dateRight").attr("val") == null) {.
+				// 000 between 000
+				$("#dataLeft")
+						.attr("val", leftDate.toISOString().substr(0, 11));
+				$("#dataRight").attr("val",
+						rightDate.toISOString().substr(0, 11));
+			} else if ($("#dataLeft").attr("val") == null) {
+				// 000 between dataRight
+				
+			} else if ($("#dataRight").attr("val") == null) {
+				// dataLeft between 000
+				$("#dataRight").attr("val",
+						rightDate.toISOString().substr(0, 11));
 			}
-		});
-		if(isEmpty == true){
-			
 		}
-		var sendData = input.substr(0, input.length - 1);
+
+		/* 		$('#accordion-search').submit(function(){
 		
-		// 본인의 링크
-		var link = ${requestScope['javax.servlet.forward.request_uri']};
-		$.ajax({
+		 }); */
+		/* $.ajax({
 			type : 'post', // post 방식으로 전송
-			url : link, // 데이터를 주고받을 파일 주소
+			url : ajaxLink, // 데이터를 주고받을 파일 주소
 			data : sendData, // 위의 변수에 담긴 데이터를 전송해준다.
-			datatype: "JSON", // json 파일 형식으로 값을 담아온다.
+			datatype: "html", // json 파일 형식으로 값을 담아온다.
 			success : function(data) { // 파일 주고받기가 성공했을 경우. data 변수 안에 값을 담아온다.
 				$('.data').html(data); // 영역 안에 data안에 담긴 html 코드를 넣어준다. 
 			}
-		});
+		}); */
 		switch (i) {
 		case 1:
 			// PDF
@@ -89,15 +125,11 @@
 				isEmpty = false;
 			}
 		});
-		var link = $
-		{
-			requestScope['javax.servlet.forward.request_uri']
-		}
-		+"?page=" + i;
+		alert(link);
 		if (isEmpty) {
-			location.href = link;
+			location.href = contextPath + "?page=" + i;
 		} else {
-			$('#accordion-search').attr("action", link);
+			$('#accordion-search').attr("action", contextPath + "?page=" + i);
 			$('#accordion-search').submit();
 		}
 	}
@@ -110,15 +142,11 @@
 				isEmpty = false;
 			}
 		});
-		var link = $
-		{
-			requestScope['javax.servlet.forward.request_uri']
-		}
-		+"?page=1&pageSize=" + i;
 		if (isEmpty) {
-			location.href = link;
+			location.href = contextPath + "?page=1&pageSize=" + i;
 		} else {
-			$('#accordion-search').attr("action", link);
+			$('#accordion-search').attr("action",
+					contextPath + "?page=1&pageSize=" + i);
 			$('#accordion-search').submit();
 		}
 	}

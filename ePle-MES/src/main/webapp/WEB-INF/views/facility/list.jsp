@@ -103,11 +103,11 @@
 													</div>
 													<div class="col-md-4 col-sm-12">
 														<div class="form-group" style="display: inline-block;">
-															<label>기간</label> <input type="date" name="betweenDateLeft" class="form-control">
+															<label>기간</label> <input type="date" id="dateLeft" name="betweenDateLeft" class="form-control">
 														</div>
 														<b>-</b>
 														<div class="form-group" style="display: inline-block;">
-															<input type="date" name="betweenDateRight" class="form-control">
+															<input type="date" id="dateRight" name="betweenDateRight" class="form-control">
 														</div>
 													</div>
 													<div class="col-md-2 col-sm-12">
