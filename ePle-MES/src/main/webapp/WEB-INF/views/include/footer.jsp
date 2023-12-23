@@ -54,16 +54,6 @@
 		category.value = a;
 	}
 
-	// 데이터 내보내기
-	/* var sendOption = {
-			type : 'post', // post 방식으로 전송
-			url : ajaxLink, // 데이터를 주고받을 파일 주소
-			data : sendData, // 위의 변수에 담긴 데이터를 전송해준다.
-			datatype: "html", // json 파일 형식으로 값을 담아온다.
-			success : function(data) { // 파일 주고받기가 성공했을 경우. data 변수 안에 값을 담아온다.
-				$('.data').html(data); // 영역 안에 data안에 담긴 html 코드를 넣어준다. 
-			}; */
-
 	function exportData(i) {
 		// 전체 데이터 받아오기
 		var rightDate = new Date();
@@ -88,7 +78,7 @@
 		}
 		var option = {
 			type : 'post', // post 방식으로 전송
-			data : sendData, // 위의 변수에 담긴 데이터를 전송해준다.
+			url : ajaxLink,// 링크
 			datatype : "html", // json 파일 형식으로 값을 담아온다.
 			success : function(data) { // 파일 주고받기가 성공했을 경우. data 변수 안에 값을 담아온다.
 				$('.data').html(data); // 영역 안에 data안에 담긴 html 코드를 넣어준다. 
