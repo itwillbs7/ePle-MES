@@ -22,20 +22,33 @@ public class RequestServiceImpl implements RequestService {
 
 	@Override
 	public List<RequestVO> requestList() throws Exception {
-		logger.debug("requestList()");
+		logger.debug("Service : requestList()");
 		return rdao.getRequestListAll();
+	}
+	
+	@Override
+	public RequestVO getinfo(String code) throws Exception {
+		logger.debug("Service : getinfo(String code)"+code);
+		return rdao.getRequestDetail(code);
+	}
+	
+	
+	@Override
+	public String findClient(String client_code) throws Exception {
+		// 회사명 찾기
+		return null;
 	}
 
 	@Override
 	public void dataInsertRequest(RequestVO vo) throws Exception {
-		logger.debug("dataInsertRequest(RequestVO vo) : "+vo);
+		logger.debug("Service : dataInsertRequest(RequestVO vo) : "+vo);
 		rdao.insertRequest(vo);
 		
 	}
 
 	@Override
 	public List<RequestVO> findClient(RequestSearchVO vo) throws Exception {
-		logger.debug("Service : findClient(RequestSearchVO vo)= "+vo);
+		logger.debug("Service : findClient(RequestSearchVO vo) : "+vo);
 
 		return rdao.searchClient(vo);
 	}
@@ -46,7 +59,7 @@ public class RequestServiceImpl implements RequestService {
 
 		return rdao.getClientList();
 	}
-	
+
 	
 	
 	

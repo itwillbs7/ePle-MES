@@ -174,15 +174,15 @@
 										<th>과부족</th>
 										<th>수주상태</th>
 									</tr>
-								<c:forEach items="${List}" var="List" >
+								<c:forEach items="${List}" var="List" varStatus="status">
 									<tr>
 										<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 										<td><div class="custom-control custom-checkbox mb-5">
 												<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-												<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+												<input type="checkbox" class="custom-control-input" id="checkTable${status.index}" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable${status.index}"></label>
 											</div></td>
 										<!-- 상세 정보 이동! -->
-										<th>${List.code }</th> 
+										<th class="info${status.index}" style="color: blue; text-decoration: underline;">${List.code }</th> 
 										<th>${List.client_code }</th> 
 										<th>${List.clientName }</th> 
 										<th>${List.deadline }</th> 
@@ -293,10 +293,10 @@
 			});
 			
 			// 상세보기
-			$(".info").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/info", 400,700);
-			});
+			$('body').on('click', '[class^="info"]', function(){
+        		var code = $(this).text().trim();
+      		  openPage("/request/info?code=" + code, 400, 700);
+  			});
 			
 			// 각각의 검색창
 			// 업체검색

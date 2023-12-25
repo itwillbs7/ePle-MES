@@ -56,8 +56,23 @@ public class RequestController {
 	
 	// http://localhost:8088/request/info
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
-	public void requestInfo(@RequestParam(value = "") String info) throws Exception {// 수주개별정보 5-2
+	public void requestInfo(@RequestParam(value = "code") String code,Model model) throws Exception {// 수주개별정보 5-2
 		logger.debug("requestInfo -> DB에서 수주번호가 일치하는 데이터 열 가져오기");
+		logger.debug("Controller - code "+code);
+		
+		RequestVO vo = rService.getinfo(code);
+		logger.debug("Controller - vo "+vo);
+		
+		// 업체명 찾기
+		String client_code= vo.getClient_code();
+		rService.findClient(client_code);
+		// 품명, 단위, 재고량, 단가 찾기
+		String product = vo.getProduct();
+		// 담당자명 찾기 
+		String manager = vo.getManager();
+		
+		model.addAttribute("vo",vo);
+
 	}
 	
 	// http://localhost:8088/request/search
@@ -91,9 +106,13 @@ public class RequestController {
 		return "redirect:/request/list";
 	}
 	
+	// -------- 수주등록 데이터 찾기 ---------
+	
 	@RequestMapping(value = "searchClient", method=RequestMethod.GET)
 	public void searchClientGET(Model model, HttpSession session)throws Exception{
 		logger.debug("controller : 거래사 정보 찾기");
+		logger.debug("searchClientGET    실행");
+
 		// 거래사 리스트 출력하기
 		List<RequestVO> clientList = rService.ClientList();
 		model.addAttribute("List", clientList);
@@ -102,13 +121,45 @@ public class RequestController {
 	
 	@RequestMapping(value = "searchClient", method=RequestMethod.POST)
 	public void searchClientPOST(@ModelAttribute RequestSearchVO vo, Model model, HttpSession session)throws Exception{
-		logger.debug("controller : 거래사 정보 찾기");
-		
+		logger.debug("controller : 거래사 정보 DB 검색결과 가져오기");
+		logger.debug("searchClientPOST    실행");
+
 		List<RequestVO> clientList = rService.findClient(vo);
 		model.addAttribute("List", clientList);
 
 	}
+	
+	@RequestMapping(value = "searchManager" ,method = RequestMethod.GET)
+	public void searchManagerGET(Model model, HttpSession session)throws Exception{
+		logger.debug("controller : 담당자 정보 찾기");
+		logger.debug("searchManagerGET    실행");
+		
+		
 
+	}
+	
+	@RequestMapping(value = "searchManager" ,method = RequestMethod.POST)
+	public void searchManagerPOST(@ModelAttribute RequestSearchVO vo, Model model, HttpSession session)throws Exception{
+		logger.debug("controller : 담당자 정보 DB 검색결과 가져오기");
+		logger.debug("searchManagerPOST    실행");
+		
+		
+		
+	}
+	
+	@RequestMapping(value = "searchProduct",method = RequestMethod.GET)
+	public void searchProductGET(Model model, HttpSession session)throws Exception{
+		logger.debug("controller : 상품 정보 찾기");
+		logger.debug("searchProductGET   실행");
+	}
+	
+	@RequestMapping(value = "searchProduct",method = RequestMethod.POST)
+	public void searchProductPOST(@ModelAttribute RequestSearchVO vo, Model model, HttpSession session)throws Exception{
+		logger.debug("controller : 상품 정보 DB 검색결과 가져오기 ");
+		logger.debug("searchProductPOST   실행");
+	}
+
+	// -------- 수주등록 데이터 찾기 끝---------
 	
 	
 	// http://localhost:8088/request/update

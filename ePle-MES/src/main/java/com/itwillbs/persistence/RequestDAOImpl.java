@@ -23,13 +23,24 @@ public class RequestDAOImpl implements RequestDAO {
 	
 	@Override
 	public List<RequestVO> getRequestListAll() throws Exception {
-		logger.debug("getRequestListAll() ");
+		logger.debug("DAO 수주정보리스트 getRequestListAll() ");
 		return sqlSession.selectList(NAMESPACE+".getRequestList");
 	}
+	
+	
+
+	@Override
+	public RequestVO getRequestDetail(String code) throws Exception {
+		logger.debug("DAO 수주정보 자세히보기 getRequestDetail(String code) "+code);
+
+		return sqlSession.selectOne(NAMESPACE+".getRequestInfo", code);
+	}
+
+
 
 	@Override
 	public void insertRequest(RequestVO vo) throws Exception {
-		logger.debug("수주 등록하기 insertRequest(RequestVO vo) : "+vo);
+		logger.debug("DAO 수주 등록하기 insertRequest(RequestVO vo) : "+vo);
 		
 		sqlSession.insert(NAMESPACE+".insertRequest", vo);
 	}
@@ -38,13 +49,13 @@ public class RequestDAOImpl implements RequestDAO {
 
 	@Override
 	public List<RequestVO> getClientList() throws Exception {
-		logger.debug("DAOgetClientList() : 회사리스트 뽑기");
+		logger.debug("DAO 회사리스트뽑기 getClientList() ");
 		return sqlSession.selectList(NAMESPACE+".getClientList");
 	}
 
 	@Override
 	public List<RequestVO> searchClient(RequestSearchVO vo) throws Exception {
-		logger.debug("DAO searchClient(RequestSearchVO vo) : "+vo);
+		logger.debug("DAO 회사검색하기 searchClient(RequestSearchVO vo) : "+vo);
 
 		return sqlSession.selectList(NAMESPACE+".findCompany", vo);
 	}

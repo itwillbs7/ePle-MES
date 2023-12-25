@@ -91,23 +91,23 @@
 	$(document).ready(function(){
 		
 	// 업체찾기	
-$("#client_code").click(function() {
+		$("#client_code").click(function() {
 	// 가로, 세로 설정
-	window.open("/request/searchClient", "Client Search", "width=500,height=600");
-});
+			window.open("/request/searchClient", "Client Search", "width=400,height=700");
+		});
 
 	
 	//담당자 찾기
-$("#client_code").click(function() {
+		$("#client_code").click(function() {
 	// 가로, 세로 설정
-	window.open("/request/searchClient", "Client Search", "width=500,height=600");
-});
+			window.open("/request/searchManager", "Manager Search", "width=400,height=700");
+		});
 	
 	// 물품정보찾기
-$("#client_code").click(function() {
+		$("#client_code").click(function() {
 	// 가로, 세로 설정
-	window.open("/request/searchClient", "Client Search", "width=500,height=600");
-});
+			window.open("/request/searchProduct", "Product Search", "width=400,height=700");
+		});
 	
 // 계속 시도하기
 	function finished(){

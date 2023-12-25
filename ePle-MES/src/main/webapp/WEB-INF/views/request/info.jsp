@@ -7,93 +7,69 @@
 <title>수주정보</title>
 </head>
 <body>
-	<!-- 콘텐츠 시작 -->
+<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">수주정보</h1>
-				<h4 class="text-center">수주번호위치</h4>
+				<h1 class="text-center text-primary">수주 등록</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="" method="post">
-
+			<form action="" method="post" id="addForm">
+				<!-- 비입력 구간 -->
+				<input class="form-control" type="hidden" placeholder="수주번호" name="code" id="code" value="" >
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
-						<!-- examples -->
+						<!-- 필수입력내역 -->
 						<div class="form-group">
-							<label>Text</label> <input class="form-control" type="text" placeholder="Johnny Brown">
+							<label>수주번호</label> 
+							<input class="form-control" type="text"  name="code" id="code" readonly>
 						</div>
 						<div class="form-group">
-							<label>Email</label> <input class="form-control" value="bootstrap@example.com" type="email">
+							<label>업체코드</label> 
+							<input class="form-control" type="text"  name="client_code" id="client_code" readonly>
 						</div>
 						<div class="form-group">
-							<label>URL</label> <input class="form-control" value="https://getbootstrap.com" type="url">
+							<label>수주일자</label> 
+							<input class="form-control date-picker" name="date" type="text" id="date-picker" readonly>
 						</div>
 						<div class="form-group">
-							<label>Telephone</label> <input class="form-control" value="1-(111)-111-1111" type="tel">
+							<label>납품일자</label> 
+							<input class="form-control date-picker" name="deadline" type="text"  readonly>
 						</div>
 						<div class="form-group">
-							<label>Password</label> <input class="form-control" value="password" type="password">
+							<label>담당자코드</label> <input class="form-control" name="manager" type="text"  readonly>
 						</div>
 						<div class="form-group">
-							<label>Readonly input</label> <input class="form-control" type="text" placeholder="Readonly input here…" readonly="">
+							<label>품번</label> <input class="form-control" name="product" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<label>Disabled input</label> <input type="text" class="form-control" placeholder="Disabled input" disabled="">
+							<label>수주량</label> <input class="form-control" name="amount" type="text" readonly>
+						</div>
+						<!-- 자동입력내역 -->
+						<div class="form-group">
+							<label>업체명</label> <input class="form-control" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<div class="row">
-								<div class="col-md-6 col-sm-12">
-									<label class="weight-600">Custom Checkbox</label>
-									<div class="custom-control custom-checkbox mb-5">
-										<input type="checkbox" class="custom-control-input" id="customCheck1-1"> <label class="custom-control-label" for="customCheck1-1">Check this custom checkbox</label>
-									</div>
-									<div class="custom-control custom-checkbox mb-5">
-										<input type="checkbox" class="custom-control-input" id="customCheck2-1"> <label class="custom-control-label" for="customCheck2-1">Check this custom checkbox</label>
-									</div>
-									<div class="custom-control custom-checkbox mb-5">
-										<input type="checkbox" class="custom-control-input" id="customCheck3-1"> <label class="custom-control-label" for="customCheck3-1">Check this custom checkbox</label>
-									</div>
-									<div class="custom-control custom-checkbox mb-5">
-										<input type="checkbox" class="custom-control-input" id="customCheck4-1"> <label class="custom-control-label" for="customCheck4-1">Check this custom checkbox</label>
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-12">
-									<label class="weight-600">Custom Radio</label>
-									<div class="custom-control custom-radio mb-5">
-										<input type="radio" id="customRadio4" name="customRadio" class="custom-control-input"> <label class="custom-control-label" for="customRadio4">Toggle this custom radio</label>
-									</div>
-									<div class="custom-control custom-radio mb-5">
-										<input type="radio" id="customRadio5" name="customRadio" class="custom-control-input"> <label class="custom-control-label" for="customRadio5">Or toggle this other custom radio</label>
-									</div>
-									<div class="custom-control custom-radio mb-5">
-										<input type="radio" id="customRadio6" name="customRadio" class="custom-control-input"> <label class="custom-control-label" for="customRadio6">Or toggle this other custom radio</label>
-									</div>
-								</div>
-							</div>
+							<label>담당자명</label> <input class="form-control" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<label>Disabled select menu</label> <select class="form-control" disabled="">
-								<option>Disabled select</option>
-							</select>
+							<label>품명</label> <input class="form-control" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<label>input plaintext</label> <input type="text" readonly="" class="form-control-plaintext" value="email@example.com">
+							<label>단위</label> <input class="form-control" name ="unit" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<label>Textarea</label>
-							<textarea class="form-control"></textarea>
+							<label>재고량</label> <input class="form-control" name ="stock" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<label>Help text</label> <input type="text" class="form-control"> <small class="form-text text-muted"> Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji. </small>
+							<label>과부족량</label> <input class="form-control" type="text" readonly>
+						</div>
+						<div class="form-group">
+							<label>단가</label> <input class="form-control" name ="currency" type="text" readonly>
 						</div>
 
-						<!-- examples end -->
-					</div>
-				</div>
-				<!-- 입력 구간 -->
 
 				<!-- 버튼 -->
 				<div class="row">
@@ -101,9 +77,9 @@
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-						<button type="submit" class="btn btn-success">
-							<b>등록</b>
-						</button>
+						<input type="button" class="btn btn-success" onclick="finished()" value="등록">
+					</div>
+				</div>
 					</div>
 				</div>
 				<!-- 버튼 -->
