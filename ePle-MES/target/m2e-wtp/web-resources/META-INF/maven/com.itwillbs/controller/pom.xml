@@ -155,12 +155,12 @@
 			<artifactId>HikariCP</artifactId>
 			<version>5.0.1</version>
 		</dependency>
-		<!-- https://projectlombok.org/ -->
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.30</version>
-			<scope>provided</scope>
+   		 <groupId>org.projectlombok</groupId>
+   		 <artifactId>lombok</artifactId>
+   		 <version>1.18.30</version>
+   		 <scope>provided</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1 -->
 		<dependency>

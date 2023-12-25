@@ -28,6 +28,7 @@ import com.itwillbs.service.RequestService;
 public class RequestController {
 	
 	
+	
 	private static final Logger logger = LoggerFactory.getLogger(RequestController.class);
 	
 	@Inject
@@ -37,12 +38,17 @@ public class RequestController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void requestListGET(Model model, 
 							   HttpSession session, 
-							   @ModelAttribute("result") String result,
-							   Criteria cri) throws Exception { //5-1
+							   @ModelAttribute("result") String result
+							   ) throws Exception { //5-1
 		// 수주 목록 return
 		logger.debug("requestListGET -> DB에서 목록 가져오기");
 		
 		List<RequestVO> requestList = rService.requestList();
+		for(RequestVO vo : requestList) {
+			logger.debug(vo.getClientName());
+		}
+
+		
 		logger.debug("(^^)/(^^)/ "+requestList);
 		
 		model.addAttribute("List",requestList);
@@ -72,16 +78,37 @@ public class RequestController {
 		// 수주 추가 폼 5-4
 		
 	}
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String requestInsertPOST(RequestVO vo, RedirectAttributes rttr) throws Exception {
 		// 수주 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
+		
 		rService.dataInsertRequest(vo);
 		
 		rttr.addAttribute("result", "AddDone");
 		
 		return "redirect:/request/list";
 	}
+	
+	@RequestMapping(value = "searchClient", method=RequestMethod.GET)
+	public void searchClientGET(Model model, HttpSession session)throws Exception{
+		logger.debug("controller : 거래사 정보 찾기");
+		// 거래사 리스트 출력하기
+		List<RequestVO> clientList = rService.ClientList();
+		model.addAttribute("List", clientList);
+
+	}
+	
+	@RequestMapping(value = "searchClient", method=RequestMethod.POST)
+	public void searchClientPOST(RequestSearchVO vo)throws Exception{
+		logger.debug("controller : 거래사 정보 찾기");
+		
+		rService.findClient(vo);
+
+	}
+
+	
 	
 	// http://localhost:8088/request/update
 	@RequestMapping(value = "/update", method = RequestMethod.GET)

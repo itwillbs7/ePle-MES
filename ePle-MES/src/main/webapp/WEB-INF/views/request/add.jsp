@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <title>수주 등록</title>
 </head>
 <body>
@@ -15,16 +16,16 @@
 				<h1 class="text-center text-primary">수주 등록</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="" method="post">
+			<form action="" method="post" id="addForm">
 				<!-- 비입력 구간 -->
-				<input class="form-control" type="hidden" placeholder="수주번호" name="code" id="code" value="" >
+				<input class="form-control" type="hidden" placeholder="수주번호" name="code" id="code" value="9783an" >
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						<div class="form-group">
 							<label>업체코드</label> 
-							<input class="form-control" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" name="client_code">
+							<input class="form-control" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" name="client_code" id="client_code" readonly>
 						</div>
 						<div class="form-group">
 							<label>수주일자</label> 
@@ -45,25 +46,25 @@
 						</div>
 						<!-- 자동입력내역 -->
 						<div class="form-group">
-							<label>업체명</label> <input class="form-control" type="text" placeholder="Johnny Brown">
+							<label>업체명</label> <input class="form-control" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<label>담당자명</label> <input class="form-control" type="text" placeholder="Johnny Brown">
+							<label>담당자명</label> <input class="form-control" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<label>품명</label> <input class="form-control" type="text" placeholder="Johnny Brown">
+							<label>품명</label> <input class="form-control" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<label>단위</label> <input class="form-control" name ="unit" type="text" placeholder="Johnny Brown">
+							<label>단위</label> <input class="form-control" name ="unit" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<label>재고량</label> <input class="form-control" name ="stock" type="text" placeholder="Johnny Brown">
+							<label>재고량</label> <input class="form-control" name ="stock" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<label>과부족량</label> <input class="form-control" type="text" placeholder="Johnny Brown">
+							<label>과부족량</label> <input class="form-control" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<label>단가</label> <input class="form-control" name ="currency" type="text" placeholder="Johnny Brown">
+							<label>단가</label> <input class="form-control" name ="currency" type="text" readonly>
 						</div>
 
 
@@ -73,9 +74,7 @@
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-						<button type="submit" class="btn btn-success" onclick="window.close();">
-							<b>등록</b>
-						</button>
+						<input type="button" class="btn btn-success" onclick="finished()" value="등록">
 					</div>
 				</div>
 					</div>
@@ -88,36 +87,50 @@
 	<!-- 콘텐츠 끝> -->
 	<%@ include file="../include/footer.jsp"%>
 	
-	<script type="text/javascript">
+	 <script type="text/javascript">
 	$(document).ready(function(){
 		
-	$("#").click(function() {
-		// 가로, 세로 설정
-		openPage("", 500, 600);
-	});
-	
-	$("#").click(function() {
-		// 가로, 세로 설정
-		openPage("", 400, 700);
-	});
-	
-	
-		// 상품번호 생성
-	function createOrderNum() {
-		  const year = date.getFullYear();
-		  const month = String(date.getMonth() + 1).padStart(2, "0");
-		  const day = String(date.getDate()).padStart(2, "0");
+	// 업체찾기	
+$("#client_code").click(function() {
+	// 가로, 세로 설정
+	window.open("/request/searchClient", "Client Search", "width=500,height=600");
+});
 
-		return "code1234"; // 총 8자리 숫자
+	
+	//담당자 찾기
+$("#client_code").click(function() {
+	// 가로, 세로 설정
+	window.open("/request/searchClient", "Client Search", "width=500,height=600");
+});
+	
+	// 물품정보찾기
+$("#client_code").click(function() {
+	// 가로, 세로 설정
+	window.open("/request/searchClient", "Client Search", "width=500,height=600");
+});
+	
+// 계속 시도하기
+	function finished(){
+		var params = $("#addForm").serialize();
+		
+		$.ajax({
+			url:'/request/add',
+			type:'POST',
+			success:function(data){
+				alert('등록성공');
+				window.close();
+			},
+			error: function(){
+				alert('다시 입력하세요');
+				location.reload();
+			}
+			
+		});
+	
 	}
 	
-	// 상품번호(merchant_uid)
-	const code = createOrderNum();
-	document.getElementById('code').value = code;
 	
-
-	
-	});
-	</script>
+	});//끝
+	</script> 
 </body>
 </html>

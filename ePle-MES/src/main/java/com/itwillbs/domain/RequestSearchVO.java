@@ -14,6 +14,10 @@ public class RequestSearchVO {
 	private String date;
 	private String deadline;
 	
+	private String clientName;
+	private String managerName;
+	private String productName;
+	
 	private String statusInput; // 등록
 	private String statusProduction; // 생산진행
 	private String statusWait; // 출하대기

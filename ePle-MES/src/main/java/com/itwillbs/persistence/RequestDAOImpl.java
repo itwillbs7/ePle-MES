@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.RequestSearchVO;
 import com.itwillbs.domain.RequestVO;
 
 @Repository
@@ -28,9 +29,24 @@ public class RequestDAOImpl implements RequestDAO {
 
 	@Override
 	public void insertRequest(RequestVO vo) throws Exception {
-		logger.debug("insertRequest(RequestVO vo) : "+vo);
+		logger.debug("수주 등록하기 insertRequest(RequestVO vo) : "+vo);
 		
 		sqlSession.insert(NAMESPACE+".insertRequest", vo);
+	}
+	
+	
+
+	@Override
+	public List<RequestVO> getClientList() throws Exception {
+		logger.debug("DAOgetClientList() : 회사리스트 뽑기");
+		return sqlSession.selectList(NAMESPACE+".getClientList");
+	}
+
+	@Override
+	public RequestVO searchClient(RequestSearchVO vo) throws Exception {
+		logger.debug("DAO searchClient(RequestSearchVO vo) : "+vo);
+
+		return sqlSession.selectOne(NAMESPACE+".findCompany", vo);
 	}
 	
 	

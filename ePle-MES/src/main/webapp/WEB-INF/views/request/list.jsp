@@ -140,6 +140,7 @@
 					</div>
 				</div>
 				<!-- 아코디언 끝 -->
+				
 				<!-- Checkbox select Datatable start -->
 				<div class="card-box mb-30">
 					<div class="pd-20">
@@ -173,7 +174,7 @@
 										<th>과부족</th>
 										<th>수주상태</th>
 									</tr>
-								<c:forEach items="List">
+								<c:forEach items="${List}" var="List" >
 									<tr>
 										<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 										<td><div class="custom-control custom-checkbox mb-5">
@@ -181,16 +182,16 @@
 												<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
 											</div></td>
 										<!-- 상세 정보 이동! -->
-<%-- 										<th>${List.code }</th> --%>
-<%-- 										<th>${List.client_code }</th> --%>
-<%-- 										<th>${List.clientName }</th> --%>
-<%-- 										<th>${List.deadline }</th> --%>
-<%-- 										<th>${List.product }</th> --%>
-<%-- 										<th>${List.productName }</th> --%>
-<%-- 										<th>${List.amount }</th> --%>
-<%-- 										<th>${List.stock }</th> --%>
-<%-- 										<th>${List.stock - List.amount }</th> --%>
-<%-- 										<th>${List.status }</th> --%>
+										<th>${List.code }</th> 
+										<th>${List.client_code }</th> 
+										<th>${List.clientName }</th> 
+										<th>${List.deadline }</th> 
+										<th>${List.product }</th> 
+ 										<th>${List.productName }</th> 
+										<th>${List.amount }</th> 
+										<th>${List.stock }</th>
+ 										<th>${List.stock - List.amount }</th>
+										<th>${List.status }</th> 
 										<td style="">
 										<!-- 옵션 -->
 											<div class="dropdown">

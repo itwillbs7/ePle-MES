@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.itwillbs.domain.RequestSearchVO;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.persistence.RequestDAO;
 
@@ -30,6 +31,20 @@ public class RequestServiceImpl implements RequestService {
 		logger.debug("dataInsertRequest(RequestVO vo) : "+vo);
 		rdao.insertRequest(vo);
 		
+	}
+
+	@Override
+	public RequestVO findClient(RequestSearchVO vo) throws Exception {
+		logger.debug("Service : findClient(RequestSearchVO vo)= "+vo);
+
+		return rdao.searchClient(vo);
+	}
+
+	@Override
+	public List<RequestVO> ClientList() throws Exception {
+		logger.debug("Service : ClientList() 회사리스트 뽑기  ");
+
+		return rdao.getClientList();
 	}
 	
 	
