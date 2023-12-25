@@ -33,7 +33,7 @@
 		join STOCK s on r.product = s.code
 		join MAPD m on r.product = m.code
 		limit #{startPage},#{pageSize}
-		<if test="client_code != null"> where client_code = #{client_code} </if>
+		<if test="client_code != null"> where client_code like '%#{client_code}%' </if>
 		<if test="client_code != null"> where client_code = #{client_code} </if>
 		<if test="client_code != null"> where client_code = #{client_code} </if>
 		<if test="client_code != null"> where client_code = #{client_code} </if>
@@ -50,8 +50,8 @@
 	
 	<select id="findCompany" resultType="RequestVO">
 	select code, name from CLIENT 
-			<if test="client_code != null"> where client_code = #{client_code} </if>
-			<if test="clientName != null"> where name = #{clientName} </if>
+			<if test="client_code != null"> where client_code like concat('%',#{client_code},'%') </if>
+			<if test="clientName != null"> where name like concat('%',#{clientName},'%') </if>
 	</select>
 
 	<!-- 수주정보 등록하기 -->

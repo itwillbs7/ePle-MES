@@ -34,7 +34,7 @@ public class RequestServiceImpl implements RequestService {
 	}
 
 	@Override
-	public RequestVO findClient(RequestSearchVO vo) throws Exception {
+	public List<RequestVO> findClient(RequestSearchVO vo) throws Exception {
 		logger.debug("Service : findClient(RequestSearchVO vo)= "+vo);
 
 		return rdao.searchClient(vo);

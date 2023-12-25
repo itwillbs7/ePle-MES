@@ -101,10 +101,11 @@ public class RequestController {
 	}
 	
 	@RequestMapping(value = "searchClient", method=RequestMethod.POST)
-	public void searchClientPOST(RequestSearchVO vo)throws Exception{
+	public void searchClientPOST(@ModelAttribute RequestSearchVO vo, Model model, HttpSession session)throws Exception{
 		logger.debug("controller : 거래사 정보 찾기");
 		
-		rService.findClient(vo);
+		List<RequestVO> clientList = rService.findClient(vo);
+		model.addAttribute("List", clientList);
 
 	}
 

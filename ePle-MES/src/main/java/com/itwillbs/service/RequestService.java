@@ -11,7 +11,7 @@ public interface RequestService {
 	 
 	 public void dataInsertRequest(RequestVO vo) throws Exception;
 	 
-	 public RequestVO findClient(RequestSearchVO vo)throws Exception;
+	 public List<RequestVO> findClient(RequestSearchVO vo)throws Exception;
 
 	public List<RequestVO> ClientList() throws Exception;
 }

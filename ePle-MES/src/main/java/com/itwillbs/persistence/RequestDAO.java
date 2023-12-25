@@ -13,5 +13,5 @@ public interface RequestDAO {
 	
 	public void insertRequest(RequestVO vo) throws Exception;
 	
-	public RequestVO searchClient(RequestSearchVO vo) throws Exception;
+	public List<RequestVO> searchClient(RequestSearchVO vo) throws Exception;
 }

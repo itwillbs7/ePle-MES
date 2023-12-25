@@ -3,8 +3,6 @@
 	
 <!-- 헤드, css 등, title 제외 -->
 
-<!-- 혹시모르니 넣어보는 jquery -->
-    <script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <!-- Basic Page Info -->
 <meta charset="utf-8" />
 

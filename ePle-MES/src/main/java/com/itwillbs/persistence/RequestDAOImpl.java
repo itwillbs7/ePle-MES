@@ -43,10 +43,10 @@ public class RequestDAOImpl implements RequestDAO {
 	}
 
 	@Override
-	public RequestVO searchClient(RequestSearchVO vo) throws Exception {
+	public List<RequestVO> searchClient(RequestSearchVO vo) throws Exception {
 		logger.debug("DAO searchClient(RequestSearchVO vo) : "+vo);
 
-		return sqlSession.selectOne(NAMESPACE+".findCompany", vo);
+		return sqlSession.selectList(NAMESPACE+".findCompany", vo);
 	}
 	
 	
