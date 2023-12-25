@@ -34,6 +34,16 @@
 
 	// ex ) /facility/getAjax
 	var ajaxLink = contextPath.substr(0, contextPath.length - 4) + "getAjax";
+	
+	// 받은 input 타입이 null인지 체크
+	function retIsEmpty(value){
+        if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){   
+          return true;
+        }else{
+          return false;
+        } 
+      }
+	
 	function buttonCategory(a) {
 		var buttonText = document.getElementById("searchCategoryButton");
 		var category = document.getElementById("searchCategory");
@@ -59,6 +69,8 @@
 		var rightDate = new Date();
 		var leftDate = new Date(rightDate.setMonth(rightDate.getMonth() - 1));
 		rightDate = new Date();
+		// 폼이 비어있는지 체크, 비어있을 때 날짜를 설정할 수 있도록 함!
+		
 		if ($("#dateLeft") != null && $("#dateRight") != null) {
 			if ($("#dateLeft").attr("val") == null
 					&& $("#dateRight").attr("val") == null) {
@@ -69,7 +81,7 @@
 						rightDate.toISOString().substr(0, 11));
 			} else if ($("#dataLeft").attr("val") == null) {
 				// 000 between dataRight
-
+				
 			} else if ($("#dataRight").attr("val") == null) {
 				// dataLeft between 000
 				$("#dataRight").attr("val",
@@ -79,9 +91,24 @@
 		var option = {
 			type : 'post', // post 방식으로 전송
 			url : ajaxLink,// 링크
-			datatype : "html", // json 파일 형식으로 값을 담아온다.
+			datatype : "json", // json 파일 형식으로 값을 담아온다.
 			success : function(data) { // 파일 주고받기가 성공했을 경우. data 변수 안에 값을 담아온다.
-				$('.data').html(data); // 영역 안에 data안에 담긴 html 코드를 넣어준다. 
+				switch (i) {
+				case 1:
+					// PDF
+					alert("PDF 저장!");
+					break;
+				case 2:
+					// CSV
+					alert("CSV 저장!");
+					break;
+				case 3:
+					// 인쇄
+					alert("인쇄!");
+					break;
+				}
+			}, error : function(){
+				alert("데이터 받기 실패!");
 			}
 		}
 		// 검색 폼을 ajax 링크로 변경하고 받음
@@ -95,29 +122,13 @@
 		
 		$('#accordion-search').attr("action", contextPath);
 		$('#accordion-search').attr("method", "GET");
-		switch (i) {
-		case 1:
-			// PDF
-
-			break;
-		case 2:
-			// CSV
-
-			break;
-		case 3:
-			// 인쇄
-
-			break;
-		}
 	}
 
 	// 페이지 이동, 상세 검색 정보 유지
 	function movePage(i) {
 		var isEmpty = true;
 		$('#accordion-search').find('input').each(function() {
-			if ($(this).val() != null) {
-				isEmpty = false;
-			}
+			if(!retIsEmpty($(this).val())) isEmpty = false;
 		});
 		alert(link);
 		if (isEmpty) {
@@ -132,9 +143,7 @@
 	function changePageSize(i) {
 		var isEmpty = true;
 		$('#accordion-search').find('input').each(function() {
-			if ($(this).val() != null) {
-				isEmpty = false;
-			}
+			if(retIsEmpty($(this).val())) isEmpty = false;
 		});
 		if (isEmpty) {
 			location.href = contextPath + "?page=1&pageSize=" + i;
