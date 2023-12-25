@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.service.WarehouseService;
 
@@ -29,78 +31,62 @@ public class WarehouseController {
 	@Inject
 	private WarehouseService wService;
 
-	// 4-39 창고 리스트 (GET)
-	// http://localhost:8088/warehouse/list 
+	
+	
+	// 4-39 창고 메인 (GET)  http://localhost:8088/warehouse/list 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void warehouseListGET(Model model, HttpSession session, 
-									@ModelAttribute("result") String result) throws Exception { 
-		// 창고 목록 return
+	public String warehouseListGET(Model model,
+								   @ModelAttribute("result") String result,
+								   HttpSession session,
+								   Criteria cri) throws Exception { 
+
 		logger.debug("warehouseListGET -> DB에서 목록 가져오기");
 		
 		// 서비스 - 디비에 저장된 글을 가져오기
-		List<WarehouseVO> warehouseList = wService.warehouseList();
-		logger.debug("♬ ♪ ^ㅁ^)/ "+ warehouseList);
+		List<WarehouseVO> warehouseList = wService.warehouseList(cri);
+		logger.debug("♬ ♪ ♬ ♪ ^ㅁ^) "+ warehouseList);
 		
-		// 데이터를 연결된 뷰페이지로 전달(Model)
-		model.addAttribute("List", warehouseList);
-	}
-	
-	
-	
-	
-	// http://localhost:8088/request/info
-	@RequestMapping(value = "/info", method = RequestMethod.GET)
-	public void requestInfo() throws Exception {// 수주개별정보 5-2
-		logger.debug("requestInfo -> DB에서 수주번호가 일치하는 데이터 열 가져오기");
-	}
-	
-	// http://localhost:8088/request/search
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public void searchRequestGET() throws Exception { // 수주검색 5-3
-		logger.debug("searchRequestGET() -> 정보 받아서 DB에 조회하기");
-	}
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(wService.totalWarehouseCount());
 
-	// http://localhost:8088/request/add
+		logger.debug(" 확인 :"+pageVO);
+		model.addAttribute("pageVO", pageVO);
+		// 데이터를 연결된 뷰페이지로 전달(Model)
+		model.addAttribute("warehouseList", warehouseList);
+
+		return "/warehouse/list";
+	}
+	
+	
+
+	// 4-41 창고 등록 (GET)  http://localhost:8088/warehouse/add
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public void requestInsertGET() throws Exception { 
-		logger.debug("requestInsertGET() -> 입력폼 팝업");
-		// 수주 추가 폼 5-4
+	public void warehouseInsertGET() throws Exception { 
+		logger.debug("/warehouse/add -> warehouseInsertGET() 호출 ");
+		logger.debug("/warehouse/add.jsp 뷰페이지로 이동");
 		
 	}
+	// 		창고 등록 (POST)
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String requestInsertPOST(WarehouseVO vo, RedirectAttributes rttr) throws Exception {
-		// 수주 추가 액션
-		logger.debug("(^^)/insert 예정 정보 "+vo);
-		wService.dataInsertWarehouse(vo);
+	public String warehouseInsertPOST(WarehouseVO vo, RedirectAttributes rttr) throws Exception {
+
+		logger.debug("폼submit -> warehouseInsertPOST() 호출 ");
+		logger.debug(" vo : " + vo);
+		// 서비스 - DB에 글쓰기(insert) 동작 호출
+		wService.InsertWarehouse(vo);	
+		logger.debug(" 창고 등록 완료! ");
 		
-		rttr.addAttribute("result", "test");
+		rttr.addFlashAttribute("result", "CREATEOK");
 		
-		return "redirect:/request/list";
+		logger.debug("/warehouse/list 이동");
+		return "redirect:/warehouse/list";
 	}
 	
-	// http://localhost:8088/request/update
-	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public void requestUpdateGET() throws Exception{
-		// 수주 수정 폼5-5
-		
-	}
+
+
 	
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public void requestUpdatePOST() throws Exception{
-		// 수주 수정 액션
-		
-	}
 	
-	// http://localhost:8088/request/delete
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public void requestDeleteGET() throws Exception{
-		// 수주 삭제 폼5-6
-		
-	}
 	
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public void requestDeletePOST() throws Exception{
-		// 수주 삭제 액션
-		
-	}
+	
 }

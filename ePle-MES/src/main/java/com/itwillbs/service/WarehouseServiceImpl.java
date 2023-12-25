@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.persistence.WarehouseDAO;
 
@@ -20,14 +21,23 @@ public class WarehouseServiceImpl implements WarehouseService {
 	private WarehouseDAO wdao;
 
 	@Override
-	public List<WarehouseVO> warehouseList() throws Exception {
-		logger.debug("warehouseList()");
-		return wdao.getWarehouseListAll();
+	public List<WarehouseVO> warehouseList(Criteria cri) throws Exception {
+		logger.debug("warehouseList(Criteria cri)");
+		return wdao.getWarehouseListAll(cri);
 	}
 
 	@Override
-	public void dataInsertWarehouse(WarehouseVO vo) throws Exception {
-		logger.debug("dataInsertWarehouse(WarehouseVO vo) : "+vo);
+	public int totalWarehouseCount() throws Exception {
+		logger.debug(" S : totalBoardCount()  ");
+		return wdao.getWarehouseCount();
+	}
+	
+	
+	
+	
+	@Override
+	public void InsertWarehouse(WarehouseVO vo) throws Exception {
+		logger.debug("InsertWarehouse(WarehouseVO vo) : "+vo);
 		wdao.insertWarehouse(vo);
 		
 	}

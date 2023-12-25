@@ -62,7 +62,7 @@
 					<ul class="submenu">
 						<li><a href="index.html">Dashboard style 1</a></li>
 						<li><a href="index2.html">Dashboard style 2</a></li>
-						<li><a href="/warehouse/list">창고 관리</a></li>
+						<li><a href="/warehouse/list">창고 목록</a></li>
 					</ul></li>
 
 				<!-- 드롭다운 -->

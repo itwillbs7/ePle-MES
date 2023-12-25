@@ -18,10 +18,18 @@
 	</resultMap>
 	
 	
-  <!-- 모든 글 조회 -->
-  <select id="getWarehouseList" resultType="WarehouseVO">
+  <!-- 모든 글 조회(page) -->
+  <select id="getWarehouseList" resultType="WarehouseVO" resultMap="warehouse">
   	select * from WAREHOUSE
+  	limit #{startPage},#{pageSize} 	
   </select>
   
-  
+  <!-- 개수 계산 -->
+  <select id="countWarehouse" resultType="int">
+	<![CDATA[	
+	SELECT count(*) FROM WAREHOUSE
+	]]>
+  </select>
+
+		
   </mapper>

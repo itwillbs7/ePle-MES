@@ -4,7 +4,7 @@
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
-<title>창고 관리</title>
+<title>창고 목록</title>
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -15,13 +15,13 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>창고 관리</h1>
+				<h1>창고 목록</h1>
 			</div>
 			<div class="min-height-200px">
-				<ul class="nav nav-pills">
+				<!-- <ul class="nav nav-pills">
 					<li class="nav-item"><a class="nav-link text-blue active" href="/warehouse/list">보전 목록</a></li>
 					<li class="nav-item"><a class="nav-link text-blue" href="/warehouse/resultList">보전 결과</a></li>
-				</ul>
+				</ul> -->
 				<br>
 				<div class="alert alert-success alert-dismissible fade show" role="alert">
 					<strong>창고 등록</strong>이 완료되었습니다!
@@ -43,7 +43,7 @@
 				</div>
 				
 				
-				<!-- 아코디언 시작 -->
+				<!----- 아코디언 시작 ----->
 				<div class="faq-wrap">
 					<div id="accordion">
 						<div class="card">
@@ -172,7 +172,9 @@
 						</div>
 					</div>
 				</div>
-				<!-- 아코디언 끝 -->
+				<!----- 아코디언 끝 ----->
+				
+				
 				<!-- Checkbox select Datatable start -->
 				<div class="card-box mb-30">
 					<div class="pd-20">
@@ -194,33 +196,44 @@
 								<table class="table table-striped">
 									<tr>
 										<td style="width: 100px;">
+										<!--- 창고코드 / 주소지 / 창고유형(원자재.완제품) / 창고명 / 담당자 / 연락처 / 사용여부 --->
 											<div class="custom-control custom-checkbox mb-5">
 												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 											</div>
 										</td>
-										<th>#</th>
-										<th>제목</th>
-										<th>컬럼2</th>
-										<th>컬럼3</th>
-										<th>컬럼4</th>
-										<th>컬럼5</th>
+										<th>창고코드</th>
+										<th>주소지</th>
+										<th>구분</th>
+										<th>창고명</th>
+										<th>담당자</th>
+										<th>연락처</th>
+										<th>사용여부</th>
 										<th>옵션</th>
 									</tr>
-									<tr>
-										<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
-										<td><div class="custom-control custom-checkbox mb-5">
-												<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-												<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
-											</div></td>
-										<th>1</th>
-										<!-- 상세 정보 이동! -->
-										<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
-										<th>ㅁ</th>
-										<th>ㅁ</th>
-										<th>ㅁ</th>
-										<th>ㅁ</th>
-										<td style="">
-										<!-- 옵션 -->
+									
+									<c:forEach items="${warehouseList }" var="vo">
+										<tr>
+											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+											<td>
+												<div class="custom-control custom-checkbox mb-5">
+													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+													<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1">
+													<label class="custom-control-label" for="checkTable1"></label>
+												</div>
+											</td>
+											<th>${vo.code }</th>
+											<!-- 상세 정보 이동! -->
+											<th>${vo.location }</th>
+											<th>${vo.group_id }</th>
+											<th>${vo.group_name }</th>
+											<th>${vo.manager }</th>
+											<th>${vo.mng_phone }</th>
+											<th>${vo.active }</th>
+											<td style="">
+										
+										
+										
+										<!----- 옵션 ----->
 											<div class="dropdown">
 												<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
 												</a>
@@ -236,22 +249,47 @@
 											</div>
 										</td>
 									</tr>
+									</c:forEach>
 								</table>
 							</form>
-							<div class="row">
+							
+							
+				<!-- 			<div class="row">
 								<div class="col-sm-12 col-md-5">
-									<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(전체 수) 중 (검색 결과) 개</div>
+									<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
+									&nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
 								</div>
-							</div>
+							</div> -->
+
+
+							<!----- 페이징 시작 ----->
 							<div class="btn-toolbar justify-content-center mb-15">
 								<div class="btn-group">
-									<a href="#" class="btn btn-outline-primary prev"><i class="fa fa-angle-double-left"></i></a> <a href="#" class="btn btn-outline-primary">1</a> <a href="#" class="btn btn-outline-primary">2</a> <span class="btn btn-primary current">3</span> <a href="#" class="btn btn-outline-primary">4</a> <a href="#" class="btn btn-outline-primary">5</a> <a href="#" class="btn btn-outline-primary next"><i class="fa fa-angle-double-right"></i></a>
+									<c:if test="${pageVO.prev}">
+										<a href="/warehouse/list?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> 
+											<i class="fa fa-angle-double-left"></i>
+										</a>
+									</c:if>
+									<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i" step="1">
+										<a href="/warehouse/list?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}">
+											${i} </a>
+									</c:forEach>
+									<c:if test="${pageVO.next}">
+										<a href="/warehouse/list?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> 
+											<i class="fa fa-angle-double-right"></i>
+										</a>
+									</c:if>
 								</div>
 							</div>
+							<!----- 페이징 끝 ----->
+
+
+
 						</div>
 					</div>
 				</div>
-				<!-- Checkbox select Datatable End -->
+				
+				
 				<!-- 푸터 -->
 				<div class="footer-wrap pd-20 mb-20 card-box">
 					ePle MES made by <a href="https://github.com/dropways" target="_blank">아이티윌 부산 2023년 7월 프로젝트 2차 1조</a>
