@@ -32,9 +32,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 		return wdao.getWarehouseCount();
 	}
 	
-	
-	
-	
 	@Override
 	public void InsertWarehouse(WarehouseVO vo) throws Exception {
 		logger.debug("InsertWarehouse(WarehouseVO vo) : "+vo);

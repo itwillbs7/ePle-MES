@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<title>수주 등록</title>
+<title>창고 등록</title>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -12,60 +12,46 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">수주 등록</h1>
+				<h1 class="text-center text-primary">창고 등록</h1>
 			</div>
 			<!-- 폼 -->
 			<form action="" method="post">
 				<!-- 비입력 구간 -->
-				<input class="form-control" type="hidden" placeholder="수주번호" name="code" id="code" value="" >
-				<!-- 입력 구간 -->
+				<input class="form-control" type="hidden" placeholder="창고코드" name="code" id="code" value="" >
+				<!-- 입력 구간   -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
-						<!-- 필수입력내역 -->
-						<div class="form-group">
-							<label>업체코드</label> 
-							<input class="form-control" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" name="client_code">
-						</div>
-						<div class="form-group">
-							<label>수주일자</label> 
-							<input class="form-control date-picker" name="date" type="text" placeholder="클릭 시 달력이 뜹니다" id="date-picker">
-						</div>
-						<div class="form-group">
-							<label>납품일자</label> 
-							<input class="form-control date-picker" name="deadline" type="text" placeholder="클릭 시 달력이 뜹니다">
-						</div>
-						<div class="form-group">
-							<label>담당자코드</label> <input class="form-control" name="manager" type="text" placeholder="클릭 시 팝업검색창이 뜹니다">
-						</div>
-						<div class="form-group">
-							<label>품번</label> <input class="form-control" name="product" type="text" placeholder="클릭 시 팝업검색창이 뜹니다">
-						</div>
-						<div class="form-group">
-							<label>수주량</label> <input class="form-control" name="amount" type="text" placeholder="필수입력">
-						</div>
-						<!-- 자동입력내역 -->
-						<div class="form-group">
-							<label>업체명</label> <input class="form-control" type="text" placeholder="Johnny Brown">
-						</div>
-						<div class="form-group">
-							<label>담당자명</label> <input class="form-control" type="text" placeholder="Johnny Brown">
-						</div>
-						<div class="form-group">
-							<label>품명</label> <input class="form-control" type="text" placeholder="Johnny Brown">
-						</div>
-						<div class="form-group">
-							<label>단위</label> <input class="form-control" name ="unit" type="text" placeholder="Johnny Brown">
-						</div>
-						<div class="form-group">
-							<label>재고량</label> <input class="form-control" name ="stock" type="text" placeholder="Johnny Brown">
-						</div>
-						<div class="form-group">
-							<label>과부족량</label> <input class="form-control" type="text" placeholder="Johnny Brown">
-						</div>
-						<div class="form-group">
-							<label>단가</label> <input class="form-control" name ="currency" type="text" placeholder="Johnny Brown">
-						</div>
 
+						<div class="form-group">
+							<label>주소지</label> 
+							<input class="form-control" name="location" type="text" placeholder="" required>
+						</div>
+						<div class="form-group">
+							<label>창고유형</label> 
+							<select class="form-control" name="group_id" required>
+							<option value="" disabled selected></option>
+							<option value="" disabled selected></option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>창고명</label> 
+							<input class="form-control" name ="group_name" type="text" placeholder="" required>
+						</div>
+						<div class="form-group">
+							<label>담당자</label> 
+							<input class="form-control" name="manager" type="text" placeholder="" required>
+						</div>
+						<div class="form-group">
+							<label>연락처</label> 
+							<input class="form-control" name="mng_phone" type="text" placeholder="" required>
+						</div>
+						<div class="form-group">
+							<label>사용여부</label> 
+							<select class="form-control" name="active" required>
+							<option value="" disabled selected></option>
+							<option value="" disabled selected></option>
+							</select>
+						</div>
 
 				<!-- 버튼 -->
 				<div class="row">

@@ -67,7 +67,7 @@ public class WarehouseController {
 		logger.debug("/warehouse/add.jsp 뷰페이지로 이동");
 		
 	}
-	// 		창고 등록 (POST)
+	// 	+	창고 등록 (POST)
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String warehouseInsertPOST(WarehouseVO vo, RedirectAttributes rttr) throws Exception {
 
@@ -84,7 +84,19 @@ public class WarehouseController {
 	}
 	
 
+	
+	// 창고 삭제
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public String warehouseDeletePOST(@ModelAttribute("code") String bno, RedirectAttributes rttr) throws Exception {
+		logger.debug("warehouseDeletePOST()");
 
+		// 서비스 - 글 삭제 동작
+//		wService.DeleteWarehouse(code);
+		// " 창고 삭제 완료! " 메세지 출력
+		rttr.addFlashAttribute("result", "removeOK");
+
+		return "redirect:/warehouse/list";
+	}
 	
 	
 	

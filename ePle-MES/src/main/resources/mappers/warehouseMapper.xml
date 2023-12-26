@@ -30,6 +30,12 @@
 	SELECT count(*) FROM WAREHOUSE
 	]]>
   </select>
+  
+  <!-- 창고 등록 -->
+  <insert id="insertWarehouse">
+  	insert into WAREHOUSE (code,location,group_id,group_name,manager,mng_phone,active) 
+  	values(#{code},#{location},#{group_id},#{group_name},#{manager},#{mng_phone},#{active})
+  </insert>
 
 		
   </mapper>

@@ -37,8 +37,6 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 		return sqlSession.selectOne(NAMESPACE + ".countWarehouse");
 	}
 	
-	
-	
 	@Override
 	public void insertWarehouse(WarehouseVO vo) throws Exception {
 		logger.debug("insertWarehouse(WarehouseVO vo) : "+vo);
