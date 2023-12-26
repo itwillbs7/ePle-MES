@@ -68,11 +68,9 @@
 														<div class="form-group">
 															<label>품번</label>
 															<select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="product">
-																<optgroup label="더미데이터 그룹1">
 																<c:forEach items="${productList }" var="product">
 																	<option value="${product }">${product }</option>
 																</c:forEach>
-																</optgroup>
 															</select>
 														</div>
 													</div>
@@ -80,11 +78,9 @@
 														<div class="form-group">
 															<label>라인코드</label>
 															<select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="line_code">
-																<optgroup label="더미데이터 그룹1">
-																	<c:forEach items="${line_codeList }" var="line_code">
-																		<option value="${line_code }">${line_code }</option>
-																	</c:forEach>
-																</optgroup>
+																<c:forEach items="${line_codeList }" var="line_code">
+																	<option value="${line_code }">${line_code }</option>
+																</c:forEach>
 															</select>
 														</div>
 													</div>
@@ -108,7 +104,7 @@
 											</div>
 										</div>
 										<div class="btn-group pull-right" style="margin-bottom: 10px">
-											<button class="btn btn-primary" id="search" onclick="ajaxSearch()">
+											<button class="btn btn-primary" type="button" onclick="ajaxSearch()">
 												<b>검색</b>
 											</button>
 											<button type="reset" class="btn btn-secondary" id="reset">
@@ -160,7 +156,7 @@
 										<th>최종수정일</th>
 									</tr>
 									<c:forEach items="${instructionVOList }" var="vo">
-										<tr>
+										<tr class="instructionVO">
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<td>
 												<div class="custom-control custom-checkbox mb-5">
@@ -274,19 +270,19 @@
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
-				openPage("/maintenance/add", 500, 600);
+				openPage("/production/instructionAdd", 500, 600);
 			});
 
 			// 수정
 			$("#update").click(function() {
 				// 가로, 세로 설정
-				openPage("/maintenance/update", 400, 700);
+				openPage("/production/instructionUpdate", 400, 700);
 			});
 
 			// 삭제
 			$("#delete").click(function() {
 				// 가로, 세로 설정
-				openPage("/maintenance/delete", 400, 700);
+				openPage("/production/instructionDelete", 400, 700);
 			});
 		});
 	</script>
@@ -294,17 +290,55 @@
 	<script type="text/javascript">
 		function ajaxSearch() {
 			var queryString = $('#accordion-search').serialize();
-			alert(queryString);
 			$.ajax({
 				type : 'post',
 				url : '/production/ajaxSearch',
 				data : queryString,
-				dataType : 'json',
-				error: function(xhr, status, error){
-					alert(error);
+				error: function(){
+					alert("error");
 				},
-				success : function(json){
-					alert(json);
+				success : function(data){
+					$('.instructionVO').remove();
+					var html = "";
+					$(data).each(function(){
+						html += "<tr class='instructionVO'>";
+						html += "<td>";
+						html += "<div class='custom-control custom-checkbox mb-5'>";
+						html += "<input type='checkbox' class='custom-control-input' id='checkTable1' name='tableCheck' value='1'>";
+						html += "<label class='custom-control-label' for='checkTable1'></label>";
+						html += "</div>";
+						html += "</td>";
+						html += "<th>" + this.index +"</th>";
+						html += "<th><a href='#'><b class='text-blue' id='tableTitle1'>" + this.product +"</b></a></th>";
+						html += "<th>" + this.amount +"</th>";
+						html += "<th>" + this.line_code +"</th>";
+						html += "<th>" + this.content +"</th>";
+						html += "<th>" + this.request +"</th>";
+						html += "<th>" + this.reg_emp +"</th>";
+						html += "<th>" + this.reg_date +"</th>";
+						html += "<th>" + this.update_emp +"</th>";
+						html += "<th>" + this.update_date +"</th>";
+						html += "<td style=''>";
+						html += "<div class='dropdown'>";
+						html += "<a class='btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle' href='#' role='button' data-toggle='dropdown'>";
+						html += "<i class='dw dw-more'></i>";
+						html += "</a>";
+						html += "<div class='dropdown-menu dropdown-menu-right dropdown-menu-icon-list'>";
+						html += "<a class='dropdown-item' href='#'>";
+						html += "<i class='dw dw-eye'></i> 상세 보기";
+						html += "</a>";
+						html += "<a class='dropdown-item' href='javascript:openPage('/maintenance/update?index=1', 400, 600)'>";
+						html += "<i class='dw dw-edit2'></i> 수정";
+						html += "</a>";
+						html += "<a class='dropdown-item' href='javascript:openPage('/maintenance/delete?index=1', 400, 600)'>";
+						html += "<i class='dw dw-delete-3'></i> 삭제";
+						html += "</a>";
+						html += "</div>";
+						html += "</div>";
+						html += "</td>";
+						html += "</tr>";
+					});
+					$("table").append(html);
 				}
 			});
 		}

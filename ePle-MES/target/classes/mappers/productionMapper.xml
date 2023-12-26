@@ -17,8 +17,32 @@
 	<select id="getRequest" resultType="String">
 		SELECT DISTINCT request FROM INSTRUCTION
 	</select>
-	<select id="ajaxSearch" resultType="com.production.domain.instructionVO">
-		SELECT * FROM INSTRUCTION WHERE product IN(#{product}) AND line_code IN(#{line_code}) AND request IN(#{request})
+	<select id="ajaxSearch" parameterType="hashmap" resultType="com.production.domain.instructionVO">
+		SELECT * FROM INSTRUCTION WHERE 1 = 1 
+		<if test="product != null">
+			AND product IN
+			<foreach collection="product" item="arr" open="(" close=")" separator=",">
+				#{arr}
+			</foreach>
+		</if>
+		<if test="line_code != null">
+			 AND line_code IN
+			<foreach collection="line_code" item="arr" open="(" close=")" separator=",">
+				#{arr}
+			</foreach>
+		</if>
+		<if test="request != null">
+			 AND request IN
+			<foreach collection="request" item="arr" open="(" close=")" separator=",">
+				#{arr}
+			</foreach>
+		</if>
+	</select>
+	<select id="getrequestList" resultType="String">
+		SELECT code FROM REQUEST WHERE status = '등록'
+	</select>
+	<select id="getLine_codeList" resultType="String">
+		SELECT code FROM REQUEST WHERE status = '등록'
 	</select>
 
 </mapper>

@@ -1,6 +1,8 @@
 package com.production.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -43,8 +45,32 @@ public class productionDAOImpl implements productionDAO {
 	}
 
 	@Override
-	public List<instructionVO> ajaxSearch(ajaxSearchVO vo) throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".ajaxSearch",vo);
+	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request) throws Exception {
+		Map<String,String[]>map = new HashMap<String,String[]>();
+		map.put("product", product);
+		map.put("line_code", line_code);
+		map.put("request", request);
+		return sqlSession.selectList(NAMESPACE + ".ajaxSearch",map);
+	}
+
+	@Override
+	public List<String> getRequestList() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getRequestList");
+	}
+
+	@Override
+	public List<String> getProductList() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getProductList");
+	}
+
+	@Override
+	public int getAmount() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getAmount");
+	}
+
+	@Override
+	public List<String> getLine_codeList() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getLine_codeList");
 	}
 
 }

@@ -42,8 +42,28 @@ public class productionServiceImpl implements productionService {
 	}
 
 	@Override
-	public List<instructionVO> ajaxSearch(ajaxSearchVO vo) throws Exception {
-		return pdDAO.ajaxSearch(vo);
+	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request) throws Exception {
+		return pdDAO.ajaxSearch(product,line_code,request);
+	}
+
+	@Override
+	public List<String> getRequestList() throws Exception {
+		return pdDAO.getRequestList();
+	}
+
+	@Override
+	public List<String> getProductList() throws Exception {
+		return pdDAO.getProductList();
+	}
+
+	@Override
+	public int getAmount() throws Exception {
+		return pdDAO.getAmount();
+	}
+
+	@Override
+	public List<String> getLine_codeList() throws Exception {
+		return pdDAO.getLine_codeList();
 	}
 
 }
