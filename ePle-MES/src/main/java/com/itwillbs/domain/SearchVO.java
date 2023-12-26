@@ -19,6 +19,8 @@ public class SearchVO {
 	// 기간
 	private String betweenDateLeft;
 	private String betweenDateRight;
+	
+	private String[] category;
 
 	public String getSearchCategory() {
 		return searchCategory;
@@ -76,11 +78,19 @@ public class SearchVO {
 		this.betweenDateRight = betweenDateRight;
 	}
 
+	public String[] getCategory() {
+		return category;
+	}
+
+	public void setCategory(String[] category) {
+		this.category = category;
+	}
+
 	@Override
 	public String toString() {
-		return "FacilitySearchVO [searchCategory=" + searchCategory + ", searchKeyword=" + searchKeyword
-				+ ", formCheck=" + Arrays.toString(formCheck) + ", formRadio=" + formRadio + ", date=" + date
-				+ ", betweenDateLeft=" + betweenDateLeft + ", betweenDateRight=" + betweenDateRight + ", toString()="
-				+ super.toString() + "]";
+		return "SearchVO [searchCategory=" + searchCategory + ", searchKeyword=" + searchKeyword + ", formCheck="
+				+ Arrays.toString(formCheck) + ", formRadio=" + formRadio + ", date=" + date + ", betweenDateLeft="
+				+ betweenDateLeft + ", betweenDateRight=" + betweenDateRight + ", category=" + Arrays.toString(category)
+				+ ", toString()=" + super.toString() + "]";
 	}
 }

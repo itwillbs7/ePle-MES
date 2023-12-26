@@ -125,6 +125,10 @@
 		)
 	</insert>
 	
+	<select id="findLastFacility">
+		
+	</select>
+	
 	<!-- 수정 -->
 	<update id="updateFacility">
 		UPDATE FAC_INFO
