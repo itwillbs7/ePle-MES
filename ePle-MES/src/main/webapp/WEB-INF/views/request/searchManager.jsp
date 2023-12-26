@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <title>수주 등록</title>
 </head>
 <body>
@@ -13,28 +14,28 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">수주업체 검색</h1>
+				<h1 class="text-center text-primary">사원 검색</h1>
 			</div>
 			<!-- 폼 -->
 			<div class="search_area">
-			<form method="post" id="searchClient" action="">
+			<form action="" method="post" id="searchManager">
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						<div class="form-group">
-							<label>업체코드</label> 
-							<input class="form-control" type="text" placeholder="업체코드를 입력하세요" name="client_code" id="client_code">
+							<label>사원코드</label> 
+							<input class="form-control" type="text" placeholder="업체코드를 입력하세요" name="manager" id="manager">
 						</div>
 						<div class="form-group">
-							<label>업체명</label> 
-							<input class="form-control" type="text" placeholder="업체이름을 입력하세요" name="clientName" id="clientName">
+							<label>사원명</label> 
+							<input class="form-control" type="text" placeholder="업체이름을 입력하세요" name="managerName" id="managerName">
 						</div>
 
 				<!-- 버튼 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-						<button type="button" class="btn btn-success" onclick="submitForm();" >
+						<button type="button" class="btn btn-success" >
 							<b>검색</b>
 						</button>
 					</div>
@@ -45,20 +46,18 @@
 			</form>
 			</div>
 			<!-- 폼 -->
-			
-			
 			<table class="table table-striped" id="tableId">
 			<thead>
 				<tr>
-					<th>업체코드</th>
-					<th>업체명</th>
+					<th>사원코드</th>
+					<th>사원명</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${List}" var="List">
-				<tr onclick="selectWork('${List.client_code }','${List.clientName }')">
-					<th >${List.client_code }</th>
-					<th >${List.clientName }</th>
+				<tr onclick="selectWork('${List.manager }','${List.managerName }')">
+					<th >${List.manager }</th>
+					<th >${List.managerName }</th>
 				</tr>
 				</c:forEach>
 			</tbody>
@@ -74,19 +73,19 @@
 		function submitForm(){
 			
 		$.ajax({
-		    url: '/request/searchClient',
+		    url: '/request/searchManager',
 		    type: 'POST',
 		    data: { 
-		        client_code: $('#client_code').val(),
-		        clientName: $('#clientName').val() 
+		    	manager: $('#manager').val(),
+		    	managerName: $('#managerName').val() 
 		    },
 		    success: function(data) {
 		    	// 서버로부터 받은 데이터를 사용하여 테이블 업데이트
 	            var table = '';
 	            $.each(data, function(index, item) {
-	                table += '<tr onclick="selectWork(\'' + item.client_code + '\',\'' + item.clientName + '\')">';
-	                table += '<th>' + item.client_code + '</th>';
-	                table += '<th>' + item.clientName + '</th>';
+	                table += '<tr onclick="selectWork(\'' + item.manager + '\',\'' + item.managerName + '\')">';
+	                table += '<th>' + item.manager + '</th>';
+	                table += '<th>' + item.managerName + '</th>';
 	                table += '</tr>';
 	            });
 	            // 기존 테이블 헤더를 유지하면서 테이블 바디 내용을 업데이트
@@ -99,8 +98,8 @@
 	//부모창으로 데이터 넘기기
     function selectWork(a,b){ // 부모창으로 값 넘기기
 		  
-    		opener.document.getElementById("client_code").value = a
-    		opener.document.getElementById("clientName").value = b
+    		opener.document.getElementById("manager").value = a
+    		opener.document.getElementById("managerName").value = b
     		self.close();
     	
 

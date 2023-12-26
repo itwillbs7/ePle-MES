@@ -45,16 +45,43 @@
 	
 	<!-- 회사찾기 -->
 	<select id="getClientList" resultType="RequestVO">
-			select code client_code, name clientName from CLIENT 
+			select code client_code, name clientName from CLIENT where active = 0;
 	</select>
 	
 	<select id="findCompany" resultType="RequestVO">
-	select code, name from CLIENT 
-			<if test="client_code != null"> where client_code like concat('%',#{client_code},'%') </if>
-			<if test="clientName != null"> where name like concat('%',#{clientName},'%') </if>
+	select code client_code, name clientName from CLIENT where active = 0 
+			<if test="client_code!= null"> AND code like concat('%',#{client_code},'%') </if>
+			<if test="clientName != null"> AND name like concat('%',#{clientName},'%') </if>
+	</select>
+	
+	<select id="getProductList" resultType="RequestVO">
+	select m.code product, m.name productName, m.unit, m.outprice currency, s.amount stock
+	from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0 
 	</select>
 
+	<select id="findProduct" resultType="RequestVO">
+	select m.code product, m.name prodcutName, m.unit, m.outprice currency, s.amount stock
+	from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0 
+		<if test="product != null">AND m.code like concat('%',#{product},'%')</if>
+		<if test="productName != null">AND m.name like concat('%',#{productName},'%')</if>
+	</select>
+	
+	<select id="getManagerList" resultType="RequestVO">
+	select code manager, name managerName 
+	from EMPLOYEES 
+	where dep_id = '영업부'
+	</select>
+	
+	<select id="findManager" resultType="RequestVO">
+	select code manager, name managerName 
+	from EMPOLOYEES 
+	where dep_id = '영업부'
+	<if test="manager != null"> AND code like concat('%',#{manager},'%')</if>
+	<if test="managerName != null">AND name like concat('%',#{managerName},'%')</if>	
+	</select>
 	<!-- 수주정보 등록하기 -->
+	
+	
 	<insert id="insertRequest">
 		insert into REQUEST 
 		values 

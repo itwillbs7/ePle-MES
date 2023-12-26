@@ -1,6 +1,8 @@
 package com.itwillbs.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -32,8 +34,13 @@ public class RequestDAOImpl implements RequestDAO {
 	@Override
 	public RequestVO getRequestDetail(String code) throws Exception {
 		logger.debug("DAO 수주정보 자세히보기 getRequestDetail(String code) "+code);
-
-		return sqlSession.selectOne(NAMESPACE+".getRequestInfo", code);
+		RequestVO vo = sqlSession.selectOne(NAMESPACE+".getRequestInfo", code);
+		
+		vo.setClientName(sqlSession.selectOne(NAMESPACE+".findCompany", vo.getClient_code()));
+		vo.setManagerName(sqlSession.selectOne(NAMESPACE+".findManager",vo.getManager()));
+		vo.setProductName(sqlSession.selectOne(NAMESPACE+".findProduct", vo.getProduct()));
+		
+		return vo;
 	}
 
 
@@ -45,7 +52,7 @@ public class RequestDAOImpl implements RequestDAO {
 		sqlSession.insert(NAMESPACE+".insertRequest", vo);
 	}
 	
-	
+	//----- add 용 검색 ----
 
 	@Override
 	public List<RequestVO> getClientList() throws Exception {
@@ -54,11 +61,59 @@ public class RequestDAOImpl implements RequestDAO {
 	}
 
 	@Override
-	public List<RequestVO> searchClient(RequestSearchVO vo) throws Exception {
-		logger.debug("DAO 회사검색하기 searchClient(RequestSearchVO vo) : "+vo);
+	public List<RequestVO> searchClient(String client_code, String clientName) throws Exception {
+		logger.debug("DAO 회사검색하기 searchClient(String client_code, String clientName) : "+client_code + clientName);
 
-		return sqlSession.selectList(NAMESPACE+".findCompany", vo);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("client_code", client_code);
+		paramMap.put("clientName", clientName);
+		
+		return sqlSession.selectList(NAMESPACE+".findCompany", paramMap);
 	}
+
+
+
+	@Override
+	public List<RequestVO> getProductList() throws Exception {
+		logger.debug("DAO 물품리스트 가져오기 getProductList()");
+		return sqlSession.selectList(NAMESPACE+".getProductList");
+	}
+
+
+
+	@Override
+	public List<RequestVO> searchProduct(RequestSearchVO vo) throws Exception {
+		logger.debug("DAO 품목검색하기 searchProduct(RequestSearchVO vo) : "+vo);
+		
+		return sqlSession.selectList(NAMESPACE+".findProduct", vo);
+
+	}
+
+
+
+	@Override
+	public List<RequestVO> getManagerList() throws Exception {
+		logger.debug("DAO 사원리스트 가져오기 getManagerList()");
+		return sqlSession.selectList(NAMESPACE+".getManagerList");
+	}
+
+
+
+	@Override
+	public List<RequestVO> searchManager(String manager, String managerName) throws Exception {
+		logger.debug("DAO 사원검색하기 searchManager(String manager, String managerName) : "+manager+managerName);
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("client_code", manager);
+		paramMap.put("clientName", managerName);
+		
+		return sqlSession.selectList(NAMESPACE+".findManager", paramMap);
+
+	}
+	//----- add 용 검색 ----
+
+	
+
 	
 	
 	

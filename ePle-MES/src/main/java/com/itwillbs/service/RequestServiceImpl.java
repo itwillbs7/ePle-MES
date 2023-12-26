@@ -32,12 +32,6 @@ public class RequestServiceImpl implements RequestService {
 		return rdao.getRequestDetail(code);
 	}
 	
-	
-	@Override
-	public String findClient(String client_code) throws Exception {
-		// 회사명 찾기
-		return null;
-	}
 
 	@Override
 	public void dataInsertRequest(RequestVO vo) throws Exception {
@@ -47,10 +41,10 @@ public class RequestServiceImpl implements RequestService {
 	}
 
 	@Override
-	public List<RequestVO> findClient(RequestSearchVO vo) throws Exception {
-		logger.debug("Service : findClient(RequestSearchVO vo) : "+vo);
+	public List<RequestVO> findClient(String client_code, String clientName) throws Exception {
+		logger.debug("Service : findClient(String client_code, String clientName) : "+client_code+clientName);
 
-		return rdao.searchClient(vo);
+		return rdao.searchClient(client_code,clientName);
 	}
 
 	@Override
@@ -58,6 +52,32 @@ public class RequestServiceImpl implements RequestService {
 		logger.debug("Service : ClientList() 회사리스트 뽑기  ");
 
 		return rdao.getClientList();
+	}
+
+	@Override
+	public List<RequestVO> ManagerList() throws Exception {
+		logger.debug("Service : ManagerList() 사원리스트 뽑기");
+		return rdao.getManagerList();
+	}
+
+	@Override
+	public List<RequestVO> findManager(String manager, String managerName) throws Exception {
+		logger.debug("Service : findManager(RequestSearchVO vo) : "+manager+managerName);
+
+		return rdao.searchManager(manager,managerName);
+	}
+
+	@Override
+	public List<RequestVO> ProductList() throws Exception {
+		logger.debug("Service : ProductList() 품목리스트 뽑기");
+		return rdao.getProductList();
+	}
+
+	@Override
+	public List<RequestVO> findProduct(RequestSearchVO vo) throws Exception {
+		logger.debug("Service : findProduct(RequestSearchVO vo) : "+vo);
+
+		return rdao.searchProduct(vo);
 	}
 
 	
