@@ -90,7 +90,7 @@
 															<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
 														</div>
 														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" checked value="true"> <label class="custom-control-label" for="formRadio2">활성화</label>
+															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" value="true"> <label class="custom-control-label" for="formRadio2">활성화</label>
 														</div>
 														<div class="custom-control custom-radio mb-5">
 															<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
@@ -282,7 +282,6 @@
 				<!-- 푸터 -->
 				<%@ include file="../include/github.jsp"%>
 				<%@ include file="../include/footer.jsp"%>
-				<%@ include file="../include/datatable.jsp"%>
 			</div>
 		</div>
 	</div>

@@ -21,11 +21,11 @@
 			postfix: '%'
 		});
 		$("input[name='demo2']").TouchSpin({
-			min: -1000000000,
+			min: 0,
 			max: 1000000000,
-			stepinterval: 50,
+			stepinterval: 1000,
 			maxboostedstep: 10000000,
-			prefix: '$'
+			prefix: '￦'
 		});
 		$("input[name='demo3_22']").TouchSpin({
 			initval: 40

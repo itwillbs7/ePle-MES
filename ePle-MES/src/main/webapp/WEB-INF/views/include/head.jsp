@@ -16,8 +16,13 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- CSS -->
+<!-- switchery css -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/src/plugins/switchery/switchery.min.css" />
+<!-- bootstrap-tagsinput css -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" />
+<!-- bootstrap-touchspin css -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.css" />
+
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/vendors/styles/core.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/vendors/styles/icon-font.min.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/src/plugins/datatables/css/dataTables.bootstrap4.min.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/src/plugins/datatables/css/responsive.bootstrap4.min.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/vendors/styles/style.css" />

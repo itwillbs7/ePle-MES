@@ -248,7 +248,6 @@
 				<!-- 푸터 -->
 				<%@ include file="../include/github.jsp"%>
 				<%@ include file="../include/footer.jsp"%>
-				<%@ include file="../include/datatable.jsp"%>
 			</div>
 		</div>
 	</div>

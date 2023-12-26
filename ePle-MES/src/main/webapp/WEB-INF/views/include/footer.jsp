@@ -1,15 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- 푸터, 스크립트 전용 -->
 <!-- js -->
+
+<!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<!-- switchery js -->
+<script src="${pageContext.request.contextPath}/resources/src/plugins/switchery/switchery.min.js"></script>
+<!-- bootstrap-tagsinput js -->
+<script src="${pageContext.request.contextPath}/resources/src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+<!-- bootstrap-touchspin js -->
+<script src="${pageContext.request.contextPath}/resources/src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendors/scripts/advanced-components.js"></script>
+
 <script src="${pageContext.request.contextPath}/resources/vendors/scripts/core.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendors/scripts/script.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendors/scripts/process.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendors/scripts/layout-settings.js"></script>
+
 <script src="${pageContext.request.contextPath}/resources/src/plugins/apexcharts/apexcharts.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/src/plugins/datatables/js/jquery.dataTables.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendors/scripts/dashboard.js"></script>
 <!-- Google Tag Manager (noscript) -->
 <noscript>
@@ -20,22 +29,18 @@
 	// ex ) /facility/list
 	var contextPath = window.location.pathname;
 
-	// ex ) /facility/getAjax
-	var ajaxLink = contextPath.substr(0, contextPath.length - 4) + "getAjax";
-
-	// 받은 input 타입이 null인지 체크
-	function retIsEmpty() {
-		$('#accordion-search').find('input').each(
-			function() {
-				let value = $(this).val();
-				if (value == ""|| value == null|| value == undefined
-					|| (value != null&& typeof value == "object" && !Object.keys(value).length)) {
-						return false;
-				}
+	// 받은 form이 다 비어 있는지 체크
+	function formCheck(i) {
+		$(i).find('input').each(function() {
+			var value = $(this).val();
+			if (value === "" || value === null || value == "undefined" 
+					|| (value != null && typeof value == "object" && !Object.keys(value).length)) {
+			}
+			else return true; // 비어있지 않음
 		});
-		return false;
+		return false; // 비어있음
 	}
-
+	
 	// 일반 검색 카테고리 input 저장
 	function buttonCategory(a) {
 		var buttonText = document.getElementById("searchCategoryButton");
@@ -57,74 +62,53 @@
 		category.value = a;
 	}
 
-/* 	function exportData(i) {
-		// 전체 데이터 받아오기
+	// ex ) /facility/getAjax
+	var ajaxLink = contextPath.substr(0, contextPath.length - 4) + "getAjax";
+
+	// 데이터 내보내기
+	function exportData(i) {
 		var rightDate = new Date();
 		var leftDate = new Date(rightDate.setMonth(rightDate.getMonth() - 1));
 		rightDate = new Date();
-		// 폼이 비어있는지 체크, 비어있을 때 날짜를 설정할 수 있도록 함!
-		var isEmpty = retIsEmpty();
-		if (isEmpty) {
-			if ($("#dateLeft") != null && $("#dateRight") != null) {
-				if ($("#dateLeft").attr("val") == null
-						&& $("#dateRight").attr("val") == null) {
-					// 000 between 000
-					$("#dataLeft").attr("val",
-							leftDate.toISOString().substr(0, 11));
-					$("#dataRight").attr("val",
-							rightDate.toISOString().substr(0, 11));
-				} else if ($("#dataLeft").attr("val") == null) {
-					// 000 between dataRight
-
-				} else if ($("#dataRight").attr("val") == null) {
-					// dataLeft between 000
-					$("#dataRight").attr("val",
-							rightDate.toISOString().substr(0, 11));
-				}
-			}
+		var left = leftDate.toISOString().slice(0, 10);
+		var right = rightDate.toISOString().slice(0, 10);
+		if (!formCheck("#accordion-search")){
+			document.getElementById("dateLeft").value = left;
+			document.getElementById("dateRight").value = right;
 		}
-		var option = {
-			type : 'post', // post 방식으로 전송
+		
+		var formData = $("#accordion-search").serialize();
+		
+		$.ajax({
+			cache : false,
+			type : 'POST', // post 방식으로 전송
 			url : ajaxLink,// 링크
-			datatype : "json", // json 파일 형식으로 값을 담아온다.
-			success : function(data) { // 파일 주고받기가 성공했을 경우. data 변수 안에 값을 담아온다.
+			data : formData, 
+			datatype : "json", // json 파일 형식으로 값을 담아온다.	
+			success : function(data) {
+				// 데이터가 생길 때 구현
 				switch (i) {
 				case 1:
 					// PDF
-					alert("PDF 저장!");
+					alert("PDF");
 					break;
 				case 2:
 					// CSV
-					alert("CSV 저장!");
+					alert("CSV");
 					break;
 				case 3:
 					// 인쇄
-					alert("인쇄!");
+					alert("PRINT");
 					break;
 				}
 			},
-			error : function() {
-				alert("데이터 받기 실패!");
-			}
-		}
-		// 검색 폼을 ajax 링크로 변경하고 받음
-		$('#accordion-search').attr("action", ajaxLink);
-		$('#accordion-search').attr("method", "POST");
-
-		$('#accordion-search').submit(function() {
-			$(this).ajaxSubmit(option);
-			return false;
+			error : function() { alert("데이터 받기 실패!"); }
 		});
-
-		$('#accordion-search').attr("action", contextPath);
-		$('#accordion-search').attr("method", "GET");
-	} */
+	}
 
 	// 페이지 이동, 상세 검색 정보 유지
 	function movePage(i) {
-		var isEmpty = retIsEmpty();
-		alert(link);
-		if (isEmpty) {
+		if (!formCheck('#accordion-search')) {
 			location.href = contextPath + "?page=" + i;
 		} else {
 			$('#accordion-search').attr("action", contextPath + "?page=" + i);
@@ -134,8 +118,7 @@
 
 	// 페이지 이동, 상세 검색 정보 유지
 	function changePageSize(i) {
-		var isEmpty = retIsEmpty();
-		if (isEmpty) {
+		if (!formCheck('#accordion-search')) {
 			location.href = contextPath + "?page=1&pageSize=" + i;
 		} else {
 			$('#accordion-search').attr("action",
