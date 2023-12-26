@@ -15,5 +15,13 @@ public interface RequestDAO {
 	//회사리스트
 	public List<RequestVO> getClientList() throws Exception;
 	//회사검색
-	public List<RequestVO> searchClient(RequestSearchVO vo) throws Exception;
+	public List<RequestVO> searchClient(String client_code, String clientName) throws Exception;
+	// 품목리스트
+	public List<RequestVO> getProductList() throws Exception;
+	// 품목검색
+	public List<RequestVO> searchProduct(RequestSearchVO vo)throws Exception;
+	// 사원리스트
+	public List<RequestVO> getManagerList()throws Exception;
+	// 사원검색
+	public List<RequestVO> searchManager(RequestSearchVO vo)throws Exception;
 }

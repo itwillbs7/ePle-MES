@@ -26,5 +26,6 @@ public class RequestVO {
 	
 	private String clientName;
 	private String productName;
+	private String managerName;
 
 }

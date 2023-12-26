@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <title>수주 등록</title>
 </head>
 <body>
@@ -18,7 +17,7 @@
 			</div>
 			<!-- 폼 -->
 			<div class="search_area">
-			<form action="" method="post" id="searchClient">
+			<form method="post" id="searchClient" action="">
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
@@ -35,7 +34,7 @@
 				<!-- 버튼 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-						<button type="button" class="btn btn-success" >
+						<button type="button" class="btn btn-success" onclick="submitForm();" >
 							<b>검색</b>
 						</button>
 					</div>
@@ -46,17 +45,23 @@
 			</form>
 			</div>
 			<!-- 폼 -->
-			<table class="table table-striped">
+			
+			
+			<table class="table table-striped" id="tableId">
+			<thead>
 				<tr>
 					<th>업체코드</th>
 					<th>업체명</th>
 				</tr>
+			</thead>
+			<tbody>
 				<c:forEach items="${List}" var="List">
 				<tr onclick="selectWork('${List.client_code }','${List.clientName }')">
-					<th onclick="selectWork('${List.client_code }','${List.clientName }')">${List.client_code }</th>
-					<th onclick="selectWork('${List.client_code }','${List.clientName }')">${List.clientName }</th>
+					<th >${List.client_code }</th>
+					<th >${List.clientName }</th>
 				</tr>
 				</c:forEach>
+			</tbody>
 			</table>
 			
 			
@@ -66,41 +71,42 @@
 	<%@ include file="../include/footer.jsp"%>
 	
 	 <script type="text/javascript">
-	$(document).ready(function(){
-	
-		$(".btn-success").on("click", function(e){
-	        e.preventDefault();
-	        
-	        let client_code = $(".search_area input[name='client_code']").val();
-	        let clientName = $(".search_area input[name='clientName']").val();
-	        
-	        if(!client_code && !clientName ){
-	            alert("검색 종류를 선택하세요.");
-	            return false;
-	        }
-	        
-	        
-	        moveForm.find("input[name='client_code']").val(client_code);
-	        moveForm.find("input[name='clientName']").val(clientName);
-	        moveForm.submit();
-	    });
-
-	
+		function submitForm(){
+			
+		$.ajax({
+		    url: '/request/searchClient',
+		    type: 'POST',
+		    data: { 
+		        client_code: $('#client_code').val(),
+		        clientName: $('#clientName').val() 
+		    },
+		    success: function(data) {
+		    	// 서버로부터 받은 데이터를 사용하여 테이블 업데이트
+	            var table = '';
+	            $.each(data, function(index, item) {
+	                table += '<tr onclick="selectWork(\'' + item.client_code + '\',\'' + item.clientName + '\')">';
+	                table += '<th>' + item.client_code + '</th>';
+	                table += '<th>' + item.clientName + '</th>';
+	                table += '</tr>';
+	            });
+	            // 기존 테이블 헤더를 유지하면서 테이블 바디 내용을 업데이트
+	            $('#tableId tbody').html(table);  
+		    }
+		});
+		}
+		
+		
 	//부모창으로 데이터 넘기기
     function selectWork(a,b){ // 부모창으로 값 넘기기
 		  
-    	if(opener){
     		opener.document.getElementById("client_code").value = a
     		opener.document.getElementById("clientName").value = b
-    		window.close();
-    	}else{
-    		alert("부모창이 없습니다.");
-    	}
+    		self.close();
+    	
 
       }
 	
 	
-	});//끝
 	</script> 
 </body>
 </html>

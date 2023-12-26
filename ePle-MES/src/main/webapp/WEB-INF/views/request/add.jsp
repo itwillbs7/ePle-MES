@@ -36,17 +36,17 @@
 							<input class="form-control date-picker" name="deadline" type="text" placeholder="클릭 시 달력이 뜹니다">
 						</div>
 						<div class="form-group">
-							<label>담당자코드</label> <input class="form-control" name="manager" type="text" placeholder="클릭 시 팝업검색창이 뜹니다">
+							<label>담당자코드</label> <input class="form-control" id="manager" name="manager" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" readonly>
 						</div>
 						<div class="form-group">
-							<label>품번</label> <input class="form-control" name="product" type="text" placeholder="클릭 시 팝업검색창이 뜹니다">
+							<label>품번</label> <input class="form-control" name="product" id="product" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" readonly>
 						</div>
 						<div class="form-group">
 							<label>수주량</label> <input class="form-control" name="amount" type="text" placeholder="필수입력">
 						</div>
 						<!-- 자동입력내역 -->
 						<div class="form-group">
-							<label>업체명</label> <input class="form-control" type="text" readonly>
+							<label>업체명</label> <input class="form-control" type="text" readonly id="clientName">
 						</div>
 						<div class="form-group">
 							<label>담당자명</label> <input class="form-control" type="text" readonly>
@@ -98,38 +98,18 @@
 
 	
 	//담당자 찾기
-		$("#client_code").click(function() {
+		$("#manager").click(function() {
 	// 가로, 세로 설정
 			window.open("/request/searchManager", "Manager Search", "width=400,height=700");
 		});
 	
 	// 물품정보찾기
-		$("#client_code").click(function() {
+		$("#product").click(function() {
 	// 가로, 세로 설정
 			window.open("/request/searchProduct", "Product Search", "width=400,height=700");
 		});
 	
-// 계속 시도하기
-	function finished(){
-		var params = $("#addForm").serialize();
-		
-		$.ajax({
-			url:'/request/add',
-			type:'POST',
-			success:function(data){
-				alert('등록성공');
-				window.close();
-			},
-			error: function(){
-				alert('다시 입력하세요');
-				location.reload();
-			}
-			
-		});
-	
-	}
-	
-	
+
 	});//끝
 	</script> 
 </body>

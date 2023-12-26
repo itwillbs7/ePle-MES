@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.Criteria;
@@ -63,13 +65,7 @@ public class RequestController {
 		RequestVO vo = rService.getinfo(code);
 		logger.debug("Controller - vo "+vo);
 		
-		// 업체명 찾기
-		String client_code= vo.getClient_code();
-		rService.findClient(client_code);
-		// 품명, 단위, 재고량, 단가 찾기
-		String product = vo.getProduct();
-		// 담당자명 찾기 
-		String manager = vo.getManager();
+
 		
 		model.addAttribute("vo",vo);
 
@@ -109,24 +105,28 @@ public class RequestController {
 	// -------- 수주등록 데이터 찾기 ---------
 	
 	@RequestMapping(value = "searchClient", method=RequestMethod.GET)
-	public void searchClientGET(Model model, HttpSession session)throws Exception{
+	public void searchClientGET(RequestVO vo, Model model, HttpSession session)throws Exception{
 		logger.debug("controller : 거래사 정보 찾기");
 		logger.debug("searchClientGET    실행");
 
 		// 거래사 리스트 출력하기
 		List<RequestVO> clientList = rService.ClientList();
+		logger.debug("clientList : "+clientList);
 		model.addAttribute("List", clientList);
 
 	}
 	
 	@RequestMapping(value = "searchClient", method=RequestMethod.POST)
-	public void searchClientPOST(@ModelAttribute RequestSearchVO vo, Model model, HttpSession session)throws Exception{
+	@ResponseBody
+	public List<RequestVO> searchClientPOST(@RequestParam("client_code") String client_code,
+			                     @RequestParam("clientName") String clientName,Model model)throws Exception{
 		logger.debug("controller : 거래사 정보 DB 검색결과 가져오기");
 		logger.debug("searchClientPOST    실행");
 
-		List<RequestVO> clientList = rService.findClient(vo);
+		List<RequestVO> clientList = rService.findClient(client_code,clientName);
 		model.addAttribute("List", clientList);
-
+		
+		return clientList;
 	}
 	
 	@RequestMapping(value = "searchManager" ,method = RequestMethod.GET)
@@ -134,7 +134,8 @@ public class RequestController {
 		logger.debug("controller : 담당자 정보 찾기");
 		logger.debug("searchManagerGET    실행");
 		
-		
+		List<RequestVO> managerList = rService.ManagerList();
+		model.addAttribute("List", managerList);
 
 	}
 	
@@ -143,7 +144,8 @@ public class RequestController {
 		logger.debug("controller : 담당자 정보 DB 검색결과 가져오기");
 		logger.debug("searchManagerPOST    실행");
 		
-		
+		List<RequestVO> managerList = rService.findManager(vo);
+		model.addAttribute("List", managerList);
 		
 	}
 	
@@ -151,12 +153,18 @@ public class RequestController {
 	public void searchProductGET(Model model, HttpSession session)throws Exception{
 		logger.debug("controller : 상품 정보 찾기");
 		logger.debug("searchProductGET   실행");
+		
+		List<RequestVO> productList = rService.ProductList();
+		model.addAttribute("List", productList);
 	}
 	
 	@RequestMapping(value = "searchProduct",method = RequestMethod.POST)
 	public void searchProductPOST(@ModelAttribute RequestSearchVO vo, Model model, HttpSession session)throws Exception{
 		logger.debug("controller : 상품 정보 DB 검색결과 가져오기 ");
 		logger.debug("searchProductPOST   실행");
+		
+		List<RequestVO> productList = rService.findProduct(vo); 
+		model.addAttribute("List", productList);
 	}
 
 	// -------- 수주등록 데이터 찾기 끝---------
