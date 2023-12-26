@@ -15,10 +15,10 @@ public class MAPDVO {
 	private int inprice;
 	private int outprice;
 	private String image;
-	private Timestamp reg_date;
 	private String reg_emp;
-	private Timestamp update_date;
+	private Timestamp reg_date;
 	private String update_emp;
+	private Timestamp update_date;
 	private boolean active;
 	
 }
