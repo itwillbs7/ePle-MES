@@ -39,6 +39,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 		
 	}
 	
+	@Override
+	public void warehouseRemove(String code) throws Exception {
+		logger.debug(" S : warehouseRemove(String code) ");
+		wdao.deleteWarehouse(code);
+	}
+	
+	
 	
 	
 	

@@ -12,4 +12,9 @@ public class WarehouseVO {
 	private String manager;
 	private String mng_phone;
 	private int active;
+	
+	// employees join
+	private String name;
+	private String phone;
+	
 }

@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   
-  <!--warehouseMapper.xml d-->
+  <!--warehouseMapper.xml -->
   <mapper namespace="com.itwillbs.mapper.WarehouseMapper">
   
   	<resultMap type="com.itwillbs.domain.WarehouseVO" id="warehouse">
@@ -15,27 +15,43 @@
 		<result property="manager" column="manager"/>
 		<result property="mng_phone" column="mng_phone"/>
 		<result property="active" column="active"/>
+		<result property="name" column="name"/>
+		<result property="phone" column="phone"/>
 	</resultMap>
 	
 	
-  <!-- 모든 글 조회(page) -->
-  <select id="getWarehouseList" resultType="WarehouseVO" resultMap="warehouse">
-  	select * from WAREHOUSE
+  <select id="getWarehouseList" resultMap="warehouse">
+  	SELECT w.code, w.location, w.group_id, w.group_name, e.name, e.phone, w.active
+	FROM WAREHOUSE w JOIN EMPLOYEES e
+	on w.manager=e.name
   	limit #{startPage},#{pageSize} 	
   </select>
-  
-  <!-- 개수 계산 -->
+
   <select id="countWarehouse" resultType="int">
 	<![CDATA[	
 	SELECT count(*) FROM WAREHOUSE
 	]]>
   </select>
   
-  <!-- 창고 등록 -->
   <insert id="insertWarehouse">
   	insert into WAREHOUSE (code,location,group_id,group_name,manager,mng_phone,active) 
   	values(#{code},#{location},#{group_id},#{group_name},#{manager},#{mng_phone},#{active})
   </insert>
 
-		
+  <delete id="deleteWarehouse">
+  	delete from WAREHOUSE
+  	where code = #{code}  	
+  </delete>
+
+  <select id="getWarehouseContent" resultType="WarehouseVO">
+	SELECT * FROM WAREHOUSE
+	WHERE code = #{code}
+  </select>	
+	
+	
+  	
+ 
+	
+	
+	
   </mapper>

@@ -83,22 +83,6 @@ public class WarehouseController {
 		return "redirect:/warehouse/list";
 	}
 	
-
-	
-	// 창고 삭제
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public String warehouseDeletePOST(@ModelAttribute("code") String bno, RedirectAttributes rttr) throws Exception {
-		logger.debug("warehouseDeletePOST()");
-
-		// 서비스 - 글 삭제 동작
-//		wService.DeleteWarehouse(code);
-		// " 창고 삭제 완료! " 메세지 출력
-		rttr.addFlashAttribute("result", "removeOK");
-
-		return "redirect:/warehouse/list";
-	}
-	
-	
 	
 	
 }

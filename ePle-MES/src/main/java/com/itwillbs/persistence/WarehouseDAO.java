@@ -11,5 +11,5 @@ public interface WarehouseDAO {
 	public int getWarehouseCount() throws Exception;
 	
 	public void insertWarehouse(WarehouseVO vo) throws Exception;
-	
+	public void deleteWarehouse(String code) throws Exception;
 }

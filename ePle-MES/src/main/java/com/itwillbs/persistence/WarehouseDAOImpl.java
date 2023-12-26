@@ -43,6 +43,14 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 		sqlSession.insert(NAMESPACE+".insertWarehouse", vo);
 	}
 
-
+	@Override
+	public void deleteWarehouse(String code) throws Exception {
+		logger.debug(" DAO : deleteWarehouse(String code) ");
+		sqlSession.delete(NAMESPACE + ".deleteWarehouse", code);
+	}
+	
+	
+	
+	
 	
 }

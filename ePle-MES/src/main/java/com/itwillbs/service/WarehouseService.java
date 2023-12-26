@@ -9,6 +9,8 @@ public interface WarehouseService {
 	
 	 public List<WarehouseVO> warehouseList(Criteria cri) throws Exception;
 	 public int totalWarehouseCount() throws Exception;
+	 
 	 public void InsertWarehouse(WarehouseVO vo) throws Exception;
+	 public void warehouseRemove(String code) throws Exception;
 	 
 }

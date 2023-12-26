@@ -190,6 +190,9 @@
 							</button>
 						</div>
 					</div>
+					
+					
+					
 					<div class="pb-20">
 						<div class="col-sm-30">
 							<form class="table" id="table">
@@ -217,17 +220,16 @@
 											<td>
 												<div class="custom-control custom-checkbox mb-5">
 													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-													<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1">
-													<label class="custom-control-label" for="checkTable1"></label>
+													<input type="checkbox" class="custom-control-input" id="checkTable${vo.code }" name="tableCheck" value="${vo.code }">
+													<label class="custom-control-label" for="checkTable${vo.code }"></label>
 												</div>
 											</td>
 											<th>${vo.code }</th>
-											<!-- 상세 정보 이동! -->
 											<th>${vo.location }</th>
 											<th>${vo.group_id }</th>
 											<th>${vo.group_name }</th>
-											<th>${vo.manager }</th>
-											<th>${vo.mng_phone }</th>
+											<th>${vo.name }</th>
+											<th>${vo.phone }</th>
 											<th>${vo.active }</th>
 											<td style="">
 										
@@ -244,7 +246,7 @@
 													<!-- 수정 -->
 													<a class="dropdown-item" href="javascript:openPage('/warehouse/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
 													<!-- 삭제 -->
-													<a class="dropdown-item" href="javascript:openPage('/warehouse/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+													<a class="dropdown-item" href="javascript:openPage('/warehouse/delete?index=${vo.code }', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
 												</div>
 											</div>
 										</td>
@@ -300,12 +302,34 @@
 		</div>
 	</div>
 
+
+
+
+	<!-- 모달 창 -->
+	<div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm modal-dialog-centered">
+			<div class="modal-content bg-warning">
+				<div class="modal-body text-center">
+					<h3 class="mb-15">
+						<i class="fa fa-exclamation-triangle"></i> 주의
+					</h3>
+					<p><b>선택된 데이터</b>가 없습니다!</p>
+					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 모달 창 -->
+	
+	
+	
+	
 	<!-- 추가, 수정, 삭제 -->
 	<script type="text/javascript">
 		var popupWidth, popupHeight, popupX, popupY, link;
 		var set;
 
-		function retPopupSetting(width, height){
+		function retPopupSetting(width, height) {
 			// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
 			popupX = Math.ceil((window.screen.width - width) / 2);
 			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
@@ -344,8 +368,15 @@
 
 			// 삭제
 			$("#delete").click(function() {
-				// 가로, 세로 설정
-				openPage("/warehouse/delete", 400, 700);
+				var ch = $("input:checkbox[name=tableCheck]:checked").length;
+				openPage("/maintenance/delete", 400, 700);					if (ch > 0) {
+					// 가로, 세로 설정
+					openPage("/warehouse/delete", 400, 700);
+				} else {
+					$(this).attr("data-toggle", "modal");
+					$(this).attr("data-target", "#warning-modal");
+					$($(this).data("target")).show();
+				}
 			});
 		});
 	</script>
