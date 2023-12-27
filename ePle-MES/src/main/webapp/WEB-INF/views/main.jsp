@@ -18,6 +18,7 @@
 			
 			
 			<P>The time on the server is ${serverTime}.</P>
+			<%@ include file="include/github.jsp"%>
 			<%@ include file="include/footer.jsp"%>
 		</div>
 	</div>
