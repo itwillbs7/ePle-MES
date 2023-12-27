@@ -42,7 +42,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label>결과 내용</label>
+							<label>상세 내용</label>
 							<textarea class="form-control"></textarea>
 						</div>
 						<!-- inputs -->
