@@ -340,13 +340,13 @@
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
-				openPage("/facility/insert", 500, 600);
+				openPage("/facility/info/insert", 500, 600);
 			});
 
 			// 수정
 			$("#update").click(function() {
 				// 가로, 세로 설정
-				openPage("/facility/update", 400, 700);
+				openPage("/facility/info/update", 400, 700);
 			});
 
 			// 삭제
@@ -354,7 +354,7 @@
 				var ch = $("input:checkbox[name=tableCheck]:checked").length;
 				if (ch > 0) {
 					// 가로, 세로 설정
-					openPage("/facility/delete", 400, 700);
+					openPage("/facility/info/delete", 400, 700);
 				} else {
 					$(this).attr("data-toggle", "modal");
 					$(this).attr("data-target", "#warning-modal");

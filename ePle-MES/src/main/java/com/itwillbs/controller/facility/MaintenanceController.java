@@ -26,7 +26,7 @@ public class MaintenanceController {
 	@Inject
 	private MaintenanceService mService;
 
-	// http://localhost:8088/maintenance/list
+	// http://localhost:8088/facility/maintenance/list
 	@GetMapping(value = "/list")
 	public void maintenanceListGET
 	(MaintenanceSearchVO searchVO, PageVO pageVO, Criteria cri, Model model)

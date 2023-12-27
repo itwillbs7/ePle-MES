@@ -304,13 +304,13 @@
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
-				openPage("/maintenance/add", 500, 600);
+				openPage("/facility/maintenance/add", 500, 600);
 			});
 
 			// 수정
 			$("#update").click(function() {
 				// 가로, 세로 설정
-				openPage("/maintenance/update", 400, 700);
+				openPage("/facility/maintenance/update", 400, 700);
 			});
 
 			// 삭제
@@ -318,7 +318,7 @@
 				var ch = $("input:checkbox[name=tableCheck]:checked").length;
 				if (ch > 0) {
 					// 가로, 세로 설정
-					openPage("/maintenance/delete", 400, 700);
+					openPage("/facility/maintenance/delete", 400, 700);
 				} else {
 					$(this).attr("data-toggle", "modal");
 					$(this).attr("data-target", "#warning-modal");
@@ -327,7 +327,7 @@
 			});
 
 			$("#export").click(function() {
-				openPage("/maintenance/export", 400, 700);
+				openPage("/facility/maintenance/export", 400, 700);
 			});
 		});
 	</script>
