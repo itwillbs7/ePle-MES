@@ -18,24 +18,6 @@
 				<h1>설비 목록</h1>
 			</div>
 			<div class="min-height-200px">
-				<div class="alert alert-success alert-dismissible fade show" role="alert">
-					<strong>설비 등록</strong>이 완료되었습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="alert alert-info alert-dismissible fade show" role="alert">
-					<strong>설비 수정</strong>이 완료되었습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="alert alert-warning alert-dismissible fade show" role="alert">
-					<strong>설비 삭제</strong>가 완료되지 않았습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
 				<!-- 아코디언 시작 -->
 				<div class="faq-wrap">
 					<div id="accordion">

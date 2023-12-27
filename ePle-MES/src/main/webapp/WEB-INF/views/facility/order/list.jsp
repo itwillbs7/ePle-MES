@@ -22,24 +22,6 @@
 					<li class="nav-item"><a class="nav-link text-blue" href="/maintenance/resultList">보전 결과</a></li>
 				</ul>
 				<br>
-				<div class="alert alert-success alert-dismissible fade show" role="alert">
-					<strong>신청 등록</strong>이 완료되었습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="alert alert-info alert-dismissible fade show" role="alert">
-					<strong>신청 수정</strong>이 완료되었습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="alert alert-warning alert-dismissible fade show" role="alert">
-					<strong>신청 삭제</strong>가 완료되지 않았습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
 				<!-- 데이터 상세 검색 불필요! -->
 				<!-- status : 신청 일 때만 수정 가능!, 내역의 경우 발주 파트! -->		
 				<!-- Checkbox select Datatable start -->

@@ -5,6 +5,7 @@
 <head>
 <%@ include file="../../include/head.jsp"%>
 <title>일상 보전</title>
+<!-- emp : 일상보전 등록 및 조회 -->
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -19,24 +20,6 @@
 			</div>
 			<br>
 			<div class="min-height-200px">
-				<div class="alert alert-success alert-dismissible fade show" role="alert">
-					<strong>보전 등록</strong>이 완료되었습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="alert alert-info alert-dismissible fade show" role="alert">
-					<strong>보전 수정</strong>이 완료되었습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="alert alert-warning alert-dismissible fade show" role="alert">
-					<strong>보전 삭제</strong>가 완료되지 않았습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
 				<div class="row">
 					<div class="col-md-6 mb-20">
 						<a href="javascript:insert();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
