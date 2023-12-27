@@ -12,6 +12,7 @@ import com.itwillbs.domain.OrderVO;
 @RequestMapping(value = "/facility/order/*")
 public class FacilityOrderController {
 	
+	// 권한 설정으로 담당자만 진행하도록 함
 	@GetMapping("/")
 	public String list() throws Exception{
 		return "/facility/order/list";
@@ -28,12 +29,12 @@ public class FacilityOrderController {
 		int result = 0;
 		if(result == 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "일상 보전 결과");
-			rttr.addFlashAttribute("result", "보전 등록이 완료되었습니다.");
+			rttr.addFlashAttribute("title", "설비 발주 결과");
+			rttr.addFlashAttribute("result", "발주 등록이 완료되었습니다.");
 		}
 		else {
 			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "일상 보전 결과");
+			rttr.addFlashAttribute("title", "설비 발주 결과");
 			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 		}
 		return link;
@@ -50,12 +51,12 @@ public class FacilityOrderController {
 		int result = 0;
 		if(result == 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "일상 보전 결과");
-			rttr.addFlashAttribute("result", "보전 등록이 완료되었습니다.");
+			rttr.addFlashAttribute("title", "설비 발주 결과");
+			rttr.addFlashAttribute("result", "발주 수정이 완료되었습니다.");
 		}
 		else {
 			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "일상 보전 결과");
+			rttr.addFlashAttribute("title", "설비 발주 결과");
 			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 		}
 		return link;
@@ -72,12 +73,12 @@ public class FacilityOrderController {
 		int result = 0;
 		if(result == 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "일상 보전 결과");
-			rttr.addFlashAttribute("result", "보전 등록이 완료되었습니다.");
+			rttr.addFlashAttribute("title", "설비 발주 결과");
+			rttr.addFlashAttribute("result", "발주 취소가 완료되었습니다.");
 		}
 		else {
 			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "일상 보전 결과");
+			rttr.addFlashAttribute("title", "설비 발주 결과");
 			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 		}
 		return link;

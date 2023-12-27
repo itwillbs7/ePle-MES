@@ -3,7 +3,6 @@ package com.itwillbs.controller.facility;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +14,7 @@ import com.itwillbs.domain.MaintenanceVO;
 @RequestMapping(value="/facility/routine/*")
 public class RoutineMaintenanceController {
 	
+	// 권한 설정으로 나누어 담당자, 직원으로 구분
 	@GetMapping("/")
 	public String root() throws Exception{
 		return "redirect:/facility/routine/emp";
