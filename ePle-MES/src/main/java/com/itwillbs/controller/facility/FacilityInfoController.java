@@ -26,7 +26,7 @@ import com.itwillbs.service.facility.FacilityService;
 
 @Controller
 @RequestMapping(value = "/facility/info/*")
-public class FacilityController {
+public class FacilityInfoController {
 
 	@Inject
 	private FacilityService service;
