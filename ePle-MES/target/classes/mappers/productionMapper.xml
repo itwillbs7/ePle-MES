@@ -38,11 +38,17 @@
 			</foreach>
 		</if>
 	</select>
-	<select id="getrequestList" resultType="String">
+	<select id="getRequestList" resultType="String">
 		SELECT code FROM REQUEST WHERE status = '등록'
 	</select>
 	<select id="getLine_codeList" resultType="String">
-		SELECT code FROM REQUEST WHERE status = '등록'
+		SELECT code FROM LINE
 	</select>
+	<select id="getProductList" resultType="String">
+		SELECT product FROM REQUEST WHERE status = '등록' AND code = #{request}
+	</select>
+	<insert id="insertInstruction">
+		INSERT INTO INSTRUCTION VALUES(DEFAULT,#{product},#{line_code},#{content},#{request},#{amount},#{reg_emp},now(),null,null)
+	</insert>
 
 </mapper>

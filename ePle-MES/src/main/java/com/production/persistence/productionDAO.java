@@ -2,7 +2,6 @@ package com.production.persistence;
 
 import java.util.List;
 
-import com.production.domain.ajaxSearchVO;
 import com.production.domain.instructionVO;
 
 public interface productionDAO {
@@ -18,9 +17,11 @@ public interface productionDAO {
 
 	public List<String> getRequestList() throws Exception;
 
-	public List<String> getProductList() throws Exception;
+	public List<String> getProductList(String request) throws Exception;
 
 	public int getAmount() throws Exception;
 
 	public List<String> getLine_codeList() throws Exception;
+
+	public void insertInstruction(instructionVO instVO) throws Exception;
 }

@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.production.domain.ajaxSearchVO;
 import com.production.domain.instructionVO;
 
 @Repository
@@ -59,8 +58,8 @@ public class productionDAOImpl implements productionDAO {
 	}
 
 	@Override
-	public List<String> getProductList() throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".getProductList");
+	public List<String> getProductList(String request) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getProductList",request);
 	}
 
 	@Override
@@ -70,7 +69,13 @@ public class productionDAOImpl implements productionDAO {
 
 	@Override
 	public List<String> getLine_codeList() throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".getLine_codeList");
+		return sqlSession.selectList(NAMESPACE + ".getLine_codeList");
+	}
+
+	@Override
+	public void insertInstruction(instructionVO instVO) throws Exception {
+		logger.debug("DAO : insertInstruction(instructionVO instVO) 호출");
+		sqlSession.insert(NAMESPACE + ".insertInstruction", instVO);
 	}
 
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.production.domain.ajaxSearchVO;
 import com.production.domain.instructionVO;
 import com.production.service.productionService;
 
@@ -56,6 +54,7 @@ public class productionController {
 		logger.debug("Controller : add() 호출");
 		//수주번호 불러오기
 		model.addAttribute("requestList", pdService.getRequestList());
+		logger.debug("size : "+pdService.getRequestList().size());
 		//라인 불러오기
 		model.addAttribute("line_codeList", pdService.getLine_codeList());
 	}
@@ -63,18 +62,26 @@ public class productionController {
 	//지시사항 추가 제품 불러오기(ajax)
 	@RequestMapping(value = "/ajaxGetProductList", method = RequestMethod.POST)
 	@ResponseBody
-	public List<String> ajaxGetProductList(String requestCode) throws Exception {
+	public List<String> ajaxGetProductList(@RequestParam(value = "request", required = false) String request) throws Exception {
 		logger.debug("Controller : ajaxGetProductList() 호출");
+		logger.debug("request : " + request);
 		//제품 불러오기
-		return pdService.getProductList();
+		return pdService.getProductList(request);
 	}
+//	
+//	//지시사항 추가 갯수 불러오기(ajax)
+//	@RequestMapping(value = "/ajaxGetProductList", method = RequestMethod.POST)
+//	@ResponseBody
+//	public int ajaxGetAmount(String requestCode, String productCode) throws Exception {
+//		logger.debug("Controller : ajaxGetAmount() 호출");
+//		//갯수 불러오기
+//		return pdService.getAmount();
+//	}
 	
-	//지시사항 추가 갯수 불러오기(ajax)
-	@RequestMapping(value = "/ajaxGetProductList", method = RequestMethod.POST)
-	@ResponseBody
-	public int ajaxGetAmount(String requestCode, String productCode) throws Exception {
-		logger.debug("Controller : ajaxGetAmount() 호출");
-		//갯수 불러오기
-		return pdService.getAmount();
+	@RequestMapping(value = "/insertInstruction", method = RequestMethod.POST)
+	public void insertInstruction(instructionVO instVO) throws Exception {
+		logger.debug("Controller : insertInstruction(instructionVO instVO) 호출");
+		logger.debug("instVO : " + instVO);
+		pdService.insertInstruction(instVO);
 	}
 }

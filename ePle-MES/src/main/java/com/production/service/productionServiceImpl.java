@@ -52,8 +52,8 @@ public class productionServiceImpl implements productionService {
 	}
 
 	@Override
-	public List<String> getProductList() throws Exception {
-		return pdDAO.getProductList();
+	public List<String> getProductList(String request) throws Exception {
+		return pdDAO.getProductList(request);
 	}
 
 	@Override
@@ -64,6 +64,11 @@ public class productionServiceImpl implements productionService {
 	@Override
 	public List<String> getLine_codeList() throws Exception {
 		return pdDAO.getLine_codeList();
+	}
+
+	@Override
+	public void insertInstruction(instructionVO instVO) throws Exception {
+		pdDAO.insertInstruction(instVO);
 	}
 
 }
