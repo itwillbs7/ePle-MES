@@ -39,7 +39,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-6 mb-20">
-						<a href="#" class="card-box d-block mx-auto pd-20 text-secondary text-center">
+						<a href="javascript:insert();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
 							<div class="img pb-30 ">
 								<img src="${pageContext.request.contextPath}/resources/images/plus.png" alt="">
 							</div>
@@ -49,7 +49,7 @@
 						</a>
 					</div>
 					<div class="col-md-6 mb-20">
-						<a href="#" class="card-box d-block mx-auto pd-20 text-secondary text-center">
+						<a href="javascript:list();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
 							<div class="img pb-30">
 								<img src="${pageContext.request.contextPath}/resources/images/table.png" alt="">
 							</div>
@@ -65,25 +65,7 @@
 				<%@ include file="../../include/footer.jsp"%>
 			</div>
 		</div>
-
 	</div>
-	<!-- 모달 창 -->
-	<div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm modal-dialog-centered">
-			<div class="modal-content bg-warning">
-				<div class="modal-body text-center">
-					<h3 class="mb-15">
-						<i class="fa fa-exclamation-triangle"></i> 주의
-					</h3>
-					<p>
-						<b>선택된 데이터</b>가 없습니다!
-					</p>
-					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 모달 창 -->
 
 	<!-- 추가, 수정, 삭제 -->
 	<script type="text/javascript">
@@ -116,44 +98,13 @@
 			set = retPopupSetting(width, height);
 			return window.open(i, 'Popup_Window', set);
 		}
-
-		$(document).ready(function() {
-			// 추가
-			$("#add").click(function() {
-				// 가로, 세로 설정
-				openPage("/facility/info/insert", 500, 600);
-			});
-
-			// 수정
-			$("#update").click(function() {
-				// 가로, 세로 설정
-				openPage("/facility/info/update", 400, 700);
-			});
-
-			// 삭제
-			$("#delete").click(function() {
-				var ch = $("input:checkbox[name=tableCheck]:checked").length;
-				if (ch > 0) {
-					// 가로, 세로 설정
-					openPage("/facility/info/delete", 400, 700);
-				} else {
-					$(this).attr("data-toggle", "modal");
-					$(this).attr("data-target", "#warning-modal");
-					$($(this).data("target")).show();
-				}
-			});
-		});
-
-		function downloadPDF(data) {
-			alert("data : " + data);
+		
+		function insert(){
+			openPage("/facility/routine/insert", 500, 600);
 		}
-
-		function downloadCSV(data) {
-			alert("CSV");
-		}
-
-		function printResult(data) {
-			alert("PRINT");
+		
+		function list(){
+			openPage("/facility/routine/list", 400, 700);
 		}
 	</script>
 </body>

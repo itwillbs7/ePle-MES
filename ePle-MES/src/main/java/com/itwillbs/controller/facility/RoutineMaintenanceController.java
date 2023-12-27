@@ -29,13 +29,8 @@ public class RoutineMaintenanceController {
 		
 	}
 	
-	@GetMapping("/update")
-	public void updateGET() throws Exception{
-		
-	}
-	
-	@PostMapping("/update")
-	public void updatePOST() throws Exception{
+	@GetMapping("/list")
+	public void listGET() throws Exception{
 		
 	}
 }
