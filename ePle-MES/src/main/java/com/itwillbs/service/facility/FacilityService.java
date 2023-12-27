@@ -13,4 +13,5 @@ public interface FacilityService {
 	public int facilityListCount(PageVO vo) throws Exception;
 	public List<FacilityVO> getFacilityList(PageVO vo) throws Exception;
 	public List<FacilityVO> getAjaxResult(SearchVO vo) throws Exception;
+	public FacilityVO getFacility(FacilityVO vo) throws Exception;
 }

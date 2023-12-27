@@ -13,4 +13,5 @@ public interface FacilityDAO {
 	public int getFacilityCount(PageVO vo) throws Exception;
 	public List<FacilityVO> getFacilityList(PageVO vo) throws Exception;
 	public List<FacilityVO> getExportList(SearchVO vo) throws Exception; 
+	public FacilityVO getFacility(FacilityVO vo) throws Exception;
 }

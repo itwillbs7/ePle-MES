@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.MaintenanceVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.persistence.facility.MaintenanceDAO;
@@ -41,5 +42,10 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	@Override
 	public List<MaintenanceVO> getMaintenanceList(PageVO vo) throws Exception {
 		return dao.getMaintenanceList(vo);
+	}
+	
+	@Override
+	public List<MaintenanceVO> getFacilityInfo(FacilityVO vo) throws Exception {
+		return dao.getFacilityInfo(vo);
 	}
 }

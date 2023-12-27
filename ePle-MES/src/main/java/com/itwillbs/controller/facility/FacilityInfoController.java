@@ -21,6 +21,7 @@ import com.itwillbs.domain.FacilitySearchVO;
 import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.facility.FacilityService;
+import com.itwillbs.service.facility.MaintenanceService;
 
 /** FacilityController : 설비 컨트롤러 **/
 
@@ -29,9 +30,12 @@ import com.itwillbs.service.facility.FacilityService;
 public class FacilityInfoController {
 
 	@Inject
-	private FacilityService service;
+	private FacilityService fService;
 	
-	// http://localhost:8088/facility/list
+	@Inject
+	private MaintenanceService mService;
+	
+	// http://localhost:8088/facility/info/
 	@GetMapping(value = "/")
 	public String facilityListGET
 	(FacilitySearchVO searchVO, PageVO pageVO, Criteria cri, Model model) 
@@ -39,12 +43,18 @@ public class FacilityInfoController {
 		// 설비 목록 return
 		pageVO.setCri(cri);
 		pageVO.setSearch(searchVO);
-		pageVO.setTotalCount(service.facilityListCount(pageVO));
-		List<FacilityVO> vo = service.getFacilityList(pageVO);
+		pageVO.setTotalCount(fService.facilityListCount(pageVO));
+		List<FacilityVO> vo = fService.getFacilityList(pageVO);
 		if (vo == null) vo = new ArrayList<FacilityVO>();
 		model.addAttribute("list", vo);
 		model.addAttribute("pageVO", pageVO);
 		return "/facility/info/list";
+	}
+	
+	@GetMapping("/detail")
+	public void facilityInfo(FacilityVO vo, Model model) throws Exception{
+		model.addAttribute("info", fService.getFacility(vo));
+		model.addAttribute("list", mService.getFacilityInfo(vo));
 	}
 
 	// http://localhost:8088/facility/info/insert
@@ -57,7 +67,7 @@ public class FacilityInfoController {
 	@PostMapping(value = "/insert")
 	public void facilityInsertPOST(FacilityVO vo) throws Exception {
 		// 설비 추가 액션
-		int result = service.addFacility(vo);
+		int result = fService.addFacility(vo);
 		if(result == 1) {
 			
 		}
@@ -96,7 +106,7 @@ public class FacilityInfoController {
 	@ResponseBody
 	public List<Map<String, Object>> facilityAjax(FacilitySearchVO searchVO) throws Exception {
 		List<Map<String, Object>> ajax = new LinkedList<Map<String,Object>>();
-		List<FacilityVO> list = service.getAjaxResult(searchVO);
+		List<FacilityVO> list = fService.getAjaxResult(searchVO);
 		for(int i = 0; i<list.size(); i++) {
 			Map<String, Object> col = new HashMap<String, Object>();
 			col.put("코드", list.get(i).getCode());

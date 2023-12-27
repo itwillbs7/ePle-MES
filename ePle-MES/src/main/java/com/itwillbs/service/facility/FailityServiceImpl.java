@@ -46,4 +46,9 @@ public class FailityServiceImpl implements FacilityService {
 	public List<FacilityVO> getAjaxResult(SearchVO vo) throws Exception {
 		return dao.getExportList(vo);
 	}
+	
+	@Override
+	public FacilityVO getFacility(FacilityVO vo) throws Exception {
+		return dao.getFacility(vo);
+	}
 }

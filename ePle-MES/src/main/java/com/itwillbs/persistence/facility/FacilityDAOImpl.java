@@ -47,4 +47,9 @@ public class FacilityDAOImpl implements FacilityDAO {
 	public List<FacilityVO> getExportList(SearchVO vo) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getExportList", vo);
 	}
+	
+	@Override
+	public FacilityVO getFacility(FacilityVO vo) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getFacility", vo);
+	}
 }

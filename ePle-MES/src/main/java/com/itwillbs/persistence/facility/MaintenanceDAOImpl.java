@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.MaintenanceVO;
 import com.itwillbs.domain.PageVO;
 
@@ -40,5 +41,10 @@ public class MaintenanceDAOImpl implements MaintenanceDAO{
 	@Override
 	public List<MaintenanceVO> getMaintenanceList(PageVO vo) throws Exception{
 		return sqlSession.selectList(NAMESPACE + ".getMaintenanceList", vo);
+	}
+	
+	@Override
+	public List<MaintenanceVO> getFacilityInfo(FacilityVO vo) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getFacilityList", vo);
 	}
 }
