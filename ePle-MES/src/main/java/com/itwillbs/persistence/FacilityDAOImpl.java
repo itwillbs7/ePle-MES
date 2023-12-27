@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.SearchVO;
 
 @Repository
 public class FacilityDAOImpl implements FacilityDAO {
@@ -42,4 +43,8 @@ public class FacilityDAOImpl implements FacilityDAO {
 		return sqlSession.selectList(NAMESPACE + ".getFacilityList", vo);
 	}
 	
+	@Override
+	public List<FacilityVO> getExportList(SearchVO vo) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getExportList", vo);
+	}
 }

@@ -100,16 +100,32 @@
 				</if>
 				<!-- date -->
 				<!-- date between -->
-				<if test="search.betweenDateLeft neq null and 
+				<choose>
+					<when test="search.betweenDateLeft eq null and search.betweenDateRight eq null">
+					</when>
+					<when test="search.betweenDateLeft.toString().length() > 0 
+			and (search.betweenDateRight eq null or search.betweenDateRight.toString() eq '')">
+						<![CDATA[
+							AND purchase_date > #{search.betweenDateLeft}
+						]]>
+					</when>
+					<when test="search.betweenDateRight.toString().length() > 0 
+			and (search.betweenDateLeft eq null or search.betweenDateLeft.toString() eq '')">
+						<![CDATA[
+							AND purchase_date < #{search.betweenDateRight}
+						]]>
+					</when>
+					<when test="search.betweenDateLeft neq null and 
 				search.betweenDateLeft.toString() neq '' and
 				search.betweenDateRight neq null and
 				search.betweenDateRight.toString() neq ''">
-					<![CDATA[
-					AND purchase_date BETWEEN
-					#{search.betweenDateLeft} AND
-					#{search.betweenDateRight}
-					]]>
-				</if>
+						<![CDATA[
+							AND purchase_date BETWEEN
+							#{search.betweenDateLeft} AND
+							#{search.betweenDateRight}
+						]]>
+					</when>
+				</choose>
 				<!-- date between -->
 			</if>
 			<!-- searchVO not null -->
@@ -120,15 +136,15 @@
 	<insert id="insertFacility">
 		INSERT INTO FAC_INFO (
 		<if test="">
-			
+
 		</if>
 		)
 	</insert>
-	
+
 	<select id="findLastFacility">
 		
 	</select>
-	
+
 	<!-- 수정 -->
 	<update id="updateFacility">
 		UPDATE FAC_INFO
@@ -139,19 +155,19 @@
 			code = #{code}
 		</where>
 	</update>
-	
+
 	<!-- 삭제 -->
 	<delete id="deleteFacility">
 		DELETE FROM FAC_INFO
 		<where>
 			<![CDATA[ code IN ]]>
-			<foreach collection="code" item="item"
-						index="index" open="(" close=")" separator=",">
-						#{item}
+			<foreach collection="code" item="item" index="index" open="("
+				close=")" separator=",">
+				#{item}
 			</foreach>
 		</where>
 	</delete>
-	
+
 	<!-- 개수 계산 -->
 	<select id="getFacilityCount" resultType="int">
 		<![CDATA[	
@@ -160,15 +176,130 @@
 		<include refid="facilitySearch" />
 	</select>
 
+	<!-- 페이징 처리한 리스트 return -->
 	<select id="getFacilityList"
 		resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
 		<![CDATA[
 		SELECT * FROM FAC_INFO
 		]]>
-		<include refid="facilitySearch"/>
+		<include refid="facilitySearch" />
 		<![CDATA[
 		ORDER BY code DESC 
 		LIMIT #{cri.page}, #{cri.pageSize}
+		]]>
+	</select>
+
+	<!-- ajax 리턴 용 -->
+	<select id="getExportList"
+		resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
+		<![CDATA[
+		SELECT * FROM FAC_INFO
+		]]>
+		<where>
+			<![CDATA[code = code ]]>
+			<!-- 라디오 -->
+			<if test="formRadio eq null">
+				<![CDATA[AND active = TRUE ]]>
+			</if>
+			<if test="formRadio neq null">
+				<choose>
+					<when test="formRadio.toString() eq 'true'">
+							<![CDATA[AND active = TRUE ]]>
+					</when>
+					<when test="formRadio.toString() eq 'false'">
+							<![CDATA[AND active = FALSE ]]>
+					</when>
+				</choose>
+			</if>
+			<!-- 라디오 -->
+			<!-- 기본 검색 -->
+			<if test="searchKeyword neq null">
+				<choose>
+					<when test="searchCategory.toString() eq null">
+							<![CDATA[
+								AND (code LIKE '%'||#{searchKeyword}||'%' OR 
+								name LIKE '%'||#{searchKeyword}||'%' OR 
+								model LIKE '%'||#{searchKeyword}||'%' OR 
+								location LIKE '%'||#{searchKeyword}||'%' OR 
+								line_code LIKE '%'||#{searchKeyword}||'%'
+								) 
+							]]>
+					</when>
+					<when test="searchCategory.toString() eq 'code'">
+							<![CDATA[
+								AND code LIKE '%'||#{searchKeyword}||'%' 
+							]]>
+					</when>
+					<when test="searchCategory.toString() eq 'name'">
+							<![CDATA[
+								AND name LIKE '%'||#{searchKeyword}||'%' 
+							]]>
+					</when>
+					<when test="searchCategory.toString() eq 'model'">
+							<![CDATA[
+								AND model LIKE '%'||#{searchKeyword}||'%' 
+							]]>
+					</when>
+					<when test="searchCategory.toString() eq 'location'">
+							<![CDATA[
+								AND location LIKE '%'||#{searchKeyword}||'%' 
+							]]>
+					</when>
+					<when test="searchCategory.toString() eq 'line_code'">
+							<![CDATA[
+								AND line_code LIKE '%'||#{searchKeyword}||'%' 
+							]]>
+					</when>
+				</choose>
+			</if>
+			<!-- 기본 검색 -->
+			<!-- check box -->
+			<if test="formCheck neq null">
+				<![CDATA[AND category IN]]>
+				<foreach collection="formCheck" item="item"
+					index="index" open="(" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
+			<!-- check box -->
+			<!-- date -->
+			<if test="date neq null and date.toString() neq ''">
+				<![CDATA[
+					AND purchase_date = #{date}
+				]]>
+			</if>
+			<!-- date -->
+			<!-- date between -->
+				<choose>
+					<when test="betweenDateLeft eq null and betweenDateRight eq null">
+					</when>
+					<when test="betweenDateLeft.toString().length() > 0 
+			and (betweenDateRight eq null or betweenDateRight.toString() eq '')">
+						<![CDATA[
+							AND purchase_date > #{betweenDateLeft}
+						]]>
+					</when>
+					<when test="betweenDateRight.toString().length() > 0 
+			and (betweenDateLeft eq null or betweenDateLeft.toString() eq '')">
+						<![CDATA[
+							AND purchase_date < #{betweenDateRight}
+						]]>
+					</when>
+					<when test="betweenDateLeft neq null and 
+				betweenDateLeft.toString() neq '' and
+				betweenDateRight neq null and
+				betweenDateRight.toString() neq ''">
+						<![CDATA[
+							AND purchase_date BETWEEN
+							#{betweenDateLeft} AND
+							#{betweenDateRight}
+						]]>
+					</when>
+				</choose>
+				<!-- date between -->
+		</where>
+		<![CDATA[
+		ORDER BY code
 		]]>
 	</select>
 </mapper>

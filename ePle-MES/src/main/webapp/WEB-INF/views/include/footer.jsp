@@ -63,7 +63,7 @@
 	}
 
 	// ex ) /facility/getAjax
-	var ajaxLink = contextPath.substr(0, contextPath.length - 4) + "getAjax";
+	var ajaxLink = contextPath.substr(0, contextPath.length - 4) + "json";
 
 	// 데이터 내보내기
 	function exportData(i) {

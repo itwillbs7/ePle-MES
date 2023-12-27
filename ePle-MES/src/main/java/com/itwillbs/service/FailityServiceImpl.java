@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.SearchVO;
 import com.itwillbs.persistence.FacilityDAO;
 
 @Service
@@ -23,13 +24,11 @@ public class FailityServiceImpl implements FacilityService {
 	
 	@Override
 	public int updateFacility(FacilityVO vo) throws Exception {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	
 	@Override
 	public int deleteFacility(String[] code) throws Exception {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	
@@ -41,5 +40,10 @@ public class FailityServiceImpl implements FacilityService {
 	@Override
 	public List<FacilityVO> getFacilityList(PageVO vo) throws Exception {
 		return dao.getFacilityList(vo);
+	}
+	
+	@Override
+	public List<FacilityVO> getAjaxResult(SearchVO vo) throws Exception {
+		return dao.getExportList(vo);
 	}
 }
