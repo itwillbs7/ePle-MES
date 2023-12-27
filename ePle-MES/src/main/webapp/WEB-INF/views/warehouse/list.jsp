@@ -60,15 +60,11 @@
 												<div class="row">
 													<h4 class="text-blue h4">기본 검색</h4>
 													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
-														<div class="btn-group dropdown">
-															<button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-																카테고리 <span class="caret"></span>
-															</button>
-															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" href="javascript:buttonCategory();">선택</a> <a class="dropdown-item" href="javascript:buttonCategory('A');">A</a> <a class="dropdown-item" href="javascript:buttonCategory('B');">B</a> <a class="dropdown-item" href="javascript:buttonCategory('C');">C</a>
-															</div>
-														</div>
-														<input type="hidden" id="searchCategory" name="searchCategory"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
+														<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
+														<label>담당자</label> 
+														<!-- <input type="hidden" id="SearchEmployees" name="searchCategory">  -->
+														<input type="text" id="SearchEmployees" name="manager" class="form-control" style="width: 100%;" placeholder="검색어 입력" autocomplete="off">
+													</div>
 													</div>
 												</div>
 												<hr>
@@ -324,12 +320,26 @@
 	
 	
 	
-	<!-- 추가, 수정, 삭제 -->
+
+	<!-- 추가, 수정, 삭제, 상세보기 -->
 	<script type="text/javascript">
+	
+	var result ="${result}"
+		if(result == "AddDone"){
+			$("#success").css("display","block")
+		}else if(result =="UpdateDone"){
+			alert("글 수정 완료");
+		}else if(result == "DeleteDone"){
+			alert("글 삭제 완료");
+		}
+	
+	
+	
+	
 		var popupWidth, popupHeight, popupX, popupY, link;
 		var set;
 
-		function retPopupSetting(width, height) {
+		function retPopupSetting(width, height){
 			// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
 			popupX = Math.ceil((window.screen.width - width) / 2);
 			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
@@ -350,34 +360,61 @@
 
 		function openPage(i, width, height) {
 			set = retPopupSetting(width, height);
-			return window.open(i, 'Popup_Window', set);
+			return window.open(i, 'Popup_Window', set); // 가운데거가 이름이 똑같으면 같은창에서 열림
 		}
 
 		$(document).ready(function() {
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
-				openPage("/warehouse/add", 500, 600);
+				openPage("/request/add", 400, 700);
 			});
 
 			// 수정
 			$("#update").click(function() {
 				// 가로, 세로 설정
-				openPage("/warehouse/update", 400, 700);
+				openPage("/request/update", 400, 700);
 			});
 
 			// 삭제
 			$("#delete").click(function() {
-				var ch = $("input:checkbox[name=tableCheck]:checked").length;
-				openPage("/maintenance/delete", 400, 700);					if (ch > 0) {
-					// 가로, 세로 설정
-					openPage("/warehouse/delete", 400, 700);
-				} else {
-					$(this).attr("data-toggle", "modal");
-					$(this).attr("data-target", "#warning-modal");
-					$($(this).data("target")).show();
-				}
+				// 가로, 세로 설정
+				openPage("/request/delete?", 400, 700);
+				// 체크된 데이터열의 코드들을 보내야함!
+				
 			});
+			
+			// 삭제
+			$(".info${status.index}").click(function() {
+        		var code = $(this).text().trim();
+				// 가로, 세로 설정
+				openPage("/request/info?code"+code, 400, 700);
+				// 체크된 데이터열의 코드들을 보내야함!
+				
+			});
+			
+			// 상세보기
+			$('body').on('click', '[class^="info"]', function(){
+        		var code = $(this).text().trim();
+      		  openPage("/request/info?code=" + code, 400, 700);
+  			});
+			
+			// 사원검색
+			$("#SearchEmployees").click(function() {
+				// 가로, 세로 설정
+				openPage("/warehouse/SearchEmployees", 400,700);
+			});
+			
+			// 검색은 ajax
+			$(".search").click(function() {
+				// 가로, 세로 설정
+				$.ajax({
+					
+				});
+				
+			});
+			
+			
 		});
 	</script>
 </body>

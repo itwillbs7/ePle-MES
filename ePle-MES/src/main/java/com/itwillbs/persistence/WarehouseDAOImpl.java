@@ -1,6 +1,8 @@
 package com.itwillbs.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -35,6 +37,20 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	public int getWarehouseCount() throws Exception {
 		logger.debug(" DAO : getWarehouseCount() ");
 		return sqlSession.selectOne(NAMESPACE + ".countWarehouse");
+	}
+	
+	@Override
+	public List<WarehouseVO> getEmployees() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getEmployees");
+	}
+	
+	@Override
+	public List<WarehouseVO> SearchEmployees(String manager, String managerName) throws Exception {
+		logger.debug("DAO : SearchEmployees(String manager, String managerName) : "+manager+managerName);
+		Map<String,String> paramMap = new HashMap<String,String>();
+		paramMap.put("manager", manager);
+		paramMap.put("managerName", managerName);
+		return sqlSession.selectList(NAMESPACE + ".SearchEmployees",paramMap);
 	}
 	
 	@Override

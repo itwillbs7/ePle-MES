@@ -13,7 +13,7 @@ public class WarehouseVO {
 	private String mng_phone;
 	private int active;
 	
-	// employees join
+	private String managerName;
 	private String name;
 	private String phone;
 	

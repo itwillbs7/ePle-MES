@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.Criteria;
@@ -44,20 +46,40 @@ public class WarehouseController {
 		
 		// 서비스 - 디비에 저장된 글을 가져오기
 		List<WarehouseVO> warehouseList = wService.warehouseList(cri);
-		logger.debug("♬ ♪ ♬ ♪ ^ㅁ^) "+ warehouseList);
+		logger.debug("♬ ♪ ♬ ♪ ^ㅁ^)창고 "+ warehouseList);
 		
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(wService.totalWarehouseCount());
 
-		logger.debug(" 확인 :"+pageVO);
 		model.addAttribute("pageVO", pageVO);
-		// 데이터를 연결된 뷰페이지로 전달(Model)
 		model.addAttribute("warehouseList", warehouseList);
 
 		return "/warehouse/list";
 	}
 	
+	
+	
+	// 검색
+	@RequestMapping(value = "/SearchEmployees" ,method = RequestMethod.GET)
+	public void SearchEmployees(Model model, HttpSession session)throws Exception{
+		logger.debug("controller : 담당자 정보 찾기");
+		logger.debug("searchManagerGET    실행");
+		
+		List<WarehouseVO> employeesList = wService.getEmployees();
+		model.addAttribute("employeesList", employeesList);
+
+	}
+	
+	@RequestMapping(value = "/SearchEmployees", method = RequestMethod.POST)
+	@ResponseBody
+	public List<WarehouseVO> SearchEmployees(@RequestParam(value = "manager") String manager,@RequestParam("managerName") String managerName,Model model) throws Exception {
+		logger.debug("Controller : DB에서 담당자 불러오기");
+		List<WarehouseVO> employeesList = wService.SearchEmployees(manager,managerName);
+		logger.debug("employeesList : " + employeesList);
+		return employeesList;
+	}
+		
 	
 
 	// 4-41 창고 등록 (GET)  http://localhost:8088/warehouse/add
@@ -82,6 +104,11 @@ public class WarehouseController {
 		logger.debug("/warehouse/list 이동");
 		return "redirect:/warehouse/list";
 	}
+	
+	
+	
+	
+	
 	
 	
 	

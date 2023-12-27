@@ -18,37 +18,61 @@
 		<result property="name" column="name"/>
 		<result property="phone" column="phone"/>
 	</resultMap>
-	
-	
-  <select id="getWarehouseList" resultMap="warehouse">
-  	SELECT w.code, w.location, w.group_id, w.group_name, e.name, e.phone, w.active
-	FROM WAREHOUSE w JOIN EMPLOYEES e
-	on w.manager=e.name
-  	limit #{startPage},#{pageSize} 	
-  </select>
 
-  <select id="countWarehouse" resultType="int">
+
+	<select id="getWarehouseList" resultMap="warehouse">
+		SELECT w.code, w.location, w.group_id, w.group_name, e.name, e.phone,
+		w.active
+		FROM WAREHOUSE w JOIN EMPLOYEES e
+		on w.manager=e.name
+		limit #{startPage},#{pageSize}
+	</select>
+
+	<select id="countWarehouse" resultType="int">
 	<![CDATA[	
 	SELECT count(*) FROM WAREHOUSE
 	]]>
-  </select>
-  
-  <insert id="insertWarehouse">
-  	insert into WAREHOUSE (code,location,group_id,group_name,manager,mng_phone,active) 
-  	values(#{code},#{location},#{group_id},#{group_name},#{manager},#{mng_phone},#{active})
-  </insert>
+	</select>
 
-  <delete id="deleteWarehouse">
-  	delete from WAREHOUSE
-  	where code = #{code}  	
-  </delete>
+	<insert id="insertWarehouse">
+		insert into WAREHOUSE
+		(code,location,group_id,group_name,manager,mng_phone,active)
+		values(#{code},#{location},#{group_id},#{group_name},#{manager},#{mng_phone},#{active})
+	</insert>
 
-  <select id="getWarehouseContent" resultType="WarehouseVO">
-	SELECT * FROM WAREHOUSE
-	WHERE code = #{code}
-  </select>	
-	
-	
+	<delete id="deleteWarehouse">
+		delete from WAREHOUSE
+		where code = #{code}
+	</delete>
+
+	<select id="getWarehouseContent" resultType="WarehouseVO">
+		SELECT * FROM WAREHOUSE
+		WHERE code = #{code}
+	</select>
+
+
+	<select id="searchWarehouse" resultType="WarehouseVO">
+		SELECT w.code, w.location, w.group_id, w.group_name, e.name, e.phone,
+		w.active
+		FROM WAREHOUSE w JOIN EMPLOYEES e
+		on w.manager=e.name
+		limit #{startPage},#{pageSize}
+	</select>
+
+	<select id="getManagerList" resultType="WarehouseVO">
+		select code manager, name managerName
+		from EMPLOYEES
+		where dep_id = '자재부'
+	</select>
+
+	<select id="getEmployees" resultType="WarehouseVO">
+		select code manager, name managerName
+		from EMPLOYEES
+		where dep_id = '자재부'
+		<if test="manager != null"> AND code like concat('%',#{manager},'%')</if>
+		<if test="managerName != null">AND name like concat('%',#{managerName},'%')</if>
+	</select>
+
   	
  
 	

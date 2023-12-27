@@ -9,7 +9,10 @@ public interface WarehouseDAO {
 	
 	public List<WarehouseVO> getWarehouseListAll(Criteria cri) throws Exception;
 	public int getWarehouseCount() throws Exception;
-	
+	public List<WarehouseVO> getEmployees() throws Exception;
+	public List<WarehouseVO> SearchEmployees(String manager, String managerName) throws Exception;
 	public void insertWarehouse(WarehouseVO vo) throws Exception;
 	public void deleteWarehouse(String code) throws Exception;
+	
+	
 }

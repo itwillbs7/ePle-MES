@@ -22,26 +22,36 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	@Override
 	public List<WarehouseVO> warehouseList(Criteria cri) throws Exception {
-		logger.debug("warehouseList(Criteria cri)");
+		logger.debug("S : warehouseList(Criteria cri)");
 		return wdao.getWarehouseListAll(cri);
 	}
 
 	@Override
 	public int totalWarehouseCount() throws Exception {
-		logger.debug(" S : totalWarehouseCount()  ");
+		logger.debug("S : totalWarehouseCount()");
 		return wdao.getWarehouseCount();
 	}
 	
 	@Override
+	public List<WarehouseVO> getEmployees() throws Exception {
+		logger.debug("S : getEmployees()");
+		return wdao.getEmployees();
+	}
+	
+	@Override
+	public List<WarehouseVO> SearchEmployees(String manager, String managerName) throws Exception {
+		return wdao.SearchEmployees(manager, managerName);
+	}
+	
+	@Override
 	public void InsertWarehouse(WarehouseVO vo) throws Exception {
-		logger.debug("InsertWarehouse(WarehouseVO vo) : "+vo);
+		logger.debug("S : InsertWarehouse(WarehouseVO vo) : "+vo);
 		wdao.insertWarehouse(vo);
-		
 	}
 	
 	@Override
 	public void warehouseRemove(String code) throws Exception {
-		logger.debug(" S : warehouseRemove(String code) ");
+		logger.debug("S : warehouseRemove(String code)");
 		wdao.deleteWarehouse(code);
 	}
 	
