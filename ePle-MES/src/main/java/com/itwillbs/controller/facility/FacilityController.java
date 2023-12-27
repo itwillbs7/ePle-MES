@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,8 +32,8 @@ public class FacilityController {
 	private FacilityService service;
 	
 	// http://localhost:8088/facility/list
-	@GetMapping(value = "/list")
-	public void facilityListGET
+	@GetMapping(value = "/")
+	public String facilityListGET
 	(FacilitySearchVO searchVO, PageVO pageVO, Criteria cri, Model model) 
 	throws Exception{
 		// 설비 목록 return
@@ -43,9 +44,10 @@ public class FacilityController {
 		if (vo == null) vo = new ArrayList<FacilityVO>();
 		model.addAttribute("list", vo);
 		model.addAttribute("pageVO", pageVO);
+		return "/facility/info/list";
 	}
 
-	// http://localhost:8088/facility/insert
+	// http://localhost:8088/facility/info/insert
 	@GetMapping(value = "/insert")
 	public void facilityInsertGET() throws Exception {
 		// 설비 추가 폼
@@ -99,8 +101,8 @@ public class FacilityController {
 			Map<String, Object> col = new HashMap<String, Object>();
 			col.put("코드", list.get(i).getCode());
 			col.put("카테고리", list.get(i).getCategory());
-			col.put("모델", list.get(i).getModel());
 			col.put("이름", list.get(i).getName());
+			col.put("모델", list.get(i).getModel());
 			col.put("구매 일자", list.get(i).getPurchase_date());
 			col.put("구매 가격", list.get(i).getInprice());
 			col.put("위치", list.get(i).getLocation());

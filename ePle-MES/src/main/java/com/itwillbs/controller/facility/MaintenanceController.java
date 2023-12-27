@@ -25,10 +25,10 @@ public class MaintenanceController {
 
 	@Inject
 	private MaintenanceService mService;
-
+	
 	// http://localhost:8088/facility/maintenance/list
-	@GetMapping(value = "/list")
-	public void maintenanceListGET
+	@GetMapping(value = "/")
+	public String maintenanceListGET
 	(MaintenanceSearchVO searchVO, PageVO pageVO, Criteria cri, Model model)
 			throws Exception {
 		// 설비 보전 리스트
@@ -39,6 +39,7 @@ public class MaintenanceController {
 		if (vo == null) vo = new ArrayList<MaintenanceVO>();
 		model.addAttribute("list", vo);
 		model.addAttribute("pageVO", pageVO);
+		return "/facility/maintenance/list";
 	}
 
 	@GetMapping(value = "/insert")

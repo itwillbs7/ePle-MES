@@ -101,21 +101,25 @@
 				<!-- date -->
 				<!-- date between -->
 				<choose>
-					<when test="search.betweenDateLeft eq null and search.betweenDateRight eq null">
+					<when
+						test="search.betweenDateLeft eq null and search.betweenDateRight eq null">
 					</when>
-					<when test="search.betweenDateLeft.toString().length() > 0 
+					<when
+						test="search.betweenDateLeft.toString().length() > 0 
 			and (search.betweenDateRight eq null or search.betweenDateRight.toString() eq '')">
 						<![CDATA[
 							AND purchase_date > #{search.betweenDateLeft}
 						]]>
 					</when>
-					<when test="search.betweenDateRight.toString().length() > 0 
+					<when
+						test="search.betweenDateRight.toString().length() > 0 
 			and (search.betweenDateLeft eq null or search.betweenDateLeft.toString() eq '')">
 						<![CDATA[
 							AND purchase_date < #{search.betweenDateRight}
 						]]>
 					</when>
-					<when test="search.betweenDateLeft neq null and 
+					<when
+						test="search.betweenDateLeft neq null and 
 				search.betweenDateLeft.toString() neq '' and
 				search.betweenDateRight neq null and
 				search.betweenDateRight.toString() neq ''">
@@ -134,22 +138,105 @@
 
 	<!-- 추가 -->
 	<insert id="insertFacility">
-		INSERT INTO FAC_INFO (
-		<if test="">
-
-		</if>
-		)
+		INSERT INTO FAC_INFO (code, category, name, model,
+		purchase_date, inprice)
+		VALUES (#{code}, #{category}, #{name}, #{model}, #{purchase_date},
+		${inprice})
 	</insert>
 
 	<select id="findLastFacility">
-		
+		SELECT code FROM FAC_INFO
+		WHERE category = #{category}
+		ORDER BY code DESC
+		LIMIT 0, 1
 	</select>
 
-	<!-- 수정 -->
-	<update id="updateFacility">
+	<sql id="updateFacility">
+		<![CDATA[
+				category = #{category},
+			]]>
+		<if test="name neq null">
+				<![CDATA[
+					, name = #{name}
+				]]>
+		</if>
+		<if test="model neq null and model.toString() neq ''">
+				<![CDATA[
+					, model = #{model}
+				]]>
+		</if>
+		<if test="location neq null and locaiton.toString() neq ''">
+				<![CDATA[
+					, location = #{location}
+				]]>
+		</if>
+		<if test="line_code neq null and line_code.toString() neq ''">
+				<![CDATA[
+					, line_code = #{line_code}
+				]]>
+		</if>
+		<if test="image neq null and image.toString() neq ''">
+				<![CDATA[
+					, image = #{image}
+				]]>
+		</if>
+	</sql>
+
+	<!-- 수정(클라이언트) -->
+	<update id="updateFacilityClient">
 		UPDATE FAC_INFO
 		<set>
-			
+			<include refid="updateFacility" />
+		</set>
+		<where>
+			code = #{code}
+		</where>
+	</update>
+
+	<update id="updateFacilityAdmin">
+		UPDATE FAC_INFO
+		<set>
+			active = #{active}
+			<include refid="updateFacility" />
+			<choose>
+				<when test="client_code eq null or client_code.toString() eq ''">
+					<![CDATA[
+					, client_code = NULL
+					]]>
+				</when>
+				<when test="client_code neq null and client_code.toString() neq ''">
+					<![CDATA[
+					, client_code = #{client_code}
+					]]>
+				</when>
+			</choose>
+			<choose>
+				<when test="image eq null or image.toString() eq ''">
+					<![CDATA[
+					, image = NULL
+					]]>
+				</when>
+				<when test="image neq null and image.toString() neq ''">
+					<![CDATA[
+					, image = #{image}
+					]]>
+				</when>
+			</choose>
+			<if test="uph neq null and uph > 0">
+				<![CDATA[
+					, uph = #{uph}
+				]]>
+			</if>
+			<if test="purchase_date neq null and purchase_date.toString() neq ''">
+				<![CDATA[
+					, purchase_date = #{purchase_date}
+				]]>
+			</if>
+			<if test="inprice neq null and inprice > 0">
+				<![CDATA[
+					, inprice = #{inprice}
+				]]>
+			</if>
 		</set>
 		<where>
 			code = #{code}
@@ -256,8 +343,8 @@
 			<!-- check box -->
 			<if test="formCheck neq null">
 				<![CDATA[AND category IN]]>
-				<foreach collection="formCheck" item="item"
-					index="index" open="(" close=")" separator=",">
+				<foreach collection="formCheck" item="item" index="index"
+					open="(" close=")" separator=",">
 					#{item}
 				</foreach>
 			</if>
@@ -270,22 +357,26 @@
 			</if>
 			<!-- date -->
 			<!-- date between -->
-				<choose>
-					<when test="betweenDateLeft eq null and betweenDateRight eq null">
-					</when>
-					<when test="betweenDateLeft.toString().length() > 0 
+			<choose>
+				<when
+					test="betweenDateLeft eq null and betweenDateRight eq null">
+				</when>
+				<when
+					test="betweenDateLeft.toString().length() > 0 
 			and (betweenDateRight eq null or betweenDateRight.toString() eq '')">
 						<![CDATA[
 							AND purchase_date > #{betweenDateLeft}
 						]]>
-					</when>
-					<when test="betweenDateRight.toString().length() > 0 
+				</when>
+				<when
+					test="betweenDateRight.toString().length() > 0 
 			and (betweenDateLeft eq null or betweenDateLeft.toString() eq '')">
 						<![CDATA[
 							AND purchase_date < #{betweenDateRight}
 						]]>
-					</when>
-					<when test="betweenDateLeft neq null and 
+				</when>
+				<when
+					test="betweenDateLeft neq null and 
 				betweenDateLeft.toString() neq '' and
 				betweenDateRight neq null and
 				betweenDateRight.toString() neq ''">
@@ -294,9 +385,9 @@
 							#{betweenDateLeft} AND
 							#{betweenDateRight}
 						]]>
-					</when>
-				</choose>
-				<!-- date between -->
+				</when>
+			</choose>
+			<!-- date between -->
 		</where>
 		<![CDATA[
 		ORDER BY code

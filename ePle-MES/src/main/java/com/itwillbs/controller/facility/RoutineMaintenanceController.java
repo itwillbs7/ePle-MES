@@ -8,8 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value="/facility/routine/*")
 public class RoutineMaintenanceController {
-	@GetMapping("/list")
-	public void list() throws Exception{
+	
+	@GetMapping("/")
+	public String root() throws Exception{
+		return "redirect:/facility/routine/emp";
+	}
+	
+	@GetMapping("/emp")
+	public void routineEMP() throws Exception{
 		
 	}
 	

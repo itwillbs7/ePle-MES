@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value = "/facility/order/*")
 public class FacilityOrderController {
-	@GetMapping("/list")
-	public void list() throws Exception{
-		
+	
+	@GetMapping("/")
+	public String list() throws Exception{
+		return "/facility/order/list";
 	}
 }

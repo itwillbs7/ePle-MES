@@ -8,7 +8,7 @@
 <mapper namespace="com.itwillbs.mapper.MaintenanceMapper">
 	<resultMap type="com.itwillbs.domain.MaintenanceVO"
 		id="maintenance">
-		<result property="index" column="index" />
+		<result property="code" column="code" />
 		<result property="reg_date" column="reg_date" />
 		<result property="emp_code" column="emp_code" />
 		<result property="group_id" column="group_id" />
@@ -39,7 +39,7 @@
 	<update id="updateMaintenance">
 		UPDATE FAC_MT
 		<where>
-		
+			code = #{code}
 		</where>
 	</update>
 	
@@ -47,28 +47,31 @@
 	<delete id="deleteMaintenance">
 		DELETE FROM FAC_MT
 		<where>
-			
+			<foreach collection="code" item="item" index="index" open="("
+				close=")" separator=",">
+				#{item}
+			</foreach>
 		</where>
 	</delete>
 	
 	<sql id="maintenanceSearch">
 		<where>
-			<![CDATA[index = index ]]>
+			<![CDATA[code = code ]]>
 			<if test="search eq null">
 				<![CDATA[AND active = TRUE ]]>
 			</if>
 			<if test="search neq null">
 				<!-- 라디오 -->
 				<if test="search.formRadio eq null">
-				<![CDATA[AND active = TRUE ]]>
+				<![CDATA[AND complete = TRUE ]]>
 				</if>
 				<if test="search.formRadio neq null">
 					<choose>
 						<when test="search.formRadio.toString() eq 'true'">
-							<![CDATA[AND active = TRUE ]]>
+							<![CDATA[AND complete = TRUE ]]>
 						</when>
 						<when test="search.formRadio.toString() eq 'false'">
-							<![CDATA[AND active = FALSE ]]>
+							<![CDATA[AND complete = FALSE ]]>
 						</when>
 					</choose>
 				</if>
@@ -78,7 +81,7 @@
 					<choose>
 						<when test="search.searchCategory.toString() eq null">
 							<![CDATA[
-								AND (index LIKE '%'||#{search.searchKeyword}||'%' OR 
+								AND (code LIKE '%'||#{search.searchKeyword}||'%' OR 
 								emp_code LIKE '%'||#{search.searchKeyword}||'%' OR 
 								fac_code LIKE '%'||#{search.searchKeyword}||'%' OR 
 								manager LIKE '%'||#{search.searchKeyword}||'%' OR 
@@ -87,7 +90,7 @@
 						</when>
 						<when test="search.searchCategory.toString() eq 'index'">
 							<![CDATA[
-								AND index LIKE '%'||#{search.searchKeyword}||'%' 
+								AND code LIKE '%'||#{search.searchKeyword}||'%' 
 							]]>
 						</when>
 						<when test="search.searchCategory.toString() eq 'emp_code'">
@@ -115,9 +118,9 @@
 				<!-- 기본 검색 -->
 				<!-- check box -->
 				<if test="search.formCheck neq null">
-				<![CDATA[AND category IN]]>
+				<![CDATA[AND code REGEXP]]>
 					<foreach collection="search.formCheck" item="item"
-						index="index" open="(" close=")" separator=",">
+						index="index" open="'" close="'" separator="|">
 						#{item}
 					</foreach>
 				</if>
@@ -125,7 +128,7 @@
 				<!-- date -->
 				<if test="search.date neq null and search.date.toString() neq ''">
 				<![CDATA[
-					AND purchase_date = #{search.date}
+					AND regdate = #{search.date}
 				]]>
 				</if>
 				<!-- date -->
@@ -136,7 +139,7 @@
 				search.betweenDateRight neq null and
 				search.betweenDateRight.toString() neq ''">
 					<![CDATA[
-					AND purchase_date BETWEEN
+					AND regdate BETWEEN
 					#{search.betweenDateLeft} AND
 					#{search.betweenDateRight}
 					]]>

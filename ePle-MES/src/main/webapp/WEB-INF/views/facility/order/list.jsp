@@ -3,7 +3,7 @@
 <html>
 <head>
 <%@ include file="../../include/head.jsp"%>
-<title>설비 보전</title>
+<title>발주 신청</title>
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -14,7 +14,7 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>설비 보전</h1>
+				<h1>설비 발주 신청</h1>
 			</div>
 			<div class="min-height-200px">
 				<ul class="nav nav-pills">
@@ -23,152 +23,28 @@
 				</ul>
 				<br>
 				<div class="alert alert-success alert-dismissible fade show" role="alert">
-					<strong>보전 등록</strong>이 완료되었습니다!
+					<strong>신청 등록</strong>이 완료되었습니다!
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
 				<div class="alert alert-info alert-dismissible fade show" role="alert">
-					<strong>보전 수정</strong>이 완료되었습니다!
+					<strong>신청 수정</strong>이 완료되었습니다!
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
 				<div class="alert alert-warning alert-dismissible fade show" role="alert">
-					<strong>보전 삭제</strong>가 완료되지 않았습니다!
+					<strong>신청 삭제</strong>가 완료되지 않았습니다!
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<!-- 아코디언 시작 -->
-				<div class="faq-wrap">
-					<div id="accordion">
-						<div class="card">
-							<div class="card-header">
-								<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false">
-									<b>상세 검색</b>
-								</button>
-							</div>
-							<div id="faq1" class="collapse" data-parent="#accordion" style="">
-								<div class="card-body">
-									<form id="accordion-search" method="GET" action="#">
-										<div class="col-md-12">
-											<div class="form-group">
-												<div class="row">
-													<div class="col-md-1 col-sm-12">
-														<label class="weight-600">체크 박스</label>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheckAll"> <label class="custom-control-label" for="formCheckAll"><b>전체</b></label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck1" name="formCheck"> <label class="custom-control-label" for="formCheck1">A</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck2" name="formCheck"> <label class="custom-control-label" for="formCheck2">B</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck3" name="formCheck"> <label class="custom-control-label" for="formCheck3">C</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck4" name="formCheck"> <label class="custom-control-label" for="formCheck4">D</label>
-														</div>
-													</div>
-													<div class="col-md-1 col-sm-12" style="margin-top: auto;">
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck5" name="formCheck"> <label class="custom-control-label" for="formCheck5">E</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck6" name="formCheck"> <label class="custom-control-label" for="formCheck6">F</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck7" name="formCheck"> <label class="custom-control-label" for="formCheck7">G</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck8" name="formCheck"> <label class="custom-control-label" for="formCheck8">H</label>
-														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<label class="weight-600">라디오</label>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio1">가</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio2">나</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio3">다</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio4" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio4">라</label>
-														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<div class="form-group">
-															<label>날짜</label> <input type="date" class="form-control">
-														</div>
-													</div>
-													<div class="col-md-2">
-														<div class="form-group" style="display: inline-block;">
-															<label>기간</label><input type="date" class="form-control">
-														</div>
-														<b>-</b>
-														<div class="form-group" style="display: inline-block;">
-															<input type="date" class="form-control">
-														</div>
-													</div>
-													<div class="col-md-2">
-														<div class="form-group">
-															<label>물품 종류</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="category">
-																<optgroup label="Alaskan/Hawaiian Time Zone">
-																	<option value="AK">Alaska</option>
-																	<option value="HI">Hawaii</option>
-																</optgroup>
-																<optgroup label="Pacific Time Zone">
-																	<option value="CA">California</option>
-																	<option value="NV">Nevada</option>
-																	<option value="OR">Oregon</option>
-																	<option value="WA">Washington</option>
-																</optgroup>
-																<optgroup label="Mountain Time Zone">
-																	<option value="AZ">Arizona</option>
-																	<option value="CO">Colorado</option>
-																	<option value="ID">Idaho</option>
-																	<option value="MT">Montana</option>
-																	<option value="NE">Nebraska</option>
-																	<option value="NM">New Mexico</option>
-																	<option value="ND">North Dakota</option>
-																	<option value="UT">Utah</option>
-																	<option value="WY">Wyoming</option>
-																</optgroup>
-															</select>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="btn-group pull-right" style="margin-bottom: 10px">
-											<button type="submit" class="btn btn-primary" id="search">
-												<b>검색</b>
-											</button>
-											<button type="reset" class="btn btn-secondary" id="reset">
-												<b>초기화</b>
-											</button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- 아코디언 끝 -->
+				<!-- 데이터 검색 불필요! -->
+				<!-- status : 신청 일 때만 수정 가능!, 내역의 경우 발주 파트! -->		
 				<!-- Checkbox select Datatable start -->
 				<div class="card-box mb-30">
 					<div class="pd-20">
-						<div class="pull-left" style="margin-bottom: 15px">
-							<button type="button" class="btn btn-secondary" id="export">
-								<b>저장 / 인쇄</b>
-							</button>
-						</div>
 						<div class="btn-group pull-right" style="margin-bottom: 15px">
 							<button type="button" class="btn btn-success" id="add">
 								<b>추가</b>
@@ -300,16 +176,17 @@
 		}
 
 		$(document).ready(function() {
+			alert(link);
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
-				openPage("/facility/maintenance/add", 500, 600);
+				openPage("/facility/order/add", 500, 600);
 			});
 
 			// 수정
 			$("#update").click(function() {
 				// 가로, 세로 설정
-				openPage("/facility/maintenance/update", 400, 700);
+				openPage("/facility/order/update", 400, 700);
 			});
 
 			// 삭제
@@ -317,7 +194,7 @@
 				var ch = $("input:checkbox[name=tableCheck]:checked").length;
 				if (ch > 0) {
 					// 가로, 세로 설정
-					openPage("/facility/maintenance/delete", 400, 700);
+					openPage("/facility/order/delete", 400, 700);
 				} else {
 					$(this).attr("data-toggle", "modal");
 					$(this).attr("data-target", "#warning-modal");
@@ -326,7 +203,7 @@
 			});
 
 			$("#export").click(function() {
-				openPage("/facility/maintenance/export", 400, 700);
+				openPage("/facility/order/export", 400, 700);
 			});
 		});
 	</script>
