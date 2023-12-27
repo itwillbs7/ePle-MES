@@ -20,7 +20,7 @@ import com.itwillbs.service.MaintenanceService;
 /** FacilityController : 설비 보전 컨트롤러 **/
 
 @Controller
-@RequestMapping(value = "/maintenance/*")
+@RequestMapping(value = "/facility/maintenance/*")
 public class MaintenanceController {
 
 	@Inject

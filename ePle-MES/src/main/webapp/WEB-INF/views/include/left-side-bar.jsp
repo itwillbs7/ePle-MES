@@ -83,8 +83,8 @@
 						class="mtext">설비 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="/facility/list">설비 목록</a></li>
-						<li><a href="/maintenance/list">설비 보전</a></li>
+						<li><a href="/facility/info/list">설비 목록</a></li>
+						<li><a href="/facility/maintenance/list">설비 보전</a></li>
 					</ul></li>
 
 				<!-- 드롭다운 -->
