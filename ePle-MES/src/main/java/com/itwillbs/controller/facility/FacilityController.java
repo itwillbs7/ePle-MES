@@ -1,4 +1,4 @@
-package com.itwillbs.controller;
+package com.itwillbs.controller.facility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.domain.Criteria;
-import com.itwillbs.domain.FacilitySearchVO;
 import com.itwillbs.domain.PageVO;
-import com.itwillbs.service.FacilityService;
-import com.itwillbs.domain.FacilityVO;
+import com.itwillbs.domain.facility.FacilitySearchVO;
+import com.itwillbs.domain.facility.FacilityVO;
+import com.itwillbs.service.facility.FacilityService;
 
 /** FacilityController : 설비 컨트롤러 **/
 

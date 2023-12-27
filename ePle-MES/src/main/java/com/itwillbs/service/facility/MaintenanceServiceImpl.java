@@ -1,4 +1,4 @@
-package com.itwillbs.service;
+package com.itwillbs.service.facility;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.itwillbs.domain.MaintenanceVO;
 import com.itwillbs.domain.PageVO;
-import com.itwillbs.persistence.MaintenanceDAO;
+import com.itwillbs.domain.facility.MaintenanceVO;
+import com.itwillbs.persistence.facility.MaintenanceDAO;
 
 @Service
 public class MaintenanceServiceImpl implements MaintenanceService {

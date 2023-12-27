@@ -1,9 +1,9 @@
-package com.itwillbs.persistence;
+package com.itwillbs.persistence.facility;
 
 import java.util.List;
 
-import com.itwillbs.domain.MaintenanceVO;
 import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.facility.MaintenanceVO;
 
 public interface MaintenanceDAO {
 	public int insertMaintenance(MaintenanceVO vo) throws Exception;

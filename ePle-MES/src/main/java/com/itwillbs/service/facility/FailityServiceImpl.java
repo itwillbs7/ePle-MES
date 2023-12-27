@@ -1,4 +1,4 @@
-package com.itwillbs.service;
+package com.itwillbs.service.facility;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.SearchVO;
-import com.itwillbs.persistence.FacilityDAO;
+import com.itwillbs.domain.facility.FacilityVO;
+import com.itwillbs.persistence.facility.FacilityDAO;
 
 @Service
 public class FailityServiceImpl implements FacilityService {

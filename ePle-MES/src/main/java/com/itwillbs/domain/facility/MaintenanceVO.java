@@ -1,4 +1,4 @@
-package com.itwillbs.domain;
+package com.itwillbs.domain.facility;
 
 import java.sql.Timestamp;
 

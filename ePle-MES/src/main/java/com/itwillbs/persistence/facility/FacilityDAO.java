@@ -1,10 +1,10 @@
-package com.itwillbs.persistence;
+package com.itwillbs.persistence.facility;
 
 import java.util.List;
 
-import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.SearchVO;
+import com.itwillbs.domain.facility.FacilityVO;
 
 public interface FacilityDAO {
 	public int insertFacility(FacilityVO vo) throws Exception;
