@@ -7,8 +7,8 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.MaintenanceVO;
 import com.itwillbs.domain.PageVO;
-import com.itwillbs.domain.facility.MaintenanceVO;
 
 @Repository
 public class MaintenanceDAOImpl implements MaintenanceDAO{

@@ -1,6 +1,4 @@
-package com.itwillbs.domain.facility;
-
-import com.itwillbs.domain.SearchVO;
+package com.itwillbs.domain;
 
 public class FacilitySearchVO extends SearchVO{
 	public boolean isNull() {

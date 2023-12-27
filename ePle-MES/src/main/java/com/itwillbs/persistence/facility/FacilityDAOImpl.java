@@ -7,9 +7,9 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.SearchVO;
-import com.itwillbs.domain.facility.FacilityVO;
 
 @Repository
 public class FacilityDAOImpl implements FacilityDAO {

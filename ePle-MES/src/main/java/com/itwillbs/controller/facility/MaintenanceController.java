@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.MaintenanceSearchVO;
+import com.itwillbs.domain.MaintenanceVO;
 import com.itwillbs.domain.PageVO;
-import com.itwillbs.domain.facility.MaintenanceSearchVO;
-import com.itwillbs.domain.facility.MaintenanceVO;
 import com.itwillbs.service.facility.MaintenanceService;
 
 /** FacilityController : 설비 보전 컨트롤러 **/
