@@ -90,15 +90,15 @@
 				switch (i) {
 				case 1:
 					// PDF
-					alert("PDF");
+					downloadPDF(data);
 					break;
 				case 2:
 					// CSV
-					alert("CSV");
+					downloadCSV(data);
 					break;
 				case 3:
 					// 인쇄
-					alert("PRINT");
+					printResult(data);
 					break;
 				}
 			},

@@ -2,14 +2,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<%@ include file="../include/head.jsp"%>
+<%@ include file="../../include/head.jsp"%>
 <title>설비 보전</title>
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
-	<%@ include file="../include/header.jsp"%>
-	<%@ include file="../include/right-side-bar.jsp"%>
-	<%@ include file="../include/left-side-bar.jsp"%>
+	<%@ include file="../../include/header.jsp"%>
+	<%@ include file="../../include/right-side-bar.jsp"%>
+	<%@ include file="../../include/left-side-bar.jsp"%>
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
@@ -246,8 +246,8 @@
 				</div>
 				<!-- Checkbox select Datatable End -->
 				<!-- 푸터 -->
-				<%@ include file="../include/github.jsp"%>
-				<%@ include file="../include/footer.jsp"%>
+				<%@ include file="../../include/github.jsp"%>
+				<%@ include file="../../include/footer.jsp"%>
 			</div>
 		</div>
 	</div>

@@ -24,7 +24,7 @@ import com.itwillbs.domain.FacilityVO;
 /** FacilityController : 설비 컨트롤러 **/
 
 @Controller
-@RequestMapping(value = "/facility/*")
+@RequestMapping(value = "/facility/info/*")
 public class FacilityController {
 
 	@Inject

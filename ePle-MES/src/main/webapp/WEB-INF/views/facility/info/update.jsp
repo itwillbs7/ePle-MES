@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<%@ include file="../include/head.jsp"%>
+<%@ include file="../../include/head.jsp"%>
 <title>보전 수정</title>
 <!-- 
 	실행 방법
@@ -151,6 +151,6 @@
 		</div>
 	</div>
 	<!-- 콘텐츠 끝> -->
-	<%@ include file="../include/footer.jsp"%>
+	<%@ include file="../../include/footer.jsp"%>
 </body>
 </html>

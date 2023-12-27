@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<%@ include file="../include/head.jsp"%>
+<%@ include file="../../include/head.jsp"%>
 <title>보전 삭제</title>
 <!-- 
 	실행 방법
@@ -66,7 +66,7 @@
 		</div>
 	</div>
 	<!-- 콘텐츠 끝 -->
-	<%@ include file="../include/footer.jsp"%>
+	<%@ include file="../../include/footer.jsp"%>
 	<script type="text/javascript">
 		var listGroup = $(".list-group");
 		var listHtml = "<li class='list-group-item'>"
