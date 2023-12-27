@@ -161,8 +161,8 @@
 											<td>
 												<div class="custom-control custom-checkbox mb-5">
 													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-													<input type="checkbox" class="custom-control-input checkIndex" id="checkTable1" name="tableCheck" value="${vo.index }">
-													<label class="custom-control-label" for="checkTable1"></label>
+													<input type="checkbox" class="custom-control-input checkIndex" id="${vo.index }" name="tableCheck" value="${vo.index }">
+													<label class="custom-control-label" for="${vo.index }"></label>
 												</div>
 											</td>
 											<th>${vo.index }</th>
@@ -276,21 +276,25 @@
 			// 수정
 			$("#update").click(function() {
 				//지시사항 선택 체크
+				var index_arr = [];
 				if ($('.checkIndex').is(':checked')) {
 					//선택된 지시사항 갯수 체크
-					var index_arr = [];
-					$('.checkIndex').is(':checked').each(function() {
-						var index = this.val();
+					$(".checkIndex:checked").each(function() {
+						var index = this.value;
 						index_arr.push(index);
 					});
-					alert(index_arr.length);
+					if (index_arr.length>1) {
+						alert('복수의 지시사항을 수정할 수 없습니다.하나만 선택해 주세요.');
+						return;
+					}
 				}else{
 					alert('지시사항을 선택해 주세요');
+					return;
 				}
 				
-				
+				alert(index_arr[0]);
 				// 가로, 세로 설정
-				openPage("/production/instructionUpdate?" + index, 400, 700);
+				openPage("/production/instructionUpdate"+"?index=" + index_arr[0], 400, 700);
 			});
 
 			// 삭제
