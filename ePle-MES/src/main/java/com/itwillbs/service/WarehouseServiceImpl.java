@@ -28,7 +28,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	@Override
 	public int totalWarehouseCount() throws Exception {
-		logger.debug(" S : totalBoardCount()  ");
+		logger.debug(" S : totalWarehouseCount()  ");
 		return wdao.getWarehouseCount();
 	}
 	

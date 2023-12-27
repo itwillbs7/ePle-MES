@@ -60,8 +60,8 @@
 						class="mtext">자재 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="index.html">Dashboard style 1</a></li>
-						<li><a href="index2.html">Dashboard style 2</a></li>
+						<li><a href="/warehouseHistory/list">입출고 관리</a></li>
+						<li><a href="/stock/list">재고 관리</a></li>
 						<li><a href="/warehouse/list">창고 목록</a></li>
 					</ul></li>
 

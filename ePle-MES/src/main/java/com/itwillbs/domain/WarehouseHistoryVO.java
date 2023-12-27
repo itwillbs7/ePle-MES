@@ -3,7 +3,7 @@ package com.itwillbs.domain;
 import lombok.Data;
 
 @Data
-public class Warehouse_HistoryVO {
+public class WarehouseHistoryVO {
 	private int index;
 	private String code;
 	private String io;
