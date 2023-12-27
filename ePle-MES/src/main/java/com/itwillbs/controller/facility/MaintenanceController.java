@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MaintenanceSearchVO;
@@ -49,30 +50,48 @@ public class MaintenanceController {
 	}
 
 	@PostMapping(value = "/insert")
-	public void maintenanceInsertPOST(MaintenanceVO vo, Model model) throws Exception {
+	public String maintenanceInsertPOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
 		// 설비 보전 등록 액션
-
-		// 일상보전 or 사후보전 / 예방보전 / 긴급보전
+		
+		// 사후보전 / 예방보전 / 긴급보전
 		// -> 다른 데이터베이스에서 진행(일상 보전은 결과만)
+		String link = "";
 		int result = mService.addMaintenance(vo);
 		if(result == 1) {
-			
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "보전 등록 결과");
+			rttr.addFlashAttribute("result", "보전 등록이 완료되었습니다.");
 		}
 		else {
-			
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "보전 등록 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 		}
+		return link;
 	}
 
 	@GetMapping(value = "/update")
 	public void maintenanceUpdateGET() throws Exception {
 		// 설비 보전 수정 폼
-
+		
 	}
 
 	@PostMapping(value = "/update")
-	public void maintenanceUpdatePOST() throws Exception {
+	public String maintenanceUpdatePOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
 		// 설비 보전 수정 액션
-
+		String link = "";
+		int result = mService.updateMaintenance(vo);
+		if(result == 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "보전 수정 결과");
+			rttr.addFlashAttribute("result", "보전 수정이 완료되었습니다.");
+		}
+		else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "보전 수정 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+		}
+		return link;
 	}
 
 	@GetMapping(value = "/delete")
@@ -82,9 +101,21 @@ public class MaintenanceController {
 	}
 
 	@PostMapping(value = "/delete")
-	public void maintenanceDeletePOST() throws Exception {
+	public String maintenanceDeletePOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
 		// 설비 보전 삭제 액션
-
+		String link = "";
+		int result = mService.deleteMaintenance(vo);
+		if(result == 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "보전 삭제 결과");
+			rttr.addFlashAttribute("result", "보전 삭제가 완료되었습니다.");
+		}
+		else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "보전 삭제 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+		}
+		return link;
 	}
 
 	@GetMapping(value = "/resultList")
@@ -98,7 +129,20 @@ public class MaintenanceController {
 	}
 
 	@PostMapping(value = "/resultInsert")
-	public void maintenanceResultInsertPOST() throws Exception {
+	public String maintenanceResultInsertPOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
 		// 설비 보전 결과 액션
+		String link = "";
+		int result = mService.addMaintenance(vo);
+		if(result == 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "보전 결과 등록");
+			rttr.addFlashAttribute("result", "보전 결과 등록이 완료되었습니다.");
+		}
+		else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "보전 결과 등록");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+		}
+		return link;
 	}
 }

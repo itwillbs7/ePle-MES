@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.FacilitySearchVO;
@@ -65,18 +66,24 @@ public class FacilityInfoController {
 	}
 	
 	@PostMapping(value = "/insert")
-	public void facilityInsertPOST(FacilityVO vo) throws Exception {
+	public String facilityInsertPOST(FacilityVO vo, RedirectAttributes rttr) throws Exception {
 		// 설비 추가 액션
+		String link = "";
 		int result = fService.addFacility(vo);
 		if(result == 1) {
-			
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "설비 등록 결과");
+			rttr.addFlashAttribute("result", "설비 등록이 완료되었습니다.");
 		}
 		else {
-			
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "설비 등록 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 		}
+		return link;
 	}
 	
-	// http://localhost:8088/facility/update
+	// http://localhost:8088/facility/info/update
 	@GetMapping(value = "/update")
 	public void facilityUpdateGET() throws Exception {
 		// 설비 수정 폼
@@ -84,12 +91,24 @@ public class FacilityInfoController {
 	}
 	
 	@PostMapping(value = "/update")
-	public void facilityUpdatePOST() throws Exception {
+	public String facilityUpdatePOST(FacilityVO vo, RedirectAttributes rttr) throws Exception {
 		// 설비 수정 액션
-		
+		String link = "";
+		int result = fService.updateFacility(vo);
+		if(result == 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "설비 수정 결과");
+			rttr.addFlashAttribute("result", "설비 수정이 완료되었습니다.");
+		}
+		else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "설비 수정 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+		}
+		return link;
 	}
 	
-	// http://localhost:8088/facility/delete
+	// http://localhost:8088/facility/info/delete
 	@GetMapping(value = "/delete")
 	public void facilityDeleteGET() throws Exception {
 		// 설비 삭제 폼
@@ -97,9 +116,21 @@ public class FacilityInfoController {
 	}
 	
 	@PostMapping(value = "/delete")
-	public void facilityDeletePOST() throws Exception {
+	public String facilityDeletePOST(RedirectAttributes rttr) throws Exception {
 		// 설비 삭제 액션
-		
+		String link = "";
+		int result = 0;
+		if(result == 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "설비 삭제 결과");
+			rttr.addFlashAttribute("result", "설비 삭제가 완료되었습니다.");
+		}
+		else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "설비 삭제 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+		}
+		return link;
 	}
 	
 	@PostMapping(value="/json")

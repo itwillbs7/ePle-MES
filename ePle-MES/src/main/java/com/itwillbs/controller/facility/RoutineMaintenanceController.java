@@ -24,6 +24,11 @@ public class RoutineMaintenanceController {
 		
 	}
 	
+	@GetMapping("/admin")
+	public void routineADMIN() throws Exception{
+		
+	}
+	
 	@GetMapping("/insert")
 	public void insertGET(HttpSession session) throws Exception {
 		

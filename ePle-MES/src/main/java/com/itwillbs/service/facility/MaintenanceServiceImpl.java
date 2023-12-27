@@ -24,14 +24,12 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	
 	@Override
 	public int updateMaintenance(MaintenanceVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.updateMaintenance(vo);
 	}
 	
 	@Override
 	public int deleteMaintenance(MaintenanceVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.deleteMaintenance(vo);
 	}
 	
 	@Override
