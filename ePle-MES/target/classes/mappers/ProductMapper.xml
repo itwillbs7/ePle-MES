@@ -1,13 +1,50 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ProductMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.ProductMapper">
-	
-	<!-- 모든 글 조회(ALL) -->
-  	<select id="listALL" resultType="MAPDVO">
-  		select * from c7d2307t1_2 
-  	</select>
-	
+
+   <!-- 디비 컬럼과 도메인 객체 매핑 -->
+   <!-- 프로퍼티명과 컬럼명 동일 시 생략가능  -->
+    <resultMap type="com.itwillbs.domain.MAPDVO" id="product">
+    	<result property="code" column="code"/>
+    	<result property="category" column="category"/>
+    	<result property="name" column="name"/>
+    	<result property="size" column="size"/>
+    	<result property="unit" column="unit"/>
+    	<result property="inprice" column="inprice"/>
+    	<result property="outprice" column="outprice"/>
+    	<result property="image" column="image"/>
+    	<result property="reg_emp" column="reg_emp"/>
+    	<result property="reg_date" column="reg_date"/>
+    	<result property="update_emp" column="update_emp"/>
+    	<result property="update_date" column="update_date"/>
+    	<result property="active" column="active"/>
+    </resultMap>
+    
+    <!-- 품목 리스트 조회 -->
+    <select id="selectProductList">
+        SELECT * FROM product;
+    </select>
+
+    <!-- 품목 등록 -->
+    <insert id="insertProduct">
+        INSERT INTO product (column1, column2, ...) VALUES (#{property1}, #{property2}, ...);
+    </insert>
+
+    <!-- 품목 수정 -->
+    <update id="updateProduct">
+        UPDATE product SET column1 = #{property1}, column2 = #{property2}, ... WHERE id = #{id};
+    </update>
+
+    <!-- 품목 삭제 -->
+    <delete id="deleteProduct">
+        DELETE FROM product WHERE id = #{id};
+    </delete>
+
+    <!-- 품목 상세 조회 -->
+    <select id="selectProductById">
+        SELECT * FROM product WHERE id = #{id};
+    </select>
+
 </mapper>

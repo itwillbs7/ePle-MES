@@ -17,10 +17,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.ProductService;
 
 @Controller
-@RequestMapping(value = "/board/*")
+@RequestMapping(value = "/product/*")
 public class ProductController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
@@ -29,7 +30,7 @@ public class ProductController {
 	private ProductService sService;
 
 	// 글쓰기 - GET
-	// http://localhost:8088/board/regist
+	// http://localhost:8088/product/regist
 	@RequestMapping(value = "/regist", method = RequestMethod.GET)
 	public void registGET() throws Exception {
 		logger.debug("/product/regist -> registGET() 호출 ");
@@ -55,7 +56,7 @@ public class ProductController {
 		return "redirect:/product/listAll";
 	}
 
-	// http://localhost:8088/board/listAll
+	// http://localhost:8088/product/listAll
 	// 게시판 리스트 - GET
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
 	public String listALLGET(Model model, @ModelAttribute("result") String result, HttpSession session)
@@ -65,7 +66,7 @@ public class ProductController {
 		session.setAttribute("viewcntCheck", true);
 
 		// 서비스 - 디비에 저장된 글을 가져오기
-		List<MAPDVO> boardList = sService.productListAll();
+		List<MAPDVO> productList = sService.productListAll();
 		logger.debug(" @@@ " + productList);
 
 		// 데이터를 연결된 뷰페이지로 전달(Model)
@@ -73,14 +74,14 @@ public class ProductController {
 
 		// model.addAttribute("boardList", bService.boardListAll());
 
-		return "/board/listAll";
+		return "/product/listAll";
 	}
 
-	// http://localhost:8088/board/read?bno=1
+	// http://localhost:8088/product/read?bno=1
 	// 글 본문보기 - GET
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	public void readGET(@RequestParam("bno") int bno, Model model, HttpSession session) throws Exception {
-		logger.debug("/board/read -> readGET() ");
+		logger.debug("/product/read -> readGET() ");
 		// 전달정보 저장
 		logger.debug(" bno : " + bno);
 
@@ -93,7 +94,7 @@ public class ProductController {
 		}
 
 		// 서비스 - bno에 해당하는 특정 글정보만 조회
-		MAPDVO resultVO = sService.productBoard(bno);
+		MAPDVO resultVO = sService.getProduct(bno);
 		// 연결된 뷰페이지로 이동시 정보를 전달
 		model.addAttribute("resultVO", resultVO);
 
@@ -102,10 +103,10 @@ public class ProductController {
 	}
 
 	// 게시판 글 수정 - GET
-	// http://localhost:8088/board/modify?bno=1
+	// http://localhost:8088/product/modify?bno=1
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
 	public void modifyGET(@RequestParam("bno") int bno, Model model) throws Exception {
-		logger.debug("/board/modify -> modifyGET()호출");
+		logger.debug("/product/modify -> modifyGET()호출");
 		logger.debug(" 수정할 글번호 : " + bno);
 
 		// 기존의 글정보를 가져와서 화면에 출력
@@ -123,7 +124,7 @@ public class ProductController {
 		logger.debug(" 수정할 정보 " + mvo);
 
 		// 서비스 - 정보수정 동작
-		int result = sService.boardModify(mvo);
+		int result = sService.productModify(mvo);
 		// 처리 완료후 페이지 이동(리스트)
 		// + 수정 완료! 리스트에서 출력
 		rttr.addFlashAttribute("result", "modifyOK");
@@ -168,10 +169,6 @@ public class ProductController {
 	 *     - 12페이지 : 시작 : 11  끝 : 20 -> 13 /이전 : Y, 다음 : N 
 	 * 
 	 */
-	// http://localhost:8088/board/listPage
-	// http://localhost:8088/board/listPage?page=1
-	// http://localhost:8088/board/listPage?pageSize=20
-	// http://localhost:8088/board/listPage?page=3&pageSize=15
 	
 	// 게시판 리스트 - GET
 	@RequestMapping(value = "/listPage", method = RequestMethod.GET)
@@ -179,7 +176,7 @@ public class ProductController {
 								@ModelAttribute("result") String result,
 								HttpSession session,
 								Criteria cri) throws Exception {
-		logger.debug(" /board/listPage -> listPageGET() ");
+		logger.debug(" /product/listPage -> listPageGET() ");
 
 		session.setAttribute("viewcntCheck", true);
 		
@@ -188,22 +185,21 @@ public class ProductController {
 //		cri.setPageSize(5);
 
 		// 서비스 - 디비에 저장된 글을 가져오기
-		List<BoardVO> boardList = bService.boardListPage(cri);
+		List<MAPDVO> productList = sService.productListPage(cri);
 		//logger.debug(" @@@ " + boardList);
 		
 		// 페이지 블럭 정보 준비 -> view 페이지 전달
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
 		//pageVO.setTotalCount(360448); // 디비에서 직접 실행결과 가져오기
-		pageVO.setTotalCount(bService.totalBoardCount());
+		pageVO.setTotalCount(sService.totalProductCount());
 		
 		logger.debug(" 확인 :"+pageVO);
 		model.addAttribute("pageVO", pageVO);
 		// 데이터를 연결된 뷰페이지로 전달(Model)
-		model.addAttribute("boardList", boardList);
-		// model.addAttribute("boardList", bService.boardListAll());
+		model.addAttribute("productList", productList);
 
-		return "/board/listAll";
+		return "/product/listAll";
 	}
 
 } // controller

@@ -19,54 +19,54 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Inject
 	private ProductDAO pdao;
-	
+
 	@Override
-	public void boardWrite(MAPDVO mvo) throws Exception {
-		logger.debug(" S : boardWrite(BoardVO vo) ");
-		pdao.insertBoard(mvo);		
+	public void productWrite(MAPDVO mvo) throws Exception {
+		logger.debug(" S : productWrite(MAPDVO mvo) ");
 	}
 
 	@Override
-	public List<MAPDVO> boardListAll() throws Exception {
-		logger.debug(" S : boardListAll()");
-		return pdao.getBoardListAll();
+	public List<MAPDVO> productListAll() throws Exception {
+		logger.debug(" S : productListAll() ");
+		return null;
 	}
 
 	@Override
-	public MAPDVO getBoard(int bno) throws Exception {
-		logger.debug(" S : getBoard(int bno) ");
-		return pdao.getBoard(bno);
+	public MAPDVO getProduct(int bno) throws Exception {
+		logger.debug(" S : getProduct(int bno) ");
+		return null;
 	}
 
 	@Override
-	public int boardModify(MAPDVO mvo) throws Exception {
-		logger.debug(" S : boardModify(BoardVO vo) ");
-		return pdao.updateBoard(mvo);
+	public int productModify(MAPDVO mvo) throws Exception {
+		logger.debug(" S : productModify(MAPDVO mvo) ");
+		return 0;
 	}
 
 	@Override
 	public void incrementViewCnt(int bno) throws Exception {
 		logger.debug(" S : incrementViewCnt(int bno) ");
-		pdao.updateViewCnt(bno);
+		
 	}
 
 	@Override
-	public void boardRemove(int bno) throws Exception {
-		logger.debug(" S : boardRemove(int bno) ");
-		pdao.deleteBoard(bno);
+	public void productRemove(int bno) throws Exception {
+		logger.debug(" S : productRemove(int bno) ");
 	}
 
 	@Override
-	public List<MAPDVO> boardListPage(Criteria cri) throws Exception {
-		logger.debug(" S : boardListPage(Criteria cri) ");
-		return pdao.getBoardListPage(cri);
+	public List<MAPDVO> productListPage(Criteria cri) throws Exception {
+		logger.debug(" S : productListPage(Criteria cri) ");
+		return null;
 	}
 
 	@Override
-	public int totalBoardCount() throws Exception {
-		logger.debug(" S : totalBoardCount()  ");
-		return pdao.getBoardCount();
+	public int totalProductCount() throws Exception {
+		logger.debug(" S : totalProductCount() ");
+		return 0;
 	}
+	
+	
 	
 	
 	
