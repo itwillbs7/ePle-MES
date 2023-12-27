@@ -52,6 +52,7 @@ public class FacilityInfoController {
 		return "/facility/info/list";
 	}
 	
+	// http://localhost:8088/facility/info/detail
 	@GetMapping("/detail")
 	public void facilityInfo(FacilityVO vo, Model model) throws Exception{
 		model.addAttribute("info", fService.getFacility(vo));
@@ -87,7 +88,6 @@ public class FacilityInfoController {
 	@GetMapping(value = "/update")
 	public void facilityUpdateGET() throws Exception {
 		// 설비 수정 폼
-		
 	}
 	
 	@PostMapping(value = "/update")
@@ -112,7 +112,6 @@ public class FacilityInfoController {
 	@GetMapping(value = "/delete")
 	public void facilityDeleteGET() throws Exception {
 		// 설비 삭제 폼
-		
 	}
 	
 	@PostMapping(value = "/delete")

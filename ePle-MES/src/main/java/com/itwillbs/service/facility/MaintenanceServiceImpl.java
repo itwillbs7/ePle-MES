@@ -46,4 +46,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	public List<MaintenanceVO> getFacilityInfo(FacilityVO vo) throws Exception {
 		return dao.getFacilityInfo(vo);
 	}
+	
+	@Override
+	public MaintenanceVO getDetail(MaintenanceVO vo) throws Exception {
+		return dao.getDetail(vo);
+	}
 }

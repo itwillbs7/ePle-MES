@@ -20,7 +20,7 @@ public class FacilityOrderController {
 	
 	@GetMapping("/insert")
 	public void insertGET() throws Exception{
-		
+		// 설비 발주 등록 폼
 	}
 	
 	@PostMapping("/insert")
@@ -42,7 +42,7 @@ public class FacilityOrderController {
 	
 	@GetMapping("/update")
 	public void updateGET() throws Exception{
-		
+		// 설비 발주 수정 폼
 	}
 	
 	@PostMapping("/update")
@@ -64,7 +64,7 @@ public class FacilityOrderController {
 	
 	@GetMapping("/delete")
 	public void deleteGET() throws Exception{
-		
+		// 설비 발주 삭제 폼
 	}
 	
 	@PostMapping("/insert")

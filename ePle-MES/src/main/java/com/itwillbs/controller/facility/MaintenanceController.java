@@ -46,7 +46,6 @@ public class MaintenanceController {
 	@GetMapping(value = "/insert")
 	public void maintenanceInsertGET() throws Exception {
 		// 설비 보전 등록 폼
-		
 	}
 
 	@PostMapping(value = "/insert")
@@ -73,7 +72,6 @@ public class MaintenanceController {
 	@GetMapping(value = "/update")
 	public void maintenanceUpdateGET() throws Exception {
 		// 설비 보전 수정 폼
-		
 	}
 
 	@PostMapping(value = "/update")
@@ -97,7 +95,6 @@ public class MaintenanceController {
 	@GetMapping(value = "/delete")
 	public void maintenanceDeleteGET() throws Exception {
 		// 설비 보전 삭제 폼
-
 	}
 
 	@PostMapping(value = "/delete")
@@ -116,6 +113,12 @@ public class MaintenanceController {
 			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 		}
 		return link;
+	}
+	
+	@GetMapping("/detail")
+	public void maintenanceDetail(MaintenanceVO vo, Model model) throws Exception{
+		// 보전 상세 정보
+		model.addAttribute("info", mService.getDetail(vo));
 	}
 
 	@GetMapping(value = "/resultList")

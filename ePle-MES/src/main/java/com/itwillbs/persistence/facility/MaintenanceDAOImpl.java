@@ -47,4 +47,9 @@ public class MaintenanceDAOImpl implements MaintenanceDAO{
 	public List<MaintenanceVO> getFacilityInfo(FacilityVO vo) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getFacilityList", vo);
 	}
+	
+	@Override
+	public MaintenanceVO getDetail(MaintenanceVO vo) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getDetail", vo);
+	}
 }
