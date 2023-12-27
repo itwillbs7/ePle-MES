@@ -221,12 +221,12 @@
 													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 													<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
 												</div></td>
-											<th>1</th>
+											<th>${i.code}</th>
+											<th>ㅁ</th>
+											<th>ㅁ</th>
+											<th>ㅁ</th>
 											<!-- 상세 정보 이동! -->
-											<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
-											<th>ㅁ</th>
-											<th>ㅁ</th>
-											<th>ㅁ</th>
+											<th><a href="/facility/info/detail?code=${i.code}"><b class="text-blue" id="tableTitle1">${i.name}</b></a></th>
 											<th>ㅁ</th>
 											<td style="">
 												<!-- 옵션 -->
@@ -236,11 +236,11 @@
 													<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 														<!-- 링크 설정 -->
 														<!-- 상세 보기 -->
-														<a class="dropdown-item" href="/facility/info?index=1"><i class="dw dw-eye"></i> 상세 보기</a>
+														<a class="dropdown-item" href="/facility/info/detail?code=${i.code}"><i class="dw dw-eye"></i> 상세 보기</a>
 														<!-- 수정 -->
-														<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+														<a class="dropdown-item" href="javascript:openPage('/facility/info/update?code=${i.code}', 500, 600)"><i class="dw dw-edit2"></i> 수정</a>
 														<!-- 삭제 -->
-														<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+														<a class="dropdown-item" href="javascript:openPage('/facility/info/delete?code=${i.code}', 500, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
 													</div>
 												</div>
 											</td>

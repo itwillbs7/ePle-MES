@@ -30,7 +30,6 @@
 								<div class="form-group">
 									<label>설비 번호</label> <input class="form-control" type="text" placeholder="PRO-001">
 								</div>
-
 							</c:when>
 							<c:when test="${facilityCount == 1}">
 								<div class="form-group">

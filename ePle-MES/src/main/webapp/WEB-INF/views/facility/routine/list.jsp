@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +16,11 @@
 			<!-- 타이틀 -->
 			<div class="login-title">
 				<h1 class="text-center text-primary">보전 내역</h1>
-				<h4 class="text-center">오늘 진행 : 3개</h4>
+				<h4 class="text-center">오늘 진행 : 
+				<c:choose>
+					<c:when test="${empty list}">0</c:when>
+					<c:when test="${!empty list}">${list.size}</c:when>
+				</c:choose>개</h4>
 			</div>
 			<!-- 폼 -->
 			<form method="post">
@@ -23,12 +29,16 @@
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">
 							<ul class="list-group">
-								<!-- 삭제 리스트 들어갈 공간 
-								li class='list-group-item' -->
-								<!-- 업로드 시간 표시! -->
-								<li class="list-group-item">aaaaa</li>
-								<li class="list-group-item">aaaaa</li>
-								<li class="list-group-item">aaaaa</li>
+								<c:choose>
+									<c:when test="${empty list or list.size() eq 0}">
+										<li class="list-group-item">오늘 진행한 보전 내역이 없습니다!</li>
+									</c:when>
+									<c:when test="${!empty list and list.size() > 0}">
+										<c:forEach var="i" items="${list}">
+											<li class="list-group-item">${list.reg_date} : ${list.mt_subject}</li>
+										</c:forEach>
+									</c:when>
+								</c:choose>
 							</ul>
 						</div>
 					</div>

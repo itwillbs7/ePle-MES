@@ -5,6 +5,7 @@
 <head>
 <%@ include file="../../include/head.jsp"%>
 <title>일상 보전</title>
+<!-- admin : 일상보전 모니터링 -->
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -15,128 +16,9 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>일상 보전</h1>
+				<h1>일상 보전 모니터링</h1>
 			</div>
 			<div class="min-height-200px">
-				<!-- 아코디언 시작 -->
-				<div class="faq-wrap">
-					<div id="accordion">
-						<div class="card">
-							<div class="card-header">
-								<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false">
-									<b>검색</b>
-								</button>
-							</div>
-							<div id="faq1" class="collapse" data-parent="#accordion" style="">
-								<div class="card-body">
-									<form id="accordion-search" method="GET" action="#">
-										<div class="col-md-12">
-											<div class="form-group">
-												<div class="row">
-													<h4 class="text-blue h4">기본 검색</h4>
-													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
-														<div class="btn-group dropdown">
-															<button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-																카테고리 <span class="caret"></span>
-															</button>
-															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" id="category-none" href="javascript:buttonCategory('');">선택</a> <a class="dropdown-item" href="javascript:buttonCategory('code');">코드</a> <a class="dropdown-item" href="javascript:buttonCategory('model');">모델</a> <a class="dropdown-item" href="javascript:buttonCategory('name');">이름</a> <a class="dropdown-item" href="javascript:buttonCategory('location');">위치</a>
-															</div>
-														</div>
-														<input type="hidden" id="searchCategory" name="searchCategory"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
-													</div>
-												</div>
-												<hr>
-												<div class="row">
-													<h4 class="text-blue h4">상세 검색</h4>
-												</div>
-												<div class="row">
-													<div class="col-md-1 col-sm-12">
-														<label class="weight-600">체크 박스</label>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheckAll"> <label class="custom-control-label" for="formCheckAll"><b>전체</b></label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck1" name="formCheck" value="production"> <label class="custom-control-label" for="formCheck1">생산</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck2" name="formCheck" value="non-production"> <label class="custom-control-label" for="formCheck2">비생산</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck3" name="formCheck" value="etc"> <label class="custom-control-label" for="formCheck3">기타</label>
-														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<label class="weight-600">상태</label>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" value="true"> <label class="custom-control-label" for="formRadio2">활성화</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
-														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<div class="form-group">
-															<label>날짜</label> <input type="date" name="date" class="form-control">
-														</div>
-													</div>
-													<div class="col-md-4 col-sm-12">
-														<div class="form-group" style="display: inline-block;">
-															<label>기간</label> <input type="date" id="dateLeft" name="betweenDateLeft" class="form-control">
-														</div>
-														<b>-</b>
-														<div class="form-group" style="display: inline-block;">
-															<input type="date" id="dateRight" name="betweenDateRight" class="form-control">
-														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<div class="form-group">
-															<label>종류</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="category">
-																<optgroup label="Alaskan/Hawaiian Time Zone">
-																	<option value="AK">Alaska</option>
-																	<option value="HI">Hawaii</option>
-																</optgroup>
-																<optgroup label="Pacific Time Zone">
-																	<option value="CA">California</option>
-																	<option value="NV">Nevada</option>
-																	<option value="OR">Oregon</option>
-																	<option value="WA">Washington</option>
-																</optgroup>
-																<optgroup label="Mountain Time Zone">
-																	<option value="AZ">Arizona</option>
-																	<option value="CO">Colorado</option>
-																	<option value="ID">Idaho</option>
-																	<option value="MT">Montana</option>
-																	<option value="NE">Nebraska</option>
-																	<option value="NM">New Mexico</option>
-																	<option value="ND">North Dakota</option>
-																	<option value="UT">Utah</option>
-																	<option value="WY">Wyoming</option>
-																</optgroup>
-															</select>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="btn-group pull-right" style="margin-bottom: 10px">
-											<button type="submit" class="btn btn-primary" id="search">
-												<b>검색</b>
-											</button>
-											<button type="reset" class="btn btn-secondary" id="reset">
-												<b>초기화</b>
-											</button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- 아코디언 끝 -->
 				<!-- Checkbox select Datatable start -->
 				<div class="card-box mb-30">
 					<div class="pd-20">
@@ -150,82 +32,34 @@
 								</div>
 							</div>
 							&nbsp;
-							<div class="dropdown">
-								<button type="button" id="searchCategoryButton" class="btn btn-secondary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-									내보내기 <span class="caret"></span>
-								</button>
-								<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="javascript:exportData(1);">PDF</a>
-									<a class="dropdown-item" href="javascript:exportData(2);">CSV</a>
-									<a class="dropdown-item" href="javascript:exportData(3);">인쇄</a>
-								</div>
-							</div>
-						</div>
-						<div class="btn-group pull-right" style="margin-bottom: 10px">
-							<button type="button" class="btn btn-success" id="add">
-								<b>추가</b>
-							</button>
-							<button type="button" class="btn btn-warning" id="update">
-								<b>수정</b>
-							</button>
-							<button type="button" class="btn btn-danger" id="delete">
-								<b>삭제</b>
-							</button>
 						</div>
 					</div>
 					<div class="pb-20">
 						<div class="col-sm-30">
 							<table id="datatable" class="table table-striped">
 								<tr>
-									<td style="width: 100px;">
-										<div class="custom-control custom-checkbox mb-5">
-											<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
-										</div>
-									</td>
-									<th>#</th>
-									<th>코드</th>
-									<th>카테고리</th>
-									<th>모델</th>
-									<th>이름</th>
-									<th>위치</th>
-									<th>옵션</th>
+									<th>사번</th><!-- 직원 사번 -->
+									<th>이름</th><!-- 직원 이름 -->
+									<th>설비 정보</th><!-- 설비 정보 -->
+									<th>일상 보전 회수</th>
+									<th>최근 보전 시간</th><!-- 최근 보전 시간 -->
+									<th>최근 보전 정보</th>
 								</tr>
-								<c:if test="${empty facilityList or facilityList.size == 0}">
+								<c:if test="${empty list or list.size == 0}">
 									<tr>
-										<th colspan="8" style="text-align: center;">데이터가 없습니다.</th>
+										<th colspan="6" style="text-align: center;">데이터가 없습니다.</th>
 									</tr>
 								</c:if>
-								<c:if test="${! empty facilityList }">
-									<c:forEach items="${facilityList}" var="i">
+								<c:if test="${! empty list }">
+									<c:forEach items="${list}" var="i">
 										<tr>
-											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
-											<td><div class="custom-control custom-checkbox mb-5">
-													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-													<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
-												</div></td>
 											<th>1</th>
 											<!-- 상세 정보 이동! -->
-											<th><a href="#"><b class="text-blue" id="tableTitle1">제목1</b></a></th>
+											<th>ㅁ</th>
+											<th><a href="#"><b class="text-blue">설비 정보</b></a></th>
 											<th>ㅁ</th>
 											<th>ㅁ</th>
-											<th>ㅁ</th>
-											<th>ㅁ</th>
-											<td style="">
-												<!-- 옵션 -->
-												<div class="dropdown">
-													<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
-													</a>
-													<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-														<!-- 링크 설정 -->
-														<!-- 상세 보기 -->
-														<a class="dropdown-item" href="/facility/info?index=1"><i class="dw dw-eye"></i> 상세 보기</a>
-														<!-- 수정 -->
-														<a class="dropdown-item" href="javascript:openPage('/facility/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
-														<!-- 삭제 -->
-														<a class="dropdown-item" href="javascript:openPage('/facility/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
-													</div>
-												</div>
-											</td>
+											<th><a href="#"><b class="text-blue">최근 보전 정보</b></a></th>										
 										</tr>
 									</c:forEach>
 								</c:if>
@@ -267,24 +101,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- 모달 창 -->
-	<div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm modal-dialog-centered">
-			<div class="modal-content bg-warning">
-				<div class="modal-body text-center">
-					<h3 class="mb-15">
-						<i class="fa fa-exclamation-triangle"></i> 주의
-					</h3>
-					<p>
-						<b>선택된 데이터</b>가 없습니다!
-					</p>
-					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 모달 창 -->
 
 	<!-- 추가, 수정, 삭제 -->
 	<script type="text/javascript">
@@ -344,18 +160,6 @@
 				}
 			});
 		});
-		
-		function downloadPDF(data){
-			alert("data : " + data);
-		}
-		
-		function downloadCSV(data){
-			alert("CSV");
-		}
-		
-		function printResult(data){
-			alert("PRINT");
-		}
 	</script>
 </body>
 </html>
