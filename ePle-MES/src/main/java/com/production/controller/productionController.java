@@ -48,7 +48,7 @@ public class productionController {
 		return instructionVOList;
 	}
 	
-	//지시사항 추가
+	//지시사항 추가 GET
 	@RequestMapping(value = "/instructionAdd", method = RequestMethod.GET)
 	public void instructionAdd(Model model) throws Exception {
 		logger.debug("Controller : add() 호출");
@@ -78,10 +78,20 @@ public class productionController {
 //		return pdService.getAmount();
 //	}
 	
+	//지시사항 추가 POST
 	@RequestMapping(value = "/insertInstruction", method = RequestMethod.POST)
 	public void insertInstruction(instructionVO instVO) throws Exception {
 		logger.debug("Controller : insertInstruction(instructionVO instVO) 호출");
 		logger.debug("instVO : " + instVO);
 		pdService.insertInstruction(instVO);
 	}
+	
+	//지시사항 수정 GET
+		@RequestMapping(value = "/instructionUpdate", method = RequestMethod.GET)
+		public void instructionUpdate(@RequestParam("index") int index, Model model) throws Exception {
+			logger.debug("Controller : instructionUpdate(int index, Model model) 호출");
+			//지시사항 불러오기
+			model.addAttribute("instructionList", pdService.getInstruction(index));
+			logger.debug("getInstruction(index) : " + pdService.getInstruction(index));
+		}
 }

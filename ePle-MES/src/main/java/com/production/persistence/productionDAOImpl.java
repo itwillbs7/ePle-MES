@@ -78,4 +78,9 @@ public class productionDAOImpl implements productionDAO {
 		sqlSession.insert(NAMESPACE + ".insertInstruction", instVO);
 	}
 
+	@Override
+	public instructionVO getInstruction(int index) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getInstructionUpdate", index);
+	}
+
 }

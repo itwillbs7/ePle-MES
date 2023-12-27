@@ -25,4 +25,6 @@ public interface productionService {
 	public List<String> getLine_codeList() throws Exception;
 
 	public void insertInstruction(instructionVO instVO) throws Exception;
+
+	public instructionVO getInstruction(int index) throws Exception;
 }

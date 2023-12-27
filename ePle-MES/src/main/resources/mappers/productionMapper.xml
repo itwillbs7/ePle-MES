@@ -50,5 +50,8 @@
 	<insert id="insertInstruction">
 		INSERT INTO INSTRUCTION VALUES(DEFAULT,#{product},#{line_code},#{content},#{request},#{amount},#{reg_emp},now(),null,null)
 	</insert>
+	<select id="getInstructionUpdate" resultType="com.production.domain.instructionVO">
+		SELECT * FROM INSTRUCTION WHERE index = #{index}
+	</select>
 
 </mapper>

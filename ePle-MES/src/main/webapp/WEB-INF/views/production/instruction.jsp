@@ -161,7 +161,7 @@
 											<td>
 												<div class="custom-control custom-checkbox mb-5">
 													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-													<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1">
+													<input type="checkbox" class="custom-control-input checkIndex" id="checkTable1" name="tableCheck" value="${vo.index }">
 													<label class="custom-control-label" for="checkTable1"></label>
 												</div>
 											</td>
@@ -275,8 +275,22 @@
 
 			// 수정
 			$("#update").click(function() {
+				//지시사항 선택 체크
+				if ($('.checkIndex').is(':checked')) {
+					//선택된 지시사항 갯수 체크
+					var index_arr = [];
+					$('.checkIndex').is(':checked').each(function() {
+						var index = this.val();
+						index_arr.push(index);
+					});
+					alert(index_arr.length);
+				}else{
+					alert('지시사항을 선택해 주세요');
+				}
+				
+				
 				// 가로, 세로 설정
-				openPage("/production/instructionUpdate", 400, 700);
+				openPage("/production/instructionUpdate?" + index, 400, 700);
 			});
 
 			// 삭제
@@ -300,6 +314,7 @@
 				success : function(data){
 					$('.instructionVO').remove();
 					var html = "";
+					//지시사항 상세 검색 결과가 초기 지시사항 페이지와 다르게 나온다.개선필요
 					$(data).each(function(){
 						html += "<tr class='instructionVO'>";
 						html += "<td>";
