@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,20 +20,38 @@
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
-						<!-- 설비 목록에서 사번으로 체크 후, 입력된 것이 없을 경우 설비 정보를 입력하도록 함! -->
+						<!-- 설비 목록에서 사번으로 체크 후, 담당한 것이 없을 경우 설비 정보를 입력하도록 함! -->
 						<!-- inputs -->
 						<div class="form-group">
-							<label>사번</label> <input type="text" readonly class="form-control-plaintext" value="직원 사번">
+							<label>사번</label> <input type="text" readonly class="form-control-plaintext" value="${sessionScope.userid}">
 						</div>
+						<c:choose>
+							<c:when test="${facilityCount == null or facilityCount == 0}">
+								<div class="form-group">
+									<label>설비 번호</label> <input class="form-control" type="text" placeholder="PRO-001">
+								</div>
+
+							</c:when>
+							<c:when test="${facilityCount == 1}">
+								<div class="form-group">
+									<label>설비 번호</label> <input type="text" readonly class="form-control-plaintext" value="설비 번호">
+								</div>
+							</c:when>
+							<c:when test="${facilityCount > 1 }">
+								<div class="form-group">
+									<label class="col-form-label">설비 목록</label> <select class="custom-select col-12">
+										<option selected>선택</option>
+										<!-- 공통 코드 추가 -->
+										<option value="1">One</option>
+										<option value="2">Two</option>
+										<option value="3">Three</option>
+										<!-- 공통 코드 추가 -->
+									</select>
+								</div>
+							</c:when>
+						</c:choose>
 						<div class="form-group">
-							<label>설비 번호</label> <input type="text" readonly class="form-control-plaintext" value="설비 번호">
-						</div>
-						<div class="form-group">
-							<label>설비 번호</label> <input class="form-control" type="text" placeholder="PRO-001">
-						</div>
-						<div class="form-group">
-							<label class="col-form-label">보전 결과</label>
-							<select class="custom-select col-12">
+							<label class="col-form-label">보전 결과</label> <select class="custom-select col-12">
 								<option selected>선택</option>
 								<!-- 공통 코드 추가 -->
 								<option value="1">One</option>
@@ -68,6 +87,5 @@
 	</div>
 	<!-- 콘텐츠 끝> -->
 	<%@ include file="../../include/footer.jsp"%>
-
 </body>
 </html>
