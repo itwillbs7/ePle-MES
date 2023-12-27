@@ -40,7 +40,7 @@
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<!-- 데이터 검색 불필요! -->
+				<!-- 데이터 상세 검색 불필요! -->
 				<!-- status : 신청 일 때만 수정 가능!, 내역의 경우 발주 파트! -->		
 				<!-- Checkbox select Datatable start -->
 				<div class="card-box mb-30">
