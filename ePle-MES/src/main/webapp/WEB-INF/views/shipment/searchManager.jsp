@@ -35,7 +35,7 @@
 				<!-- 버튼 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-						<button type="button" class="btn btn-success" onclick="submitForm();">
+						<button type="button" class="btn btn-success" >
 							<b>검색</b>
 						</button>
 					</div>
@@ -100,8 +100,6 @@
 		  
     		opener.document.getElementById("manager").value = a
     		opener.document.getElementById("managerName").value = b
-    		  opener.document.getElementById("manager").dispatchEvent(new Event('input'));
-    	    opener.document.getElementById("managerName").dispatchEvent(new Event('input'));
     		self.close();
     	
 

@@ -62,7 +62,7 @@ public class RequestServiceImpl implements RequestService {
 
 	@Override
 	public List<RequestVO> findManager(String manager, String managerName) throws Exception {
-		logger.debug("Service : findManager(RequestSearchVO vo) : "+manager+managerName);
+		logger.debug("Service : ffindManager(String manager, String managerName) : "+manager+managerName);
 
 		return rdao.searchManager(manager,managerName);
 	}
@@ -74,10 +74,10 @@ public class RequestServiceImpl implements RequestService {
 	}
 
 	@Override
-	public List<RequestVO> findProduct(RequestSearchVO vo) throws Exception {
-		logger.debug("Service : findProduct(RequestSearchVO vo) : "+vo);
+	public List<RequestVO> findProduct(String product, String productName) throws Exception {
+		logger.debug("Service : ffindProduct(String product, String productName) : "+product+productName);
 
-		return rdao.searchProduct(vo);
+		return rdao.searchProduct(product,productName);
 	}
 
 	

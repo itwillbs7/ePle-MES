@@ -14,28 +14,28 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">사원 검색</h1>
+				<h1 class="text-center text-primary">품목 검색</h1>
 			</div>
 			<!-- 폼 -->
 			<div class="search_area">
-			<form action="" method="post" id="searchManager">
+			<form action="" method="post" id="searchClient">
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						<div class="form-group">
-							<label>사원코드</label> 
-							<input class="form-control" type="text" placeholder="업체코드를 입력하세요" name="manager" id="manager">
+							<label>품번</label> 
+							<input class="form-control" type="text" placeholder="업체코드를 입력하세요" name="product" id="product">
 						</div>
 						<div class="form-group">
-							<label>사원명</label> 
-							<input class="form-control" type="text" placeholder="업체이름을 입력하세요" name="managerName" id="managerName">
+							<label>품명</label> 
+							<input class="form-control" type="text" placeholder="업체이름을 입력하세요" name="productName" id="productName">
 						</div>
 
 				<!-- 버튼 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-						<button type="button" class="btn btn-success" onclick="submitForm();">
+						<button type="button" class="btn btn-success" >
 							<b>검색</b>
 						</button>
 					</div>
@@ -46,21 +46,17 @@
 			</form>
 			</div>
 			<!-- 폼 -->
-			<table class="table table-striped" id="tableId">
-			<thead>
+			<table class="table table-striped">
 				<tr>
-					<th>사원코드</th>
-					<th>사원명</th>
+					<th>품번</th>
+					<th>품명</th>
 				</tr>
-			</thead>
-			<tbody>
 				<c:forEach items="${List}" var="List">
-				<tr onclick="selectWork('${List.manager }','${List.managerName }')">
-					<th >${List.manager }</th>
-					<th >${List.managerName }</th>
+				<tr onclick="selectWork('${List.product }','${List.productName }')">
+					<th >${List.product }</th>
+					<th >${List.productName }</th>
 				</tr>
 				</c:forEach>
-			</tbody>
 			</table>
 			
 			
@@ -73,19 +69,19 @@
 		function submitForm(){
 			
 		$.ajax({
-		    url: '/request/searchManager',
+		    url: '/request/searchProduct',
 		    type: 'POST',
 		    data: { 
-		    	manager: $('#manager').val(),
-		    	managerName: $('#managerName').val() 
+		    	product: $('#product').val(),
+		    	productName: $('#productName').val() 
 		    },
 		    success: function(data) {
 		    	// 서버로부터 받은 데이터를 사용하여 테이블 업데이트
 	            var table = '';
 	            $.each(data, function(index, item) {
-	                table += '<tr onclick="selectWork(\'' + item.manager + '\',\'' + item.managerName + '\')">';
-	                table += '<th>' + item.manager + '</th>';
-	                table += '<th>' + item.managerName + '</th>';
+	                table += '<tr onclick="selectWork(\'' + item.product + '\',\'' + item.productName + '\',\'' + item.unit+ '\',\'' + item.stock+ '\',\'' + item.currency + '\')">';
+	                table += '<th>' + item.product + '</th>';
+	                table += '<th>' + item.productName + '</th>';
 	                table += '</tr>';
 	            });
 	            // 기존 테이블 헤더를 유지하면서 테이블 바디 내용을 업데이트
@@ -96,12 +92,13 @@
 		
 		
 	//부모창으로 데이터 넘기기
-    function selectWork(a,b){ // 부모창으로 값 넘기기
+    function selectWork(a,b,c,d,e){ // 부모창으로 값 넘기기
 		  
-    		opener.document.getElementById("manager").value = a
-    		opener.document.getElementById("managerName").value = b
-    		  opener.document.getElementById("manager").dispatchEvent(new Event('input'));
-    	    opener.document.getElementById("managerName").dispatchEvent(new Event('input'));
+    		opener.document.getElementById("product").value = a
+    		opener.document.getElementById("productName").value = b
+    		opener.document.getElementById("unit").value = c
+    		opener.document.getElementById("stock").value = d
+    		opener.document.getElementById("currency").value = e
     		self.close();
     	
 

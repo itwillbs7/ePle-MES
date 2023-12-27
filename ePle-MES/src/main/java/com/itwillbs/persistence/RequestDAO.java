@@ -19,7 +19,7 @@ public interface RequestDAO {
 	// 품목리스트
 	public List<RequestVO> getProductList() throws Exception;
 	// 품목검색
-	public List<RequestVO> searchProduct(RequestSearchVO vo)throws Exception;
+	public List<RequestVO> searchProduct(String product, String productName)throws Exception;
 	// 사원리스트
 	public List<RequestVO> getManagerList()throws Exception;
 	// 사원검색

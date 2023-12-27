@@ -2,7 +2,6 @@ package com.itwillbs.service;
 
 import java.util.List;
 
-import com.itwillbs.domain.RequestSearchVO;
 import com.itwillbs.domain.RequestVO;
 
 public interface RequestService {
@@ -23,7 +22,7 @@ public interface RequestService {
 	 // 품목리스트
 	 public List<RequestVO> ProductList() throws Exception;
 	 // 품목검색
-	 public List<RequestVO> findProduct(RequestSearchVO vo)throws Exception;
+	 public List<RequestVO> findProduct(String product, String productName)throws Exception;
 
 }
 

@@ -84,6 +84,7 @@
 		    	// 서버로부터 받은 데이터를 사용하여 테이블 업데이트
 	            var table = '';
 	            $.each(data, function(index, item) {
+	     			console.log(item.client_code);
 	                table += '<tr onclick="selectWork(\'' + item.client_code + '\',\'' + item.clientName + '\')">';
 	                table += '<th>' + item.client_code + '</th>';
 	                table += '<th>' + item.clientName + '</th>';
@@ -101,6 +102,8 @@
 		  
     		opener.document.getElementById("client_code").value = a
     		opener.document.getElementById("clientName").value = b
+    		opener.document.getElementById("client_code").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("clientName").dispatchEvent(new Event('input'));
     		self.close();
     	
 

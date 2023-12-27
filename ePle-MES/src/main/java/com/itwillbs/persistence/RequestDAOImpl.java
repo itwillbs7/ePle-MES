@@ -36,9 +36,6 @@ public class RequestDAOImpl implements RequestDAO {
 		logger.debug("DAO 수주정보 자세히보기 getRequestDetail(String code) "+code);
 		RequestVO vo = sqlSession.selectOne(NAMESPACE+".getRequestInfo", code);
 		
-		vo.setClientName(sqlSession.selectOne(NAMESPACE+".findCompany", vo.getClient_code()));
-		vo.setManagerName(sqlSession.selectOne(NAMESPACE+".findManager",vo.getManager()));
-		vo.setProductName(sqlSession.selectOne(NAMESPACE+".findProduct", vo.getProduct()));
 		
 		return vo;
 	}
@@ -72,28 +69,10 @@ public class RequestDAOImpl implements RequestDAO {
 	}
 
 
-
-	@Override
-	public List<RequestVO> getProductList() throws Exception {
-		logger.debug("DAO 물품리스트 가져오기 getProductList()");
-		return sqlSession.selectList(NAMESPACE+".getProductList");
-	}
-
-
-
-	@Override
-	public List<RequestVO> searchProduct(RequestSearchVO vo) throws Exception {
-		logger.debug("DAO 품목검색하기 searchProduct(RequestSearchVO vo) : "+vo);
-		
-		return sqlSession.selectList(NAMESPACE+".findProduct", vo);
-
-	}
-
-
-
 	@Override
 	public List<RequestVO> getManagerList() throws Exception {
 		logger.debug("DAO 사원리스트 가져오기 getManagerList()");
+		
 		return sqlSession.selectList(NAMESPACE+".getManagerList");
 	}
 
@@ -104,12 +83,36 @@ public class RequestDAOImpl implements RequestDAO {
 		logger.debug("DAO 사원검색하기 searchManager(String manager, String managerName) : "+manager+managerName);
 		
 		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("client_code", manager);
-		paramMap.put("clientName", managerName);
+		paramMap.put("manager", manager);
+		paramMap.put("managerName", managerName);
 		
 		return sqlSession.selectList(NAMESPACE+".findManager", paramMap);
 
 	}
+
+
+	@Override
+	public List<RequestVO> getProductList() throws Exception {
+		logger.debug("DAO 물품리스트 가져오기 getProductList()");
+		
+		return sqlSession.selectList(NAMESPACE+".getProductList");
+	}
+
+
+
+	@Override
+	public List<RequestVO> searchProduct(String product, String productName) throws Exception {
+		logger.debug("DAO 품목검색하기 searchProduct(RequestSearchVO vo) : "+product+productName);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("product", product);
+		paramMap.put("productName", productName);
+		
+		return sqlSession.selectList(NAMESPACE+".findProduct", paramMap);
+
+	}
+
+
+
 	//----- add 용 검색 ----
 
 	

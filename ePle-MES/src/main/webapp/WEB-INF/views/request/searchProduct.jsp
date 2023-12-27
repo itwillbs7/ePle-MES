@@ -35,7 +35,7 @@
 				<!-- 버튼 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-						<button type="button" class="btn btn-success" >
+						<button type="button" class="btn btn-success" onclick="submitForm();">
 							<b>검색</b>
 						</button>
 					</div>
@@ -46,17 +46,21 @@
 			</form>
 			</div>
 			<!-- 폼 -->
-			<table class="table table-striped">
+			<table class="table table-striped" id="tableId">
+			<thead>
 				<tr>
 					<th>품번</th>
 					<th>품명</th>
 				</tr>
+			</thead>
+			<tbody>
 				<c:forEach items="${List}" var="List">
-				<tr onclick="selectWork('${List.product }','${List.productName }')">
+				<tr onclick="selectWork('${List.product }','${List.productName }','${List.unit }','${List.stock }','${List.currency }')">
 					<th >${List.product }</th>
 					<th >${List.productName }</th>
 				</tr>
 				</c:forEach>
+			</tbody>
 			</table>
 			
 			
@@ -99,6 +103,8 @@
     		opener.document.getElementById("unit").value = c
     		opener.document.getElementById("stock").value = d
     		opener.document.getElementById("currency").value = e
+  		    opener.document.getElementById("product").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("productName").dispatchEvent(new Event('input'));
     		self.close();
     	
 

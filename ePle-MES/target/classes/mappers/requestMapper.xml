@@ -10,11 +10,12 @@
 
 	<!-- 리스트 가져오기 -->
 	<select id="getRequestList" resultType="RequestVO">
-		SELECT r.code code, r.client_code client_code, r.deadline deadline, c.name clientName ,r.product product, m.name productName,
+		SELECT r.code code, r.client_code client_code, r.date date,
+		r.deadline deadline, c.name clientName ,r.product product, m.name productName,
 		s.amount stock, r.status status, r.amount amount 
 		FROM REQUEST r 
 		join CLIENT c on r.client_code = c.code
-		join STOCK s on r.product = s.code
+		join STOCK s on r.product = s.mapd_code
 		join MAPD m on r.product = m.code
 	</select>
 
@@ -54,18 +55,6 @@
 			<if test="clientName != null"> AND name like concat('%',#{clientName},'%') </if>
 	</select>
 	
-	<select id="getProductList" resultType="RequestVO">
-	select m.code product, m.name productName, m.unit, m.outprice currency, s.amount stock
-	from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0 
-	</select>
-
-	<select id="findProduct" resultType="RequestVO">
-	select m.code product, m.name prodcutName, m.unit, m.outprice currency, s.amount stock
-	from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0 
-		<if test="product != null">AND m.code like concat('%',#{product},'%')</if>
-		<if test="productName != null">AND m.name like concat('%',#{productName},'%')</if>
-	</select>
-	
 	<select id="getManagerList" resultType="RequestVO">
 	select code manager, name managerName 
 	from EMPLOYEES 
@@ -74,10 +63,22 @@
 	
 	<select id="findManager" resultType="RequestVO">
 	select code manager, name managerName 
-	from EMPOLOYEES 
+	from EMPLOYEES 
 	where dep_id = '영업부'
 	<if test="manager != null"> AND code like concat('%',#{manager},'%')</if>
 	<if test="managerName != null">AND name like concat('%',#{managerName},'%')</if>	
+	</select>
+	
+	<select id="getProductList" resultType="RequestVO">
+	select m.code product, m.name productName, m.unit, m.outprice currency, s.amount stock
+	from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0 
+	</select>
+
+	<select id="findProduct" resultType="RequestVO">
+	select m.code product, m.name productName, m.unit, m.outprice currency, s.amount stock
+	from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0 
+	<if test="product != null and product != ''">AND m.code like concat('%',#{product},'%')</if>
+	<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
 	</select>
 	<!-- 수주정보 등록하기 -->
 	

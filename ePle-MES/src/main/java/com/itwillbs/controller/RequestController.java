@@ -5,13 +5,12 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -119,12 +118,13 @@ public class RequestController {
 	@RequestMapping(value = "searchClient", method=RequestMethod.POST)
 	@ResponseBody
 	public List<RequestVO> searchClientPOST(@RequestParam("client_code") String client_code,
-			                     @RequestParam("clientName") String clientName,Model model)throws Exception{
+											@RequestParam("clientName") String clientName,Model model)throws Exception{
 		logger.debug("controller : 거래사 정보 DB 검색결과 가져오기");
 		logger.debug("searchClientPOST    실행");
 
 		List<RequestVO> clientList = rService.findClient(client_code,clientName);
-		model.addAttribute("List", clientList);
+//		model.addAttribute("List", clientList);
+		logger.debug("가져온 List"+clientList);
 		
 		return clientList;
 	}
@@ -140,14 +140,18 @@ public class RequestController {
 	}
 	
 	@RequestMapping(value = "searchManager" ,method = RequestMethod.POST)
-	public void searchManagerPOST(@RequestParam("manager") String manager,
+	@ResponseBody
+	public List<RequestVO> searchManagerPOST(@RequestParam("manager") String manager,
 								  @RequestParam("managerName") String managerName, Model model)throws Exception{
 		
 		logger.debug("controller : 담당자 정보 DB 검색결과 가져오기");
 		logger.debug("searchManagerPOST    실행");
 		
 		List<RequestVO> managerList = rService.findManager(manager,managerName);
-		model.addAttribute("List", managerList);
+//		model.addAttribute("List", managerList);
+		logger.debug("가져온 List"+managerList);
+		
+		return managerList;
 		
 	}
 	
@@ -161,13 +165,17 @@ public class RequestController {
 	}
 	
 	@RequestMapping(value = "searchProduct",method = RequestMethod.POST)
-	public void searchProductPOST(@ModelAttribute RequestSearchVO vo, Model model, HttpSession session)throws Exception{
+	@ResponseBody
+	public List<RequestVO> searchProductPOST(@RequestParam("product") String product,
+								  @RequestParam("productName") String productName, Model model)throws Exception{
 		// 찾아와야하는것 : 품번, 품명, 재고, 단위, 단가
 		logger.debug("controller : 상품 정보 DB 검색결과 가져오기 ");
 		logger.debug("searchProductPOST   실행");
 		
-		List<RequestVO> productList = rService.findProduct(vo); 
-		model.addAttribute("List", productList);
+		List<RequestVO> productList = rService.findProduct(product,productName); 
+//		model.addAttribute("List", productList);
+		logger.debug("가져온 List"+productList);
+		return productList;
 	}
 
 	// -------- 수주등록 데이터 찾기 끝---------
@@ -179,6 +187,7 @@ public class RequestController {
 		// 수주 수정 폼5-5
 		// code 정보 받아서 해당하는 code 데이터 불러오기
 		logger.debug("requestUpdateGET() code 정보 받아서 출력하기");
+		logger.debug("code "+code);
 		
 	}
 	

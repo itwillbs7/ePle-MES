@@ -5,7 +5,7 @@
 <head>
 <%@ include file="../include/head.jsp"%>
 <%-- <link href="${pageContext.requeset.contextPath }/resources/css/default.css" rel="stylesheet" type"text/css"> --%>
-<title>수주 관리</title>
+<title>출하 관리</title>
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -20,30 +20,28 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>수주 관리</h1>
+				<h1>출하 관리</h1>
 			</div>
 			<div class="min-height-200px">
+<!-- 				<ul class="nav nav-pills"> -->
+<!-- 					<li class="nav-item"><a class="nav-link text-blue active" href="/maintenance/list">수주 목록</a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link text-blue" href="/maintenance/resultList">수주 결과</a></li> -->
+<!-- 				</ul> -->
 				<br>
-				<div class="alert alert-success alert-dismissible fade show" role="alert" style="display:none" id="success">
-					<strong>수주 등록</strong>이 완료되었습니다!
+				<div class="alert alert-success alert-dismissible fade show" role="alert" style="display:none">
+					<strong>출하 등록</strong>이 완료되었습니다!
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="alert alert-info alert-dismissible fade show" role="alert" style="display:none" id="update">
-					<strong>수주 수정</strong>이 완료되었습니다!
+				<div class="alert alert-info alert-dismissible fade show" role="alert" style="display:none">
+					<strong>출하 수정</strong>이 완료되었습니다!
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none" id="notdelete">
-					<strong>수주 삭제</strong>가 완료되지 않았습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none" id="delete">
-					<strong>수주 삭제</strong>가 완료되었습니다!
+				<div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none">
+					<strong>출하 삭제</strong>가 완료되지 않았습니다!
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
@@ -67,61 +65,37 @@
 													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
 														<label>업체명</label> 
 														<input type="hidden" id="searchCompany" name="searchCategory"> 
-														<input type="text" name="client_code" class="form-control" style="width: 100%;" placeholder="검색어 입력" autocomplete="off">
+														<input type="text" name="client_code" class="form-control" style="width: 100%;" placeholder="검색어 입력">
 													</div>
 													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
 														<label>품명</label> 
 														<input type="hidden" id="searchProduct" name="searchCategory"> 
-														<input type="text" name="product" class="form-control" style="width: 100%;" placeholder="검색어 입력" autocomplete="off">
+														<input type="text" name="product" class="form-control" style="width: 100%;" placeholder="검색어 입력">
 													</div>
 													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
-														<label>담당자</label> 
-														<input type="hidden" id="searchManager" name="searchCategory"> 
-														<input type="text" name="manager" class="form-control" style="width: 100%;" placeholder="검색어 입력" autocomplete="off">
+														<label>수주번호</label> 
+														<input type="hidden" id="searchRequest" name="searchCategory"> 
+														<input type="text" name="manager" class="form-control" style="width: 100%;" placeholder="검색어 입력">
 													</div>
 												</div>
 												<div class="row">
 													<div class="col-md-1 col-sm-12">
-														<label class="weight-600">수주 상태</label>
+														<label class="weight-600">출하 상태</label>
 													<div class="col-md-1 col-sm-12" style="margin-top: auto;">
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck1" name="statusInput" > 
-															<label class="custom-control-label" for="formCheck1">등록</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck1" name="statusInput"> 
+															<label class="custom-control-label" for="formCheck1">대기</label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
 															<input type="checkbox" class="custom-control-input" id="formCheck2" name="statusProduction"> 
-															<label class="custom-control-label" for="formCheck2">생산진행</label>
+															<label class="custom-control-label" for="formCheck2">완료</label>
 														</div>
-													</div>
-													<div class="col-md-1 col-sm-12" style="margin-top: auto;">
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck3" name="statusWait"> 
-															<label class="custom-control-label" for="formCheck3">출하대기</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck4" name="statusShip"> 
-															<label class="custom-control-label" for="formCheck4">출하완료</label>
-														</div>
-													</div>	
-													<div class="col-md-1 col-sm-12" style="margin-top: auto;">
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck5" name="statusRecipt"> 
-															<label class="custom-control-label" for="formCheck5">수령</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck6" name="statusReturns"> 
-															<label class="custom-control-label" for="formCheck6">반품</label>
-														</div>
-													</div>										
+													</div>					
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
-															<label>수주일자</label> 
-															<input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="date" autocomplete="off">
-														</div>
-														<div class="form-group">
-															<label>납품예정일</label> 
-															<input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="deadline" autocomplete="off">
+															<label>출하일자</label> 
+															<input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="date">
 														</div>
 													</div>
 												</div>
@@ -165,16 +139,17 @@
 												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 											</div>
 										</td>
+										<th>출하번호</th>
 										<th>수주번호</th>
-										<th>수주업체명</th>
-										<th>수주일자</th>
 										<th>납품예정일</th>
 										<th>품번</th>
-										<th>품명</th>
+										<th>수주업체</th>
 										<th>수주수량</th>
+										<th>수주일자</th>
 										<th>재고량</th>
-										<th>과부족</th>
-										<th>수주상태</th>
+										<th>출하량</th>
+										<th>출하일자</th>
+										<th>출하상태</th>
 									</tr>
 								<c:forEach items="${List}" var="List" varStatus="status">
 									<tr>
@@ -185,14 +160,15 @@
 											</div></td>
 										<!-- 상세 정보 이동! -->
 										<th class="info${status.index}" style="color: blue; text-decoration: underline;">${List.code }</th> 
-										<th>${List.clientName }</th> 
-										<th>${List.date }</th> 
+										<th>${List.code }</th> 
+										<th>${List.reqs_code }</th> 
 										<th>${List.deadline }</th> 
- 										<th>${List.product }</th> 
- 										<th>${List.productName }</th> 
-										<th>${List.amount }</th> 
+										<th>${List.product }</th> 
+ 										<th>${List.clinetName }</th> 
+										<th>${List.reqAmount }</th> 
+										<th>${List.date }</th> 
 										<th>${List.stock }</th>
- 										<th>${List.stock - List.amount }</th>
+ 										<th>${List.amount }</th>
 										<th>${List.status }</th> 
 										<td style="">
 										<!-- 옵션 -->
@@ -204,9 +180,9 @@
 													<!-- 상세 보기 -->
 													<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
 													<!-- 수정 -->
-													<a class="dropdown-item" href="javascript:openPage('/request/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+													<a class="dropdown-item" href="javascript:openPage('/maintenance/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
 													<!-- 삭제 -->
-													<a class="dropdown-item" href="javascript:openPage('/request/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+													<a class="dropdown-item" href="javascript:openPage('/maintenance/delete?index=1', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
 												</div>
 											</div>
 										</td>
@@ -246,19 +222,6 @@
 
 	<!-- 추가, 수정, 삭제, 상세보기 -->
 	<script type="text/javascript">
-	
-	var result ="${result}"
-		if(result == "AddDone"){
-			$("#success").css("display","block")
-		}else if(result =="UpdateDone"){
-			alert("글 수정 완료");
-		}else if(result == "DeleteDone"){
-			alert("글 삭제 완료");
-		}
-	
-	
-	
-	
 		var popupWidth, popupHeight, popupX, popupY, link;
 		var set;
 
@@ -283,14 +246,14 @@
 
 		function openPage(i, width, height) {
 			set = retPopupSetting(width, height);
-			return window.open(i, 'Popup_Window', set); // 가운데거가 이름이 똑같으면 같은창에서 열림
+			return window.open(i, 'Popup_Window', set);
 		}
 
 		$(document).ready(function() {
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
-				openPage("/request/add", 400, 700);
+				openPage("/request/add", 500, 600);
 			});
 
 			// 수정
@@ -303,15 +266,6 @@
 			$("#delete").click(function() {
 				// 가로, 세로 설정
 				openPage("/request/delete?", 400, 700);
-				// 체크된 데이터열의 코드들을 보내야함!
-				
-			});
-			
-			// 삭제
-			$(".info${status.index}").click(function() {
-        		var code = $(this).text().trim();
-				// 가로, 세로 설정
-				openPage("/request/info?code"+code, 400, 700);
 				// 체크된 데이터열의 코드들을 보내야함!
 				
 			});
@@ -349,6 +303,34 @@
 				});
 				
 			});
+			
+			// 팝업창 닫을 때 list 새고 하기
+// 			function closePopUp() {
+// 				  // 팝업창을 닫습니다.
+// 				  window.parent.window.close();
+
+// 				  // 팝업창이 닫힌 후 list.jsp를 새로고침합니다.
+// 				  $.ajax({
+// 				    url: "/request/list",
+// 				    type: "get",
+// 				    success: function() {
+// 				      // 새로고침이 완료된 후 화면이 깜빡이지 않도록 합니다.
+// 				      window.location.reload();
+// 				      alert('시작');
+// 				    },
+// 				    error: function() {
+// 				      // 새로고침에 실패한 경우 처리합니다.
+// 					      alert('error');
+
+// 				    }
+// 				  });
+// 				}
+			
+			//등록 시 알럿
+// 			var result = ${result}
+// 			if(result == "AddDone"){
+// 				$(".alert-success").css("display","inline")
+// 			}
 			
 			
 		});
