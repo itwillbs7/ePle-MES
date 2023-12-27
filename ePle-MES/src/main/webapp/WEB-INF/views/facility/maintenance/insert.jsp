@@ -23,19 +23,11 @@
 						<div class="form-group">
 							<label><b>카테고리</b></label> <select class="custom-select2 form-control" name="category" style="width: 100%; height: 38px">
 								<!-- 공통 코드로 받아오기 -->
-								<optgroup label="일상 보전">
-									<option value="AK">Alaska</option>
-									<option value="HI">Hawaii</option>
-								</optgroup>
-								<optgroup label="사후 보전">
-									<option value="CA">California</option>
-									<option value="NV">Nevada</option>
-								</optgroup>
-								<optgroup label="예약 보전">
-									<option value="AZ">Arizona</option>
-									<option value="CO">Colorado</option>
-									<option value="ID">Idaho</option>
-								</optgroup>
+								<option value="PM">예방 보전</option>
+								<option value="CM">개량 보전</option>
+								<option value="BM">사후 보전</option>
+								<option value="MP">보전 예방</option>
+								<option value="EM">긴급 보전</option>
 							</select>
 						</div>
 					</div>
@@ -61,10 +53,10 @@
 							<label>Password</label> <input class="form-control" value="password" type="password">
 						</div>
 						<div class="form-group">
-							<label>Readonly input</label> <input class="form-control" type="text" placeholder="Readonly input here…" readonly="">
+							<label>Readonly input</label> <input class="form-control" type="text" placeholder="Readonly input here…" readonly>
 						</div>
 						<div class="form-group">
-							<label>Disabled input</label> <input type="text" class="form-control" placeholder="Disabled input" disabled="">
+							<label>Disabled input</label> <input type="text" class="form-control" placeholder="Disabled input" disabled>
 						</div>
 						<div class="form-group">
 							<div class="row">
@@ -98,12 +90,12 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label>Disabled select menu</label> <select class="form-control" disabled="">
+							<label>Disabled select menu</label> <select class="form-control" disabled>
 								<option>Disabled select</option>
 							</select>
 						</div>
 						<div class="form-group">
-							<label>input plaintext</label> <input type="text" readonly="" class="form-control-plaintext" value="email@example.com">
+							<label>input plaintext</label> <input type="text" readonly class="form-control-plaintext" value="email@example.com">
 						</div>
 						<div class="form-group">
 							<label>Textarea</label>

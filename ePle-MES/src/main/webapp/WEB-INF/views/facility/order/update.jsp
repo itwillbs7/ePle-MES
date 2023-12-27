@@ -21,31 +21,6 @@
 			</div>
 			<!-- 폼 -->
 			<form action="" method="post">
-
-				<!-- 카테고리 -->
-				<div class="row">
-					<div class="col-sm-12 mb-3">
-						<div class="form-group">
-							<label><b>카테고리</b></label> <select class="custom-select2 form-control" name="category" style="width: 100%; height: 38px">
-								<!-- 공통 코드로 받아오기 -->
-								<optgroup label="Alaskan/Hawaiian Time Zone">
-									<option value="AK">Alaska</option>
-									<option value="HI">Hawaii</option>
-								</optgroup>
-								<optgroup label="Pacific Time Zone">
-									<option value="CA">California</option>
-									<option value="NV">Nevada</option>
-								</optgroup>
-								<optgroup label="Mountain Time Zone">
-									<option value="AZ">Arizona</option>
-									<option value="CO">Colorado</option>
-									<option value="ID">Idaho</option>
-								</optgroup>
-							</select>
-						</div>
-					</div>
-				</div>
-
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
