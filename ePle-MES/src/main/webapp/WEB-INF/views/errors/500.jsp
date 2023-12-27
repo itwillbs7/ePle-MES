@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<%@ include file="include/head.jsp"%>
+		<%@ include file="../include/head.jsp"%>
 	</head>
 	<body>
 		<div
@@ -11,8 +11,8 @@
 		>
 			<div class="pd-10">
 				<div class="error-page-wrap text-center">
-					<h1>404</h1>
-					<h3>오류: 404 요청한 페이지가 없습니다!</h3>
+					<h1>500</h1>
+					<h3>오류: 500 요청이 처리되지 않았습니다!</h3>
 					<h5></h5>
 					<div class="pt-20 mx-auto max-width-200">
 						<a href="/" class="btn btn-primary btn-block btn-lg"
@@ -22,6 +22,6 @@
 				</div>
 			</div>
 		</div>
-		<%@ include file="include/footer.jsp"%>
+		<%@ include file="../include/footer.jsp"%>
 	</body>
 </html>

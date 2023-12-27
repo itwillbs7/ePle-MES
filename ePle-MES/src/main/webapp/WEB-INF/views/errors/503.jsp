@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<%@ include file="include/head.jsp"%>
+		<%@ include file="../include/head.jsp"%>
 	</head>
 	<body>
 		<div
@@ -11,8 +11,8 @@
 		>
 			<div class="pd-10">
 				<div class="error-page-wrap text-center">
-					<h1>403</h1>
-					<h3>오류: 403 금지된 페이지!</h3>
+					<h1>503</h1>
+					<h3>오류: 503 시간 초과</h3>
 					<h5></h5>
 					<div class="pt-20 mx-auto max-width-200">
 						<a href="/" class="btn btn-primary btn-block btn-lg"
@@ -22,6 +22,6 @@
 				</div>
 			</div>
 		</div>
-		<%@ include file="include/footer.jsp"%>
+		<%@ include file="../include/footer.jsp"%>
 	</body>
 </html>
