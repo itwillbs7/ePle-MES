@@ -5,7 +5,7 @@
 <head>
 <%@ include file="../../include/head.jsp"%>
 <title>설비 보전</title>
-<!-- emp : 보전 등록 및 자신의 보전만 조회 -->
+<!-- admin : 보전 목록 및 내역 조회 -->
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -22,32 +22,12 @@
 			<div class="min-height-200px">
 				<div class="row">
 					<div class="col-md-3 mb-20">
-						<a href="javascript:insert();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
-							<div class="img pb-30 ">
-								<img src="${pageContext.request.contextPath}/resources/images/plus.png" alt="">
-							</div>
-							<div class="content">
-								<h3 class="h1">보전 등록</h3>
-							</div>
-						</a>
-					</div>
-					<div class="col-md-3 mb-20">
-						<a href="javascript:insert();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
-							<div class="img pb-30 ">
-								<img src="${pageContext.request.contextPath}/resources/images/plus.png" alt="">
-							</div>
-							<div class="content">
-								<h3 class="h1">보전 수정</h3>
-							</div>
-						</a>
-					</div>
-					<div class="col-md-3 mb-20">
 						<a href="javascript:list();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
 							<div class="img pb-30">
 								<img src="${pageContext.request.contextPath}/resources/images/table.png" alt="">
 							</div>
 							<div class="content">
-								<h3 class="h1">보전 조회</h3>
+								<h3 class="h1">보전 목록</h3>
 							</div>
 						</a>
 					</div>

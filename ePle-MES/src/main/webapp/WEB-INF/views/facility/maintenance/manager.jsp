@@ -5,7 +5,7 @@
 <head>
 <%@ include file="../../include/head.jsp"%>
 <title>설비 보전</title>
-<!-- emp : 일상보전 등록 및 조회 -->
+<!-- manager : 보전 조회 및 처리 -->
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
