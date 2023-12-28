@@ -30,7 +30,7 @@
 	var contextPath = window.location.pathname;
 
 	// 받은 form이 다 비어 있는지 체크
-	function formCheck(i) {
+	function ajaxFormCheck(i) {
 		$(i).find('input').each(function() {
 			var value = $(this).val();
 			if (value === "" || value === null || value == "undefined" 
@@ -38,8 +38,33 @@
 			}
 			else return true; // 비어있지 않음
 		});
+		$(i).find('select').each(function(){
+			var value = $(this).data('option');
+			if(value == null || value == "undefined" || value == ""){
+				
+			}
+			else return true;
+		})
 		return false; // 비어있음
 	}
+	
+	function formCheck(i){
+		$(i).find('input').each(function() {
+			var value = $(this).val();
+			if (value === "" || value === null || value == "undefined" 
+					|| (value != null && typeof value == "object" && !Object.keys(value).length)) {
+				return false;
+			}
+		}
+		$(i).find('select').each(function(){
+			var value = $(this).data('option');
+			if(value == null || value == "undefined" || value == ""){
+				 return false;
+			}
+		});
+		return true;
+	}
+	
 	
 	// 일반 검색 카테고리 input 저장
 	function buttonCategory(a) {
@@ -72,7 +97,7 @@
 		rightDate = new Date();
 		var left = leftDate.toISOString().slice(0, 10);
 		var right = rightDate.toISOString().slice(0, 10);
-		if (!formCheck("#accordion-search")){
+		if (!ajaxFormCheck("#accordion-search")){
 			document.getElementById("dateLeft").value = left;
 			document.getElementById("dateRight").value = right;
 		}
@@ -108,12 +133,7 @@
 
 	// 페이지 이동, 상세 검색 정보 유지
 	function movePage(i) {
-		if (!formCheck('#accordion-search')) {
-			location.href = contextPath + "?page=" + i;
-		} else {
-			$('#accordion-search').attr("action", contextPath + "?page=" + i);
-			$('#accordion-search').submit();
-		}
+		
 	}
 
 	// 페이지 이동, 상세 검색 정보 유지

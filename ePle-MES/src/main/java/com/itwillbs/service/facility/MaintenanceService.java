@@ -14,4 +14,6 @@ public interface MaintenanceService {
 	public List<MaintenanceVO> getMaintenanceList(PageVO vo) throws Exception;
 	public List<MaintenanceVO> getFacilityInfo(FacilityVO vo) throws Exception;
 	public MaintenanceVO getDetail(MaintenanceVO vo) throws Exception;
+	public int addRM(MaintenanceVO vo) throws Exception;
+	public List<MaintenanceVO> getRMList(String emp) throws Exception;
 }

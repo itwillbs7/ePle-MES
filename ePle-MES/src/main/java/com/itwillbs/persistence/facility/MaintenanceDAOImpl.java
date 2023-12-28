@@ -20,7 +20,12 @@ public class MaintenanceDAOImpl implements MaintenanceDAO{
 	
 	@Override
 	public int insertMaintenance(MaintenanceVO vo) throws Exception{
-		return sqlSession.insert(NAMESPACE + ".insertMaintenance", vo);
+		return sqlSession.insert(NAMESPACE + ".insertMain", vo);
+	}
+	
+	@Override
+	public int insertRM(MaintenanceVO vo) throws Exception {
+		return sqlSession.insert(NAMESPACE + ".insertRM", vo);
 	}
 	
 	@Override
@@ -51,5 +56,10 @@ public class MaintenanceDAOImpl implements MaintenanceDAO{
 	@Override
 	public MaintenanceVO getDetail(MaintenanceVO vo) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".getDetail", vo);
+	}
+	
+	@Override
+	public List<MaintenanceVO> getRMList(String emp) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getRMList", emp);
 	}
 }

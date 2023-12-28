@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -23,6 +24,8 @@ import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.facility.FacilityService;
 import com.itwillbs.service.facility.MaintenanceService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** FacilityController : 설비 컨트롤러 **/
 
@@ -30,26 +33,29 @@ import com.itwillbs.service.facility.MaintenanceService;
 @RequestMapping(value = "/facility/info/*")
 public class FacilityInfoController {
 
+	private static final Logger logger = LoggerFactory.getLogger(FacilityInfoController.class);
+	
 	@Inject
 	private FacilityService fService;
 	
 	@Inject
 	private MaintenanceService mService;
 	
-	// http://localhost:8088/facility/info/
-	@GetMapping(value = "/")
-	public String facilityListGET
+	// http://localhost:8088/facility/info/list
+	@GetMapping(value = "/list")
+	public void facilityListGET
 	(FacilitySearchVO searchVO, PageVO pageVO, Criteria cri, Model model) 
 	throws Exception{
 		// 설비 목록 return
+		logger.debug("cri : " + cri);
 		pageVO.setCri(cri);
+		if(searchVO.getOrder() == null) searchVO.orderSet(5);
 		pageVO.setSearch(searchVO);
 		pageVO.setTotalCount(fService.facilityListCount(pageVO));
 		List<FacilityVO> vo = fService.getFacilityList(pageVO);
 		if (vo == null) vo = new ArrayList<FacilityVO>();
 		model.addAttribute("list", vo);
 		model.addAttribute("pageVO", pageVO);
-		return "/facility/info/list";
 	}
 	
 	// http://localhost:8088/facility/info/detail

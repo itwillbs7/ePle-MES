@@ -28,11 +28,12 @@ public class MaintenanceController {
 	private MaintenanceService mService;
 	
 	// http://localhost:8088/facility/maintenance/list
-	@GetMapping(value = "/")
+	@GetMapping(value = "/list")
 	public String maintenanceListGET
 	(MaintenanceSearchVO searchVO, PageVO pageVO, Criteria cri, Model model)
-			throws Exception {
+		throws Exception {
 		// 설비 보전 리스트
+		
 		pageVO.setCri(cri);
 		pageVO.setSearch(searchVO);
 		pageVO.setTotalCount(mService.getMaintenanceCount(pageVO));
@@ -58,12 +59,12 @@ public class MaintenanceController {
 		int result = mService.addMaintenance(vo);
 		if(result == 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "보전 등록 결과");
-			rttr.addFlashAttribute("result", "보전 등록이 완료되었습니다.");
+			rttr.addFlashAttribute("title", "설비 등록 결과");
+			rttr.addFlashAttribute("result", "설비 등록이 완료되었습니다.");
 		}
 		else {
 			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "보전 등록 결과");
+			rttr.addFlashAttribute("title", "설비 등록 결과");
 			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 		}
 		return link;
@@ -81,12 +82,12 @@ public class MaintenanceController {
 		int result = mService.updateMaintenance(vo);
 		if(result == 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "보전 수정 결과");
+			rttr.addFlashAttribute("title", "설비 수정 결과");
 			rttr.addFlashAttribute("result", "보전 수정이 완료되었습니다.");
 		}
 		else {
 			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "보전 수정 결과");
+			rttr.addFlashAttribute("title", "설비 수정 결과");
 			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 		}
 		return link;
@@ -104,12 +105,12 @@ public class MaintenanceController {
 		int result = mService.deleteMaintenance(vo);
 		if(result == 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "보전 삭제 결과");
+			rttr.addFlashAttribute("title", "설비 삭제 결과");
 			rttr.addFlashAttribute("result", "보전 삭제가 완료되었습니다.");
 		}
 		else {
 			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "보전 삭제 결과");
+			rttr.addFlashAttribute("title", "설비 삭제 결과");
 			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 		}
 		return link;

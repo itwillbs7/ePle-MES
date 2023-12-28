@@ -51,4 +51,14 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	public MaintenanceVO getDetail(MaintenanceVO vo) throws Exception {
 		return dao.getDetail(vo);
 	}
+	
+	@Override
+	public int addRM(MaintenanceVO vo) throws Exception {
+		return dao.insertRM(vo);
+	}
+	
+	@Override
+	public List<MaintenanceVO> getRMList(String emp) throws Exception {
+		return dao.getRMList(emp);
+	}
 }

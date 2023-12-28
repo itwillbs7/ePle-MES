@@ -122,6 +122,30 @@
 												</div>
 											</div>
 										</div>
+
+										<!-- 정렬, asc, desc -->
+										<c:forEach items="${pageVO.search.order}" var="i">
+											<input type="hidden" name="order[]" value="${i}">
+										</c:forEach>
+
+										<c:choose>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" name="page" value="1">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" name="page" value="${pageVO.cri.page}">
+											</c:when>
+										</c:choose>
+
+										<c:choose>
+											<c:when test="${empty pageVO.cri.pageSize}">
+												<input type="hidden" name="pageSize" value="10">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.pageSize}">
+												<input type="hidden" name="pageSize" value="${pageVO.cri.pageSize}">
+											</c:when>
+										</c:choose>
+
 										<div class="btn-group pull-right" style="margin-bottom: 10px">
 											<button type="submit" class="btn btn-primary" id="search">
 												<b>검색</b>
@@ -155,9 +179,7 @@
 									내보내기 <span class="caret"></span>
 								</button>
 								<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="javascript:exportData(1);">PDF</a>
-									<a class="dropdown-item" href="javascript:exportData(2);">CSV</a>
-									<a class="dropdown-item" href="javascript:exportData(3);">인쇄</a>
+									<a class="dropdown-item" href="javascript:exportData(1);">PDF</a> <a class="dropdown-item" href="javascript:exportData(2);">CSV</a> <a class="dropdown-item" href="javascript:exportData(3);">인쇄</a>
 								</div>
 							</div>
 						</div>
@@ -183,11 +205,17 @@
 										</div>
 									</td>
 									<th>#</th>
-									<th>코드</th>
-									<th>카테고리</th>
-									<th>모델</th>
-									<th>이름</th>
-									<th>위치</th>
+									<c:forEach begin="0" end="4" var="i">
+										<th class="btn-light" onclick=""><c:choose>
+											<c:when test="${pageVO.search.order[i] eq 'asc'}">
+												<i class="ion-android-arrow-up"></i>
+											</c:when>
+											<c:when test="${pageVO.search.order[i] eq 'desc'}">
+												<i class="ion-android-arrow-down"></i>
+											</c:when>
+										</c:choose> &nbsp;&nbsp;
+										<h6 style="display: inline-block;">${pageVO.search.kor[i]}</h6></th>
+									</c:forEach>
 									<th>옵션</th>
 								</tr>
 								<c:if test="${empty facilityList or facilityList.size == 0}">
@@ -204,12 +232,11 @@
 													<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
 												</div></td>
 											<th>${i.code}</th>
-											<th>ㅁ</th>
-											<th>ㅁ</th>
-											<th>ㅁ</th>
+											<th>${i.category}</th>
+											<th>${i.model}</th>
 											<!-- 상세 정보 이동! -->
 											<th><a href="/facility/info/detail?code=${i.code}"><b class="text-blue" id="tableTitle1">${i.name}</b></a></th>
-											<th>ㅁ</th>
+											<th>${i.location}</th>
 											<td style="">
 												<!-- 옵션 -->
 												<div class="dropdown">
@@ -344,16 +371,16 @@
 				}
 			});
 		});
-		
-		function downloadPDF(data){
+
+		function downloadPDF(data) {
 			alert("data : " + data);
 		}
-		
-		function downloadCSV(data){
+
+		function downloadCSV(data) {
 			alert("CSV");
 		}
-		
-		function printResult(data){
+
+		function printResult(data) {
 			alert("PRINT");
 		}
 	</script>

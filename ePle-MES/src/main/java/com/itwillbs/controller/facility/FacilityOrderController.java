@@ -13,9 +13,9 @@ import com.itwillbs.domain.OrderVO;
 public class FacilityOrderController {
 	
 	// 권한 설정으로 담당자만 진행하도록 함
-	@GetMapping("/")
-	public String list() throws Exception{
-		return "/facility/order/list";
+	@GetMapping("/list")
+	public void list() throws Exception{
+	
 	}
 	
 	@GetMapping("/insert")
@@ -67,7 +67,7 @@ public class FacilityOrderController {
 		// 설비 발주 삭제 폼
 	}
 	
-	@PostMapping("/insert")
+	@PostMapping("/delete")
 	public String deletePOST(OrderVO vo, RedirectAttributes rttr) throws Exception{
 		String link = "";
 		int result = 0;

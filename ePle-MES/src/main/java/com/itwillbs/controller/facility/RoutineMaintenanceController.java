@@ -1,18 +1,24 @@
 package com.itwillbs.controller.facility;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.MaintenanceVO;
+import com.itwillbs.service.facility.MaintenanceService;
 
 @Controller
 @RequestMapping(value="/facility/routine/*")
 public class RoutineMaintenanceController {
+	
+	@Inject
+	private MaintenanceService mService;
 	
 	// 권한 설정으로 나누어 담당자, 직원으로 구분
 	@GetMapping("/")
@@ -38,7 +44,9 @@ public class RoutineMaintenanceController {
 	@PostMapping("/insert")
 	public String insertPOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
 		String link = "";
-		int result = 0;
+		// 최상단에 등록된 일상보전 가져오기
+		
+		int result = mService.addRM(vo);
 		if(result == 1) {
 			link = "redirect:/confirm";
 			rttr.addFlashAttribute("title", "일상 보전 결과");
@@ -53,7 +61,7 @@ public class RoutineMaintenanceController {
 	}
 	
 	@GetMapping("/list")
-	public void listGET(HttpSession session) throws Exception{
-		session.getAttribute("userid");
+	public void listGET(HttpSession session, Model model) throws Exception{
+		model.addAttribute("list", mService.getRMList((String)session.getAttribute("userid")));
 	}
 }
