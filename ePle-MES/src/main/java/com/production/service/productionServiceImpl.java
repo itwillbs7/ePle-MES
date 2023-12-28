@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.production.domain.ajaxSearchVO;
 import com.production.domain.instructionVO;
+import com.production.domain.requestVO;
 import com.production.persistence.productionDAO;
 
 @Service
@@ -47,7 +47,7 @@ public class productionServiceImpl implements productionService {
 	}
 
 	@Override
-	public List<String> getRequestList() throws Exception {
+	public List<requestVO> getRequestList() throws Exception {
 		return pdDAO.getRequestList();
 	}
 
@@ -72,8 +72,8 @@ public class productionServiceImpl implements productionService {
 	}
 
 	@Override
-	public instructionVO getInstruction(int index) throws Exception {
-		return pdDAO.getInstruction(index);
+	public instructionVO getInstruction(int code) throws Exception {
+		return pdDAO.getInstruction(code);
 	}
 
 }

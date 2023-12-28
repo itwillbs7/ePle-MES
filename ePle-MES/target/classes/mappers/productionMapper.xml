@@ -38,8 +38,8 @@
 			</foreach>
 		</if>
 	</select>
-	<select id="getRequestList" resultType="String">
-		SELECT code FROM REQUEST WHERE status = '등록'
+	<select id="getRequestList" resultType="com.production.domain.requestVO">
+		SELECT * FROM REQUEST WHERE status = '등록'
 	</select>
 	<select id="getLine_codeList" resultType="String">
 		SELECT code FROM LINE
@@ -51,7 +51,7 @@
 		INSERT INTO INSTRUCTION VALUES(DEFAULT,#{product},#{line_code},#{content},#{request},#{amount},#{reg_emp},now(),null,null)
 	</insert>
 	<select id="getInstructionUpdate" resultType="com.production.domain.instructionVO">
-		SELECT * FROM INSTRUCTION WHERE index = #{index}
+		SELECT * FROM INSTRUCTION WHERE code = #{code}
 	</select>
 
 </mapper>

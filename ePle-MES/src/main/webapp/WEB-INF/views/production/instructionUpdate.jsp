@@ -1,15 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<title>보전 수정</title>
-<!-- 
-	실행 방법
-		- 테이블 페이지의 옵션에서 삭제클릭
-		- 상세 정보에서 삭제 클릭
- -->
+<title>작업지시 수정</title>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -17,115 +13,62 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">보전 수정</h1>
+				<h1 class="text-center text-primary">작업지시 수정</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="" method="post">
-
+			<form action="/production/updateInstruction" method="post">
 				<!-- 카테고리 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">
-							<label><b>카테고리</b></label> <select class="custom-select2 form-control" name="category" style="width: 100%; height: 38px">
+							<label><b>수주번호</b></label>
+							<select class="custom-select2 form-control" name="request" style="width: 100%; height: 38px" id="requestSelect" required="required">
 								<!-- 공통 코드로 받아오기 -->
-								<optgroup label="Alaskan/Hawaiian Time Zone">
-									<option value="AK">Alaska</option>
-									<option value="HI">Hawaii</option>
-								</optgroup>
-								<optgroup label="Pacific Time Zone">
-									<option value="CA">California</option>
-									<option value="NV">Nevada</option>
-								</optgroup>
-								<optgroup label="Mountain Time Zone">
-									<option value="AZ">Arizona</option>
-									<option value="CO">Colorado</option>
-									<option value="ID">Idaho</option>
-								</optgroup>
+								<c:forEach items="${requestList }" var="request">
+									<option value="${request }">${request }</option>
+								</c:forEach>
 							</select>
 						</div>
+						<div class="form-group">
+							<label><b>제품</b></label>
+							<select class="custom-select2 form-control" name="product" style="width: 100%; height: 38px" id="productSelect" required="required">
+								<!-- 공통 코드로 받아오기 -->
+								<c:forEach items="${productList }" var="product">
+									<option value="${product }">${product }</option>
+								</c:forEach>
+							</select>
+						</div>
+						<!-- 수량 받아와서 최대치 설정하기 -->
+						<div class="form-group">
+							<label>수량</label>
+							<input class="form-control" type="number" max="10" min="0" placeholder="수량" required="required" name="amount">
+						</div>
+						<!-- 수량 받아와서 최대치 설정하기 -->
 					</div>
 				</div>
-
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<!-- examples -->
 						<div class="form-group">
-							<label>Text</label> <input class="form-control" type="text" placeholder="Johnny Brown">
-						</div>
-						<div class="form-group">
-							<label>Email</label> <input class="form-control" value="bootstrap@example.com" type="email">
-						</div>
-						<div class="form-group">
-							<label>URL</label> <input class="form-control" value="https://getbootstrap.com" type="url">
-						</div>
-						<div class="form-group">
-							<label>Telephone</label> <input class="form-control" value="1-(111)-111-1111" type="tel">
-						</div>
-						<div class="form-group">
-							<label>Password</label> <input class="form-control" value="password" type="password">
-						</div>
-						<div class="form-group">
-							<label>Readonly input</label> <input class="form-control" type="text" placeholder="Readonly input here…" readonly="">
-						</div>
-						<div class="form-group">
-							<label>Disabled input</label> <input type="text" class="form-control" placeholder="Disabled input" disabled="">
-						</div>
-						<div class="form-group">
-							<div class="row">
-								<div class="col-md-6 col-sm-12">
-									<label class="weight-600">Custom Checkbox</label>
-									<div class="custom-control custom-checkbox mb-5">
-										<input type="checkbox" class="custom-control-input" id="customCheck1-1"> <label class="custom-control-label" for="customCheck1-1">Check this custom checkbox</label>
-									</div>
-									<div class="custom-control custom-checkbox mb-5">
-										<input type="checkbox" class="custom-control-input" id="customCheck2-1"> <label class="custom-control-label" for="customCheck2-1">Check this custom checkbox</label>
-									</div>
-									<div class="custom-control custom-checkbox mb-5">
-										<input type="checkbox" class="custom-control-input" id="customCheck3-1"> <label class="custom-control-label" for="customCheck3-1">Check this custom checkbox</label>
-									</div>
-									<div class="custom-control custom-checkbox mb-5">
-										<input type="checkbox" class="custom-control-input" id="customCheck4-1"> <label class="custom-control-label" for="customCheck4-1">Check this custom checkbox</label>
-									</div>
-								</div>
-								<div class="col-md-6 col-sm-12">
-									<label class="weight-600">Custom Radio</label>
-									<div class="custom-control custom-radio mb-5">
-										<input type="radio" id="customRadio4" name="customRadio" class="custom-control-input"> <label class="custom-control-label" for="customRadio4">Toggle this custom radio</label>
-									</div>
-									<div class="custom-control custom-radio mb-5">
-										<input type="radio" id="customRadio5" name="customRadio" class="custom-control-input"> <label class="custom-control-label" for="customRadio5">Or toggle this other custom radio</label>
-									</div>
-									<div class="custom-control custom-radio mb-5">
-										<input type="radio" id="customRadio6" name="customRadio" class="custom-control-input"> <label class="custom-control-label" for="customRadio6">Or toggle this other custom radio</label>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label>Disabled select menu</label> <select class="form-control" disabled="">
-								<option>Disabled select</option>
+							<label><b>라인</b></label>
+							<select class="custom-select2 form-control" name="line_code" style="width: 100%; height: 38px" id="line_codeSelect" required="required">
+								<!-- 공통 코드로 받아오기 -->
+								<c:forEach items="${line_codeList }" var="line_code">
+									<option value="${line_code }">${line_code }</option>
+								</c:forEach>
 							</select>
 						</div>
 						<div class="form-group">
-							<label>input plaintext</label> <input type="text" readonly="" class="form-control-plaintext" value="email@example.com">
+							<label>지시사항</label>
+							<textarea class="form-control" name="content"></textarea>
 						</div>
+						<!-- 세션에서 받아오기 -->
 						<div class="form-group">
-							<label>Textarea</label>
-							<textarea class="form-control"></textarea>
+							<label>등록자</label>
+							<input class="form-control" type="text" placeholder="등록자 정보가 없습니다" readonly="" value="관리자1"  required="required" name="reg_emp">
 						</div>
-						<div class="form-group">
-							<label>Help text</label> <input type="text" class="form-control"> <small class="form-text text-muted"> Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji. </small>
-						</div>
-						<div class="form-group">
-							<label>Example file input</label> <input type="file" class="form-control-file form-control height-auto">
-						</div>
-						<div class="form-group">
-							<label>Custom file input</label>
-							<div class="custom-file">
-								<input type="file" class="custom-file-input"> <label class="custom-file-label">Choose file</label>
-							</div>
-						</div>
+						<!-- 세션에서 받아오기 -->
 						<!-- examples end -->
 					</div>
 				</div>
@@ -149,5 +92,54 @@
 	</div>
 	<!-- 콘텐츠 끝> -->
 	<%@ include file="../include/footer.jsp"%>
+	<script type="text/javascript">
+		$('#requestSelect').change(function() {
+			ajaxGetProductList(this.value);
+		});
+	</script>
+	<script type="text/javascript">
+		function ajaxGetProductList(request) {
+			$.ajax({
+				type : 'post',
+				url : '/production/ajaxGetProductList',
+				data : {"request":request},
+				error: function(){
+					alert("error");
+				},
+				success : function(data){
+					var html = "";
+					$('#productSelect').find('option').remove();
+					$(data).each(function () {
+						html += "<option value='" + this + "'>" + this + "</option>";
+					});
+					$("#productSelect").append(html);
+				}
+			});
+		}
+	</script>
+	<script type="text/javascript">
+		$('#productSelect').change(function() {
+			alert('변경');
+		});
+	</script>
+	<script type="text/javascript">
+		$(function(){
+			var request = '<c:out value='${instruction.request}'/>';
+			var line_code = '<c:out value='${instruction.line_code}'/>';
+			alert(1);
+			//수주번호 선택하기
+			//$("#requestSelect option:eq(1)").prop("selected", true);
+			$('#requestSelect').val(request).prop("selected",true);
+			$('#line_codeSelect').val(line_code).prop("selected",true);
+			alert(2);
+			//ajax
+			
+			//품번 선택하기
+			
+			//라인코드 선택하기
+			//$('#requestSelect').val("${asd}").prop("selected", true);
+			//$('#requestSelect').val("${asd}").prop("selected", true);
+		});
+	</script>
 </body>
 </html>

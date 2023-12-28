@@ -3,7 +3,7 @@ package com.production.domain;
 import java.sql.Timestamp;
 
 public class instructionVO {
-	private int index;
+	private int code;
 	private String request;
 	private String product;
 	private int amount;
@@ -14,11 +14,11 @@ public class instructionVO {
 	private Timestamp update_date;
 	private String update_emp;
 	
-	public int getIndex() {
-		return index;
+	public int getCode() {
+		return code;
 	}
-	public void setIndex(int index) {
-		this.index = index;
+	public void setCode(int code) {
+		this.code = code;
 	}
 	public String getRequest() {
 		return request;
@@ -77,7 +77,7 @@ public class instructionVO {
 	
 	@Override
 	public String toString() {
-		return "instructionVO [index=" + index + ", request=" + request + ", product=" + product + ", amount=" + amount
+		return "instructionVO [code=" + code + ", request=" + request + ", product=" + product + ", amount=" + amount
 				+ ", line_code=" + line_code + ", content=" + content + ", reg_date=" + reg_date + ", reg_emp="
 				+ reg_emp + ", update_date=" + update_date + ", update_emp=" + update_emp + "]";
 	}

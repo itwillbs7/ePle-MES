@@ -161,11 +161,11 @@
 											<td>
 												<div class="custom-control custom-checkbox mb-5">
 													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-													<input type="checkbox" class="custom-control-input checkIndex" id="${vo.index }" name="tableCheck" value="${vo.index }">
-													<label class="custom-control-label" for="${vo.index }"></label>
+													<input type="checkbox" class="custom-control-input checkCode" id="${vo.code }" name="tableCheck" value="${vo.code }">
+													<label class="custom-control-label" for="${vo.code }"></label>
 												</div>
 											</td>
-											<th>${vo.index }</th>
+											<th>${vo.code }</th>
 											<!-- 상세 정보 이동! -->
 											<th><a href="#"><b class="text-blue" id="tableTitle1">${vo.product }</b></a></th>
 											<th>${vo.amount }</th>
@@ -276,14 +276,14 @@
 			// 수정
 			$("#update").click(function() {
 				//지시사항 선택 체크
-				var index_arr = [];
-				if ($('.checkIndex').is(':checked')) {
+				var code_arr = [];
+				if ($('.checkCode').is(':checked')) {
 					//선택된 지시사항 갯수 체크
-					$(".checkIndex:checked").each(function() {
-						var index = this.value;
-						index_arr.push(index);
+					$(".checkCode:checked").each(function() {
+						var code = this.value;
+						code_arr.push(code);
 					});
-					if (index_arr.length>1) {
+					if (code_arr.length>1) {
 						alert('복수의 지시사항을 수정할 수 없습니다.하나만 선택해 주세요.');
 						return;
 					}
@@ -291,10 +291,8 @@
 					alert('지시사항을 선택해 주세요');
 					return;
 				}
-				
-				alert(index_arr[0]);
 				// 가로, 세로 설정
-				openPage("/production/instructionUpdate"+"?index=" + index_arr[0], 400, 700);
+				openPage("/production/instructionUpdate"+"?code=" + code_arr[0], 400, 700);
 			});
 
 			// 삭제
@@ -323,11 +321,11 @@
 						html += "<tr class='instructionVO'>";
 						html += "<td>";
 						html += "<div class='custom-control custom-checkbox mb-5'>";
-						html += "<input type='checkbox' class='custom-control-input' id='checkTable1' name='tableCheck' value='1'>";
-						html += "<label class='custom-control-label' for='checkTable1'></label>";
+						html += "<input type='checkbox' class='custom-control-input checkCode' id='" + this.code +"' name='tableCheck' value='" + this.code +"'>";
+						html += "<label class='custom-control-label' for='" + this.code +"'></label>";
 						html += "</div>";
 						html += "</td>";
-						html += "<th>" + this.index +"</th>";
+						html += "<th>" + this.code +"</th>";
 						html += "<th><a href='#'><b class='text-blue' id='tableTitle1'>" + this.product +"</b></a></th>";
 						html += "<th>" + this.amount +"</th>";
 						html += "<th>" + this.line_code +"</th>";

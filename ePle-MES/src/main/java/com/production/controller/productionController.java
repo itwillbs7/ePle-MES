@@ -52,9 +52,8 @@ public class productionController {
 	@RequestMapping(value = "/instructionAdd", method = RequestMethod.GET)
 	public void instructionAdd(Model model) throws Exception {
 		logger.debug("Controller : add() 호출");
-		//수주번호 불러오기
+		//수주정보 불러오기
 		model.addAttribute("requestList", pdService.getRequestList());
-		logger.debug("size : "+pdService.getRequestList().size());
 		//라인 불러오기
 		model.addAttribute("line_codeList", pdService.getLine_codeList());
 	}
@@ -88,10 +87,14 @@ public class productionController {
 	
 	//지시사항 수정 GET
 		@RequestMapping(value = "/instructionUpdate", method = RequestMethod.GET)
-		public void instructionUpdate(@RequestParam("index") int index, Model model) throws Exception {
-			logger.debug("Controller : instructionUpdate(int index, Model model) 호출");
+		public void instructionUpdate(@RequestParam("code") int code, Model model) throws Exception {
+			logger.debug("Controller : instructionUpdate(int code, Model model) 호출");
 			//지시사항 불러오기
-			model.addAttribute("instructionList", pdService.getInstruction(index));
-			logger.debug("getInstruction(index) : " + pdService.getInstruction(index));
+			model.addAttribute("instruction", pdService.getInstruction(code));
+			//수주번호 불러오기
+			model.addAttribute("requestList", pdService.getRequestList());
+			//라인코드 불러오기
+			model.addAttribute("line_codeList", pdService.getLine_codeList());
+			logger.debug("getInstruction(code) : " + pdService.getInstruction(code));
 		}
 }
