@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.itwillbs.domain.RequestSearchVO;
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.persistence.RequestDAO;
 
@@ -19,6 +19,24 @@ public class RequestServiceImpl implements RequestService {
 	
 	@Inject
 	private RequestDAO rdao;
+	
+
+	@Override
+	public List<RequestVO> requestListpage(Criteria cri) throws Exception {
+		logger.debug("페이징처리하기 "+cri);
+
+		return rdao.getRequestListPage(cri);
+	}
+	
+	
+
+	@Override
+	public int getTotal() throws Exception {
+		logger.debug("servide : getTotal()");
+		return rdao.getRequestCount();
+	}
+
+
 
 	@Override
 	public List<RequestVO> requestList() throws Exception {
@@ -80,6 +98,16 @@ public class RequestServiceImpl implements RequestService {
 		return rdao.searchProduct(product,productName);
 	}
 
+
+
+	@Override
+	public void updateRequest(RequestVO vo, String id) throws Exception {
+		// 수정
+		logger.debug("updateRequest(RequestVO vo, String id)");
+		rdao.requestUpdate(vo,id);
+	}
+
+	
 	
 	
 	

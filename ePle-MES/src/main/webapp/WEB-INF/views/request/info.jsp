@@ -16,7 +16,7 @@
 				<h1 class="text-center text-primary">수주 정보</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="" method="post" id="addForm">
+			<form action="/request/update" method="get" id="addForm">
 				<!-- 비입력 구간 -->
 				<!-- 입력 구간 -->
 				<div class="row">
@@ -49,13 +49,13 @@
 						</div>
 						<!-- 자동입력내역 -->
 						<div class="form-group">
-							<label>업체명</label> <input class="form-control" type="text" readonly value="${vo.clientName }">
+							<label>업체명</label> <input class="form-control" type="text" name="clientName" readonly value="${vo.clientName }">
 						</div>
 						<div class="form-group">
-							<label>담당자명</label> <input class="form-control" type="text" readonly value="${vo.managerName}">
+							<label>담당자명</label> <input class="form-control" type="text" name="managerName" readonly value="${vo.managerName}">
 						</div>
 						<div class="form-group">
-							<label>품명</label> <input class="form-control" type="text" readonly value="${vo.productName }">
+							<label>품명</label> <input class="form-control" type="text" name="productName" readonly value="${vo.productName }">
 						</div>
 						<div class="form-group">
 							<label>단위</label> <input class="form-control" name ="unit" type="text" readonly value="${vo.unit }">
@@ -72,6 +72,8 @@
 						<div class="form-group">
 							<label>수주상태</label> <input class="form-control" name ="status" type="text" readonly value="${vo.status }" id="status">
 						</div>
+						<input type="hidden" name="reg_date" value="${vo.reg_date }">
+						<input type="hidden" name="reg_emp" value="${vo.reg_emp }">
 
 
 				<!-- 버튼 -->
@@ -80,7 +82,7 @@
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-						<input type="button" class="btn btn-success" value="수정" id="update">
+						<input type="submit" class="btn btn-success" value="수정" id="update">
 					</div>
 				</div>
 					</div>
@@ -92,55 +94,7 @@
 	</div>
 	<!-- 콘텐츠 끝> -->
 	<script type="text/javascript">
-	var popupWidth, popupHeight, popupX, popupY, link;
-	var set;
 
-	function retPopupSetting(width, height){
-		// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
-		popupX = Math.ceil((window.screen.width - width) / 2);
-		// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
-		popupY = Math.ceil((window.screen.height - height) / 2);
-
-		var setting = "";
-		setting += "toolbar=0,";
-		setting += "scrollbars=0,";
-		setting += "statusbar=0,";
-		setting += "menubar=0,";
-		setting += "resizeable=0,";
-		setting += "width=" + width + ",";
-		setting += "height=" + height + ",";
-		setting += "top=" + popupY + ",";
-		setting += "left=" + popupX;
-		return setting;
-	}
-
-	function openPage(i, width, height) {
-		set = retPopupSetting(width, height);
-		return window.open(i, 'Popup_Window', set); // 가운데거가 이름이 똑같으면 같은창에서 열림
-	}
-
-	$(document).ready(function() {
-		
-		var codes = document.getElementById("code").value;
-		const status = document.getElementById("status").value;
-		console.log(codes);
-		console.log(status);
-		// 추가
-		$("#update").click(function() {
-			if(status == "등록"){
-			// 가로, 세로 설정
-			openPage("/request/update?code="+codes, 400, 700);
-			}else{
-				alert('수정불가능합니다');
-			}
-		});
-		
-		
-		
-		
-		
-		
-	});
 	
 	</script>
 	<%@ include file="../include/footer.jsp"%>

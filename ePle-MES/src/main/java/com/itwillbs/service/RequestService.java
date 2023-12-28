@@ -2,9 +2,13 @@ package com.itwillbs.service;
 
 import java.util.List;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RequestVO;
 
 public interface RequestService {
+	// 페이징처리
+	public List<RequestVO> requestListpage(Criteria cri)throws Exception;
+	public int getTotal() throws Exception;
 	 //수주리스트
 	 public List<RequestVO> requestList() throws Exception;
 	 // 수주상세
@@ -23,6 +27,10 @@ public interface RequestService {
 	 public List<RequestVO> ProductList() throws Exception;
 	 // 품목검색
 	 public List<RequestVO> findProduct(String product, String productName)throws Exception;
+	 // 품목 수정
+	 public void updateRequest(RequestVO vo, String id)throws Exception;
+	 
+
 
 }
 

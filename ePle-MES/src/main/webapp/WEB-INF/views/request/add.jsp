@@ -25,46 +25,52 @@
 						<!-- 필수입력내역 -->
 						<div class="form-group">
 							<label>업체코드</label> 
-							<input class="form-control" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" name="client_code" id="client_code" readonly>
+							<input class="form-control" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" 
+							name="client_code" id="client_code" readonly required="required">
 						</div>
 						<div class="form-group">
 							<label>수주일자</label> 
-							<input class="form-control date-picker" name="date" type="text" placeholder="클릭 시 달력이 뜹니다" id="date-picker" autocomplete="off">
+							<input class="form-control date-picker" name="date" type="text" 
+							placeholder="클릭 시 달력이 뜹니다" id="date-picker" autocomplete="off" required="required">
 						</div>
 						<div class="form-group">
 							<label>납품일자</label> 
-							<input class="form-control date-picker" name="deadline" type="text" placeholder="클릭 시 달력이 뜹니다" autocomplete="off">
+							<input class="form-control date-picker" name="deadline" type="text" 
+							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
 						</div>
 						<div class="form-group">
-							<label>담당자코드</label> <input class="form-control" id="manager" name="manager" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" readonly>
+							<label>담당자코드</label> <input class="form-control" id="manager" 
+							name="manager" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" readonly required="required">
 						</div>
 						<div class="form-group">
-							<label>품번</label> <input class="form-control" name="product" id="product" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" readonly>
+							<label>품번</label> <input class="form-control" name="product" id="product" 
+							type="text" placeholder="클릭 시 팝업검색창이 뜹니다" readonly required="required">
 						</div>
 						<div class="form-group">
-							<label>수주량</label> <input class="form-control" name="amount" type="number" placeholder="필수입력" autocomplete="off" min="1">
+							<label>수주량</label> <input class="form-control" name="amount" 
+							type="number" placeholder="필수입력" autocomplete="off" min="1" required="required">
 						</div>
 						<!-- 자동입력내역 -->
 						<div class="form-group">
-							<label>업체명</label> <input class="form-control" type="text" readonly id="clientName">
+							<label>업체명</label> <input class="form-control" type="text" readonly id="clientName" required="required">
 						</div>
 						<div class="form-group">
-							<label>담당자명</label> <input class="form-control" type="text" readonly id="managerName">
+							<label>담당자명</label> <input class="form-control" type="text" readonly id="managerName" required="required">
 						</div>
 						<div class="form-group">
-							<label>품명</label> <input class="form-control" type="text" readonly id="productName">
+							<label>품명</label> <input class="form-control" type="text" readonly id="productName" required="required">
 						</div>
 						<div class="form-group">
-							<label>단위</label> <input class="form-control" name ="unit" type="text" readonly id="unit">
+							<label>단위</label> <input class="form-control" name ="unit" type="text" readonly id="unit" required="required">
 						</div>
 						<div class="form-group">
-							<label>재고량</label> <input class="form-control" name ="stock" type="text" readonly id="stock">
+							<label>재고량</label> <input class="form-control" name ="stock" type="text" readonly id="stock" required="required">
 						</div>
 						<div class="form-group">
-							<label>과부족량</label> <input class="form-control" type="text" readonly value="" id="gwa">
+							<label>과부족량</label> <input class="form-control" type="text" readonly value="" id="gwa" required="required">
 						</div>
 						<div class="form-group">
-							<label>단가</label> <input class="form-control" name ="currency" type="text" readonly id="currency">
+							<label>단가</label> <input class="form-control" name ="currency" type="text" readonly id="currency" required="required">
 						</div>
 
 
@@ -74,7 +80,7 @@
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-						<input type="button" class="btn btn-success" value="등록" onclick="finished()">
+						<input type="button" class="btn btn-success" value="등록" onclick="finished()" id="sa-custom-position">
 					</div>
 				</div>
 					</div>
@@ -86,7 +92,8 @@
 	</div>
 	<!-- 콘텐츠 끝> -->
 	<%@ include file="../include/footer.jsp"%>
-	
+	<script type="text/javascript">
+	</script>
 	 <script type="text/javascript" class="id">  
 
 	 
@@ -146,37 +153,31 @@
 		 // 널값이 안들어가게. 그리고 미입력칸으로 focus
 	 }
 	 
-	 
-// 	 // Submit ajax
 	 function finished(){
 		 
-			document.querySelector('#code').value = createOrderNum();
+			document.querySelector('#code').value = createOrderNum();	
 			
-			if(document.querySelector('#code').value == null){
-				
-			}
-			
-			var formdata = $("#addForm").serialize();
-			if(formdata)
-			
-		 $.ajax({
-			    url: '/request/add',
-			    type: 'POST',
-			    data:  formdata,
+			$.ajax({
+			    type: "POST",
+			    url: '/request/add', // 폼을 제출할 서버의 URL
+			    data: $("#addForm").serialize(), // 'addForm' ID를 가진 폼의 데이터를 직렬화
 			    success: function(data) {
-			    	alert('성공?');
-// 			    	self.close(); 
-			    	}, // function(data) 끝
-		        error: function(data){
-		        	alert('실패');
-		        }     
-			    
+			        // 폼 제출이 성공적으로 완료되면
+			        self.close(); // 창을 닫습니다.
+			    },
+			    error: function(jqXHR, textStatus, errorThrown) {
+			        // 폼 제출에 실패하면
+			        alert('폼 제출에 실패했습니다: ' + textStatus);
+			    }
 			});
-		 
 	 }
 	 
+
+	</script> 
+	<script type="text/javascript">
 	 
 	$(document).ready(function(){
+
 		
 	// 업체찾기	
 		$("#client_code").click(function() {
@@ -202,6 +203,6 @@
 	});//끝
 	
 	
-	</script> 
+	</script>
 </body>
 </html>

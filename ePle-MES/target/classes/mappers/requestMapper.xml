@@ -5,100 +5,126 @@
 
 
 <!--requestMapper.xml -->
- <mapper namespace="com.itwillbs.mapper.requestMapper">
- 
+<mapper namespace="com.itwillbs.mapper.requestMapper">
+
 
 	<!-- 리스트 가져오기 -->
-	<select id="getRequestList" resultType="RequestVO">
-		SELECT r.code code, r.client_code client_code, r.date date,
-		r.deadline deadline, c.name clientName ,r.product product, m.name productName,
+	<select id="listPage" resultType="RequestVO">
+		SELECT r.code code,r.client_code client_code, r.date date,
+		r.deadline deadline, c.name clientName ,r.product product, m.name productName, 
 		s.amount stock, r.status status, r.amount amount 
 		FROM REQUEST r 
-		join CLIENT c on r.client_code = c.code
-		join STOCK s on r.product = s.mapd_code
-		join MAPD m on r.product = m.code
+		join CLIENT c on r.client_code = c.code 
+		join STOCK s on r.product = s.mapd_code 
+		join MAPD m on r.product = m.code 
+		order by r.reg_date DESC 
+		limit #{startPage}, #{pageSize} 
+	</select>
+
+
+	<!-- 전체 글 개수 조회 -->
+	<select id="countRequest" resultType="int">
+  <![CDATA[
+  	select count(*) from REQUEST where 1=1
+  ]]>
 	</select>
 
 	<!-- 수주번호의 정보 가져오기 -->
 	<select id="getRequestInfo" resultType="RequestVO">
-		select * from REQUEST where code=#{code}
+		select * from REQUEST
+		where code=#{code}
+	</select>
+	<select id="getNameForInfo" resultType="RequestVO">
+		select c.name clientName, e.name managerName, m.name productName from REQUEST r
+		JOIN CLIENT c on r.client_code = c.code 
+		JOIN EMPLOYEES e on r.manager = e.code 
+		JOIN MAPD m on m.code = r.product
+		where r.code=#{code}
 	</select>
 
 	<!-- 수주정보 검색하기 -->
 	<select id="research" resultType="RequestVO">
-	
-		SELECT r.client_code, c.name clientName ,r.product, m.name productName,
-		s.amount stock, r.status
+
+		SELECT r.client_code, c.name clientName ,r.product, m.name
+		productName, s.amount stock, r.status
 		FROM REQUEST r
 		join CLIENT c on r.client_code = c.code
 		join STOCK s on r.product = s.code
 		join MAPD m on r.product = m.code
+		order by r.reg_date DESC 
 		limit #{startPage},#{pageSize}
-		<if test="client_code != null"> where client_code like '%#{client_code}%' </if>
-		<if test="client_code != null"> where client_code = #{client_code} </if>
-		<if test="client_code != null"> where client_code = #{client_code} </if>
-		<if test="client_code != null"> where client_code = #{client_code} </if>
-		<if test="client_code != null"> where client_code = #{client_code} </if>
-		<if test="client_code != null"> where client_code = #{client_code} </if>
-		<if test="client_code != null"> where client_code = #{client_code} </if>
+		where 1 = 1
+		<if test="client_code != null"> AND r.client_code like '%#{client_code}%' </if>
+		<if test="productName != null"> AND m.name = #{productName} </if>
+		<if test="date != null"> AND r.date = #{date} </if>
+		<if test="deadline != null"> AND r.deadline= #{deadline} </if>
+		<if test="manager != null"> AND r.manager = #{manager} </if>
+
+		<if test="status != null and status.size() > 0" >
+		 AND r.status in 
+		 <foreach collection="status" item="status" open="(" close=")" separator=",">
+		 #{status} 
+		 </foreach>
+		 </if>
 
 	</select>
-	
+
 	<!-- 회사찾기 -->
 	<select id="getClientList" resultType="RequestVO">
-			select code client_code, name clientName from CLIENT where active = 0;
+		select code client_code, name clientName from CLIENT where active = 0;
 	</select>
-	
+
 	<select id="findCompany" resultType="RequestVO">
-	select code client_code, name clientName from CLIENT where active = 0 
-			<if test="client_code!= null"> AND code like concat('%',#{client_code},'%') </if>
-			<if test="clientName != null"> AND name like concat('%',#{clientName},'%') </if>
+		select code client_code, name clientName from CLIENT where active = 0
+		<if test="client_code!= null"> AND code like concat('%',#{client_code},'%') </if>
+		<if test="clientName != null"> AND name like concat('%',#{clientName},'%') </if>
 	</select>
-	
+
 	<select id="getManagerList" resultType="RequestVO">
-	select code manager, name managerName 
-	from EMPLOYEES 
-	where dep_id = '영업부'
+		select code manager, name managerName
+		from EMPLOYEES
+		where dep_id = '영업부'
 	</select>
-	
+
 	<select id="findManager" resultType="RequestVO">
-	select code manager, name managerName 
-	from EMPLOYEES 
-	where dep_id = '영업부'
-	<if test="manager != null"> AND code like concat('%',#{manager},'%')</if>
-	<if test="managerName != null">AND name like concat('%',#{managerName},'%')</if>	
+		select code manager, name managerName
+		from EMPLOYEES
+		where dep_id = '영업부'
+		<if test="manager != null"> AND code like concat('%',#{manager},'%')</if>
+		<if test="managerName != null">AND name like concat('%',#{managerName},'%')</if>
 	</select>
-	
+
 	<select id="getProductList" resultType="RequestVO">
-	select m.code product, m.name productName, m.unit, m.outprice currency, s.amount stock
-	from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0 
+		select m.code product, m.name productName, m.unit, m.outprice currency,
+		s.amount stock
+		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0
 	</select>
 
 	<select id="findProduct" resultType="RequestVO">
-	select m.code product, m.name productName, m.unit, m.outprice currency, s.amount stock
-	from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0 
-	<if test="product != null and product != ''">AND m.code like concat('%',#{product},'%')</if>
-	<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
+		select m.code product, m.name productName, m.unit, m.outprice
+		currency, s.amount stock
+		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0
+		<if test="product != null and product != ''">AND m.code like concat('%',#{product},'%')</if>
+		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
 	</select>
 	<!-- 수주정보 등록하기 -->
-	
-	
+
+
 	<insert id="insertRequest">
-		insert into REQUEST 
-		values 
-		(#{code},#{client_code},#{deadline},#{date},#{manager},#{product},#{amount}, 
+		insert into REQUEST
+		values
+		(#{code},#{client_code},#{deadline},#{date},#{manager},#{product},#{amount},
 		#{unit},#{stock},#{currency},"등록",0,now(),"test",now(),"test");
 
 	</insert>
 
 	<!-- 수주정보 수정하기 -->
 	<update id="updateRequestInfo">
-		SELECT
-		FROM REQUEST r
-		join CLIENT c on r.client_code = c.code
-		join STOCK s on r.product = s.code
-		join MAPD m on r.product = m.code
-		where r.code = #{code}
+		update REQUEST set client_code=#{vo.client_code}, deadline=#{vo.deadline}, date=#{vo.date}, 
+		manager=#{vo.manager}, product=#{vo.product}, amount=#{vo.amount}, unit=#{vo.unit}, 
+		stock=#{vo.stock}, currency=#{vo.currency}, status=#{vo.status}, 
+		update_date=now(), update_emp=#{userid}
+		where code = #{vo.code}
 	</update>
 
 	<!-- 수주정보 삭제하기 -->
@@ -106,16 +132,4 @@
 		delete from REQUEST
 		where code in #{code}
 	</delete>
-
-	<!-- 수주정보 페이징 -->
-	<select id="listPage" resultType="RequestVO" >
-		SELECT r.code code, r.client_code client_code, r.deadline deadline, c.name clientName ,r.product product, m.name productName,
-		s.amount stock, r.status status, r.amount amount 
-		FROM REQUEST r
-		join CLIENT c on r.client_code = c.code
-		join STOCK s on r.product = s.code
-		join MAPD m on r.product = m.code
-		limit #{startPage},#{pageSize}
-	</select>
-
 </mapper>

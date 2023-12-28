@@ -19,9 +19,9 @@ public class RequestVO {
 	private int currency;
 	private String status;
 	private int returns;
-	private Timestamp reg_date;
+	private String reg_date;
 	private String reg_emp;
-	private Timestamp update_date;
+	private String update_date;
 	private String update_emp;
 	
 	private String clientName;

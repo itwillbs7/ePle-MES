@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RequestSearchVO;
 import com.itwillbs.domain.RequestVO;
 
@@ -24,6 +25,39 @@ public class RequestDAOImpl implements RequestDAO {
 	private SqlSession sqlSession;
 	
 	@Override
+	public List<RequestVO> getRequestListPage(Criteria cri) throws Exception {
+		logger.debug("DAO 페이징 처리 getRequestListPage(Criteria cri) + "+ cri);
+		
+		
+		return sqlSession.selectList(NAMESPACE+".listPage", cri);
+
+	}
+
+
+
+	@Override
+	public List<RequestVO> getRequestListPage(int page) throws Exception {
+		// 페이징 처리 계산
+		// page 1 => 1 ~ 10   => limit 0, 10 이라고 해야함
+		// page 2 => 11 ~ 20  => limit 10, 10
+		// page 3 => 21 ~ 30  => limit 20, 10		return null;
+		
+		page = (page-1)*10;
+		return sqlSession.selectList(NAMESPACE+".listPage",page);
+	}
+
+
+
+	@Override
+	public int getRequestCount() throws Exception {
+		logger.debug("DAO getRequestCount()");
+		return sqlSession.selectOne(NAMESPACE+".countRequest");
+
+	}
+
+
+
+	@Override
 	public List<RequestVO> getRequestListAll() throws Exception {
 		logger.debug("DAO 수주정보리스트 getRequestListAll() ");
 		return sqlSession.selectList(NAMESPACE+".getRequestList");
@@ -36,7 +70,12 @@ public class RequestDAOImpl implements RequestDAO {
 		logger.debug("DAO 수주정보 자세히보기 getRequestDetail(String code) "+code);
 		RequestVO vo = sqlSession.selectOne(NAMESPACE+".getRequestInfo", code);
 		
-		
+		// 업체명, 상품명, 담당자명 가져와야함
+		RequestVO wait = sqlSession.selectOne(NAMESPACE+".getNameForInfo", code);
+		vo.setClientName(wait.getClientName());
+		vo.setProductName(wait.getProductName());
+		vo.setManagerName(wait.getManagerName());
+		logger.debug("vo : "+vo);
 		return vo;
 	}
 
@@ -111,10 +150,18 @@ public class RequestDAOImpl implements RequestDAO {
 
 	}
 
-
-
 	//----- add 용 검색 ----
 
+	
+	@Override
+	public void requestUpdate(RequestVO vo, String id) throws Exception {
+		logger.debug("DAO  requestUpdate(RequestVO vo, String id)");
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("userid", id);
+		paramMap.put("vo", vo);
+		sqlSession.update(NAMESPACE+".updateRequestInfo", paramMap);
+	}
 	
 
 	
