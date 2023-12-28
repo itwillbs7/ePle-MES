@@ -37,17 +37,17 @@
 	<insert id="insertWarehouse">
 		insert into WAREHOUSE
 		(code,location,group_id,group_name,manager,mng_phone,active)
-		values(#{code},#{location},#{group_id},#{group_name},#{manager},#{mng_phone},#{active})
+		values(#{code},#{location},#{group_id},#{group_name},#{manager},#{mng_phone},1)
 	</insert>
 
 	<delete id="deleteWarehouse">
 		delete from WAREHOUSE
-		where code = #{code}
+		where code in #{code}
 	</delete>
 
 	<select id="getWarehouseContent" resultType="WarehouseVO">
 		SELECT * FROM WAREHOUSE
-		WHERE code = #{code}
+		WHERE code in #{code}
 	</select>
 
 
@@ -73,8 +73,14 @@
 		<if test="managerName != null">AND name like concat('%',#{managerName},'%')</if>
 	</select>
 
-  	
- 
+	<update id="updateWarehouseInfo">
+		SELECT
+		FROM WAREHOUSE w
+		JOIN EMPLOYEES e
+		on w.manager=e.name
+		where r.code = #{code}
+	</update>
+
 	
 	
 	

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.OrderVO;
+import com.itwillbs.domain.WarehouseVO;
 
 @Repository
 public class OrderDAOImpl implements OrderDAO {
@@ -35,7 +36,11 @@ public class OrderDAOImpl implements OrderDAO {
 		return sqlSession.selectOne(NAMESPACE + ".countOrder");
 	}
 	
-	
+	@Override
+	public void insertOrder(OrderVO vo) throws Exception {
+		logger.debug("insertOrder(OrderVO vo) : "+vo);
+		sqlSession.insert(NAMESPACE+".insertOrder", vo);
+	}
 	
 	
 }

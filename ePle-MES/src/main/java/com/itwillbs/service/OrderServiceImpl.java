@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.OrderVO;
+import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.persistence.OrderDAO;
 
 @Service
@@ -32,7 +33,11 @@ public class OrderServiceImpl implements OrderService {
 		return odao.getOrderCount();
 	}
 	
-	
+	@Override
+	public void InsertOrder(OrderVO vo) throws Exception {
+		logger.debug("S : InsertOrder(OrderVO vo) : "+vo);
+		odao.insertOrder(vo);
+	}
 	
 	
 	

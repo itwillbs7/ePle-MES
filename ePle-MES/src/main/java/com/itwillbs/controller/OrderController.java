@@ -12,10 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.OrderVO;
 import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.StockVO;
 import com.itwillbs.service.OrderService;
 
 /** OrderController : 발주 컨트롤러 **/
@@ -58,7 +60,27 @@ public class OrderController {
 	}
 	
 	
-	
+
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public void orderInsertGET() throws Exception { 
+		logger.debug("/order/add -> orderInsertGET() 호출 ");
+		logger.debug("/order/add.jsp 뷰페이지로 이동");
+		
+	}
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public String orderInsertPOST(OrderVO vo, RedirectAttributes rttr) throws Exception {
+
+		logger.debug("폼submit -> orderInsertPOST() 호출 ");
+		logger.debug(" vo : " + vo);
+		// 서비스 - DB에 글쓰기(insert) 동작 호출
+		oService.InsertOrder(vo);	
+		logger.debug(" 등록 완료! ");
+		
+		rttr.addFlashAttribute("result", "CREATEOK");
+		
+		logger.debug("/order/list 이동");
+		return "redirect:/order/list";
+	}
 	
 	
 	

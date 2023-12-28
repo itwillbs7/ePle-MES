@@ -29,7 +29,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	
 	@Override
 	public List<WarehouseVO> getWarehouseListAll(Criteria cri) throws Exception {
-		logger.debug("getWarehouseListAll(Criteria cri) ");
+		logger.debug(" DAO : getWarehouseListAll(Criteria cri) ");
 		return sqlSession.selectList(NAMESPACE+".getWarehouseList", cri);
 	}
 
@@ -41,6 +41,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	
 	@Override
 	public List<WarehouseVO> getEmployees() throws Exception {
+		logger.debug(" DAO : getEmployees() ");
 		return sqlSession.selectList(NAMESPACE + ".getEmployees");
 	}
 	
@@ -55,7 +56,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	
 	@Override
 	public void insertWarehouse(WarehouseVO vo) throws Exception {
-		logger.debug("insertWarehouse(WarehouseVO vo) : "+vo);
+		logger.debug(" DAO : insertWarehouse(WarehouseVO vo) : "+vo);
 		sqlSession.insert(NAMESPACE+".insertWarehouse", vo);
 	}
 

@@ -12,12 +12,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.OrderVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.StockVO;
+import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.service.OrderService;
+import com.itwillbs.service.StockService;
 
 
 /** StockController : 재고 컨트롤러 **/
@@ -29,11 +32,11 @@ public class StockController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(StockController.class);
 	
-//	@Inject
-//	private StockService sService;
+	@Inject
+	private StockService sService;
 
 	
-/*	
+	
 	// 재고 메인 (GET)  http://localhost:8088/stock/list 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String stockListGET(Model model,
@@ -44,7 +47,7 @@ public class StockController {
 		logger.debug("stockListGET -> DB에서 목록 가져오기");
 		
 		// 서비스 - 디비에 저장된 글을 가져오기
-		List<StockVO> orderList = sService.stockList(cri);
+		List<StockVO> stockList = sService.stockList(cri);
 		logger.debug("♬ ♪ ♬ ♪ ^ㅁ^) "+ stockList);
 		
 		PageVO pageVO = new PageVO();
@@ -58,7 +61,28 @@ public class StockController {
 
 		return "/stock/list";
 	}
-	*/
+	
+
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public void stockInsertGET() throws Exception { 
+		logger.debug("/stock/add -> stockInsertGET() 호출 ");
+		logger.debug("/stock/add.jsp 뷰페이지로 이동");
+		
+	}
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public String stockInsertPOST(StockVO vo, RedirectAttributes rttr) throws Exception {
+
+		logger.debug("폼submit -> stockInsertPOST() 호출 ");
+		logger.debug(" vo : " + vo);
+		// 서비스 - DB에 글쓰기(insert) 동작 호출
+		sService.InsertStock(vo);	
+		logger.debug(" 등록 완료! ");
+		
+		rttr.addFlashAttribute("result", "CREATEOK");
+		
+		logger.debug("/stock/list 이동");
+		return "redirect:/stock/list";
+	}
 	
 	
 	
