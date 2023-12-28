@@ -31,6 +31,11 @@ public class MaintenanceController {
 	@Inject
 	private MaintenanceService mService;
 	
+	@GetMapping("/")
+	public String rootGET() throws Exception {
+		return "menus";
+	}
+	
 	// http://localhost:8088/facility/maintenance/list
 	@GetMapping(value = "/list")
 	public String maintenanceListGET
@@ -126,17 +131,17 @@ public class MaintenanceController {
 		model.addAttribute("info", mService.getDetail(vo));
 	}
 
-	@GetMapping(value = "/resultList")
+	@GetMapping(value = "/result")
 	public void maintenanceResultListGET() throws Exception {
 		// 설비 보전 결과 리스트
 	}
 
-	@GetMapping(value = "/resultInsert")
+	@GetMapping(value = "/result/Insert")
 	public void maintenanceResultInsertGET() throws Exception {
 		// 설비 보전 결과 폼
 	}
 
-	@PostMapping(value = "/resultInsert")
+	@PostMapping(value = "/result/Insert")
 	public String maintenanceResultInsertPOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
 		// 설비 보전 결과 액션
 		String link = "";
