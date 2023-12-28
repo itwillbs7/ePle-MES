@@ -22,7 +22,7 @@
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane fade active show" id="production" role="tabpanel">
-						<form method="post" id="pro-form">
+						<form method="post" id="pro-form" onsubmit="return formCheck('#pro-form');"  enctype="multipart/form-data">
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
 									<input type="hidden" name="category" value="production">
@@ -69,7 +69,7 @@
 						</form>
 					</div>
 					<div class="tab-pane fade" id="non-production" role="tabpanel">
-						<form method="post" id="nonpro-form">
+						<form method="post" id="nonpro-form" onsubmit="return formCheck('#nonpro-form');"  enctype="multipart/form-data">
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
 									<input type="hidden" name="category" value="non-production">
@@ -113,7 +113,7 @@
 						</form>
 					</div>
 					<div class="tab-pane fade" id="etc" role="tabpanel">
-						<form method="post" id="etc-form">
+						<form method="post" id="etc-form" onsubmit="return formCheck('#etc-form');" enctype="multipart/form-data">
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
 									<input type="hidden" name="category" value="etc">

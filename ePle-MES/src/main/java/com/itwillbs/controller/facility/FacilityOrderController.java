@@ -1,5 +1,7 @@
 package com.itwillbs.controller.facility;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +13,8 @@ import com.itwillbs.domain.OrderVO;
 @Controller
 @RequestMapping(value = "/facility/order/*")
 public class FacilityOrderController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(FacilityOrderController.class);
 	
 	// 권한 설정으로 담당자만 진행하도록 함
 	@GetMapping("/list")

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,8 @@ import com.itwillbs.service.facility.MaintenanceService;
 @RequestMapping(value = "/facility/maintenance/*")
 public class MaintenanceController {
 
+	private static final Logger logger = LoggerFactory.getLogger(MaintenanceController.class);
+	
 	@Inject
 	private MaintenanceService mService;
 	

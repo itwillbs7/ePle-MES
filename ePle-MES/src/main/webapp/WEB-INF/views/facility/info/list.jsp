@@ -124,25 +124,25 @@
 										</div>
 
 										<!-- 정렬, asc, desc -->
-										<c:forEach items="${pageVO.search.order}" var="i">
-											<input type="hidden" name="order[]" value="${i}">
+										<c:forEach begin="0" end="4" var="i">
+											<input type="hidden" id="order${i}" name="order" value="${pageVO.search.order[i]}">
 										</c:forEach>
 
 										<c:choose>
 											<c:when test="${!empty pageVO.cri.page}">
-												<input type="hidden" name="page" value="1">
+												<input type="hidden" id="page" name="page" value="1">
 											</c:when>
 											<c:when test="${!empty pageVO.cri.page}">
-												<input type="hidden" name="page" value="${pageVO.cri.page}">
+												<input type="hidden" id="page" name="page" value="${pageVO.cri.page}">
 											</c:when>
 										</c:choose>
-
+										
 										<c:choose>
 											<c:when test="${empty pageVO.cri.pageSize}">
-												<input type="hidden" name="pageSize" value="10">
+												<input type="hidden" id="pageSize" name="pageSize" value="10">
 											</c:when>
 											<c:when test="${!empty pageVO.cri.pageSize}">
-												<input type="hidden" name="pageSize" value="${pageVO.cri.pageSize}">
+												<input type="hidden" id="pageSize" name="pageSize" value="${pageVO.cri.pageSize}">
 											</c:when>
 										</c:choose>
 
@@ -170,7 +170,7 @@
 									행 개수 <span class="caret"></span>
 								</button>
 								<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="javascript:changePageSize(10);">10</a> <a class="dropdown-item" href="javascript:changePageSize(25);">25</a> <a class="dropdown-item" href="javascript:changePageSize(50);">50</a> <a class="dropdown-item" href="javascript:rowsDisplay(100);">100</a>
+									<a class="dropdown-item" href="javascript:changePageSize(10);">10</a> <a class="dropdown-item" href="javascript:changePageSize(25);">25</a> <a class="dropdown-item" href="javascript:changePageSize(50);">50</a> <a class="dropdown-item" href="javascript:changePageSize(100);">100</a>
 								</div>
 							</div>
 							&nbsp;
@@ -206,7 +206,7 @@
 									</td>
 									<th>#</th>
 									<c:forEach begin="0" end="4" var="i">
-										<th class="btn-light" onclick=""><c:choose>
+										<th class="btn-light" onclick="javascript:orderList(${i})"><c:choose>
 											<c:when test="${pageVO.search.order[i] eq 'asc'}">
 												<i class="ion-android-arrow-up"></i>
 											</c:when>

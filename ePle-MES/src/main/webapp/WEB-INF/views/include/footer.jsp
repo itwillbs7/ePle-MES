@@ -48,6 +48,7 @@
 		return false; // 비어있음
 	}
 	
+	// 폼이 다 차 있는지 체크
 	function formCheck(i){
 		$(i).find('input').each(function() {
 			var value = $(this).val();
@@ -55,7 +56,7 @@
 					|| (value != null && typeof value == "object" && !Object.keys(value).length)) {
 				return false;
 			}
-		}
+		});
 		$(i).find('select').each(function(){
 			var value = $(this).data('option');
 			if(value == null || value == "undefined" || value == ""){
@@ -86,6 +87,13 @@
 		}
 		category.value = a;
 	}
+	
+	function orderList(i){
+		var order = document.getElementById("order" + i);
+		if(order.value == "asc") order.value = "desc";
+		else order.value = "asc";
+		$('#accordion-search').submit();
+	}
 
 	// ex ) /facility/getAjax
 	var ajaxLink = contextPath.substr(0, contextPath.length - 4) + "json";
@@ -100,6 +108,7 @@
 		if (!ajaxFormCheck("#accordion-search")){
 			document.getElementById("dateLeft").value = left;
 			document.getElementById("dateRight").value = right;
+			return;
 		}
 		
 		var formData = $("#accordion-search").serialize();
@@ -132,19 +141,15 @@
 	}
 
 	// 페이지 이동, 상세 검색 정보 유지
-	function movePage(i) {
-		
+	function pageMove(i) {
+		document.getElementById("page").value = i;
+		$('#accordion-search').submit();
 	}
 
 	// 페이지 이동, 상세 검색 정보 유지
 	function changePageSize(i) {
-		if (!formCheck('#accordion-search')) {
-			location.href = contextPath + "?page=1&pageSize=" + i;
-		} else {
-			$('#accordion-search').attr("action",
-					contextPath + "?page=1&pageSize=" + i);
-			$('#accordion-search').submit();
-		}
+		document.getElementById("pageSize").value = i;
+		$('#accordion-search').submit();
 	}
 
 	$(document).ready(function() {

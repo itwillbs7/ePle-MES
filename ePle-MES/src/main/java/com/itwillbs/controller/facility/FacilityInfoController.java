@@ -47,10 +47,10 @@ public class FacilityInfoController {
 	(FacilitySearchVO searchVO, PageVO pageVO, Criteria cri, Model model) 
 	throws Exception{
 		// 설비 목록 return
-		logger.debug("cri : " + cri);
 		pageVO.setCri(cri);
 		if(searchVO.getOrder() == null) searchVO.orderSet(5);
 		pageVO.setSearch(searchVO);
+		logger.debug("pageVO : " + pageVO);
 		pageVO.setTotalCount(fService.facilityListCount(pageVO));
 		List<FacilityVO> vo = fService.getFacilityList(pageVO);
 		if (vo == null) vo = new ArrayList<FacilityVO>();

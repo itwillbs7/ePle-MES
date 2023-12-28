@@ -3,6 +3,8 @@ package com.itwillbs.controller.facility;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,8 @@ import com.itwillbs.service.facility.MaintenanceService;
 @Controller
 @RequestMapping(value="/facility/routine/*")
 public class RoutineMaintenanceController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(RoutineMaintenanceController.class);
 	
 	@Inject
 	private MaintenanceService mService;

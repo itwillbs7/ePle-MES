@@ -271,9 +271,49 @@
 		]]>
 		<include refid="facilitySearch" />
 		<![CDATA[
-		ORDER BY code DESC 
-		LIMIT #{cri.page}, #{cri.pageSize}
+		ORDER BY 
 		]]>
+		<choose>
+			<when test="search.order[0].toString eq 'asc">
+				code asc 
+			</when>
+			<when test="search.order[0].toString eq 'desc">
+				code desc 
+			</when>
+		</choose>
+		<choose>
+			<when test="search.order[1].toString eq 'asc">
+				category asc 
+			</when>
+			<when test="search.order[1].toString eq 'desc">
+				category desc 
+			</when>
+		</choose>
+		<choose>
+			<when test="search.order[2].toString eq 'asc">
+				model asc 
+			</when>
+			<when test="search.order[2].toString eq 'desc">
+				model desc 
+			</when>
+		</choose>
+		<choose>
+			<when test="search.order[3].toString eq 'asc">
+				name asc 
+			</when>
+			<when test="search.order[3].toString eq 'desc">
+				name desc 
+			</when>
+		</choose>
+		<choose>
+			<when test="search.order[4].toString eq 'asc">
+				location asc 
+			</when>
+			<when test="search.order[4].toString eq 'desc">
+				location desc 
+			</when>
+		</choose>
+		LIMIT #{cri.page}, #{cri.pageSize}
 	</select>
 
 	<!-- ajax 리턴 용 -->
@@ -389,8 +429,6 @@
 			</choose>
 			<!-- date between -->
 		</where>
-		<![CDATA[
-		ORDER BY code
-		]]>
+		ORDER BY code		
 	</select>
 </mapper>
