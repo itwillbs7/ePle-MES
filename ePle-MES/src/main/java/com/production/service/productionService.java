@@ -28,4 +28,6 @@ public interface productionService {
 	public void insertInstruction(instructionVO instVO) throws Exception;
 
 	public instructionVO getInstruction(int code) throws Exception;
+
+	public void updateInstruction(instructionVO instVO) throws Exception;
 }

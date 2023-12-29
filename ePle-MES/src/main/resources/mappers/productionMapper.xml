@@ -53,5 +53,8 @@
 	<select id="getInstructionUpdate" resultType="com.production.domain.instructionVO">
 		SELECT * FROM INSTRUCTION WHERE code = #{code}
 	</select>
+	<update id="updateInstruction">
+		UPDATE INSTRUCTION SET product = #{product},line_code = #{line_code},content = #{content},request = #{request},amount = #{amount},update_emp = #{update_emp},update_date = now() WHERE code = #{code}
+	</update>
 
 </mapper>

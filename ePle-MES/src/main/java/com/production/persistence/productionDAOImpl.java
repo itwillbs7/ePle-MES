@@ -84,4 +84,10 @@ public class productionDAOImpl implements productionDAO {
 		return sqlSession.selectOne(NAMESPACE + ".getInstructionUpdate", code);
 	}
 
+	@Override
+	public void updateInstruction(instructionVO instVO) throws Exception {
+		logger.debug("DAO : updateInstruction(instructionVO instVO) 호출");
+		sqlSession.update(NAMESPACE + ".updateInstruction", instVO);
+	}
+
 }

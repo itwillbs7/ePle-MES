@@ -270,7 +270,7 @@
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
-				openPage("/production/instructionAdd", 500, 600);
+				openPage("/production/insertInstruction", 500, 600);
 			});
 
 			// 수정
@@ -292,13 +292,13 @@
 					return;
 				}
 				// 가로, 세로 설정
-				openPage("/production/instructionUpdate"+"?code=" + code_arr[0], 400, 700);
+				openPage("/production/updateInstruction"+"?code=" + code_arr[0], 400, 700);
 			});
 
 			// 삭제
 			$("#delete").click(function() {
 				// 가로, 세로 설정
-				openPage("/production/instructionDelete", 400, 700);
+				openPage("/production/deleteInstruction", 400, 700);
 			});
 		});
 	</script>

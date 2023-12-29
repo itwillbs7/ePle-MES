@@ -76,4 +76,9 @@ public class productionServiceImpl implements productionService {
 		return pdDAO.getInstruction(code);
 	}
 
+	@Override
+	public void updateInstruction(instructionVO instVO) throws Exception {
+		pdDAO.updateInstruction(instVO);
+	}
+
 }
