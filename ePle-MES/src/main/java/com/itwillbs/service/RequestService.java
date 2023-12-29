@@ -29,7 +29,8 @@ public interface RequestService {
 	 public List<RequestVO> findProduct(String product, String productName)throws Exception;
 	 // 품목 수정
 	 public void updateRequest(RequestVO vo, String id)throws Exception;
-	 
+	 // 수주검색
+	 public List<RequestVO> findRequestList(RequestVO vo)throws Exception;
 
 
 }

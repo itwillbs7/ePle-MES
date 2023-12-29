@@ -97,6 +97,17 @@
 		
 	//부모창으로 데이터 넘기기
     function selectWork(a,b,c,d,e){ // 부모창으로 값 넘기기
+		
+    	if(opener.document.getElementById("searchProduct") != null){
+    		opener.document.getElementById("product").value = a
+    		opener.document.getElementById("searchProduct").value = b
+  		    opener.document.getElementById("product").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("searchProduct").dispatchEvent(new Event('input'));
+    		self.close();
+
+    		return;
+    	}
+
 		  
     		opener.document.getElementById("product").value = a
     		opener.document.getElementById("productName").value = b

@@ -97,10 +97,19 @@
 		
 	//부모창으로 데이터 넘기기
     function selectWork(a,b){ // 부모창으로 값 넘기기
+		
+		if(opener.document.getElementById("searchManager") != null){
+    		opener.document.getElementById("manager").value = a
+    		opener.document.getElementById("searchManager").value = b
+    		opener.document.getElementById("manager").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("searchManager").dispatchEvent(new Event('input'));
+    		self.close();
+			return;
+		}
 		  
     		opener.document.getElementById("manager").value = a
     		opener.document.getElementById("managerName").value = b
-    		  opener.document.getElementById("manager").dispatchEvent(new Event('input'));
+    		opener.document.getElementById("manager").dispatchEvent(new Event('input'));
     	    opener.document.getElementById("managerName").dispatchEvent(new Event('input'));
     		self.close();
     	

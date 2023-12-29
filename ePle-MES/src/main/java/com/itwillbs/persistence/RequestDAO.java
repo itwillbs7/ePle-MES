@@ -31,4 +31,6 @@ public interface RequestDAO {
 	public List<RequestVO> searchManager(String manager, String managerName)throws Exception;
 	// 수주 수정
 	public void requestUpdate(RequestVO vo, String id)throws Exception;
+	// 수주 검색
+	public List<RequestVO> searchRequestAll(RequestVO vo)throws Exception;
 }

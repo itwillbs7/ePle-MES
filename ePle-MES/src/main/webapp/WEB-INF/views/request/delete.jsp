@@ -68,6 +68,10 @@
 	<!-- 콘텐츠 끝 -->
 	<%@ include file="../include/footer.jsp"%>
 	<script type="text/javascript">
+	// 코드 값 받기
+	var codes = JSON.parse(localStorage.getItem('codes'));
+
+	
 		var listGroup = $(".list-group");
 		var listHtml = "<li class='list-group-item'>"
 		// get으로 불러온 인덱스가 있는 경우 인덱스 우선 진행

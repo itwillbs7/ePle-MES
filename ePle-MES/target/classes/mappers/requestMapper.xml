@@ -6,7 +6,15 @@
 
 <!--requestMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.requestMapper">
-
+	<resultMap type="com.itwillbs.domain.RequestVO" id="requestMap">
+		<result property="code" column="r.code"/>
+		<result property="clientName" column="c.name"/>
+		<result property="product" column="r.product"/>
+		<result property="productName" column="m.name"/>
+		<result property="stock" column="s.amount"/>
+		<result property="status" column="r.status"/>
+		<result property="amount" column="r.amount"/>
+	</resultMap>
 
 	<!-- 리스트 가져오기 -->
 	<select id="listPage" resultType="RequestVO">
@@ -44,29 +52,31 @@
 
 	<!-- 수주정보 검색하기 -->
 	<select id="research" resultType="RequestVO">
-
-		SELECT r.client_code, c.name clientName ,r.product, m.name
-		productName, s.amount stock, r.status
+		SELECT r.*, c.name clientName, m.name productName
 		FROM REQUEST r
-		join CLIENT c on r.client_code = c.code
-		join STOCK s on r.product = s.code
-		join MAPD m on r.product = m.code
-		order by r.reg_date DESC 
-		limit #{startPage},#{pageSize}
+		LEFT JOIN CLIENT c on r.client_code = c.code
+		RIGHT join STOCK s on r.product = s.mapd_code
+		LEFT join MAPD m on r.product = m.code
 		where 1 = 1
-		<if test="client_code != null"> AND r.client_code like '%#{client_code}%' </if>
-		<if test="productName != null"> AND m.name = #{productName} </if>
-		<if test="date != null"> AND r.date = #{date} </if>
-		<if test="deadline != null"> AND r.deadline= #{deadline} </if>
-		<if test="manager != null"> AND r.manager = #{manager} </if>
-
-		<if test="status != null and status.size() > 0" >
+		<if test="clientName neq null and clientName.toString() neq '' "> AND r.client_code = #{client_code} </if>
+		<if test="productName neq null and productName.toString() neq ''"> AND m.name = #{productName} </if>
+		<if test="date neq null and date.toString() neq '' "> 
+		<choose>
+			<when test="endDate neq null and endDate.toString() neq '' ">AND r.date between #{startDate} and #{endDate} </when>
+			<otherwise>ND r.date = #{startDate} </otherwise>
+		</choose>
+		</if>
+		<if test="deadline neq null and deadline.toString() neq '' ">
+		 AND r.deadline between #{startDead} and #{endDead} 
+		 </if>
+		<if test="manager neq null and manager.toString() neq '' "> AND r.manager = #{manager} </if>
+		<if test="statusList != null and statusList.size() > 0" >
 		 AND r.status in 
-		 <foreach collection="status" item="status" open="(" close=")" separator=",">
+		 <foreach collection="statusList" item="status" open="(" close=")" separator=",">
 		 #{status} 
 		 </foreach>
 		 </if>
-
+		order by r.reg_date DESC 
 	</select>
 
 	<!-- 회사찾기 -->

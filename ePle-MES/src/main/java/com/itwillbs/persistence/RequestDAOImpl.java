@@ -1,5 +1,7 @@
 package com.itwillbs.persistence;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -161,6 +163,40 @@ public class RequestDAOImpl implements RequestDAO {
 		paramMap.put("userid", id);
 		paramMap.put("vo", vo);
 		sqlSession.update(NAMESPACE+".updateRequestInfo", paramMap);
+	}
+
+
+
+	@Override
+	public List<RequestVO> searchRequestAll(RequestVO vo) throws Exception {
+		// 수주 검색
+		logger.debug("DAO searchRequestAll(RequestVO vo)"+vo);
+		
+		// 수주일자 날짜 형식 바꾸기
+		if(vo.getDate() != null && !vo.getDate().isEmpty()){
+			String[] dates = vo.getDate().split("-");
+			vo.setStartDate(vo.getNewStartDate(dates[0]));
+			if(dates.length > 1) {
+				vo.setEndDate(vo.getNewEndDate(dates[1]));				
+			}
+		}
+		
+		// 납품예정일 날짜 형식 바꾸기
+		if(vo.getDeadline() != null && !vo.getDeadline().isEmpty()) {
+			String[] deadlines = vo.getDeadline().split("-");
+			vo.setStartDead(vo.getNewStartDate(deadlines[0]));
+			if(deadlines.length >1) {
+				vo.setEndDead(vo.getNewEndDate(deadlines[1]));					
+			}
+		}
+		
+		logger.debug(""+vo.getStatusList());
+		logger.debug(""+vo.getStartDate());
+		logger.debug(""+vo.getStartDead());
+		
+		List list = sqlSession.selectList(NAMESPACE+".research", vo);
+		logger.debug("list : "+list);
+		return list;
 	}
 	
 

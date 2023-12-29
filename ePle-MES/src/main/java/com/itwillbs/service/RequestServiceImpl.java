@@ -107,6 +107,14 @@ public class RequestServiceImpl implements RequestService {
 		rdao.requestUpdate(vo,id);
 	}
 
+
+
+	@Override
+	public List<RequestVO> findRequestList(RequestVO vo) throws Exception {
+		// 수주 검색
+		return rdao.searchRequestAll(vo);
+	}
+
 	
 	
 	

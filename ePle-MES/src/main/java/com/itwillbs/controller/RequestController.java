@@ -52,7 +52,6 @@ public class RequestController {
 		pageVO.setCri(cri);
 //		pageVO.setTotalCount(327680); // 디비에서 직접 실행결과 가져오기
 		pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
-		
 		model.addAttribute("List",requestList);
 		model.addAttribute("pageVO", pageVO);
 		
@@ -76,14 +75,23 @@ public class RequestController {
 	
 	// http://localhost:8088/request/search
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public void searchRequestGET(Model model, 
-								 @ModelAttribute("result") String result, 
-								 RequestSearchVO vo) throws Exception { // 수주검색 5-3
+	@ResponseBody
+	public List<RequestVO> searchRequestGET(RedirectAttributes rttr, @ModelAttribute("result") String result, 
+								 RequestVO vo) throws Exception { // 수주검색 5-3
 		logger.debug("searchRequestGET() -> 정보 받아서 DB에 조회하기");
 		logger.debug("Controller - vo "+vo);
 		// 전달받을 정보(수주상태 ,담당자코드, 업체코드
 		
+		List<RequestVO> RequestList= rService.findRequestList(vo);
+		logger.debug("검색정보 : "+RequestList);
+		
+		rttr.addFlashAttribute("searchList",RequestList);
+		
+		return RequestList;
 	}
+	
+	
+	
 
 	// http://localhost:8088/request/add
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -120,7 +128,6 @@ public class RequestController {
 	}
 	
 	@RequestMapping(value = "searchClient", method=RequestMethod.POST)
-	@ResponseBody
 	public List<RequestVO> searchClientPOST(@RequestParam("client_code") String client_code,
 											@RequestParam("clientName") String clientName,Model model)throws Exception{
 		logger.debug("controller : 거래사 정보 DB 검색결과 가져오기");
@@ -211,7 +218,7 @@ public class RequestController {
 	
 	// http://localhost:8088/request/delete
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public void requestDeleteGET(@RequestParam("code") String code) throws Exception{
+	public void requestDeleteGET() throws Exception{
 		// 수주 삭제 폼5-6
 		// 전달정보 저장
 	}
