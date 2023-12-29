@@ -50,6 +50,7 @@
 	
 	
 	// 일반 검색 카테고리 input 저장
+	// 카테고리가 더 있으면 추가!
 	function buttonCategory(a) {
 		var buttonText = document.getElementById("searchCategoryButton");
 		var category = document.getElementById("searchCategory");
@@ -93,6 +94,7 @@
 	var ajaxLink = contextPath.substr(0, contextPath.length - 4) + "json";
 
 	// 데이터 내보내기
+	// 다음주에 추가 구현
 	function exportData(i) {
 		var rightDate = new Date();
 		var leftDate = new Date(rightDate.setMonth(rightDate.getMonth() - 1));
