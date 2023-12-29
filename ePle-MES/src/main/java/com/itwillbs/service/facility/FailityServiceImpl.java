@@ -24,12 +24,12 @@ public class FailityServiceImpl implements FacilityService {
 	
 	@Override
 	public int updateFacility(FacilityVO vo) throws Exception {
-		return 0;
+		return dao.updateFacility(vo);
 	}
 	
 	@Override
 	public int deleteFacility(String[] code) throws Exception {
-		return 0;
+		return dao.deleteFacility(code);
 	}
 	
 	@Override
@@ -43,12 +43,17 @@ public class FailityServiceImpl implements FacilityService {
 	}
 	
 	@Override
-	public List<FacilityVO> getAjaxResult(SearchVO vo) throws Exception {
+	public List<FacilityVO> getAjaxResult(PageVO vo) throws Exception {
 		return dao.getExportList(vo);
 	}
 	
 	@Override
 	public FacilityVO getFacility(FacilityVO vo) throws Exception {
 		return dao.getFacility(vo);
+	}
+	
+	@Override
+	public String getRecentFacility(FacilityVO vo) throws Exception {
+		return dao.getRecentFacility(vo);
 	}
 }

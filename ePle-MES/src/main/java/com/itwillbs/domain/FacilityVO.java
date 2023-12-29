@@ -1,6 +1,7 @@
 package com.itwillbs.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -18,4 +19,7 @@ public class FacilityVO {
 	private int uph;
 	private String image;
 	private boolean active;
+	
+	// 설비 보전 리스트
+	private List<MaintenanceVO> mainList;
 }

@@ -21,6 +21,8 @@
 			</div>
 			<br>
 			<div class="min-height-200px">
+			<!-- 권한별 설정! -->
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')"></sec:authorize>
 				<c:choose>
 					<c:when test="${role eq 'user'}">
 						<c:redirect url="/"/>

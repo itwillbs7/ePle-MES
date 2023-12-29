@@ -35,16 +35,17 @@ public class PageVO {
 
 	private void calcData() {
 		// 페이징 처리 정보를 모두 계산
-		endPage = (int) (Math.ceil(cri.getPage() / (double) displayPageNum)) * displayPageNum;
+		endPage = (int) (Math.ceil((double) cri.getPage() / (double) displayPageNum)) * displayPageNum;
 
 		// 끝 페이지 번호 체크 (글이 없는 경우)
-		int tmpEndPage = (int) (Math.ceil(totalCount / (double) cri.getPageSize()));
+		int tmpEndPage = (int) (Math.ceil((double) totalCount / (double) cri.getPageSize()));
 		if (endPage > tmpEndPage)
 			endPage = tmpEndPage;
 
 		startPage = (endPage - displayPageNum) + 1;
+		if(startPage <= 0) startPage = 0;
 
-		prev = startPage != 1;
+		prev = startPage > 1;
 		next = endPage * cri.getPageSize() < totalCount;
 	}
 

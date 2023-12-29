@@ -36,14 +36,20 @@
 													<h4 class="text-blue h4">기본 검색</h4>
 													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
 														<div class="btn-group dropdown">
+														
 															<button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-																카테고리 <span class="caret"></span>
+																<c:choose>
+																	<c:when test="${empty pageVO.search.searchCategory}">카테고리 </c:when>
+																	<c:when test="${!empty pageVO.search.searchCategory}">${pageVO.search.searchKor[pageVO.search.index]}</c:when>
+																</c:choose>
+																<span class="caret"></span>
 															</button>
 															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" id="category-none" href="javascript:buttonCategory('');">선택</a> <a class="dropdown-item" href="javascript:buttonCategory('code');">코드</a> <a class="dropdown-item" href="javascript:buttonCategory('model');">모델</a> <a class="dropdown-item" href="javascript:buttonCategory('name');">이름</a> <a class="dropdown-item" href="javascript:buttonCategory('location');">위치</a>
+																<a class="dropdown-item" id="category-none" href="javascript:buttonCategory(null);">선택</a> <a class="dropdown-item" href="javascript:buttonCategory(0);">코드</a> <a class="dropdown-item" href="javascript:buttonCategory(1);">모델</a> <a class="dropdown-item" href="javascript:buttonCategory(2);">이름</a> <a class="dropdown-item" href="javascript:buttonCategory(3);">위치</a>
 															</div>
 														</div>
-														<input type="hidden" id="searchCategory" name="searchCategory"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
+														
+														<input type="hidden" id="searchCategory" name="searchCategory" value="${pageVO.search.searchCategory}"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" value="${pageVO.search.searchKeyword}" placeholder="검색어 입력">
 													</div>
 												</div>
 												<hr>
@@ -72,7 +78,7 @@
 															<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
 														</div>
 														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" value="true"> <label class="custom-control-label" for="formRadio2">활성화</label>
+															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" value="true" checked> <label class="custom-control-label" for="formRadio2">활성화</label>
 														</div>
 														<div class="custom-control custom-radio mb-5">
 															<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
@@ -80,16 +86,16 @@
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
-															<label>날짜</label> <input type="date" name="date" class="form-control">
+															<label>날짜</label> <input type="date" name="date" class="form-control" value="${pageVO.search.date}">
 														</div>
 													</div>
 													<div class="col-md-4 col-sm-12">
 														<div class="form-group" style="display: inline-block;">
-															<label>기간</label> <input type="date" id="dateLeft" name="betweenDateLeft" class="form-control">
+															<label>기간</label> <input type="date" id="dateLeft" value="${pageVO.search.betweenDateLeft}" name="betweenDateLeft" class="form-control">
 														</div>
 														<b>-</b>
 														<div class="form-group" style="display: inline-block;">
-															<input type="date" id="dateRight" name="betweenDateRight" class="form-control">
+															<input type="date" id="dateRight" value="${pageVO.search.betweenDateRight}" name="betweenDateRight" class="form-control">
 														</div>
 													</div>
 													<div class="col-md-2 col-sm-12">
@@ -197,14 +203,13 @@
 					</div>
 					<div class="pb-20">
 						<div class="col-sm-30">
-							<table id="datatable" class="table table-striped">
+							<table class="table table-striped">
 								<tr>
 									<td style="width: 100px;">
 										<div class="custom-control custom-checkbox mb-5">
 											<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 										</div>
 									</td>
-									<th>#</th>
 									<c:forEach begin="0" end="4" var="i">
 										<th class="btn-light" onclick="javascript:orderList(${i})"><c:choose>
 											<c:when test="${pageVO.search.order[i] eq 'asc'}">
@@ -218,13 +223,13 @@
 									</c:forEach>
 									<th>옵션</th>
 								</tr>
-								<c:if test="${empty facilityList or facilityList.size == 0}">
+								<c:if test="${empty list}">
 									<tr>
 										<th colspan="8" style="text-align: center;">데이터가 없습니다.</th>
 									</tr>
 								</c:if>
-								<c:if test="${! empty facilityList }">
-									<c:forEach items="${facilityList}" var="i">
+								<c:if test="${!empty list }">
+									<c:forEach items="${list}" var="i">
 										<tr>
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<td><div class="custom-control custom-checkbox mb-5">

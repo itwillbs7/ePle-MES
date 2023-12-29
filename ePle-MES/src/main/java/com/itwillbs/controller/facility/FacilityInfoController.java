@@ -1,6 +1,7 @@
 package com.itwillbs.controller.facility;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,33 +49,50 @@ public class FacilityInfoController {
 	throws Exception{
 		// 설비 목록 return
 		pageVO.setCri(cri);
-		if(searchVO.getOrder() == null) searchVO.orderSet(5);
+		searchVO.sortSet(5);
+		searchVO.setIsajax(false);
 		pageVO.setSearch(searchVO);
-		logger.debug("pageVO : " + pageVO);
 		pageVO.setTotalCount(fService.facilityListCount(pageVO));
+		logger.debug("pageVO : " + pageVO);
 		List<FacilityVO> vo = fService.getFacilityList(pageVO);
 		if (vo == null) vo = new ArrayList<FacilityVO>();
 		model.addAttribute("list", vo);
 		model.addAttribute("pageVO", pageVO);
-	}
-	
-	// http://localhost:8088/facility/info/detail
-	@GetMapping("/detail")
-	public void facilityInfo(FacilityVO vo, Model model) throws Exception{
-		model.addAttribute("info", fService.getFacility(vo));
-		model.addAttribute("list", mService.getFacilityInfo(vo));
 	}
 
 	// http://localhost:8088/facility/info/insert
 	@GetMapping(value = "/insert")
 	public void facilityInsertGET() throws Exception {
 		// 설비 추가 폼
-		
 	}
 	
 	@PostMapping(value = "/insert")
 	public String facilityInsertPOST(FacilityVO vo, RedirectAttributes rttr) throws Exception {
 		// 설비 추가 액션
+		// FAC 20231229 001
+		String recentCode = fService.getRecentFacility(vo);
+		
+		String code = "FAC";
+		Date date = new Date();
+		String d = (date.getYear() + 1900) + "" + (date.getMonth()+1) + "" + date.getDate();
+		if(recentCode == null) {
+			// 코드 새로 생성
+			code += d;
+			code += "001";
+		}
+		else {
+			// 날짜가 오늘일 경우엔 + 1 해주기
+			String fDate = recentCode.substring(3, recentCode.length()-3);
+			if(d.equals(fDate)) {				
+				String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
+				while(fCount.length() < 3) fCount = "0" + fCount;
+				code += fDate + fCount;
+			}
+			else {
+				code += d + "001";
+			}
+		}
+		vo.setCode(code);
 		String link = "";
 		int result = fService.addFacility(vo);
 		if(result == 1) {
@@ -92,8 +110,11 @@ public class FacilityInfoController {
 	
 	// http://localhost:8088/facility/info/update
 	@GetMapping(value = "/update")
-	public void facilityUpdateGET() throws Exception {
+	public void facilityUpdateGET(FacilityVO vo, Model model) throws Exception {
 		// 설비 수정 폼
+		// 설비 정보 가져오기
+		FacilityVO info = fService.getFacility(vo);
+		model.addAttribute("info", info);
 	}
 	
 	@PostMapping(value = "/update")
@@ -138,11 +159,23 @@ public class FacilityInfoController {
 		return link;
 	}
 	
+	@GetMapping("/detail")
+	public void facilityDetail(Model model, FacilityVO vo) throws Exception {
+		FacilityVO info = fService.getFacility(vo);
+		info.setMainList(mService.getFacilityInfo(vo));
+		model.addAttribute("info", info);
+	}
+	
 	@PostMapping(value="/json")
 	@ResponseBody
-	public List<Map<String, Object>> facilityAjax(FacilitySearchVO searchVO) throws Exception {
+	public List<Map<String, Object>> facilityAjax
+	(FacilitySearchVO searchVO, PageVO pageVO, Criteria cri) throws Exception {
+		pageVO.setCri(cri);
+		searchVO.sortSet(5);
+		searchVO.setIsajax(true);
+		pageVO.setSearch(searchVO);
 		List<Map<String, Object>> ajax = new LinkedList<Map<String,Object>>();
-		List<FacilityVO> list = fService.getAjaxResult(searchVO);
+		List<FacilityVO> list = fService.getAjaxResult(pageVO);
 		for(int i = 0; i<list.size(); i++) {
 			Map<String, Object> col = new HashMap<String, Object>();
 			col.put("코드", list.get(i).getCode());
@@ -156,6 +189,7 @@ public class FacilityInfoController {
 			col.put("시간당 생산량", list.get(i).getUph());
 			ajax.add(col);
 		}
+		logger.debug("ajax : " + ajax);
 		return ajax;
 	}
 }

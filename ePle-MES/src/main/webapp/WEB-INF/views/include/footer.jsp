@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- 푸터, 스크립트 전용 -->
 <!-- js -->
 
@@ -28,25 +29,6 @@
 <script type="text/javascript">
 	// ex ) /facility/list
 	var contextPath = window.location.pathname;
-
-	// 받은 form이 다 비어 있는지 체크
-	function ajaxFormCheck(i) {
-		$(i).find('input').each(function() {
-			var value = $(this).val();
-			if (value === "" || value === null || value == "undefined" 
-					|| (value != null && typeof value == "object" && !Object.keys(value).length)) {
-			}
-			else return true; // 비어있지 않음
-		});
-		$(i).find('select').each(function(){
-			var value = $(this).data('option');
-			if(value == null || value == "undefined" || value == ""){
-				
-			}
-			else return true;
-		})
-		return false; // 비어있음
-	}
 	
 	// 폼이 다 차 있는지 체크
 	function formCheck(i){
@@ -71,20 +53,25 @@
 	function buttonCategory(a) {
 		var buttonText = document.getElementById("searchCategoryButton");
 		var category = document.getElementById("searchCategory");
-		switch (a) {
-		case 'code':
-			buttonText.innerText = "코드";
+		var result = "";
+		switch(a){
+		case 0 :
+			result = "<c:out value='${pageVO.search.searchKor[0]}'/>";
 			break;
-		case 'model':
-			buttonText.innerText = "모델";
+		case 1 :
+			result = "<c:out value='${pageVO.search.searchKor[1]}'/>";
 			break;
-		case 'name':
-			buttonText.innerText = "이름";
+		case 2 :
+			result = "<c:out value='${pageVO.search.searchKor[2]}'/>";
 			break;
-		case 'location':
-			buttonText.innerText = "위치";
+		case 3 :
+			result = "<c:out value='${pageVO.search.searchKor[3]}'/>";
+			break;
+		case 4 :
+			result = "<c:out value='${pageVO.search.searchKor[4]}'/>";
 			break;
 		}
+		buttonText.innerText = result == ""? "카테고리" : result;
 		category.value = a;
 	}
 	
@@ -105,12 +92,6 @@
 		rightDate = new Date();
 		var left = leftDate.toISOString().slice(0, 10);
 		var right = rightDate.toISOString().slice(0, 10);
-		if (!ajaxFormCheck("#accordion-search")){
-			document.getElementById("dateLeft").value = left;
-			document.getElementById("dateRight").value = right;
-			return;
-		}
-		
 		var formData = $("#accordion-search").serialize();
 		
 		$.ajax({

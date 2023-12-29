@@ -26,4 +26,6 @@ public class MaintenanceVO {
 	private String res_info;
 	private String res_content;
 	private Timestamp comp_date;
+	
+	private FacilityVO facility;
 }

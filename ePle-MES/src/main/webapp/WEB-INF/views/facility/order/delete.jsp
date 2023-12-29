@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <%@ include file="../../include/head.jsp"%>
 <title>보전 삭제</title>
+<body>
+<c:if test="${empty role or role eq 'emp'}">
+		<c:redirect url="/"/>
+</c:if>
 <!-- 
 	실행 방법
 		- 테이블 페이지의 옵션에서 삭제클릭
