@@ -1,6 +1,6 @@
 package com.itwillbs.controller;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -28,16 +28,15 @@ public class testConnection {
 	
 	@Test
 	public void 설비추가테스트() {
-		FacilityVO vo = new FacilityVO();
-		vo.setCode("FAC2023122901");
-		vo.setCategory("etc");
-		vo.setName("실험");
-		vo.setModel("TEST-01");
-		vo.setLine_code("testCode1");
-		vo.setLocation("제1공장");
-		vo.setInprice(500000);
-		Date dt = new Date(2023-1999, 11, 29);
-		vo.setPurchase_date(dt);
-		sqlSession.insert(FacilityMapper + ".insertFacility", vo);
+		String recentCode = sqlSession.selectOne(FacilityMapper + ".findLastFacility");
+		String fDate = recentCode.substring(3, recentCode.length()-3);
+		
+		String d = (new Date().getYear() + 1900) + "" + (new Date().getMonth()+1) + "" + new Date().getDate();
+		logger.debug("date compare : " + fDate.equals(d));
+		
+		String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
+		while(fCount.length() < 3) fCount = "0" + fCount;
+		
+		logger.debug("fCount : " + fCount);
 	}
 }

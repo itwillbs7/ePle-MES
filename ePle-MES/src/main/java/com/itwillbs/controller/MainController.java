@@ -42,13 +42,13 @@ public class MainController {
 	}
 	
 	@GetMapping ("/confirm")
-	public void resultConfirm(@RequestParam("title") String title, @RequestParam("result") String result, Model model) throws Exception{
+	public void resultConfirm(String title, String result, Model model) throws Exception{
 		model.addAttribute("title", title);
 		model.addAttribute("result", result);
 	}
 	
 	@GetMapping ("/error")
-	public void errorConfirm(@RequestParam("title") String title,@RequestParam("result") String result, Model model) throws Exception {
+	public void errorConfirm(String title, String result, Model model) throws Exception {
 		model.addAttribute("title", title);
 		model.addAttribute("result", result);
 	}

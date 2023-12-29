@@ -76,9 +76,16 @@
 	}
 	
 	function orderList(i){
-		var order = document.getElementById("order" + i);
-		if(order.value == "asc") order.value = "desc";
-		else order.value = "asc";
+		var a = document.getElementById("sortCategory");
+		var b = document.getElementById("sortValue");
+		if(a.value == i){
+			if(b.value == "asc") b.value = "desc";
+			else b.value = "asc";
+		}
+		else {
+			a.value = i;
+			b.value ="asc";
+		}
 		$('#accordion-search').submit();
 	}
 

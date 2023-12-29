@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.FacilityVO;
+import com.itwillbs.domain.LineVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.SearchVO;
 import com.itwillbs.persistence.facility.FacilityDAO;
@@ -53,7 +54,12 @@ public class FailityServiceImpl implements FacilityService {
 	}
 	
 	@Override
-	public String getRecentFacility(FacilityVO vo) throws Exception {
-		return dao.getRecentFacility(vo);
+	public String getRecentFacility() throws Exception {
+		return dao.getRecentFacility();
+	}
+	
+	@Override
+	public List<LineVO> getLineList() throws Exception {
+		return dao.getLineList();
 	}
 }

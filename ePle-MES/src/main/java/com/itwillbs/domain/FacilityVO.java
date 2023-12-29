@@ -14,12 +14,13 @@ public class FacilityVO {
 	private String model;
 	private Date purchase_date;
 	private int inprice;
-	private String location;
 	private String line_code;
 	private int uph;
-	private String image;
 	private boolean active;
 	
 	// 설비 보전 리스트
 	private List<MaintenanceVO> mainList;
+	
+	// join
+	private String line_name;
 }

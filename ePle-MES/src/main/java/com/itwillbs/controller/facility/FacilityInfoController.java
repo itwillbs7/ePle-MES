@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.Criteria;
@@ -49,7 +51,6 @@ public class FacilityInfoController {
 	throws Exception{
 		// 설비 목록 return
 		pageVO.setCri(cri);
-		searchVO.sortSet(5);
 		searchVO.setIsajax(false);
 		pageVO.setSearch(searchVO);
 		pageVO.setTotalCount(fService.facilityListCount(pageVO));
@@ -62,20 +63,21 @@ public class FacilityInfoController {
 
 	// http://localhost:8088/facility/info/insert
 	@GetMapping(value = "/insert")
-	public void facilityInsertGET() throws Exception {
+	public void facilityInsertGET(Model model) throws Exception {
 		// 설비 추가 폼
+		model.addAttribute("line", fService.getLineList());
 	}
 	
 	@PostMapping(value = "/insert")
-	public String facilityInsertPOST(FacilityVO vo, RedirectAttributes rttr) throws Exception {
+	public String facilityInsertPOST(FacilityVO vo, RedirectAttributes rttr, MultipartFile file) throws Exception {
 		// 설비 추가 액션
 		// FAC 20231229 001
-		String recentCode = fService.getRecentFacility(vo);
-		
+		String recentCode = fService.getRecentFacility();
+		logger.debug("recent : " + recentCode);
 		String code = "FAC";
 		Date date = new Date();
 		String d = (date.getYear() + 1900) + "" + (date.getMonth()+1) + "" + date.getDate();
-		if(recentCode == null) {
+		if(recentCode == null || recentCode.equals("")) {
 			// 코드 새로 생성
 			code += d;
 			code += "001";
@@ -92,8 +94,10 @@ public class FacilityInfoController {
 				code += d + "001";
 			}
 		}
-		vo.setCode(code);
+		vo.setCode(code);		
+		logger.debug("code : " + code);
 		String link = "";
+		logger.debug("vo : " + vo);
 		int result = fService.addFacility(vo);
 		if(result == 1) {
 			link = "redirect:/confirm";
@@ -171,7 +175,6 @@ public class FacilityInfoController {
 	public List<Map<String, Object>> facilityAjax
 	(FacilitySearchVO searchVO, PageVO pageVO, Criteria cri) throws Exception {
 		pageVO.setCri(cri);
-		searchVO.sortSet(5);
 		searchVO.setIsajax(true);
 		pageVO.setSearch(searchVO);
 		List<Map<String, Object>> ajax = new LinkedList<Map<String,Object>>();
@@ -184,7 +187,6 @@ public class FacilityInfoController {
 			col.put("모델", list.get(i).getModel());
 			col.put("구매 일자", list.get(i).getPurchase_date());
 			col.put("구매 가격", list.get(i).getInprice());
-			col.put("위치", list.get(i).getLocation());
 			col.put("라인 코드", list.get(i).getLine_code());
 			col.put("시간당 생산량", list.get(i).getUph());
 			ajax.add(col);

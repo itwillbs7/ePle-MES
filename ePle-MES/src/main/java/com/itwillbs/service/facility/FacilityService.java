@@ -3,6 +3,7 @@ package com.itwillbs.service.facility;
 import java.util.List;
 
 import com.itwillbs.domain.FacilityVO;
+import com.itwillbs.domain.LineVO;
 import com.itwillbs.domain.PageVO;
 
 public interface FacilityService {
@@ -13,5 +14,6 @@ public interface FacilityService {
 	public List<FacilityVO> getFacilityList(PageVO vo) throws Exception;
 	public List<FacilityVO> getAjaxResult(PageVO vo) throws Exception;
 	public FacilityVO getFacility(FacilityVO vo) throws Exception;
-	public String getRecentFacility(FacilityVO vo) throws Exception;
+	public String getRecentFacility() throws Exception;
+	public List<LineVO> getLineList() throws Exception;
 }

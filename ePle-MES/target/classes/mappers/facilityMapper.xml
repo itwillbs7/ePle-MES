@@ -15,7 +15,6 @@
 		<result property="model" column="model" />
 		<result property="purchase_date" column="purchase_date" />
 		<result property="inprice" column="inprice" />
-		<result property="location" column="location" />
 		<result property="line_code" column="line_code" />
 		<result property="uph" column="uph" />
 		<result property="image" column="image" />
@@ -125,18 +124,26 @@
 
 	<!-- 추가 -->
 	<insert id="insertFacility">
-		INSERT INTO FAC_INFO (code, category, name, model,
-		purchase_date, inprice)
-		VALUES (#{code}, #{category}, #{name},
-		#{model}, #{purchase_date},
-		${inprice})
+		<choose>
+			<when test="category.toString() eq 'production'">
+				INSERT INTO FAC_INFO (code, category, name, model, 
+				purchase_date, inprice, uph, line_code)
+				VALUES (#{code}, #{category}, #{name},
+				#{model}, #{purchase_date}, ${inprice}, ${uph}, #{line_code})
+			</when>
+			<when test="category.toString() neq 'production'">
+				INSERT INTO FAC_INFO (code, category, name, model, 
+				purchase_date, inprice, line_code)
+				VALUES (#{code}, #{category}, #{name},
+				#{model}, #{purchase_date}, ${inprice}, #{line_code})
+			</when>
+		</choose>
 	</insert>
 	<!-- 추가 -->
 
 	<!-- 최근 설비 검색 -->
-	<select id="findLastFacility">
+	<select id="findLastFacility" resultType="String">
 		SELECT code FROM FAC_INFO
-		WHERE category = #{category}
 		ORDER BY code DESC
 		LIMIT 0, 1
 	</select>
@@ -165,11 +172,6 @@
 		<if test="line_code neq null and line_code.toString() neq ''">
 				<![CDATA[
 					, line_code = #{line_code}
-				]]>
-		</if>
-		<if test="image neq null and image.toString() neq ''">
-				<![CDATA[
-					, image = #{image}
 				]]>
 		</if>
 	</sql>
@@ -268,11 +270,9 @@
 		<![CDATA[
 		ORDER BY 
 		]]>
-		<foreach collection="search.sort" item="item" separator=",">
-			${item.name} ${item.value}
-		</foreach>
+		${search.eng[search.activeSortCategory]} ${search.sortValue}
 
-		LIMIT #{startPage}, #{cri.pageSize}
+		LIMIT ${startPage - 1}, ${cri.pageSize}
 	</select>
 
 
@@ -284,5 +284,9 @@
 		]]>
 		<include refid="facilitySearch" />
 		<![CDATA[ ORDER BY code]]>
+	</select>
+	
+	<select id="getLineList" resultType="com.itwillbs.domain.LineVO">
+		SELECT code, name FROM LINE
 	</select>
 </mapper>

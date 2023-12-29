@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.FacilityVO;
+import com.itwillbs.domain.LineVO;
 import com.itwillbs.domain.PageVO;
 
 @Repository
@@ -53,7 +54,12 @@ public class FacilityDAOImpl implements FacilityDAO {
 	}
 	
 	@Override
-	public String getRecentFacility(FacilityVO vo) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".findLastFacility", vo);
+	public String getRecentFacility() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".findLastFacility");
+	}
+	
+	@Override
+	public List<LineVO> getLineList() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getLineList");
 	}
 }

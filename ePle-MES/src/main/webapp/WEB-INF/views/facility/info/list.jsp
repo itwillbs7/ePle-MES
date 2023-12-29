@@ -36,7 +36,7 @@
 													<h4 class="text-blue h4">기본 검색</h4>
 													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
 														<div class="btn-group dropdown">
-														
+
 															<button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
 																<c:choose>
 																	<c:when test="${empty pageVO.search.searchCategory}">카테고리 </c:when>
@@ -45,10 +45,13 @@
 																<span class="caret"></span>
 															</button>
 															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" id="category-none" href="javascript:buttonCategory(null);">선택</a> <a class="dropdown-item" href="javascript:buttonCategory(0);">코드</a> <a class="dropdown-item" href="javascript:buttonCategory(1);">모델</a> <a class="dropdown-item" href="javascript:buttonCategory(2);">이름</a> <a class="dropdown-item" href="javascript:buttonCategory(3);">위치</a>
+																<a class="dropdown-item" id="category-none" href="javascript:buttonCategory(null);">선택</a>
+																<c:forEach var="i" begin="0" end="4">
+																	<a class="dropdown-item" href="javascript:buttonCategory(${i});">${pageVO.search.kor[i]}</a>
+																</c:forEach>
 															</div>
 														</div>
-														
+
 														<input type="hidden" id="searchCategory" name="searchCategory" value="${pageVO.search.searchCategory}"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" value="${pageVO.search.searchKeyword}" placeholder="검색어 입력">
 													</div>
 												</div>
@@ -130,9 +133,8 @@
 										</div>
 
 										<!-- 정렬, asc, desc -->
-										<c:forEach begin="0" end="4" var="i">
-											<input type="hidden" id="order${i}" name="order" value="${pageVO.search.order[i]}">
-										</c:forEach>
+										<input type="hidden" name="activeSortCategory" id="sortCategory" value="${pageVO.search.activeSortCategory}">
+										<input type="hidden" name="sortValue" id="sortValue" value="${pageVO.search.sortValue}">
 
 										<c:choose>
 											<c:when test="${!empty pageVO.cri.page}">
@@ -142,7 +144,7 @@
 												<input type="hidden" id="page" name="page" value="${pageVO.cri.page}">
 											</c:when>
 										</c:choose>
-										
+
 										<c:choose>
 											<c:when test="${empty pageVO.cri.pageSize}">
 												<input type="hidden" id="pageSize" name="pageSize" value="10">
@@ -211,15 +213,17 @@
 										</div>
 									</td>
 									<c:forEach begin="0" end="4" var="i">
-										<th class="btn-light" onclick="javascript:orderList(${i})"><c:choose>
-											<c:when test="${pageVO.search.order[i] eq 'asc'}">
-												<i class="ion-android-arrow-up"></i>
-											</c:when>
-											<c:when test="${pageVO.search.order[i] eq 'desc'}">
-												<i class="ion-android-arrow-down"></i>
-											</c:when>
-										</c:choose> &nbsp;&nbsp;
-										<h6 style="display: inline-block;">${pageVO.search.kor[i]}</h6></th>
+										<th class="btn-light" onclick="javascript:orderList(${i})"><c:if test="${i eq pageVO.search.activeSortCategory}">
+												<c:choose>
+													<c:when test="${pageVO.search.sortValue eq 'asc'}">
+														<i class="ion-android-arrow-up"></i>
+													</c:when>
+													<c:when test="${pageVO.search.sortValue eq 'desc'}">
+														<i class="ion-android-arrow-down"></i>
+													</c:when>
+												</c:choose>
+											</c:if> &nbsp;&nbsp;
+											<h6 style="display: inline-block;">${pageVO.search.kor[i]}</h6></th>
 									</c:forEach>
 									<th>옵션</th>
 								</tr>
@@ -241,7 +245,7 @@
 											<th>${i.model}</th>
 											<!-- 상세 정보 이동! -->
 											<th><a href="/facility/info/detail?code=${i.code}"><b class="text-blue" id="tableTitle1">${i.name}</b></a></th>
-											<th>${i.location}</th>
+											<th>${i.line_code}</th>
 											<td style="">
 												<!-- 옵션 -->
 												<div class="dropdown">
