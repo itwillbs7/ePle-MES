@@ -4,8 +4,8 @@
 <html>
 <head>
 <%@ include file="../../include/head.jsp"%>
-<title>설비 보전</title>
-<!-- emp : 보전 등록 및 자신의 보전만 조회 -->
+<title>일상 보전</title>
+<!-- emp : 일상보전 등록 및 조회 -->
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -16,53 +16,46 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>설비 보전</h1>
+				<h1>일상 보전</h1>
 			</div>
 			<br>
 			<div class="min-height-200px">
-				<div class="row">
-					<div class="col-md-3 mb-20">
-						<a href="javascript:insert();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
-							<div class="img pb-30 ">
-								<img src="${pageContext.request.contextPath}/resources/images/plus.png" alt="">
+				<c:choose>
+					<c:when test="${empty role}">
+						<c:redirect url="/" />
+					</c:when>
+					<c:when test="${role eq 'emp' or role eq 'manager'}">
+						<!-- row -->
+						<div class="row">
+							<div class="col-md-6 mb-20">
+								<a href="javascript:insert();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
+									<div class="img pb-30 ">
+										<img src="${pageContext.request.contextPath}/resources/images/plus.png" alt="">
+									</div>
+									<div class="content">
+										<h3 class="h1">보전 등록</h3>
+									</div>
+								</a>
 							</div>
-							<div class="content">
-								<h3 class="h1">보전 등록</h3>
+							<div class="col-md-6 mb-20">
+								<a href="javascript:list();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
+									<div class="img pb-30">
+										<img src="${pageContext.request.contextPath}/resources/images/table.png" alt="">
+									</div>
+									<div class="content">
+										<h3 class="h1">보전 조회</h3>
+									</div>
+								</a>
 							</div>
-						</a>
-					</div>
-					<div class="col-md-3 mb-20">
-						<a href="javascript:insert();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
-							<div class="img pb-30 ">
-								<img src="${pageContext.request.contextPath}/resources/images/plus.png" alt="">
-							</div>
-							<div class="content">
-								<h3 class="h1">보전 수정</h3>
-							</div>
-						</a>
-					</div>
-					<div class="col-md-3 mb-20">
-						<a href="javascript:list();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
-							<div class="img pb-30">
-								<img src="${pageContext.request.contextPath}/resources/images/table.png" alt="">
-							</div>
-							<div class="content">
-								<h3 class="h1">보전 조회</h3>
-							</div>
-						</a>
-					</div>
-					<div class="col-md-3 mb-20">
-						<a href="javascript:list();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
-							<div class="img pb-30">
-								<img src="${pageContext.request.contextPath}/resources/images/table.png" alt="">
-							</div>
-							<div class="content">
-								<h3 class="h1">보전 내역</h3>
-							</div>
-						</a>
-					</div>
-				</div>
-				<!-- Checkbox select Datatable End -->
+						</div>
+						<!-- row -->
+					</c:when>
+					<c:when test="${role eq 'admin'}">
+						<!-- row -->
+						<!-- 조회 페이지 작성 -->
+						<!-- row -->
+					</c:when>
+				</c:choose>
 				<!-- 푸터 -->
 				<%@ include file="../../include/github.jsp"%>
 				<%@ include file="../../include/footer.jsp"%>
@@ -101,12 +94,12 @@
 			set = retPopupSetting(width, height);
 			return window.open(i, 'Popup_Window', set);
 		}
-		
-		function insert(){
+
+		function insert() {
 			openPage("/facility/routine/insert", 500, 766);
 		}
-		
-		function list(){
+
+		function list() {
 			openPage("/facility/routine/list", 500, 600);
 		}
 	</script>

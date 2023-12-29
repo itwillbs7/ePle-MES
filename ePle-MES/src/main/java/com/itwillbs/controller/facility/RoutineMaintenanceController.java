@@ -26,23 +26,19 @@ public class RoutineMaintenanceController {
 	
 	// 권한 설정으로 나누어 담당자, 직원으로 구분
 	@GetMapping("/")
-	public String root() throws Exception{
-		return "redirect:/facility/routine/emp";
+	public String root(Model model) throws Exception{
+		String role = "emp";
+		if(role.equals("admin")) {
+			// 직원의 보전 count, list 불러오기
+			
+		}
+		model.addAttribute("role", role);
+		return "/facility/routine/main";
 	}
-	
-	@GetMapping("/emp")
-	public void routineEMP() throws Exception{
-		
-	}
-	
-	@GetMapping("/admin")
-	public void routineADMIN() throws Exception{
-		
-	}
-	
+
 	@GetMapping("/insert")
-	public void insertGET(HttpSession session) throws Exception {
-		
+	public void insertGET(HttpSession session, Model model) throws Exception {
+		model.addAttribute("role", "emp");
 	}
 	
 	@PostMapping("/insert")
@@ -66,6 +62,11 @@ public class RoutineMaintenanceController {
 	
 	@GetMapping("/list")
 	public void listGET(HttpSession session, Model model) throws Exception{
+		String role = "emp";
+		if(role.equals("emp") || role.equals("manager")) {
+			
+		}
+		else if(role.equals("admin"))
 		model.addAttribute("list", mService.getRMList((String)session.getAttribute("userid")));
 	}
 }

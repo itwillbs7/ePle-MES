@@ -32,8 +32,11 @@ public class MaintenanceController {
 	private MaintenanceService mService;
 	
 	@GetMapping("/")
-	public String rootGET() throws Exception {
-		return "menus";
+	public String rootGET(Model model) throws Exception {
+		String role = "emp";
+		model.addAttribute("role", role);
+		
+		return "/facility/maintenance/main";
 	}
 	
 	// http://localhost:8088/facility/maintenance/list
@@ -42,20 +45,42 @@ public class MaintenanceController {
 	(MaintenanceSearchVO searchVO, PageVO pageVO, Criteria cri, Model model)
 		throws Exception {
 		// 설비 보전 리스트
-		
-		pageVO.setCri(cri);
-		pageVO.setSearch(searchVO);
-		pageVO.setTotalCount(mService.getMaintenanceCount(pageVO));
-		List<MaintenanceVO> vo = mService.getMaintenanceList(pageVO);
-		if (vo == null) vo = new ArrayList<MaintenanceVO>();
-		model.addAttribute("list", vo);
-		model.addAttribute("pageVO", pageVO);
+		String role = "admin";
+		if(role.equals("emp")) {
+			// 직원 정보 불러와서 넣은 뒤 본인의 보전 미완료 불러오기!
+			pageVO.setCri(cri);
+			pageVO.setSearch(searchVO);
+			pageVO.setTotalCount(mService.getMaintenanceCount(pageVO));
+			List<MaintenanceVO> vo = mService.getMaintenanceList(pageVO);
+			if (vo == null) vo = new ArrayList<MaintenanceVO>();
+			model.addAttribute("list", vo);
+			model.addAttribute("pageVO", pageVO);
+		}
+		else {
+			pageVO.setCri(cri);
+			pageVO.setSearch(searchVO);
+			pageVO.setTotalCount(mService.getMaintenanceCount(pageVO));
+			List<MaintenanceVO> vo = mService.getMaintenanceList(pageVO);
+			if (vo == null) vo = new ArrayList<MaintenanceVO>();
+			model.addAttribute("list", vo);
+			model.addAttribute("pageVO", pageVO);
+		}
 		return "/facility/maintenance/list";
 	}
 
 	@GetMapping(value = "/insert")
-	public void maintenanceInsertGET() throws Exception {
+	public void maintenanceInsertGET(Model model) throws Exception {
 		// 설비 보전 등록 폼
+		String role = "emp";
+		if(role.equals("emp")) {
+			// 본인의 설비 목록 들고 가기
+		}
+		else if(role.equals("manager") || role.equals("admin")) {
+			// 담당자나 admin의 경우 전체 설비 목록을 들고가기
+		}
+		else {
+			// 기타 유저의 경우 아무것도 들고가지 않고 다른 링크로 이동됨!
+		}
 	}
 
 	@PostMapping(value = "/insert")
@@ -134,6 +159,8 @@ public class MaintenanceController {
 	@GetMapping(value = "/result")
 	public void maintenanceResultListGET() throws Exception {
 		// 설비 보전 결과 리스트
+		// 직군에 따라 다르게 표시하도록 함
+		// 설비
 	}
 
 	@GetMapping(value = "/result/Insert")
