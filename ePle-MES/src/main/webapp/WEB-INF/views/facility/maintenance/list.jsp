@@ -392,6 +392,33 @@
 		function printResult(data) {
 			alert("PRINT");
 		}
+		
+		// 일반 검색 카테고리 input 저장
+		// 카테고리가 더 있으면 추가!
+		function buttonCategory(a) {
+			var buttonText = document.getElementById("searchCategoryButton");
+			var category = document.getElementById("searchCategory");
+			var result = "";
+			switch(a){
+			case 0 :
+				result = "<c:out value='${pageVO.search.searchKor[0]}'/>";
+				break;
+			case 1 :
+				result = "<c:out value='${pageVO.search.searchKor[1]}'/>";
+				break;
+			case 2 :
+				result = "<c:out value='${pageVO.search.searchKor[2]}'/>";
+				break;
+			case 3 :
+				result = "<c:out value='${pageVO.search.searchKor[3]}'/>";
+				break;
+			case 4 :
+				result = "<c:out value='${pageVO.search.searchKor[4]}'/>";
+				break;
+			}
+			buttonText.innerText = result == ""? "카테고리" : result;
+			category.value = a;
+		}
 	</script>
 </body>
 </html>

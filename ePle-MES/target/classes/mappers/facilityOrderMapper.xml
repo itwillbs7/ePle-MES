@@ -5,5 +5,63 @@
 
 <!-- facilityOrderMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.FacilityOrderMapper">
+	<resultMap type="com.itwillbs.domain.FacilityOrderVO" id="order">
+		<result property="code" column="code"/>
+		<result property="date" column="date"/>
+		<result property="group_id" column="group_id"/>
+		<result property="code_id" column="code_id" />
+		<result property="group_name" column="group_name"/>
+		<result property="code_name" column="code_name"/>
+		<result property="client_code" column="client_code" />
+		<result property="client_name" column="client_name" />
+		<result property="amount" column="amount" />
+	</resultMap>
 	
+	<select id="getOrderList" resultMap="order">
+		SELECT o.code, o.date, o.client_code, 
+		e.name as client_name, amount, o.group_id, 
+		o.code_id, c.group_name, c.code_name 
+		FROM ORDERS o 
+		JOIN EMPLOYEES e ON o.client_code = e.code 
+		JOIN COMMON_CODE c ON o.group_id = c.group_id AND o.code_id = c.code_id 
+		WHERE complete = FALSE AND c.group_id IN ('FACPRO', 'FACNPR', 'FACETC') 
+		ORDER BY 
+		o.${search.eng[search.activeSortCategory]} ${search.sortValue}
+
+		LIMIT ${startPage}, ${cri.pageSize}
+	</select>
+	
+	<select id="getOrder" resultMap="order" resultType="com.itwillbs.domain.FacilityOrderVO">
+		SELECT * FROM ORDERS WHERE code = #{code}
+	</select>
+	
+	<select id="getCommonList" resultMap="order" resultType="com.itwillbs.domain.FacilityOrderVO">
+		SELECT group_id, code_id, group_name, code_name from COMMON_CODE 
+		WHERE group_id = #{group_id}
+	</select>
+	
+	<insert id="insertOrder">
+		INSERT INTO ORDERS (code, material, date, client_code, amount) 
+		VALUES (#{code}, #{material}, NOW(), #{client_code}, ${amount})
+	</insert>
+	
+	<!-- 수정 -->
+	<!-- 클라이언트가 같을 때만 가능 -->
+	<update id="updateOrder">
+		UPDATE ORDERS 
+		<set>
+			material = #{material}, amount = ${amount}
+		</set>
+		<where>
+			code = #{code} AND client_code = #{client_code} 
+			AND status = '신청'
+		</where>
+	</update>
+	
+	<delete id="deleteOrder">
+		DELETE FROM ORDERS WHERE code IN 
+		<foreach collection="codeList" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>

@@ -43,7 +43,7 @@ public class PageVO {
 			endPage = tmpEndPage;
 
 		startPage = (endPage - displayPageNum) + 1;
-		if (startPage < 0) startPage = 1;
+		if (startPage <= 0) startPage = 1;
 		prev = startPage != 1;
 		next = endPage * cri.getPageSize() < totalCount;
 	}
