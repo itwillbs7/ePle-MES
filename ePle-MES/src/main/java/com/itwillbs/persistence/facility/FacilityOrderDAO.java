@@ -18,4 +18,6 @@ public interface FacilityOrderDAO {
 	public FacilityOrderVO getOrder(FacilityOrderVO vo) throws Exception;
 	
 	public List<FacilityOrderVO> getCommonList(String group_id) throws Exception;
+	
+	public String getRecentCode() throws Exception;
 }

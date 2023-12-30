@@ -45,4 +45,9 @@ public class FacilityOrderServiceImpl implements FacilityOrderService{
 	public List<FacilityOrderVO> getCommonList(String group_id) throws Exception {
 		return dao.getCommonList(group_id);
 	}
+
+	@Override
+	public String getRecentCode() throws Exception {
+		return dao.getRecentCode();
+	}
 }

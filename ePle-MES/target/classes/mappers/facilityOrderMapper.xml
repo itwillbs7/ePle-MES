@@ -40,9 +40,13 @@
 		WHERE group_id = #{group_id}
 	</select>
 	
+	<select id="getRecentCode" resultType="String">
+		SELECT code FROM ORDERS WHERE date = NOW() ORDER BY code DESC LIMIT 0, 1
+	</select>
+	
 	<insert id="insertOrder">
-		INSERT INTO ORDERS (code, material, date, client_code, amount) 
-		VALUES (#{code}, #{material}, NOW(), #{client_code}, ${amount})
+		INSERT INTO ORDERS (code, group_id, code_id, date, client_code, amount) 
+		VALUES (#{code}, #{group_id}, #{code_id}, NOW(), #{client_code}, ${amount})
 	</insert>
 	
 	<!-- 수정 -->
@@ -50,7 +54,7 @@
 	<update id="updateOrder">
 		UPDATE ORDERS 
 		<set>
-			material = #{material}, amount = ${amount}
+			group_id = #{group_id}, code_id = #{code_id}, amount = ${amount}
 		</set>
 		<where>
 			code = #{code} AND client_code = #{client_code} 

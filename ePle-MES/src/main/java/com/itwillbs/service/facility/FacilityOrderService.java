@@ -12,4 +12,5 @@ public interface FacilityOrderService {
 	public int deleteOrder(String[] codeList) throws Exception;
 	public FacilityOrderVO getOrder(FacilityOrderVO vo) throws Exception;
 	public List<FacilityOrderVO> getCommonList(String group_id) throws Exception;
+	public String getRecentCode() throws Exception;
 }

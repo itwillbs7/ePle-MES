@@ -47,4 +47,9 @@ public class FacilityOrderDAOImpl implements FacilityOrderDAO{
 	public List<FacilityOrderVO> getCommonList(String group_id) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getCommonList", group_id);
 	}
+	
+	@Override
+	public String getRecentCode() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getRecentCode");
+	}
 }

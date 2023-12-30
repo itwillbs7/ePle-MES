@@ -45,6 +45,15 @@ public class FacilityOrderController {
 	@PostMapping("/insert")
 	public String insertPOST(FacilityOrderVO vo, RedirectAttributes rttr) throws Exception{
 		String link = "";
+		String recentCode = oService.getRecentCode();
+		
+		// 코드 생성(넣는 방식은 화요일에 정하기)
+		if(recentCode == null || recentCode.equals("")) {
+			
+		}
+		else {
+			
+		}
 		int result = oService.insertOrder(vo);
 		if(result == 1) {
 			link = "redirect:/confirm";
