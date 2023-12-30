@@ -1,270 +1,205 @@
 package com.itwillbs.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.itwillbs.domain.EmployeeDTO;
-import com.itwillbs.domain.PageDTO;
-import com.itwillbs.domain.ProductDTO;
-import com.itwillbs.domain.WorkOrderDTO;
-import com.itwillbs.service.EmployeeService;
+import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.MAPDVO;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.ProductService;
 
 @Controller
-@RequestMapping("/product/*")
+@RequestMapping(value = "/product/*")
 public class ProductController {
-	
-	//productService 객체생성
+
+	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+
 	@Inject
-	private ProductService productService;
-	
-	//employeeService 객체생성
-	@Inject
-	private EmployeeService employeeService;
-	
-	//workOrderService 객체생성(자재부 사원/대리를 위해 완제품목록 팝업띄우기위해)
-	@Inject
-	private WorkOrderService workOrderService;
-	
-	// 완제품목록 팝업(자재부 사원/대리를 위해)
-	@GetMapping("/workProdList")
-	public String workProdList(Model model, HttpServletRequest request) {
-		String productCode = request.getParameter("productCode");
-		String productName = request.getParameter("productName");
-		
-		// 한 화면에 보여줄 글 개수 설정
-		int pageSize = 5; // sql문에 들어가는 항목
-		
-		// 현페이지 번호 가져오기
-		String pageNum = request.getParameter("pageNum");
-		if(pageNum==null) {
-			pageNum="1";
+	private ProductService sService;
+
+	// 글쓰기 - GET
+	// http://localhost:8088/product/regist
+	@RequestMapping(value = "/regist", method = RequestMethod.GET)
+	public void registGET() throws Exception {
+		logger.debug("/product/regist -> registGET() 호출 ");
+		logger.debug("/product/regist.jsp 뷰페이지로 이동");
+	}
+
+	// 글쓰기 - POST
+	@RequestMapping(value = "/regist", method = RequestMethod.POST)
+	public String registPOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
+		logger.debug("폼submit -> registPOST() 호출 ");
+		// 한글 인코딩(필터)
+		// 전달정보 저장
+		logger.debug(" mvo : " + mvo);
+
+		// 서비스 - DB에 글쓰기(insert) 동작 호출
+		sService.productWrite(mvo);
+		logger.debug(" 글작성 완료! ");
+
+		rttr.addFlashAttribute("result", "CREATEOK");
+
+		logger.debug("/product/listAll 이동");
+//		return "/board/listAll"; (x-데이터 중복 작성)
+		return "redirect:/product/listAll";
+	}
+
+	// http://localhost:8088/product/listAll
+	// 게시판 리스트 - GET
+	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
+	public String listALLGET(Model model, @ModelAttribute("result") String result, HttpSession session)
+			throws Exception {
+		logger.debug(" /board/listAll -> listALLGET() ");
+
+		session.setAttribute("viewcntCheck", true);
+
+		// 서비스 - 디비에 저장된 글을 가져오기
+		List<MAPDVO> productList = sService.productListAll();
+		logger.debug(" @@@ " + productList);
+
+		// 데이터를 연결된 뷰페이지로 전달(Model)
+		model.addAttribute("boardList", productList);
+
+		// model.addAttribute("boardList", bService.boardListAll());
+
+		return "/product/listAll";
+	}
+
+	// http://localhost:8088/product/read?bno=1
+	// 글 본문보기 - GET
+	@RequestMapping(value = "/read", method = RequestMethod.GET)
+	public void readGET(@RequestParam("bno") int bno, Model model, HttpSession session) throws Exception {
+		logger.debug("/product/read -> readGET() ");
+		// 전달정보 저장
+		logger.debug(" bno : " + bno);
+
+		if ((boolean) session.getAttribute("viewcntCheck")) {
+			// 서비스 - bno에 해당하는 글 조회수 1증가
+			// (페이지 호출당 1번씩 증가/read페이지 새로고침시 증가X)
+			sService.incrementViewCnt(bno);
+
+			session.setAttribute("viewcntCheck", false);
 		}
-		
-		PageDTO pageDTO = new PageDTO();
-		
-		// 페이지번호를 정수형 변경
-		int currentPage=Integer.parseInt(pageNum);
-		pageDTO.setPageSize(pageSize);
-		pageDTO.setPageNum(pageNum);
-		pageDTO.setCurrentPage(currentPage);
-		int startRow=(pageDTO.getCurrentPage()-1)*pageDTO.getPageSize()+1; // sql문에 들어가는 항목
-		int endRow = startRow+pageDTO.getPageSize()-1;
-		
-		
-		pageDTO.setStartRow(startRow-1); // limit startRow (0이 1열이기 때문 1을 뺌)
-		pageDTO.setEndRow(endRow);
 
-		Map<String,Object> search = new HashMap<>(); // sql에 들어가야할 서치 항목 및 pageDTO 항목 map에 담기
-		search.put("productCode", productCode);
-		search.put("productName", productName);
-		search.put("startRow", pageDTO.getStartRow());
-		search.put("pageSize", pageDTO.getPageSize());
- 
-		List<WorkOrderDTO> workProdList = workOrderService.getWorkProdList(search);
-			
-		//페이징 처리
-		int count = workOrderService.countProdList(search);
+		// 서비스 - bno에 해당하는 특정 글정보만 조회
+		MAPDVO resultVO = sService.getProduct(bno);
+		// 연결된 뷰페이지로 이동시 정보를 전달
+		model.addAttribute("resultVO", resultVO);
 
-		int pageBlock = 10;
-		int startPage=(currentPage-1)/pageBlock*pageBlock+1;
-		int endPage=startPage+pageBlock-1;
-		int pageCount=count/pageSize+(count%pageSize==0?0:1);
-		if(endPage > pageCount){
-		 	endPage = pageCount;
-		 }
-		
-		pageDTO.setCount(count);
-		pageDTO.setPageBlock(pageBlock);
-		pageDTO.setStartPage(startPage);
-		pageDTO.setEndPage(endPage);
-		pageDTO.setPageCount(pageCount);
-				
-		model.addAttribute("pageDTO", pageDTO);
-		model.addAttribute("search", search);
-		model.addAttribute("workProdList", workProdList);
-		return "product/workProdList";
-	}//	workProdList
+		// model.addAttribute(resultVO); => "boardVO" 이름
+		// /board/read.jsp 뷰페이지로 이동
+	}
+
+	// 게시판 글 수정 - GET
+	// http://localhost:8088/product/modify?bno=1
+	@RequestMapping(value = "/modify", method = RequestMethod.GET)
+	public void modifyGET(@RequestParam("bno") int bno, Model model) throws Exception {
+		logger.debug("/product/modify -> modifyGET()호출");
+		logger.debug(" 수정할 글번호 : " + bno);
+
+		// 기존의 글정보를 가져와서 화면에 출력
+		MAPDVO resultVO = sService.getProduct(bno);
+		// 글정보를 Model 객체 저장
+		model.addAttribute("resultVO", resultVO);
+		// 뷰페이지로 이동
+	}
+
+	// 게시판 글 수정 - POST
+	@RequestMapping(value = "/modify", method = RequestMethod.POST)
+	public String modifyPOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
+		logger.debug(" /modify form -> modifyPOST()");
+		// 전달된 정보 저장(수정할 정보)
+		logger.debug(" 수정할 정보 " + mvo);
+
+		// 서비스 - 정보수정 동작
+		int result = sService.productModify(mvo);
+		// 처리 완료후 페이지 이동(리스트)
+		// + 수정 완료! 리스트에서 출력
+		rttr.addFlashAttribute("result", "modifyOK");
+
+		return "redirect:/product/listAll";
+	}
+
+	// 글 삭제
+	@RequestMapping(value = "/remove", method = RequestMethod.POST)
+	public String removePOST(@ModelAttribute("bno") int bno, RedirectAttributes rttr) throws Exception {
+		logger.debug("/read form -> removePOST()");
+
+		// 서비스 - 글 삭제 동작
+		sService.productRemove(bno);
+		// " 글 삭제 완료! " 메세지 출력
+		rttr.addFlashAttribute("result", "removeOK");
+
+		return "redirect:/product/listAll";
+	}
+
+	/**
+	 * 페이징처리 
+	 *  0) 반드시 GET방식으로만 처리!
+	 *  1) 원하는 만큼의 데이터를 가져와서 출력 
+	 *  2) 페이지 블럭(하단블럭) 생성
+	 *  3) 본문/수정/삭제등..처리후 리스트 이동시 기존의 정보를 유지
+	 * 
+	 * a태그 : 네이버 쇼핑 / 유사한 코드의 반복적인 동작 수행 => 검색엔진 노출이 쉬움
+	 * 
+	 * form태그 : 쿠팡 / input태그를 사용해서 처리 => 데이터처리 (빠른 처리)
+	 * 
+	 *  - 하단 페이징블럭 
+	 *    1) 시작페이지 번호
+	 *    2) 끝 페이지 번호
+	 *    3) 전체 데이터(글)의 개수
+	 *    4) 이전페이지 링크(boolean) 
+	 *    5) 다음페이지 링크(boolean)
+	 *    
+	 *    ex) 총 122개 / 페이지당 10개씩 출력
+	 *     - 1페이지 : 시작페이지번호 : 1 끝페이지 번호 : 10 / 이전 :N  다음 :Y
+	 *     - 7페이지 : 시작 : 1 끝 : 10 / 이전 : N, 다음 : Y
+	 *     - 12페이지 : 시작 : 11  끝 : 20 -> 13 /이전 : Y, 다음 : N 
+	 * 
+	 */
 	
-	// 거래처목록 팝업(자재부 사원/대리를 위해)
-	@GetMapping("/workCusList")
-	public String workCusList(Model model, HttpServletRequest request, PageDTO pageDTO) { 
-		String cusCode = request.getParameter("cusCode");
-		String cusName = request.getParameter("cusName");
-		
-		// 한 화면에 보여줄 글 개수 설정
-		int pageSize = 5; // sql문에 들어가는 항목
-		
-		// 현페이지 번호 가져오기
-		String pageNum = request.getParameter("pageNum");
-		if(pageNum==null) {
-			pageNum="1";
-		}
-		// 페이지번호를 정수형 변경
-		int currentPage=Integer.parseInt(pageNum);
-		pageDTO.setPageSize(pageSize);
-		pageDTO.setPageNum(pageNum);
-		pageDTO.setCurrentPage(currentPage);
-		int startRow=(pageDTO.getCurrentPage()-1)*pageDTO.getPageSize()+1; // sql문에 들어가는 항목
-		int endRow = startRow+pageDTO.getPageSize()-1;
-		
-		pageDTO.setStartRow(startRow-1); // limit startRow (0이 1열이기 때문 1을 뺌)
-		pageDTO.setEndRow(endRow);
+	// 게시판 리스트 - GET
+	@RequestMapping(value = "/listPage", method = RequestMethod.GET)
+	public String listPageGET(Model model,
+								@ModelAttribute("result") String result,
+								HttpSession session,
+								Criteria cri) throws Exception {
+		logger.debug(" /product/listPage -> listPageGET() ");
 
-		Map<String,Object> search = new HashMap<>(); // sql에 들어가야할 서치 항목 및 pageDTO 항목 map에 담기
-		search.put("cusCode", cusCode);
-		search.put("cusName", cusName);
-		search.put("startRow", pageDTO.getStartRow());
-		search.put("pageSize", pageDTO.getPageSize());
+		session.setAttribute("viewcntCheck", true);
+		
+//		Criteria cri = new Criteria();
+//		cri.setPage(5);
+//		cri.setPageSize(5);
 
-		List<WorkOrderDTO> workCusList = workOrderService.getWorkCusList(search);
-			
-		//페이징 처리
-		int count = workOrderService.countCusList(search);
-
-		int pageBlock = 10;
-		int startPage=(currentPage-1)/pageBlock*pageBlock+1;
-		int endPage=startPage+pageBlock-1;
-		int pageCount=count/pageSize+(count%pageSize==0?0:1);
-		if(endPage > pageCount){
-		 	endPage = pageCount;
-		 }
+		// 서비스 - 디비에 저장된 글을 가져오기
+		List<MAPDVO> productList = sService.productListPage(cri);
+		//logger.debug(" @@@ " + boardList);
 		
-		pageDTO.setCount(count);
-		pageDTO.setPageBlock(pageBlock);
-		pageDTO.setStartPage(startPage);
-		pageDTO.setEndPage(endPage);
-		pageDTO.setPageCount(pageCount);
-				
-		model.addAttribute("pageDTO", pageDTO);
-		model.addAttribute("search", search);
-		model.addAttribute("workCusList", workCusList);
-		return "product/workCusList";
-	}// workCusList
-//	------------------------------여기까지 완제품, 거래처 팝업리스트---------------------------------------
-	
-//	가상주소 http://localhost:8080/keypoint/product/productList
-	@GetMapping("/productList")
-	public String productList(HttpServletRequest request, Model model, HttpSession session) {
-		System.out.println("ProductController productList()");
-		// 세션에서 empId 가져오기
-		int empId = (int) session.getAttribute("empId");
+		// 페이지 블럭 정보 준비 -> view 페이지 전달
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		//pageVO.setTotalCount(360448); // 디비에서 직접 실행결과 가져오기
+		pageVO.setTotalCount(sService.totalProductCount());
 		
-		// 검색어 가져오기
-		String search = request.getParameter("search");
-		
-		// 한 화면에 보여줄 글개수 설정
-		int pageSize = 10;
-		// 현 페이지 번호 가져오기
-		String pageNum = request.getParameter("pageNum");
-		// 페이지 번호가 없을 경우 => "1"로 설정
-		if(pageNum == null) {
-			pageNum = "1";
-		}
-		// 페이지 번호 => 정수형 변경
-		int currentPage = Integer.parseInt(pageNum);
-		
-		PageDTO pageDTO = new PageDTO();
-		pageDTO.setPageSize(pageSize);
-		pageDTO.setPageNum(pageNum);
-		pageDTO.setCurrentPage(currentPage);
-		// 검색어 저장
-		pageDTO.setSearch(search);
-		
-		List<ProductDTO> productList = productService.getProductList(pageDTO);
-		
-		// 전체 글개수 가져오기
-		int count = productService.getProductCount(pageDTO);
-		// 한 화면에 보여줄 페이지 개수 설정
-		int pageBlock = 10;
-		// 시작하는 페이지 번호
-		int startPage = (currentPage-1)/pageBlock*pageBlock+1;
-		// 끝나는 페이지 번호
-		int endPage = startPage + pageBlock -1;
-		// 끝나는 페이지 번호 전체페이지 개수 비교
-		int pageCount = count/pageSize+(count%pageSize==0?0:1);
-		// => 끝나는 페이지 번호가 크면 전체 페이지 개수로 변경
-		if(endPage > pageCount) {
-			endPage = pageCount;
-		}
-		
-		pageDTO.setCount(count);
-		pageDTO.setPageBlock(pageBlock);
-		pageDTO.setStartPage(startPage);
-		pageDTO.setEndPage(endPage);
-		pageDTO.setPageCount(pageCount);		
-		
+		logger.debug(" 확인 :"+pageVO);
+		model.addAttribute("pageVO", pageVO);
+		// 데이터를 연결된 뷰페이지로 전달(Model)
 		model.addAttribute("productList", productList);
-		model.addAttribute("pageDTO", pageDTO);
-		
-		// empId로 사원정보 가져오기
-		EmployeeDTO employeeDTO = employeeService.getEmployeeDetails(empId);
-		model.addAttribute("employeeDTO", employeeDTO);
-		System.out.println(employeeDTO);
-		
-		// WEB-INF/views/product/productList.jsp
-		return "product/productList";
-	}// productList [완제품목록]
-	
-	@GetMapping("/productInsert")
-	public String productInsert() {
-		return "product/productInsert";
-	}// productInsert [완제품등록]
-	
-	@PostMapping("/productInsertPro")
-	public String productInsertPro(ProductDTO productDTO) {
-		System.out.println("ProductController productInsertPro()");
-		//회원가입 처리
-		System.out.println(productDTO);
-		
-		productService.insertProduct(productDTO);
-		
-		if(productDTO != null) {
-			return "product/msgSuccess"; // 등록완료
-		}else {
-			return "product/msgFailed"; // 등록실패
-		}
-	}// productInsertPro [완제품등록]
-	
-	@GetMapping("/productUpdate")
-	public String productUpdate(Model model, @RequestParam("productCode") String productCode) {
-		ProductDTO productDTO = productService.getProduct(productCode);
-		System.out.println(productDTO);
-		model.addAttribute("productDTO", productDTO);
-		return "product/productUpdate";
-	}// productUpdate [완제품수정]
-	
-	@PostMapping("/productUpdatePro")
-	public String productUpdatePro(ProductDTO productDTO) {
-		System.out.println("ProductController productUpdatePro");
-		System.out.println(productDTO);
-		productService.updateProduct(productDTO);
-		
-		if(productDTO != null) {
-			return "product/msgSuccess"; // 등록완료
-		}else {
-			return "product/msgFailed"; // 등록실패
-		}
-	}// productUpdatePro [완제품수정]
-	
-	@GetMapping("/productDelete")
-	public String productDelete(ProductDTO productDTO) {
-		System.out.println("ProductController productDelete()");
-		System.out.println(productDTO);
-		productService.deleteProduct(productDTO);
-		
-		return "product/productList";
-	}// productDelete [완제품삭제]
+
+		return "/product/listAll";
+	}
+
+} // controller

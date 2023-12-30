@@ -20,70 +20,60 @@ public class ProductDAOImpl implements ProductDAO {
 	@Inject
 	private SqlSession sqlSession;
 	
-	private static final String NAMESPACE ="com.itwillbs.mapper.BoardMapper";
+	private static final String NAMESPACE ="com.itwillbs.mapper.ProductMapper";
 
 	@Override
-	public void insertBoard(MAPDVO mvo) throws Exception {
-		logger.debug(" DAO : insertBoard(BoardVO vo)");
-		sqlSession.insert(NAMESPACE + ".insertBoard", mvo);
+	public void insertProduct(MAPDVO mvo) throws Exception {
+		
 	}
 
 	@Override
 	public List<MAPDVO> getBoardListAll() throws Exception {
-		logger.debug(" DAO : getBoardListAll() ");
-		return sqlSession.selectList(NAMESPACE + ".listALL");
+		
+		return null;
 	}
 
 	@Override
-	public MAPDVO getBoard(int bno) throws Exception {
-		logger.debug(" DAO : getBoard(int bno) ");
-		return sqlSession.selectOne(NAMESPACE + ".getBoard",bno);
+	public MAPDVO getProduct(int bno) throws Exception {
+		
+		return null;
 	}
 
-	
 	@Override
-	public int updateBoard(MAPDVO vo) throws Exception {
-		logger.debug(" DAO : updateBoard(BoardVO vo) ");
-		return sqlSession.update(NAMESPACE +".updateBoard", vo);
+	public int updateProduct(MAPDVO mvo) throws Exception {
+		
+		return 0;
 	}
 
 	@Override
 	public void updateViewCnt(int bno) throws Exception {
-		logger.debug(" DAO : updateViewCnt(int bno) ");
-		sqlSession.update(NAMESPACE + ".updateViewCnt", bno);
+		
 	}
 
 	@Override
-	public void deleteBoard(int bno) throws Exception {
-		logger.debug(" DAO : deleteBoard(int bno) ");
-		sqlSession.delete(NAMESPACE + ".deleteBoard", bno);
+	public void deleteProduct(int bno) throws Exception {
+		
 	}
 
 	@Override
 	public List<MAPDVO> getBoardListPage(int page) throws Exception {
-		logger.debug(" DAO : getBoardListPage() ");
 		
-		// 페이징처리 계산
-		// page 1 => 1~10  page 2 => 11~20 ... page 3 => 21-30
-		//  => limit 0,10   =>  limit  10,10    => limit 20,10
-		
-		page = (page - 1) * 10;
-		
-		return sqlSession.selectList(NAMESPACE + ".listPage",page);
+		return null;
 	}
 
-	
 	@Override
 	public List<MAPDVO> getBoardListPage(Criteria cri) throws Exception {
-		logger.debug(" DAO : getBoardListPage(Criteria cri)");
-		return sqlSession.selectList(NAMESPACE + ".listPage", cri);
+		
+		return null;
 	}
 
 	@Override
 	public int getBoardCount() throws Exception {
-		logger.debug(" DAO : getBoardCount() ");
-		return sqlSession.selectOne(NAMESPACE + ".countBoard");
+		
+		return 0;
 	}
+
+
 	
 	
 	

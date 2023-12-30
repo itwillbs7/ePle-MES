@@ -6,7 +6,7 @@
 
    <!-- 디비 컬럼과 도메인 객체 매핑 -->
    <!-- 프로퍼티명과 컬럼명 동일 시 생략가능  -->
-    <resultMap type="com.itwillbs.domain.BoardVO" id="board">
+    <resultMap type="com.itwillbs.domain.MAPDVO" id="product">
     	<result property="code" column="code"/>
     	<result property="category" column="category"/>
     	<result property="name" column="name"/>
