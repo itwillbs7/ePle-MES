@@ -97,9 +97,9 @@ public class FacilityOrderController {
 	}
 	
 	@PostMapping("/delete")
-	public String deletePOST(FacilityOrderVO vo, RedirectAttributes rttr) throws Exception{
+	public String deletePOST(String[] codeList, RedirectAttributes rttr) throws Exception{
 		String link = "";
-		int result = 0;
+		int result = oService.deleteOrder(codeList);
 		if(result == 1) {
 			link = "redirect:/confirm";
 			rttr.addFlashAttribute("title", "발주 취소 결과");
