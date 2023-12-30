@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../../include/head.jsp"%>
-<title>보전 삭제</title>
+<title>설비 삭제</title>
 <!-- 
 	실행 방법
 		- 테이블 페이지의 옵션에서 삭제클릭
@@ -28,7 +28,7 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">보전 삭제</h1>
+				<h1 class="text-center text-primary">설비 삭제</h1>
 				<h4 class="text-center">삭제 개수 : 3개</h4>
 			</div>
 			<!-- 폼 -->

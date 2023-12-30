@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,18 +35,14 @@
 							<label>이름</label> <input class="form-control" type="text"
 								name="name" value="${info.name}" readonly>
 						</div>
-						<div class="form-group">
-							<label>구매 일자</label> <input class="form-control" type="date"
-								name="purchase_date" value="${info.purchase_date}" readonly>
-						</div>
-						<div class="form-group">
-							<label>구매 금액</label> <input class="form-control" type="number"
-								name="inprice" value="${info.inprice}" readonly>
-						</div>
-						<div class="form-group">
-							<label>시간당 생산량</label> <input class="form-control" type="number"
-								name="uph" value="${info.uph}" required>
-						</div>
+						<c:choose>
+							<c:when test="${info.category eq 'production'}">
+								<div class="form-group">
+									<label>시간당 생산량</label> <input class="form-control"
+										type="number" name="uph" value="${info.uph}" required>
+								</div>
+							</c:when>
+						</c:choose>
 						<div class="form-group">
 							<label>라인 정보</label> <select class="form-control"
 								name="line_code">

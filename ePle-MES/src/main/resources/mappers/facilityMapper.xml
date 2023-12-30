@@ -273,7 +273,7 @@
 		]]>
 		${search.eng[search.activeSortCategory]} ${search.sortValue}
 
-		LIMIT ${startPage - 1}, ${cri.pageSize}
+		LIMIT ${cri.startPage}, ${cri.pageSize}
 	</select>
 
 

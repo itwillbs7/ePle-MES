@@ -208,7 +208,7 @@
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<td><div class="custom-control custom-checkbox mb-5">
 													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-													<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="${i.code}"> <label class="custom-control-label" for="checkTable1"></label>
+													<input type="checkbox" class="custom-control-input" id="checkTable${i.code}" name="tableCheck" value="${i.code}"> <label class="custom-control-label" for="checkTable${i.code}"></label>
 												</div></td>
 											<th>${i.code}</th>
 											<th>${i.category}</th>
