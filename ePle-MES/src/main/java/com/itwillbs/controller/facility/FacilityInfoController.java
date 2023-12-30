@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** FacilityController : 설비 컨트롤러 **/
-
+/** 관리자만 조회할 수 있도록 함!(권한 설정) **/
 @Controller
 @RequestMapping(value = "/facility/info/*")
 public class FacilityInfoController {
@@ -119,6 +119,7 @@ public class FacilityInfoController {
 		// 설비 정보 가져오기
 		FacilityVO info = fService.getFacility(vo);
 		model.addAttribute("info", info);
+		model.addAttribute("line", fService.getLineList());
 	}
 	
 	@PostMapping(value = "/update")

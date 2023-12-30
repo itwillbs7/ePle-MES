@@ -60,22 +60,19 @@
 													<h4 class="text-blue h4">상세 검색</h4>
 												</div>
 												<div class="row">
-													<div class="col-md-2 col-sm-12">
+													<div class="col-md-1 col-sm-12">
 														<label class="weight-600">체크 박스</label>
 														<div class="custom-control custom-checkbox mb-5">
 															<input type="checkbox" class="custom-control-input" id="formCheckAll"> <label class="custom-control-label" for="formCheckAll"><b>전체</b></label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck1" name="formCheck" value="PM"> <label class="custom-control-label" for="formCheck1">예방 보전</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck1" name="formCheck" value="production"> <label class="custom-control-label" for="formCheck1">생산</label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck2" name="formCheck" value="BM"> <label class="custom-control-label" for="formCheck2">사후 보전</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck2" name="formCheck" value="non-production"> <label class="custom-control-label" for="formCheck2">비생산</label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck3" name="formCheck" value="CM"> <label class="custom-control-label" for="formCheck3">개량 보전</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck4" name="formCheck" value="EM"> <label class="custom-control-label" for="formCheck4">긴급 보전</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck3" name="formCheck" value="etc"> <label class="custom-control-label" for="formCheck3">기타</label>
 														</div>
 													</div>
 													<div class="col-md-2 col-sm-12">
@@ -102,6 +99,33 @@
 														<b>-</b>
 														<div class="form-group" style="display: inline-block;">
 															<input type="date" id="dateRight" value="${pageVO.search.betweenDateRight}" name="betweenDateRight" class="form-control">
+														</div>
+													</div>
+													<div class="col-md-2 col-sm-12">
+														<div class="form-group">
+															<label>종류</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="category">
+																<optgroup label="Alaskan/Hawaiian Time Zone">
+																	<option value="AK">Alaska</option>
+																	<option value="HI">Hawaii</option>
+																</optgroup>
+																<optgroup label="Pacific Time Zone">
+																	<option value="CA">California</option>
+																	<option value="NV">Nevada</option>
+																	<option value="OR">Oregon</option>
+																	<option value="WA">Washington</option>
+																</optgroup>
+																<optgroup label="Mountain Time Zone">
+																	<option value="AZ">Arizona</option>
+																	<option value="CO">Colorado</option>
+																	<option value="ID">Idaho</option>
+																	<option value="MT">Montana</option>
+																	<option value="NE">Nebraska</option>
+																	<option value="NM">New Mexico</option>
+																	<option value="ND">North Dakota</option>
+																	<option value="UT">Utah</option>
+																	<option value="WY">Wyoming</option>
+																</optgroup>
+															</select>
 														</div>
 													</div>
 												</div>
@@ -217,14 +241,11 @@
 													<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
 												</div></td>
 											<th>${i.code}</th>
-											<th>${i.reg_date}</th>
-											<th>${i.emp_name}</th>
+											<th>${i.category}</th>
+											<th>${i.model}</th>
 											<!-- 상세 정보 이동! -->
-											<th><a href="/facility/maintenance/detail?code=${i.code}"><b class="text-blue" id="tableTitle1">${i.mt_subject}</b></a></th>
-											<c:choose>
-												<c:when test="${i.complete}">완료</c:when>
-												<c:otherwise>미완료</c:otherwise>
-											</c:choose>
+											<th><a href="/facility/info/detail?code=${i.code}"><b class="text-blue" id="tableTitle1">${i.name}</b></a></th>
+											<th>${i.line_code}</th>
 											<td style="">
 												<!-- 옵션 -->
 												<div class="dropdown">
@@ -337,13 +358,13 @@
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
-				openPage("/facility/maintenance/insert", 500, 600);
+				openPage("/facility/info/insert", 500, 600);
 			});
 
 			// 수정
 			$("#update").click(function() {
 				// 가로, 세로 설정
-				openPage("/facility/maintenance/update", 400, 700);
+				openPage("/facility/info/update", 400, 700);
 			});
 
 			// 삭제
@@ -351,7 +372,7 @@
 				var ch = $("input:checkbox[name=tableCheck]:checked").length;
 				if (ch > 0) {
 					// 가로, 세로 설정
-					openPage("/facility/maintenance/delete", 400, 700);
+					openPage("/facility/info/delete", 400, 700);
 				} else {
 					$(this).attr("data-toggle", "modal");
 					$(this).attr("data-target", "#warning-modal");

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.itwillbs.domain.OrderVO;
+import com.itwillbs.domain.FacilityOrderVO;
 
 @Controller
 @RequestMapping(value = "/facility/order/*")
@@ -28,7 +28,7 @@ public class FacilityOrderController {
 	}
 	
 	@PostMapping("/insert")
-	public String insertPOST(OrderVO vo, RedirectAttributes rttr) throws Exception{
+	public String insertPOST(FacilityOrderVO vo, RedirectAttributes rttr) throws Exception{
 		String link = "";
 		int result = 0;
 		if(result == 1) {
@@ -50,7 +50,7 @@ public class FacilityOrderController {
 	}
 	
 	@PostMapping("/update")
-	public String updatePOST(OrderVO vo, RedirectAttributes rttr) throws Exception{
+	public String updatePOST(FacilityOrderVO vo, RedirectAttributes rttr) throws Exception{
 		String link = "";
 		int result = 0;
 		if(result == 1) {
@@ -72,7 +72,7 @@ public class FacilityOrderController {
 	}
 	
 	@PostMapping("/delete")
-	public String deletePOST(OrderVO vo, RedirectAttributes rttr) throws Exception{
+	public String deletePOST(FacilityOrderVO vo, RedirectAttributes rttr) throws Exception{
 		String link = "";
 		int result = 0;
 		if(result == 1) {

@@ -172,11 +172,15 @@
 	<select id="MaintenanceDetail">
 		SELECT * FROM FAC_MT WHERE code = #{code}
 	</select>
-	
-	<select id="">
-		SELECT 
-	</select>
 	<!-- 보전 -->
+	
+	<!-- 설비 detail -->
+	<select id="getFacilityList" 
+		resultType="com.itwillbs.domain.MaintenanceVO" resultMap="maintenance">
+		SELECT * FROM FAC_MT WHERE fac_code = #{code} AND code NOT LIKE '%DM%' 
+		ORDER BY code DESC LIMIT 0 10
+	</select>
+	<!-- 설비 detail -->
 
 	<!-- 일상보전 -->
 	<insert id="insertRM">

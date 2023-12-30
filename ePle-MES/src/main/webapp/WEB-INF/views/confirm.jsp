@@ -14,7 +14,7 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">확인</h1>
+				<h1 class="text-center text-primary">${title}</h1>
 				<h4 class="text-center">${result}</h4>
 			</div>
 
@@ -31,5 +31,14 @@
 	</div>
 	<!-- 콘텐츠 끝 -->
 	<%@ include file="include/footer.jsp"%>
+	<!-- 
+	가로 500px
+	세로 258px
+	 -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + 258);
+		});
+	</script>
 </body>
 </html>

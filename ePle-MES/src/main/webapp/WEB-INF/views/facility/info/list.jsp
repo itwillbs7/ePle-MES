@@ -60,7 +60,7 @@
 													<h4 class="text-blue h4">상세 검색</h4>
 												</div>
 												<div class="row">
-													<div class="col-md-1 col-sm-12">
+													<div class="col-md-2 col-sm-12">
 														<label class="weight-600">체크 박스</label>
 														<div class="custom-control custom-checkbox mb-5">
 															<input type="checkbox" class="custom-control-input" id="formCheckAll"> <label class="custom-control-label" for="formCheckAll"><b>전체</b></label>
@@ -99,33 +99,6 @@
 														<b>-</b>
 														<div class="form-group" style="display: inline-block;">
 															<input type="date" id="dateRight" value="${pageVO.search.betweenDateRight}" name="betweenDateRight" class="form-control">
-														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<div class="form-group">
-															<label>종류</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="category">
-																<optgroup label="Alaskan/Hawaiian Time Zone">
-																	<option value="AK">Alaska</option>
-																	<option value="HI">Hawaii</option>
-																</optgroup>
-																<optgroup label="Pacific Time Zone">
-																	<option value="CA">California</option>
-																	<option value="NV">Nevada</option>
-																	<option value="OR">Oregon</option>
-																	<option value="WA">Washington</option>
-																</optgroup>
-																<optgroup label="Mountain Time Zone">
-																	<option value="AZ">Arizona</option>
-																	<option value="CO">Colorado</option>
-																	<option value="ID">Idaho</option>
-																	<option value="MT">Montana</option>
-																	<option value="NE">Nebraska</option>
-																	<option value="NM">New Mexico</option>
-																	<option value="ND">North Dakota</option>
-																	<option value="UT">Utah</option>
-																	<option value="WY">Wyoming</option>
-																</optgroup>
-															</select>
 														</div>
 													</div>
 												</div>
@@ -195,9 +168,6 @@
 							<button type="button" class="btn btn-success" id="add">
 								<b>추가</b>
 							</button>
-							<button type="button" class="btn btn-warning" id="update">
-								<b>수정</b>
-							</button>
 							<button type="button" class="btn btn-danger" id="delete">
 								<b>삭제</b>
 							</button>
@@ -238,7 +208,7 @@
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<td><div class="custom-control custom-checkbox mb-5">
 													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-													<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+													<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="${i.code}"> <label class="custom-control-label" for="checkTable1"></label>
 												</div></td>
 											<th>${i.code}</th>
 											<th>${i.category}</th>
@@ -364,7 +334,12 @@
 			// 수정
 			$("#update").click(function() {
 				// 가로, 세로 설정
-				openPage("/facility/info/update", 400, 700);
+				var ch = $("input:checkbox[name=tableCheck]:checked").length;
+				if (ch == 1) {
+					// 가로, 세로 설정
+					var code = $("input:checkbox[name=tableCheck]:checked").val();
+					openPage("/facility/info/update?code=" + code, 400, 700);
+				}
 			});
 
 			// 삭제

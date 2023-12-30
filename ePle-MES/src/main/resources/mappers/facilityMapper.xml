@@ -13,6 +13,7 @@
 		<result property="category" column="category" />
 		<result property="name" column="name" />
 		<result property="model" column="model" />
+		<result property="client_code" column="client_code"/>
 		<result property="purchase_date" column="purchase_date" />
 		<result property="inprice" column="inprice" />
 		<result property="line_code" column="line_code" />
@@ -23,7 +24,7 @@
 	<!-- 설비 -->
 	<!-- resultMap -->
 
-	<select id="getFacility">
+	<select id="getFacility" resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
 		SELECT * FROM FAC_INFO
 		WHERE code = #{code}
 	</select>

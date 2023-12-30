@@ -31,5 +31,14 @@
 	</div>
 	<!-- 콘텐츠 끝 -->
 	<%@ include file="include/footer.jsp"%>
+	<!-- 
+	가로 500px
+	세로 258px
+	 -->
+	<script type="text/javascript">
+	$(document).ready(function(){
+		window.resizeTo(500, 258);
+	});
+	</script>
 </body>
 </html>

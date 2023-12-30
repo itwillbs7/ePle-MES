@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,13 +43,13 @@ public class MainController {
 	}
 	
 	@GetMapping ("/confirm")
-	public void resultConfirm(String title, String result, Model model) throws Exception{
+	public void resultConfirm(@ModelAttribute("title") String title, @ModelAttribute("result") String result, Model model) throws Exception{
 		model.addAttribute("title", title);
 		model.addAttribute("result", result);
 	}
 	
 	@GetMapping ("/error")
-	public void errorConfirm(String title, String result, Model model) throws Exception {
+	public void errorConfirm(@ModelAttribute("title") String title, @ModelAttribute("result") String result, Model model) throws Exception {
 		model.addAttribute("title", title);
 		model.addAttribute("result", result);
 	}

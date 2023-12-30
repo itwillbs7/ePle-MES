@@ -10,6 +10,7 @@ public class FacilityVO {
 	private String code;
 	// 설비 카테고리 : 생산, 비생산, 기타
 	private String category;
+	private String client_code;
 	private String name;
 	private String model;
 	private Date purchase_date;

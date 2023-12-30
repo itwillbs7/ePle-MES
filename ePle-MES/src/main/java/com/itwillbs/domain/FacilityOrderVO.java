@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 @Data
-public class OrderVO {
+public class FacilityOrderVO {
 	private String code;
 	private String material;
 	private Date date;
