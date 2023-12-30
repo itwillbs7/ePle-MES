@@ -26,7 +26,7 @@
 		JOIN COMMON_CODE c ON o.group_id = c.group_id AND o.code_id = c.code_id 
 		WHERE complete = FALSE AND c.group_id IN ('FACPRO', 'FACNPR', 'FACETC') 
 		ORDER BY 
-		o.${search.eng[search.activeSortCategory]} ${search.sortValue}
+		${search.eng[search.activeSortCategory]} ${search.sortValue}
 
 		LIMIT ${startPage}, ${cri.pageSize}
 	</select>

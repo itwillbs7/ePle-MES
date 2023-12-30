@@ -13,6 +13,6 @@ public class FacilityOrderSearchVO extends SearchVO{
 			sortValue = "asc";
 		}
 		
-		private final String[] eng = {"code", "date", "group_name", "code_name", "cilent_name", "amount"};
+		private final String[] eng = {"o.code", "o.date", "c.group_name", "c.code_name", "client_name", "amount"};
 		private final String[] kor = {"코드", "일자", "종류", "설비명", "등록자", "개수"};
 }

@@ -26,16 +26,16 @@
 						<form method="post" id="pro-form">
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
-									<input type="hidden" name="category" value="production">
 									<!-- examples -->
 									<div class="form-group">
 										<label>사원 번호</label> <input class="form-control" type="text" name="client_code" readonly value="1">
 									</div>
 									<div class="form-group">
+										<input type="hidden" name="group_id" value="FACPRO">
 										<label>물품 종류</label> <select class="form-control" name="" required>
 											<option>선택</option>
-											<c:forEach items="${line}" var="i">
-												<option value="${i.code}">${i.name}</option>
+											<c:forEach items="${proList}" var="i">
+												<option value="${i.code_id}">${i.code_name}</option>
 											</c:forEach>
 										</select>
 									</div>
@@ -65,15 +65,14 @@
 								<div class="col-sm-12 mb-3">
 									<input type="hidden" name="category" value="non-production">
 									<!-- examples -->
-									<!-- examples -->
 									<div class="form-group">
-										<label>사원 번호</label> <input class="form-control" type="text" name="client_code" value="1">
+										<label>사원 번호</label> <input class="form-control" readonly type="text" name="client_code" value="1">
 									</div>
 									<div class="form-group">
-										<label>물품 종류</label> <select class="form-control" name="line_code" required>
+										<label>물품 종류</label> <select class="form-control" name="" required>
 											<option>선택</option>
-											<c:forEach items="${line}" var="i">
-												<option value="${i.code}">${i.name}</option>
+											<c:forEach items="${nprList}" var="i">
+												<option value="${i.code_id}">${i.code_name}</option>
 											</c:forEach>
 										</select>
 									</div>
@@ -101,17 +100,15 @@
 						<form method="post" id="etc-form">
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
-									<input type="hidden" name="category" value="etc">
-									<!-- examples -->
 									<!-- examples -->
 									<div class="form-group">
-										<label>사원 번호</label> <input class="form-control" type="text" name="client_code" value="1">
+										<label>사원 번호</label> <input class="form-control" readonly type="text" name="client_code" value="1">
 									</div>
 									<div class="form-group">
-										<label>물품 종류</label> <select class="form-control" name="line_code" required>
+										<label>물품 종류</label> <select class="form-control" name="" required>
 											<option>선택</option>
-											<c:forEach items="${line}" var="i">
-												<option value="${i.code}">${i.name}</option>
+											<c:forEach items="${etcList}" var="i">
+												<option value="${i.code_id}">${i.code_name}</option>
 											</c:forEach>
 										</select>
 									</div>
