@@ -290,4 +290,8 @@
 	<select id="getLineList" resultType="com.itwillbs.domain.LineVO">
 		SELECT code, name FROM LINE
 	</select>
+	
+	<select id="">
+		SELECT * FROM 
+	</select>
 </mapper>

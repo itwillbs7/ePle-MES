@@ -142,8 +142,14 @@ public class FacilityInfoController {
 	
 	// http://localhost:8088/facility/info/delete
 	@GetMapping(value = "/delete")
-	public void facilityDeleteGET() throws Exception {
+	public void facilityDeleteGET(Model model, FacilityVO vo) throws Exception {
 		// 설비 삭제 폼
+		if(vo.getCode() == null || vo.getCode().equals("")) {
+			// info == null
+		}
+		else {
+			model.addAttribute("info", fService.getFacility(vo));
+		}
 	}
 	
 	@PostMapping(value = "/delete")

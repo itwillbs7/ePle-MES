@@ -62,4 +62,22 @@ public class FailityServiceImpl implements FacilityService {
 	public List<LineVO> getLineList() throws Exception {
 		return dao.getLineList();
 	}
+	
+	@Override
+	public List<FacilityVO> getFacilityListEmployee(String client_code) throws Exception{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<FacilityVO> getFacilityListManager(String line_code) throws Exception{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<FacilityVO> getFacilityListAdmin(String category) throws Exception{
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

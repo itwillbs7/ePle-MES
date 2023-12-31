@@ -12,6 +12,10 @@
 		<result property="reg_date" column="reg_date" />
 		<result property="emp_code" column="emp_code" />
 		<result property="fac_code" column="fac_code" />
+		<result property="group_id" column="group_id"/>
+		<result property="group_name" column="group_name"/>
+		<result property="code_id" column="code_id"/>
+		<result property="code_name" column="code_name"/>
 		<result property="mt_subject" column="mt_subject" />
 		<result property="mt_content" column="mt_content" />
 		<result property="complete" column="complete" />
@@ -30,9 +34,9 @@
 	<!-- 보전 -->
 	<!-- 입력 -->
 	<insert id="insertMain">
-		INSERT INTO FAC_MT (code, emp_code, fac_code,
+		INSERT INTO FAC_MT (code, emp_code, fac_code, group_id, code_id, 
 		mt_subject, mt_content)
-		VALUES (#{code}, #{emp_code}, #{fac_code}, #{mt_subject}, #{mt_cotent})
+		VALUES (#{code}, #{emp_code}, #{fac_code}, #{group_id}, #{code_id}, #{mt_subject}, #{mt_cotent})
 	</insert>
 
 	<!-- 수정 -->
@@ -184,9 +188,9 @@
 
 	<!-- 일상보전 -->
 	<insert id="insertRM">
-		INSERT INTO FAC_MT (code, emp_code, fac_code,
+		INSERT INTO FAC_MT (code, emp_code, fac_code, group_id, code_id, 
 		mt_subject, mt_content, complete)
-		VALUES (#{code}, #{emp_code}, #{fac_code}, #{mt_subject}, #{mt_cotent},
+		VALUES (#{code}, #{emp_code}, #{fac_code}, #{group_id}, #{code_id}, #{mt_subject}, #{mt_cotent},
 		true)
 	</insert>
 
@@ -210,4 +214,10 @@
 		NOW() AND code like 'RM%' AND emp_id = #{emp_id}
 	</select>
 	<!-- 일상보전 -->
+	
+	<!-- 보전 결과 -->
+	<select id="">
+		
+	</select>
+	<!-- 보전 결과 -->
 </mapper>

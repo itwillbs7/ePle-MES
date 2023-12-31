@@ -15,7 +15,7 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>보전 목록</h1>
+				<h1>보전 목록</h1><!-- result -->
 			</div>
 			<ul class="nav nav-pills" role="tablist">
 				<li class="nav-item">
@@ -196,8 +196,8 @@
 							<button type="button" class="btn btn-success" id="add">
 								<b>등록</b>
 							</button>
-							<button type="button" class="btn btn-warning" id="update">
-								<b>취소</b>
+							<button type="button" class="btn btn-danger" id="delete">
+								<b>취소</b><!-- delete -->
 							</button>
 						</div>
 					</div>
@@ -238,11 +238,12 @@
 													<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
 												</div></td>
 											<th>${i.code}</th>
-											<th>${i.category}</th>
-											<th>${i.model}</th>
+											<th>${i.date}</th>
 											<!-- 상세 정보 이동! -->
-											<th><a href="/facility/info/detail?code=${i.code}"><b class="text-blue" id="tableTitle1">${i.name}</b></a></th>
-											<th>${i.location}</th>
+											<th><a href="/facility/info/detail?code=${i.fac_code}"><b class="text-blue" id="tableTitle1">${i.fac_name}</b></a></th>
+											<th>${i.compdate}</th>
+											<th>${i.manager_name}</th>
+											<th>${i.res_info}</th>
 											<td style="">
 												<!-- 옵션 -->
 												<div class="dropdown">

@@ -16,4 +16,8 @@ public interface FacilityDAO {
 	public FacilityVO getFacility(FacilityVO vo) throws Exception;
 	public String getRecentFacility() throws Exception;
 	public List<LineVO> getLineList() throws Exception;
+
+	public List<FacilityVO> getListEmployee(String client_code) throws Exception;
+	public List<FacilityVO> getListManager(String line_code) throws Exception;
+	public List<FacilityVO> getListAdmin(String category) throws Exception;
 }

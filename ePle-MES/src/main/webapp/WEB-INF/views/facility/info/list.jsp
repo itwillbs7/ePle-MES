@@ -142,7 +142,7 @@
 					</div>
 				</div>
 				<!-- 아코디언 끝 -->
-				<!-- Checkbox select Datatable start -->
+				<!-- table start -->
 				<div class="card-box mb-30">
 					<div class="pd-20">
 						<div class="btn-group pull-left" style="margin-bottom: 15px">
@@ -210,11 +210,11 @@
 													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 													<input type="checkbox" class="custom-control-input" id="checkTable${i.code}" name="tableCheck" value="${i.code}"> <label class="custom-control-label" for="checkTable${i.code}"></label>
 												</div></td>
-											<th>${i.code}</th>
+											<th><a href="/facility/info/detail?code=${i.code}"><b class="text-blue" id="tableTitle1">${i.code}</b></a></th>
 											<th>${i.category}</th>
-											<th>${i.model}</th>
+											<th id="tableinfo${i.code}">${i.model}</th>
 											<!-- 상세 정보 이동! -->
-											<th><a href="/facility/info/detail?code=${i.code}"><b class="text-blue" id="tableTitle1">${i.name}</b></a></th>
+											<th id="tableTitle${i.code}">${i.name}</th>
 											<th>${i.line_code}</th>
 											<td style="">
 												<!-- 옵션 -->
@@ -266,7 +266,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- Checkbox select Datatable End -->
+				<!-- table End -->
 				<!-- 푸터 -->
 				<%@ include file="../../include/github.jsp"%>
 				<%@ include file="../../include/footer.jsp"%>

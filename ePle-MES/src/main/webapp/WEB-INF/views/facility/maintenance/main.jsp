@@ -77,7 +77,7 @@
 						<!-- row -->
 						<div class="row">
 							<div class="col-md-4 mb-20">
-								<a href="javascript:insert();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
+								<a href="javascript:resultInsert();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
 									<div class="img pb-30 ">
 										<img src="${pageContext.request.contextPath}/resources/images/plus.png" alt="">
 									</div>
@@ -87,7 +87,7 @@
 								</a>
 							</div>
 							<div class="col-md-4 mb-20">
-								<a href="javascript:list();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
+								<a href="/facility/maintenance/list" class="card-box d-block mx-auto pd-20 text-secondary text-center">
 									<div class="img pb-30">
 										<img src="${pageContext.request.contextPath}/resources/images/table.png" alt="">
 									</div>
@@ -97,7 +97,7 @@
 								</a>
 							</div>
 							<div class="col-md-4 mb-20">
-								<a href="javascript:list();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
+								<a href="/facility/maintenance/result" class="card-box d-block mx-auto pd-20 text-secondary text-center">
 									<div class="img pb-30">
 										<img src="${pageContext.request.contextPath}/resources/images/table.png" alt="">
 									</div>
@@ -113,7 +113,7 @@
 						<!-- row -->
 						<div class="row">
 							<div class="col-md-6 mb-20">
-								<a href="javascript:list();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
+								<a href="/facility/maintenance/list" class="card-box d-block mx-auto pd-20 text-secondary text-center">
 									<div class="img pb-30">
 										<img src="${pageContext.request.contextPath}/resources/images/table.png" alt="">
 									</div>
@@ -123,7 +123,7 @@
 								</a>
 							</div>
 							<div class="col-md-6 mb-20">
-								<a href="javascript:list();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
+								<a href="/facility/maintenance/result" class="card-box d-block mx-auto pd-20 text-secondary text-center">
 									<div class="img pb-30">
 										<img src="${pageContext.request.contextPath}/resources/images/table.png" alt="">
 									</div>
@@ -180,6 +180,10 @@
 
 		function list() {
 			openPage("/facility/routine/list", 500, 600);
+		}
+		
+		function resultInsert(){
+			openPage("/facility/maintenance/result/insert", 500, 600);
 		}
 	</script>
 </body>

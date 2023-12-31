@@ -85,5 +85,10 @@
 	</div>
 	<!-- 콘텐츠 끝> -->
 	<%@ include file="../../include/footer.jsp"%>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 11);
+		});
+	</script>
 </body>
 </html>

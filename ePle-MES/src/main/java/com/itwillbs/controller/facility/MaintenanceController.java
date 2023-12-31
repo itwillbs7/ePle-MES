@@ -18,6 +18,7 @@ import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MaintenanceSearchVO;
 import com.itwillbs.domain.MaintenanceVO;
 import com.itwillbs.domain.PageVO;
+import com.itwillbs.service.facility.FacilityService;
 import com.itwillbs.service.facility.MaintenanceService;
 
 /** FacilityController : 설비 보전 컨트롤러 **/
@@ -27,6 +28,9 @@ import com.itwillbs.service.facility.MaintenanceService;
 public class MaintenanceController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MaintenanceController.class);
+	
+	@Inject
+	private FacilityService fService;
 	
 	@Inject
 	private MaintenanceService mService;

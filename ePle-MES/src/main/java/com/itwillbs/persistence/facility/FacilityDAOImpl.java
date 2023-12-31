@@ -62,4 +62,19 @@ public class FacilityDAOImpl implements FacilityDAO {
 	public List<LineVO> getLineList() throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getLineList");
 	}
+	
+	@Override
+	public List<FacilityVO> getListEmployee(String client_code) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".", client_code);
+	}
+	
+	@Override
+	public List<FacilityVO> getListManager(String line_code) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".", line_code);
+	}
+	
+	@Override
+	public List<FacilityVO> getListAdmin(String category) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".", category);
+	}
 }
