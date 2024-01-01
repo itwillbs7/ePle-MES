@@ -1,5 +1,6 @@
 package com.itwillbs.controller;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -247,13 +248,23 @@ public class ShipmentController {
 	@RequestMapping(value = "/print")
 	public void printShipment(@RequestParam("code") String codes)throws Exception{
 		logger.debug("일단 큐알 이미지를 생성해서 jsp로 전달해야함");
+		logger.debug("get방식으로 code 전달해야함");
+		
+		String[] codeArr = codes.split(",");
+		String code = String.join(",", codeArr);
+		String encodedCode = URLEncoder.encode(code, "UTF-8");
+		
+		int width = 200;
+        int height = 200;
+        String url = "http://localhost:8088/shipment/qr?code="+encodedCode;
 	}
 	
 	// 필요기능 2. 큐알 스캔 시 업뎃
-	@RequestMapping(value = "/qr", method = RequestMethod.POST)
-	public void scanningQR()throws Exception{
+	@RequestMapping(value = "/qr", method = RequestMethod.GET)
+	public void scanningQR(@RequestParam("code") String codes)throws Exception{
 		logger.debug("QR을 스캔하면 /shipment/qr로 이동.");
 		logger.debug("이곳에서 수주상태를 수령 으로 변경하면 된다!");
+		String[] code = codes.split(",");
 	}
 	
 	
