@@ -15,16 +15,27 @@
 		<result property="client_code" column="client_code" />
 		<result property="client_name" column="client_name" />
 		<result property="amount" column="amount" />
+		<result property="reg_date" column="reg_date"/>
+		<result property="reg_emp" column="reg_emp"/>
+		<result property="reg_name" column="reg_name"/>
+		<result property="update_date" column="update_date"/>
+		<result property="update_emp" column="update_emp"/>
+		<result property="update_name" column="update_name"/>
+		<result property="status" column="status"/>
 	</resultMap>
 	
 	<select id="getOrderList" resultMap="order">
-		SELECT o.code, o.date, o.client_code, 
-		e.name as client_name, amount, o.group_id, 
-		o.code_id, c.group_name, c.code_name 
+		SELECT o.code, o.date, o.group_id, o.code_id, com.group_name, 
+		com.code_name, o.client_code, cli.client_name, amount, 
+		o.reg_date, o.reg_emp, e1.name AS reg_name, 
+		o.update_date, o.update_emp, e2.name AS update_name, 
+		o.status
 		FROM ORDERS o 
-		JOIN EMPLOYEES e ON o.client_code = e.code 
-		JOIN COMMON_CODE c ON o.group_id = c.group_id AND o.code_id = c.code_id 
-		WHERE complete = FALSE AND c.group_id IN ('FACPRO', 'FACNPR', 'FACETC') 
+		JOIN CLIENT cli ON o.client_code = cli.code  
+		JOIN EMPLOYEES e1 ON o.reg_emp = e1.code 
+		JOIN EMPLOYEES e2 ON o.update_emp = e2.code 
+		JOIN COMMON_CODE co ON o.group_id = co.group_id AND o.code_id = co.code_id 
+		WHERE complete = FALSE AND o.group_id IN ('FACPRO', 'FACNPR', 'FACETC') 
 		ORDER BY 
 		${search.eng[search.activeSortCategory]} ${search.sortValue}
 
@@ -45,8 +56,8 @@
 	</select>
 	
 	<insert id="insertOrder">
-		INSERT INTO ORDERS (code, group_id, code_id, date, client_code, amount) 
-		VALUES (#{code}, #{group_id}, #{code_id}, NOW(), #{client_code}, ${amount})
+		INSERT INTO ORDERS (code, group_id, code_id, date, client_code, amount, status) 
+		VALUES (#{code}, #{group_id}, #{code_id}, NOW(), #{client_code}, ${amount}, '신청')
 	</insert>
 	
 	<!-- 수정 -->

@@ -1,5 +1,7 @@
 package com.itwillbs.controller.facility;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -47,13 +49,28 @@ public class FacilityOrderController {
 		String link = "";
 		String recentCode = oService.getRecentCode();
 		
+		String today = (new Date().getYear() + 1900) + "" + (new Date().getMonth()+1) + "" + new Date().getDate();
+		
+		String code = "FO";
 		// 코드 생성(넣는 방식은 화요일에 정하기)
 		if(recentCode == null || recentCode.equals("")) {
-			
+			code += today + "001";
 		}
 		else {
-			
+			// 날짜가 오늘일 경우엔 + 1 해주기
+			String fDate = recentCode.substring(2, recentCode.length()-3);
+			if(today.equals(fDate)) {				
+				String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
+				while(fCount.length() < 3) fCount = "0" + fCount;
+				code += fDate + fCount;
+			}
+			else {
+				code += today + "001";
+			}
 		}
+		vo.setCode(code);
+		vo.setClient_code("1");
+		
 		int result = oService.insertOrder(vo);
 		if(result == 1) {
 			link = "redirect:/confirm";

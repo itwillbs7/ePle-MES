@@ -14,7 +14,14 @@ public class FacilityOrderVO {
 	private String group_name;
 	private String code_name;
 	private Date date;			// 등록일자
-	private String client_code;	// 직원사번(신청한 사람)
-	private String client_name;	// 직원 이름(join)
+	private String client_code;	// 회사 코드
+	private String client_name; // 회사 이름
 	private int amount;			// 개수
+	private Timestamp reg_date;	
+	private String reg_emp;
+	private String reg_name;
+	private Timestamp update_date;
+	private String update_emp;
+	private String update_name;
+	private String status;
 }

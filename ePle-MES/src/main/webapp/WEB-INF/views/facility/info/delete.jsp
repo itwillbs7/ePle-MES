@@ -70,7 +70,7 @@
 					let title = opener.document.getElementById('tableTitle' + delList[i].value);
 					let info = opener.document.getElementById('tableinfo' + delList[i].value);
 					$(".list-group").append(listHtml + delList[i].value + "&nbsp;:&nbsp;"+title.innerText + "(" + info.innerText + ")" + "</li>");
-					$("form").append("<input type='text' name='code' value='" + delList[i].value +"'>");
+					$("form").append("<input type='hidden' name='code' value='" + delList[i].value +"'>");
 				}
 			}
 			// 닫기 진행!

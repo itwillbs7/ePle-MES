@@ -22,37 +22,50 @@
 				<br>
 				<div class="pd-20 card-box mb-30">
 					<h2 class="text-blue mb-10">${info.code}</h2>
+					<div class="btn-group pull-right" style="margin-bottom: 10px">
+						<button type="button" class="btn btn-secondary" id="update">
+							<b>수정</b>
+						</button>
+						<button type="button" class="btn btn-danger" id="delete">
+							<b>삭제</b>
+						</button>
+					</div>
 					<br>
 					<table class="table table-striped">
 						<tr>
-							<th>모델</th><td>${info.model}</td><th>이름</th><td>${info.name}</td>
+							<th>모델</th>
+							<td>${info.model}</td>
+							<th>이름</th>
+							<td>${info.name}</td>
 						</tr>
 						<tr>
 							<th>카테고리</th>
-							<td>
-								<c:choose>
+							<td><c:choose>
 									<c:when test="${info.category eq 'production'}">생산</c:when>
 									<c:when test="${info.category eq 'non-production'}">비생산</c:when>
 									<c:when test="${info.category eq 'etc'}">기타</c:when>
-								</c:choose>
-							</td>
+								</c:choose></td>
 							<th>사용 상태</th>
-							<td>
-								<c:choose>
+							<td><c:choose>
 									<c:when test="${info.active}">
 										<span class="badge badge-success">사용 중</span>
 									</c:when>
 									<c:otherwise>
 										<span class="badge badge-secondary">미사용</span>
 									</c:otherwise>
-								</c:choose>
-							</td>
+								</c:choose></td>
 						</tr>
 						<tr>
-							<th>구매 일자</th><td>${info.purchase_date}</td><th>구매 금액</th><td>${info.inprice}</td>
+							<th>구매 일자</th>
+							<td>${info.purchase_date}</td>
+							<th>구매 금액</th>
+							<td>${info.inprice}</td>
 						</tr>
 						<tr>
-							<th>라인 코드</th><td>${info.line_code}</td><th>사용자</th><td>${info.client_code}</td>
+							<th>라인 코드</th>
+							<td>${info.line_code}</td>
+							<th>사용자</th>
+							<td>${info.client_code}</td>
 						</tr>
 					</table>
 				</div>
@@ -61,28 +74,33 @@
 					<br>
 					<table class="table table-striped">
 						<tr>
-							<th>#</th><th>등록일자</th><th>작성자</th><th>완료 여부</th>
+							<th>#</th>
+							<th>등록일자</th>
+							<th>작성자</th>
+							<th>완료 여부</th>
 						</tr>
 						<c:choose>
-							<c:when test="${info.mainList == null or info.mainList.size() == 0}">
-								<tr><th colspan="4" style="text-align: center;">등록된 보전 내역이 없습니다</th></tr>
+							<c:when
+								test="${info.mainList == null or info.mainList.size() == 0}">
+								<tr>
+									<th colspan="4" style="text-align: center;">등록된 보전 내역이
+										없습니다</th>
+								</tr>
 							</c:when>
 							<c:otherwise>
-								<c:forEach	items="${list.mainList}" var="i">
+								<c:forEach items="${list.mainList}" var="i">
 									<tr>
 										<td>${i.code}</td>
 										<td>${i.reg_date}</td>
 										<td>${i.emp_code}</td>
-										<td>
-											<c:choose>
+										<td><c:choose>
 												<c:when test="${i.complete}">
 													<span class="badge badge-success">완료</span>
 												</c:when>
 												<c:otherwise>
 													<span class="badge badge-secondary">미완료</span>
 												</c:otherwise>
-											</c:choose>
-										</td>
+											</c:choose></td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
@@ -96,5 +114,8 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		
+	</script>
 </body>
 </html>

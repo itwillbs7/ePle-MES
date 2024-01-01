@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../../include/head.jsp"%>
-<title>설비 삭제</title>
+<title>보전 삭제</title>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -14,7 +14,7 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">설비 삭제</h1>
+				<h1 class="text-center text-primary">보전 삭제</h1>
 			</div>
 			<!-- 폼 -->
 			<form method="post">
@@ -72,7 +72,7 @@
 					// date
 					let info = opener.document.getElementById('tableinfo' + delList[i].value);
 					$(".list-group").append(listHtml + delList[i].value + "&nbsp;:&nbsp;"+title.innerText + "(" + info.innerText + ")" + "</li>");
-					$("form").append("<input type='text' name='code' value='" + delList[i].value +"'>");
+					$("form").append("<input type='hidden' name='code' value='" + delList[i].value +"'>");
 				}
 			}
 			// 닫기 진행!
