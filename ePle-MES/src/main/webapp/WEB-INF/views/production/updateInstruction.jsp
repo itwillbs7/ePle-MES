@@ -87,7 +87,6 @@
 						<button type="submit" class="btn btn-success" id="submit" disabled>
 							<b>등록</b>
 						</button>
-						<input type="button" onclick="asd()" value="asd">
 					</div>
 				</div>
 				<!-- 버튼 -->
@@ -198,17 +197,12 @@
 		});
 	</script>
 	<!-- 필수입력 1회 체크 끝-->
-	<!-- 라인 선택 1회 시작 -->
+	<!-- 라인 설정 시작 -->
 	<script type="text/javascript">
-		function asd() {
-			alert(1);
 			var line_code = "<c:out value='${instruction.line_code}'/>"
-			alert(line_code);
 			$('#line_codeSelect').val(line_code);
-			alert($('#line_codeSelect').val());
-		};
 	</script>
-	<!-- 라인 선택 1회 끝 -->
+	<!-- 라인 설정 1회 끝 -->
 	
 </body>
 </html>

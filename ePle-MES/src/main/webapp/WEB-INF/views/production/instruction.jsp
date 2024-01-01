@@ -275,32 +275,41 @@
 
 			// 수정
 			$("#update").click(function() {
-				//지시사항 선택 체크
-				var code_arr = [];
-				if ($('.checkCode').is(':checked')) {
-					//선택된 지시사항 갯수 체크
-					$(".checkCode:checked").each(function() {
-						var code = this.value;
-						code_arr.push(code);
-					});
-					if (code_arr.length>1) {
-						alert('복수의 지시사항을 수정할 수 없습니다.하나만 선택해 주세요.');
-						return;
-					}
-				}else{
-					alert('지시사항을 선택해 주세요');
-					return;
+				var code_arr = getCode_Arr('update');
+				if (code_arr != null) {
+					// 가로, 세로 설정
+					openPage("/production/updateInstruction"+"?code=" + code_arr[0], 400, 700);
 				}
-				// 가로, 세로 설정
-				openPage("/production/updateInstruction"+"?code=" + code_arr[0], 400, 700);
 			});
 
 			// 삭제
 			$("#delete").click(function() {
-				// 가로, 세로 설정
-				openPage("/production/deleteInstruction", 400, 700);
+				var codes = getCode_Arr();
+				location.href="/production/deleteInstruction?codes=" + codes;
 			});
 		});
+	</script>
+	<!-- 체크박스 갯수 체크 -->
+	<script type="text/javascript">
+		function getCode_Arr(type) {
+			//지시사항 선택 체크
+			var code_arr = [];
+			if ($('.checkCode').is(':checked')) {
+				//선택된 지시사항 갯수 체크
+				$(".checkCode:checked").each(function() {
+					var code = this.value;
+					code_arr.push(code);
+				});
+				if (type=='update'&&code_arr.length>1) {
+					alert('복수의 지시사항을 수정할 수 없습니다.하나만 선택해 주세요.');
+					return null;
+				}
+				return code_arr;
+			}else{
+				alert('지시사항을 선택해 주세요');
+				return null;
+			}
+		}
 	</script>
 	<!-- ajax검색 -->
 	<script type="text/javascript">

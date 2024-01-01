@@ -88,4 +88,13 @@ public class productionController {
 		logger.debug("instVO : " + instVO);
 		pdService.updateInstruction(instVO);
 	}
+	//지시사항 삭제 GET
+	@RequestMapping(value = "/deleteInstruction", method = RequestMethod.GET)
+	public String deleteInstructionGET(@RequestParam("codes") String codes) throws Exception {
+		logger.debug("Controller : deleteInstructionGET(String codes) 호출");
+		logger.debug("codes : " + codes);
+		String[] code_arr = codes.split(",");
+		pdService.deleteInstruction(code_arr);
+		return "redirect:/production/instruction";
+	}
 }

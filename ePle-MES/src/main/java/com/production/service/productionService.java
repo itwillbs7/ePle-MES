@@ -30,4 +30,6 @@ public interface productionService {
 	public instructionVO getInstruction(int code) throws Exception;
 
 	public void updateInstruction(instructionVO instVO) throws Exception;
+
+	public void deleteInstruction(String[] code_arr) throws Exception;
 }

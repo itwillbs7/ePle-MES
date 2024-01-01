@@ -10,7 +10,7 @@
 <script src="../resources/src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
 <script src="../resources/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 <script src="../resources/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
-<script src="../resources/vendors/scripts/dashboard.js"></script>
+<!-- <script src="../resources/vendors/scripts/dashboard.js"></script> -->
 <!-- Google Tag Manager (noscript) -->
 <noscript>
 	<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden"></iframe>

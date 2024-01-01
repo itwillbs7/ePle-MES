@@ -81,4 +81,9 @@ public class productionServiceImpl implements productionService {
 		pdDAO.updateInstruction(instVO);
 	}
 
+	@Override
+	public void deleteInstruction(String[] code_arr) throws Exception {
+		pdDAO.deleteInstruction(code_arr);
+	}
+
 }

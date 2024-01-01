@@ -20,9 +20,4 @@ public class testConnection {
 	
 	private static final Logger logger = LoggerFactory.getLogger(testConnection.class);
 	
-	@Test
-	public void DB연결확인() {
-		logger.debug("SqlSession : " + sqlSession);
-		logger.debug(sqlSession.selectOne(NAMESPACE + ".getTime"));
-	}
 }

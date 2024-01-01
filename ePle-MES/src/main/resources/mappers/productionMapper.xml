@@ -56,5 +56,11 @@
 	<update id="updateInstruction">
 		UPDATE INSTRUCTION SET product = #{product},line_code = #{line_code},content = #{content},request = #{request},amount = #{amount},update_emp = #{update_emp},update_date = now() WHERE code = #{code}
 	</update>
+	<delete id="deleteInstruction" parameterType="hashmap">
+		DELETE FROM INSTRUCTION WHERE code IN
+		<foreach collection="code_arr" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
 
 </mapper>
