@@ -31,6 +31,10 @@ public interface RequestService {
 	 public void updateRequest(RequestVO vo, String id)throws Exception;
 	 // 수주검색
 	 public List<RequestVO> findRequestList(RequestVO vo)throws Exception;
+	 // 삭제용
+	 public List<RequestVO> getinfo(String[] code)throws Exception;
+	 // DB삭제용
+	 public void deleteRequest(String[] code)throws Exception;
 
 
 }

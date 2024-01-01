@@ -26,13 +26,16 @@ import com.itwillbs.domain.RequestSearchVO;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.service.RequestService;
 
-/** FacilityController : 설비 컨트롤러 **/
-
+/** ReturnsController : 반품 컨트롤러
+ * 
+ *  : request 를  Returns로 고쳐서 사용 필요
+ *  
+ **/
 @Controller
-@RequestMapping(value = "/request/*")
-public class RequestController {
+@RequestMapping(value = "/returns/*")
+public class ReturnsController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(RequestController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ReturnsController.class);
 	
 	@Inject
 	private RequestService rService;
@@ -40,7 +43,7 @@ public class RequestController {
 	
 	// http://localhost:8088/request/list
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void requestListGET(Model model, 
+	public void returnsListGET(Model model, 
 							   HttpSession session, 
 							   @ModelAttribute("result") String result, Criteria cri
 							   ) throws Exception { //5-1

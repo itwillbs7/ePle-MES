@@ -34,12 +34,12 @@
 						</div>
 						<div class="form-group">
 							<label>수주일자</label> 
-							<input class="form-control date-picker" name="date" type="text" value="${List.date }"
-							placeholder="클릭 시 달력이 뜹니다" id="date-picker" autocomplete="off" required="required"> 
+							<input class="form-control" name="date" type="date" value="${List.date }"
+							placeholder="클릭 시 달력이 뜹니다" id="date" autocomplete="off" required="required"> 
 						</div>
 						<div class="form-group">
 							<label>납품일자</label> 
-							<input class="form-control date-picker" name="deadline" type="text" value="${List.deadline }"
+							<input class="form-control" name="deadline" type="date" value="${List.deadline }"
 							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
 						</div>
 						<div class="form-group">
@@ -148,31 +148,7 @@
 	 }
 	 
 </script>
-<script type="text/javascript">
 
-// 원래 값 저장
-// var originalValues = {};
-// document.querySelectorAll('input, select').forEach(function(el) {
-//     originalValues[el.name] = el.value;
-// });
-
-// // form 제출 이벤트 핸들러
-// document.querySelector('form').addEventListener('submit', function(e) {
-//     e.preventDefault();
-//     var form = e.target;
-
-//     // input 값 검사
-//     form.querySelectorAll('input, select').forEach(function(el) {
-//         // 값이 변경되지 않았다면 name 속성을 제거 (서버로 전송되지 않음)
-//         if (el.value === originalValues[el.name]) {
-//             el.removeAttribute('name');
-//         }
-//     });
-
-//     // form 제출
-//     form.submit();
-// });
-</script>
 
 <script type="text/javascript">
 // 	 // Submit ajax
@@ -196,11 +172,22 @@ function formCheck(i){
 	
 	 function finished(){
 	
-		    if (!formCheck("#addForm")) {
-		        // formCheck 함수가 false를 반환하면, 즉시 함수를 종료합니다.
-		        alert('필요한 모든 정보를 입력해주세요.');
-		        return;
-		    }
+		// 미입력 찾기
+		 var form = document.getElementById('addForm');
+		 if (!form.checkValidity()) {
+			    var inputs = form.getElementsByTagName('input');
+			    for (var i = 0; i < inputs.length; i++) {
+			        if (!inputs[i].validity.valid) {
+			            var label = form.querySelector('label[for="' + inputs[i].id + '"]');
+			            if (label) {
+			                label.innerHTML += '<span style="color: red; font-size: 12px;"> * 내용을 입력해주세요 </span>';
+			            }
+			            inputs[i].focus();
+			            break;
+			        }
+			    }
+			    return;
+			}
 		 
 			
 			var formdata = $("#addForm").serialize();
@@ -210,9 +197,16 @@ function formCheck(i){
 			    type: 'POST',
 			    data:  formdata,
 			    success: function(data) {
-			    	alert('성공?');
-// 			    	self.close(); 
-					location.href="/request/success";
+			    	Swal.fire({
+			            icon: 'success',
+			            title: '수주 수정 완료',
+			            text: '수주내용을 수정하셨습니다',
+			        }).then((result) => {
+			            // SweetAlert이 닫힌 후에 수행됩니다.
+			            localStorage.setItem('updateDone', 'true');
+			            opener.location.reload();
+			            self.close(); // 창을 닫습니다.
+			        });
 			    	}, // function(data) 끝
 		        error: function(data){
 		        	alert('실패');

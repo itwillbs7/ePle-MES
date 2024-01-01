@@ -26,32 +26,35 @@ import com.itwillbs.domain.RequestSearchVO;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.service.RequestService;
 
-/** FacilityController : 설비 컨트롤러 **/
+/** ShipmentController : 출하 컨트롤러
+ * 
+ *  : request 를 shipment로 고쳐서 사용 필요
+ *  
+ **/
 
 @Controller
-@RequestMapping(value = "/request/*")
-public class RequestController {
+@RequestMapping(value = "/shipment/*")
+public class ShipmentController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(RequestController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ShipmentController.class);
 	
 	@Inject
 	private RequestService rService;
 		
 	
-	// http://localhost:8088/request/list
+	// http://localhost:8088/shipment/list
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void requestListGET(Model model, 
+	public void shipmentListGET(Model model, 
 							   HttpSession session, 
 							   @ModelAttribute("result") String result, Criteria cri
 							   ) throws Exception { //5-1
 		// 수주 목록 return
-		logger.debug("requestListGET -> DB에서 목록 가져오기(페이징 처리하기)");
+		logger.debug("shipmentListGET -> DB에서 목록 가져오기(페이징 처리하기)");
 
 		List<RequestVO> requestList = rService.requestListpage(cri);
 		
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-//		pageVO.setTotalCount(327680); // 디비에서 직접 실행결과 가져오기
 		pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
 		
 		model.addAttribute("List",requestList);
@@ -238,6 +241,20 @@ public class RequestController {
 		rService.deleteRequest(code);
 	}
 	
+	//======================================================================= 
+	// 필요기능 1. 프린트
+	
+	@RequestMapping(value = "/print")
+	public void printShipment(@RequestParam("code") String codes)throws Exception{
+		logger.debug("일단 큐알 이미지를 생성해서 jsp로 전달해야함");
+	}
+	
+	// 필요기능 2. 큐알 스캔 시 업뎃
+	@RequestMapping(value = "/qr", method = RequestMethod.POST)
+	public void scanningQR()throws Exception{
+		logger.debug("QR을 스캔하면 /shipment/qr로 이동.");
+		logger.debug("이곳에서 수주상태를 수령 으로 변경하면 된다!");
+	}
 	
 	
 	//======================================================================= 스위트 알람 테스트

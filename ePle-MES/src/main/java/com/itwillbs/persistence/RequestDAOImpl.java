@@ -72,11 +72,6 @@ public class RequestDAOImpl implements RequestDAO {
 		logger.debug("DAO 수주정보 자세히보기 getRequestDetail(String code) "+code);
 		RequestVO vo = sqlSession.selectOne(NAMESPACE+".getRequestInfo", code);
 		
-		// 업체명, 상품명, 담당자명 가져와야함
-		RequestVO wait = sqlSession.selectOne(NAMESPACE+".getNameForInfo", code);
-		vo.setClientName(wait.getClientName());
-		vo.setProductName(wait.getProductName());
-		vo.setManagerName(wait.getManagerName());
 		logger.debug("vo : "+vo);
 		return vo;
 	}
@@ -198,8 +193,30 @@ public class RequestDAOImpl implements RequestDAO {
 		logger.debug("list : "+list);
 		return list;
 	}
+
+
+
+	@Override
+	public List<RequestVO> getRequestDetail(String[] code) throws Exception{
+		logger.debug("DAO  삭제용 정보찾기");
+		Map<String, Object> params = new HashMap<>();
+	    params.put("code", code);
+	    List vo = sqlSession.selectList(NAMESPACE+".getDeleteInfo", params);		
+	    return vo;
+	}
+
+
+
+	@Override
+	public void deleteRequest(String[] code) throws Exception {
+		logger.debug("DAO 디비에서 데이터 삭제하기");
+		Map<String, Object> params = new HashMap<>();
+	    params.put("code", code);
+	    List vo = sqlSession.selectList(NAMESPACE+".deleteRequestData", params);		
+	}
 	
 
+	
 	
 	
 	

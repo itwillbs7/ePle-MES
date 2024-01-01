@@ -4,7 +4,14 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<link
+         href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+         rel="stylesheet"
+         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+         crossorigin="anonymous"
+      />
 <title>수주 등록</title>
 </head>
 <body>
@@ -24,35 +31,36 @@
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						<div class="form-group">
-							<label>업체코드</label> 
+							<label for="client_code">업체코드</label> 
 							<input class="form-control" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" 
 							name="client_code" id="client_code" readonly required="required">
 						</div>
 						<div class="form-group">
-							<label>수주일자</label> 
-							<input class="form-control date-picker" name="date" type="text" 
-							placeholder="클릭 시 달력이 뜹니다" id="date-picker" autocomplete="off" required="required">
-						</div>
-						<div class="form-group">
-							<label>납품일자</label> 
-							<input class="form-control date-picker" name="deadline" type="text" 
+							<label for="date">수주일자</label> 
+							<input class="form-control " name="date" type="date" id="date"
 							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
 						</div>
 						<div class="form-group">
-							<label>담당자코드</label> <input class="form-control" id="manager" 
+							<label for="deadline">납품일자</label> 
+							<input class="form-control " name="deadline" type="date" id="deadline"
+							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
+						</div>
+						<div class="form-group">
+							<label for="manager">담당자코드</label> <input class="form-control" id="manager" 
 							name="manager" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" readonly required="required">
 						</div>
 						<div class="form-group">
-							<label>품번</label> <input class="form-control" name="product" id="product" 
+							<label for="product">품번</label> <input class="form-control" name="product" id="product" 
 							type="text" placeholder="클릭 시 팝업검색창이 뜹니다" readonly required="required">
 						</div>
 						<div class="form-group">
-							<label>수주량</label> <input class="form-control" name="amount" 
+							<label for="amount">수주량</label> <input class="form-control" name="amount" id="amount"
 							type="number" placeholder="필수입력" autocomplete="off" min="1" required="required">
 						</div>
 						<!-- 자동입력내역 -->
 						<div class="form-group">
-							<label>업체명</label> <input class="form-control" type="text" readonly id="clientName" required="required">
+							<label>업체명</label> 
+							<input class="form-control" type="text" readonly id="clientName" required="required">
 						</div>
 						<div class="form-group">
 							<label>담당자명</label> <input class="form-control" type="text" readonly id="managerName" required="required">
@@ -92,10 +100,13 @@
 	</div>
 	<!-- 콘텐츠 끝> -->
 	<%@ include file="../include/footer.jsp"%>
-	<script type="text/javascript">
-	</script>
-	 <script type="text/javascript" class="id">  
 
+	 <script type="text/javascript" class="formDataSetting">  
+
+	 // 수주일자와 납품일자 조정
+	 document.getElementById('date').addEventListener('change', function() {
+  		document.getElementById('deadline').min = this.value;
+	});
 	 
 	 // 과부족량 계산
 	 document.querySelector('input[name="amount"]').addEventListener('input', calculateDifference);
@@ -144,26 +155,49 @@
 			const day = String(date.getDate()).padStart(2, "0"); //오늘날짜 
 			
 			console.log(client);
-			console.log(product);
-			const orderNum = year+"OD"+client+month+day+product+amount;
+			console.log(product); 
+			const orderNum = year+"OD"+client+month+day+product+amount; 
 			return orderNum;
 		}
-	 
-	 function checkForm(){
-		 // 널값이 안들어가게. 그리고 미입력칸으로 focus
-	 }
-	 
+	 </script>
+	 <!-- ajax -->
+	 <script type="text/javascript" id="ajaxForSubmit">
 	 function finished(){
 		 
-			document.querySelector('#code').value = createOrderNum();	
+			document.querySelector('#code').value = createOrderNum();
 			
+			// 미입력 찾기
+			 var form = document.getElementById('addForm');
+			 if (!form.checkValidity()) {
+				    var inputs = form.getElementsByTagName('input');
+				    for (var i = 0; i < inputs.length; i++) {
+				        if (!inputs[i].validity.valid) {
+				            var label = form.querySelector('label[for="' + inputs[i].id + '"]');
+				            if (label) {
+				                label.innerHTML += '<span style="color: red; font-size: 12px;"> * 내용을 입력해주세요 </span>';
+				            }
+				            inputs[i].focus();
+				            break;
+				        }
+				    }
+				    return;
+				}
+			    
 			$.ajax({
 			    type: "POST",
 			    url: '/request/add', // 폼을 제출할 서버의 URL
 			    data: $("#addForm").serialize(), // 'addForm' ID를 가진 폼의 데이터를 직렬화
 			    success: function(data) {
-			        // 폼 제출이 성공적으로 완료되면
-			        self.close(); // 창을 닫습니다.
+			    	Swal.fire({
+			            icon: 'success',
+			            title: '수주 등록 완료',
+			            text: '수주를 등록하셨습니다',
+			        }).then((result) => {
+			            // SweetAlert이 닫힌 후에 수행됩니다.
+			            localStorage.setItem('success', 'true');
+			            opener.location.reload();
+			            self.close(); // 창을 닫습니다.
+			        });
 			    },
 			    error: function(jqXHR, textStatus, errorThrown) {
 			        // 폼 제출에 실패하면
@@ -172,13 +206,11 @@
 			});
 	 }
 	 
-
 	</script> 
+	<!-- 팝업 -->
 	<script type="text/javascript">
-	 
 	$(document).ready(function(){
-
-		
+	
 	// 업체찾기	
 		$("#client_code").click(function() {
 	// 가로, 세로 설정
@@ -204,5 +236,6 @@
 	
 	
 	</script>
+
 </body>
 </html>

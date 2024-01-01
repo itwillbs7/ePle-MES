@@ -24,13 +24,13 @@
 			</div>
 			<div class="min-height-200px">
 				<br>
-				<div class="alert alert-success alert-dismissible fade show" role="alert" style="display:none" id="success">
+				<div class="alert alert-success alert-dismissible fade show" role="alert" style="display:none" id="successalert">
 					<strong>수주 등록</strong>이 완료되었습니다!
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="alert alert-info alert-dismissible fade show" role="alert" style="display:none" id="update">
+				<div class="alert alert-info alert-dismissible fade show" role="alert" style="display:none" id="updatealert">
 					<strong>수주 수정</strong>이 완료되었습니다!
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">×</span>
@@ -42,7 +42,7 @@
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none" id="delete">
+				<div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none" id="deletealert">
 					<strong>수주 삭제</strong>가 완료되었습니다!
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">×</span>
@@ -189,12 +189,19 @@
 								<c:forEach items="${List}" var="List" varStatus="status">
 									<tr>
 										<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+							<c:choose>
+							<c:when test="${List.status eq '등록'}">
 							<td><div class="custom-control custom-checkbox mb-5">
 							<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 									<input type="checkbox" class="custom-control-input" id="checkTable${status.index}" 
 									name="tableCheck" value="${List.code }"> 
 									<label class="custom-control-label" for="checkTable${status.index}"></label>
 									</div></td>
+							</c:when>
+							<c:otherwise>
+							<td></td>
+							</c:otherwise>
+							</c:choose>
 										<!-- 상세 정보 이동! -->
 										<th class="info${status.index}" style="color: blue; text-decoration: underline;">${List.code }</th> 
 										<th>${List.clientName }</th> 
@@ -249,16 +256,25 @@
 <!-- list 내 처리 -->
 	<script type="text/javascript" >
 	
-	var result ="${result}"
-		if(result == "AddDone"){
-			$("#success").css("display","block");
-		}else if(result =="UpdateDone"){
-			alert("글 수정 완료");
-		}else if(result == "DeleteDone"){
-			alert("글 삭제 완료");
-		}
-	
-	
+	window.onload = function() {
+	    if (localStorage.getItem('success') === 'true') {
+	        var successAlert = document.getElementById('successalert');
+	        if (successAlert) {
+	            successAlert.style.display = 'block';
+	        }
+	        // 'success' 키의 값을 삭제하여, 다음 페이지 로드에 'successalert' 요소가 표시되지 않도록 합니다.
+	        localStorage.removeItem('success');
+	    }
+	    if (localStorage.getItem('updateDone') === 'true') {
+	        var updateAlert = document.getElementById('updatealert');
+	        if (updateAlert) {
+	        	updateAlert.style.display = 'block';
+	        }
+	        // 'success' 키의 값을 삭제하여, 다음 페이지 로드에 'successalert' 요소가 표시되지 않도록 합니다.
+	        localStorage.removeItem('updateDone');
+	    }
+	    
+	};
 	</script>
 		
 	<!-- 추가, 수정, 삭제, 상세보기 -->
@@ -304,59 +320,42 @@
 		$(document).ready(function() {
 	    	 
 			// 추가
-			$("#add").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/add", 400, 700);
-			});
+			$("#add").click(function() {openPage("/request/add", 400, 700);});
 
 			// 수정
-			$("#update").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/update", 400, 700);
-			});
+			$("#update").click(function() {openPage("/request/update", 400, 700);});
 
 			// 삭제
-			$("#delete").click(function() {
-				var ch = $("input:checkbox[name=tableCheck]:checked").length;
-				if (ch > 0) {
-					// 가로, 세로 설정
-					openPage("/facility/info/delete", 400, 700);
-				} else {
-					$(this).attr("data-toggle", "modal");
-					$(this).attr("data-target", "#warning-modal");
-					$($(this).data("target")).show();
-				}
+			 $("#delete").click(function() {
+				var deleteList = [];
+			    $("input:checkbox[name=tableCheck]:checked").each(function() {
+			        deleteList.push($(this).val());
+			    });
+			    if (deleteList.length > 0) {
+			        openPage("/request/delete?code="+deleteList.join(','), 400, 700);
+			    } else {
+			    	alert('삭제 실패');
+			    }
 			});
 				
 			
-			
-			
+
 			// 상세보기
 			$('body').on('click', '[class^="info"]', function(){
         		var code = $(this).text().trim();
-      		  openPage("/request/info?code=" + code, 400, 700);
-  			});
+      		  openPage("/request/info?code=" + code, 400, 700); });
 			
 
 			
 			// 각각의 검색창
 			// 업체검색
-			$("#searchCompany").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/searchClient", 400,700);
-			});
+			$("#searchCompany").click(function() {openPage("/request/searchClient", 400,700); });
 			
 			// 제품검색
-			$("#searchProduct").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/searchProduct", 400,700);
-			});
+			$("#searchProduct").click(function() {openPage("/request/searchProduct", 400,700); });
 			
 			// 사원검색
-			$("#searchManager").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/searchManager", 400,700);
-			});
+			$("#searchManager").click(function() {openPage("/request/searchManager", 400,700); });
 			
 			
 		});	
@@ -377,13 +376,11 @@ $('#accordion-search').on('submit', function(e) {
 
 
     $.ajax({
-        url: $(this).attr('action'),  // form의 action 속성을 URL로 사용합니다.
-        type: $(this).attr('method'),  // form의 method 속성을 HTTP 메소드로 사용합니다.
+        url: $(this).attr('action'),  
+        type: $(this).attr('method'),  
         data: $(this).serialize(),  
         success: function(data) {
         	alert(data);
-            // 서버의 응답을 받아 처리하는 코드
-            // 예를 들어, 표를 업데이트하는 코드를 여기에 작성할 수 있습니다.
         	 var table = '';
 	            $.each(data, function(index, item) {			
 	                table += '<tr>';
@@ -403,7 +400,7 @@ $('#accordion-search').on('submit', function(e) {
 	                table += '</tr>';
 
 	            });
-	            // 기존 테이블 헤더를 유지하면서 테이블 바디 내용을 업데이트
+	            
 	            $('#table tbody').html(table);  
 	            $(".diff").each(function() {
 				    var diff = parseInt($(this).text());
@@ -416,8 +413,7 @@ $('#accordion-search').on('submit', function(e) {
 				  });
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            // 오류를 처리하는 코드
-            // 예를 들어, 오류 메시지를 표시하는 코드를 여기에 작성할 수 있습니다.
+            
         }
     });
 });

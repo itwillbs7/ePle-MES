@@ -39,17 +39,15 @@
 
 	<!-- 수주번호의 정보 가져오기 -->
 	<select id="getRequestInfo" resultType="RequestVO">
-		select * from REQUEST
-		where code=#{code}
-	</select>
-	<select id="getNameForInfo" resultType="RequestVO">
-		select c.name clientName, e.name managerName, m.name productName from REQUEST r
-		JOIN CLIENT c on r.client_code = c.code 
+		SELECT DISTINCT r.*, c.name clientName, m.name productName, e.name managerName
+		FROM REQUEST r
+		LEFT JOIN CLIENT c on r.client_code = c.code
 		JOIN EMPLOYEES e on r.manager = e.code 
-		JOIN MAPD m on m.code = r.product
-		where r.code=#{code}
-	</select>
+		LEFT join MAPD m on r.product = m.code
+		where r.code = #{code}
 
+	</select>
+	
 	<!-- 수주정보 검색하기 -->
 	<select id="research" resultType="RequestVO">
 		SELECT r.*, c.name clientName, m.name productName
@@ -136,10 +134,25 @@
 		update_date=now(), update_emp=#{userid}
 		where code = #{vo.code}
 	</update>
-
+	
 	<!-- 수주정보 삭제하기 -->
+		<select id="getDeleteInfo" resultType="RequestVO">
+		SELECT DISTINCT r.*, c.name clientName, m.name productName, e.name managerName
+		FROM REQUEST r
+		LEFT JOIN CLIENT c on r.client_code = c.code
+		JOIN EMPLOYEES e on r.manager = e.code 
+		LEFT join MAPD m on r.product = m.code
+		where r.code in
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
+		 #{codeNum}
+		 </foreach>
+	</select>
+	
 	<delete id="deleteRequestData">
 		delete from REQUEST
-		where code in #{code}
+		where code in 
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
+		 #{codeNum}
+		</foreach>
 	</delete>
 </mapper>

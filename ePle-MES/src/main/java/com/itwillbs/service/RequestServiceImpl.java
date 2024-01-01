@@ -103,7 +103,7 @@ public class RequestServiceImpl implements RequestService {
 	@Override
 	public void updateRequest(RequestVO vo, String id) throws Exception {
 		// 수정
-		logger.debug("updateRequest(RequestVO vo, String id)");
+		logger.debug("Service : updateRequest(RequestVO vo, String id) 수정");
 		rdao.requestUpdate(vo,id);
 	}
 
@@ -112,7 +112,24 @@ public class RequestServiceImpl implements RequestService {
 	@Override
 	public List<RequestVO> findRequestList(RequestVO vo) throws Exception {
 		// 수주 검색
+		logger.debug("Service : findRequestList(RequestVO vo) 수주 검색");
 		return rdao.searchRequestAll(vo);
+	}
+
+
+
+	@Override
+	public List<RequestVO> getinfo(String[] code) throws Exception {
+		logger.debug("Service : getinfo(String[] code) 삭제 데이터 ");
+		return rdao.getRequestDetail(code);
+	}
+
+
+
+	@Override
+	public void deleteRequest(String[] code) throws Exception {
+		logger.debug("Service : deleteRequest(String[] code) 데이터 삭제");
+		rdao.deleteRequest(code);
 	}
 
 	

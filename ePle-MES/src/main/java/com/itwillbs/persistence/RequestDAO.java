@@ -33,4 +33,8 @@ public interface RequestDAO {
 	public void requestUpdate(RequestVO vo, String id)throws Exception;
 	// 수주 검색
 	public List<RequestVO> searchRequestAll(RequestVO vo)throws Exception;
+	// 삭제용
+	public List<RequestVO> getRequestDetail(String[] code)throws Exception;
+	// DB삭제용
+	public void deleteRequest(String[] code)throws Exception;
 }
