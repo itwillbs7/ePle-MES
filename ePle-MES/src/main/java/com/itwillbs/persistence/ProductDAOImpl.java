@@ -23,64 +23,32 @@ public class ProductDAOImpl implements ProductDAO {
 	private static final String NAMESPACE ="com.itwillbs.mapper.ProductMapper";
 
 	@Override
-	public void insertProduct(MAPDVO mvo) throws Exception {
-		
-	}
-
-	@Override
-	public List<MAPDVO> getBoardListAll() throws Exception {
-		
+	public List<MAPDVO> getProductListAll() throws Exception {
 		return null;
 	}
 
 	@Override
-	public MAPDVO getProduct(int bno) throws Exception {
-		
+	public MAPDVO getProduct(String code) throws Exception {
 		return null;
 	}
 
 	@Override
 	public int updateProduct(MAPDVO mvo) throws Exception {
-		
 		return 0;
 	}
 
 	@Override
-	public void updateViewCnt(int bno) throws Exception {
-		
+	public void deleteProduct(String code) throws Exception {
 	}
 
 	@Override
-	public void deleteProduct(int bno) throws Exception {
-		
-	}
-
-	@Override
-	public List<MAPDVO> getBoardListPage(int page) throws Exception {
-		
+	public List<MAPDVO> getProductListPage(Criteria cri) throws Exception {
 		return null;
 	}
 
 	@Override
-	public List<MAPDVO> getBoardListPage(Criteria cri) throws Exception {
-		
-		return null;
-	}
-
-	@Override
-	public int getBoardCount() throws Exception {
-		
+	public int getProductCount() throws Exception {
 		return 0;
 	}
-
-
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

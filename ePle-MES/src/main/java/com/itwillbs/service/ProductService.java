@@ -11,13 +11,11 @@ public interface ProductService {
 	
 	public List<MAPDVO> productListAll() throws Exception;
 	
-	public MAPDVO getProduct(int bno) throws Exception;
+	public MAPDVO getProduct(String code) throws Exception;
 	
 	public int productModify(MAPDVO mvo) throws Exception;
 	
-	public void incrementViewCnt(int bno) throws Exception;
-	
-	public void productRemove(int bno) throws Exception;
+	public void productRemove(String code) throws Exception;
 	
 	public List<MAPDVO> productListPage(Criteria cri) throws Exception;
 	

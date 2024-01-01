@@ -21,65 +21,45 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDAO pdao;
 
 	@Override
-	public void productWrite(MAPDVO mvo) throws Exception {
-		logger.debug(" S : productWrite(MAPDVO mvo) ");
-	}
-
-	@Override
 	public List<MAPDVO> productListAll() throws Exception {
 		logger.debug(" S : productListAll() ");
-		return null;
+		return pdao.getProductListAll();
 	}
 
 	@Override
-	public MAPDVO getProduct(int bno) throws Exception {
-		logger.debug(" S : getProduct(int bno) ");
-		return null;
+	public MAPDVO getProduct(String code) throws Exception {
+		logger.debug(" S : getProduct(String code) ");
+		return pdao.getProduct(code);
 	}
 
 	@Override
 	public int productModify(MAPDVO mvo) throws Exception {
 		logger.debug(" S : productModify(MAPDVO mvo) ");
-		return 0;
+		return pdao.updateProduct(mvo);
 	}
 
 	@Override
-	public void incrementViewCnt(int bno) throws Exception {
-		logger.debug(" S : incrementViewCnt(int bno) ");
-		
-	}
-
-	@Override
-	public void productRemove(int bno) throws Exception {
-		logger.debug(" S : productRemove(int bno) ");
+	public void productRemove(String code) throws Exception {
+		logger.debug(" S : productRemove(String code) ");
+		pdao.deleteProduct(code);
 	}
 
 	@Override
 	public List<MAPDVO> productListPage(Criteria cri) throws Exception {
 		logger.debug(" S : productListPage(Criteria cri) ");
-		return null;
+		return pdao.getProductListPage(cri);
 	}
 
 	@Override
 	public int totalProductCount() throws Exception {
 		logger.debug(" S : totalProductCount() ");
-		return 0;
+		return pdao.getProductCount();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	
-	
-	
-	
-	
+	@Override
+	public void productWrite(MAPDVO mvo) throws Exception {
+		logger.debug(" S : productWrite(MAPDVO mvo) ");
+	}
 	
 	
 }
