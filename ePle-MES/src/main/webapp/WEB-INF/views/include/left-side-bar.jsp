@@ -87,7 +87,7 @@
 						<li><a href="/facility/order/list">발주 신청</a></li>
 						<li><a href="/facility/info/list">목록</a></li>
 						<li><a href="/facility/routine/">일상 보전</a></li>
-						<li><a href="/facility/maintenance/">설비 보전</a></li>
+						<li><a href="/facility/maintenance/list">설비 보전</a></li>
 					</ul></li>
 
 				<!-- 드롭다운 -->

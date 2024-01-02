@@ -147,7 +147,7 @@ public class MaintenanceController {
 		model.addAttribute("info", mService.getDetail(code));
 	}
 
-	@GetMapping(value = "/result")
+	@GetMapping(value = "/result/list")
 	public void maintenanceResultListGET(MaintenanceSearchVO searchVO, PageVO pageVO, Criteria cri, Model model) throws Exception {
 		pageVO.setCri(cri);
 		searchVO.setComplete(true);
