@@ -246,7 +246,7 @@
 		DELETE FROM FAC_INFO
 		<where>
 			<![CDATA[ code IN ]]>
-			<foreach collection="code" item="item" index="index" open="("
+			<foreach collection="array" item="item" open="("
 				close=")" separator=",">
 				#{item}
 			</foreach>

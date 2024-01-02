@@ -12,6 +12,7 @@
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
+		<button type="button" class="close" onclick="window.close();">×</button>
 			<!-- 타이틀 -->
 			<div class="login-title">
 				<h1 class="text-center text-primary">설비 삭제</h1>
@@ -25,6 +26,7 @@
 							<ul class="list-group">
 								<c:if test="${!empty info}">
 									<li class="list-group-item">${info.code} : ${info.name}(${info.model})</li>
+									<input type="hidden" name="codeList" value="${info.code}">
 								</c:if>
 							</ul>
 						</div>
@@ -37,7 +39,7 @@
 					<div
 						class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
 						<button type="button" class="btn btn-secondary"
-							onclick="window.close();">
+							onclick="window">
 							<b>취소</b>
 						</button>
 						<button type="submit" class="btn btn-warning">
@@ -70,15 +72,18 @@
 					let title = opener.document.getElementById('tableTitle' + delList[i].value);
 					let info = opener.document.getElementById('tableinfo' + delList[i].value);
 					$(".list-group").append(listHtml + delList[i].value + "&nbsp;:&nbsp;"+title.innerText + "(" + info.innerText + ")" + "</li>");
-					$("form").append("<input type='hidden' name='code' value='" + delList[i].value +"'>");
+					$("form").append("<input type='hidden' name='codeList' value='" + delList[i].value +"'>");
 				}
 			}
 			// 닫기 진행!
 			if (delCheckedCount == 0)
-				window.close();
+				closePopup();
 			else {
 				window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 11);
 			}
+		}
+		else{
+			window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 11);
 		}
 	</script>
 </body>

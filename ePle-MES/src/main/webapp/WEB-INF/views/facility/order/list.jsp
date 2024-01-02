@@ -84,7 +84,7 @@
 												class="custom-control-label" for="tableCheckAll"></label>
 										</div>
 									</td>
-									<c:forEach begin="0" end="4" var="i">
+									<c:forEach begin="0" end="5" var="i">
 										<th class="btn-light" onclick="javascript:orderList(${i})"><c:if
 												test="${i eq pageVO.search.activeSortCategory}">
 												<c:choose>
@@ -108,19 +108,25 @@
 								<c:if test="${!empty list }">
 									<c:forEach items="${list}" var="i">
 										<tr>
+										
+											
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<td><div class="custom-control custom-checkbox mb-5">
 													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 													<input type="checkbox" class="custom-control-input"
-														id="checkTable1" name="tableCheck" value="${i.code}">
-													<label class="custom-control-label" for="checkTable1"></label>
+														id="checkTable${i.code}" name="tableCheck" value="${i.code}">
+													<label class="custom-control-label" for="checkTable${i.code}"></label>
 												</div></td>
-											<th>${i.code}</th>
+											<th>
+												<a href="javascript:openPage('/facility/order/detail?code=${i.code}', 500, 634)">
+													<b class="text-blue tableTitle${i.code}">${i.code}</b>	
+												</a>
+											</th>
 											<th>${i.date}</th>
 											<th>${i.group_name}</th>
-											<th>${i.code_name}</th>
+											<th id ="tableTitle${i.code}">${i.code_name}</th>
 											<th>${i.client_code}</th>
-											<th>${i.amount}</th>
+											<th id="tableinfo${i.code}">${i.amount}</th>
 											<td style="">
 												<!-- 옵션 -->
 												<div class="dropdown">
@@ -213,52 +219,11 @@
 
 	<!-- 추가, 수정, 삭제 -->
 	<script type="text/javascript">
-		// 팝업 설정
-		var popupWidth, popupHeight, popupX, popupY, link;
-		var set;
-
-		// 팝업 세팅 return
-		function retPopupSetting(width, height) {
-			// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
-			popupX = Math.ceil((window.screen.width - width) / 2);
-			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
-			popupY = Math.ceil((window.screen.height - height) / 2);
-
-			var setting = "";
-			setting += "toolbar=0,";
-			setting += "scrollbars=0,";
-			setting += "statusbar=0,";
-			setting += "menubar=0,";
-			setting += "resizeable=0,";
-			setting += "width=" + width + ",";
-			setting += "height=" + height + ",";
-			setting += "top=" + popupY + ",";
-			setting += "left=" + popupX;
-			return setting;
-		}
-
-		// 창 열기
-		function openPage(i, width, height) {
-			set = retPopupSetting(width, height);
-			return window.open(i, 'Popup_Window', set);
-		}
-
 		$(document).ready(function() {
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
 				openPage("/facility/order/insert", 500, 600);
-			});
-
-			// 수정
-			$("#update").click(function() {
-				// 가로, 세로 설정
-				var ch = $("input:checkbox[name=tableCheck]:checked").length;
-				if (ch == 1) {
-					// 가로, 세로 설정
-					var code = $("input:checkbox[name=tableCheck]:checked").val();
-					openPage("/facility/order/update?code=" + code, 400, 700);
-				}
 			});
 
 			// 삭제

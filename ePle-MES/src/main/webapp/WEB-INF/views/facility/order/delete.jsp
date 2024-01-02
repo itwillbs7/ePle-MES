@@ -1,40 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <%@ include file="../../include/head.jsp"%>
-<title>보전 삭제</title>
-<body>
-<c:if test="${empty role or role eq 'emp'}">
-		<c:redirect url="/"/>
-</c:if>
-<!-- 
-	실행 방법
-		- 테이블 페이지의 옵션에서 삭제클릭
-		- 테이블 내에서 체크박스 클릭 후 상단의 삭제 클릭
-		- 상세 정보에서 삭제 클릭
-	
-	taglib c 처리
-	세션에서 부서 체크
-	작성자 or 담당 부서가 아닌 경우 에러 메세지나 페이지 호출 및 닫기
-	
-	js & jquery 처리
-	인덱스와 표에서 선택한 것이 아무것도 없는 경우 에러 메세지나 페이지 호출 및 닫기
-	1개(표 옵션에서 인덱스로 들어옴) (우선 적용)
-	여러 개(표에서 체크박스)
- -->
+<title>발주 삭제</title>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
+		<button type="button" class="close" onclick="window.close();">×</button>
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">보전 삭제</h1>
-				<h4 class="text-center">삭제 개수 : 3개</h4>
+				<h1 class="text-center text-primary">발주 삭제</h1>
 			</div>
 			<!-- 폼 -->
 			<form method="post">
@@ -43,24 +24,25 @@
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">
 							<ul class="list-group">
-								<!-- 삭제 리스트 들어갈 공간 
-								li class='list-group-item' -->
-								
+								<c:if test="${!empty info}">
+									<li class="list-group-item">${info.code} : ${info.group_name}(${info.amount})</li>
+									<input type="hidden" name="codeList" value="${info.code}">
+								</c:if>
 							</ul>
 						</div>
 					</div>
 				</div>
 				<!-- 삭제 리스트 목록 -->
-
+				
 				<!-- 버튼 -->
 				<div class="row">
 					<div
 						class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
 						<button type="button" class="btn btn-secondary"
-							onclick="window.close();">
+							onclick="closePopup();">
 							<b>취소</b>
 						</button>
-						<button type="submit" class="btn btn-warning">
+						<button type="submit" class="btn btn-danger">
 							<b>삭제</b>
 						</button>
 					</div>
@@ -73,40 +55,35 @@
 	<!-- 콘텐츠 끝 -->
 	<%@ include file="../../include/footer.jsp"%>
 	<script type="text/javascript">
-		var listGroup = $(".list-group");
 		var listHtml = "<li class='list-group-item'>"
 		// get으로 불러온 인덱스가 있는 경우 인덱스 우선 진행
 
-		// var del = <c:out value=el식/>
-		// if(del != ""){get 방식}
-		// else{체크박스}
-		// var 제목 = opener.document.getElementById("tableTitle" + delList[i].value).innerText
+		var del = "<c:out value='${info}'/>";
+		if(del == null || del == ''){
+			// 부모의 체크박스 목록 불러오기
+			var delList = opener.document.getElementsByName('tableCheck');
+			
+			// 체크박스 checked 개수
+			var delCheckedCount = 0;
 
-		// 인덱스가 없는 경우 checkbox 리스트로 불러와서 진행!
-
-		// 부모의 체크박스 목록 불러오기
-		var delList = opener.document.getElementsByName('tableCheck');
-
-		// 체크박스 checked 개수
-		var delCheckedCount = 0;
-
-		// 제목 저장
-		var array = [];
-
-		for (var i = 0; i < delList.length; i++) {
-			if (delList[i].checked) { // == true
-				// checked 개수 증가
-				delCheckedCount++;
-				// 부모에서 삭제하기 위해 체크한 리스트의 제목 불러오기
-				array.push(opener.document.getElementById("tableTitle"
-						+ delList[i].value).innerText);
+			for (var i = 0; i < delList.length; i++) {
+				if (delList[i].checked) { // == true
+					delCheckedCount++;
+					let title = opener.document.getElementById('tableTitle' + delList[i].value);
+					let info = opener.document.getElementById('tableinfo' + delList[i].value);
+					$(".list-group").append(listHtml + delList[i].value + "&nbsp;:&nbsp;"+title.innerText + "(" + info.innerText + ")" + "</li>");
+					$(".list-group").append("<input type='hidden' name='codeList' value='" + delList[i].value +"'>");
+				}
+			}
+			// 닫기 진행!
+			if (delCheckedCount == 0)
+				closePopup();
+			else {
+				window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 12);
 			}
 		}
-		// 닫기 진행!
-		if (delCheckedCount == 0)
-			window.close();
-		else {
-			// alert(array[0]);
+		else{
+			window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 12);
 		}
 	</script>
 </body>

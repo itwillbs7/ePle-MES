@@ -11,6 +11,7 @@
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
+		<button type="button" class="close" onclick="window.close();">×</button>
 			<!-- 타이틀 -->
 			<div class="login-title">
 				<h1 class="text-center text-primary">설비 발주 추가</h1>
@@ -32,7 +33,7 @@
 									</div>
 									<div class="form-group">
 										<input type="hidden" name="group_id" value="FACPRO">
-										<label>물품 종류</label> <select class="form-control" name="" required>
+										<label>물품 종류</label> <select class="form-control" name="code_id" required>
 											<option>선택</option>
 											<c:forEach items="${proList}" var="i">
 												<option value="${i.code_id}">${i.code_name}</option>
@@ -40,7 +41,7 @@
 										</select>
 									</div>
 									<div class="form-group">
-										<label>수량</label> <input class="form-control" type="number" name="inprice" required>
+										<label>수량</label> <input class="form-control" type="number" name="amount" required>
 									</div>
 									<!-- examples end -->
 								</div>
@@ -63,13 +64,13 @@
 						<form method="post" id="nonpro-form">
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
-									<input type="hidden" name="category" value="non-production">
+									<input type="hidden" name="group_id" value="FACNPR">
 									<!-- examples -->
 									<div class="form-group">
 										<label>사원 번호</label> <input class="form-control" readonly type="text" name="client_code" value="1">
 									</div>
 									<div class="form-group">
-										<label>물품 종류</label> <select class="form-control" name="" required>
+										<label>물품 종류</label> <select class="form-control" name="code_id" required>
 											<option>선택</option>
 											<c:forEach items="${nprList}" var="i">
 												<option value="${i.code_id}">${i.code_name}</option>
@@ -77,7 +78,7 @@
 										</select>
 									</div>
 									<div class="form-group">
-										<label>수량</label> <input class="form-control" type="number" name="inprice" required>
+										<label>수량</label> <input class="form-control" type="number" name="amount" required min="{0}" max="{100}" oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
 									</div>
 									<!-- examples end -->
 								</div>
@@ -85,7 +86,7 @@
 							<!-- 버튼 -->
 							<div class="row">
 								<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-									<button type="button" class="btn btn-secondary" onclick="window.close();">
+									<button type="button" class="btn btn-secondary" onclick="closePopup();">
 										<b>취소</b>
 									</button>
 									<button type="submit" class="btn btn-success">
@@ -100,12 +101,13 @@
 						<form method="post" id="etc-form">
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
+								<input type="hidden" name="group_id" value="FACETC">
 									<!-- examples -->
 									<div class="form-group">
 										<label>사원 번호</label> <input class="form-control" readonly type="text" name="client_code" value="1">
 									</div>
 									<div class="form-group">
-										<label>물품 종류</label> <select class="form-control" name="" required>
+										<label>물품 종류</label> <select class="form-control" name="code_id" required>
 											<option>선택</option>
 											<c:forEach items="${etcList}" var="i">
 												<option value="${i.code_id}">${i.code_name}</option>
@@ -113,7 +115,7 @@
 										</select>
 									</div>
 									<div class="form-group">
-										<label>수량</label> <input class="form-control" type="number" name="inprice" required>
+										<label>수량</label> <input class="form-control" type="number" name="amount" required>
 									</div>
 									<!-- examples end -->
 								</div>

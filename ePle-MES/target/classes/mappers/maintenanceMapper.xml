@@ -53,10 +53,10 @@
 
 	<!-- 삭제 -->
 	<delete id="deleteMaintenance">
-		DELETE FROM FAC_MT
-		<where>
-			code = #{code}
-		</where>
+		DELETE FROM FAC_MT WHERE code IN 
+		<foreach collection="array" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
 	</delete>
 
 	<sql id="maintenanceSearch">

@@ -21,7 +21,7 @@
 			<!-- 버튼 -->
 			<div class="row">
 				<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-					<button type="button" class="btn btn-block btn-primary" onclick="window.close();">
+					<button type="button" class="btn btn-block btn-primary" onclick="closePopup();">
 						<b>닫기</b>
 					</button>
 				</div>

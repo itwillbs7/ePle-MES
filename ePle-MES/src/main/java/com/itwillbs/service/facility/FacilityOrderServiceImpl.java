@@ -17,6 +17,11 @@ public class FacilityOrderServiceImpl implements FacilityOrderService{
 	private FacilityOrderDAO dao;
 	
 	@Override
+	public int getListCount(PageVO vo) throws Exception {
+		return dao.getFacilityOrderCount(vo);
+	}
+	
+	@Override
 	public List<FacilityOrderVO> getList(PageVO vo) throws Exception {
 		return dao.getFacilityOrderList(vo);
 	}
@@ -37,11 +42,6 @@ public class FacilityOrderServiceImpl implements FacilityOrderService{
 	}
 	
 	@Override
-	public FacilityOrderVO getOrder(FacilityOrderVO vo) throws Exception {
-		return dao.getOrder(vo);
-	}
-	
-	@Override
 	public List<FacilityOrderVO> getCommonList(String group_id) throws Exception {
 		return dao.getCommonList(group_id);
 	}
@@ -49,5 +49,10 @@ public class FacilityOrderServiceImpl implements FacilityOrderService{
 	@Override
 	public String getRecentCode() throws Exception {
 		return dao.getRecentCode();
+	}
+	
+	@Override
+	public FacilityOrderVO getDetail(String code) throws Exception {
+		return dao.getDetail(code);
 	}
 }

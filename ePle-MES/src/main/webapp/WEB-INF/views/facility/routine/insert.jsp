@@ -11,6 +11,7 @@
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
+		<button type="button" class="close" onclick="closePopup();">×</button>
 			<!-- 타이틀 -->
 			<div class="login-title">
 				<h1 class="text-center text-primary">일상 보전 등록</h1>
@@ -40,28 +41,27 @@
 								<div class="form-group">
 									<label class="col-form-label">설비 목록</label> <select class="custom-select col-12">
 										<option selected>선택</option>
-										<!-- 공통 코드 추가 -->
-										<option value="1">One</option>
-										<option value="2">Two</option>
-										<option value="3">Three</option>
-										<!-- 공통 코드 추가 -->
+										<c:forEach items="${list}" var="i">
+											<option value="${i.code}">${i.code}-${i.name}(${i.model})</option>
+										</c:forEach>
 									</select>
 								</div>
 							</c:when>
 						</c:choose>
 						<div class="form-group">
-							<label class="col-form-label">보전 결과</label> <select class="custom-select col-12">
-								<option selected>선택</option>
-								<!-- 공통 코드 추가 -->
-								<option value="1">One</option>
-								<option value="2">Two</option>
-								<option value="3">Three</option>
-								<!-- 공통 코드 추가 -->
-							</select>
+							<label class="col-form-label">보전 결과</label>
+							<div class="custom-control custom-radio mb-5">
+								<input type="radio" id="radio1" name="mt_subject" class="custom-control-input" value="이상 없음" checked>
+								<label class="custom-control-label" for="radio1">이상 없음</label>
+							</div>
+							<div class="custom-control custom-radio mb-5">
+								<input type="radio" id="radio2" name="mt_subject" class="custom-control-input" value="이상 있음">
+								<label class="custom-control-label" for="radio2">이상 있음</label>
+							</div>
 						</div>
 						<div class="form-group">
 							<label>상세 내용</label>
-							<textarea class="form-control"></textarea>
+							<textarea class="form-control" id="form_textbox" name="mt_content"></textarea>
 						</div>
 						<!-- inputs -->
 					</div>
@@ -71,7 +71,7 @@
 				<!-- 버튼 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-						<button type="button" class="btn btn-secondary" onclick="window.close();">
+						<button type="button" class="btn btn-secondary" onclick="closePopup();">
 							<b>취소</b>
 						</button>
 						<button type="submit" class="btn btn-success">

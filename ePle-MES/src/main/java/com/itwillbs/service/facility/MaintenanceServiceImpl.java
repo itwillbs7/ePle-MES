@@ -28,8 +28,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	}
 	
 	@Override
-	public int deleteMaintenance(MaintenanceVO vo) throws Exception {
-		return dao.deleteMaintenance(vo);
+	public int deleteMaintenance(String[] codeList) throws Exception {
+		return dao.deleteMaintenance(codeList);
 	}
 	
 	@Override

@@ -10,7 +10,7 @@ public interface MaintenanceDAO {
 	public int insertMaintenance(MaintenanceVO vo) throws Exception;
 	public int insertRM(MaintenanceVO vo) throws Exception;
 	public int updateMaintenance(MaintenanceVO vo) throws Exception;
-	public int deleteMaintenance(MaintenanceVO vo) throws Exception;
+	public int deleteMaintenance(String[] codeList) throws Exception;
 	public int getMaintenanceCount(PageVO vo) throws Exception;
 	public List<MaintenanceVO> getMaintenanceList(PageVO vo) throws Exception;
 	public List<MaintenanceVO> getFacilityInfo(FacilityVO vo) throws Exception;

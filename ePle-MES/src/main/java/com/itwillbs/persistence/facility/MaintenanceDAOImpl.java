@@ -34,8 +34,8 @@ public class MaintenanceDAOImpl implements MaintenanceDAO{
 	}
 	
 	@Override
-	public int deleteMaintenance(MaintenanceVO vo) throws Exception {
-		return sqlSession.delete(NAMESPACE + ".deleteMaintenance", vo);
+	public int deleteMaintenance(String[] codeList) throws Exception {
+		return sqlSession.delete(NAMESPACE + ".deleteMaintenance", codeList);
 	}
 	
 	@Override

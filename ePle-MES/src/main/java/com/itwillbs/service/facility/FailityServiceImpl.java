@@ -29,8 +29,8 @@ public class FailityServiceImpl implements FacilityService {
 	}
 	
 	@Override
-	public int deleteFacility(String[] code) throws Exception {
-		return dao.deleteFacility(code);
+	public int deleteFacility(String[] codeList) throws Exception {
+		return dao.deleteFacility(codeList);
 	}
 	
 	@Override

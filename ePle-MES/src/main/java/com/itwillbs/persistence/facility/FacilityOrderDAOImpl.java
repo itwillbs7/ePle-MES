@@ -19,6 +19,11 @@ public class FacilityOrderDAOImpl implements FacilityOrderDAO{
 	private SqlSession sqlSession;
 	
 	@Override
+	public int getFacilityOrderCount(PageVO vo) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getOrderCount", vo);
+	}
+	
+	@Override
 	public List<FacilityOrderVO> getFacilityOrderList(PageVO vo) throws Exception{
 		return sqlSession.selectList(NAMESPACE + ".getOrderList", vo);
 	}
@@ -37,11 +42,6 @@ public class FacilityOrderDAOImpl implements FacilityOrderDAO{
 	public int deleteFacilityOrder(String[] codeList) throws Exception{
 		return sqlSession.delete(NAMESPACE + ".deleteOrder", codeList);
 	}
-
-	@Override
-	public FacilityOrderVO getOrder(FacilityOrderVO vo) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".getOrder", vo);
-	}
 	
 	@Override
 	public List<FacilityOrderVO> getCommonList(String group_id) throws Exception {
@@ -51,5 +51,10 @@ public class FacilityOrderDAOImpl implements FacilityOrderDAO{
 	@Override
 	public String getRecentCode() throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".getRecentCode");
+	}
+	
+	@Override
+	public FacilityOrderVO getDetail(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getDetail", code);
 	}
 }

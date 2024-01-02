@@ -11,6 +11,7 @@
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
+		<button type="button" class="close" onclick="window.close();">×</button>
 			<!-- 타이틀 -->
 			<div class="login-title">
 				<h1 class="text-center text-primary">보전 추가</h1>
@@ -38,10 +39,10 @@
 										<label>구매 일자</label> <input class="form-control" type="date" name="purchase_date" required>
 									</div>
 									<div class="form-group">
-										<label>구매 금액</label> <input class="form-control" type="number" name="inprice" required>
+										<label>구매 금액</label> <input class="form-control" type="number" name="inprice" required step="1000" oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100000000) e.target.value = 99999999;}else{e.target.value = 1;}}}">
 									</div>
 									<div class="form-group">
-										<label>시간당 생산량</label> <input class="form-control" type="number" name="uph" required>
+										<label>시간당 생산량</label> <input class="form-control" type="number" name="uph" required oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 1000000) e.target.value = 999999;}else{e.target.value = 1;}}}">
 									</div>
 									<div class="form-group">
 										<label>라인 정보</label> <select class="form-control" name="line_code">

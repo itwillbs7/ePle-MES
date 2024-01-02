@@ -5,24 +5,17 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../../include/head.jsp"%>
-<title>보전 수정</title>
-<!-- 
-	실행 방법
-		- 테이블 페이지의 옵션에서 삭제클릭
-		- 상세 정보에서 삭제 클릭
- -->
+<title>발주 수정</title>
 </head>
 <body>
 <body>
-<c:if test="${empty role or role eq 'emp'}">
-		<c:redirect url="/"/>
-</c:if>
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
+		<button type="button" class="close" onclick="closePopup();">×</button>
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">보전 수정</h1>
+				<h1 class="text-center text-primary">발주 수정</h1>
 			</div>
 			<!-- 폼 -->
 			<form action="" method="post">
@@ -114,7 +107,7 @@
 				<!-- 버튼 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-						<button type="button" class="btn btn-secondary" onclick="window.close();">
+						<button type="button" class="btn btn-secondary" onclick="closePopup();">
 							<b>취소</b>
 						</button>
 						<button type="submit" class="btn btn-success">

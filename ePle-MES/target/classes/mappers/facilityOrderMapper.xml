@@ -25,40 +25,56 @@
 	</resultMap>
 	
 	<select id="getOrderList" resultMap="order">
-		SELECT o.code, o.date, o.group_id, o.code_id, com.group_name, 
-		com.code_name, o.client_code, cli.client_name, amount, 
+		SELECT o.code, o.date, o.group_id, o.code_id, co.group_name, 
+		co.code_name, o.client_code, cli.name AS client_name, amount, 
 		o.reg_date, o.reg_emp, e1.name AS reg_name, 
 		o.update_date, o.update_emp, e2.name AS update_name, 
 		o.status
 		FROM ORDERS o 
-		JOIN CLIENT cli ON o.client_code = cli.code  
-		JOIN EMPLOYEES e1 ON o.reg_emp = e1.code 
-		JOIN EMPLOYEES e2 ON o.update_emp = e2.code 
+		LEFT OUTER JOIN CLIENT cli ON o.client_code = cli.code  
+		LEFT OUTER JOIN EMPLOYEES e1 ON o.reg_emp = e1.code 
+		LEFT OUTER JOIN EMPLOYEES e2 ON o.update_emp = e2.code 
 		JOIN COMMON_CODE co ON o.group_id = co.group_id AND o.code_id = co.code_id 
 		WHERE complete = FALSE AND o.group_id IN ('FACPRO', 'FACNPR', 'FACETC') 
 		ORDER BY 
 		${search.eng[search.activeSortCategory]} ${search.sortValue}
+		LIMIT ${cri.startPage}, ${cri.pageSize}
+	</select>
+	
+	<select id="getOrderCount" resultType="int">
+		SELECT COUNT(*) FROM ORDERS WHERE complete = false AND group_id IN ('FACPRO', 'FACNPR', 'FACETC') 
+	</select>
 
-		LIMIT ${startPage}, ${cri.pageSize}
-	</select>
-	
-	<select id="getOrder" resultMap="order" resultType="com.itwillbs.domain.FacilityOrderVO">
-		SELECT * FROM ORDERS WHERE code = #{code}
-	</select>
-	
 	<select id="getCommonList" resultMap="order" resultType="com.itwillbs.domain.FacilityOrderVO">
 		SELECT group_id, code_id, group_name, code_name from COMMON_CODE 
 		WHERE group_id = #{group_id}
 	</select>
 	
 	<select id="getRecentCode" resultType="String">
-		SELECT code FROM ORDERS WHERE date = NOW() ORDER BY code DESC LIMIT 0, 1
+		SELECT code FROM ORDERS WHERE code LIKE 'FO%' ORDER BY code DESC LIMIT 0, 1
 	</select>
 	
 	<insert id="insertOrder">
-		INSERT INTO ORDERS (code, group_id, code_id, date, client_code, amount, status) 
-		VALUES (#{code}, #{group_id}, #{code_id}, NOW(), #{client_code}, ${amount}, '신청')
+		INSERT INTO ORDERS 
+		(code, group_id, code_id, date, amount, reg_date, 
+		reg_emp, update_date, update_emp, status) VALUES
+		(#{code}, #{group_id}, #{code_id}, now(), ${amount}, 
+		now(), #{reg_emp}, now(), #{reg_emp}, '신청')
 	</insert>
+	
+	<select id="getDetail" resultMap="order" resultType="com.itwillbs.domain.FacilityOrderVO">
+		SELECT o.code, o.date, o.group_id, o.code_id, co.group_name, 
+		co.code_name, o.client_code, cli.name AS client_name, amount, 
+		o.reg_date, o.reg_emp, e1.name AS reg_name, 
+		o.update_date, o.update_emp, e2.name AS update_name, 
+		o.status
+		FROM ORDERS o 
+		LEFT OUTER JOIN CLIENT cli ON o.client_code = cli.code  
+		LEFT OUTER JOIN EMPLOYEES e1 ON o.reg_emp = e1.code 
+		LEFT OUTER JOIN EMPLOYEES e2 ON o.update_emp = e2.code 
+		JOIN COMMON_CODE co ON o.group_id = co.group_id AND o.code_id = co.code_id 
+		WHERE complete = FALSE AND o.code = #{code}
+	</select>
 	
 	<!-- 수정 -->
 	<!-- 클라이언트가 같을 때만 가능 -->
@@ -75,7 +91,7 @@
 	
 	<delete id="deleteOrder">
 		DELETE FROM ORDERS WHERE code IN 
-		<foreach collection="codeList" item="item" open="(" close=")" separator=",">
+		<foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
 			#{item}
 		</foreach>
 	</delete>

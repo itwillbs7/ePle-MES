@@ -29,8 +29,8 @@ public class FacilityDAOImpl implements FacilityDAO {
 	}
 	
 	@Override
-	public int deleteFacility(String[] code) throws Exception {
-		return sqlSession.delete(NAMESPACE + ".deleteFacility", code);
+	public int deleteFacility(String[] codeList) throws Exception {
+		return sqlSession.delete(NAMESPACE + ".deleteFacility", codeList);
 	}
 	
 	@Override

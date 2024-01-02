@@ -1,5 +1,6 @@
 package com.itwillbs.controller.facility;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,23 +77,23 @@ public class FacilityInfoController {
 		String recentCode = fService.getRecentFacility();
 		logger.debug("recent : " + recentCode);
 		String code = "FAC";
-		Date date = new Date();
-		String d = (date.getYear() + 1900) + "" + (date.getMonth()+1) + "" + date.getDate();
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+		String now = dateformat.format(new Date());
 		if(recentCode == null || recentCode.equals("")) {
 			// 코드 새로 생성
-			code += d;
+			code += now;
 			code += "001";
 		}
 		else {
 			// 날짜가 오늘일 경우엔 + 1 해주기
 			String fDate = recentCode.substring(3, recentCode.length()-3);
-			if(d.equals(fDate)) {				
+			if(now.equals(fDate)) {				
 				String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
 				while(fCount.length() < 3) fCount = "0" + fCount;
 				code += fDate + fCount;
 			}
 			else {
-				code += d + "001";
+				code += now + "001";
 			}
 		}
 		vo.setCode(code);		
@@ -127,7 +129,7 @@ public class FacilityInfoController {
 		// 설비 수정 액션
 		String link = "";
 		int result = fService.updateFacility(vo);
-		if(result == 1) {
+		if(result >= 1) {
 			link = "redirect:/confirm";
 			rttr.addFlashAttribute("title", "설비 수정 결과");
 			rttr.addFlashAttribute("result", "설비 수정이 완료되었습니다.");
@@ -153,11 +155,11 @@ public class FacilityInfoController {
 	}
 	
 	@PostMapping(value = "/delete")
-	public String facilityDeletePOST(RedirectAttributes rttr) throws Exception {
+	public String facilityDeletePOST(String[] codeList ,RedirectAttributes rttr) throws Exception {
 		// 설비 삭제 액션
 		String link = "";
-		int result = 0;
-		if(result == 1) {
+		int result = fService.deleteFacility(codeList);
+		if(result >= 1) {
 			link = "redirect:/confirm";
 			rttr.addFlashAttribute("title", "설비 삭제 결과");
 			rttr.addFlashAttribute("result", "설비 삭제가 완료되었습니다.");

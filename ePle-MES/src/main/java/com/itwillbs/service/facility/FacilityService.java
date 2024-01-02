@@ -11,7 +11,7 @@ public interface FacilityService {
 	
 	public int updateFacility(FacilityVO vo) throws Exception;
 	
-	public int deleteFacility(String[] code) throws Exception;
+	public int deleteFacility(String[] codeList) throws Exception;
 	
 	public int facilityListCount(PageVO vo) throws Exception;
 	
