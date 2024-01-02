@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../../include/head.jsp"%>
-<title>보전 추가</title>
+<title>보전 등록</title>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -13,12 +13,13 @@
 		<button type="button" class="close" onclick="closePopup();">×</button>
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">보전 추가</h1>
+				<h1 class="text-center text-primary">보전 등록</h1>
 			</div>
 			<!-- 폼 -->
 			<form action="" method="post">
 
 				<!-- 카테고리 -->
+				<!-- 예방보전/긴급보전의 경우 예약 시간 표시 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">

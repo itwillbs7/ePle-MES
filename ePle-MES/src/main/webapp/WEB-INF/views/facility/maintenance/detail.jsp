@@ -7,6 +7,10 @@
 <title>보전 상세 정보</title>
 </head>
 <body>
+<!-- 
+	보전 상세
+	관리자(Manager)의 경우 라인을 멈추고 설비 보전을 작업할 수 있도록 함
+ -->
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
 	<%@ include file="../../include/header.jsp"%>
 	<%@ include file="../../include/right-side-bar.jsp"%>
