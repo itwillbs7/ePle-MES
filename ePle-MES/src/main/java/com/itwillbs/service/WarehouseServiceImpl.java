@@ -20,40 +20,60 @@ public class WarehouseServiceImpl implements WarehouseService {
 	@Inject
 	private WarehouseDAO wdao;
 
+	
+	
+	// 4-39 창고 목록 ~ 4-40 창고 검색 
 	@Override
-	public List<WarehouseVO> warehouseList(Criteria cri) throws Exception {
-		logger.debug("S : warehouseList(Criteria cri)");
-		return wdao.getWarehouseListAll(cri);
+	public List<WarehouseVO> warehouseList(Criteria cri, String searchCode, String searchName) throws Exception {
+		return wdao.getWarehouseList(cri, searchCode, searchName);
+	}
+
+	// 모든 창고 수
+	@Override
+	public int warehouseListCount(String searchCode, String searchName) throws Exception {
+		return wdao.getWarehouseCount(searchCode, searchName);
+	}
+	
+	// 사원 검색 팝업 
+	@Override
+	public List<WarehouseVO> SearchEmployees(Criteria cri, String empCode, String empName) throws Exception {
+		return wdao.SearchEmployees(cri, empCode, empName);
+	}
+	
+	// 모든 사원 수
+	@Override
+	public int employeesListCount(String empCode, String empName) throws Exception {
+		return wdao.getEmployeesCount(empCode, empName);
+	}
+
+	
+	
+	// 삭제
+	@Override
+	public List<WarehouseVO> delInfo(String[] code_arr) throws Exception {
+		return wdao.getDelInfo(code_arr);
 	}
 
 	@Override
-	public int totalWarehouseCount() throws Exception {
-		logger.debug("S : totalWarehouseCount()");
-		return wdao.getWarehouseCount();
+	public void deleteWarehouse(String[] code_arr) throws Exception {
+		wdao.getDeleteWarehouse(code_arr);
 	}
+
+
 	
-	@Override
-	public List<WarehouseVO> getEmployees() throws Exception {
-		logger.debug("S : getEmployees()");
-		return wdao.getEmployees();
-	}
 	
-	@Override
-	public List<WarehouseVO> SearchEmployees(String manager, String managerName) throws Exception {
-		return wdao.SearchEmployees(manager, managerName);
-	}
+	
+	
+	
+	
 	
 	@Override
 	public void InsertWarehouse(WarehouseVO vo) throws Exception {
 		logger.debug("S : InsertWarehouse(WarehouseVO vo) : "+vo);
 		wdao.insertWarehouse(vo);
 	}
+
 	
-	@Override
-	public void warehouseRemove(String code) throws Exception {
-		logger.debug("S : warehouseRemove(String code)");
-		wdao.deleteWarehouse(code);
-	}
 	
 	
 	

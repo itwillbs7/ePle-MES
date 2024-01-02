@@ -21,22 +21,30 @@ public class OrderServiceImpl implements OrderService {
 	@Inject
 	private OrderDAO odao;
 
+	
+	
+	// 4-9 발주 목록 ~ 4-10 발주 검색 
 	@Override
-	public List<OrderVO> orderList(Criteria cri) throws Exception {
-		logger.debug("orderList(Criteria cri)");
-		return odao.getOrderListAll(cri);
+	public List<OrderVO> orderList(Criteria cri, String searchOrder, String searchMapd) throws Exception {
+		return odao.getOrderList(cri, searchOrder, searchMapd);
 	}
 
+	// 모든 발주 수
 	@Override
-	public int totalOrderCount() throws Exception {
-		logger.debug(" S : totalOrderCount()  ");
-		return odao.getOrderCount();
+	public int orderListCount(String searchOrder, String searchMapd) throws Exception {
+		return odao.getOrderCount(searchOrder, searchMapd);
 	}
 	
+	// 품목 검색 팝업 
 	@Override
-	public void InsertOrder(OrderVO vo) throws Exception {
-		logger.debug("S : InsertOrder(OrderVO vo) : "+vo);
-		odao.insertOrder(vo);
+	public List<OrderVO> SearchMAPD(Criteria cri, String mapdCode, String mapdName) throws Exception {
+		return odao.SearchMAPD(cri, mapdCode, mapdName);
+	}
+	
+	// 모든 품목 수
+	@Override
+	public int mapdListCount(String mapdCode, String mapdName) throws Exception {
+		return odao.getMAPDCount(mapdCode, mapdName);
 	}
 	
 	

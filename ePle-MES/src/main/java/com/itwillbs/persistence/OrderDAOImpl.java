@@ -1,6 +1,8 @@
 package com.itwillbs.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.OrderVO;
-import com.itwillbs.domain.WarehouseVO;
 
 @Repository
 public class OrderDAOImpl implements OrderDAO {
@@ -24,23 +25,44 @@ public class OrderDAOImpl implements OrderDAO {
 	private SqlSession sqlSession;
 	
 	
+	// 4-9 발주 목록 ~ 4-10 발주 검색 
 	@Override
-	public List<OrderVO> getOrderListAll(Criteria cri) throws Exception {
-		logger.debug("getOrderListAll(Criteria cri) ");
-		return sqlSession.selectList(NAMESPACE+".getOrderList", cri);
+	public List<OrderVO> getOrderList(Criteria cri, String searchOrder, String searchMapd) throws Exception {
+	    Map<String, Object> data = new HashMap<String, Object>(); 
+	    data.put("cri", cri);
+	    data.put("searchOrder", searchOrder);
+	    data.put("searchMapd", searchMapd);
+	    List<OrderVO> orderList = sqlSession.selectList(NAMESPACE + ".selectOrderList", data);
+	    return orderList;
 	}
 
+	// 모든 발주 수
 	@Override
-	public int getOrderCount() throws Exception {
-		logger.debug(" DAO : getOrderCount() ");
-		return sqlSession.selectOne(NAMESPACE + ".countOrder");
+	public int getOrderCount(String searchOrder, String searchMapd) throws Exception {
+		Map<String, Object> data = new HashMap<String, Object>(); 
+	    data.put("searchOrder", searchOrder);
+	    data.put("searchMapd", searchMapd);
+		return sqlSession.selectOne(NAMESPACE+ ".countOrder", data);
 	}
 	
+	// 품목 검색 팝업 
 	@Override
-	public void insertOrder(OrderVO vo) throws Exception {
-		logger.debug("insertOrder(OrderVO vo) : "+vo);
-		sqlSession.insert(NAMESPACE+".insertOrder", vo);
+	public List<OrderVO> SearchMAPD(Criteria cri, String mapdCode, String mapdName) throws Exception {
+		Map<String,Object> data = new HashMap<String,Object>();
+		data.put("cri", cri);
+		data.put("mapdCode", mapdCode);
+		data.put("mapdName", mapdName);
+		List<OrderVO> SearchMAPD = sqlSession.selectList(NAMESPACE + ".SearchMAPD",data);
+		return SearchMAPD;
 	}
 	
+	// 모든 품목 수
+	@Override
+	public int getMAPDCount(String mapdCode, String mapdName) throws Exception {
+		Map<String,Object> data = new HashMap<String,Object>();
+		data.put("mapdCode", mapdCode);
+		data.put("mapdName", mapdName);
+		return sqlSession.selectOne(NAMESPACE + ".countMAPD",data);
+	}
 	
 }

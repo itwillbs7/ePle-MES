@@ -6,7 +6,7 @@
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
-<title>창고 목록</title>
+<title>발주 관리</title>
 </head>
 <body>
 	<!----------------- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 ----------------->
@@ -18,7 +18,7 @@
 	<div class="main-container">
 	<div class="pd-ltr-20 xs-pd-20-10">
 	<div class="title" style="margin-bottom: 10px;">
-		<a href="${pageContext.request.contextPath}/warehouse/list"><h1>창고 목록</h1></a>
+		<a href="${pageContext.request.contextPath}/order/list"><h1>발주 목록</h1></a>
 	</div>
 		<div class="min-height-200px">
 			
@@ -49,13 +49,13 @@
 		</div> -->
 				
 				
-	<!------------------------------ 창고 검색 시작 ----------------------------->
+	<!------------------------------ 발주 검색 아직 ----------------------------->
 	<div class="faq-wrap">
 		<div id="accordion">
 			<div class="card">
 						
 				<div class="card-header">
-					<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false"><b>창고 검색</b></button>
+					<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false"><b>발주 검색</b></button>
 				</div>
 							
 				<div id="faq1" class="collapse" data-parent="#accordion" style="">
@@ -66,10 +66,10 @@
 									<div class="row">
 										<div class="col-md-5 col-sm-12 btn-group" >
 											<div class="col-md-5 col-sm-12 btn-group" >
-											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="창고코드" autocomplete="off" >
+											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="발주코드" autocomplete="off" >
 											<label>관리자</label> 
-											<input type="text" name="searchName" id="manager" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
-											<input type="text" id="managerName" class="form-control" placeholder="관리자이름" autocomplete="off" readonly>
+											<input type="text" name="searchName" id="manager" class="form-control" placeholder="품목코드" autocomplete="off" readonly>
+											<input type="text" id="managerName" class="form-control" placeholder="품목이름" autocomplete="off" readonly>
 											</div>
 										</div>
 									</div>
@@ -98,113 +98,126 @@
 				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
 			</div>
 		</div>
-
-
-
-	<!----------------------------- 창고 리스트 출력 ---------------------------->
-		<div class="pb-20">
-			<div class="col-sm-30">
-				<form class="table" id="table">
-					<table class="table table-striped">
-					<!--- 체크박스 / 창고코드 / 주소지 / 창고유형(원자재.완제품) / 창고명 / 담당자 / 연락처 / 사용여부 --->
-						<tr>
-							<td style="width: 100px;">
-								<div class="custom-control custom-checkbox mb-5">
-									<input type="checkbox" class="custom-control-input" id="tableCheckAll"> 
-									<label class="custom-control-label" for="tableCheckAll"></label>
-								</div>
-							</td>
-							<th>창고코드</th>
-							<th>위치</th>
-							<th>구분</th>
-							<th>창고명</th>
-							<th>담당자</th>
-							<th>연락처</th>
-							<th>사용여부</th>
-							<th>옵션</th>
-						</tr>
-
-						<c:forEach items="${warehouseList }" var="vo">
-						<tr>
-							<td>
-								<div class="custom-control custom-checkbox mb-5">
-									<input type="checkbox" class="custom-control-input checkCode" id="${vo.wh_code }" name="tableCheck" value="${vo.wh_code }"> 
-									<label class="custom-control-label" for="${vo.wh_code }"></label>
-								</div>
-							</td>
-							<th>${vo.wh_code }</th>
-							<th>${vo.location }</th>
-							<th>${vo.group_id }</th>
-							<th>${vo.group_name }</th>
-							<th>${vo.name }</th>
-							<th>${vo.phone }</th>
-							<th>${vo.active }</th>
-							<td style="">
-
-
-
-							<!-------------------------------- 옵션 선택 -------------------------------->
-							<div class="dropdown">
-								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i> </a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-										<!-- 상세 보기 -->
-										<a class="dropdown-item" href="#"><i class="dw dw-eye"></i>상세 보기</a>
-										<!-- 수정 -->
-										<a class="dropdown-item" href="javascript:openPage('/warehouse/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
-										<!-- 삭제 -->
-										<a class="dropdown-item" href="javascript:openPage('/warehouse/delete?code=${vo.wh_code }', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
-									</div>
-							</div>
-								
-								
-							</td>
-						</tr>
-						</c:forEach>
+					
+					
+					
+					<div class="pb-20">
+						<div class="col-sm-30">
+							<form class="table" id="table">
+								<table class="table table-striped">
+									<tr>
+										<td style="width: 100px;">
+										<!--- 창고코드 / 주소지 / 창고유형(원자재.완제품) / 창고명 / 담당자 / 연락처 / 사용여부 --->
+											<div class="custom-control custom-checkbox mb-5">
+												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
+											</div>
+										</td>
+										<th>발주번호</th>
+										<th>품번</th>
+										<th>접수일자</th>
+										<th>거래처</th>
+										<th>주문량</th>
+										<th>입고확인</th>
+										<th>납품일자</th>
+										<th>등록일</th>
+										<th>등록자</th>
+										<th>변경일</th>
+										<th>변경자</th>
+										<th>상태</th>
+									</tr>
+									
+									<c:forEach items="${orderList }" var="vo">
+										<tr>
+											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+											<td>
+												<div class="custom-control custom-checkbox mb-5">
+													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+													<input type="checkbox" class="custom-control-input" id="checkTable${vo.code }" name="tableCheck" value="${vo.code }">
+													<label class="custom-control-label" for="checkTable${vo.code }"></label>
+												</div>
+											</td>
+											<th>${vo.code }</th>
+											<th>${vo.material }</th>
+											<th>${vo.date }</th>
+											<th>${vo.client_code }</th>
+											<th>${vo.amount }</th>
+											<th>${vo.complete }</th>
+											<th>${vo.order_date }</th>
+											<th>${vo.reg_date }</th>
+											<th>${vo.reg_emp }</th>
+											<th>${vo.update_date }</th>
+											<th>${vo.update_emp }</th>
+											<th>${vo.status }</th>
+											<td style="">
+										
+										
+										
+										<!----- 옵션 ----->
+											<div class="dropdown">
+												<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+												</a>
+<%-- 												<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+													<!-- 링크 설정 -->
+													<!-- 상세 보기 -->
+													<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+													<!-- 수정 -->
+													<a class="dropdown-item" href="javascript:openPage('/warehouse/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+													<!-- 삭제 -->
+													<a class="dropdown-item" href="javascript:openPage('/warehouse/delete?index=${vo.wh_code }', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+												</div> --%>
+											</div>
+										</td>
+									</tr>
+									</c:forEach>
+								</table>
+							</form>
 							
-					</table>
-				</form>
+							
+				<!-- 			<div class="row">
+								<div class="col-sm-12 col-md-5">
+									<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
+									&nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
+								</div>
+							</div> -->
 
-				<!-------------------------------- 창고 갯수 -------------------------------->
-				<div class="row">
-					<div class="col-sm-12 col-md-5">
-						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
+
+							<!----- 페이징 시작 ----->
+							<div class="btn-toolbar justify-content-center mb-15">
+								<div class="btn-group">
+									<c:if test="${pageVO.prev}">
+										<a href="/order/list?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> 
+											<i class="fa fa-angle-double-left"></i>
+										</a>
+									</c:if>
+									<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+										<a href="/order/list?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}">
+											${i} </a>
+									</c:forEach>
+									<c:if test="${pageVO.next}">
+										<a href="/order/list?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> 
+											<i class="fa fa-angle-double-right"></i>
+										</a>
+									</c:if>
+								</div>
+							</div>
+							<!----- 페이징 끝 ----->
+
+
+
+						</div>
 					</div>
 				</div>
-
-
-				<!--------------------------------- 페이징 ---------------------------------->
-				<div class="btn-toolbar justify-content-center mb-15">
-					<div class="btn-group">
-						<c:if test="${pageVO.prev}">
-							<a href="/warehouse/list?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
-						</c:if>
-						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/warehouse/list?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
-						</c:forEach>
-						<c:if test="${pageVO.next}">
-							<a href="/warehouse/list?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
-						</c:if>
-					</div>
-				</div>
-
-
-			</div>
-		</div>
-	</div>
-
-				<!---------------------------------- 푸터 ----------------------------------->
-				<div class="footer-wrap pd-20 mb-20 card-box"> ePle MES made by 
-					<a href="https://github.com/dropways" target="_blank">아이티윌 부산 2023년 7월 프로젝트 2차 1조</a>
+				
+				
+				<!-- 푸터 -->
+				<div class="footer-wrap pd-20 mb-20 card-box">
+					ePle MES made by <a href="https://github.com/dropways" target="_blank">아이티윌 부산 2023년 7월 프로젝트 2차 1조</a>
 				</div>
 				<%@ include file="../include/footer.jsp"%>
 				<%@ include file="../include/datatable.jsp"%>
-				
-				
 			</div>
 		</div>
 	</div>
-	<!-- 메인 컨테이너 끝 -->
-
 
 
 
@@ -226,6 +239,8 @@
 	<!-- 모달 창 -->
 	
 	
+	
+	
 
 	<!-- 추가, 수정, 삭제, 상세보기 -->
 	<script type="text/javascript">
@@ -238,6 +253,7 @@
 		}else if(result == "DeleteDone"){
 			alert("글 삭제 완료");
 		}
+	
 	
 	
 	
@@ -281,43 +297,41 @@
 				openPage("/request/update", 400, 700);
 			});
 
+			// 삭제
+			$("#delete").click(function() {
+				// 가로, 세로 설정
+				openPage("/request/delete?", 400, 700);
+				// 체크된 데이터열의 코드들을 보내야함!
+				
+			});
+			
+			// 삭제
+			$(".info${status.index}").click(function() {
+        		var code = $(this).text().trim();
+				// 가로, 세로 설정
+				openPage("/request/info?code"+code, 400, 700);
+				// 체크된 데이터열의 코드들을 보내야함!
+				
+			});
+			
 			// 상세보기
 			$('body').on('click', '[class^="info"]', function(){
         		var code = $(this).text().trim();
       		  openPage("/request/info?code=" + code, 400, 700);
   			});
 			
-			
-			// 검색 - 사원 리스트 O
+			// 사원검색
 			$("#manager,#managerName").click(function() {
 				// 가로, 세로 설정
 				openPage("/warehouse/searchEmployees", 400,700);
 			});
-
-			
-			// 삭제
-			$("#delete").click(function() {
-				var codes = [];
-			    $("input:checkbox[name=tableCheck]:checked").each(function() {
-			    	codes.push($(this).val());
-			    });
-			    
-			    if (codes.length > 0) { 
-			        openPage("/warehouse/delete?codes=" + codes.join(','), 400, 700);
-			    } else {
-			        $('#warning-modal').modal('show'); 
-			    }
-			});
-
-
-			
 			
 		});
 		
+		
 
-
- 		// 검색하기
-  		function doSearch() {
+ 		//검색하기
+/*   		function doSearch() {
 		        var query = {"searchCode" : $("#whCode").val(), "searchName" : $("#manager").val()};
 		        
 		        console.log("searchCode:", query.searchCode);
@@ -348,16 +362,18 @@
 		            }
 
 		        });
-		} 
+		    
+		}  */
 		
 
-		// 검색 초기화 , placeholder 재지정 
+  		
+/* 		//검색 초기화 버튼 , placeholder 재지정 O
 		function resetSearch() {
 			$("#manager").val("");
 			$("#managerName").val("");
 		    $("#manager").attr("placeholder", "관리자코드");
 		    $("#managerName").attr("placeholder", "관리자이름");
-		}
+		} */
 
 		
 	</script>

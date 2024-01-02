@@ -3,15 +3,102 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-    
+  
   <!--orderMapper.xml -->
   <mapper namespace="com.itwillbs.mapper.OrderMapper">
-  	
-  <select id="countOrder" resultType="int">
-	<![CDATA[	
-	SELECT count(*) FROM ORDER
-	]]>
-  </select>
+  
+  	<resultMap type="com.itwillbs.domain.OrderVO" id="order">
+		<result property="code" column="code"/>
+		<result property="material" column="material"/>
+		<result property="date" column="date"/>
+		<result property="client_code" column="client_code"/>
+		<result property="amount" column="amount"/>
+		<result property="complete" column="complete"/>
+		<result property="order_date" column="order_date"/>
+		<result property="reg_date" column="reg_date"/>
+		<result property="reg_emp" column="reg_emp"/>
+		<result property="update_date" column="update_date"/>
+		<result property="update_emp" column="update_emp"/>
+		<result property="status" column="status"/>
+	</resultMap>
+
+	
+	<!-- 발주 목록, 발주 검색 -->
+	<select id="selectOrderList" parameterType="hashMap" resultMap="order">
+    	SELECT *
+    	FROM ORDERS
+		<where>
+			<if test="searchOrder != null or searchMapd != null">
+			<if test="searchOrder != null">
+				code LIKE CONCAT('%', #{searchOrder}, '%')
+			</if>
+			<if test="searchOrder != null and searchMapd != null">
+				AND
+			</if>
+			<if test="searchMapd != null">
+				material LIKE CONCAT('%', #{searchMapd}, '%')
+			</if>
+			</if>
+    	</where>
+    	ORDER BY CAST(SUBSTRING(code, 4) AS UNSIGNED) DESC	<!-- 코드 정하면 수정하기 -->
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>
+
+	<!-- 모든 발주 수 -->
+	<select id="countOrder" parameterType="hashMap" resultType="int">
+		SELECT count(*) 
+		FROM ORDERS
+		<where>
+			<if test="searchOrder != null or searchMapd != null">
+			<if test="searchOrder != null">
+				code LIKE CONCAT('%', #{searchOrder}, '%')
+			</if>
+			<if test="searchOrder != null and searchMapd != null">
+				AND
+			</if>
+			<if test="searchMapd != null">
+				material LIKE CONCAT('%', #{searchMapd}, '%')
+			</if>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 품목 검색 팝업 -->
+	<select id="SearchEmployees" parameterType="hashMap" resultMap="order">
+		SELECT code, name
+		FROM EMPLOYEES
+		WHERE dep_id = ''	
+			<if test="empCode != null or empName != null">
+			<if test="empCode != null">
+				AND code LIKE CONCAT('%', #{empCode}, '%')
+			</if>
+			<if test="empCode != null and empName != null">
+				AND
+			</if>
+			<if test="empName != null">
+				name LIKE CONCAT('%', #{empName}, '%')
+			</if>
+			</if>
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>	
+	
+	<!-- 모든 품목 수 -->
+	<select id="countEmployees" parameterType="hashMap" resultType="int">
+		SELECT count(*) 
+		FROM EMPLOYEES
+		WHERE dep_id = ''	
+			<if test="empCode != null or empName != null">
+			<if test="empCode != null">
+				AND code LIKE CONCAT('%', #{empCode}, '%')
+			</if>
+			<if test="empCode != null and empName != null">
+				AND
+			</if>
+			<if test="empName != null">
+				name LIKE CONCAT('%', #{empName}, '%')
+			</if>
+			</if>
+	</select>
   
   
   
