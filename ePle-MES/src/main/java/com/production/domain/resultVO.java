@@ -16,4 +16,6 @@ public class resultVO {
 	private Timestamp update_date;
 	private String update_emp;
 	private String inst_code;
+	
+	private instructionVO vo;
 }

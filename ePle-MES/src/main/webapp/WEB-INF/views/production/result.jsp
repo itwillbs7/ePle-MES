@@ -67,7 +67,7 @@
 				<!-- 실적 데이터 테이블 시작 -->
 				<div class="card-box mb-30">
 					<div class="pb-20" style="padding: 20px">
-						<table class="data-table table hover multiple-select-row nowrap">
+						<table class="data-table table hover select-row nowrap" id="resultTable">
 							<thead>
 								<tr>
 									<th>실적번호</th>
@@ -84,17 +84,17 @@
 							</thead>
 							<tbody>
 								<c:forEach items="${rsList }" var="result">
-									<tr>
-										<td>${result }</td>
-										<td>${code }</td>
-										<td>${code }</td>
-										<td>${code }</td>
-										<td>${code }</td>
-										<td>${code }</td>
-										<td>${code }</td>
-										<td>${code }</td>
-										<td>${code }</td>
-										<td>${code }</td>
+									<tr class="result">
+										<td>${result.code }<input type="hidden" class="hiddenCode" value="${result.code }"></td>
+										<td>생산일</td>
+										<td>${result.vo.line_code }</td>
+										<td>상태</td>
+										<td>지시사항.제품코드</td>
+										<td>${result.vo.product }</td>
+										<td>단위</td>
+										<td>${result.vo.amount }</td>
+										<td>${result.amount }</td>
+										<td>부적합량</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -113,56 +113,6 @@
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="result" role="tabpanel">
 								<div class="pd-20">
-									<table border="1px solid black" style="border-spacing: 10px; border-collapse: separate;">
-										<tr>
-											<td>
-												<span class="infoDF">실적번호</span>
-												<span class="infoAS">실적번호1</span>
-											</td>
-											<td>
-												<span class="infoDF">제품코드</span>
-												<span class="infoAS">제품코드1</span>
-											</td>
-											<td>
-												<span class="infoDF">제품명</span>
-												<span class="infoAS">제품명1</span>
-											</td>
-											<td>
-												<span class="infoDF">상태</span>
-												<span class="infoAS">상태1</span>
-											</td>
-											<td>
-												<span class="infoDF">단위</span>
-												<span class="infoAS">단위1</span>
-											</td>
-											<td>
-												<span class="infoDF">LOT</span>
-												<span class="infoAS">LOT1</span>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<span class="infoDF">라인</span>
-												<span class="infoAS">라인1</span>
-											</td>
-											<td>
-												<span class="infoDF">기간</span>
-												<span class="infoAS">기간1</span>
-											</td>
-											<td>
-												<span class="infoDF">지시량</span>
-												<span class="infoAS">지시량1</span>
-											</td>
-											<td>
-												<span class="infoDF">양품량</span>
-												<span class="infoAS">양품량1</span>
-											</td>
-											<td>
-												<span class="infoDF">부적합량</span>
-												<span class="infoAS">부적합량1</span>
-											</td>
-										</tr>
-									</table>
 								</div>
 							</div>
 							<div class="tab-pane fade" id="failed" role="tabpanel">
@@ -184,5 +134,88 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		$(".result").click(function(){
+			if (!$(this).hasClass('selected')) {
+				var code = $(this).find(".hiddenCode").val();
+				//실적 정보 편집 추가
+				$.ajax({
+					url : "/production/ajaxResult",
+					method : "POST",
+					data : {code : code},
+					error : function(){
+						alert("error");
+					},
+					success : function(data) {
+						alert(data);
+						var result = "<c:out value='${rsList.indexOf('" + code + "')}'/>";
+						$('#result').empty();
+						var html = "";
+						html += "<table border='1px solid black' style='border-spacing: 10px; border-collapse: separate;'>";
+						html += "<tr>";
+						html += "<td>";
+						html += "<span class='infoDF'>실적번호</span>";
+						html += "<span class='infoAS'><input type='text' value='" + result.getCode() + "'></span>";
+						html += "</td>";
+						html += "<td>";
+						html += "<span class='infoDF'>제품코드</span>";
+						html += "<span class='infoAS'>제품코드1</span>";
+						html += "</td>";
+						html += "<td>";
+						html += "<span class='infoDF'>제품명</span>";
+						html += "<span class='infoAS'>제품명1</span>";
+						html += "</td>";
+						html += "<td>";
+						html += "<span class='infoDF'>상태</span>";
+						html += "<span class='infoAS'>상태1</span>";
+						html += "</td>";
+						html += "<td>";
+						html += "<span class='infoDF'>단위</span>";
+						html += "<span class='infoAS'>단위1</span>";
+						html += "</td>";
+						html += "<td>";
+						html += "<span class='infoDF'>LOT</span>";
+						html += "<span class='infoAS'>LOT1</span>";
+						html += "</td>";
+						html += "</tr>";
+						html += "<tr>";
+						html += "<td>";
+						html += "<span class='infoDF'>라인</span>";
+						html += "<span class='infoAS'>라인1</span>";
+						html += "</td>";
+						html += "<td>";
+						html += "<span class='infoDF'>기간</span>";
+						html += "<span class='infoAS'>기간1</span>";
+						html += "</td>";
+						html += "<td>";
+						html += "<span class='infoDF'>지시량</span>";
+						html += "<span class='infoAS'>지시량1</span>";
+						html += "</td>";
+						html += "<td>";
+						html += "<span class='infoDF'>양품량</span>";
+						html += "<span class='infoAS'>양품량1</span>";
+						html += "</td>";
+						html += "<td>";
+						html += "<span class='infoDF'>부적합량</span>";
+						html += "<span class='infoAS'>부적합량1</span>";
+						html += "</td>";
+						html += "</tr>";
+						html += "</table>";
+						$('#result').append(html);
+					}
+				});
+	        }else{
+	        	//실적 정보 편집 삭제
+	        }
+		});
+		
+	</script>
+	<script type="text/javascript">
+		$('.select-row tbody').on('click', 'tr', function () {
+			if ($(this).hasClass('selected')) {
+				$('#result').empty();
+			}
+		});
+	</script>
 </body>
 </html>

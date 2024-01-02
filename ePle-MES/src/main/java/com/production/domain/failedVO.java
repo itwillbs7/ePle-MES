@@ -5,15 +5,17 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 @Data
-public class instructionVO {
-	private int code;
-	private String request;
-	private String product;
-	private int amount;
-	private String line_code;
+public class failedVO {
+	private String code;
+	private String emp_code;
+	private String group_id;
+	private String code_id;
 	private String content;
+	private String action;
+	private int amount;
 	private Timestamp reg_date;
 	private String reg_emp;
 	private Timestamp update_date;
 	private String update_emp;
+	private String inst_code;
 }

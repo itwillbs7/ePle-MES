@@ -47,7 +47,9 @@ $('document').ready(function(){
 			$(this).removeClass('selected');
 		}
 		else {
-			table.$('tr.selected').removeClass('selected');
+			$('.select-row').find($('tr.selected')).each(function() {
+				$(this).removeClass('selected');
+			});
 			$(this).addClass('selected');
 		}
 	});

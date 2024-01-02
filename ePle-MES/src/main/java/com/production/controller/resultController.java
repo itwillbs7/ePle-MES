@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.production.domain.resultVO;
 import com.production.service.resultService;
@@ -47,6 +48,8 @@ public class resultController {
 		//실적 목록 가져오기
 		List<resultVO> rsList = rsService.getResultList(date,line_code,isFinish);
 		logger.debug("rsList : " + rsList);
+		logger.debug("rsListin : " + rsList.get(0).getAmount());
+		logger.debug("rsListin : " + rsList.get(0).getVo().getAmount());
 		model.addAttribute("rsList", rsList);
 		
 	}
@@ -55,5 +58,19 @@ public class resultController {
 	@RequestMapping(value = "/result", method = RequestMethod.POST)
 	public void resultPOST() throws Exception {
 		logger.debug("Controller : resultPOST() 호출");
+	}
+	//실적페이지ajax POST
+	@RequestMapping(value = "/ajaxResult", method = RequestMethod.POST)
+	@ResponseBody
+	public String ajaxResult(@RequestParam("code") String code) throws Exception {
+		logger.debug("Controller : ajaxResult(String code) 호출");
+		logger.debug("code : " + code);
+		//기본정보 저장
+		
+		//불량정보 저장
+		
+		//투입정보 저장
+		
+		return "ajax성공";
 	}
 }
