@@ -7,21 +7,18 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../../include/head.jsp"%>
-<title>보전 내역</title>
+<title>일상 보전 내역</title>
 </head>
 <body>
+<fmt:setLocale value="ko_kr"/>
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
 		<button type="button" class="close" onclick="window.close();">×</button>
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">보전 내역</h1>
-				<h4 class="text-center">오늘 진행 : 
-				<c:choose>
-					<c:when test="${empty list}">0</c:when>
-					<c:when test="${!empty list}">${list.size}</c:when>
-				</c:choose>개</h4>
+				<h1 class="text-center text-primary">일상 보전 내역</h1>
+				<h4 class="text-center">오늘 진행 : ${count}개</h4>
 			</div>
 			<!-- 폼 -->
 			<form method="post">
@@ -36,7 +33,7 @@
 									</c:when>
 									<c:when test="${!empty list and list.size() > 0}">
 										<c:forEach var="i" items="${list}">
-											<li class="list-group-item">${list.reg_date} : ${list.mt_subject}</li>
+											<li class="list-group-item">${i.code} : <fmt:formatDate value="${i.reg_date}" type="time" pattern="(a) hh:mm:ss"/></li>
 										</c:forEach>
 									</c:when>
 								</c:choose>

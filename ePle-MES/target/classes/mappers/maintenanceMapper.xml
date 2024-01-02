@@ -387,13 +387,13 @@
 		SELECT code, reg_date 
 		FROM FAC_MT 
 		WHERE emp_code = #{emp_code} 
-		AND DATE_FORMAT(reg_date, '%Y-%m-%d') == DATE_FORMAT(NOW(), '%Y-%m-%d')
+		AND DATE_FORMAT(reg_date, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
 	</select>
 	<!-- getDailyRM -->
 	<!-- getDailyRMCount -->
 	<select id="getDailyRMCount" resultType="int">
 		SELECT COUNT(*) FROM FAC_MT WHERE emp_code = #{emp_code} 
-		AND DATE_FORMAT(reg_date, '%Y-%m-%d') == DATE_FORMAT(NOW(), '%Y-%m-%d')
+		AND DATE_FORMAT(reg_date, '%Y-%m-%d')= DATE_FORMAT(NOW(), '%Y-%m-%d')
 	</select>
 	<!-- getDailyRMCount -->
 	<!-- 일상 보전 -->	
