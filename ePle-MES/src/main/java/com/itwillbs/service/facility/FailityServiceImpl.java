@@ -7,9 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.FacilityVO;
-import com.itwillbs.domain.LineVO;
 import com.itwillbs.domain.PageVO;
-import com.itwillbs.domain.SearchVO;
 import com.itwillbs.persistence.facility.FacilityDAO;
 
 @Service
@@ -64,25 +62,12 @@ public class FailityServiceImpl implements FacilityService {
 	}
 	
 	@Override
-	public List<FacilityVO> getFacilityListEmployee(String client_code) throws Exception{
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public List<FacilityVO> getFacilityListManager(String line_code) throws Exception{
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public List<FacilityVO> getFacilityListAdmin(String category) throws Exception{
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
 	public List<FacilityVO> getCommonCodeList(String group_id) throws Exception {
-		return null;
+		return dao.getCommonCodeList(group_id);
+	}
+	
+	@Override
+	public List<FacilityVO> getFacManager(String emp_code) throws Exception {
+		return dao.getFacManager(emp_code);
 	}
 }

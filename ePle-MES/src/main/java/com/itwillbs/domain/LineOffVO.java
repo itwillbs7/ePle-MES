@@ -10,6 +10,7 @@ public class LineOffVO {
 	private Timestamp start_time;
 	private Timestamp end_time;
 	private String line_code;
+	private String line_name;
 	private String group_id;
 	private String code_id;
 }

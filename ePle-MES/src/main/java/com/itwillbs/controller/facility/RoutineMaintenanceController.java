@@ -1,5 +1,8 @@
 package com.itwillbs.controller.facility;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.MaintenanceVO;
+import com.itwillbs.service.facility.FacilityService;
 import com.itwillbs.service.facility.MaintenanceService;
 
 @Controller
@@ -20,6 +24,9 @@ import com.itwillbs.service.facility.MaintenanceService;
 public class RoutineMaintenanceController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RoutineMaintenanceController.class);
+	
+	@Inject
+	private FacilityService fService;
 	
 	@Inject
 	private MaintenanceService mService;
@@ -38,16 +45,38 @@ public class RoutineMaintenanceController {
 
 	@GetMapping("/insert")
 	public void insertGET(HttpSession session, Model model) throws Exception {
-		model.addAttribute("role", "emp");
+		model.addAttribute("list", fService.getFacManager("test5"));
+		model.addAttribute("emp_code", "test5");
 	}
 	
 	@PostMapping("/insert")
 	public String insertPOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
 		String link = "";
 		// 최상단에 등록된 일상보전 가져오기
-		
-		int result = mService.addRM(vo);
-		if(result == 1) {
+		String recentCode = mService.getRecentCode(vo.getCode());
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+		String now = dateformat.format(new Date());
+		String code = vo.getCode();
+		if(recentCode == null || recentCode.equals("")) {
+			// 코드 새로 생성
+			code += now;
+			code += "001";
+		}
+		else {
+			// 날짜가 오늘일 경우엔 + 1 해주기
+			String fDate = recentCode.substring(2, recentCode.length()-3);
+			if(now.equals(fDate)) {				
+				String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
+				while(fCount.length() < 3) fCount = "0" + fCount;
+				code += fDate + fCount;
+			}
+			else {
+				code += now + "001";
+			}
+		}
+		vo.setCode(code);
+		int result = mService.insert(vo);
+		if(result >= 1) {
 			link = "redirect:/confirm";
 			rttr.addFlashAttribute("title", "일상 보전 결과");
 			rttr.addFlashAttribute("result", "보전 등록이 완료되었습니다.");
@@ -62,11 +91,8 @@ public class RoutineMaintenanceController {
 	
 	@GetMapping("/list")
 	public void listGET(HttpSession session, Model model) throws Exception{
-		String role = "emp";
-		if(role.equals("emp") || role.equals("manager")) {
-			
-		}
-		else if(role.equals("admin"))
-		model.addAttribute("list", mService.getRMList((String)session.getAttribute("userid")));
+		String emp_code = "test5";
+		model.addAttribute("list", mService.getDailyRM(emp_code));
+		model.addAttribute("count", mService.getDailyRMCount(emp_code));
 	}
 }

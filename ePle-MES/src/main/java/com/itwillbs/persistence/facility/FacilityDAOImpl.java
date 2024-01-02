@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.FacilityVO;
-import com.itwillbs.domain.LineVO;
 import com.itwillbs.domain.PageVO;
 
 @Repository
@@ -69,17 +68,7 @@ public class FacilityDAOImpl implements FacilityDAO {
 	}
 	
 	@Override
-	public List<FacilityVO> getListEmployee(String client_code) throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".", client_code);
-	}
-	
-	@Override
-	public List<FacilityVO> getListManager(String line_code) throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".", line_code);
-	}
-	
-	@Override
-	public List<FacilityVO> getListAdmin(String category) throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".", category);
+	public List<FacilityVO> getFacManager(String emp_code) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getFacManager", emp_code);
 	}
 }

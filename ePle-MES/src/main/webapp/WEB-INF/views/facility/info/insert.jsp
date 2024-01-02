@@ -35,7 +35,6 @@
 								<div class="col-sm-12 mb-3">
 									<input type="hidden" name="group_id" value="FACPRO">
 									<div class="form-group">
-										<input type="hidden" name="group_id" value="FACPRO">
 										<label>물품 종류</label> <select class="form-control" name="code_id" required>
 											<option>선택</option>
 											<c:forEach items="${proList}" var="i">
@@ -103,7 +102,7 @@
 										<label>이름</label> <input class="form-control" type="text" name="name" required>
 									</div>
 									<div class="form-group">
-										<label>구매 일자</label> <input class="form-control" type="date" name="purchase_date" required>
+										<label>구매 일자</label> <input class="form-control" type="date" name="purchase_date" required  required max="<%=today%>">
 									</div>
 									<div class="form-group">
 										<label>구매 금액</label> <input class="form-control" type="number" name="inprice" required min="1000" max="100000000" step="1000" oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100000000) e.target.value = 99999999;}else{e.target.value = 1;}}}">
@@ -153,7 +152,7 @@
 										<label>이름</label> <input class="form-control" type="text" name="name" required>
 									</div>
 									<div class="form-group">
-										<label>구매 일자</label> <input class="form-control" type="date" name="purchase_date" required>
+										<label>구매 일자</label> <input class="form-control" type="date" name="purchase_date" required  required max="<%=today%>">
 									</div>
 									<div class="form-group">
 										<label>구매 금액</label> <input class="form-control" type="number" name="inprice" required min="1000" max="100000000" step="1000" oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100000000) e.target.value = 99999999;}else{e.target.value = 1;}}}">

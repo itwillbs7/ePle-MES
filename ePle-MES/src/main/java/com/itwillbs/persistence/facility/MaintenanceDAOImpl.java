@@ -19,47 +19,67 @@ public class MaintenanceDAOImpl implements MaintenanceDAO{
 	private SqlSession sqlSession;
 	
 	@Override
-	public int insertMaintenance(MaintenanceVO vo) throws Exception{
-		return sqlSession.insert(NAMESPACE + ".insertMain", vo);
+	public String getRecentCode(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getRecentCode", code);
 	}
 	
 	@Override
-	public int insertRM(MaintenanceVO vo) throws Exception {
-		return sqlSession.insert(NAMESPACE + ".insertRM", vo);
+	public int insert(MaintenanceVO vo) throws Exception {
+		return sqlSession.insert(NAMESPACE + ".insertMT", vo);
 	}
 	
 	@Override
-	public int updateMaintenance(MaintenanceVO vo) throws Exception {
-		return sqlSession.update(NAMESPACE + ".updateMaintenance", vo);
+	public int updateMT(MaintenanceVO vo) throws Exception {
+		return sqlSession.update(NAMESPACE + ".updateMT", vo);
 	}
 	
 	@Override
-	public int deleteMaintenance(String[] codeList) throws Exception {
-		return sqlSession.delete(NAMESPACE + ".deleteMaintenance", codeList);
+	public int updateResult(MaintenanceVO vo) throws Exception {
+		return sqlSession.update(NAMESPACE + ".updateResult", vo);
 	}
 	
 	@Override
-	public int getMaintenanceCount(PageVO vo) throws Exception{
-		return sqlSession.selectOne(NAMESPACE + ".getMaintenanceCount", vo);
+	public int delete(String[] codeList) throws Exception {
+		return sqlSession.delete(NAMESPACE + ".deleteMT", codeList);
 	}
 	
 	@Override
-	public List<MaintenanceVO> getMaintenanceList(PageVO vo) throws Exception{
-		return sqlSession.selectList(NAMESPACE + ".getMaintenanceList", vo);
+	public List<MaintenanceVO> getList(PageVO vo) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getList", vo);
 	}
 	
 	@Override
-	public List<MaintenanceVO> getFacilityInfo(FacilityVO vo) throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".getFacilityList", vo);
+	public int getListCount(PageVO vo) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getListCount", vo);
 	}
 	
 	@Override
-	public MaintenanceVO getDetail(MaintenanceVO vo) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".getDetail", vo);
+	public MaintenanceVO getDetail(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getMain", code);
 	}
 	
 	@Override
-	public List<MaintenanceVO> getRMList(String emp) throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".getRMList", emp);
+	public List<MaintenanceVO> getFacilityInfo(String code) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getFacilityInfo", code);
+	}
+	
+	@Override
+	public int getFacilityInfoCount(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getFacilityInfoCount", code);
+	}
+	
+	@Override
+	public List<MaintenanceVO> getDailyRM(String emp_code) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getDailyRM", emp_code);
+	}
+	
+	@Override
+	public int getDailyRMCount(String emp_code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getDailyRMCount", emp_code);
+	}
+	
+	@Override
+	public List<MaintenanceVO> getAjax(PageVO vo) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getAjax", vo);
 	}
 }

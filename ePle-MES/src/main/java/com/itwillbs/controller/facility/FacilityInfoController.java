@@ -79,7 +79,6 @@ public class FacilityInfoController {
 		// 설비 추가 액션
 		// FAC 20231229 001
 		String recentCode = fService.getRecentFacility();
-		logger.debug("recent : " + recentCode);
 		String code = "FAC";
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
 		String now = dateformat.format(new Date());
@@ -183,7 +182,8 @@ public class FacilityInfoController {
 	@GetMapping("/detail")
 	public void facilityDetail(Model model, FacilityVO vo) throws Exception {
 		FacilityVO info = fService.getFacility(vo);
-		info.setMainList(mService.getFacilityInfo(vo));
+		info.setMainList(mService.getFacilityInfo(vo.getCode()));
+		model.addAttribute("count", mService.getFacilityInfoCount(vo.getCode()));
 		model.addAttribute("info", info);
 	}
 	

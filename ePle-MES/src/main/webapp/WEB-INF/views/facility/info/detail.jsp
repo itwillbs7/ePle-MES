@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page session="false"%>
 <html>
 <head>
@@ -8,6 +9,7 @@
 <title>설비 상세 정보</title>
 </head>
 <body>
+	<fmt:setLocale value="ko_kr"/>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
 	<%@ include file="../../include/header.jsp"%>
 	<%@ include file="../../include/right-side-bar.jsp"%>
@@ -40,11 +42,7 @@
 						</tr>
 						<tr>
 							<th>카테고리</th>
-							<td><c:choose>
-									<c:when test="${info.category eq 'production'}">생산</c:when>
-									<c:when test="${info.category eq 'non-production'}">비생산</c:when>
-									<c:when test="${info.category eq 'etc'}">기타</c:when>
-								</c:choose></td>
+							<td>${info.group_name}</td>
 							<th>사용 상태</th>
 							<td><c:choose>
 									<c:when test="${info.active}">
@@ -57,14 +55,14 @@
 						</tr>
 						<tr>
 							<th>구매 일자</th>
-							<td>${info.purchase_date}</td>
+							<td><fmt:formatDate value="${info.purchase_date}" dateStyle="full"/></td>
 							<th>구매 금액</th>
-							<td>${info.inprice}</td>
+							<td><fmt:formatNumber value="${info.inprice}" type="currency"/></td>
 						</tr>
 						<tr>
 							<th>라인 코드</th>
 							<td>${info.line_code}</td>
-							<th>사용자</th>
+							<th>제조사</th>
 							<td>${info.client_code}</td>
 						</tr>
 					</table>

@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class FacilityVO {
 	private String code;
+	private String emp_code;
 	private String group_id;
 	private String group_name;
 	private String code_id;

@@ -29,8 +29,8 @@
 	<!-- resultMap -->
 
 	<select id="getFacility" resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
-		SELECT f.code, f.group_id, co.group_name, f.code_id, co.code_name, f.name, f.model, f.client_code, 
-		cli.name as client_name, f.purchase_date, inprice, line_code, l.name as line_name, f.uph, f.active
+		SELECT f.code, co.group_name, co.code_name, f.name, f.model,  
+		cli.name as client_name, f.purchase_date, inprice, l.name as line_name, f.uph, f.active
 		FROM FAC_INFO f
 		JOIN COMMON_CODE co ON f.group_id = co.group_id AND f.code_id = co.code_id 
 		LEFT OUTER JOIN CLIENT cli ON cli.code = f.client_code 
@@ -135,18 +135,18 @@
 	<!-- 추가 -->
 	<insert id="insertFacility">
 		<choose>
-			<when test="category.toString() eq 'production'">
+			<when test="group_id.toString() eq 'FACPRO'">
 				INSERT INTO FAC_INFO (code, group_id, code_id, name, model, 
 				purchase_date, inprice, uph, line_code)
 				VALUES (#{code}, #{group_id}, #{code_id}, #{name},
 				#{model}, #{purchase_date}, ${inprice}, ${uph}, #{line_code})
 			</when>
-			<when test="category.toString() neq 'production'">
+			<otherwise>
 				INSERT INTO FAC_INFO (code, group_id, code_id, name, model, 
 				purchase_date, inprice, line_code)
 				VALUES (#{code}, #{group_id}, #{code_id}, #{name},
 				#{model}, #{purchase_date}, ${inprice}, #{line_code})
-			</when>
+			</otherwise>
 		</choose>
 	</insert>
 	<!-- 추가 -->
@@ -200,9 +200,8 @@
 	<select id="getFacilityList"
 		resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
 		<![CDATA[
-			SELECT f.code, f.group_id, co.group_name, f.code_id, co.code_name, 
-			f.name, f.model, f.client_code, cli.name as client_name, f.purchase_date, 
-			inprice, line_code, l.name as line_name, f.uph, f.active
+			SELECT f.code, co.group_name, co.code_name, 
+			f.name, f.model, l.name as line_name, 
 			FROM FAC_INFO f
 			JOIN COMMON_CODE co ON f.group_id = co.group_id AND f.code_id = co.code_id 
 			LEFT OUTER JOIN CLIENT cli ON cli.code = f.client_code 
@@ -222,9 +221,9 @@
 	<select id="getExportList"
 		resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
 		<![CDATA[
-			SELECT f.code, f.group_id, co.group_name, f.code_id, co.code_name, f.name, 
-			f.model, f.client_code, cli.name as client_name, f.purchase_date, inprice, 
-			line_code, l.name as line_name, f.uph, f.active
+			SELECT f.code, co.group_name, co.code_name, f.name, 
+			f.model, cli.name as client_name, f.purchase_date, inprice, 
+			l.name as line_name, f.uph
 			FROM FAC_INFO f
 			JOIN COMMON_CODE co ON f.group_id = co.group_id AND f.code_id = co.code_id 
 			LEFT OUTER JOIN CLIENT cli ON cli.code = f.client_code 
@@ -238,8 +237,13 @@
 		SELECT code AS line_code, name AS line_name FROM LINE
 	</select>
 	
-	<select id="getCommonCodeList">
+	<select id="getCommonCodeList" resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
 		SELECT group_id, group_name, code_id, code_name from COMMON_CODE 
 		WHERE group_id = #{group_id}
+	</select>
+	
+	<select id="getFacManager" resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
+		SELECT code, model, name FROM FAC_INFO 
+		WHERE emp_code = #{emp_code}
 	</select>
 </mapper>

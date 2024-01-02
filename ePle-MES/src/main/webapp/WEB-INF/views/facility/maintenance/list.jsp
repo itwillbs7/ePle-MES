@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
+<%
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	String today = dateFormat.format(new Date());
+%>
 <html>
 <head>
 <%@ include file="../../include/head.jsp"%>
-<title>설비 목록</title>
+<title>보전 목록</title>
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -15,8 +20,17 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>설비 목록</h1>
+				<h1>보전 목록</h1>
 			</div>
+			<ul class="nav nav-pills" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link text-blue active" href="/facility/maintenance/list">보전 목록</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-blue" href="/facility/maintenance/result/list">보전 결과</a>
+				</li>
+			</ul>
+			<br>
 			<div class="min-height-200px">
 				<!-- 아코디언 시작 -->
 				<div class="faq-wrap">
@@ -60,72 +74,36 @@
 													<h4 class="text-blue h4">상세 검색</h4>
 												</div>
 												<div class="row">
-													<div class="col-md-1 col-sm-12">
+													<div class="col-md-2 col-sm-12">
 														<label class="weight-600">체크 박스</label>
 														<div class="custom-control custom-checkbox mb-5">
 															<input type="checkbox" class="custom-control-input" id="formCheckAll"> <label class="custom-control-label" for="formCheckAll"><b>전체</b></label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck1" name="formCheck" value="production"> <label class="custom-control-label" for="formCheck1">생산</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck1" name="formCheck" value="PM"> <label class="custom-control-label" for="formCheck1">예방 보전</label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck2" name="formCheck" value="non-production"> <label class="custom-control-label" for="formCheck2">비생산</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck2" name="formCheck" value="BM"> <label class="custom-control-label" for="formCheck2">사후 보전</label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck3" name="formCheck" value="etc"> <label class="custom-control-label" for="formCheck3">기타</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck3" name="formCheck" value="EM"> <label class="custom-control-label" for="formCheck3">긴급 보전</label>
 														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<label class="weight-600">상태</label>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" value="true" checked> <label class="custom-control-label" for="formRadio2">활성화</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
+														<div class="custom-control custom-checkbox mb-5">
+															<input type="checkbox" class="custom-control-input" id="formCheck4" name="formCheck" value="CM"> <label class="custom-control-label" for="formCheck4">개량 보전</label>
 														</div>
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
-															<label>날짜</label> <input type="date" name="date" class="form-control" value="${pageVO.search.date}">
+															<label>날짜</label> <input type="date" name="date" class="form-control" value="${pageVO.search.date}" max="<%=today%>">
 														</div>
 													</div>
 													<div class="col-md-4 col-sm-12">
 														<div class="form-group" style="display: inline-block;">
-															<label>기간</label> <input type="date" id="dateLeft" value="${pageVO.search.betweenDateLeft}" name="betweenDateLeft" class="form-control">
+															<label>기간</label> <input type="date" id="dateLeft" value="${pageVO.search.betweenDateLeft}" name="betweenDateLeft" class="form-control" max="<%=today%>">
 														</div>
 														<b>-</b>
 														<div class="form-group" style="display: inline-block;">
-															<input type="date" id="dateRight" value="${pageVO.search.betweenDateRight}" name="betweenDateRight" class="form-control">
-														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<div class="form-group">
-															<label>종류</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="category">
-																<optgroup label="Alaskan/Hawaiian Time Zone">
-																	<option value="AK">Alaska</option>
-																	<option value="HI">Hawaii</option>
-																</optgroup>
-																<optgroup label="Pacific Time Zone">
-																	<option value="CA">California</option>
-																	<option value="NV">Nevada</option>
-																	<option value="OR">Oregon</option>
-																	<option value="WA">Washington</option>
-																</optgroup>
-																<optgroup label="Mountain Time Zone">
-																	<option value="AZ">Arizona</option>
-																	<option value="CO">Colorado</option>
-																	<option value="ID">Idaho</option>
-																	<option value="MT">Montana</option>
-																	<option value="NE">Nebraska</option>
-																	<option value="NM">New Mexico</option>
-																	<option value="ND">North Dakota</option>
-																	<option value="UT">Utah</option>
-																	<option value="WY">Wyoming</option>
-																</optgroup>
-															</select>
+															<input type="date" id="dateRight" value="${pageVO.search.betweenDateRight}" name="betweenDateRight" class="form-control" max="<%=today%>">
 														</div>
 													</div>
 												</div>
@@ -169,7 +147,7 @@
 					</div>
 				</div>
 				<!-- 아코디언 끝 -->
-				<!-- Checkbox select Datatable start -->
+				<!-- table start -->
 				<div class="card-box mb-30">
 					<div class="pd-20">
 						<div class="btn-group pull-left" style="margin-bottom: 15px">
@@ -195,9 +173,6 @@
 							<button type="button" class="btn btn-success" id="add">
 								<b>추가</b>
 							</button>
-							<button type="button" class="btn btn-warning" id="update">
-								<b>수정</b>
-							</button>
 							<button type="button" class="btn btn-danger" id="delete">
 								<b>삭제</b>
 							</button>
@@ -212,7 +187,7 @@
 											<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 										</div>
 									</td>
-									<c:forEach begin="0" end="4" var="i">
+									<c:forEach begin="0" end="5" var="i">
 										<th class="btn-light" onclick="javascript:orderList(${i})"><c:if test="${i eq pageVO.search.activeSortCategory}">
 												<c:choose>
 													<c:when test="${pageVO.search.sortValue eq 'asc'}">
@@ -238,14 +213,15 @@
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<td><div class="custom-control custom-checkbox mb-5">
 													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-													<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> <label class="custom-control-label" for="checkTable1"></label>
+													<input type="checkbox" class="custom-control-input" id="checkTable${i.code}" name="tableCheck" value="${i.code}"> <label class="custom-control-label" for="checkTable${i.code}"></label>
 												</div></td>
-											<th>${i.code}</th>
-											<th>${i.category}</th>
-											<th>${i.model}</th>
+											<th><a href="/facility/maintenance/detail?code=${i.code}"><b class="text-blue" id="tableTitle1">${i.code}</b></a></th>
+											<th>${i.code_name}</th>
+											<th>${i.reg_date}</th>
+											<th id="tableinfo${i.code}">${i.emp_name}</th>
 											<!-- 상세 정보 이동! -->
-											<th><a href="/facility/info/detail?code=${i.code}"><b class="text-blue" id="tableTitle1">${i.name}</b></a></th>
-											<th>${i.line_code}</th>
+											<th>${i.fac_code}</th>
+											<th id="tableTitle${i.code}">${i.mt_subejct}</th>
 											<td style="">
 												<!-- 옵션 -->
 												<div class="dropdown">
@@ -254,11 +230,11 @@
 													<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 														<!-- 링크 설정 -->
 														<!-- 상세 보기 -->
-														<a class="dropdown-item" href="/facility/info/detail?code=${i.code}"><i class="dw dw-eye"></i> 상세 보기</a>
+														<a class="dropdown-item" href="/facility/maintenance/detail?code=${i.code}"><i class="dw dw-eye"></i> 상세 보기</a>
 														<!-- 수정 -->
-														<a class="dropdown-item" href="javascript:openPage('/facility/info/update?code=${i.code}', 500, 600)"><i class="dw dw-edit2"></i> 수정</a>
+														<a class="dropdown-item" href="javascript:openPage('/facility/maintenance/update?code=${i.code}', 500, 600)"><i class="dw dw-edit2"></i> 수정</a>
 														<!-- 삭제 -->
-														<a class="dropdown-item" href="javascript:openPage('/facility/info/delete?code=${i.code}', 500, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+														<a class="dropdown-item" href="javascript:openPage('/facility/maintenance/delete?code=${i.code}', 500, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
 													</div>
 												</div>
 											</td>
@@ -296,7 +272,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- Checkbox select Datatable End -->
+				<!-- table End -->
 				<!-- 푸터 -->
 				<%@ include file="../../include/github.jsp"%>
 				<%@ include file="../../include/footer.jsp"%>
@@ -324,49 +300,13 @@
 
 	<!-- 추가, 수정, 삭제 -->
 	<script type="text/javascript">
-		// 팝업 설정
-		var popupWidth, popupHeight, popupX, popupY, link;
-		var set;
-
-		// 팝업 세팅 return
-		function retPopupSetting(width, height) {
-			// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
-			popupX = Math.ceil((window.screen.width - width) / 2);
-			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
-			popupY = Math.ceil((window.screen.height - height) / 2);
-
-			var setting = "";
-			setting += "toolbar=0,";
-			setting += "scrollbars=0,";
-			setting += "statusbar=0,";
-			setting += "menubar=0,";
-			setting += "resizeable=0,";
-			setting += "width=" + width + ",";
-			setting += "height=" + height + ",";
-			setting += "top=" + popupY + ",";
-			setting += "left=" + popupX;
-			return setting;
-		}
-
-		// 창 열기
-		function openPage(i, width, height) {
-			set = retPopupSetting(width, height);
-			return window.open(i, 'Popup_Window', set);
-		}
-
 		$(document).ready(function() {
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
 				openPage("/facility/info/insert", 500, 600);
 			});
-
-			// 수정
-			$("#update").click(function() {
-				// 가로, 세로 설정
-				openPage("/facility/info/update", 400, 700);
-			});
-
+			
 			// 삭제
 			$("#delete").click(function() {
 				var ch = $("input:checkbox[name=tableCheck]:checked").length;
@@ -394,7 +334,6 @@
 		}
 		
 		// 일반 검색 카테고리 input 저장
-		// 카테고리가 더 있으면 추가!
 		function buttonCategory(a) {
 			var buttonText = document.getElementById("searchCategoryButton");
 			var category = document.getElementById("searchCategory");

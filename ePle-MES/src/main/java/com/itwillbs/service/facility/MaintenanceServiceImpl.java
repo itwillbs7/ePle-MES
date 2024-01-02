@@ -18,47 +18,67 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	private MaintenanceDAO dao;
 
 	@Override
-	public int addMaintenance(MaintenanceVO vo) throws Exception {
-		return dao.insertMaintenance(vo);
+	public String getRecentCode(String code) throws Exception {
+		return dao.getRecentCode(code);
 	}
 	
 	@Override
-	public int updateMaintenance(MaintenanceVO vo) throws Exception {
-		return dao.updateMaintenance(vo);
+	public int insert(MaintenanceVO vo) throws Exception {
+		return dao.insert(vo);
 	}
 	
 	@Override
-	public int deleteMaintenance(String[] codeList) throws Exception {
-		return dao.deleteMaintenance(codeList);
+	public int updateMT(MaintenanceVO vo) throws Exception {
+		return dao.updateMT(vo);
 	}
 	
 	@Override
-	public int getMaintenanceCount(PageVO vo) throws Exception {
-		return dao.getMaintenanceCount(vo);
+	public int updateResult(MaintenanceVO vo) throws Exception {
+		return dao.updateResult(vo);
 	}
 	
 	@Override
-	public List<MaintenanceVO> getMaintenanceList(PageVO vo) throws Exception {
-		return dao.getMaintenanceList(vo);
+	public int delete(String[] codeList) throws Exception {
+		return dao.delete(codeList);
 	}
 	
 	@Override
-	public List<MaintenanceVO> getFacilityInfo(FacilityVO vo) throws Exception {
-		return dao.getFacilityInfo(vo);
+	public List<MaintenanceVO> getList(PageVO vo) throws Exception {
+		return dao.getList(vo);
 	}
 	
 	@Override
-	public MaintenanceVO getDetail(MaintenanceVO vo) throws Exception {
-		return dao.getDetail(vo);
+	public int getListCount(PageVO vo) throws Exception {
+		return dao.getListCount(vo);
 	}
 	
 	@Override
-	public int addRM(MaintenanceVO vo) throws Exception {
-		return dao.insertRM(vo);
+	public MaintenanceVO getDetail(String code) throws Exception {
+		return dao.getDetail(code);
 	}
 	
 	@Override
-	public List<MaintenanceVO> getRMList(String emp) throws Exception {
-		return dao.getRMList(emp);
+	public List<MaintenanceVO> getFacilityInfo(String code) throws Exception {
+		return dao.getFacilityInfo(code);
+	}
+	
+	@Override
+	public int getFacilityInfoCount(String code) throws Exception {
+		return dao.getFacilityInfoCount(code);
+	}
+	
+	@Override
+	public List<MaintenanceVO> getDailyRM(String emp_code) throws Exception {
+		return dao.getDailyRM(emp_code);
+	}
+	
+	@Override
+	public int getDailyRMCount(String emp_code) throws Exception {
+		return dao.getDailyRMCount(emp_code);
+	}
+	
+	@Override
+	public List<MaintenanceVO> getAjax(PageVO vo) throws Exception {
+		return dao.getAjax(vo);
 	}
 }

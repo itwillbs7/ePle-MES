@@ -3,7 +3,6 @@ package com.itwillbs.service.facility;
 import java.util.List;
 
 import com.itwillbs.domain.FacilityVO;
-import com.itwillbs.domain.LineVO;
 import com.itwillbs.domain.PageVO;
 
 public interface FacilityService {
@@ -27,9 +26,5 @@ public interface FacilityService {
 	
 	public List<FacilityVO> getCommonCodeList(String group_id) throws Exception;
 	
-	public List<FacilityVO> getFacilityListEmployee(String client_code) throws Exception;
-	
-	public List<FacilityVO> getFacilityListManager(String line_code) throws Exception;
-
-	public List<FacilityVO> getFacilityListAdmin(String category) throws Exception;
+	public List<FacilityVO> getFacManager(String emp_code) throws Exception;
 }
