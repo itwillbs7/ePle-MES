@@ -24,11 +24,11 @@
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						<div class="form-group">
-							<label>사원코드</label> 
+							<label>회사명</label> 
 							<input class="form-control" type="text" placeholder="업체코드를 입력하세요" name="manager" id="manager">
 						</div>
 						<div class="form-group">
-							<label>사원명</label> 
+							<label>품명</label> 
 							<input class="form-control" type="text" placeholder="업체이름을 입력하세요" name="managerName" id="managerName">
 						</div>
 
@@ -49,8 +49,10 @@
 			<table class="table table-striped" id="tableId">
 			<thead>
 				<tr>
-					<th>사원코드</th>
-					<th>사원명</th>
+					<th>수주번호</th>
+					<th>품명</th>
+					<th>수주일자</th>
+					<th>수량</th>
 				</tr>
 			</thead>
 			<tbody>

@@ -89,7 +89,7 @@
 		insert into SHIPMENT
 		values
 		(#{code},#{reqs_code},#{date},#{ware_code},#{amount}, 
-		"출하대기",0,now(),"test",now(),"test");
+		"출하대기",0,now(),"test",now(),"test",#{stock_code});
 	</insert>
 
 	<!-- 출하정보 수정하기 -->

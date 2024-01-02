@@ -134,7 +134,7 @@
 		insert into REQUEST
 		values
 		(#{code},#{client_code},#{deadline},#{date},#{manager},#{product},#{amount},
-		#{unit},#{stock},#{currency},"등록",0,now(),"test",now(),"test");
+		#{unit},#{stock},#{currency},"등록",0,now(),#{reg_emp},now(),#{reg_emp});
 
 	</insert>
 
