@@ -58,7 +58,7 @@
 					</button>
 				</div>
 			</div>
-			
+
 			<!-- 아코디언 시작 -->
 			<div class="faq-wrap">
 				<div id="accordion">
@@ -77,16 +77,14 @@
 										<div class="form-group">
 											<div class="row">
 												<h4 class="text-blue h4">기본 검색</h4>
-												<div class="col-md-5 col-sm-12 btn-group"
-													style="margin-left: auto;">
+												<div class="col-md-5 col-sm-12 btn-group ml-auto">
 													<label>업체명</label> <input type="hidden" name="client_code"
 														id="client_code"> <input type="text"
 														name="clientName" class="form-control" id="searchCompany"
 														style="width: 100%;" placeholder="업체명 찾아보기"
 														autocomplete="off" readonly>
 												</div>
-												<div class="col-md-5 col-sm-12 btn-group"
-													style="margin-left: auto;">
+												<div class="col-md-5 col-sm-12 btn-group ml-auto">
 													<label>품명</label> <input type="hidden" name="product"
 														id="product"> <input type="text"
 														name="productName" class="form-control" id="searchProduct"
@@ -113,10 +111,12 @@
 											</div>
 											<div class="col-md-2 col-sm-12">
 												<div class="form-group">
-													<label>출하일자</label> <input
-														class="form-control datetimepicker-range"
-														placeholder="Select Month" type="text" name="date"
-														autocomplete="off" id="date">
+													<label>출하 일자</label> <input class="form-control "
+														placeholder="Select Month" type="date" name="startDate"
+														autocomplete="off" id="deadline"> ~ <input
+														class="form-control" placeholder="Select Month"
+														type="date" name="endDate" autocomplete="off"
+														id="deadline">
 												</div>
 											</div>
 										</div>
@@ -135,6 +135,7 @@
 					</div>
 				</div>
 			</div>
+
 
 			<!-- 아코디언 끝 -->
 
@@ -223,7 +224,7 @@
 							<div class="btn-group">
 								<c:if test="${pageVo.prev }">
 									<a href="/request/list?page=${pageVO.startPage - 1 }"
-										" class="btn btn-outline-primary prev"><i
+										class="btn btn-outline-primary prev"><i
 										class="fa fa-angle-double-left"></i></a>
 								</c:if>
 								<c:forEach begin="${pageVO.startPage }" end="${pageVO.endPage }"
@@ -252,7 +253,6 @@
 			<%@ include file="../include/footer.jsp"%>
 			<%@ include file="../include/datatable.jsp"%>
 		</div>
-	</div>
 	</div>
 
 	<!-- list 내 처리 -->

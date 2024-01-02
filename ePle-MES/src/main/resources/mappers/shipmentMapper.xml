@@ -75,8 +75,9 @@
 		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0
 	</select>
 
+	<!-- 물품찾기 -->
 	<select id="findProduct" resultType="RequestVO">
-		select m.code product, m.name productName, m.unit, s.amount stock
+		select m.code product, m.name productName, s.amount stock, s.code ware_code 
 		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0
 		<if test="product != null and product != ''">AND m.code like concat('%',#{product},'%')</if>
 		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>

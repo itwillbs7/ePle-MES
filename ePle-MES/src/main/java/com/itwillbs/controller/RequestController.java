@@ -83,6 +83,13 @@ public class RequestController {
 		logger.debug("searchRequestGET() -> 정보 받아서 DB에 조회하기");
 		logger.debug("Controller - vo "+vo);
 		// 전달받을 정보(수주상태 ,담당자코드, 업체코드
+		String startDate = vo.getStartDate() != null ? vo.getStartDate() : "";
+		String endDate = vo.getEndDate() != null ? vo.getEndDate() : "";
+		vo.setDate(startDate+endDate);
+		
+		String startDead = vo.getStartDead() != null ? vo.getStartDead() : "";
+		String endDead = vo.getEndDead() != null ? vo.getEndDead() : "";
+		vo.setDeadline(startDead +endDead);
 		
 		List<RequestVO> RequestList= rService.findRequestList(vo);
 		logger.debug("검색정보 : "+RequestList);

@@ -60,12 +60,24 @@
 		<if test="productName neq null and productName.toString() neq ''"> AND m.name = #{productName} </if>
 		<if test="date neq null and date.toString() neq '' "> 
 		<choose>
-			<when test="endDate neq null and endDate.toString() neq '' ">AND r.date between #{startDate} and #{endDate} </when>
-			<otherwise>ND r.date = #{startDate} </otherwise>
+			<when test="endDate neq null and endDate.toString() neq '' and startDate neq null and startDate.toString() neq ''">
+			AND r.date between #{startDate} and #{endDate} 
+			</when>
+			<when test="endDate neq null and endDate.toString() neq '' and (startDate eq null or startDate.toString() eq '')">
+			AND r.date = #{endDate} </when>
+			<otherwise>AND r.date = #{startDate} </otherwise>
 		</choose>
 		</if>
 		<if test="deadline neq null and deadline.toString() neq '' ">
-		 AND r.deadline between #{startDead} and #{endDead} 
+		<choose>
+			<when test="endDead neq null and endDead.toString() neq '' and startDead neq null and startDead.toString() neq ''">
+			AND r.deadline between #{startDead} and #{endDead} 
+			</when>
+			<when test="endDead neq null and endDead.toString() neq ''  and (startDead eq null or startDead.toString() eq '')">
+			AND r.deadline = #{endDead} 
+			</when>
+			<otherwise>AND r.deadline = #{startDead} </otherwise>
+		</choose>
 		 </if>
 		<if test="manager neq null and manager.toString() neq '' "> AND r.manager = #{manager} </if>
 		<if test="statusList != null and statusList.size() > 0" >

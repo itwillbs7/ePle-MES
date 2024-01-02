@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RequestVO;
+import com.itwillbs.domain.ShipmentVO;
 
 public interface RequestDAO {
 	// 페이징처리
@@ -37,4 +38,4 @@ public interface RequestDAO {
 	public List<RequestVO> getRequestDetail(String[] code)throws Exception;
 	// DB삭제용
 	public void deleteRequest(String[] code)throws Exception;
-}
+	}

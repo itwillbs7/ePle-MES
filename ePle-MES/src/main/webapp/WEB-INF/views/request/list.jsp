@@ -121,13 +121,17 @@
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
 															<label>수주일자</label> 
-															<input class="form-control datetimepicker-range" placeholder="Select Month" 
-															type="text" name="date" autocomplete="off" id="date">
+															<input class="form-control " placeholder="Select Month" 
+															type="date" name="startDate" autocomplete="off" id="startDate"> ~ 
+															<input class="form-control " placeholder="Select Month" 
+															type="date" name="endDate" autocomplete="off" id="endDate">
 														</div>
 														<div class="form-group">
 															<label>납품예정일</label> 
-															<input class="form-control datetimepicker-range" placeholder="Select Month" 
-															type="text" name="deadline" autocomplete="off" id="deadline">
+															<input class="form-control " placeholder="Select Month" 
+															type="date" name="startDead" autocomplete="off" id="deadline"> ~ 
+															<input class="form-control" placeholder="Select Month" 
+															type="date" name="endDead" autocomplete="off" id="deadline">
 														</div>
 													</div>
 												</div>
