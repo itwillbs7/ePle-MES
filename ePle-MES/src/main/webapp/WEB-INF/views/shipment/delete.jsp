@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<title>보전 삭제</title>
+<title>수주 삭제</title>
 <!-- 
 	실행 방법
 		- 테이블 페이지의 옵션에서 삭제클릭
@@ -28,20 +29,31 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">보전 삭제</h1>
-				<h4 class="text-center">삭제 개수 : 3개</h4>
+				<h1 class="text-center text-primary">수주 삭제</h1>
+				<h3 class="text-center text-primary">삭제 리스트</h3>
 			</div>
 			<!-- 폼 -->
-			<form method="post">
+			<form method="post" id="deleteForm">
 				<!-- 삭제 리스트 목록 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">
-							<ul class="list-group">
-								<!-- 삭제 리스트 들어갈 공간 
-								li class='list-group-item' -->
-								
-							</ul>
+						<table class="table table-striped">
+							<tr>
+								<th>수주번호</th>
+								<th>회사명</th>
+								<th>상품명</th>
+								<th>수주량</th>
+							</tr>
+								<c:forEach items="${List}" var="item">
+							<tr>
+								<th>${item.code}</th>
+								<th>${item.clientName }</th>
+								<th>${item.productName }</th>
+								<th>${item.amount }</th>
+							</tr>
+								</c:forEach>
+						</table>
 						</div>
 					</div>
 				</div>
@@ -68,41 +80,10 @@
 	<!-- 콘텐츠 끝 -->
 	<%@ include file="../include/footer.jsp"%>
 	<script type="text/javascript">
-		var listGroup = $(".list-group");
-		var listHtml = "<li class='list-group-item'>"
-		// get으로 불러온 인덱스가 있는 경우 인덱스 우선 진행
-
-		// var del = <c:out value=el식/>
-		// if(del != ""){get 방식}
-		// else{체크박스}
-		// var 제목 = opener.document.getElementById("tableTitle" + delList[i].value).innerText
-
-		// 인덱스가 없는 경우 checkbox 리스트로 불러와서 진행!
-
-		// 부모의 체크박스 목록 불러오기
-		var delList = opener.document.getElementsByName('tableCheck');
-
-		// 체크박스 checked 개수
-		var delCheckedCount = 0;
-
-		// 제목 저장
-		var array = [];
-
-		for (var i = 0; i < delList.length; i++) {
-			if (delList[i].checked) { // == true
-				// checked 개수 증가
-				delCheckedCount++;
-				// 부모에서 삭제하기 위해 체크한 리스트의 제목 불러오기
-				array.push(opener.document.getElementById("tableTitle"
-						+ delList[i].value).innerText);
-			}
-		}
-		// 닫기 진행!
-		if (delCheckedCount == 0)
-			window.close();
-		else {
-			// alert(array[0]);
-		}
+	function submitForm() {
+	    // 폼 제출 후 페이지를 새로고침
+	    window.location.href = window.location.href;
+	}
 	</script>
 </body>
 </html>

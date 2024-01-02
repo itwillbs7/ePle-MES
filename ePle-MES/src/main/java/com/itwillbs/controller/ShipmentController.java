@@ -26,6 +26,7 @@ import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RequestSearchVO;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.service.RequestService;
+import com.itwillbs.service.ShipmentService;
 
 /** ShipmentController : 출하 컨트롤러
  * 
@@ -40,9 +41,10 @@ public class ShipmentController {
 	private static final Logger logger = LoggerFactory.getLogger(ShipmentController.class);
 	
 	@Inject
+	private ShipmentService sService;
+	@Inject
 	private RequestService rService;
 		
-	
 	// http://localhost:8088/shipment/list
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void shipmentListGET(Model model, 
@@ -52,7 +54,7 @@ public class ShipmentController {
 		// 수주 목록 return
 		logger.debug("shipmentListGET -> DB에서 목록 가져오기(페이징 처리하기)");
 
-		List<RequestVO> requestList = rService.requestListpage(cri);
+		List<RequestVO> requestList = sService.shipmentListpage(cri);
 		
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);

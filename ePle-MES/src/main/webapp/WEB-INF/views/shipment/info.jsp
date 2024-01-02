@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <title>수주정보</title>
 </head>
 <body>
@@ -12,12 +13,11 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">수주 등록</h1>
+				<h1 class="text-center text-primary">수주 정보</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="" method="post" id="addForm">
+			<form action="/request/update" method="get" id="addForm">
 				<!-- 비입력 구간 -->
-				<input class="form-control" type="hidden" placeholder="수주번호" name="code" id="code" value="" >
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
@@ -49,13 +49,13 @@
 						</div>
 						<!-- 자동입력내역 -->
 						<div class="form-group">
-							<label>업체명</label> <input class="form-control" type="text" readonly value="${vo.clientName }">
+							<label>업체명</label> <input class="form-control" type="text" name="clientName" readonly value="${vo.clientName }">
 						</div>
 						<div class="form-group">
-							<label>담당자명</label> <input class="form-control" type="text" readonly value="${vo.managerName}">
+							<label>담당자명</label> <input class="form-control" type="text" name="managerName" readonly value="${vo.managerName}">
 						</div>
 						<div class="form-group">
-							<label>품명</label> <input class="form-control" type="text" readonly value="${vo.productName }">
+							<label>품명</label> <input class="form-control" type="text" name="productName" readonly value="${vo.productName }">
 						</div>
 						<div class="form-group">
 							<label>단위</label> <input class="form-control" name ="unit" type="text" readonly value="${vo.unit }">
@@ -69,6 +69,11 @@
 						<div class="form-group">
 							<label>단가</label> <input class="form-control" name ="currency" type="text" readonly value="${vo.currency }">
 						</div>
+						<div class="form-group">
+							<label>수주상태</label> <input class="form-control" name ="status" type="text" readonly value="${vo.status }" id="status">
+						</div>
+						<input type="hidden" name="reg_date" value="${vo.reg_date }">
+						<input type="hidden" name="reg_emp" value="${vo.reg_emp }">
 
 
 				<!-- 버튼 -->
@@ -77,7 +82,7 @@
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-						<input type="button" class="btn btn-success" onclick="finished()" value="등록">
+						<input type="submit" class="btn btn-success" value="수정" id="update">
 					</div>
 				</div>
 					</div>
@@ -88,6 +93,10 @@
 		</div>
 	</div>
 	<!-- 콘텐츠 끝> -->
+	<script type="text/javascript">
+
+	
+	</script>
 	<%@ include file="../include/footer.jsp"%>
 </body>
 </html>
