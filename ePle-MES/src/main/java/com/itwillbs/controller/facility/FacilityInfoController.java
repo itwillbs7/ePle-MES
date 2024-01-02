@@ -68,6 +68,10 @@ public class FacilityInfoController {
 	public void facilityInsertGET(Model model) throws Exception {
 		// 설비 추가 폼
 		model.addAttribute("line", fService.getLineList());
+		
+		model.addAttribute("proList", fService.getCommonCodeList("FACPRO"));
+		model.addAttribute("nprList", fService.getCommonCodeList("FACNPR"));
+		model.addAttribute("etcList", fService.getCommonCodeList("FACETC"));
 	}
 	
 	@PostMapping(value = "/insert")
@@ -122,6 +126,10 @@ public class FacilityInfoController {
 		FacilityVO info = fService.getFacility(vo);
 		model.addAttribute("info", info);
 		model.addAttribute("line", fService.getLineList());
+		
+		model.addAttribute("proList", fService.getCommonCodeList("FACPRO"));
+		model.addAttribute("nprList", fService.getCommonCodeList("FACNPR"));
+		model.addAttribute("etcList", fService.getCommonCodeList("FACETC"));
 	}
 	
 	@PostMapping(value = "/update")
@@ -191,12 +199,14 @@ public class FacilityInfoController {
 		for(int i = 0; i<list.size(); i++) {
 			Map<String, Object> col = new HashMap<String, Object>();
 			col.put("코드", list.get(i).getCode());
-			col.put("카테고리", list.get(i).getCategory());
+			col.put("카테고리", list.get(i).getGroup_name());
+			col.put("상품 종류", list.get(i).getCode_name());
 			col.put("이름", list.get(i).getName());
 			col.put("모델", list.get(i).getModel());
+			col.put("제조사", list.get(i).getClient_name());
 			col.put("구매 일자", list.get(i).getPurchase_date());
 			col.put("구매 가격", list.get(i).getInprice());
-			col.put("라인 코드", list.get(i).getLine_code());
+			col.put("라인명", list.get(i).getLine_name());
 			col.put("시간당 생산량", list.get(i).getUph());
 			ajax.add(col);
 		}

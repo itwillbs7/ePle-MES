@@ -59,8 +59,13 @@ public class FacilityDAOImpl implements FacilityDAO {
 	}
 	
 	@Override
-	public List<LineVO> getLineList() throws Exception {
+	public List<FacilityVO> getLineList() throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getLineList");
+	}
+	
+	@Override
+	public List<FacilityVO> getCommonCodeList(String group_id) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getCommonCodeList", group_id);
 	}
 	
 	@Override

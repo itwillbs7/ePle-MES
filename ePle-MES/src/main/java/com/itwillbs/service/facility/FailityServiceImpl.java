@@ -59,7 +59,7 @@ public class FailityServiceImpl implements FacilityService {
 	}
 	
 	@Override
-	public List<LineVO> getLineList() throws Exception {
+	public List<FacilityVO> getLineList() throws Exception {
 		return dao.getLineList();
 	}
 	
@@ -78,6 +78,11 @@ public class FailityServiceImpl implements FacilityService {
 	@Override
 	public List<FacilityVO> getFacilityListAdmin(String category) throws Exception{
 		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<FacilityVO> getCommonCodeList(String group_id) throws Exception {
 		return null;
 	}
 }

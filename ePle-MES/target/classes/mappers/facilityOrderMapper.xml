@@ -77,15 +77,14 @@
 	</select>
 	
 	<!-- 수정 -->
-	<!-- 클라이언트가 같을 때만 가능 -->
 	<update id="updateOrder">
 		UPDATE ORDERS 
 		<set>
-			group_id = #{group_id}, code_id = #{code_id}, amount = ${amount}
+			group_id = #{group_id}, code_id = #{code_id}, amount = ${amount}, 
+			update_date = now(), update_emp = #{update_emp}
 		</set>
 		<where>
-			code = #{code} AND client_code = #{client_code} 
-			AND status = '신청'
+			code = #{code} AND status = '신청'
 		</where>
 	</update>
 	

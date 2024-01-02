@@ -29,7 +29,7 @@
 								<div class="col-sm-12 mb-3">
 									<!-- examples -->
 									<div class="form-group">
-										<label>사원 번호</label> <input class="form-control" type="text" name="client_code" readonly value="1">
+										<label>사원 번호</label> <input class="form-control" type="text" name="reg_emp" readonly value="1">
 									</div>
 									<div class="form-group">
 										<input type="hidden" name="group_id" value="FACPRO">
@@ -41,7 +41,7 @@
 										</select>
 									</div>
 									<div class="form-group">
-										<label>수량</label> <input class="form-control" type="number" name="amount" required>
+										<label>수량</label> <input class="form-control" type="number" name="amount" required min="1" max="100"  oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
 									</div>
 									<!-- examples end -->
 								</div>
@@ -67,7 +67,7 @@
 									<input type="hidden" name="group_id" value="FACNPR">
 									<!-- examples -->
 									<div class="form-group">
-										<label>사원 번호</label> <input class="form-control" readonly type="text" name="client_code" value="1">
+										<label>사원 번호</label> <input class="form-control" readonly type="text" name="reg_emp" value="1">
 									</div>
 									<div class="form-group">
 										<label>물품 종류</label> <select class="form-control" name="code_id" required>
@@ -78,7 +78,7 @@
 										</select>
 									</div>
 									<div class="form-group">
-										<label>수량</label> <input class="form-control" type="number" name="amount" required min="{0}" max="{100}" oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
+										<label>수량</label> <input class="form-control" type="number" name="amount" required min="1" max="100"  oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
 									</div>
 									<!-- examples end -->
 								</div>
@@ -104,7 +104,7 @@
 								<input type="hidden" name="group_id" value="FACETC">
 									<!-- examples -->
 									<div class="form-group">
-										<label>사원 번호</label> <input class="form-control" readonly type="text" name="client_code" value="1">
+										<label>사원 번호</label> <input class="form-control" readonly type="text" name="reg_emp" value="1">
 									</div>
 									<div class="form-group">
 										<label>물품 종류</label> <select class="form-control" name="code_id" required>
@@ -115,7 +115,7 @@
 										</select>
 									</div>
 									<div class="form-group">
-										<label>수량</label> <input class="form-control" type="number" name="amount" required>
+										<label>수량</label> <input class="form-control" type="number" name="amount" required min="1" max="100"  oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
 									</div>
 									<!-- examples end -->
 								</div>
@@ -141,6 +141,8 @@
 	</div>
 	<!-- 콘텐츠 끝 -->
 	<%@ include file="../../include/footer.jsp"%>
-
+	<script type="text/javascript">
+	window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
+	</script>
 </body>
 </html>

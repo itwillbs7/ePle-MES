@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
+<%
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	String today = dateFormat.format(new Date());
+%>
 <html>
 <head>
 <%@ include file="../../include/head.jsp"%>
@@ -66,13 +71,13 @@
 															<input type="checkbox" class="custom-control-input" id="formCheckAll"> <label class="custom-control-label" for="formCheckAll"><b>전체</b></label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck1" name="formCheck" value="production"> <label class="custom-control-label" for="formCheck1">생산</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck1" name="formCheck" value="FACPRO"> <label class="custom-control-label" for="formCheck1">생산</label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck2" name="formCheck" value="non-production"> <label class="custom-control-label" for="formCheck2">비생산</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck2" name="formCheck" value="FACNPR"> <label class="custom-control-label" for="formCheck2">비생산</label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck3" name="formCheck" value="etc"> <label class="custom-control-label" for="formCheck3">기타</label>
+															<input type="checkbox" class="custom-control-input" id="formCheck3" name="formCheck" value="FACETC"> <label class="custom-control-label" for="formCheck3">기타</label>
 														</div>
 													</div>
 													<div class="col-md-2 col-sm-12">
@@ -89,16 +94,16 @@
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
-															<label>날짜</label> <input type="date" name="date" class="form-control" value="${pageVO.search.date}">
+															<label>날짜</label> <input type="date" name="date" class="form-control" value="${pageVO.search.date}" max="<%=today%>">
 														</div>
 													</div>
 													<div class="col-md-4 col-sm-12">
 														<div class="form-group" style="display: inline-block;">
-															<label>기간</label> <input type="date" id="dateLeft" value="${pageVO.search.betweenDateLeft}" name="betweenDateLeft" class="form-control">
+															<label>기간</label> <input type="date" id="dateLeft" value="${pageVO.search.betweenDateLeft}" name="betweenDateLeft" class="form-control" max="<%=today%>">
 														</div>
 														<b>-</b>
 														<div class="form-group" style="display: inline-block;">
-															<input type="date" id="dateRight" value="${pageVO.search.betweenDateRight}" name="betweenDateRight" class="form-control">
+															<input type="date" id="dateRight" value="${pageVO.search.betweenDateRight}" name="betweenDateRight" class="form-control" max="<%=today%>">
 														</div>
 													</div>
 												</div>
@@ -182,7 +187,7 @@
 											<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 										</div>
 									</td>
-									<c:forEach begin="0" end="4" var="i">
+									<c:forEach begin="0" end="5" var="i">
 										<th class="btn-light" onclick="javascript:orderList(${i})"><c:if test="${i eq pageVO.search.activeSortCategory}">
 												<c:choose>
 													<c:when test="${pageVO.search.sortValue eq 'asc'}">
@@ -211,11 +216,12 @@
 													<input type="checkbox" class="custom-control-input" id="checkTable${i.code}" name="tableCheck" value="${i.code}"> <label class="custom-control-label" for="checkTable${i.code}"></label>
 												</div></td>
 											<th><a href="/facility/info/detail?code=${i.code}"><b class="text-blue" id="tableTitle1">${i.code}</b></a></th>
-											<th>${i.category}</th>
+											<th>${i.group_name}</th>
+											<th>${i.code_name}</th>
 											<th id="tableinfo${i.code}">${i.model}</th>
 											<!-- 상세 정보 이동! -->
 											<th id="tableTitle${i.code}">${i.name}</th>
-											<th>${i.line_code}</th>
+											<th>${i.line_name}</th>
 											<td style="">
 												<!-- 옵션 -->
 												<div class="dropdown">

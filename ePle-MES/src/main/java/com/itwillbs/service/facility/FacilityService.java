@@ -23,7 +23,9 @@ public interface FacilityService {
 	
 	public String getRecentFacility() throws Exception;
 	
-	public List<LineVO> getLineList() throws Exception;
+	public List<FacilityVO> getLineList() throws Exception;
+	
+	public List<FacilityVO> getCommonCodeList(String group_id) throws Exception;
 	
 	public List<FacilityVO> getFacilityListEmployee(String client_code) throws Exception;
 	

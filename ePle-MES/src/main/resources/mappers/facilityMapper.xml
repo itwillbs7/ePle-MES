@@ -10,23 +10,32 @@
 	<resultMap type="com.itwillbs.domain.FacilityVO"
 		id="facility">
 		<result property="code" column="code" />
-		<result property="category" column="category" />
+		<result property="group_id" column="group_id"/>
+		<result property="code_id" column="code_id"/>
+		<result property="group_name" column="group_name"/>
+		<result property="code_name" column="code_name"/>
 		<result property="name" column="name" />
 		<result property="model" column="model" />
 		<result property="client_code" column="client_code"/>
+		<result property="client_name" column="client_name"/>
 		<result property="purchase_date" column="purchase_date" />
 		<result property="inprice" column="inprice" />
 		<result property="line_code" column="line_code" />
+		<result property="line_name" column="line_name"/>
 		<result property="uph" column="uph" />
-		<result property="image" column="image" />
 		<result property="active" column="active" />
 	</resultMap>
 	<!-- 설비 -->
 	<!-- resultMap -->
 
 	<select id="getFacility" resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
-		SELECT * FROM FAC_INFO
-		WHERE code = #{code}
+		SELECT f.code, f.group_id, co.group_name, f.code_id, co.code_name, f.name, f.model, f.client_code, 
+		cli.name as client_name, f.purchase_date, inprice, line_code, l.name as line_name, f.uph, f.active
+		FROM FAC_INFO f
+		JOIN COMMON_CODE co ON f.group_id = co.group_id AND f.code_id = co.code_id 
+		LEFT OUTER JOIN CLIENT cli ON cli.code = f.client_code 
+		LEFT OUTER JOIN LINE l ON l.code = f.line_code
+		WHERE f.code = #{code}
 	</select>
 
 	<!-- 상세 검색 -->
@@ -34,22 +43,22 @@
 		<where>
 			<choose>
 				<when test="search.formRadio eq null">
-					<![CDATA[active = true ]]>
+					<![CDATA[f.active = true ]]>
 				</when>
 				<when test="search.formRadio.toString() eq 'all'">
-					<![CDATA[code = code ]]>
+					<![CDATA[f.code = code ]]>
 				</when>
 				<when test="search.formRadio.toString() eq 'true'">
-					<![CDATA[active = true ]]>
+					<![CDATA[f.active = true ]]>
 				</when>
 				<when test="search.formRadio.toString() eq 'false'">
-					<![CDATA[active = false ]]>
+					<![CDATA[f.active = false ]]>
 				</when>
 			</choose>
 			<choose>
 				<when test="search.isnull == true">
 					<if test="search.isajax == true">
-						AND purchase_date BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW() 
+						AND f.purchase_date BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW() 
 					</if>
 				</when>
 				<when test="search.isnull == false">
@@ -74,7 +83,7 @@
 					<!-- 기본 검색 -->
 					<!-- check box -->
 					<if test="search.formCheck neq null">
-						<![CDATA[ AND category IN ]]>
+						<![CDATA[ AND f.group_id IN ]]>
 						<foreach collection="search.formCheck" item="item"
 							index="index" open="(" close=")" separator=",">
 							#{item}
@@ -86,7 +95,7 @@
 						<when
 							test="search.date neq null and search.date.toString() neq ''">
 							<![CDATA[
-								AND purchase_date = #{search.date}
+								AND f.purchase_date = #{search.date}
 							]]>
 						</when>
 						<otherwise>
@@ -95,7 +104,7 @@
 								<when
 									test="search.betweenDateLeft neq null and search.betweenDateLeft.toString() neq '' and search.betweenDateRight neq null and search.betweenDateRight.toString() neq ''">
 											<![CDATA[
-												AND purchase_date BETWEEN 
+												AND f.purchase_date BETWEEN 
 												#{search.betweenDateLeft} AND 
 												#{search.betweenDateRight} 
 											]]>
@@ -103,13 +112,13 @@
 								<when
 									test="search.betweenDateLeft neq null and search.betweenDateLeft.toString() neq ''">
 											<![CDATA[
-												AND purchase_date >= #{search.betweenDateLeft}
+												AND f.purchase_date >= #{search.betweenDateLeft}
 											]]>
 								</when>
 								<when
 									test="search.betweenDateRight neq null and search.betweenDateRight.toString() neq ''">
 											<![CDATA[
-												AND purchase_date <= #{search.betweenDateRight}
+												AND f.purchase_date <= #{search.betweenDateRight}
 											]]>
 								</when>
 							</choose>
@@ -127,15 +136,15 @@
 	<insert id="insertFacility">
 		<choose>
 			<when test="category.toString() eq 'production'">
-				INSERT INTO FAC_INFO (code, category, name, model, 
+				INSERT INTO FAC_INFO (code, group_id, code_id, name, model, 
 				purchase_date, inprice, uph, line_code)
-				VALUES (#{code}, #{category}, #{name},
+				VALUES (#{code}, #{group_id}, #{code_id}, #{name},
 				#{model}, #{purchase_date}, ${inprice}, ${uph}, #{line_code})
 			</when>
 			<when test="category.toString() neq 'production'">
-				INSERT INTO FAC_INFO (code, category, name, model, 
+				INSERT INTO FAC_INFO (code, group_id, code_id, name, model, 
 				purchase_date, inprice, line_code)
-				VALUES (#{code}, #{category}, #{name},
+				VALUES (#{code}, #{group_id}, #{code_id}, #{name},
 				#{model}, #{purchase_date}, ${inprice}, #{line_code})
 			</when>
 		</choose>
@@ -151,90 +160,12 @@
 	<!-- 최근 설비 검색 -->
 
 	<!-- 수정 -->
-	<sql id="updateFacility">
-		<![CDATA[
-				category = #{category},
-			]]>
-		<if test="name neq null">
-				<![CDATA[
-					, name = #{name}
-				]]>
-		</if>
-		<if test="model neq null and model.toString() neq ''">
-				<![CDATA[
-					, model = #{model}
-				]]>
-		</if>
-		<if test="location neq null and locaiton.toString() neq ''">
-				<![CDATA[
-					, location = #{location}
-				]]>
-		</if>
-		<if test="line_code neq null and line_code.toString() neq ''">
-				<![CDATA[
-					, line_code = #{line_code}
-				]]>
-		</if>
-	</sql>
-	<!-- 수정 -->
-	<!-- 수정(클라이언트) -->
-	<update id="updateFacilityClient">
+	<update id="updateFacility">
 		UPDATE FAC_INFO
 		<set>
-			<include refid="updateFacility" />
-		</set>
-		<where>
-			code = #{code}
-		</where>
-	</update>
-
-	<update id="updateFacilityAdmin">
-		UPDATE FAC_INFO
-		<set>
-			active = #{active}
-			<include refid="updateFacility" />
-			<choose>
-				<when
-					test="client_code eq null or client_code.toString() eq ''">
-					<![CDATA[
-					, client_code = NULL
-					]]>
-				</when>
-				<when
-					test="client_code neq null and client_code.toString() neq ''">
-					<![CDATA[
-					, client_code = #{client_code}
-					]]>
-				</when>
-			</choose>
-			<choose>
-				<when test="image eq null or image.toString() eq ''">
-					<![CDATA[
-					, image = NULL
-					]]>
-				</when>
-				<when test="image neq null and image.toString() neq ''">
-					<![CDATA[
-					, image = #{image}
-					]]>
-				</when>
-			</choose>
-			<if test="uph neq null and uph > 0">
-				<![CDATA[
-					, uph = #{uph}
-				]]>
-			</if>
-			<if
-				test="purchase_date neq null and purchase_date.toString() neq ''">
-				<![CDATA[
-					, purchase_date = #{purchase_date}
-				]]>
-			</if>
-			<if test="inprice neq null and inprice > 0">
-				<![CDATA[
-					, inprice = #{inprice}
-				]]>
-			</if>
+			active = #{active}, 
+			group_id = #{group_id}, code_id = #{code_id}, 
+			
 		</set>
 		<where>
 			code = #{code}
@@ -256,7 +187,11 @@
 	<!-- 개수 계산 -->
 	<select id="getFacilityCount" resultType="int">
 		<![CDATA[	
-		SELECT count(*) FROM FAC_INFO 
+			SELECT COUNT(f.code)
+			FROM FAC_INFO f
+			JOIN COMMON_CODE co ON f.group_id = co.group_id AND f.code_id = co.code_id 
+			LEFT OUTER JOIN CLIENT cli ON cli.code = f.client_code 
+			LEFT OUTER JOIN LINE l ON l.code = f.line_code
 		]]>
 		<include refid="facilitySearch" />
 	</select>
@@ -265,7 +200,13 @@
 	<select id="getFacilityList"
 		resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
 		<![CDATA[
-		SELECT * FROM FAC_INFO
+			SELECT f.code, f.group_id, co.group_name, f.code_id, co.code_name, 
+			f.name, f.model, f.client_code, cli.name as client_name, f.purchase_date, 
+			inprice, line_code, l.name as line_name, f.uph, f.active
+			FROM FAC_INFO f
+			JOIN COMMON_CODE co ON f.group_id = co.group_id AND f.code_id = co.code_id 
+			LEFT OUTER JOIN CLIENT cli ON cli.code = f.client_code 
+			LEFT OUTER JOIN LINE l ON l.code = f.line_code
 		]]>
 		<include refid="facilitySearch" />
 		<![CDATA[
@@ -281,17 +222,24 @@
 	<select id="getExportList"
 		resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
 		<![CDATA[
-		SELECT * FROM FAC_INFO
+			SELECT f.code, f.group_id, co.group_name, f.code_id, co.code_name, f.name, 
+			f.model, f.client_code, cli.name as client_name, f.purchase_date, inprice, 
+			line_code, l.name as line_name, f.uph, f.active
+			FROM FAC_INFO f
+			JOIN COMMON_CODE co ON f.group_id = co.group_id AND f.code_id = co.code_id 
+			LEFT OUTER JOIN CLIENT cli ON cli.code = f.client_code 
+			LEFT OUTER JOIN LINE l ON l.code = f.line_code
 		]]>
 		<include refid="facilitySearch" />
 		<![CDATA[ ORDER BY code]]>
 	</select>
 	
-	<select id="getLineList" resultType="com.itwillbs.domain.LineVO">
-		SELECT code, name FROM LINE
+	<select id="getLineList" resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
+		SELECT code AS line_code, name AS line_name FROM LINE
 	</select>
 	
-	<select id="">
-		SELECT * FROM 
+	<select id="getCommonCodeList">
+		SELECT group_id, group_name, code_id, code_name from COMMON_CODE 
+		WHERE group_id = #{group_id}
 	</select>
 </mapper>
