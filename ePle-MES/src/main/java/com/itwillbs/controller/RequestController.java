@@ -51,7 +51,6 @@ public class RequestController {
 		
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-//		pageVO.setTotalCount(327680); // 디비에서 직접 실행결과 가져오기
 		pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
 		
 		model.addAttribute("List",requestList);
@@ -111,9 +110,15 @@ public class RequestController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String requestInsertPOST(RequestVO vo, RedirectAttributes rttr) throws Exception {
+	public String requestInsertPOST(HttpSession session,RequestVO vo, RedirectAttributes rttr) throws Exception {
 		// 수주 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
+		
+		// vo에 세션 아이디 추가하기
+//		String id = (String) session.getAttribute("id");
+//		vo.setReg_emp(id);
+		String id = "test";
+		vo.setReg_emp(id);
 		
 		rService.dataInsertRequest(vo);
 		
@@ -213,12 +218,14 @@ public class RequestController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public void requestUpdatePOST(RequestVO vo) throws Exception{
+	public void requestUpdatePOST(RequestVO vo,HttpSession session) throws Exception{
 		// 수주 수정 액션
 		logger.debug("requestUpdatePOST() 전달받은 정보 DB 저장하기");
 		logger.debug("vo "+vo);
 		
 		// 일단 임시 아이디값(실제로는 세션에서 값을 받아와야함)
+//		String id = (String) session.getAttribute("id");
+//		vo.setUpdate_emp(id);
 		String id = "id";
 		rService.updateRequest(vo, id);
 

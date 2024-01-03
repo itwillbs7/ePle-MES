@@ -10,31 +10,31 @@ public interface ShipmentDAO {
 
 	public List<ShipmentVO> getShipmentListPage(Criteria cri)throws Exception;
 
-	List<ShipmentVO> getShipmentListPage(int page) throws Exception;
+	public List<ShipmentVO> getShipmentListPage(int page) throws Exception;
 
-	int getShipmentCount() throws Exception;
+	public int getShipmentCount() throws Exception;
 
-	List<ShipmentVO> getShipmentListAll() throws Exception;
+	public List<ShipmentVO> getShipmentListAll() throws Exception;
 
-	ShipmentVO getShipmentDetail(String code) throws Exception;
+	public ShipmentVO getShipmentDetail(String code) throws Exception;
 
-	void insertShipment(ShipmentVO vo) throws Exception;
+	public void insertShipment(ShipmentVO vo) throws Exception;
 
-	List<RequestVO> getClientList() throws Exception;
+	public List<RequestVO> getClientList() throws Exception;
 
-	List<RequestVO> searchClient(String client_code, String clientName) throws Exception;
+	public List<RequestVO> searchClient(String client_code, String clientName) throws Exception;
 
-	List<RequestVO> getProductList() throws Exception;
+	public List<RequestVO> getProductList() throws Exception;
 
-	List<RequestVO> searchProduct(String product, String productName) throws Exception;
+	public List<RequestVO> searchProduct(String product, String productName) throws Exception;
 
-	void shipmentUpdate(ShipmentVO vo, String id) throws Exception;
+	public void shipmentUpdate(ShipmentVO vo, String id) throws Exception;
 
-	List<ShipmentVO> searchShipmentAll(ShipmentVO vo) throws Exception;
+	public List<ShipmentVO> searchShipmentAll(ShipmentVO vo) throws Exception;
 
-	List<ShipmentVO> getShipmentDetail(String[] code) throws Exception;
+	public List<ShipmentVO> getShipmentDetail(String[] code) throws Exception;
 
-	void deleteShipment(String[] code) throws Exception;
+	public void deleteShipment(String[] code) throws Exception;
 
 
 

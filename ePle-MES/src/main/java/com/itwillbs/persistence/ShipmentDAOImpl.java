@@ -74,7 +74,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	@Override
 	public void insertShipment(ShipmentVO vo) throws Exception {
 		logger.debug("DAO 수주 등록하기 insertShipment(ShipmentVO vo) : "+vo);
-		
+		// 여기 아이디도 추가해야함(등록자 아이디)
 		sqlSession.insert(NAMESPACE+".insertShipment", vo);
 	}
 	

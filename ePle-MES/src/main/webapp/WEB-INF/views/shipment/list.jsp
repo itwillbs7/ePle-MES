@@ -23,41 +23,6 @@
 			<div class="title" style="margin-bottom: 10px;">
 				<h1>출하 관리</h1>
 			</div>
-			<div class="min-height-200px">
-				<br>
-				<div class="alert alert-success alert-dismissible fade show"
-					role="alert" style="display: none" id="successalert">
-					<strong>출하 등록</strong>이 완료되었습니다!
-					<button type="button" class="close" data-dismiss="alert"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="alert alert-info alert-dismissible fade show"
-					role="alert" style="display: none" id="updatealert">
-					<strong>출하 수정</strong>이 완료되었습니다!
-					<button type="button" class="close" data-dismiss="alert"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="alert alert-warning alert-dismissible fade show"
-					role="alert" style="display: none" id="notdelete">
-					<strong>출하 삭제</strong>가 완료되지 않았습니다!
-					<button type="button" class="close" data-dismiss="alert"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="alert alert-warning alert-dismissible fade show"
-					role="alert" style="display: none" id="deletealert">
-					<strong>출하 삭제</strong>가 완료되었습니다!
-					<button type="button" class="close" data-dismiss="alert"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-			</div>
 
 			<!-- 아코디언 시작 -->
 			<div class="faq-wrap">
