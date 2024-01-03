@@ -8,7 +8,7 @@
 
 	<!-- 페이징처리 + 리스트 가져오기 -->
 	<select id="listPage" resultType="ShipmentVO">
-		select sp.*, c.name clientName, s.amount stock 
+		select sp.*, c.name clientName, s.amount stock , r.deadline reqsdate, r.product product 
 		from SHIPMENT sp 
 		join REQUEST r on r.code = sp.reqs_code 
 		inner join CLIENT c on c.code = r.client_code 
@@ -26,10 +26,10 @@
 
 	<!-- 출하번호의 정보 가져오기 -->
 	<select id="getShipmentInfo" resultType="ShipmentVO">
-		SELECT sp.*, c.name clientName
+		SELECT sp.*, s.amount stock
 		from SHIPMENT sp
 		join REQUEST r on r.code = sp.reqs_code
-		inner join CLIENT c on c.code = r.client_code
+		join STOCK s on sp.stock_code = s.code
 		where sp.code = #{code}
 
 	</select>
@@ -70,12 +70,12 @@
 		<if test="clientName != null"> AND name like concat('%',#{clientName},'%') </if>
 	</select>
 
+	<!-- 물품찾기 -->
 	<select id="getProductList" resultType="RequestVO">
 		select m.code product, m.name productName, m.unit, s.amount stock
 		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0
 	</select>
 
-	<!-- 물품찾기 -->
 	<select id="findProduct" resultType="RequestVO">
 		select m.code product, m.name productName, s.amount stock, s.code ware_code 
 		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0
@@ -83,13 +83,35 @@
 		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
 	</select>
 	
+	<!-- 수주정보 찾기 -->
+	<select id="getRequestList" resultType="RequestVO">  
+	SELECT r.code code, r.date date, r.product product, c.name clientName, r.amount amount, 
+	m.name productName, s.amount stock , s.warehouse_code ware_code , r.unit unit, s.code stock_code 
+	FROM REQUEST r 
+	LEFT JOIN CLIENT c on r.client_code = c.code 
+	RIGHT join STOCK s on r.product = s.mapd_code 
+	LEFT join MAPD m on r.product = m.code 
+	where status = '출하대기'
+	</select>
+	
+	<select id="findRequest" resultType="RequestVO">
+	SELECT r.code code, r.date date, r.product product, c.name clientName, r.amount amount, 
+	m.name productName, s.amount stock , s.warehouse_code ware_code , r.unit unit, s.code stock_code 
+	FROM REQUEST r 
+	LEFT JOIN CLIENT c on r.client_code = c.code 
+	RIGHT join STOCK s on r.product = s.mapd_code 
+	LEFT join MAPD m on r.product = m.code 
+	where status = '출하대기' 
+		<if test="clientName != null and clientName!= ''">AND r.code like concat('%',#{clientName},'%')</if>
+		<if test="productName != null and productName != ''">AND r.code like concat('%',#{productName},'%')</if>
+	</select>
 	
 	<!-- 출하정보 등록하기 -->
 	<insert id="insertShipment">
 		insert into SHIPMENT
 		values
 		(#{code},#{reqs_code},#{date},#{ware_code},#{amount}, 
-		"출하대기",0,now(),"test",now(),"test",#{stock_code});
+		"출하대기",now(),"test",now(),"test",#{stock_code});
 	</insert>
 
 	<!-- 출하정보 수정하기 -->

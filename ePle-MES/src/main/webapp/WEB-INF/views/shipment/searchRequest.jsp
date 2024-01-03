@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<title>수주 등록</title>
+<title>출하 등록</title>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -14,7 +14,7 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">사원 검색</h1>
+				<h1 class="text-center text-primary">수주 검색</h1>
 			</div>
 			<!-- 폼 -->
 			<div class="search_area">
@@ -56,10 +56,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${List}" var="List">
-				<tr onclick="selectWork('${List.manager }','${List.managerName }')">
-					<th >${List.manager }</th>
-					<th >${List.managerName }</th>
+				<c:forEach items="${List}" var="item">
+				<tr onclick="selectWork('${item.code}','${item.product}','${item.clientName}','${item.date}','${item.amount}','${item.ware_code}','${item.stock_code}','${item.stock}','${item.unit }')">
+					<th >${item.code }</th>
+					<th >${item.productName }</th>
+					<th >${item.date }</th>
+					<th >${item.amount }</th>
 				</tr>
 				</c:forEach>
 			</tbody>
@@ -85,9 +87,11 @@
 		    	// 서버로부터 받은 데이터를 사용하여 테이블 업데이트
 	            var table = '';
 	            $.each(data, function(index, item) {
-	                table += '<tr onclick="selectWork(\'' + item.manager + '\',\'' + item.managerName + '\')">';
-	                table += '<th>' + item.manager + '</th>';
-	                table += '<th>' + item.managerName + '</th>';
+	                table += '<tr onclick="selectWork(\'' + item.code + '\',\'' + item.product + '\',\'' +item.clientName+ '\',\''+item.date+ '\',\''+ item.amount+ '\',\'' +item.ware_code  + '\',\'' +item.stock_code + '\',\'' +item.stock+'\',\'' +item.unit+ '\')">';
+	                table += '<th>' + item.code + '</th>';
+	                table += '<th>' + item.productName + '</th>';
+	                table += '<th>' + item.date+ '</th>';
+	                table += '<th>' + item.amount + '</th>';
 	                table += '</tr>';
 	            });
 	            // 기존 테이블 헤더를 유지하면서 테이블 바디 내용을 업데이트
@@ -98,21 +102,36 @@
 		
 		
 	//부모창으로 데이터 넘기기
-    function selectWork(a,b){ // 부모창으로 값 넘기기
+    function selectWork(a,b,c,d,e,f,g,h,i){ // 부모창으로 값 넘기기
 		
-		if(opener.document.getElementById("searchManager") != null){
-    		opener.document.getElementById("manager").value = a
-    		opener.document.getElementById("searchManager").value = b
-    		opener.document.getElementById("manager").dispatchEvent(new Event('input'));
-    	    opener.document.getElementById("searchManager").dispatchEvent(new Event('input'));
-    		self.close();
-			return;
-		}
-		  
-    		opener.document.getElementById("manager").value = a
-    		opener.document.getElementById("managerName").value = b
-    		opener.document.getElementById("manager").dispatchEvent(new Event('input'));
-    	    opener.document.getElementById("managerName").dispatchEvent(new Event('input'));
+// 		if(opener.document.getElementById("searchManager") != null){
+//     		opener.document.getElementById("manager").value = a
+//     		opener.document.getElementById("searchManager").value = b
+//     		opener.document.getElementById("manager").dispatchEvent(new Event('input'));
+//     	    opener.document.getElementById("searchManager").dispatchEvent(new Event('input'));
+//     		self.close();
+// 			return;
+// 		}
+    		opener.document.getElementById("reqs_code").value = a //수주번호
+    		opener.document.getElementById("product").value = b //품번
+    		opener.document.getElementById("clientName").value = c //회사명
+    		opener.document.getElementById("reqsdate").value = d //수주일자
+    		opener.document.getElementById("reqsamount").value = e // 수주량
+    		opener.document.getElementById("ware_code").value = f // 창고코드
+    		opener.document.getElementById("stock_code").value = g // 입고 코드
+    		opener.document.getElementById("stock").value = h // 재고량
+    		opener.document.getElementById("unit").value = i // 재고량
+    		
+    		opener.document.getElementById("reqs_code").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("product").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("clientName").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("reqsdate").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("reqsamount").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("ware_code").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("stock_code").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("stock").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("unit").dispatchEvent(new Event('input'));
+    	    
     		self.close();
     	
 

@@ -20,6 +20,7 @@ public interface ShipmentService {
 
 	public ShipmentVO getinfo(String code) throws Exception;
 
+	//============= add / search 용
 	public List<RequestVO> findClient(String client_code, String clientName) throws Exception;
 
 	public List<RequestVO> ClientList() throws Exception;
@@ -27,6 +28,11 @@ public interface ShipmentService {
 	public List<RequestVO> ProductList() throws Exception;
 
 	public List<RequestVO> findProduct(String product, String productName) throws Exception;
+	
+	public List<RequestVO> RequestList() throws Exception;
+	
+	public List<RequestVO> findRequest(String clientName, String productName)throws Exception;
+	//============= add / search 용
 
 	public void updateShipment(ShipmentVO vo, String id) throws Exception;
 

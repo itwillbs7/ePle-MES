@@ -225,13 +225,14 @@
 							</form>
 							<div class="row">
 								<div class="col-sm-12 col-md-5">
-									<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">전체 수주 ${pageVO.totalCount}개 중 (검색 결과) 개</div>
+									<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
+									전체 수주 ${pageVO.totalCount}개 중 (검색 결과) 개</div>
 								</div>
 							</div>
 							<div class="btn-toolbar justify-content-center mb-15">
 								<div class="btn-group">
 								<c:if test="${pageVo.prev }">
-									<a href="/request/list?page=${pageVO.startPage - 1 }"" class="btn btn-outline-primary prev"><i class="fa fa-angle-double-left"></i></a> 
+									<a href="/request/list?page=${pageVO.startPage - 1 }" class="btn btn-outline-primary prev"><i class="fa fa-angle-double-left"></i></a> 
 								</c:if>
 								<c:forEach begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1" var="i"> 
 						

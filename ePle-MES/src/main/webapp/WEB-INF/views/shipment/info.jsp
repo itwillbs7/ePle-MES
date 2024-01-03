@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<title>수주정보</title>
+<title>출하 관리</title>
 </head>
 <body>
 <!-- 콘텐츠 시작 -->
@@ -13,67 +13,77 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">수주 정보</h1>
+				<h1 class="text-center text-primary">출하명령 상세보기 </h1>
 			</div>
 			<!-- 폼 -->
-			<form action="/request/update" method="get" id="addForm">
-				<!-- 비입력 구간 -->
+			<form action="/shipment/update" method="get" id="addForm">
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						<div class="form-group">
-							<label>수주번호</label> 
-							<input class="form-control" type="text"  name="code" id="code" readonly value="${vo.code }">
+							<label for="client_code">출하번호</label> 
+							<input class="form-control" type="text"  
+							name="code" id="code" readonly required="required" value="${vo.code }">
 						</div>
 						<div class="form-group">
-							<label>업체코드</label> 
-							<input class="form-control" type="text"  name="client_code" id="client_code" readonly value="${vo.client_code }">
+							<label for="client_code">수주번호</label> 
+							<input class="form-control" type="text"  
+							name="reqs_code" id="reqs_code" readonly required="required" value="${vo.reqs_code}">
 						</div>
 						<div class="form-group">
-							<label>수주일자</label> 
-							<input class="form-control date-picker" name="date" type="text" id="date-picker" readonly value="${vo.date }">
+							<label for="deadline">출하일자</label> 
+							<input class="form-control " name="date" type="date" id="date"
+							autocomplete="off" required="required" readonly value="${vo.date }">
 						</div>
 						<div class="form-group">
-							<label>납품일자</label> 
-							<input class="form-control date-picker" name="deadline" type="text"  readonly value="${vo.deadline }">
-						</div>
-						<div class="form-group">
-							<label>담당자코드</label> <input class="form-control" name="manager" type="text"  readonly value="${vo.manager }">
-						</div>
-						<div class="form-group">
-							<label>품번</label> <input class="form-control" name="product" type="text" readonly value="${vo.product }">
-						</div>
-						<div class="form-group">
-							<label>수주량</label> <input class="form-control" name="amount" type="text" readonly value="${vo.amount }">
+							<label for="amount">출하량</label> 
+							<input class="form-control" name="amount" id="amount" readonly 
+							type="number" readonly autocomplete="off" min="1" required="required" value="${vo.amount }">
 						</div>
 						<!-- 자동입력내역 -->
 						<div class="form-group">
-							<label>업체명</label> <input class="form-control" type="text" name="clientName" readonly value="${vo.clientName }">
+							<label for="amount">수주량</label> 
+							<input class="form-control" name="reqsamount" id="reqsamount"
+							type="number" autocomplete="off" min="1" required="required" readonly value="${rvo.amount }">
 						</div>
 						<div class="form-group">
-							<label>담당자명</label> <input class="form-control" type="text" name="managerName" readonly value="${vo.managerName}">
+							<label for="date">수주일자</label> 
+							<input class="form-control " name="reqsdate" type="text" id="reqsdate"
+							 autocomplete="off" required="required" readonly value="${rvo.date }">
 						</div>
 						<div class="form-group">
-							<label>품명</label> <input class="form-control" type="text" name="productName" readonly value="${vo.productName }">
+							<label>업체명</label> 
+							<input class="form-control" type="text" readonly id="clientName" required="required"
+							readonly value="${rvo.clientName }">
 						</div>
 						<div class="form-group">
-							<label>단위</label> <input class="form-control" name ="unit" type="text" readonly value="${vo.unit }">
+							<label>품번</label> 
+							<input class="form-control" type="text" readonly id="product" required="required"
+							value="${rvo.product}" >
 						</div>
 						<div class="form-group">
-							<label>재고량</label> <input class="form-control" name ="stock" type="text" readonly value="${vo.stock }">
+							<label>단위</label> 
+							<input class="form-control" name ="unit" type="text" readonly id="unit" 
+							required="required" value="${rvo.unit }">
 						</div>
 						<div class="form-group">
-							<label>과부족량</label> <input class="form-control" type="text" readonly value="${vo.stock - vo.amount}">
+							<label>재고량</label> 
+							<input class="form-control" name ="stock" type="text" readonly id="stock" 
+							required="required" value="${vo.stock }">
 						</div>
 						<div class="form-group">
-							<label>단가</label> <input class="form-control" name ="currency" type="text" readonly value="${vo.currency }">
+							<label>창고코드</label> 
+							<input class="form-control" name ="ware_code" type="text" readonly id="ware_code" 
+							required="required" value="${vo.ware_code }">
 						</div>
+							<input class="form-control" name ="stock_code" type="hidden" readonly id="stock_code" 
+							required="required" value="${vo.stock_code }">
 						<div class="form-group">
-							<label>수주상태</label> <input class="form-control" name ="status" type="text" readonly value="${vo.status }" id="status">
+							<label>출하상태</label> 
+							<input class="form-control" name ="status" type="text" readonly id="status" 
+							required="required" value="${vo.status }">
 						</div>
-						<input type="hidden" name="reg_date" value="${vo.reg_date }">
-						<input type="hidden" name="reg_emp" value="${vo.reg_emp }">
 
 
 				<!-- 버튼 -->
@@ -82,7 +92,8 @@
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-						<input type="submit" class="btn btn-success" value="수정" id="update">
+						<input type="submit" class="btn btn-success" value="수정"  id="update">
+						<input type="button" class="btn btn-danger" value="반품등록"  id="returns">
 					</div>
 				</div>
 					</div>

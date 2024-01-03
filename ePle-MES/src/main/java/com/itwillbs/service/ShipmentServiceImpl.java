@@ -58,6 +58,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 		
 	}
 
+	//========================================= add /search 용
 	@Override
 	public List<RequestVO> findClient(String client_code, String clientName) throws Exception {
 		logger.debug("Service : findClient(String client_code, String clientName) : "+client_code+clientName);
@@ -86,8 +87,24 @@ public class ShipmentServiceImpl implements ShipmentService {
 		return sdao.searchProduct(product,productName);
 	}
 
+	
+
+	@Override
+	public List<RequestVO> RequestList() throws Exception {
+		logger.debug("RequestList() 수주목록 가져오기");
+		return sdao.getRequestList();
+	}
 
 
+	@Override
+	public List<RequestVO> findRequest(String clientName, String productName) throws Exception {
+		logger.debug("findRequest(String clientName, String productName)"+clientName+productName);
+		logger.debug("회사명, 품명으로 수주목록찾기");
+		return sdao.searchRequest(clientName, productName);
+	}
+
+
+	//========================================= add /search 용
 	@Override
 	public void updateShipment(ShipmentVO vo, String id) throws Exception {
 		// 수정

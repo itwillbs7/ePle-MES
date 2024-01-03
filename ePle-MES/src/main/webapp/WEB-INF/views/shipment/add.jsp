@@ -25,7 +25,7 @@
 			<!-- 폼 -->
 			<form action="" method="post" id="addForm">
 				<!-- 비입력 구간 -->
-				<input class="form-control" type="hidden" placeholder="수주번호" name="code" id="code" value="" >
+				<input class="form-control" type="hidden" placeholder="출하번호" name="code" id="code" value="" >
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
@@ -46,6 +46,11 @@
 						</div>
 						<!-- 자동입력내역 -->
 						<div class="form-group">
+							<label for="amount">수주량</label> 
+							<input class="form-control" name="reqsamount" id="reqsamount"
+							type="number" autocomplete="off" min="1" required="required" readonly>
+						</div>
+						<div class="form-group">
 							<label for="date">수주일자</label> 
 							<input class="form-control " name="reqsdate" type="text" id="reqsdate"
 							 autocomplete="off" required="required" readonly>
@@ -56,8 +61,8 @@
 							readonly>
 						</div>
 						<div class="form-group">
-							<label>품명</label> 
-							<input class="form-control" type="text" readonly id="productName" required="required">
+							<label>품번</label> 
+							<input class="form-control" type="text" readonly id="product" required="required">
 						</div>
 						<div class="form-group">
 							<label>단위</label> 
@@ -66,8 +71,8 @@
 						<div class="form-group">
 							<label>재고량</label> 
 							<input class="form-control" name ="stock" type="text" readonly id="stock" required="required">
-							<input class="form-control" name ="ware_code" type="hidden" readonly id="stock" required="required">
-							<input class="form-control" name ="stock_code" type="hidden" readonly id="stock" required="required">
+							<input class="form-control" name ="ware_code" type="hidden" readonly id="ware_code" required="required">
+							<input class="form-control" name ="stock_code" type="hidden" readonly id="stock_code" required="required">
 						</div>
 
 
@@ -111,8 +116,6 @@
 			const month = String(date.getMonth() + 1).padStart(2, "0"); //이번달
 			const day = String(date.getDate()).padStart(2, "0"); //오늘날짜 
 			
-			console.log(client);
-			console.log(product); 
 			const orderNum = year+"OT"+month+day+ware_code; 
 			return orderNum;
 		}
@@ -147,8 +150,8 @@
 			    success: function(data) {
 			    	Swal.fire({
 			            icon: 'success',
-			            title: '수주 등록 완료',
-			            text: '수주를 등록하셨습니다',
+			            title: '출하 등록 완료',
+			            text: '출하명령을 등록하셨습니다',
 			        }).then((result) => {
 			            // SweetAlert이 닫힌 후에 수행됩니다.
 			            localStorage.setItem('success', 'true');
@@ -171,7 +174,7 @@
 	// 수주번호 찾기	
 		$("#reqs_code").click(function() {
 	// 가로, 세로 설정
-			window.open("/request/searchClient", "Client Search", "width=500,height=600");
+			window.open("/shipment/searchRequest", "Request Search", "width=500,height=600");
 		});
 	
 	

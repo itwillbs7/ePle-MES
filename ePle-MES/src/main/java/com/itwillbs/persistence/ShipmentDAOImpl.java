@@ -117,10 +117,29 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		return sqlSession.selectList(NAMESPACE+".findProduct", paramMap);
 
 	}
+	
+	@Override
+	public List<RequestVO> getRequestList() throws Exception {
+		// 수주정보 가져오기 ( 수주코드, 수주일자, 품명, 수주량)
+		logger.debug("getRequestList() 수주정보 가져오기 ( 수주코드, 수주일자, 품명, 수주량)");
+		return sqlSession.selectList(NAMESPACE+".getRequestList");
+	}
+	
+	@Override
+	public List<RequestVO> searchRequest(String clientName, String productName) throws Exception {
+		// 검색(회사명, 품명)
+		logger.debug("searchRequest(String code, String productName) 회사명: "+clientName+", 품명 :"+productName);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("clientName", clientName);
+		paramMap.put("productName", productName);
+		return sqlSession.selectList(NAMESPACE+".findRequest", paramMap);
+	}
+	
 
 	//----- add 용 검색 ----
 
 	
+
 	@Override
 	public void shipmentUpdate(ShipmentVO vo, String id) throws Exception {
 		logger.debug("DAO  ShipmentUpdate(ShipmentVO vo, String id)");
@@ -137,7 +156,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	public List<ShipmentVO> searchShipmentAll(ShipmentVO vo) throws Exception {
 		// 수주 검색
 		logger.debug("DAO searchShipmentAll(ShipmentVO vo)"+vo);
-		
+		// 여기에 페이지 Criteria 추가해야함
 		
 		List list = sqlSession.selectList(NAMESPACE+".research", vo);
 		logger.debug("list : "+list);

@@ -115,6 +115,11 @@
 							<b>삭제</b>
 						</button>
 					</div>
+					<div class="btn-group pull-right" style="margin-bottom: 10px">
+						<button type="button" class="btn btn-info" id="statusChange">
+							<b>출하완료</b>
+						</button>
+					</div>
 				</div>
 				<div class="pb-20">
 					<div class="col-sm-30">
@@ -146,7 +151,7 @@
 										<tr>
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<c:choose>
-												<c:when test="${List.status eq '등록'}">
+												<c:when test="${List.status eq '출하대기'}">
 													<td><div class="custom-control custom-checkbox mb-5">
 															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 															<input type="checkbox" class="custom-control-input"
@@ -163,15 +168,15 @@
 											<!-- 상세 정보 이동! -->
 											<th class="info${status.index}"
 												style="color: blue; text-decoration: underline;">${List.code }</th>
-											<th>수주번호</th>
-											<th>납품예정일</th>
-											<th>품번</th>
-											<th>수주업체</th>
-											<th>수주수량</th>
-											<th>재고량</th>
-											<th>출하량</th>
-											<th>출하일자</th>
-											<th>출하상태</th>
+											<th>${List.reqs_code }</th>
+											<th>${List.reqsdate }</th>
+											<th>${List.product }</th>
+											<th>${List.clientName }</th>
+											<th>${List.reqsamount }</th>
+											<th>${List.stock }</th>
+											<th>${List.amount }</th>
+											<th>${List.date }</th>
+											<th>${List.status }</th>
 
 										</tr>
 									</c:forEach>
@@ -183,6 +188,13 @@
 								<div class="dataTables_info" id="DataTables_Table_0_info"
 									role="status" aria-live="polite">전체 출하
 									${pageVO.totalCount}개 중 (검색 결과) 개</div>
+							</div>
+							<div class="col-sm-5 col-md-7 text-right">
+							<div>
+							<button type="button" class="btn btn-success btn-sm" id="print">
+							<b>거래명세서</b>
+							</button>
+							</div>
 							</div>
 						</div>
 						<div class="btn-toolbar justify-content-center mb-15">
@@ -210,6 +222,7 @@
 				</div>
 			</div>
 			<!-- Checkbox select Datatable End -->
+			
 			<!-- 푸터 -->
 			<div class="footer-wrap pd-20 mb-20 card-box">
 				ePle MES made by <a href="https://github.com/dropways"
@@ -288,12 +301,12 @@
 
 					// 추가
 					$("#add").click(function() {
-						openPage("/request/add", 400, 700);
+						openPage("/shipment/add", 400, 700);
 					});
 
 					// 수정
 					$("#update").click(function() {
-						openPage("/request/update", 400, 700);
+						openPage("/shipment/update", 400, 700);
 					});
 
 					// 삭제
@@ -305,7 +318,7 @@
 											deleteList.push($(this).val());
 										});
 								if (deleteList.length > 0) {
-									openPage("/request/delete?code="
+									openPage("/shipment/delete?code="
 											+ deleteList.join(','), 400, 700);
 								} else {
 									alert('삭제 실패');
@@ -315,24 +328,21 @@
 					// 상세보기
 					$('body').on('click', '[class^="info"]', function() {
 						var code = $(this).text().trim();
-						openPage("/request/info?code=" + code, 400, 700);
+						openPage("/shipment/info?code=" + code, 400, 700);
 					});
 
 					// 각각의 검색창
 					// 업체검색
 					$("#searchCompany").click(function() {
-						openPage("/request/searchClient", 400, 700);
+						openPage("/shipment/searchClient", 400, 700);
 					});
 
 					// 제품검색
 					$("#searchProduct").click(function() {
-						openPage("/request/searchProduct", 400, 700);
+						openPage("/shipment/searchProduct", 400, 700);
 					});
 
-					// 사원검색
-					$("#searchManager").click(function() {
-						openPage("/request/searchManager", 400, 700);
-					});
+					
 
 				});
 	</script>

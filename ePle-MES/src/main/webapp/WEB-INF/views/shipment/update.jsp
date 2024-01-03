@@ -5,8 +5,15 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<title>수주 수정</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<link
+         href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+         rel="stylesheet"
+         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+         crossorigin="anonymous"
+      />
+<title>출하 수정</title>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -14,7 +21,7 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">수주 수정</h1>
+				<h1 class="text-center text-primary">출하명령 수정</h1>
 			</div>
 			<!-- 폼 -->
 			<form action="" method="post" id="addForm">
@@ -22,82 +29,75 @@
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">
-							<label>수주번호</label> 
-							<input class="form-control" type="text"  name="code" id="code" readonly 
-							value="${List.code }" required="required">
-						</div>
-						<!-- 필수입력내역 -->
-						<div class="form-group">
-							<label>업체코드</label> 
-							<input class="form-control" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" 
-							name="client_code"  readonly required="required" value="${List.client_code}">
+							<label for="client_code">출하번호</label> 
+							<input class="form-control" type="text"  
+							name="code" id="code" readonly required="required" value="${List.code }">
 						</div>
 						<div class="form-group">
-							<label>수주일자</label> 
-							<input class="form-control" name="date" type="date" value="${List.date }"
-							placeholder="클릭 시 달력이 뜹니다" id="date" autocomplete="off" required="required"> 
+							<label for="client_code">수주번호</label> 
+							<input class="form-control" type="text"  
+							name="reqs_code" id="reqs_code" readonly required="required" value="${List.reqs_code}">
 						</div>
 						<div class="form-group">
-							<label>납품일자</label> 
-							<input class="form-control" name="deadline" type="date" value="${List.deadline }"
-							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
+							<label for="deadline">출하일자</label> 
+							<input class="form-control " name="date" type="date" id="date"
+							autocomplete="off" required="required"  value="${List.date }">
 						</div>
 						<div class="form-group">
-							<label>담당자코드</label> <input class="form-control" id="manager" value="${List.manager }"
-							name="manager" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" readonly required="required">
-						</div>
-						<div class="form-group">
-							<label>품번</label> <input class="form-control" name="product" value="${List.product }"
-							id="product" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" readonly required="required">
-						</div>
-						<div class="form-group">
-							<label>수주량</label> <input class="form-control" name="amount" value="${List.amount }"
-							type="number" placeholder="필수입력" autocomplete="off" min="1" required="required">
+							<label for="amount">출하량</label> 
+							<input class="form-control" name="amount" id="amount"
+							type="number" readonly autocomplete="off" min="1" required="required" value="${List.amount }">
 						</div>
 						<!-- 자동입력내역 -->
 						<div class="form-group">
-							<label>업체명</label> <input class="form-control" type="text" value="${List.clientName }"
-							readonly id="clientName" required="required">
+							<label for="amount">수주량</label> 
+							<input class="form-control" name="reqsamount" id="reqsamount"
+							type="number" autocomplete="off" min="1" required="required" readonly value="${List.amount }">
 						</div>
 						<div class="form-group">
-							<label>담당자명</label> <input class="form-control" type="text" value="${List.managerName }"
-							readonly id="managerName" required="required">
+							<label for="date">수주일자</label> 
+							<input class="form-control " name="reqsdate" type="text" id="reqsdate"
+							 autocomplete="off" required="required" readonly value="${List.date }">
 						</div>
 						<div class="form-group">
-							<label>품명</label> <input class="form-control" type="text" value="${List.productName }"
-							readonly id="productName" required="required">
+							<label>업체명</label> 
+							<input class="form-control" type="text" readonly id="clientName" required="required"
+							readonly value="${List.clientName }">
 						</div>
 						<div class="form-group">
-							<label>단위</label> <input class="form-control" name ="unit" value="${List.unit }"
-							type="text" readonly id="unit" required="required">
+							<label>품번</label> 
+							<input class="form-control" type="text" readonly id="product" required="required"
+							value="${List.product}" >
 						</div>
 						<div class="form-group">
-							<label>재고량</label> <input class="form-control" name ="stock" value="${List.stock }"
-							type="text" readonly id="stock" required="required">
+							<label>단위</label> 
+							<input class="form-control" name ="unit" type="text" readonly id="unit" 
+							required="required" value="${List.unit }">
 						</div>
 						<div class="form-group">
-							<label>과부족량</label> <input class="form-control" type="text" value="${List.stock - List.amount }"
-							readonly value="" id="gwa">
+							<label>재고량</label> 
+							<input class="form-control" name ="stock" type="text" readonly id="stock" 
+							required="required" value="${List.stock }">
 						</div>
 						<div class="form-group">
-							<label>단가</label> <input class="form-control" name ="currency" value="${List.currency }"
-							type="text" readonly id="currency" required="required">
+							<label>창고코드</label> 
+							<input class="form-control" name ="ware_code" type="text" readonly id="ware_code" 
+							required="required" value="${List.ware_code }">
+						</div>
+						<div class="form-group">
+							<label>입고번호</label> 
+							<input class="form-control" name ="stock_code" type="text" readonly id="stock_code" 
+							required="required" value="${List.stock_code }">
 						</div>
 						<div class="form-group">
 							<label for="status">수주상태</label>
 								<select name="status" id="status" class="custom-select col-12"  required="required">
-									<option value="등록" <c:if test="${List.status eq '등록'}">selected</c:if>>
-									등록</option>
-									<option value="생산진행" <c:if test="${List.status eq '생산진행'}">selected</c:if>>
-									생산진행</option>
 									<option value="출하대기" <c:if test="${List.status eq '출하대기'}">selected</c:if>>출하대기</option>
-									<option value="출하완료" <c:if test="${List.status eq '출하완료'}">selected</c:if>>출하완료</option>
-									<option value="수령" <c:if test="${List.status eq '수령'}">selected</c:if>>수령</option>
-									<option value="반품" <c:if test="${List.status eq '반품'}">selected</c:if>>반품</option>
+									<option value="출하완료" <c:if test="${List.status eq '출하완료'}">selected</c:if>>출하완료</option>		
 								</select>
 						</div>
-						<input type="hidden" name="reg_date" value="${vo.reg_date }">
-						<input type="hidden" name="reg_emp" value="${vo.reg_emp }">
+						<input type="hidden" name="reg_date" value="${List.reg_date }">
+						<input type="hidden" name="reg_emp" value="${List.reg_emp }">
 
 
 				<!-- 버튼 -->
@@ -119,36 +119,6 @@
 	<!-- 콘텐츠 끝> -->
 	<%@ include file="../include/footer.jsp"%>
 	
-	 <script type="text/javascript" class="id">  
-
-	 
-	 // 과부족량 계산
-	 document.querySelector('input[name="amount"]').addEventListener('input', calculateDifference);
-	 document.querySelector('input[name="stock"]').addEventListener('input', calculateDifference);
-
-	 function calculateDifference() {
-	     var amount = document.querySelector('input[name="amount"]').value;
-	     var stock = document.querySelector('input[name="stock"]').value;
-	     var difference = stock - amount;
-	     var gwaField = document.querySelector('#gwa');
-
-	     if (!isNaN(difference)) {
-	    	 if(difference > 0){
-	        	 document.querySelector('#gwa').value = "+"+difference;
-	       	 	 gwaField.style.color = 'green'; // 폰트색 초록으로 변경
-	       	 	 return;
-	    	 }
-	    	 if(difference <0 ){
-	    		 gwaField.value = difference; 
-	             gwaField.style.color = 'red'; // 폰트색 빨강으로 변경
-	    		 return;
-	    	 }
-	    	 document.querySelector('#gwa').value = difference;
-	     }
-	 }
-	 
-</script>
-
 
 <script type="text/javascript">
 // 	 // Submit ajax
@@ -193,14 +163,14 @@ function formCheck(i){
 			var formdata = $("#addForm").serialize();
 
 		 $.ajax({
-			    url: '/request/update',
+			    url: '/shipment/update',
 			    type: 'POST',
 			    data:  formdata,
 			    success: function(data) {
 			    	Swal.fire({
 			            icon: 'success',
-			            title: '수주 수정 완료',
-			            text: '수주내용을 수정하셨습니다',
+			            title: '출하 수정 완료',
+			            text: '출하명령을 수정하였습니다',
 			        }).then((result) => {
 			            // SweetAlert이 닫힌 후에 수행됩니다.
 			            localStorage.setItem('updateDone', 'true');
@@ -220,25 +190,13 @@ function formCheck(i){
 	 </script>
 	 <script type="text/javascript">
 	$(document).ready(function(){
-		
-	// 업체찾기	
-		$("#client_code").click(function() {
-	// 가로, 세로 설정
-			window.open("/request/searchClient", "Client Search", "width=500,height=600");
-		});
-
 	
-	//담당자 찾기
-		$("#manager").click(function() {
+		// 수주번호 찾기	
+		$("#reqs_code").click(function() {
 	// 가로, 세로 설정
-			window.open("/request/searchManager", "Manager Search", "width=500,height=600");
+			window.open("/shipment/searchRequest", "Request Search", "width=500,height=600");
 		});
 	
-	// 물품정보찾기
-		$("#product").click(function() {
-	// 가로, 세로 설정s
-			window.open("/request/searchProduct", "Product Search", "width=500,height=600");
-		});
 	
 	
 	

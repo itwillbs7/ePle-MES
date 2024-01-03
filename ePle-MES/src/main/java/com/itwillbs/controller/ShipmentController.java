@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +56,7 @@ public class ShipmentController {
 		
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
+		pageVO.setTotalCount(sService.getTotal()); // 디비에서 직접 실행결과 가져오기
 		
 		model.addAttribute("List",shipmentList);
 		model.addAttribute("pageVO", pageVO);
@@ -71,10 +72,15 @@ public class ShipmentController {
 		
 		ShipmentVO vo = sService.getinfo(code);
 		logger.debug("Controller - vo "+vo);
+		String reqscode = vo.getReqs_code();
+		
+		RequestVO rvo = rService.getinfo(reqscode);
+		logger.debug("Controller - rvo "+rvo);
 		
 
 		
 		model.addAttribute("vo",vo);
+		model.addAttribute("rvo",rvo);
 
 	}
 	
@@ -86,7 +92,11 @@ public class ShipmentController {
 											ShipmentVO vo) throws Exception { // 수주검색 5-3
 		logger.debug("searchShipmentGET() -> 정보 받아서 DB에 조회하기");
 		logger.debug("Controller - vo "+vo);
-		// 전달받을 정보(수주상태 ,담당자코드, 업체코드
+		// 전달받을 정보(업체명, 품명, 출하일자, 출하상태)
+		String startDate = vo.getStartDate() != null ? vo.getStartDate() : "";
+		String endDate = vo.getEndDate() != null ? vo.getEndDate() : "";
+		vo.setDate(startDate+endDate);
+		
 		
 		List<ShipmentVO> shipmentList= sService.findShipmentList(vo);
 		logger.debug("검색정보 : "+shipmentList);
@@ -103,7 +113,7 @@ public class ShipmentController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public void shipmentInsertGET() throws Exception { 
 		logger.debug("shipmentInsertGET() -> 입력폼 팝업");
-		// 수주 추가 폼 5-4
+		
 		
 	}
 	
@@ -111,6 +121,12 @@ public class ShipmentController {
 	public String shipmentInsertPOST(ShipmentVO vo, RedirectAttributes rttr) throws Exception {
 		// 수주 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
+		
+		// vo에 세션 아이디 추가하기
+//		String id = (String) session.getAttribute("id");
+//		vo.setReg_emp(id);
+		String id = "test";
+		vo.setReg_emp(id);
 		
 		sService.dataInsertShipment(vo);
 		
@@ -169,13 +185,33 @@ public class ShipmentController {
 		logger.debug("가져온 List"+productList);
 		return productList;
 	}
+	
+	@RequestMapping(value = "searchRequest", method = RequestMethod.GET)
+	public void searchRequestGET(Model model, HttpSession sessio)throws Exception{
+		logger.debug("cotroller : 수주정보 찾기");
+		
+		List<RequestVO> requestList = sService.RequestList();
+		logger.debug("가져온 List : "+requestList);
+		model.addAttribute("List", requestList);
+
+	}
+	
+	@RequestMapping(value = "searchRequest", method = RequestMethod.POST)
+	@ResponseBody
+	public List<RequestVO> searchRequest(@RequestParam("clientName") String clientName,
+										@RequestParam("productName") String productName)throws Exception{
+		logger.debug("controller : 회사명, 품명으로 수주정보 찾기");
+		List<RequestVO> requestList = sService.findRequest(clientName, productName);
+		logger.debug("가져온 List : "+requestList);
+		return requestList;
+	}
 
 	// -------- 수주등록 데이터 찾기 끝---------
 	
 	
 	// http://localhost:8088/request/update
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public void shipmentUpdateGET(ShipmentVO vo, Model model) throws Exception{
+	public void shipmentUpdateGET(ShipmentVO vo,Model model) throws Exception{
 		// 수주 수정 폼5-5
 		// code 정보 받아서 해당하는 code 데이터 불러오기
 		logger.debug("shipmentUpdateGET(shipmenttVO vo) 폼 정보 받아서 그대로 토해내기");
