@@ -12,7 +12,7 @@
          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
          crossorigin="anonymous"
       />
-<title>출하 등록</title>
+<title>반품 등록</title>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -20,7 +20,7 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">출하명령 등록</h1>
+				<h1 class="text-center text-primary">반품 등록</h1>
 			</div>
 			<!-- 폼 -->
 			<form action="" method="post" id="addForm">
@@ -33,46 +33,43 @@
 						<div class="form-group">
 							<label for="client_code">수주번호</label> 
 							<input class="form-control" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" 
-							name="reqs_code" id="reqs_code" readonly required="required">
+							name="request_code" id="request_code" readonly required="required">
 						</div>
 						<div class="form-group">
-							<label for="deadline">출하일자</label> 
+							<label for="deadline">반품일자</label> 
 							<input class="form-control " name="date" type="date" id="date"
 							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
 						</div>
 						<div class="form-group">
-							<label for="amount">출하량</label> <input class="form-control" name="amount" id="amount"
+							<label for="amount">반품량</label> <input class="form-control" name="amount" id="amount"
 							type="number" placeholder="출하량을 입력해주세요" autocomplete="off" min="1" required="required">
+						</div>
+						<div class="form-group">
+							<label for="amount">반품사유</label> 
+							<textarea rows="4" cols="20" placeholder="반품사유를 입력하세요" name="reason"></textarea>
 						</div>
 						<!-- 자동입력내역 -->
 						<div class="form-group">
-							<label for="amount">수주량</label> 
-							<input class="form-control" name="reqsamount" id="reqsamount"
+							<label for="amount">출하량</label> 
+							<input class="form-control" name="samount" id="samount"
 							type="number" autocomplete="off" min="1" required="required" readonly>
 						</div>
 						<div class="form-group">
-							<label for="date">수주일자</label> 
-							<input class="form-control " name="reqsdate" type="text" id="reqsdate"
+							<label for="date">출하일자</label> 
+							<input class="form-control " name="shipdate" type="date" id="shipdate"
 							 autocomplete="off" required="required" readonly>
 						</div>
 						<div class="form-group">
-							<label>업체명</label> 
+							<label>수주업체</label> 
 							<input class="form-control" type="text" readonly id="clientName" required="required"
+							readonly>
+							<input class="form-control" type="hidden" readonly id="client_code" required="required"
 							readonly>
 						</div>
 						<div class="form-group">
-							<label>품번</label> 
-							<input class="form-control" type="text" readonly id="product" required="required">
-						</div>
-						<div class="form-group">
-							<label>단위</label> 
-							<input class="form-control" name ="unit" type="text" readonly id="unit" required="required">
-						</div>
-						<div class="form-group">
-							<label>재고량</label> 
-							<input class="form-control" name ="stock" type="text" readonly id="stock" required="required">
-							<input class="form-control" name ="ware_code" type="hidden" readonly id="ware_code" required="required">
-							<input class="form-control" name ="stock_code" type="hidden" readonly id="stock_code" required="required">
+							<label>LOT</label> 
+							<input class="form-control" type="text" readonly id="product" required="required"
+							readonly>
 						</div>
 
 
@@ -105,10 +102,10 @@
  
 	 // 출하번호 생성 당해연도 YY+OT(Out)+MMDD+출고창고코드+출하인덱스 3자리(001부터)
 	 // 24OT0101a23001
-	 let ware_code;
+	 let client_code;
 	 
-	 document.querySelector('input[name="ware_code"]').addEventListener('input', function() {
-		 ware_code = this.value; 
+	 document.querySelector('input[name="client_code"]').addEventListener('input', function() {
+		 client_code = this.value; 
 		});
 	 
 	 function createOrderNum() {
@@ -117,7 +114,7 @@
 			const month = String(date.getMonth() + 1).padStart(2, "0"); //이번달
 			const day = String(date.getDate()).padStart(2, "0"); //오늘날짜 
 			
-			const orderNum = year+"OT"+month+day+ware_code; 
+			const orderNum = year+"RT"+month+day+client_code; 
 			return orderNum;
 		}
 	 </script>

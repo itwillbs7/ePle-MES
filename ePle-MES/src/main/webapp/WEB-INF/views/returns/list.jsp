@@ -183,8 +183,8 @@
 						<div class="row">
 							<div class="col-sm-12 col-md-5">
 								<div class="dataTables_info" id="DataTables_Table_0_info"
-									role="status" aria-live="polite">전체 출하
-									${pageVO.totalCount}개 중 ${pageVO.totalCount} 개</div>
+									role="status" aria-live="polite">
+							</div>
 							</div>
 							<div class="col-sm-5 col-md-7 text-right">
 							<div>
@@ -235,27 +235,6 @@
 	</div>
 
 	<!-- list 내 처리 -->
-	<script type="text/javascript">
-		window.onload = function() {
-			if (localStorage.getItem('success') === 'true') {
-				var successAlert = document.getElementById('successalert');
-				if (successAlert) {
-					successAlert.style.display = 'block';
-				}
-				// 'success' 키의 값을 삭제하여, 다음 페이지 로드에 'successalert' 요소가 표시되지 않도록 합니다.
-				localStorage.removeItem('success');
-			}
-			if (localStorage.getItem('updateDone') === 'true') {
-				var updateAlert = document.getElementById('updatealert');
-				if (updateAlert) {
-					updateAlert.style.display = 'block';
-				}
-				// 'success' 키의 값을 삭제하여, 다음 페이지 로드에 'successalert' 요소가 표시되지 않도록 합니다.
-				localStorage.removeItem('updateDone');
-			}
-
-		};
-	</script>
 
 	<!-- 추가, 수정, 삭제, 상세보기 -->
 	<script type="text/javascript">
@@ -293,12 +272,12 @@
 
 					// 추가
 					$("#add").click(function() {
-						openPage("/shipment/add", 400, 700);
+						openPage("/returns/add", 400, 700);
 					});
 
 					// 수정
 					$("#update").click(function() {
-						openPage("/shipment/update", 400, 700);
+						openPage("/returns/update", 400, 700);
 					});
 
 					// 삭제
@@ -310,7 +289,7 @@
 											deleteList.push($(this).val());
 										});
 								if (deleteList.length > 0) {
-									openPage("/shipment/delete?code="
+									openPage("/returns/delete?code="
 											+ deleteList.join(','), 400, 700);
 								} else {
 									alert('삭제 실패');

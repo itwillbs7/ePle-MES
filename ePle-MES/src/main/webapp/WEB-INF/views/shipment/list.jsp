@@ -238,28 +238,7 @@
 		</div>
 	</div>
 
-	<!-- list 내 처리 -->
-	<script type="text/javascript">
-		window.onload = function() {
-			if (localStorage.getItem('success') === 'true') {
-				var successAlert = document.getElementById('successalert');
-				if (successAlert) {
-					successAlert.style.display = 'block';
-				}
-				// 'success' 키의 값을 삭제하여, 다음 페이지 로드에 'successalert' 요소가 표시되지 않도록 합니다.
-				localStorage.removeItem('success');
-			}
-			if (localStorage.getItem('updateDone') === 'true') {
-				var updateAlert = document.getElementById('updatealert');
-				if (updateAlert) {
-					updateAlert.style.display = 'block';
-				}
-				// 'success' 키의 값을 삭제하여, 다음 페이지 로드에 'successalert' 요소가 표시되지 않도록 합니다.
-				localStorage.removeItem('updateDone');
-			}
 
-		};
-	</script>
 
 	<!-- 추가, 수정, 삭제, 상세보기 -->
 	<script type="text/javascript">
