@@ -1,7 +1,9 @@
 package com.production.controller;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.production.domain.failedVO;
 import com.production.domain.resultVO;
 import com.production.service.resultService;
 
@@ -62,15 +65,20 @@ public class resultController {
 	//실적페이지ajax POST
 	@RequestMapping(value = "/ajaxResult", method = RequestMethod.POST)
 	@ResponseBody
-	public String ajaxResult(@RequestParam("code") String code) throws Exception {
+	public Map<String, Object> ajaxResult(@RequestParam("code") String code,Model model) throws Exception {
 		logger.debug("Controller : ajaxResult(String code) 호출");
 		logger.debug("code : " + code);
+		Map<String, Object> resultMap = new HashMap<>();
 		//기본정보 저장
-		
+		resultMap.put("result", rsService.getResult(code));
 		//불량정보 저장
+		List<failedVO> list = rsService.getFailedList(code);
 		
+		logger.debug("code : " + list.get(0).getCode());
+		resultMap.put("failedList", rsService.getFailedList(code));
 		//투입정보 저장
+		//resultMap.put("BOM", rsService.getBOM(code));
 		
-		return "ajax성공";
+		return resultMap;
 	}
 }

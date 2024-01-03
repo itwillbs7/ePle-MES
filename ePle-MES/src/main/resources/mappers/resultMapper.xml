@@ -41,5 +41,20 @@
 	  		WHERE 1=1;
 		]]>
 	</select>
+	<select id="getResult" resultType="com.production.domain.resultVO">
+		<![CDATA[
+			SELECT * FROM RESULT WHERE code = #{code}
+		]]>
+	</select>
+	<select id="getFailedList" resultType="com.production.domain.failedVO">
+		<![CDATA[
+			SELECT * FROM FAILED WHERE result_code = 'result_code1'
+		]]>
+	</select>
+	<select id="getBOM" resultType="com.production.domain.BOMVO">
+		<![CDATA[
+			SELECT * FROM FAILED WHERE result_code = #{code}
+		]]>
+	</select>
 	
 </mapper>

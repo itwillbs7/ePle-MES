@@ -147,15 +147,24 @@
 						alert("error");
 					},
 					success : function(data) {
-						alert(data);
-						var result = "<c:out value='${rsList.indexOf('" + code + "')}'/>";
+						var dataFailedList = data.failedList;
+						//alert(dataFailedList[0].code);//불량리스트[0]
+						var rsList = ${rsList};
+						alert(rsList);
+						alert(code);
+						var index = rsList.findIndex(element => element.code === code);
+						if (index !== -1) {
+							alert(index);
+						}else{
+							alert("fail");
+						}
 						$('#result').empty();
 						var html = "";
-						html += "<table border='1px solid black' style='border-spacing: 10px; border-collapse: separate;'>";
+						/* html += "<table border='1px solid black' style='border-spacing: 10px; border-collapse: separate;'>";
 						html += "<tr>";
 						html += "<td>";
 						html += "<span class='infoDF'>실적번호</span>";
-						html += "<span class='infoAS'><input type='text' value='" + result.getCode() + "'></span>";
+						html += "<span class='infoAS'><input type='text' value='" + dataResult[0].code + "'></span>";
 						html += "</td>";
 						html += "<td>";
 						html += "<span class='infoDF'>제품코드</span>";
@@ -163,7 +172,7 @@
 						html += "</td>";
 						html += "<td>";
 						html += "<span class='infoDF'>제품명</span>";
-						html += "<span class='infoAS'>제품명1</span>";
+						html += "<span class='infoAS'><input type='text' value='" + dataResult.vo.product + "'></span>";
 						html += "</td>";
 						html += "<td>";
 						html += "<span class='infoDF'>상태</span>";
@@ -181,7 +190,7 @@
 						html += "<tr>";
 						html += "<td>";
 						html += "<span class='infoDF'>라인</span>";
-						html += "<span class='infoAS'>라인1</span>";
+						html += "<span class='infoAS'><input type='text' value='" + dataResult.vo.line_code + "'></span>";
 						html += "</td>";
 						html += "<td>";
 						html += "<span class='infoDF'>기간</span>";
@@ -189,11 +198,11 @@
 						html += "</td>";
 						html += "<td>";
 						html += "<span class='infoDF'>지시량</span>";
-						html += "<span class='infoAS'>지시량1</span>";
+						html += "<span class='infoAS'><input type='text' value='" + dataResult.vo.amount + "'></span>";
 						html += "</td>";
 						html += "<td>";
 						html += "<span class='infoDF'>양품량</span>";
-						html += "<span class='infoAS'>양품량1</span>";
+						html += "<span class='infoAS'><input type='text' value='" + dataResult.product + "'></span>";
 						html += "</td>";
 						html += "<td>";
 						html += "<span class='infoDF'>부적합량</span>";
@@ -201,7 +210,7 @@
 						html += "</td>";
 						html += "</tr>";
 						html += "</table>";
-						$('#result').append(html);
+						$('#result').append(html); */
 					}
 				});
 	        }else{

@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.production.domain.BOMVO;
+import com.production.domain.failedVO;
 import com.production.domain.resultVO;
 
 @Repository
@@ -31,6 +33,21 @@ public class resultDAOImpl implements resultDAO{
 		map.put("line_code", line_code);
 		map.put("isFinish", isFinish);
 		return sqlSession.selectList(NAMESPACE + ".getResultList");
+	}
+
+	@Override
+	public resultVO getResult(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getResult",code);
+	}
+
+	@Override
+	public List<failedVO> getFailedList(String code) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getFailedList",code);
+	}
+
+	@Override
+	public BOMVO getBOM(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getBOM",code);
 	}
 
 }
