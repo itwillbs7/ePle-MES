@@ -5,5 +5,141 @@
   
 <!-- returnsMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.returnsMapper">
+	<!-- 페이징처리 + 리스트 가져오기 -->
+	<select id="listPage" resultType="ReturnsVO">
+		select rt.*, c.name clientName 
+		FROM RETURNS rt 
+		join REQUEST r on rt.request_code = r.code 
+		join CLIENT c on c.code = r.client_code 
+		order by .reg_date DESC 
+		limit #{startPage}, #{pageSize}
+	</select>
 	
+	<!-- 전체 글 개수 조회 -->
+	<select id="countReturns" resultType="int">
+  <![CDATA[
+  	select count(*) from RETURNS where 1=1
+  ]]>
+	</select>
+
+	<!-- 출하번호의 정보 가져오기 -->
+	<select id="getReturnsInfo" resultType="ReturnsVO">
+		SELECT rt.*,c.name clientName, r.deadline. s.amount
+		from RETURNS rt 
+		join REQUEST r on rt.request_code = r.code  
+		join CLIENT c on r.client_code = c.code 
+		join SHIPMENT s on s.code = rt.ship_code 
+		where rt.code = #{code} 
+
+	</select>
+	
+	<!-- 출하정보 검색하기 -->
+	<select id="research" resultType="ReturnsVO">
+		select rt.*,c.name clientName, r.deadline. s.amount
+		from RETURNS rt
+		join REQUEST r on rt.request_code = r.code 
+		join CLIENT c on c.code = r.client_code 
+		join SHIPMENT s on s.code = rt.ship_code 
+		join LOT l on rt.lot = l.lot 
+		where 1 = 1
+		<if test="clientName neq null and clientName.toString() neq '' "> AND r.client_code = #{client_code} </if>
+		<if test="product neq null and product.toString() neq ''"> AND s.mapd_code = #{product} </if>
+		<if test="date neq null and date.toString() neq '' "> 
+		<choose>
+			<when test="endDate neq null and endDate.toString() neq '' ">AND r.date between #{startDate} and #{endDate} </when>
+			<otherwise>ND r.date = #{startDate} </otherwise>
+		</choose>
+		</if>
+		<if test="statusList != null and statusList.size() > 0" >
+		 AND sp.status in 
+		 <foreach collection="statusList" item="status" open="(" close=")" separator=",">
+		 #{status} 
+		 </foreach>
+		 </if>
+		order by r.reg_date DESC 
+	</select>
+
+	<!-- 회사찾기 -->
+	<select id="getClientList" resultType="RequestVO">
+		select code client_code, name clientName from CLIENT where active = 0;
+	</select>
+
+	<select id="findCompany" resultType="RequestVO">
+		select code client_code, name clientName from CLIENT where active = 0
+		<if test="client_code!= null"> AND code like concat('%',#{client_code},'%') </if>
+		<if test="clientName != null"> AND name like concat('%',#{clientName},'%') </if>
+	</select>
+
+	<!-- 물품찾기 -->
+	<select id="getProductList" resultType="RequestVO">
+		select m.code product, m.name productName, m.unit, s.amount stock
+		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0
+	</select>
+
+	<select id="findProduct" resultType="RequestVO">
+		select m.code product, m.name productName, s.amount stock, s.code ware_code 
+		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0
+		<if test="product != null and product != ''">AND m.code like concat('%',#{product},'%')</if>
+		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
+	</select>
+	
+	<!-- 수주정보 찾기 -->
+	<select id="getRequestList" resultType="RequestVO">  
+	SELECT r.code code, r.date date, r.product product, c.name clientName, r.amount amount, 
+	m.name productName, s.amount stock , s.warehouse_code ware_code , r.unit unit, s.code stock_code 
+	FROM REQUEST r 
+	LEFT JOIN CLIENT c on r.client_code = c.code 
+	RIGHT join STOCK s on r.product = s.mapd_code 
+	LEFT join MAPD m on r.product = m.code 
+	where status = '출하대기'
+	</select>
+	
+	<select id="findRequest" resultType="RequestVO">
+	SELECT r.code code, r.date date, r.product product, c.name clientName, r.amount amount, 
+	m.name productName, s.amount stock , s.warehouse_code ware_code , r.unit unit, s.code stock_code 
+	FROM REQUEST r 
+	LEFT JOIN CLIENT c on r.client_code = c.code 
+	RIGHT join STOCK s on r.product = s.mapd_code 
+	LEFT join MAPD m on r.product = m.code 
+	where status = '출하대기' 
+		<if test="clientName != null and clientName!= ''">AND r.code like concat('%',#{clientName},'%')</if>
+		<if test="productName != null and productName != ''">AND r.code like concat('%',#{productName},'%')</if>
+	</select>
+	
+	<!-- 출하정보 등록하기 -->
+	<insert id="insertReturns">
+		insert into SHIPMENT
+		values
+		(#{code},#{reqs_code},#{date},#{ware_code},#{amount}, 
+		"출하대기",now(),"test",now(),"test",#{stock_code});
+	</insert>
+
+	<!-- 출하정보 수정하기 -->
+	<update id="updateReturnsInfo">
+		update SHIPMENT set reqs_code=#{vo.reqs_code}, date=#{vo.date}, 
+		ware_code=#{vo.ware_code}, amount=#{vo.amount}, status=#{vo.status}, 
+		update_date=now(), update_emp=#{userid}
+		where code = #{vo.code}
+	</update>
+	
+	<!-- 출하정보 삭제하기 -->
+		<select id="getDeleteInfo" resultType="ReturnsVO">
+		SELECT sp.*, c.name clientName, m.name product 
+		from SHIPMENT sp 
+		join REQUEST r on r.code = sp.reqs_code 
+		inner join CLIENT c on c.code = r.client_code 
+		inner join MAPD m on m.code = r.product 
+		where sp.code in 
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
+		 #{codeNum}
+		 </foreach>
+	</select>
+	
+	<delete id="deleteReturnsData">
+		delete from SHIPMENT
+		where code in 
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
+		 #{codeNum}
+		</foreach>
+	</delete>
 </mapper>

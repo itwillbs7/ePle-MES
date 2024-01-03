@@ -14,8 +14,8 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">오류</h1>
-				<h4 class="text-center">샘플</h4>
+				<h1 class="text-center text-primary">${title }</h1>
+				<h4 class="text-center">${result }</h4>
 			</div>
 
 			<!-- 버튼 -->

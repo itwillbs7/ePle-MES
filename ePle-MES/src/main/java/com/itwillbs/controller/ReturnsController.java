@@ -24,7 +24,9 @@ import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RequestSearchVO;
 import com.itwillbs.domain.RequestVO;
+import com.itwillbs.domain.ReturnsVO;
 import com.itwillbs.service.RequestService;
+import com.itwillbs.service.ReturnsService;
 
 /** ReturnsController : 반품 컨트롤러
  * 
@@ -38,26 +40,25 @@ public class ReturnsController {
 	private static final Logger logger = LoggerFactory.getLogger(ReturnsController.class);
 	
 	@Inject
-	private RequestService rService;
+	private ReturnsService rtService;
 		
 	
-	// http://localhost:8088/request/list
+	// http://localhost:8088/returns/list
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void returnsListGET(Model model, 
 							   HttpSession session, 
 							   @ModelAttribute("result") String result, Criteria cri
 							   ) throws Exception { //5-1
 		// 수주 목록 return
-		logger.debug("requestListGET -> DB에서 목록 가져오기(페이징 처리하기)");
+		logger.debug("returnsListGET -> DB에서 목록 가져오기(페이징 처리하기)");
 
-		List<RequestVO> requestList = rService.requestListpage(cri);
+		List<ReturnsVO> returnsList = rtService.returnsListpage(cri);
 		
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-//		pageVO.setTotalCount(327680); // 디비에서 직접 실행결과 가져오기
-		pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
+		pageVO.setTotalCount(rtService.getTotal()); // 디비에서 직접 실행결과 가져오기
 		
-		model.addAttribute("List",requestList);
+		model.addAttribute("List", returnsList);
 		model.addAttribute("pageVO", pageVO);
 		
 
@@ -65,11 +66,11 @@ public class ReturnsController {
 	
 	// http://localhost:8088/request/info
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
-	public void requestInfo(@RequestParam(value = "code") String code,Model model) throws Exception {// 수주개별정보 5-2
-		logger.debug("requestInfo -> DB에서 수주번호가 일치하는 데이터 열 가져오기");
+	public void returnsInfo(@RequestParam(value = "code") String code,Model model) throws Exception {// 수주개별정보 5-2
+		logger.debug("returnsInfo -> DB에서 수주번호가 일치하는 데이터 열 가져오기");
 		logger.debug("Controller - code "+code);
 		
-		RequestVO vo = rService.getinfo(code);
+		RequestVO vo = rtService.getinfo(code);
 		logger.debug("Controller - vo "+vo);
 		
 
@@ -81,16 +82,16 @@ public class ReturnsController {
 	// http://localhost:8088/request/search
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	@ResponseBody
-	public List<RequestVO> searchRequestGET(RedirectAttributes rttr, @ModelAttribute("result") String result, 
-								 RequestVO vo) throws Exception { // 수주검색 5-3
-		logger.debug("searchRequestGET() -> 정보 받아서 DB에 조회하기");
+	public List<RequestVO> searchReturnsGET(RedirectAttributes rttr, @ModelAttribute("result") String result, 
+											ReturnsVO vo) throws Exception { // 수주검색 5-3
+		logger.debug("searchReturnsGET() -> 정보 받아서 DB에 조회하기");
 		logger.debug("Controller - vo "+vo);
 		// 전달받을 정보(수주상태 ,담당자코드, 업체코드
 		
-		List<RequestVO> RequestList= rService.findRequestList(vo);
+		List<ReturnsVO> ReturnsList= rtService.findReturnsList(vo);
 		logger.debug("검색정보 : "+RequestList);
 		
-		rttr.addFlashAttribute("searchList",RequestList);
+		rttr.addFlashAttribute("returnsList",RequestList);
 		
 		return RequestList;
 	}
@@ -100,22 +101,22 @@ public class ReturnsController {
 
 	// http://localhost:8088/request/add
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public void requestInsertGET() throws Exception { 
-		logger.debug("requestInsertGET() -> 입력폼 팝업");
+	public void returnsInsertGET() throws Exception { 
+		logger.debug("returnsInsertGET() -> 입력폼 팝업");
 		// 수주 추가 폼 5-4
 		
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String requestInsertPOST(RequestVO vo, RedirectAttributes rttr) throws Exception {
+	public String returnsInsertPOST(RequestVO vo, RedirectAttributes rttr) throws Exception {
 		// 수주 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
 		
-		rService.dataInsertRequest(vo);
+		rtService.dataInsertReturns(vo);
 		
 		rttr.addAttribute("result", "AddDone");
 		
-		return "redirect:/request/list";
+		return "redirect:/returns/list";
 	}
 	
 	// -------- 수주등록 데이터 찾기 ---------
@@ -126,7 +127,7 @@ public class ReturnsController {
 		logger.debug("searchClientGET    실행");
 
 		// 거래사 리스트 출력하기
-		List<RequestVO> clientList = rService.ClientList();
+		List<RequestVO> clientList = rtService.ClientList();
 		logger.debug("clientList : "+clientList);
 		model.addAttribute("List", clientList);
 
@@ -138,7 +139,7 @@ public class ReturnsController {
 		logger.debug("controller : 거래사 정보 DB 검색결과 가져오기");
 		logger.debug("searchClientPOST    실행");
 
-		List<RequestVO> clientList = rService.findClient(client_code,clientName);
+		List<RequestVO> clientList = rtService.findClient(client_code,clientName);
 //		model.addAttribute("List", clientList);
 		logger.debug("가져온 List"+clientList);
 		
@@ -150,7 +151,7 @@ public class ReturnsController {
 		logger.debug("controller : 담당자 정보 찾기");
 		logger.debug("searchManagerGET    실행");
 		
-		List<RequestVO> managerList = rService.ManagerList();
+		List<RequestVO> managerList = rtService.ManagerList();
 		model.addAttribute("List", managerList);
 
 	}
@@ -163,7 +164,7 @@ public class ReturnsController {
 		logger.debug("controller : 담당자 정보 DB 검색결과 가져오기");
 		logger.debug("searchManagerPOST    실행");
 		
-		List<RequestVO> managerList = rService.findManager(manager,managerName);
+		List<RequestVO> managerList = rtService.findManager(manager,managerName);
 //		model.addAttribute("List", managerList);
 		logger.debug("가져온 List"+managerList);
 		
@@ -176,7 +177,7 @@ public class ReturnsController {
 		logger.debug("controller : 상품 정보 찾기");
 		logger.debug("searchProductGET   실행");
 		
-		List<RequestVO> productList = rService.ProductList();
+		List<RequestVO> productList = rtService.ProductList();
 		model.addAttribute("List", productList);
 	}
 	
@@ -188,7 +189,7 @@ public class ReturnsController {
 		logger.debug("controller : 상품 정보 DB 검색결과 가져오기 ");
 		logger.debug("searchProductPOST   실행");
 		
-		List<RequestVO> productList = rService.findProduct(product,productName); 
+		List<RequestVO> productList = rtService.findProduct(product,productName); 
 //		model.addAttribute("List", productList);
 		logger.debug("가져온 List"+productList);
 		return productList;
@@ -199,59 +200,48 @@ public class ReturnsController {
 	
 	// http://localhost:8088/request/update
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public void requestUpdateGET(RequestVO vo, Model model) throws Exception{
+	public void returnsUpdateGET(ReturnsVO vo, Model model) throws Exception{
 		// 수주 수정 폼5-5
 		// code 정보 받아서 해당하는 code 데이터 불러오기
-		logger.debug("requestUpdateGET(RequestVO vo) 폼 정보 받아서 그대로 토해내기");
+		logger.debug("returnsUpdateGET(RequestVO vo) 폼 정보 받아서 그대로 토해내기");
 		logger.debug("vo "+vo);
 		model.addAttribute("List",vo);
 		
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public void requestUpdatePOST(RequestVO vo) throws Exception{
+	public void returnsUpdatePOST(RequestVO vo) throws Exception{
 		// 수주 수정 액션
-		logger.debug("requestUpdatePOST() 전달받은 정보 DB 저장하기");
+		logger.debug("returnsUpdatePOST() 전달받은 정보 DB 저장하기");
 		logger.debug("vo "+vo);
 		
 		// 일단 임시 아이디값(실제로는 세션에서 값을 받아와야함)
 		String id = "id";
-		rService.updateRequest(vo, id);
+		rtService.updateReturns(vo, id);
 
 	}
 	
 	
 	// http://localhost:8088/request/delete
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public void requestDeleteGET(@RequestParam("code") String codes, Model model ) throws Exception{
+	public void returnsDeleteGET(@RequestParam("code") String codes, Model model ) throws Exception{
 		// 수주 삭제 폼5-6
 		// 전달정보 저장
 		String[] code = codes.split(",");
-		List<RequestVO> vo = rService.getinfo(code);
+		List<RequestVO> vo = rtService.getinfo(code);
 		logger.debug("찾아온 삭제 정보 vo"+vo);
 		model.addAttribute("List", vo);
 		
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public void requestDeletePOST(@RequestParam("code") String codes) throws Exception{
+	public void returnsDeletePOST(@RequestParam("code") String codes) throws Exception{
 		// 수주 삭제 액션
 		logger.debug("삭제가 될랑가 codes "+codes);
 		String[] code = codes.split(",");
-		rService.deleteRequest(code);
+		rtService.deleteRequest(code);
 	}
 	
 	
-	
-	//======================================================================= 스위트 알람 테스트
-	@GetMapping ("/confirm")
-	public void resultConfirm() throws Exception{
-	}
-	
-	@RequestMapping(value = "/error", method = RequestMethod.GET)
-	public void errorConfirm() throws Exception {
-	}
-	@GetMapping ("/success")
-	public void success() throws Exception {
-	}
+
 }
