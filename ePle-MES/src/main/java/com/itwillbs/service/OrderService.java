@@ -20,6 +20,8 @@ public interface OrderService {
 	 // 모든 품목 수
 	 public int mapdListCount(String mapdCode, String mapdName) throws Exception;
 	 
-	 
+	 // 발주 삭제
+	 public List<OrderVO> delInfo(String[] code_arr)throws Exception;
+	 public void deleteOrder(String[] code_arr) throws Exception;	
 
 }

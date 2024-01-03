@@ -19,9 +19,8 @@ public interface WarehouseService {
 	 // 모든 사원 수
 	 public int employeesListCount(String empCode, String empName) throws Exception;
 	 
-	 // 삭제폼
+	 // 창고 삭제
 	 public List<WarehouseVO> delInfo(String[] code_arr)throws Exception;
-	 // 삭제액션
 	 public void deleteWarehouse(String[] code_arr) throws Exception;	 
 	 
 	 

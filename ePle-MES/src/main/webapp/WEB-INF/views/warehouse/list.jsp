@@ -29,25 +29,6 @@
 		
 	<br>
 				
-<!-- 나중에		<div class="alert alert-success alert-dismissible fade show" role="alert">
-			<strong>창고 등록</strong>이 완료되었습니다!
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">×</span>
-			</button>
-		</div>
-		<div class="alert alert-info alert-dismissible fade show" role="alert">
-			<strong>창고 수정</strong>이 완료되었습니다!
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">×</span>
-			</button>
-		</div>
-		<div class="alert alert-warning alert-dismissible fade show" role="alert">
-			<strong>창고 삭제</strong>가 완료되지 않았습니다!
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">×</span>
-			</button>
-		</div> -->
-				
 				
 	<!------------------------------ 창고 검색 시작 ----------------------------->
 	<div class="faq-wrap">
@@ -152,7 +133,7 @@
 										<!-- 수정 -->
 										<a class="dropdown-item" href="javascript:openPage('/warehouse/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
 										<!-- 삭제 -->
-										<a class="dropdown-item" href="javascript:openPage('/warehouse/delete?code=${vo.wh_code }', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
+										<a class="dropdown-item" id="optDelete"><i class="dw dw-delete-3"></i> 삭제</a>
 									</div>
 							</div>
 								
@@ -240,7 +221,6 @@
 		}
 	
 	
-	
 		var popupWidth, popupHeight, popupX, popupY, link;
 		var set;
 
@@ -296,14 +276,14 @@
 
 			
 			// 삭제
-			$("#delete").click(function() {
+			$("#delete,#optDelete").click(function() {
 				var codes = [];
 			    $("input:checkbox[name=tableCheck]:checked").each(function() {
 			    	codes.push($(this).val());
 			    });
 			    
 			    if (codes.length > 0) { 
-			        openPage("/warehouse/delete?codes=" + codes.join(','), 400, 700);
+			        openPage("/warehouse/delete?codes=" + codes.join(','), 400, 600);
 			    } else {
 			        $('#warning-modal').modal('show'); 
 			    }

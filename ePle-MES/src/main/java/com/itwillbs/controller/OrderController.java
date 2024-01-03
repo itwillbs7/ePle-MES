@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.OrderVO;
 import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.service.OrderService;
 
 
@@ -73,7 +74,22 @@ public class OrderController {
 	  model.addAttribute("mapdList", mapdList);
 			
 	  }
+		
 	  
+	  
+	  // 발주 삭제 (폼/액션)------------------------------------------------------------------
+	  @RequestMapping(value = "/delete", method = RequestMethod.GET)
+	  public void deleteOrder(@RequestParam("codes") String codes, Model model) throws Exception {
+		  String[] code_arr = codes.split(",");
+		  List<OrderVO> delInfo = oService.delInfo(code_arr);
+		  model.addAttribute("delInfo", delInfo);
+	  }
+
+	  @RequestMapping(value = "/delete", method = RequestMethod.POST)
+	  public void deleteOrder(@RequestParam("codes") String codes) throws Exception {
+		  String[] code_arr = codes.split(",");
+		  oService.deleteOrder(code_arr);
+	  }	  
 	  
 	  
 	  

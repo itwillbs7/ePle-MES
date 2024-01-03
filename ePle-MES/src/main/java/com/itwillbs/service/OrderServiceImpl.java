@@ -47,6 +47,18 @@ public class OrderServiceImpl implements OrderService {
 		return odao.getMAPDCount(mapdCode, mapdName);
 	}
 	
+	// 발주 삭제
+	@Override
+	public List<OrderVO> delInfo(String[] code_arr) throws Exception {
+		return odao.getDelInfo(code_arr);
+	}
+
+	@Override
+	public void deleteOrder(String[] code_arr) throws Exception {
+		odao.getDeleteOrder(code_arr);
+	}
+	
+	
 	
 	
 }

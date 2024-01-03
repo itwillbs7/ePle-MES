@@ -19,7 +19,7 @@ public interface WarehouseDAO {
 	// 모든 사원 수
 	public int getEmployeesCount(String empCode, String empName) throws Exception;
 	
-	 // 삭제
+	// 창고 삭제
 	public List<WarehouseVO> getDelInfo(String[] code_arr)throws Exception;
 	public void getDeleteWarehouse(String[] code_arr) throws Exception;
 	

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.OrderVO;
+import com.itwillbs.domain.WarehouseVO;
 
 @Repository
 public class OrderDAOImpl implements OrderDAO {
@@ -64,5 +65,25 @@ public class OrderDAOImpl implements OrderDAO {
 		data.put("mapdName", mapdName);
 		return sqlSession.selectOne(NAMESPACE + ".countMAPD",data);
 	}
+	
+	// 발주 삭제	
+	@Override
+	public List<OrderVO> getDelInfo(String[] code_arr) throws Exception{
+		Map<String, Object> data = new HashMap<>();
+		data.put("code_arr", code_arr);
+		List<OrderVO> delInfo = sqlSession.selectList(NAMESPACE+".getDelInfo", data);		
+	    return delInfo;
+	}
+
+	@Override
+	public void getDeleteOrder(String[] code_arr) throws Exception {
+		Map<String,String[]>data = new HashMap<String,String[]>();
+		data.put("code_arr", code_arr);
+		sqlSession.delete(NAMESPACE + ".deleteOrder", data);
+	}	
+	
+	
+	
+	
 	
 }

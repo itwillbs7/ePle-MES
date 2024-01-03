@@ -20,13 +20,21 @@
 		<result property="update_date" column="update_date"/>
 		<result property="update_emp" column="update_emp"/>
 		<result property="status" column="status"/>
+		<result property="name" column="name"/>
+		<result property="category" column="category"/>
 	</resultMap>
 
 	
 	<!-- 발주 목록, 발주 검색 -->
 	<select id="selectOrderList" parameterType="hashMap" resultMap="order">
-    	SELECT *
-    	FROM ORDERS
+    	SELECT o.code,o.material,o.date,
+    	FROM ORDERS o
+    	JOIN CLIENT c
+    	ON o.client_code=c.code
+    	JOIN EMPLOYEES e1
+    	ON o.reg_emp=e1.code
+    	JOIN EMPLOYEES e2
+    	ON o.update_emp=e2.code
 		<where>
 			<if test="searchOrder != null or searchMapd != null">
 			<if test="searchOrder != null">
@@ -40,7 +48,7 @@
 			</if>
 			</if>
     	</where>
-    	ORDER BY CAST(SUBSTRING(code, 4) AS UNSIGNED) DESC	<!-- 코드 정하면 수정하기 -->
+    	<!-- ORDER BY CAST(SUBSTRING(code, 4) AS UNSIGNED) DESC -->	<!-- 코드 정하면 바꾸기 -->
     	LIMIT #{cri.startPage}, #{cri.pageSize}
 	</select>
 
@@ -64,41 +72,63 @@
 	</select>
 	
 	<!-- 품목 검색 팝업 -->
-	<select id="SearchEmployees" parameterType="hashMap" resultMap="order">
-		SELECT code, name
-		FROM EMPLOYEES
-		WHERE dep_id = ''	
-			<if test="empCode != null or empName != null">
-			<if test="empCode != null">
-				AND code LIKE CONCAT('%', #{empCode}, '%')
+	<select id="SearchMAPD" parameterType="hashMap" resultMap="order">
+		SELECT code, category, name
+		FROM MAPD
+		<where>	
+			<if test="mapdCode != null or mapdName != null">
+			<if test="mapdCode != null">
+				code LIKE CONCAT('%', #{mapdCode}, '%')
 			</if>
-			<if test="empCode != null and empName != null">
+			<if test="mapdCode != null and mapdName != null">
 				AND
 			</if>
-			<if test="empName != null">
-				name LIKE CONCAT('%', #{empName}, '%')
+			<if test="mapdName != null">
+				name LIKE CONCAT('%', #{mapdName}, '%')
 			</if>
 			</if>
+		</where> 
     	LIMIT #{cri.startPage}, #{cri.pageSize}
 	</select>	
 	
 	<!-- 모든 품목 수 -->
-	<select id="countEmployees" parameterType="hashMap" resultType="int">
+	<select id="countMAPD" parameterType="hashMap" resultType="int">
 		SELECT count(*) 
-		FROM EMPLOYEES
-		WHERE dep_id = ''	
-			<if test="empCode != null or empName != null">
-			<if test="empCode != null">
-				AND code LIKE CONCAT('%', #{empCode}, '%')
+		FROM MAPD
+		<where>	
+			<if test="mapdCode != null or mapdName != null">
+			<if test="mapdCode != null">
+				code LIKE CONCAT('%', #{mapdCode}, '%')
 			</if>
-			<if test="empCode != null and empName != null">
+			<if test="mapdCode != null and mapdName != null">
 				AND
 			</if>
-			<if test="empName != null">
-				name LIKE CONCAT('%', #{empName}, '%')
+			<if test="mapdName != null">
+				name LIKE CONCAT('%', #{mapdName}, '%')
 			</if>
 			</if>
+		</where>
 	</select>
+ 
+ 	<!-- 발주 삭제 -->
+	<select id="getDelInfo" resultMap="order">
+		SELECT *
+    	FROM ORDERS
+		WHERE code IN
+		<foreach collection="code_arr" item="item" open="(" close=")" separator=",">
+			#{item}
+		 </foreach>
+	</select>
+	
+	<delete id="deleteOrder" parameterType="hashmap">
+		DELETE FROM ORDERS WHERE code IN
+		<foreach collection="code_arr" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete> 
+  
+  
+  
   
   
   

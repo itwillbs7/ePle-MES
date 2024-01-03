@@ -78,35 +78,20 @@ public class WarehouseController {
 	  }
 		
 	  
-	
 	  
-	  
-	  
-	  
-	  	/*===============================================================================*/
-	/*
-	 * @RequestMapping(value = "/delete", method = RequestMethod.GET) public void
-	 * deleteWarehouse(@RequestParam("codes") String codes) throws Exception {
-	 * 
-	 * String[] code_arr = codes.split(","); wService.deleteWarehouse(code_arr);
-	 * 
-	 * }
-	 */
-		
-		//----------------------------------------------------------------------------
-		@RequestMapping(value = "/delete", method = RequestMethod.GET)
-		public void deleteWarehouse(@RequestParam("codes") String codes, Model model ) throws Exception{
-			String[] code_arr = codes.split(",");
-			List<WarehouseVO> delInfo = wService.delInfo(code_arr);
-			model.addAttribute("delInfo", delInfo);
-			
-		}
-		
-		@RequestMapping(value = "/delete", method = RequestMethod.POST)
-		public void deleteWarehouse(@RequestParam("codes") String codes) throws Exception{
-			String[] code_arr = codes.split(",");
-			wService.deleteWarehouse(code_arr);
-		}
+	  // 창고 삭제 (폼/액션)------------------------------------------------------------------
+	  @RequestMapping(value = "/delete", method = RequestMethod.GET)
+	  public void deleteWarehouse(@RequestParam("codes") String codes, Model model) throws Exception {
+		  String[] code_arr = codes.split(",");
+		  List<WarehouseVO> delInfo = wService.delInfo(code_arr);
+		  model.addAttribute("delInfo", delInfo);
+	  }
+
+	  @RequestMapping(value = "/delete", method = RequestMethod.POST)
+	  public void deleteWarehouse(@RequestParam("codes") String codes) throws Exception {
+		  String[] code_arr = codes.split(",");
+		  wService.deleteWarehouse(code_arr);
+	  }
 	  
 	  
 	  

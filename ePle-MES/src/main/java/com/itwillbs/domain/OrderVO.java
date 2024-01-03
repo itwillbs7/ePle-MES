@@ -21,5 +21,7 @@ public class OrderVO {
 	private String status; 			// 상태
 
 
+	private String category; 	
+	private String name; 	
 
 }

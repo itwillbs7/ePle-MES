@@ -45,10 +45,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public int employeesListCount(String empCode, String empName) throws Exception {
 		return wdao.getEmployeesCount(empCode, empName);
 	}
-
 	
-	
-	// 삭제
+	// 창고 삭제
 	@Override
 	public List<WarehouseVO> delInfo(String[] code_arr) throws Exception {
 		return wdao.getDelInfo(code_arr);

@@ -66,10 +66,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 		return sqlSession.selectOne(NAMESPACE + ".countEmployees",data);
 	}
 	
-	
-	
-	
-	
+	// 창고 삭제	
 	@Override
 	public List<WarehouseVO> getDelInfo(String[] code_arr) throws Exception{
 		Map<String, Object> data = new HashMap<>();

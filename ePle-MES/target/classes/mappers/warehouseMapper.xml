@@ -100,7 +100,7 @@
 			</if>
 	</select>
 
-	
+	<!-- 창고 삭제 -->
 	<select id="getDelInfo" resultMap="warehouse">
     	SELECT w.code, w.location, w.group_id, w.group_name, e.code, e.name, e.phone, w.active
     	FROM WAREHOUSE w 

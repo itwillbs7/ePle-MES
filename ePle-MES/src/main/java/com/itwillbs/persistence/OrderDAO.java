@@ -20,4 +20,9 @@ public interface OrderDAO {
 	// 모든 품목 수
 	public int getMAPDCount(String mapdCode, String mapdName) throws Exception;
 
+	// 발주 삭제
+	public List<OrderVO> getDelInfo(String[] code_arr)throws Exception;
+	public void getDeleteOrder(String[] code_arr) throws Exception;
+	
+	
 }
