@@ -257,7 +257,7 @@
 		m.res_info, m.res_content,
 		m.comp_date
 		FROM FAC_MT m
-		JOIN
+		LEFT OUTER JOIN
 		FAC_INFO f ON m.fac_code = f.code
 		LEFT OUTER JOIN COMMON_CODE cm ON m.group_id =
 		cm.group_id AND m.code_id = cm.code_id
@@ -291,7 +291,7 @@
 		m.res_info, m.res_content, 
 		m.comp_date 
 		FROM FAC_MT m 
-		LEFT JOIN 
+		LEFT OUTER JOIN 
 		FAC_INFO f ON m.fac_code = f.code 
 		LEFT OUTER JOIN COMMON_CODE cm ON m.group_id =
 		cm.group_id AND m.code_id = cm.code_id

@@ -24,6 +24,10 @@ jQuery(document).ready(function () {
 			// event dragging & resizing
 			editable: true,
 			// header
+			selectable : true, // 달력 일자 드래그 설정가능
+			droppable : true,
+			nowIndicator: true, // 현재 시간 마크
+			locale: 'ko', // 한국어 설정
 			header: {
 				left: "title",
 				center: "month,agendaWeek,agendaDay",

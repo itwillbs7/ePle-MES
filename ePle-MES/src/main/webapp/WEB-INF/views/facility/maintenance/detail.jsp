@@ -61,12 +61,15 @@
 			<div class="row">
 				<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
 					<c:if test="${role eq 'manager'}">
-						<button type="button" class="btn btn-warning" onclick="javascript:openPage('/facility/maintenance/update?code=${info.code}&menu=result', 500, 600)">
+						<button type="button" class="btn btn-info" onclick="javascript:openPage('/facility/maintenance/reservation?code=${info.code}', 500, 600)">
+							<b>예약</b>
+						</button>
+						<button type="button" class="btn btn-success" onclick="javascript:openPage('/facility/maintenance/result/insert?code=${info.code}', 500, 600)">
 							<b>입력</b>
 						</button>
 					</c:if>
-					<c:if test="${role eq 'admin' or id eq 'emp_code'}">
-						<button type="button" class="btn btn-warning" onclick="javascript:openPage('/facility/maintenance/update?code=${info.code}&menu=update', 500, 600)">
+					<c:if test="${role eq 'admin' or emp_id eq 'emp_code'}">
+						<button type="button" class="btn btn-warning" onclick="javascript:openPage('/facility/maintenance/update?code=${info.code}', 500, 600)">
 							<b>수정</b>
 						</button>
 						<button type="button" class="btn btn-danger" onclick="javascript:openPage('/facility/maintenance/delete?code=${info.code}', 500, 600)">

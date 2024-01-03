@@ -6452,10 +6452,10 @@
     var defaultLongDateFormat = {
         LTS: 'h:mm:ss A',
         LT: 'h:mm A',
-        L: 'MM/DD/YYYY',
-        LL: 'MMMM D, YYYY',
-        LLL: 'MMMM D, YYYY h:mm A',
-        LLLL: 'dddd, MMMM D, YYYY h:mm A'
+        L: 'YYYY-MM-DD',
+        LL: 'YYYY-MMMM-DD',
+        LLL: 'YYYY-MMMM-DD h:mm A',
+        LLLL: 'YYYY-MMMM D dddd h:mm A'
     };
 
     function longDateFormat(key) {

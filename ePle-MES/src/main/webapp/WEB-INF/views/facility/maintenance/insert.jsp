@@ -51,11 +51,9 @@
 										<option value="BM">사후 보전</option>
 									</c:when>
 									<c:when test="${role eq 'manager'}">
-										<option value="PM">예방 보전</option>
+										<option value="PM">예약 보전</option>
 										<option value="CM">개량 보전</option>
 										<option value="BM">사후 보전</option>
-										<option value="MP">보전 예방</option>
-										<option value="EM">긴급 보전</option>
 									</c:when>
 								</c:choose>
 							</select>

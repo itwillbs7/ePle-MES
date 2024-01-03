@@ -1,82 +1,110 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="java.util.Date"%>
+<%
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	String today = dateFormat.format(new Date());
+%>
 <html>
 <head>
-<meta charset="UTF-8">
 <%@ include file="../../include/head.jsp"%>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/src/plugins/fullcalendar/fullcalendar.css" />
 <title>보전 예약</title>
-<!-- 
-	실행 방법
-		- 테이블 페이지의 옵션에서 삭제클릭
-		- 상세 정보에서 삭제 클릭
- -->
 </head>
 <body>
-	<!-- 콘텐츠 시작 -->
-	<div class="modal-content">
-		<div class="login-box bg-white box-shadow border-radius-10">
-			<button type="button" class="close" onclick="window.close();">×</button>
-			<div class="pd-20">
-				<!-- 타이틀 -->
-				<div class="login-title">
-					<h1 class="text-center text-primary">보전 예약</h1>
+	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
+	<%@ include file="../../include/header.jsp"%>
+	<%@ include file="../../include/right-side-bar.jsp"%>
+	<%@ include file="../../include/left-side-bar.jsp"%>
+	<!-- 메인 컨테이너 -->
+	<div class="main-container">
+		<div class="pd-ltr-20 xs-pd-20-10">
+			<div class="min-height-200px">
+				<div class="title" style="margin-bottom: 10px;">
+					<h1>보전 예약</h1>
 				</div>
-				<form action="/facility/maintenance/reservation" method="post">
-					<!-- 보전 목록 -->
-					<!-- 완료되지 않고 예약되지 않은 보전 목록만 표시 -->
-					<div class="row">
-						<div class="col-sm-12 mb-6">
-							<div class="form-group">
-								<label><b>보전 목록</b></label> <select class="custom-select2 form-control" name="fac_code" style="width: 100%; height: 38px">
-									<option value="None">선택</option>
-									<c:if test="${!empty m_list}">
-										<c:forEach items="${m_list}" var="i">
-											<option value="${i.code}">${i.emp_name}-${i.fac_name}(${i.facility.model})</option>
-										</c:forEach>
-									</c:if>
-								</select>
+				<div class="pd-20 card-box mb-30">
+					<div class="calendar-wrap">
+						<div id="calendar"></div>
+					</div>
+					<!-- calendar modal -->
+					<div id="modal-view-event" class="modal modal-top fade calendar-modal">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+								<div class="modal-body">
+									<h4 class="h4">
+										<span class="event-icon weight-400 mr-3"></span><span class="event-title"></span>
+									</h4>
+									<div class="event-body"></div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+								</div>
 							</div>
 						</div>
 					</div>
-					<!-- 보전 목록 -->
-					<!-- 일정 설정 -->
-					<div class="form-group">
-						<label><b>일정</b></label> <input class="form-control date-picker" data-language="ko" placeholder="일정 선택" type="text" />
-					</div>
-					<div class="row">
-						<div class="col-sm-12 mb-3 justify-content-center">
-							<div class="form-group">
-								<label><b>예약 시간</b></label> <input class="form-control time-picker-default" placeholder="time" type="text" />
+
+					<div id="modal-view-event-add" class="modal modal-top fade calendar-modal">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+								<form id="add-event">
+									<div class="modal-body">
+										<h4 class="text-blue h4 mb-10">예약 추가 정보</h4>
+										<div class="form-group">
+											<label>보전 제목</label> <input type="text" class="form-control" name="ename" />
+										</div>
+										<div class="form-group">
+											<label>예약 일자</label> <input type="text" class="datetimepicker form-control" name="edate" />
+										</div>
+										<div class="form-group">
+											<label>예약 내용</label>
+											<textarea class="form-control" name="edesc"></textarea>
+										</div>
+										<div class="form-group">
+											<label>색깔</label> <select class="form-control" name="ecolor">
+												<option value="fc-bg-default">fc-bg-default</option>
+												<option value="fc-bg-blue">fc-bg-blue</option>
+												<option value="fc-bg-lightgreen">fc-bg-lightgreen</option>
+												<option value="fc-bg-pinkred">fc-bg-pinkred</option>
+												<option value="fc-bg-deepskyblue">fc-bg-deepskyblue</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label>아이콘</label> <select class="form-control" name="eicon">
+												<option value="circle">circle</option>
+												<option value="cog">cog</option>
+												<option value="group">group</option>
+												<option value="suitcase">suitcase</option>
+												<option value="calendar">calendar</option>
+											</select>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">
+												<b>취소</b>
+											</button>
+											<button type="submit" class="btn btn-success">
+												<b>등록</b>
+											</button>
+										</div>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
-					<!-- 일정 설정 -->
-					<!-- 버튼 -->
-					<div class="row">
-						<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-							<button type="button" class="btn btn-secondary" onclick="window.close();">
-								<b>취소</b>
-							</button>
-							<button type="submit" class="btn btn-success">
-								<b>등록</b>
-							</button>
-						</div>
-					</div>
-					<!-- 버튼 -->
-				</form>
+				</div>
+				<!-- 푸터 -->
+				<%@ include file="../../include/github.jsp"%>
+				<%@ include file="../../include/footer.jsp"%>
 			</div>
 		</div>
-		<!-- 콘텐츠 끝> -->
-		<%@ include file="../../include/footer.jsp"%>
 	</div>
-	<script type="text/javascript">
-		$(function() {
-			$(".date-picker").datepicker({
-				format : 'YYYY-MM-DD'
-			});
-		});
-	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<!-- fullcalendar 언어 설정관련 script -->
+	<script src="${pageContext.request.contextPath}/resources/vendors/scripts/calendar-setting.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/src/plugins/fullcalendar/fullcalendar.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
 </body>
 </html>

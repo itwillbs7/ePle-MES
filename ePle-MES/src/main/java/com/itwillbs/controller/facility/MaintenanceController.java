@@ -39,7 +39,7 @@ public class MaintenanceController {
 
 	// http://localhost:8088/facility/maintenance/list
 	@GetMapping(value = "/list")
-	public void maintenanceListGET(MaintenanceSearchVO searchVO, PageVO pageVO, Criteria cri, Model model)
+	public void mainListGET(MaintenanceSearchVO searchVO, PageVO pageVO, Criteria cri, Model model)
 			throws Exception {
 		// 설비 보전 리스트
 		pageVO.setCri(cri);
@@ -57,7 +57,7 @@ public class MaintenanceController {
 	}
 
 	@GetMapping(value = "/insert")
-	public void maintenanceInsertGET(Model model) throws Exception {
+	public void mainInsertGET(Model model) throws Exception {
 		String emp_code = "test4";
 		String dep = "설비보전";
 		if(dep.equals("설비보전")) {
@@ -74,7 +74,7 @@ public class MaintenanceController {
 	}
 
 	@PostMapping(value = "/insert")
-	public String maintenanceInsertPOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
+	public String mainInsertPOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
 		// 설비 보전 등록 액션
 		// 사후보전 / 예방보전 / 긴급보전
 		// -> 다른 데이터베이스에서 진행(일상 보전은 결과만)
@@ -116,16 +116,15 @@ public class MaintenanceController {
 	
 	// http://localhost:8088/facility/maintenance/update?code=DM20240102001
 	@GetMapping(value = "/update")
-	public void maintenanceUpdateGET(String code, String menu, Model model) throws Exception {
+	public void mainUpdateGET(String code, String menu, Model model) throws Exception {
 		// 설비 보전 수정 폼
-		model.addAttribute("menu", menu);
 		model.addAttribute("list", fService.getFacManager("test5"));
 		model.addAttribute("info", mService.getDetail(code));
 		model.addAttribute("role", "emp");
 	}
 
 	@PostMapping(value = "/update")
-	public String maintenanceUpdatePOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
+	public String mainUpdatePOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
 		// 설비 보전 수정 액션
 		String link = "";
 		int result = mService.updateMT(vo);
@@ -140,14 +139,24 @@ public class MaintenanceController {
 		}
 		return link;
 	}
+	
+	@GetMapping("/reservation")
+	public void mainReservGET(String code, Model model) throws Exception{
+		model.addAttribute("info", mService.getDetail(code));
+	}
+	
+	@PostMapping("/reservation")
+	public void mainReservPOST(MaintenanceVO vo,RedirectAttributes rttr) throws Exception{
+		
+	}
 
 	@GetMapping(value = "/delete")
-	public void maintenanceDeleteGET() throws Exception {
+	public void mainDeleteGET() throws Exception {
 		// 설비 보전 삭제 폼
 	}
 
 	@PostMapping(value = "/delete")
-	public String maintenanceDeletePOST(String[] codeList, RedirectAttributes rttr) throws Exception {
+	public String mainDeletePOST(String[] codeList, RedirectAttributes rttr) throws Exception {
 		// 설비 보전 삭제 액션
 		String link = "";
 		int result = mService.delete(codeList);
@@ -164,14 +173,14 @@ public class MaintenanceController {
 	}
 
 	@GetMapping("/detail")
-	public void maintenanceDetail(String code, Model model) throws Exception {
+	public void mainDetail(String code, Model model) throws Exception {
 		// 보전 상세 정보
 		model.addAttribute("role", "manager");
 		model.addAttribute("info", mService.getDetail(code));
 	}
 
 	@GetMapping(value = "/result/list")
-	public void maintenanceResultListGET(MaintenanceSearchVO searchVO, PageVO pageVO, Criteria cri, Model model) throws Exception {
+	public void mainResultListGET(MaintenanceSearchVO searchVO, PageVO pageVO, Criteria cri, Model model) throws Exception {
 		pageVO.setCri(cri);
 		searchVO.setComplete(true);
 		pageVO.setSearch(searchVO);
@@ -186,13 +195,13 @@ public class MaintenanceController {
 	}
 
 	@GetMapping(value = "/result/Insert")
-	public void maintenanceResultInsertGET(String code, Model model) throws Exception {
+	public void mainResultInsertGET(String code, Model model) throws Exception {
 		// 설비 보전 결과 폼
 		model.addAttribute("info", mService.getDetail(code));
 	}
 
 	@PostMapping(value = "/result/Insert")
-	public String maintenanceResultInsertPOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
+	public String mainResultInsertPOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
 		// 설비 보전 결과 액션
 		String link = "";
 		int result = mService.updateResult(vo);
