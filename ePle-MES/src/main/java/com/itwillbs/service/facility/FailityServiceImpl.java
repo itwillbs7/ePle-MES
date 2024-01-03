@@ -67,6 +67,11 @@ public class FailityServiceImpl implements FacilityService {
 	}
 	
 	@Override
+	public List<FacilityVO> getFacManager() throws Exception {
+		return dao.getFacManager();
+	}
+	
+	@Override
 	public List<FacilityVO> getFacManager(String emp_code) throws Exception {
 		return dao.getFacManager(emp_code);
 	}

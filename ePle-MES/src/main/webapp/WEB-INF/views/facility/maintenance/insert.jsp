@@ -20,7 +20,10 @@
 				<h1 class="text-center text-primary">보전 등록</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="" method="post">
+			<form method="post">
+				<!-- hidden -->
+				<input type="hidden" name="emp_code" value="${emp_code}">
+				<!-- hidden -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">
@@ -47,7 +50,7 @@
 									<c:when test="${role eq 'emp'}">
 										<option value="BM">사후 보전</option>
 									</c:when>
-									<c:when test="${role eq 'manager' or role eq 'admin'}">
+									<c:when test="${role eq 'manager'}">
 										<option value="PM">예방 보전</option>
 										<option value="CM">개량 보전</option>
 										<option value="BM">사후 보전</option>
@@ -65,7 +68,7 @@
 					<div class="col-sm-12 mb-3">
 						<!-- examples -->
 						<div class="form-group">
-							<label>사유</label> <input class="form-control" type="text" placeholder="Johnny Brown">
+							<label>사유</label> <input class="form-control" name="mt_subject" type="text" placeholder="입력">
 						</div>
 						<input type="hidden" name="group_id" value="MT">
 						<div class="col-md-6 col-sm-12">
@@ -78,6 +81,9 @@
 							</div>
 							<div class="custom-control custom-radio mb-5">
 								<input type="radio" id="customRadio3" name="code_id" value="003" class="custom-control-input"> <label class="custom-control-label" for="customRadio3">마모 고장</label>
+							</div>
+							<div class="custom-control custom-radio mb-5">
+								<input type="radio" id="customRadio4" name="code_id" value="004" class="custom-control-input" checked> <label class="custom-control-label" for="customRadio4">기타 검사</label>
 							</div>
 						</div>
 						<div class="form-group">

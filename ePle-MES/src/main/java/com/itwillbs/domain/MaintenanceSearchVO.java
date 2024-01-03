@@ -6,8 +6,8 @@ import lombok.Data;
 public class MaintenanceSearchVO extends SearchVO{
 	private String[] order;
 	
-	private final String[] eng = {"m.code", "m.reg_date", "e1.name", "fac_code", "mt_subject"};
-	private final String[] kor = {"보전 번호", "등록일", "직원명", "설비 코드", "제목"};
+	private final String[] eng = {"m.code", "cm.code_name","m.reg_date", "e1.name", "fac_code", "mt_subject"};
+	private final String[] kor = {"보전 번호", "등록 사유", "등록일", "직원명", "설비 코드", "제목"};
 	
 	public void orderSet(int count) {
 		order = new String[count];

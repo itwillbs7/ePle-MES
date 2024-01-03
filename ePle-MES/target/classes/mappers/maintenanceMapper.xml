@@ -12,7 +12,7 @@
 		<result property="reg_date" column="reg_date" />
 		<result property="emp_code" column="emp_code" />
 		<result property="emp_name" column="emp_name" />
-
+		<result property="fac_code" column="fac_code"/>
 		<result property="group_id" column="group_id" />
 		<result property="group_name" column="group_name" />
 		<result property="code_id" column="code_id" />
@@ -68,6 +68,9 @@
 	<!-- search -->
 	<sql id="getSearch">
 		<where>
+			<![CDATA[
+			cm.code_id != "000" 
+			]]>
 			<choose>
 				<!-- complete == true -->
 				<when test="search.complete == true">
@@ -243,8 +246,8 @@
 		m.group_id, cm.group_name,
 		m.code_id, cm.code_name,
 		m.fac_code,
-		f.group_id, cf.group_name,
-		f.code_id, cf.group_name,
+		f.group_id AS fac_group_id, cf.group_name AS fac_group_name, 
+		f.code_id AS fac_code_id, cf.code_name AS fac_code_id, 
 		f.line_code, l.name
 		AS line_name,
 		mt_subject, mt_content,
@@ -256,15 +259,15 @@
 		FROM FAC_MT m
 		JOIN
 		FAC_INFO f ON m.fac_code = f.code
-		JOIN COMMON_CODE cm ON m.group_id =
+		LEFT OUTER JOIN COMMON_CODE cm ON m.group_id =
 		cm.group_id AND m.code_id = cm.code_id
-		JOIN COMMON_CODE cf ON
+		LEFT OUTER JOIN COMMON_CODE cf ON
 		f.group_id = cf.group_id AND f.code_id =
 		cf.code_id
-		JOIN EMPLOYEES e1 ON
+		LEFT OUTER JOIN EMPLOYEES e1 ON
 		m.emp_code = e1.code
-		JOIN EMPLOYEES e2 ON m.manager = e2.code
-		JOIN LINE
+		LEFT OUTER JOIN EMPLOYEES e2 ON m.manager = e2.code
+		LEFT OUTER JOIN LINE
 		l ON l.code = f.line_code
 		WHERE m.code = #{code}
 	</select>
@@ -277,8 +280,8 @@
 		m.emp_code, e1.name AS emp_name, 
 		m.group_id, cm.group_name, 
 		m.code_id, cm.code_name, 
-		f.group_id, cf.group_name, 
-		f.code_id, cf.group_name, 
+		f.group_id AS fac_group_id, cf.group_name AS fac_group_name, 
+		f.code_id AS fac_code_id, cf.code_name AS fac_code_id, 
 		f.line_code, l.name 
 		AS line_name, 
 		mt_subject, mt_content, 
@@ -290,15 +293,15 @@
 		FROM FAC_MT m 
 		LEFT JOIN 
 		FAC_INFO f ON m.fac_code = f.code 
-		JOIN COMMON_CODE cm ON m.group_id =
+		LEFT OUTER JOIN COMMON_CODE cm ON m.group_id =
 		cm.group_id AND m.code_id = cm.code_id
-		JOIN COMMON_CODE cf ON
+		LEFT OUTER JOIN COMMON_CODE cf ON
 		f.group_id = cf.group_id AND f.code_id =
 		cf.code_id
-		JOIN EMPLOYEES e1 ON
+		LEFT OUTER JOIN EMPLOYEES e1 ON
 		m.emp_code = e1.code
-		JOIN EMPLOYEES e2 ON m.manager = e2.code
-		JOIN LINE
+		LEFT OUTER JOIN EMPLOYEES e2 ON m.manager = e2.code
+		LEFT OUTER JOIN LINE
 		l ON l.code = f.line_code
 		WHERE f.code = #{code} 
 		ORDER BY m.code DESC 
@@ -323,9 +326,8 @@
 		cm.group_name,
 		m.code_id, cm.code_name,
 		m.fac_code,
-		f.group_id,
-		cf.group_name,
-		f.code_id, cf.group_name,
+		f.group_id AS fac_group_id, cf.group_name AS fac_group_name, 
+		f.code_id AS fac_code_id, cf.code_name AS fac_code_id, 
 		f.line_code, l.name AS
 		line_name,
 		mt_subject, mt_content,
@@ -335,17 +337,17 @@
 		m.res_info, m.res_content,
 		m.comp_date
 		FROM FAC_MT m
-		JOIN
+		LEFT OUTER JOIN
 		FAC_INFO f ON m.fac_code = f.code
-		JOIN COMMON_CODE cm ON m.group_id =
+		LEFT OUTER JOIN COMMON_CODE cm ON m.group_id =
 		cm.group_id AND m.code_id = cm.code_id
-		JOIN COMMON_CODE cf ON
+		LEFT OUTER JOIN COMMON_CODE cf ON
 		f.group_id = cf.group_id AND f.code_id =
 		cf.code_id
-		JOIN EMPLOYEES e1 ON
+		LEFT OUTER JOIN EMPLOYEES e1 ON
 		m.emp_code = e1.code
-		JOIN EMPLOYEES e2 ON m.manager = e2.code
-		JOIN LINE
+		LEFT OUTER JOIN EMPLOYEES e2 ON m.manager = e2.code
+		LEFT OUTER JOIN LINE
 		l ON l.code = f.line_code
 		<include refid="getSearch" />
 		ORDER BY ${search.eng[search.activeSortCategory]} ${search.sortValue}
@@ -357,17 +359,17 @@
 	<select id="getListCount" resultType="int">
 		SELECT count(m.code)
 		FROM FAC_MT m
-		JOIN FAC_INFO f ON m.fac_code =
+		LEFT OUTER JOIN FAC_INFO f ON m.fac_code =
 		f.code
-		JOIN COMMON_CODE cm ON m.group_id = cm.group_id AND m.code_id =
+		LEFT OUTER JOIN COMMON_CODE cm ON m.group_id = cm.group_id AND m.code_id =
 		cm.code_id
-		JOIN COMMON_CODE cf ON f.group_id = cf.group_id AND
+		LEFT OUTER JOIN COMMON_CODE cf ON f.group_id = cf.group_id AND
 		f.code_id =
 		cf.code_id
-		JOIN EMPLOYEES e1 ON m.emp_code = e1.code
-		JOIN
+		LEFT OUTER JOIN EMPLOYEES e1 ON m.emp_code = e1.code
+		LEFT OUTER JOIN
 		EMPLOYEES e2 ON m.manager = e2.code
-		JOIN LINE l ON l.code = f.line_code
+		LEFT OUTER JOIN LINE l ON l.code = f.line_code
 		<include refid="getSearch" />
 	</select>
 	<!-- list count -->
@@ -396,6 +398,12 @@
 	</select>
 	<!-- getDailyRMCount -->
 	<!-- 일상 보전 -->	
+	
+	<!-- 부서 확인 -->
+	<select id="getEmpDep" resultType="String">
+		SELECT dep_id FROM EMPLOYEES WHERE code = #{emp_code}
+	</select>
+	<!-- 부서 확인 -->
 	<!-- select -->
 
 	<!-- insert -->

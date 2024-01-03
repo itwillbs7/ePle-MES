@@ -68,6 +68,11 @@ public class FacilityDAOImpl implements FacilityDAO {
 	}
 	
 	@Override
+	public List<FacilityVO> getFacManager() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getFacListManager");
+	}
+	
+	@Override
 	public List<FacilityVO> getFacManager(String emp_code) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getFacManager", emp_code);
 	}

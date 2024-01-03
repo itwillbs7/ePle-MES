@@ -246,4 +246,8 @@
 		SELECT code, model, name FROM FAC_INFO 
 		WHERE emp_code = #{emp_code}
 	</select>
+	
+	<select id="getFacListManager" resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
+		SELECT code, model, name FROM FAC_INFO
+	</select>
 </mapper>

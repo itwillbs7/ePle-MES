@@ -51,13 +51,26 @@ public class MaintenanceController {
 		List<MaintenanceVO> vo = mService.getList(pageVO);
 		if (vo == null)
 			vo = new ArrayList<MaintenanceVO>();
+		logger.debug("fac : " + vo.get(0).getFac_code());
 		model.addAttribute("list", vo);
 		model.addAttribute("pageVO", pageVO);
 	}
 
 	@GetMapping(value = "/insert")
 	public void maintenanceInsertGET(Model model) throws Exception {
-		
+		String emp_code = "test4";
+		String dep = "설비보전";
+		if(dep.equals("설비보전")) {
+			// 보전
+			model.addAttribute("list", fService.getFacManager());
+			model.addAttribute("role", "manager");
+		}
+		else if(dep.contains("생산")) {
+			// 직원
+			model.addAttribute("list", fService.getFacManager("test5"));
+			model.addAttribute("role", "emp");
+		}
+		model.addAttribute("emp_code", emp_code);
 	}
 
 	@PostMapping(value = "/insert")
@@ -103,8 +116,9 @@ public class MaintenanceController {
 	
 	// http://localhost:8088/facility/maintenance/update?code=DM20240102001
 	@GetMapping(value = "/update")
-	public void maintenanceUpdateGET(String code, Model model) throws Exception {
+	public void maintenanceUpdateGET(String code, String menu, Model model) throws Exception {
 		// 설비 보전 수정 폼
+		model.addAttribute("menu", menu);
 		model.addAttribute("list", fService.getFacManager("test5"));
 		model.addAttribute("info", mService.getDetail(code));
 		model.addAttribute("role", "emp");
@@ -152,6 +166,7 @@ public class MaintenanceController {
 	@GetMapping("/detail")
 	public void maintenanceDetail(String code, Model model) throws Exception {
 		// 보전 상세 정보
+		model.addAttribute("role", "manager");
 		model.addAttribute("info", mService.getDetail(code));
 	}
 

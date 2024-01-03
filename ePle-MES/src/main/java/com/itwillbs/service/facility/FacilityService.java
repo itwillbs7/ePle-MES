@@ -27,4 +27,6 @@ public interface FacilityService {
 	public List<FacilityVO> getCommonCodeList(String group_id) throws Exception;
 	
 	public List<FacilityVO> getFacManager(String emp_code) throws Exception;
+
+	public List<FacilityVO> getFacManager() throws Exception;
 }

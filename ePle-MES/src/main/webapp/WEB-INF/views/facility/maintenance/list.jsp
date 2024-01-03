@@ -211,13 +211,13 @@
 													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 													<input type="checkbox" class="custom-control-input" id="checkTable${i.code}" name="tableCheck" value="${i.code}"> <label class="custom-control-label" for="checkTable${i.code}"></label>
 												</div></td>
-											<th><a href="/facility/maintenance/detail?code=${i.code}"><b class="text-blue" id="tableTitle1">${i.code}</b></a></th>
+											<th><a href="javascript:openPage('/facility/maintenance/detail?code=${i.code}', 500, 600)"><b class="text-blue" id="tableTitle1">${i.code}</b></a></th>
 											<th>${i.code_name}</th>
 											<th>${i.reg_date}</th>
 											<th id="tableinfo${i.code}">${i.emp_name}</th>
 											<!-- 상세 정보 이동! -->
 											<th>${i.fac_code}</th>
-											<th id="tableTitle${i.code}">${i.mt_subejct}</th>
+											<th id="tableTitle${i.code}">${i.mt_subject}</th>
 											<td style="">
 												<!-- 옵션 -->
 												<div class="dropdown">
@@ -300,7 +300,7 @@
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
-				openPage("/facility/info/insert", 500, 600);
+				openPage("/facility/maintenance/insert", 500, 600);
 			});
 			
 			// 삭제
@@ -308,7 +308,7 @@
 				var ch = $("input:checkbox[name=tableCheck]:checked").length;
 				if (ch > 0) {
 					// 가로, 세로 설정
-					openPage("/facility/info/delete", 400, 700);
+					openPage("/facility/maintenance/delete", 400, 700);
 				} else {
 					$(this).attr("data-toggle", "modal");
 					$(this).attr("data-target", "#warning-modal");
