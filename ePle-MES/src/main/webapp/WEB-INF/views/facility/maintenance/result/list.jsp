@@ -94,16 +94,12 @@
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
-															<label>날짜</label> <input type="date" name="date" class="form-control" value="${pageVO.search.date}" max="<%=today%>">
+															<label>날짜</label> <input class="form-control date-picker" name="date" value="${pageVO.search.date}" data-language="ko" placeholder="일정 선택" type="text" />
 														</div>
 													</div>
-													<div class="col-md-4 col-sm-12">
-														<div class="form-group" style="display: inline-block;">
-															<label>기간</label> <input type="date" id="dateLeft" value="${pageVO.search.betweenDateLeft}" name="betweenDateLeft" class="form-control" max="<%=today%>">
-														</div>
-														<b>-</b>
-														<div class="form-group" style="display: inline-block;">
-															<input type="date" id="dateRight" value="${pageVO.search.betweenDateRight}" name="betweenDateRight" class="form-control" max="<%=today%>">
+													<div class="col-md-2 col-sm-12">
+														<div class="form-group">
+															<label>기간</label> <input class="form-control datetimepicker-range" name="between" value="${pageVO.search.between}" placeholder="기간 선택" type="text" />
 														</div>
 													</div>
 												</div>

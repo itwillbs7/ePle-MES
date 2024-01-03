@@ -99,7 +99,7 @@
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
-															<label>기간</label> <input class="form-control datetimepicker-range" name="between" placeholder="기간 선택" type="text" />
+															<label>기간</label> <input class="form-control datetimepicker-range" name="between" value="${pageVO.search.between}" placeholder="기간 선택" type="text" />
 														</div>
 													</div>
 												</div>

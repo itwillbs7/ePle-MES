@@ -46,6 +46,7 @@ public class MaintenanceController {
 		searchVO.setComplete(false);
 		pageVO.setSearch(searchVO);
 		pageVO.getSearch().setIsajax(false);
+		pageVO.getSearch().setBetweenDates();
 		pageVO.setTotalCount(mService.getListCount(pageVO));	
 		List<MaintenanceVO> vo = mService.getList(pageVO);
 		if (vo == null)
@@ -160,6 +161,7 @@ public class MaintenanceController {
 		searchVO.setComplete(true);
 		pageVO.setSearch(searchVO);
 		pageVO.getSearch().setIsajax(false);
+		pageVO.getSearch().setBetweenDates();
 		pageVO.setTotalCount(mService.getListCount(pageVO));	
 		List<MaintenanceVO> vo = mService.getList(pageVO);
 		if (vo == null)
