@@ -124,11 +124,12 @@
 	
 	<!-- 출하정보 삭제하기 -->
 		<select id="getDeleteInfo" resultType="ShipmentVO">
-		SELECT sp.*, c.name clientName
-		from SHIPMENT sp
-		join REQUEST r on r.code = sp.reqs_code
-		inner join CLIENT c on c.code = r.client_code
-		where sp.code in
+		SELECT sp.*, c.name clientName, m.name product 
+		from SHIPMENT sp 
+		join REQUEST r on r.code = sp.reqs_code 
+		inner join CLIENT c on c.code = r.client_code 
+		inner join MAPD m on m.code = r.product 
+		where sp.code in 
 		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
 		 #{codeNum}
 		 </foreach>

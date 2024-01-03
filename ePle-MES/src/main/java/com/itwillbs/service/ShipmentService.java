@@ -40,6 +40,6 @@ public interface ShipmentService {
 
 	public List<ShipmentVO> getinfo(String[] code) throws Exception;
 
-	public void deleteShipment(String[] code) throws Exception;
+	public int deleteShipment(String[] code) throws Exception;
 
 }

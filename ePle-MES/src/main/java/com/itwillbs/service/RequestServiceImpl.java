@@ -127,9 +127,9 @@ public class RequestServiceImpl implements RequestService {
 
 
 	@Override
-	public void deleteRequest(String[] code) throws Exception {
+	public int deleteRequest(String[] code) throws Exception {
 		logger.debug("Service : deleteRequest(String[] code) 데이터 삭제");
-		rdao.deleteRequest(code);
+		return rdao.deleteRequest(code);
 	}
 
 	

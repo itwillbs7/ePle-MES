@@ -177,11 +177,11 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 
 	@Override
-	public void deleteShipment(String[] code) throws Exception {
+	public int deleteShipment(String[] code) throws Exception {
 		logger.debug("DAO 디비에서 데이터 삭제하기");
 		Map<String, Object> params = new HashMap<>();
 	    params.put("code", code);
-	    List vo = sqlSession.selectList(NAMESPACE+".deleteShipmentData", params);		
+	    return sqlSession.delete(NAMESPACE+".deleteShipmentData", params);
 	}
 	
 	

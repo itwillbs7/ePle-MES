@@ -132,9 +132,9 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 
 	@Override
-	public void deleteShipment(String[] code) throws Exception {
+	public int deleteShipment(String[] code) throws Exception {
 		logger.debug("Service : deleteShipment(String[] code) 데이터 삭제");
-		sdao.deleteShipment(code);
+		return sdao.deleteShipment(code);
 	}
 	
 	

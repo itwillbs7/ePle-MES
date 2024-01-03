@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<title>수주 삭제</title>
+<title>출하명령 삭제</title>
 <!-- 
 	실행 방법
 		- 테이블 페이지의 옵션에서 삭제클릭
@@ -29,7 +29,7 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">수주 삭제</h1>
+				<h1 class="text-center text-primary">출하명령 삭제</h1>
 				<h3 class="text-center text-primary">삭제 리스트</h3>
 			</div>
 			<!-- 폼 -->
@@ -40,17 +40,19 @@
 						<div class="form-group">
 						<table class="table table-striped">
 							<tr>
+								<th>출하번호</th>
 								<th>수주번호</th>
-								<th>회사명</th>
 								<th>상품명</th>
-								<th>수주량</th>
+								<th>출하량</th>
+								<th>출하일자</th>
 							</tr>
 								<c:forEach items="${List}" var="item">
 							<tr>
 								<th>${item.code}</th>
-								<th>${item.clientName }</th>
-								<th>${item.productName }</th>
+								<th>${item.reqs_code }</th>
+								<th>${item.product}</th>
 								<th>${item.amount }</th>
+								<th>${item.date }</th>
 							</tr>
 								</c:forEach>
 						</table>
@@ -80,10 +82,7 @@
 	<!-- 콘텐츠 끝 -->
 	<%@ include file="../include/footer.jsp"%>
 	<script type="text/javascript">
-	function submitForm() {
-	    // 폼 제출 후 페이지를 새로고침
-	    window.location.href = window.location.href;
-	}
+	
 	</script>
 </body>
 </html>

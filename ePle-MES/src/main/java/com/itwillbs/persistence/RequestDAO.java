@@ -37,5 +37,5 @@ public interface RequestDAO {
 	// 삭제용
 	public List<RequestVO> getRequestDetail(String[] code)throws Exception;
 	// DB삭제용
-	public void deleteRequest(String[] code)throws Exception;
+	public int deleteRequest(String[] code)throws Exception;
 	}

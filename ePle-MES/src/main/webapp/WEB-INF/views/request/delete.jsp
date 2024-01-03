@@ -80,10 +80,7 @@
 	<!-- 콘텐츠 끝 -->
 	<%@ include file="../include/footer.jsp"%>
 	<script type="text/javascript">
-	function submitForm() {
-	    // 폼 제출 후 페이지를 새로고침
-	    window.location.href = window.location.href;
-	}
+
 	</script>
 </body>
 </html>

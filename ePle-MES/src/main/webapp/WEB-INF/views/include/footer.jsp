@@ -33,6 +33,12 @@
 			y.value = i;
 		}
 	}
+	
+	function closePopup(){
+		opener.location.reload();
+		window.close();
+	}
+	
 
 	$(document).ready(function() {
 		// 테이블 체크 박스 클릭 시 전체선택

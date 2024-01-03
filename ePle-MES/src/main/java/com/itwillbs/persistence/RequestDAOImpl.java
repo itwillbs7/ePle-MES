@@ -187,11 +187,11 @@ public class RequestDAOImpl implements RequestDAO {
 
 
 	@Override
-	public void deleteRequest(String[] code) throws Exception {
+	public int deleteRequest(String[] code) throws Exception {
 		logger.debug("DAO 디비에서 데이터 삭제하기");
 		Map<String, Object> params = new HashMap<>();
 	    params.put("code", code);
-	    List vo = sqlSession.selectList(NAMESPACE+".deleteRequestData", params);		
+	    return sqlSession.delete(NAMESPACE+".deleteRequestData", params);		
 	}
 	
 

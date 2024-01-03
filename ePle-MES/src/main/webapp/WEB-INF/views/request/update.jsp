@@ -12,7 +12,8 @@
          rel="stylesheet"
          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
          crossorigin="anonymous"
-      /><title>수주 수정</title>
+      />
+<title>수주 수정</title>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->

@@ -122,7 +122,6 @@ public class RequestController {
 		
 		rService.dataInsertRequest(vo);
 		
-		rttr.addAttribute("result", "AddDone");
 		
 		return "redirect:/request/list";
 	}
@@ -245,24 +244,24 @@ public class RequestController {
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public void requestDeletePOST(@RequestParam("code") String codes) throws Exception{
+	public String requestDeletePOST(@RequestParam("code") String codes,
+			 RedirectAttributes rttr) throws Exception{
 		// 수주 삭제 액션
 		logger.debug("삭제가 될랑가 codes "+codes);
 		String[] code = codes.split(",");
-		rService.deleteRequest(code);
+		int result = rService.deleteRequest(code);
+		String link = "";
+		if (result == 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "수주 삭제 결과");
+			rttr.addFlashAttribute("result", "수주 삭제가 완료되었습니다.");
+		} else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "보전 등록 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+		}
+		return link;
 	}
 	
 	
-	
-	//======================================================================= 스위트 알람 테스트
-	@GetMapping ("/confirm")
-	public void resultConfirm() throws Exception{
-	}
-	
-	@RequestMapping(value = "/error", method = RequestMethod.GET)
-	public void errorConfirm() throws Exception {
-	}
-	@GetMapping ("/success")
-	public void success() throws Exception {
-	}
 }

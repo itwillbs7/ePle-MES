@@ -246,11 +246,22 @@ public class ShipmentController {
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public void shipmentDeletePOST(@RequestParam("code") String codes) throws Exception{
+	public String shipmentDeletePOST(@RequestParam("code") String codes, RedirectAttributes rttr) throws Exception{
 		// 수주 삭제 액션
 		logger.debug("삭제가 될랑가 codes "+codes);
 		String[] code = codes.split(",");
-		sService.deleteShipment(code);
+		int result = sService.deleteShipment(code);
+		String link = "";
+		if (result == 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "출하명령 삭제 결과");
+			rttr.addFlashAttribute("result", "출하명령 삭제가 완료되었습니다.");
+		} else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "출하명령 삭제 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+		}
+		return link;
 	}
 	
 	//======================================================================= 
@@ -279,15 +290,4 @@ public class ShipmentController {
 	}
 	
 	
-	//======================================================================= 스위트 알람 테스트
-	@GetMapping ("/confirm")
-	public void resultConfirm() throws Exception{
-	}
-	
-	@RequestMapping(value = "/error", method = RequestMethod.GET)
-	public void errorConfirm() throws Exception {
-	}
-	@GetMapping ("/success")
-	public void success() throws Exception {
-	}
 }
