@@ -1,5 +1,5 @@
-import { Calendar } from '/resources/fullcalendar/core'
-import koLocale from ''
+import { Calendar } from '@fullcalendar/packages/core'
+import koLocale from '@fullcalendar/packages/core/locales/ko'
 jQuery(document).ready(function () {
 	jQuery("#add-event").submit(function () {
 		alert("Submitted");
