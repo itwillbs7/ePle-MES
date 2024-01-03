@@ -105,6 +105,5 @@
 	<!-- fullcalendar 언어 설정관련 script -->
 	<script src="${pageContext.request.contextPath}/resources/vendors/scripts/calendar-setting.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/src/plugins/fullcalendar/fullcalendar.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
 </body>
 </html>

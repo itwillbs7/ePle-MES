@@ -1280,8 +1280,9 @@
         });
         var r = n(4);
         e.globalDefaults = {
-            titleRangeSeparator: " – ",
-            monthYearFormat: "MMMM YYYY",
+            titleRangeSeparator: " ~ ",
+            monthYearFormat: "YYYY/MM/DD",
+            dayNamesShort: ["일","월","화","수","목","금","토"],
             defaultTimedEventDuration: "02:00:00",
             defaultAllDayEventDuration: {
                 days: 1
@@ -1292,8 +1293,8 @@
             defaultView: "month",
             aspectRatio: 1.35,
             header: {
-                left: "title",
-                center: "",
+                left: "",
+                center: "title",
                 right: "today prev,next"
             },
             weekends: !0,
@@ -1309,7 +1310,7 @@
             endParam: "끝",
             timezoneParam: "timezone",
             timezone: !1,
-            locale: null,
+            locale: 'ko',
             isRTL: !1,
             buttonText: {
                 prev: "이전",
@@ -1342,9 +1343,9 @@
             dayPopoverFormat: "dddd, MMMM D"
         }, e.rtlDefaults = {
             header: {
-                left: "next,prev today",
-                center: "",
-                right: "title"
+                left: "today",
+                center: "prev, title, next",
+                right: ""
             },
             buttonIcons: {
                 prev: "right-single-arrow",
@@ -1357,7 +1358,7 @@
                 next: "circle-triangle-w",
                 nextYear: "seek-prev",
                 prevYear: "seek-next"
-            }
+            },
         };
         var o = ["header", "footer", "buttonText", "buttonIcons", "themeButtonIcons"];
         e.mergeOptions = i

@@ -6957,7 +6957,7 @@
     // LOCALES
 
     var MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
-    var defaultLocaleMonths = 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_');
+    var defaultLocaleMonths = '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_');
 
     function localeMonths(m, format) {
         if (!m) {
@@ -6968,7 +6968,7 @@
             this._months[(this._months.isFormat || MONTHS_IN_FORMAT).test(format) ? 'format' : 'standalone'][m.month()];
     }
 
-    var defaultLocaleMonthsShort = 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_');
+    var defaultLocaleMonthsShort = '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_');
 
     function localeMonthsShort(m, format) {
         if (!m) {
@@ -7409,7 +7409,7 @@
 
     // LOCALES
 
-    var defaultLocaleWeekdays = 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_');
+    var defaultLocaleWeekdays = '일요일_월요일_화요일_수요일_목요일_금요일_토요일'.split('_');
 
     function localeWeekdays(m, format) {
         if (!m) {
@@ -7420,13 +7420,13 @@
             this._weekdays[this._weekdays.isFormat.test(format) ? 'format' : 'standalone'][m.day()];
     }
 
-    var defaultLocaleWeekdaysShort = 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_');
+    var defaultLocaleWeekdaysShort = '일_월_화_수_목_금_토'.split('_');
 
     function localeWeekdaysShort(m) {
         return (m) ? this._weekdaysShort[m.day()] : this._weekdaysShort;
     }
 
-    var defaultLocaleWeekdaysMin = 'Su_Mo_Tu_We_Th_Fr_Sa'.split('_');
+    var defaultLocaleWeekdaysMin = '일_월_화_수_목_금_토'.split('_');
 
     function localeWeekdaysMin(m) {
         return (m) ? this._weekdaysMin[m.day()] : this._weekdaysMin;
@@ -9417,7 +9417,7 @@
     hooks.defaultFormatUtc = 'YYYY-MM-DDTHH:mm:ss[Z]';
 
     function toString() {
-        return this.clone().locale('en').format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
+        return this.clone().locale('ko').format('YYYY MMM DD ddd HH:mm:ss [GMT]ZZ');
     }
 
     function toISOString(keepOffset) {
@@ -10167,7 +10167,7 @@
         return listWeekdaysImpl(localeSorted, format, index, 'weekdaysMin');
     }
 
-    getSetGlobalLocale('en', {
+    getSetGlobalLocale('ko', {
         dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
         ordinal: function(number) {
             var b = number % 10,

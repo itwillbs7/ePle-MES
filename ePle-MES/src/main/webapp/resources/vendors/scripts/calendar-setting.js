@@ -1,5 +1,3 @@
-import { Calendar } from '@fullcalendar/packages/core'
-import koLocale from '@fullcalendar/packages/core/locales/ko'
 jQuery(document).ready(function () {
 	jQuery("#add-event").submit(function () {
 		alert("Submitted");
@@ -18,7 +16,8 @@ jQuery(document).ready(function () {
 	// ------------------------------------------------------ //
 	jQuery(function () {
 		// page is ready
-		jQuery("#calendar").fullCalendar({
+		$("#calendar").fullCalendar({
+			timeZone:"KST",
 			themeSystem: "bootstrap4",
 			// emphasizes business hours
 			businessHours: false,
@@ -28,13 +27,14 @@ jQuery(document).ready(function () {
 			// header
 			selectable : true, // 달력 일자 드래그 설정가능
 			droppable : true,
-			nowIndicator: true, // 현재 시간 마크
-			locale: koLocale, // 한국어 설정
-			header: {
-				left: "title",
-				center: "month,agendaWeek,agendaDay",
-				right: "today prev,next",
-			},
+			nowIndicator: true, // 현재 시간 마크,
+            header: {
+                left: "today",
+                center: "prev, title, next",
+                right: ""
+            },
+            // 국경일, 기념일, 공휴일 가져오기
+            // 공공 데이터 포털에서 가능(API 신청 완료)
 			events: [
 				{
 					title: "Barber",
