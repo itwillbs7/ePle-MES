@@ -9,7 +9,7 @@
 <html>
 <head>
 <%@ include file="../../../include/head.jsp"%>
-<title>보전 목록</title>
+<title>보전 내역</title>
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -20,7 +20,7 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>보전 결과</h1>
+				<h1>보전 목록</h1>
 			</div>
 			<ul class="nav nav-pills" role="tablist">
 				<li class="nav-item">

@@ -97,9 +97,9 @@ public class MaintenanceController {
 	}
 
 	@GetMapping(value = "/update")
-	public void maintenanceUpdateGET() throws Exception {
+	public void maintenanceUpdateGET(String code, Model model) throws Exception {
 		// 설비 보전 수정 폼
-		
+		model.addAttribute("info", mService.getDetail(code));
 	}
 
 	@PostMapping(value = "/update")

@@ -25,10 +25,10 @@
 				<div class="pd-20 card-box mb-30">
 					<h2 class="text-blue mb-10">${info.code}</h2>
 					<div class="btn-group pull-right" style="margin-bottom: 10px">
-						<button type="button" class="btn btn-secondary" id="update">
+						<button type="button" class="btn btn-secondary" onclick="openPage('/facility/info/update?code=${info.code}', 500, 600)">
 							<b>수정</b>
 						</button>
-						<button type="button" class="btn btn-danger" id="delete">
+						<button type="button" class="btn btn-danger" onclick="openPage('/facility/info/delete?code=${info.code}', 500, 600)">
 							<b>삭제</b>
 						</button>
 					</div>
@@ -112,8 +112,5 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		
-	</script>
 </body>
 </html>
