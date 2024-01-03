@@ -8,7 +8,7 @@ import com.itwillbs.domain.ShipmentVO;
 
 public interface ShipmentDAO {
 
-	List<ShipmentVO> getShipmentListPage(Criteria cri)throws Exception;
+	public List<ShipmentVO> getShipmentListPage(Criteria cri)throws Exception;
 
 	List<ShipmentVO> getShipmentListPage(int page) throws Exception;
 
