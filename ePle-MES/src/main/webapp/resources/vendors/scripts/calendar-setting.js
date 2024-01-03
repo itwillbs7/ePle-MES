@@ -1,3 +1,5 @@
+import { Calendar } from 'https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js'
+import koLocale from 'https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js'
 jQuery(document).ready(function () {
 	jQuery("#add-event").submit(function () {
 		alert("Submitted");
@@ -27,7 +29,7 @@ jQuery(document).ready(function () {
 			selectable : true, // 달력 일자 드래그 설정가능
 			droppable : true,
 			nowIndicator: true, // 현재 시간 마크
-			locale: 'ko', // 한국어 설정
+			locale: koLocale, // 한국어 설정
 			header: {
 				left: "title",
 				center: "month,agendaWeek,agendaDay",

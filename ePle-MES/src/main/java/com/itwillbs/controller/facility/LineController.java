@@ -1,5 +1,10 @@
 package com.itwillbs.controller.facility;
 
-public class LineController {
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+@Controller
+@RequestMapping(value="/line")
+public class LineController {
+	
 }
