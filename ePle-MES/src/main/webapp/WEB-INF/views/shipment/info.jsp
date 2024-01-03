@@ -55,11 +55,11 @@
 						<div class="form-group">
 							<label>업체명</label> 
 							<input class="form-control" type="text" readonly id="clientName" required="required"
-							readonly value="${rvo.clientName }">
+							readonly value="${rvo.clientName }" name="clientName">
 						</div>
 						<div class="form-group">
 							<label>품번</label> 
-							<input class="form-control" type="text" readonly id="product" required="required"
+							<input class="form-control" name = "product" type="text" readonly id="product" required="required"
 							value="${rvo.product}" >
 						</div>
 						<div class="form-group">
@@ -105,7 +105,18 @@
 	</div>
 	<!-- 콘텐츠 끝> -->
 	<script type="text/javascript">
+	$(document).ready(function(){
+		
+		 var code = document.getElementById('reqs_code').value;
 
+		// 반품등록
+		$("#returns").click(function() {
+			// 가로, 세로 설정
+					location.href="/returns/add?code="+code;
+				});
+		
+		
+	});
 	
 	</script>
 	<%@ include file="../include/footer.jsp"%>

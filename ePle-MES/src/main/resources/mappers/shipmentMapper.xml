@@ -8,7 +8,7 @@
 
 	<!-- 페이징처리 + 리스트 가져오기 -->
 	<select id="listPage" resultType="ShipmentVO">
-		select sp.*, c.name clientName, s.amount stock , r.deadline reqsdate, r.product product 
+		select sp.*, c.name clientName, s.amount stock , r.deadline reqsdate, r.product product , r.amount reqsamount
 		from SHIPMENT sp 
 		join REQUEST r on r.code = sp.reqs_code 
 		inner join CLIENT c on c.code = r.client_code 
@@ -36,14 +36,14 @@
 	
 	<!-- 출하정보 검색하기 -->
 	<select id="research" resultType="ShipmentVO">
-		select sp.*, c.name clientName, s.amount stock 
+		select sp.*, c.name clientName, s.amount stock , r.deadline reqsdate, r.product product, r.amount reqsamount  
 		from SHIPMENT sp 
 		join REQUEST r on r.code = sp.reqs_code 
 		inner join CLIENT c on c.code = r.client_code 
 		inner join STOCK s on s.mapd_code = r.product 
 		where 1 = 1
 		<if test="clientName neq null and clientName.toString() neq '' "> AND r.client_code = #{client_code} </if>
-		<if test="productName neq null and productName.toString() neq ''"> AND m.name = #{productName} </if>
+		<if test="product neq null and product.toString() neq ''"> AND s.mapd_code = #{product} </if>
 		<if test="date neq null and date.toString() neq '' "> 
 		<choose>
 			<when test="endDate neq null and endDate.toString() neq '' ">AND r.date between #{startDate} and #{endDate} </when>

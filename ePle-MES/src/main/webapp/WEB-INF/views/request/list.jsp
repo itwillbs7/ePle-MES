@@ -24,30 +24,7 @@
 			</div>
 			<div class="min-height-200px">
 				<br>
-				<div class="alert alert-success alert-dismissible fade show" role="alert" style="display:none" id="successalert">
-					<strong>수주 등록</strong>이 완료되었습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="alert alert-info alert-dismissible fade show" role="alert" style="display:none" id="updatealert">
-					<strong>수주 수정</strong>이 완료되었습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none" id="notdelete">
-					<strong>수주 삭제</strong>가 완료되지 않았습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none" id="deletealert">
-					<strong>수주 삭제</strong>가 완료되었습니다!
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
+				
 				<!-- 아코디언 시작 -->
 				<div class="faq-wrap">
 					<div id="accordion">
@@ -230,19 +207,29 @@
 								</div>
 							</div>
 							<div class="btn-toolbar justify-content-center mb-15">
-								<div class="btn-group">
+									<c:if test="${pageVO.totalCount > 1}">
+							<div class="btn-group">
 								<c:if test="${pageVo.prev }">
-									<a href="/request/list?page=${pageVO.startPage - 1 }" class="btn btn-outline-primary prev"><i class="fa fa-angle-double-left"></i></a> 
+									<a href="/request/list?page=${pageVO.startPage - 1 }"
+										class="btn btn-outline-primary prev"><i
+										class="fa fa-angle-double-left"></i></a>
 								</c:if>
-								<c:forEach begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1" var="i"> 
-						
-									<a href="#"  ${pageVO.cri.page == i? "class='btn btn-primary'" :""}>${i}</a> 
-									
+								<c:forEach begin="${pageVO.startPage }" end="${pageVO.endPage }"
+									step="1" var="i">
+									<c:if test="${pageVO.cri.page == i }">
+										<span class="btn btn-primary current">${i }</span>
+									</c:if>
+									<c:if test="${pageVO.cri.page != i}">
+												<a href="/request/list?page=${i}" class="btn btn-outline-primary">${i}</a>
+									</c:if>
 								</c:forEach>
 								<c:if test="${pageVO.next }">
-									<a href="/request/list?page=${pageVO.endPage + 1 }" class="btn btn-outline-primary next"><i class="fa fa-angle-double-right"></i></a>
+									<a href="/request/list?page=${pageVO.endPage + 1 }"
+										class="btn btn-outline-primary next"><i
+										class="fa fa-angle-double-right"></i></a>
 								</c:if>
-								</div>
+							</div>
+							</c:if>
 							</div>
 						</div>
 					</div>
@@ -385,7 +372,10 @@ $('#accordion-search').on('submit', function(e) {
         type: $(this).attr('method'),  
         data: $(this).serialize(),  
         success: function(data) {
-        	alert(data);
+        	if(data == null || data == ''){						
+				  alert('검색결과가 없습니다');
+				  return;
+			}
         	 var table = '';
 	            $.each(data, function(index, item) {			
 	                table += '<tr>';
@@ -403,7 +393,6 @@ $('#accordion-search').on('submit', function(e) {
 	                table += '<th class="diff">'+(item.stock - item.amount)+'</th>';
 	                table += '<th>'+item.status+'</th>';
 	                table += '</tr>';
-
 	            });
 	            
 	            $('#table tbody').html(table);  

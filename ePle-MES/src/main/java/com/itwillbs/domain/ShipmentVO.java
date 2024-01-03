@@ -2,13 +2,12 @@ package com.itwillbs.domain;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
 @Data
 public class ShipmentVO {
-	// shipement
-	
 	private String code;
 	private String reqs_code;
 	
@@ -31,6 +30,8 @@ public class ShipmentVO {
 	private String unit;
 	private String product;
 	private String clientName;
+	
+	private List<String> statusList;
 	
 	public String getNewStartDate(String date) {
         return convertDateFormat(date);

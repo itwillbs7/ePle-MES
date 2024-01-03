@@ -37,7 +37,7 @@
 						<div id="faq1" class="collapse" data-parent="#accordion" style="">
 							<div class="card-body">
 								<form id="accordion-search" method="get"
-									action="/request/search">
+									action="/shipment/search">
 									<div class="col-md-12">
 										<div class="form-group">
 											<div class="row">
@@ -50,8 +50,9 @@
 														autocomplete="off" readonly>
 												</div>
 												<div class="col-md-5 col-sm-12 btn-group ml-auto">
-													<label>품명</label> <input type="hidden" name="product"
-														id="product"> <input type="text"
+													<label>품명</label> 
+													<input type="hidden" name="product" id="product"> 
+														<input type="text"
 														name="productName" class="form-control" id="searchProduct"
 														style="width: 100%;" placeholder="품명 찾아보기"
 														autocomplete="off" readonly>
@@ -64,13 +65,13 @@
 												<div class="col-md-1 col-sm-12" style="margin-top: auto;">
 													<div class="custom-control custom-checkbox mb-5">
 														<input type="checkbox" class="custom-control-input"
-															id="formCheck1" name="statusList" value="등록"> <label
-															class="custom-control-label" for="formCheck1">등록</label>
+															id="formCheck1" name="statusList" value="출하대기"> <label
+															class="custom-control-label" for="formCheck1">출하대기</label>
 													</div>
 													<div class="custom-control custom-checkbox mb-5">
 														<input type="checkbox" class="custom-control-input"
-															id="formCheck2" name="statusList" value="생산진행"> <label
-															class="custom-control-label" for="formCheck2">생산진행</label>
+															id="formCheck2" name="statusList" value="출하완료"> <label
+															class="custom-control-label" for="formCheck2">출하완료</label>
 													</div>
 												</div>
 											</div>
@@ -187,7 +188,7 @@
 							<div class="col-sm-12 col-md-5">
 								<div class="dataTables_info" id="DataTables_Table_0_info"
 									role="status" aria-live="polite">전체 출하
-									${pageVO.totalCount}개 중 (검색 결과) 개</div>
+									${pageVO.totalCount}개 중 ${pageVO.totalCount} 개</div>
 							</div>
 							<div class="col-sm-5 col-md-7 text-right">
 							<div>
@@ -198,6 +199,7 @@
 							</div>
 						</div>
 						<div class="btn-toolbar justify-content-center mb-15">
+							<c:if test="${pageVO.totalCount > 1}">
 							<div class="btn-group">
 								<c:if test="${pageVo.prev }">
 									<a href="/request/list?page=${pageVO.startPage - 1 }"
@@ -206,10 +208,12 @@
 								</c:if>
 								<c:forEach begin="${pageVO.startPage }" end="${pageVO.endPage }"
 									step="1" var="i">
-
-									<a href="#"
-										${pageVO.cri.page == i? "class='btn btn-primary'" :""}>${i}</a>
-
+									<c:if test="${pageVO.cri.page == i }">
+										<span class="btn btn-primary current">${i }</span>
+									</c:if>
+									<c:if test="${pageVO.cri.page != i}">
+												<a href="/shipment/list?page=${i}" class="btn btn-outline-primary">${i}</a>
+									</c:if>
 								</c:forEach>
 								<c:if test="${pageVO.next }">
 									<a href="/request/list?page=${pageVO.endPage + 1 }"
@@ -217,6 +221,7 @@
 										class="fa fa-angle-double-right"></i></a>
 								</c:if>
 							</div>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -285,16 +290,7 @@
 			return window.open(i, 'Popup_Window', set); // 가운데거가 이름이 똑같으면 같은창에서 열림
 		}
 
-		// .diff = 과부족
-		$(".diff").each(function() {
-			var diff = parseInt($(this).text());
-			if (diff < 0) {
-				$(this).css("color", "red");
-			} else if (diff > 0) {
-				$(this).prepend("+");
-				$(this).css("color", "green");
-			}
-		});
+		
 
 		$(document).ready(
 				function() {
@@ -324,6 +320,22 @@
 									alert('삭제 실패');
 								}
 							});
+					
+					// 삭제
+					$("#statusChange").click(
+							function() {
+								var stautsList = [];
+								$("input:checkbox[name=tableCheck]:checked")
+										.each(function() {
+											deleteList.push($(this).val());
+										});
+								if (deleteList.length > 0) {
+									openPage("/shipment/statusChange?code="
+											+ deleteList.join(','), 400, 700);
+								} else {
+									alert('관리자에게 문의하세요');
+								}
+							});
 
 					// 상세보기
 					$('body').on('click', '[class^="info"]', function() {
@@ -349,97 +361,50 @@
 	<!-- 검색은 ajax -->
 
 	<script type="text/javascript">
-		$('#accordion-search')
-				.on(
-						'submit',
-						function(e) {
-							alert('ajax 시작 전');
-							e.preventDefault(); // form의 기본 submit 이벤트를 막습니다.
-							let statusList = [];
-							$('input[name="statusList"]:checked').each(
-									function() {
-										statusList.push($(this).val());
-									});
+		$('#accordion-search').on('submit', function(e) {
+			alert('ajax 시작 전');
+			e.preventDefault(); // form의 기본 submit 이벤트를 막습니다.
+			let statusList = [];
+				$('input[name="statusList"]:checked').each(function() {
+						statusList.push($(this).val());
+						});
 
-							let statusListJson = JSON.stringify(statusList);
+				let statusListJson = JSON.stringify(statusList);
 
-							$
-									.ajax({
-										url : $(this).attr('action'),
-										type : $(this).attr('method'),
-										data : $(this).serialize(),
-										success : function(data) {
-											alert(data);
-											var table = '';
-											$
-													.each(
-															data,
-															function(index,
-																	item) {
-																table += '<tr>';
-																table += '<td><div class="custom-control custom-checkbox mb-5">';
-																table += '<input type="checkbox" class="custom-control-input" id="checkTable'+index+'" name="tableCheck" value="'+item.code+'"></label>';
-																table += '<label class="custom-control-label" for="checkTable'+index+'"></label></div></td>';
-																table += '<th class="info'+index+'" style="color: blue; text-decoration: underline;">'
-																		+ item.code
-																		+ '</th> ';
-																table += '<th>'
-																		+ item.clientName
-																		+ '</th>';
-																table += '<th>'
-																		+ item.date
-																		+ '</th>';
-																table += '<th>'
-																		+ item.deadline
-																		+ '</th>';
-																table += '<th>'
-																		+ item.product
-																		+ '</th>';
-																table += '<th>'
-																		+ item.productName
-																		+ '</th>';
-																table += '<th>'
-																		+ item.amount
-																		+ '</th>';
-																table += '<th>'
-																		+ item.stock
-																		+ '</th>';
-																table += '<th class="diff">'
-																		+ (item.stock - item.amount)
-																		+ '</th>';
-																table += '<th>'
-																		+ item.status
-																		+ '</th>';
-																table += '</tr>';
-
+					$.ajax({
+						url : $(this).attr('action'),
+						type : $(this).attr('method'),
+						data : $(this).serialize(),
+						success : function(data) {
+								if(data == null || data == ''){						
+								  alert('검색결과가 없습니다');
+								  return;
+								}
+								  var table = '';
+									$.each(data,function(index,item) {
+												table += '<tr>';
+												table += '<td><div class="custom-control custom-checkbox mb-5">';
+												table += '<input type="checkbox" class="custom-control-input" id="checkTable'+index+'" name="tableCheck" value="'+item.code+'"></label>';
+												table += '<label class="custom-control-label" for="checkTable'+index+'"></label></div></td>';
+												table += '<th class="info'+index+'" style="color: blue; text-decoration: underline;">'
+														+ item.code+ '</th> ';
+												table += '<th>'+ item.reqs_code+ '</th>';
+												table += '<th>'+ item.reqsdate+ '</th>';
+												table += '<th>'+ item.product+ '</th>';
+												table += '<th>'+ item.clientName+ '</th>';
+												table += '<th>'+ item.reqsamount+ '</th>';
+												table += '<th>'+ item.stock+ '</th>';
+												table += '<th>'+ item.amount+ '</th>';
+												table += '<th>'+ item.date+ '</th>';
+												table += '<th>'+ item.status+ '</th>';
+												table += '</tr>';
 															});
 
 											$('#table tbody').html(table);
-											$(".diff")
-													.each(
-															function() {
-																var diff = parseInt($(
-																		this)
-																		.text());
-																if (diff < 0) {
-																	$(this)
-																			.css(
-																					"color",
-																					"red");
-																} else if (diff > 0) {
-																	$(this)
-																			.prepend(
-																					"+");
-																	$(this)
-																			.css(
-																					"color",
-																					"green");
-																}
-															});
+											
 										},
-										error : function(jqXHR, textStatus,
-												errorThrown) {
-
+										error : function(jqXHR, textStatus, errorThrown) {
+											alert('관리자에게 문의하세요');
 										}
 									});
 						});

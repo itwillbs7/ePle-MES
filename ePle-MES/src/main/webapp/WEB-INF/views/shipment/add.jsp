@@ -104,6 +104,7 @@
 	 
  
 	 // 출하번호 생성 당해연도 YY+OT(Out)+MMDD+출고창고코드+출하인덱스 3자리(001부터)
+	 // 24OT0101a23001
 	 let ware_code;
 	 
 	 document.querySelector('input[name="ware_code"]').addEventListener('input', function() {
