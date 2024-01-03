@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="java.util.Date"%>
 <%
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	String today = dateFormat.format(new Date());
@@ -94,16 +94,12 @@
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
-															<label>날짜</label> <input type="date" name="date" class="form-control" value="${pageVO.search.date}" max="<%=today%>">
+															<label>날짜</label> <input class="form-control date-picker" name="date" value="${pageVO.search.date}" data-language="ko" placeholder="일정 선택" type="text" />
 														</div>
 													</div>
-													<div class="col-md-4 col-sm-12">
-														<div class="form-group" style="display: inline-block;">
-															<label>기간</label> <input type="date" id="dateLeft" value="${pageVO.search.betweenDateLeft}" name="betweenDateLeft" class="form-control" max="<%=today%>">
-														</div>
-														<b>-</b>
-														<div class="form-group" style="display: inline-block;">
-															<input type="date" id="dateRight" value="${pageVO.search.betweenDateRight}" name="betweenDateRight" class="form-control" max="<%=today%>">
+													<div class="col-md-2 col-sm-12">
+														<div class="form-group">
+															<label>기간</label> <input class="form-control datetimepicker-range" name="between" placeholder="기간 선택" type="text" />
 														</div>
 													</div>
 												</div>
@@ -111,8 +107,7 @@
 										</div>
 
 										<!-- 정렬, asc, desc -->
-										<input type="hidden" name="activeSortCategory" id="sortCategory" value="${pageVO.search.activeSortCategory}">
-										<input type="hidden" name="sortValue" id="sortValue" value="${pageVO.search.sortValue}">
+										<input type="hidden" name="activeSortCategory" id="sortCategory" value="${pageVO.search.activeSortCategory}"> <input type="hidden" name="sortValue" id="sortValue" value="${pageVO.search.sortValue}">
 
 										<c:choose>
 											<c:when test="${!empty pageVO.cri.page}">

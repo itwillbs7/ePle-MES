@@ -18,6 +18,7 @@ public class SearchVO {
 	private String date;
 
 	// 기간
+	private String between;
 	private String betweenDateLeft;
 	private String betweenDateRight;
 	
@@ -26,6 +27,13 @@ public class SearchVO {
 	public int getIndex() {
 		if(searchCategory == null || searchCategory.equals("")) return -1;
 		else return Integer.parseInt(searchCategory);
+	}
+	
+	public void setBetweenDates() {
+		if(between == null || between.equals("")) return;
+		String[] split = between.split("~");
+		betweenDateLeft = split[0].substring(0, split[0].length()-1);
+		betweenDateRight = split[1].substring(1);
 	}
 	
 	private boolean isajax;

@@ -273,24 +273,23 @@
 	<!-- facilityInfo -->
 	<select id="getFacilityInfo" resultMap="main"
 		resultType="com.itwillbs.domain.MaintenanceVO">
-		SELECT m.code, m.reg_date,
-		m.emp_code, e1.name AS emp_name,
-		m.group_id, cm.group_name,
-		m.code_id, cm.code_name,
-		m.fac_code,
-		f.group_id, cf.group_name,
-		f.code_id, cf.group_name,
-		f.line_code, l.name
-		AS line_name,
-		mt_subject, mt_content,
-		m.complete,
-		m.manager, e2.name AS
-		manager_name,
-		m.res_info, m.res_content,
-		m.comp_date
-		FROM FAC_MT m
-		JOIN
-		FAC_INFO f ON m.fac_code = f.code
+		SELECT m.code, m.reg_date, 
+		m.emp_code, e1.name AS emp_name, 
+		m.group_id, cm.group_name, 
+		m.code_id, cm.code_name, 
+		f.group_id, cf.group_name, 
+		f.code_id, cf.group_name, 
+		f.line_code, l.name 
+		AS line_name, 
+		mt_subject, mt_content, 
+		m.complete, 
+		m.manager, e2.name AS 
+		manager_name, 
+		m.res_info, m.res_content, 
+		m.comp_date 
+		FROM FAC_MT m 
+		LEFT JOIN 
+		FAC_INFO f ON m.fac_code = f.code 
 		JOIN COMMON_CODE cm ON m.group_id =
 		cm.group_id AND m.code_id = cm.code_id
 		JOIN COMMON_CODE cf ON
@@ -301,7 +300,7 @@
 		JOIN EMPLOYEES e2 ON m.manager = e2.code
 		JOIN LINE
 		l ON l.code = f.line_code
-		WHERE m.fac_code = #{code} 
+		WHERE f.code = #{code} 
 		ORDER BY m.code DESC 
 		LIMIT 0, 10
 	</select>
@@ -309,9 +308,9 @@
 	
 	<!-- facilityInfoCount -->
 	<select id="getFacilityInfoCount" resultType="int">
-		SELECT count(code)
+		SELECT count(fac_code)
 		FROM FAC_MT
-		WHERE m.fac_code = #{code}
+		WHERE fac_code = #{code}
 	</select>
 	<!-- facilityInfoCount -->
 	

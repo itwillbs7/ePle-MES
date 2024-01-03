@@ -20,6 +20,7 @@ import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MaintenanceSearchVO;
 import com.itwillbs.domain.MaintenanceVO;
 import com.itwillbs.domain.PageVO;
+import com.itwillbs.service.facility.FacilityService;
 import com.itwillbs.service.facility.MaintenanceService;
 
 /** FacilityController : 설비 보전 컨트롤러 **/
@@ -32,6 +33,9 @@ public class MaintenanceController {
 
 	@Inject
 	private MaintenanceService mService;
+	
+	@Inject
+	private FacilityService fService;
 
 	// http://localhost:8088/facility/maintenance/list
 	@GetMapping(value = "/list")
@@ -95,11 +99,14 @@ public class MaintenanceController {
 		}
 		return link;
 	}
-
+	
+	// http://localhost:8088/facility/maintenance/update?code=DM20240102001
 	@GetMapping(value = "/update")
 	public void maintenanceUpdateGET(String code, Model model) throws Exception {
 		// 설비 보전 수정 폼
+		model.addAttribute("list", fService.getFacManager("test5"));
 		model.addAttribute("info", mService.getDetail(code));
+		model.addAttribute("role", "emp");
 	}
 
 	@PostMapping(value = "/update")

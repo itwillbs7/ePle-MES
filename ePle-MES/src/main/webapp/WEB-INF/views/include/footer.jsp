@@ -15,7 +15,7 @@
 <script src="${pageContext.request.contextPath}/resources/vendors/scripts/advanced-components.js"></script>
 
 <script src="${pageContext.request.contextPath}/resources/vendors/scripts/core.js"></script>
-<script src="${pageContext.request.contextPath}/resources/vendors/scripts/script.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendors/scripts/script.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendors/scripts/process.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendors/scripts/layout-settings.js"></script>
 

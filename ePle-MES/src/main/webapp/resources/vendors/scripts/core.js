@@ -6334,7 +6334,8 @@
                         for (var key in arguments[0]) {
                             arg += key + ': ' + arguments[0][key] + ', ';
                         }
-                        arg = arg.slice(0, -2); // Remove trailing comma and space
+                        arg = arg.slice(0, -2); // Remove trailing comma and
+												// space
                     } else {
                         arg = arguments[i];
                     }
@@ -7200,7 +7201,8 @@
 
     // start-of-first-week - start-of-year
     function firstWeekOffset(year, dow, doy) {
-        var // first-week day -- which january is always in the first week (4 for
+        var // first-week day -- which january is always in the first week (4
+			// for
             // iso, 1 for other)
             fwd = 7 + dow - doy,
             // first-week day local weekday -- which local weekday is fwd
@@ -7793,7 +7795,8 @@
     // LOCALES
 
     function localeIsPM(input) {
-        // IE8 Quirks Mode & IE7 Standards Mode do not allow accessing strings like
+        // IE8 Quirks Mode & IE7 Standards Mode do not allow accessing strings
+		// like
         // arrays
         // Using charAt should be more compatible.
         return ((input + '').toLowerCase().charAt(0) === 'p');
@@ -7848,7 +7851,8 @@
     }
 
     // pick the locale from the array
-    // try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list
+    // try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the
+	// list
     // trying each
     // substring from most specific to least, but move to the next array item if
     // it's a more specific variant than the current root
@@ -7867,7 +7871,8 @@
                     return locale;
                 }
                 if (next && next.length >= j && compareArrays(split, next, true) >= j - 1) {
-                    // the next array item is better than a shallower substring of
+                    // the next array item is better than a shallower substring
+					// of
                     // this one
                     break;
                 }
@@ -7910,7 +7915,8 @@
                 globalLocale = data;
             } else {
                 if ((typeof console !== 'undefined') && console.warn) {
-                    // warn user if arguments are passed but the locale could not be
+                    // warn user if arguments are passed but the locale could
+					// not be
                     // set
                     console.warn('Locale ' + key + ' not found. Did you forget to load it?');
                 }
@@ -8080,7 +8086,8 @@
 
     // convert an array to a date.
     // the array should mirror the parameters below
-    // note: all values past the year are optional and will default to the lowest
+    // note: all values past the year are optional and will default to the
+	// lowest
     // possible value.
     // [year, month, day , hour, minute, second, millisecond]
     function configFromArray(config) {
@@ -8161,7 +8168,8 @@
             dow = 1;
             doy = 4;
 
-            // TODO: We need to take the current isoWeekYear, but that depends on
+            // TODO: We need to take the current isoWeekYear, but that depends
+			// on
             // how we interpret now (local, utc, fixed offset). So create
             // a now version of current config (take local/utc/offset flags, and
             // create now).
@@ -8332,7 +8340,8 @@
     }
 
     function preprocessRFC2822(s) {
-        // Remove comments and folding whitespace and replace multiple-spaces with a
+        // Remove comments and folding whitespace and replace multiple-spaces
+		// with a
         // single space
         return s.replace(/\([^)]*\)|[\n\t]/g, ' ').replace(/(\s\s+)/g, ' ').trim();
     }
@@ -8445,7 +8454,8 @@
 
     // date from string and format string
     function configFromStringAndFormat(config) {
-        // TODO: Move this to another part of the creation flow to prevent circular
+        // TODO: Move this to another part of the creation flow to prevent
+		// circular
         // deps
         if (config._f === hooks.ISO_8601) {
             configFromISO(config);
@@ -8458,7 +8468,8 @@
         config._a = [];
         getParsingFlags(config).empty = true;
 
-        // This array is used to make a Date, either with `new Date` or `Date.UTC`
+        // This array is used to make a Date, either with `new Date` or
+		// `Date.UTC`
         var string = '' + config._i,
             i, parsedInput, tokens, token, skipped,
             stringLength = string.length,
@@ -8809,7 +8820,8 @@
         this._milliseconds = +milliseconds +
             seconds * 1e3 + // 1000
             minutes * 6e4 + // 1000 * 60
-            hours * 1000 * 60 * 60; // using 1000 * 60 * 60 instead of 36e5 to avoid
+            hours * 1000 * 60 * 60; // using 1000 * 60 * 60 instead of 36e5 to
+									// avoid
         // floating point rounding errors
         // https://github.com/moment/moment/issues/2978
         // Because of dateAddRemove treats 24 hours as different from a
@@ -9248,7 +9260,8 @@
 
     function calendar$1(time, formats) {
         // We want to compare the start of today, vs this.
-        // Getting start-of-today depends on whether we're local/utc/offset or not.
+        // Getting start-of-today depends on whether we're local/utc/offset or
+		// not.
         var now = time || createLocal(),
             sod = cloneWithOffset(now, this).startOf('day'),
             format = hooks.calendarFormat(this, sod) || 'sameElse';
@@ -9428,11 +9441,11 @@
     }
 
     /**
-     * Return a human readable representation of a moment that can also be evaluated
-     * to get a new moment which is the same
-     * 
-     * @link https://nodejs.org/dist/latest/docs/api/util.html#util_custom_inspect_function_on_objects
-     */
+	 * Return a human readable representation of a moment that can also be
+	 * evaluated to get a new moment which is the same
+	 * 
+	 * @link https://nodejs.org/dist/latest/docs/api/util.html#util_custom_inspect_function_on_objects
+	 */
     function inspect() {
         if (!this.isValid()) {
             return 'moment.invalid(/* ' + this._i + ' */)';
@@ -10291,7 +10304,8 @@
             months = this._months + daysToMonths(days);
             return units === 'month' ? months : months / 12;
         } else {
-            // handle milliseconds separately because of floating point math errors
+            // handle milliseconds separately because of floating point math
+			// errors
             // (issue #1867)
             days = this._days + Math.round(monthsToDays(this._months));
             switch (units) {
@@ -10687,19 +10701,18 @@
             /* NodeJS */
             _dlp = ("https:" == document.location.protocol) ? "https:" : "http:",
             /*
-             * location
-             * protocol
-             */
+			 * location protocol
+			 */
             _url = "cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js";
         if (!_rjs) {
             if (_njs) {
                 require("jquery-mousewheel")($);
             } else {
                 /*
-                 * load jquery-mousewheel plugin (via CDN) if it's not present or
-                 * not loaded via RequireJS (works when mCustomScrollbar fn is
-                 * called on window load)
-                 */
+				 * load jquery-mousewheel plugin (via CDN) if it's not present
+				 * or not loaded via RequireJS (works when mCustomScrollbar fn
+				 * is called on window load)
+				 */
                 $.event.special.mousewheel || $("head").append(decodeURI("%3Cscript src=" + _dlp + "//" + _url + "%3E%3C/script%3E"));
             }
         }
@@ -10707,9 +10720,9 @@
     }(function() {
 
         /*
-         * ---------------------------------------- PLUGIN NAMESPACE, PREFIX,
-         * DEFAULT SELECTOR(S) ----------------------------------------
-         */
+		 * ---------------------------------------- PLUGIN NAMESPACE, PREFIX,
+		 * DEFAULT SELECTOR(S) ----------------------------------------
+		 */
 
         var pluginNS = "mCustomScrollbar",
             pluginPfx = "mCS",
@@ -10719,265 +10732,268 @@
 
 
             /*
-             * ---------------------------------------- DEFAULT OPTIONS
-             * ----------------------------------------
-             */
+			 * ---------------------------------------- DEFAULT OPTIONS
+			 * ----------------------------------------
+			 */
 
             defaults = {
                 /*
-                 * set element/content width/height programmatically values:
-                 * boolean, pixels, percentage option default
-                 * ------------------------------------- setWidth false setHeight
-                 * false
-                 */
+				 * set element/content width/height programmatically values:
+				 * boolean, pixels, percentage option default
+				 * ------------------------------------- setWidth false
+				 * setHeight false
+				 */
                 /*
-                 * set the initial css top property of content values: string (e.g.
-                 * "-100px", "10%" etc.)
-                 */
+				 * set the initial css top property of content values: string
+				 * (e.g. "-100px", "10%" etc.)
+				 */
                 setTop: 0,
                 /*
-                 * set the initial css left property of content values: string (e.g.
-                 * "-100px", "10%" etc.)
-                 */
+				 * set the initial css left property of content values: string
+				 * (e.g. "-100px", "10%" etc.)
+				 */
                 setLeft: 0,
                 /*
-                 * scrollbar axis (vertical and/or horizontal scrollbars) values
-                 * (string): "y", "x", "yx"
-                 */
+				 * scrollbar axis (vertical and/or horizontal scrollbars) values
+				 * (string): "y", "x", "yx"
+				 */
                 axis: "y",
                 /*
-                 * position of scrollbar relative to content values (string):
-                 * "inside", "outside" ("outside" requires elements with
-                 * position:relative)
-                 */
+				 * position of scrollbar relative to content values (string):
+				 * "inside", "outside" ("outside" requires elements with
+				 * position:relative)
+				 */
                 scrollbarPosition: "inside",
                 /*
-                 * scrolling inertia values: integer (milliseconds)
-                 */
+				 * scrolling inertia values: integer (milliseconds)
+				 */
                 scrollInertia: 950,
                 /*
-                 * auto-adjust scrollbar dragger length values: boolean
-                 */
+				 * auto-adjust scrollbar dragger length values: boolean
+				 */
                 autoDraggerLength: true,
                 /*
-                 * auto-hide scrollbar when idle values: boolean option default
-                 * ------------------------------------- autoHideScrollbar false
-                 */
+				 * auto-hide scrollbar when idle values: boolean option default
+				 * ------------------------------------- autoHideScrollbar false
+				 */
                 /*
-                 * auto-expands scrollbar on mouse-over and dragging values: boolean
-                 * option default -------------------------------------
-                 * autoExpandScrollbar false
-                 */
+				 * auto-expands scrollbar on mouse-over and dragging values:
+				 * boolean option default -------------------------------------
+				 * autoExpandScrollbar false
+				 */
                 /*
-                 * always show scrollbar, even when there's nothing to scroll
-                 * values: integer (0=disable, 1=always show dragger rail and
-                 * buttons, 2=always show dragger rail, dragger and buttons),
-                 * boolean
-                 */
+				 * always show scrollbar, even when there's nothing to scroll
+				 * values: integer (0=disable, 1=always show dragger rail and
+				 * buttons, 2=always show dragger rail, dragger and buttons),
+				 * boolean
+				 */
                 alwaysShowScrollbar: 0,
                 /*
-                 * scrolling always snaps to a multiple of this number in pixels
-                 * values: integer, array ([y,x]) option default
-                 * ------------------------------------- snapAmount null
-                 */
+				 * scrolling always snaps to a multiple of this number in pixels
+				 * values: integer, array ([y,x]) option default
+				 * ------------------------------------- snapAmount null
+				 */
                 /*
-                 * when snapping, snap with this number in pixels as an offset
-                 * values: integer
-                 */
+				 * when snapping, snap with this number in pixels as an offset
+				 * values: integer
+				 */
                 snapOffset: 0,
                 /*
-                 * mouse-wheel scrolling
-                 */
+				 * mouse-wheel scrolling
+				 */
                 mouseWheel: {
                     /*
-                     * enable mouse-wheel scrolling values: boolean
-                     */
+					 * enable mouse-wheel scrolling values: boolean
+					 */
                     enable: true,
                     /*
-                     * scrolling amount in pixels values: "auto", integer
-                     */
+					 * scrolling amount in pixels values: "auto", integer
+					 */
                     scrollAmount: "auto",
                     /*
-                     * mouse-wheel scrolling axis the default scrolling direction
-                     * when both vertical and horizontal scrollbars are present
-                     * values (string): "y", "x"
-                     */
+					 * mouse-wheel scrolling axis the default scrolling
+					 * direction when both vertical and horizontal scrollbars
+					 * are present values (string): "y", "x"
+					 */
                     axis: "y",
                     /*
-                     * prevent the default behaviour which automatically scrolls the
-                     * parent element(s) when end of scrolling is reached values:
-                     * boolean option default -------------------------------------
-                     * preventDefault null
-                     */
+					 * prevent the default behaviour which automatically scrolls
+					 * the parent element(s) when end of scrolling is reached
+					 * values: boolean option default
+					 * ------------------------------------- preventDefault null
+					 */
                     /*
-                     * the reported mouse-wheel delta value. The number of lines
-                     * (translated to pixels) one wheel notch scrolls. values:
-                     * "auto", integer "auto" uses the default OS/browser value
-                     */
+					 * the reported mouse-wheel delta value. The number of lines
+					 * (translated to pixels) one wheel notch scrolls. values:
+					 * "auto", integer "auto" uses the default OS/browser value
+					 */
                     deltaFactor: "auto",
                     /*
-                     * normalize mouse-wheel delta to -1 or 1 (disables mouse-wheel
-                     * acceleration) values: boolean option default
-                     * ------------------------------------- normalizeDelta null
-                     */
+					 * normalize mouse-wheel delta to -1 or 1 (disables
+					 * mouse-wheel acceleration) values: boolean option default
+					 * ------------------------------------- normalizeDelta null
+					 */
                     /*
-                     * invert mouse-wheel scrolling direction values: boolean option
-                     * default ------------------------------------- invert null
-                     */
+					 * invert mouse-wheel scrolling direction values: boolean
+					 * option default -------------------------------------
+					 * invert null
+					 */
                     /*
-                     * the tags that disable mouse-wheel when cursor is over them
-                     */
+					 * the tags that disable mouse-wheel when cursor is over
+					 * them
+					 */
                     disableOver: ["select", "option", "keygen", "datalist", "textarea"]
                 },
                 /*
-                 * scrollbar buttons
-                 */
+				 * scrollbar buttons
+				 */
                 scrollButtons: {
                     /*
-                     * enable scrollbar buttons values: boolean option default
-                     * ------------------------------------- enable null
-                     */
+					 * enable scrollbar buttons values: boolean option default
+					 * ------------------------------------- enable null
+					 */
                     /*
-                     * scrollbar buttons scrolling type values (string): "stepless",
-                     * "stepped"
-                     */
+					 * scrollbar buttons scrolling type values (string):
+					 * "stepless", "stepped"
+					 */
                     scrollType: "stepless",
                     /*
-                     * scrolling amount in pixels values: "auto", integer
-                     */
+					 * scrolling amount in pixels values: "auto", integer
+					 */
                     scrollAmount: "auto"
                     /*
-                     * tabindex of the scrollbar buttons values: false, integer
-                     * option default ------------------------------------- tabindex
-                     * null
-                     */
+					 * tabindex of the scrollbar buttons values: false, integer
+					 * option default -------------------------------------
+					 * tabindex null
+					 */
                 },
                 /*
-                 * keyboard scrolling
-                 */
+				 * keyboard scrolling
+				 */
                 keyboard: {
                     /*
-                     * enable scrolling via keyboard values: boolean
-                     */
+					 * enable scrolling via keyboard values: boolean
+					 */
                     enable: true,
                     /*
-                     * keyboard scrolling type values (string): "stepless",
-                     * "stepped"
-                     */
+					 * keyboard scrolling type values (string): "stepless",
+					 * "stepped"
+					 */
                     scrollType: "stepless",
                     /*
-                     * scrolling amount in pixels values: "auto", integer
-                     */
+					 * scrolling amount in pixels values: "auto", integer
+					 */
                     scrollAmount: "auto"
                 },
                 /*
-                 * enable content touch-swipe scrolling values: boolean, integer,
-                 * string (number) integer values define the axis-specific minimum
-                 * amount required for scrolling momentum
-                 */
+				 * enable content touch-swipe scrolling values: boolean,
+				 * integer, string (number) integer values define the
+				 * axis-specific minimum amount required for scrolling momentum
+				 */
                 contentTouchScroll: 25,
                 /*
-                 * enable/disable document (default) touch-swipe scrolling
-                 */
+				 * enable/disable document (default) touch-swipe scrolling
+				 */
                 documentTouchScroll: true,
                 /*
-                 * advanced option parameters
-                 */
+				 * advanced option parameters
+				 */
                 advanced: {
                     /*
-                     * auto-expand content horizontally (for "x" or "yx" axis)
-                     * values: boolean, integer (the value 2 forces the non
-                     * scrollHeight/scrollWidth method, the value 3 forces the
-                     * scrollHeight/scrollWidth method) option default
-                     * -------------------------------------
-                     * autoExpandHorizontalScroll null
-                     */
+					 * auto-expand content horizontally (for "x" or "yx" axis)
+					 * values: boolean, integer (the value 2 forces the non
+					 * scrollHeight/scrollWidth method, the value 3 forces the
+					 * scrollHeight/scrollWidth method) option default
+					 * -------------------------------------
+					 * autoExpandHorizontalScroll null
+					 */
                     /*
-                     * auto-scroll to elements with focus
-                     */
+					 * auto-scroll to elements with focus
+					 */
                     autoScrollOnFocus: "input,textarea,select,button,datalist,keygen,a[tabindex],area,object,[contenteditable='true']",
                     /*
-                     * auto-update scrollbars on content, element or viewport resize
-                     * should be true for fluid layouts/elements, adding/removing
-                     * content dynamically, hiding/showing elements, content with
-                     * images etc. values: boolean
-                     */
+					 * auto-update scrollbars on content, element or viewport
+					 * resize should be true for fluid layouts/elements,
+					 * adding/removing content dynamically, hiding/showing
+					 * elements, content with images etc. values: boolean
+					 */
                     updateOnContentResize: true,
                     /*
-                     * auto-update scrollbars each time each image inside the
-                     * element is fully loaded values: "auto", boolean
-                     */
+					 * auto-update scrollbars each time each image inside the
+					 * element is fully loaded values: "auto", boolean
+					 */
                     updateOnImageLoad: "auto",
                     /*
-                     * auto-update scrollbars based on the amount and size changes
-                     * of specific selectors useful when you need to update the
-                     * scrollbar(s) automatically, each time a type of element is
-                     * added, removed or changes its size values: boolean, string
-                     * (e.g. "ul li" will auto-update scrollbars each time
-                     * list-items inside the element are changed) a value of true
-                     * (boolean) will auto-update scrollbars each time any element
-                     * is changed option default
-                     * ------------------------------------- updateOnSelectorChange
-                     * null
-                     */
+					 * auto-update scrollbars based on the amount and size
+					 * changes of specific selectors useful when you need to
+					 * update the scrollbar(s) automatically, each time a type
+					 * of element is added, removed or changes its size values:
+					 * boolean, string (e.g. "ul li" will auto-update scrollbars
+					 * each time list-items inside the element are changed) a
+					 * value of true (boolean) will auto-update scrollbars each
+					 * time any element is changed option default
+					 * -------------------------------------
+					 * updateOnSelectorChange null
+					 */
                     /*
-                     * extra selectors that'll allow scrollbar dragging upon
-                     * mousemove/up, pointermove/up, touchend etc. (e.g.
-                     * "selector-1, selector-2") option default
-                     * ------------------------------------- extraDraggableSelectors
-                     * null
-                     */
+					 * extra selectors that'll allow scrollbar dragging upon
+					 * mousemove/up, pointermove/up, touchend etc. (e.g.
+					 * "selector-1, selector-2") option default
+					 * -------------------------------------
+					 * extraDraggableSelectors null
+					 */
                     /*
-                     * extra selectors that'll release scrollbar dragging upon
-                     * mouseup, pointerup, touchend etc. (e.g. "selector-1,
-                     * selector-2") option default
-                     * -------------------------------------
-                     * releaseDraggableSelectors null
-                     */
+					 * extra selectors that'll release scrollbar dragging upon
+					 * mouseup, pointerup, touchend etc. (e.g. "selector-1,
+					 * selector-2") option default
+					 * -------------------------------------
+					 * releaseDraggableSelectors null
+					 */
                     /*
-                     * auto-update timeout values: integer (milliseconds)
-                     */
+					 * auto-update timeout values: integer (milliseconds)
+					 */
                     autoUpdateTimeout: 60
                 },
                 /*
-                 * scrollbar theme values: string (see CSS/plugin URI for a list of
-                 * ready-to-use themes)
-                 */
+				 * scrollbar theme values: string (see CSS/plugin URI for a list
+				 * of ready-to-use themes)
+				 */
                 theme: "light",
                 /*
-                 * user defined callback functions
-                 */
+				 * user defined callback functions
+				 */
                 callbacks: {
                     /*
-                     * Available callbacks: callback default
-                     * ------------------------------------- onCreate null onInit
-                     * null onScrollStart null onScroll null onTotalScroll null
-                     * onTotalScrollBack null whileScrolling null onOverflowY null
-                     * onOverflowX null onOverflowYNone null onOverflowXNone null
-                     * onImageLoad null onSelectorChange null onBeforeUpdate null
-                     * onUpdate null
-                     */
+					 * Available callbacks: callback default
+					 * ------------------------------------- onCreate null
+					 * onInit null onScrollStart null onScroll null
+					 * onTotalScroll null onTotalScrollBack null whileScrolling
+					 * null onOverflowY null onOverflowX null onOverflowYNone
+					 * null onOverflowXNone null onImageLoad null
+					 * onSelectorChange null onBeforeUpdate null onUpdate null
+					 */
                     onTotalScrollOffset: 0,
                     onTotalScrollBackOffset: 0,
                     alwaysTriggerOffsets: true
                 }
                 /*
-                 * add scrollbar(s) on all elements matching the current selector,
-                 * now and in the future values: boolean, string string values: "on"
-                 * (enable), "once" (disable after first invocation), "off"
-                 * (disable) liveSelector values: string (selector) option default
-                 * ------------------------------------- live false liveSelector
-                 * null
-                 */
+				 * add scrollbar(s) on all elements matching the current
+				 * selector, now and in the future values: boolean, string
+				 * string values: "on" (enable), "once" (disable after first
+				 * invocation), "off" (disable) liveSelector values: string
+				 * (selector) option default
+				 * ------------------------------------- live false liveSelector
+				 * null
+				 */
             },
 
 
 
 
             /*
-             * ---------------------------------------- VARS, CONSTANTS
-             * ----------------------------------------
-             */
+			 * ---------------------------------------- VARS, CONSTANTS
+			 * ----------------------------------------
+			 */
 
             totalInstances = 0,
             /* plugin instances amount */
@@ -10985,16 +11001,13 @@
             /* live option timers */
             oldIE = (window.attachEvent && !window.addEventListener) ? 1 : 0,
             /*
-             * detect
-             * IE <
-             * 9
-             */
+			 * detect IE < 9
+			 */
             touchActive = false,
             touchable,
             /*
-             * global touch vars (for touch and
-             * pointer events)
-             */
+			 * global touch vars (for touch and pointer events)
+			 */
             /* general plugin classes */
             classes = [
                 "mCSB_dragger_onDrag", "mCSB_scrollTools_onDrag", "mCS_img_loaded", "mCS_disabled", "mCS_destroyed", "mCS_no_scrollbar",
@@ -11006,16 +11019,17 @@
 
 
             /*
-             * ---------------------------------------- METHODS
-             * ----------------------------------------
-             */
+			 * ---------------------------------------- METHODS
+			 * ----------------------------------------
+			 */
 
             methods = {
 
                 /*
-                 * plugin initialization method creates the scrollbar(s), plugin
-                 * data object and options ----------------------------------------
-                 */
+				 * plugin initialization method creates the scrollbar(s), plugin
+				 * data object and options
+				 * ----------------------------------------
+				 */
 
                 init: function(options) {
 
@@ -11023,34 +11037,32 @@
                         selector = _selector.call(this); /* validate selector */
 
                     /*
-                     * if live option is enabled, monitor for elements matching the
-                     * current selector and apply scrollbar(s) when found (now and
-                     * in the future)
-                     */
+					 * if live option is enabled, monitor for elements matching
+					 * the current selector and apply scrollbar(s) when found
+					 * (now and in the future)
+					 */
                     if (options.live) {
                         var liveSelector = options.liveSelector || this.selector || defaultSelector,
                             /*
-                             * live
-                             * selector(s)
-                             */
+							 * live selector(s)
+							 */
                             $liveSelector = $(liveSelector);
                         /*
-                         * live selector(s) as
-                         * jquery object
-                         */
+						 * live selector(s) as jquery object
+						 */
                         if (options.live === "off") {
                             /*
-                             * disable live if requested usage:
-                             * $(selector).mCustomScrollbar({live:"off"});
-                             */
+							 * disable live if requested usage:
+							 * $(selector).mCustomScrollbar({live:"off"});
+							 */
                             removeLiveTimers(liveSelector);
                             return;
                         }
                         liveTimers[liveSelector] = setTimeout(function() {
                             /*
-                             * call mCustomScrollbar fn on live selector(s) every
-                             * half-second
-                             */
+							 * call mCustomScrollbar fn on live selector(s)
+							 * every half-second
+							 */
                             $liveSelector.mCustomScrollbar(options);
                             if (options.live === "once" && $liveSelector.length) {
                                 /* disable live after first invocation */
@@ -11062,21 +11074,17 @@
                     }
 
                     /*
-                     * options backward compatibility (for versions < 3.0.0) and
-                     * normalization
-                     */
+					 * options backward compatibility (for versions < 3.0.0) and
+					 * normalization
+					 */
                     options.setWidth = (options.set_width) ? options.set_width : options.setWidth;
                     options.setHeight = (options.set_height) ? options.set_height : options.setHeight;
                     options.axis = (options.horizontalScroll) ? "x" : _findAxis(options.axis);
                     options.scrollInertia = options.scrollInertia > 0 && options.scrollInertia < 17 ? 17 : options.scrollInertia;
                     if (typeof options.mouseWheel !== "object" && options.mouseWheel == true) {
                         /*
-                         * old
-                         * school
-                         * mouseWheel
-                         * option
-                         * (non-object)
-                         */
+						 * old school mouseWheel option (non-object)
+						 */
                         options.mouseWheel = {
                             enable: true,
                             scrollAmount: "auto",
@@ -11100,9 +11108,8 @@
 
                         if (!$this.data(pluginPfx)) {
                             /*
-                             * prevent multiple
-                             * instantiations
-                             */
+							 * prevent multiple instantiations
+							 */
 
                             /* store options and create objects in jquery data */
                             $this.data(pluginPfx, {
@@ -11115,9 +11122,8 @@
                                     x: null
                                 },
                                 /*
-                                 * scrollbar to
-                                 * content ratio
-                                 */
+								 * scrollbar to content ratio
+								 */
                                 overflowed: null,
                                 /* overflowed axis */
                                 contentReset: {
@@ -11125,45 +11131,40 @@
                                     x: null
                                 },
                                 /*
-                                 * object to check
-                                 * when content
-                                 * resets
-                                 */
+								 * object to check when content resets
+								 */
                                 bindEvents: false,
                                 /*
-                                 * object to check if events are
-                                 * bound
-                                 */
+								 * object to check if events are bound
+								 */
                                 tweenRunning: false,
                                 /*
-                                 * object to check if tween is
-                                 * running
-                                 */
+								 * object to check if tween is running
+								 */
                                 sequential: {},
                                 /* sequential scrolling object */
                                 langDir: $this.css("direction"),
                                 /*
-                                 * detect/store
-                                 * direction (ltr or
-                                 * rtl)
-                                 */
+								 * detect/store direction (ltr or rtl)
+								 */
                                 cbOffsets: null,
                                 /*
-                                 * object to check whether callback
-                                 * offsets always trigger
-                                 */
+								 * object to check whether callback offsets
+								 * always trigger
+								 */
                                 /*
-                                 * object to check how scrolling events where last
-                                 * triggered "internal" (default - triggered by this
-                                 * script), "external" (triggered by other scripts,
-                                 * e.g. via scrollTo method) usage:
-                                 * object.data("mCS").trigger
-                                 */
+								 * object to check how scrolling events where
+								 * last triggered "internal" (default -
+								 * triggered by this script), "external"
+								 * (triggered by other scripts, e.g. via
+								 * scrollTo method) usage:
+								 * object.data("mCS").trigger
+								 */
                                 trigger: null,
                                 /*
-                                 * object to check for changes in elements in order
-                                 * to call the update method automatically
-                                 */
+								 * object to check for changes in elements in
+								 * order to call the update method automatically
+								 */
                                 poll: {
                                     size: {
                                         o: 0,
@@ -11191,23 +11192,19 @@
                                 o.axis = htmlDataAxis;
                             }
                             /*
-                             * usage
-                             * example:
-                             * data-mcs-axis="y"
-                             */
+							 * usage example: data-mcs-axis="y"
+							 */
                             if (htmlDataSbPos) {
                                 o.scrollbarPosition = htmlDataSbPos;
                             }
                             /*
-                             * usage
-                             * example:
-                             * data-mcs-scrollbar-position="outside"
-                             */
+							 * usage example:
+							 * data-mcs-scrollbar-position="outside"
+							 */
                             if (htmlDataTheme) {
                                 /*
-                                 * usage example:
-                                 * data-mcs-theme="minimal"
-                                 */
+								 * usage example: data-mcs-theme="minimal"
+								 */
                                 o.theme = htmlDataTheme;
                                 _theme(o); /* theme-specific options */
                             }
@@ -11218,22 +11215,18 @@
                                 o.callbacks.onCreate.call(this);
                             }
                             /*
-                             * callbacks:
-                             * onCreate
-                             */
+							 * callbacks: onCreate
+							 */
 
                             $("#mCSB_" + d.idx + "_container img:not(." + classes[2] + ")").addClass(classes[2]);
                             /*
-                             * flag
-                             * loaded
-                             * images
-                             */
+							 * flag loaded images
+							 */
 
                             methods.update.call(null, $this);
                             /*
-                             * call the update
-                             * method
-                             */
+							 * call the update method
+							 */
 
                         }
 
@@ -11245,14 +11238,17 @@
 
 
                 /*
-                 * plugin update method updates content and scrollbar(s) values,
-                 * events and status ---------------------------------------- usage:
-                 * $(selector).mCustomScrollbar("update");
-                 */
+				 * plugin update method updates content and scrollbar(s) values,
+				 * events and status ----------------------------------------
+				 * usage: $(selector).mCustomScrollbar("update");
+				 */
 
                 update: function(el, cb) {
 
-                    var selector = el || _selector.call(this); /* validate selector */
+                    var selector = el || _selector.call(this); /*
+																 * validate
+																 * selector
+																 */
 
                     return $(selector).each(function() {
 
@@ -11260,9 +11256,8 @@
 
                         if ($this.data(pluginPfx)) {
                             /*
-                             * check if plugin has
-                             * initialized
-                             */
+							 * check if plugin has initialized
+							 */
 
                             var d = $this.data(pluginPfx),
                                 o = d.opt,
@@ -11278,23 +11273,20 @@
                                 _stop($this);
                             }
                             /*
-                             * stop any running
-                             * tweens while
-                             * updating
-                             */
+							 * stop any running tweens while updating
+							 */
 
                             if (cb && d && o.callbacks.onBeforeUpdate && typeof o.callbacks.onBeforeUpdate === "function") {
                                 o.callbacks.onBeforeUpdate.call(this);
                             }
                             /*
-                             * callbacks:
-                             * onBeforeUpdate
-                             */
+							 * callbacks: onBeforeUpdate
+							 */
 
                             /*
-                             * if element was disabled or destroyed, remove
-                             * class(es)
-                             */
+							 * if element was disabled or destroyed, remove
+							 * class(es)
+							 */
                             if ($this.hasClass(classes[3])) {
                                 $this.removeClass(classes[3]);
                             }
@@ -11310,10 +11302,8 @@
 
                             _expandContentHorizontally.call(this);
                             /*
-                             * expand
-                             * content
-                             * horizontally
-                             */
+							 * expand content horizontally
+							 */
 
                             if (o.axis !== "y" && !o.advanced.autoExpandHorizontalScroll) {
                                 mCSB_container.css("width", _contentWidth(mCSB_container));
@@ -11321,31 +11311,26 @@
 
                             d.overflowed = _overflowed.call(this);
                             /*
-                             * determine if
-                             * scrolling is
-                             * required
-                             */
+							 * determine if scrolling is required
+							 */
 
                             _scrollbarVisibility.call(this);
                             /*
-                             * show/hide
-                             * scrollbar(s)
-                             */
+							 * show/hide scrollbar(s)
+							 */
 
                             /*
-                             * auto-adjust scrollbar dragger length analogous to
-                             * content
-                             */
+							 * auto-adjust scrollbar dragger length analogous to
+							 * content
+							 */
                             if (o.autoDraggerLength) {
                                 _setDraggerLength.call(this);
                             }
 
                             _scrollRatio.call(this);
                             /*
-                             * calculate and store
-                             * scrollbar to content
-                             * ratio
-                             */
+							 * calculate and store scrollbar to content ratio
+							 */
 
                             _bindEvents.call(this); /* bind scrollbar events */
 
@@ -11355,15 +11340,12 @@
                                 /* y/yx axis */
                                 if (!d.overflowed[0]) {
                                     /*
-                                     * y scrolling is not
-                                     * required
-                                     */
+									 * y scrolling is not required
+									 */
                                     _resetContentPosition.call(this);
                                     /*
-                                     * reset
-                                     * content
-                                     * position
-                                     */
+									 * reset content position
+									 */
                                     if (o.axis === "y") {
                                         _unbindEvents.call(this);
                                     } else if (o.axis === "yx" && d.overflowed[1]) {
@@ -11376,10 +11358,8 @@
                                 } else if (mCSB_dragger[0].height() > mCSB_dragger[0].parent().height()) {
                                     _resetContentPosition.call(this);
                                     /*
-                                     * reset
-                                     * content
-                                     * position
-                                     */
+									 * reset content position
+									 */
                                 } else {
                                     /* y scrolling is required */
                                     _scrollTo($this, to[0].toString(), {
@@ -11394,15 +11374,12 @@
                                 /* x/yx axis */
                                 if (!d.overflowed[1]) {
                                     /*
-                                     * x scrolling is not
-                                     * required
-                                     */
+									 * x scrolling is not required
+									 */
                                     _resetContentPosition.call(this);
                                     /*
-                                     * reset
-                                     * content
-                                     * position
-                                     */
+									 * reset content position
+									 */
                                     if (o.axis === "x") {
                                         _unbindEvents.call(this);
                                     } else if (o.axis === "yx" && d.overflowed[0]) {
@@ -11415,10 +11392,8 @@
                                 } else if (mCSB_dragger[1].width() > mCSB_dragger[1].parent().width()) {
                                     _resetContentPosition.call(this);
                                     /*
-                                     * reset
-                                     * content
-                                     * position
-                                     */
+									 * reset content position
+									 */
                                 } else {
                                     /* x scrolling is required */
                                     _scrollTo($this, to[1].toString(), {
@@ -11430,7 +11405,10 @@
                                 }
                             }
 
-                            /* callbacks: onImageLoad, onSelectorChange, onUpdate */
+                            /*
+							 * callbacks: onImageLoad, onSelectorChange,
+							 * onUpdate
+							 */
                             if (cb && d) {
                                 if (cb === 2 && o.callbacks.onImageLoad && typeof o.callbacks.onImageLoad === "function") {
                                     o.callbacks.onImageLoad.call(this);
@@ -11443,10 +11421,9 @@
 
                             _autoUpdate.call(this);
                             /*
-                             * initialize automatic updating
-                             * (for dynamic content, fluid
-                             * layouts etc.)
-                             */
+							 * initialize automatic updating (for dynamic
+							 * content, fluid layouts etc.)
+							 */
 
                         }
 
@@ -11458,17 +11435,18 @@
 
 
                 /*
-                 * plugin scrollTo method triggers a scrolling event to a specific
-                 * value ---------------------------------------- usage:
-                 * $(selector).mCustomScrollbar("scrollTo",value,options);
-                 */
+				 * plugin scrollTo method triggers a scrolling event to a
+				 * specific value ----------------------------------------
+				 * usage:
+				 * $(selector).mCustomScrollbar("scrollTo",value,options);
+				 */
 
                 scrollTo: function(val, options) {
 
                     /*
-                     * prevent silly things like
-                     * $(selector).mCustomScrollbar("scrollTo",undefined);
-                     */
+					 * prevent silly things like
+					 * $(selector).mCustomScrollbar("scrollTo",undefined);
+					 */
                     if (typeof val == "undefined" || val == null) {
                         return;
                     }
@@ -11481,9 +11459,8 @@
 
                         if ($this.data(pluginPfx)) {
                             /*
-                             * check if plugin has
-                             * initialized
-                             */
+							 * check if plugin has initialized
+							 */
 
                             var d = $this.data(pluginPfx),
                                 o = d.opt,
@@ -11491,27 +11468,21 @@
                                 methodDefaults = {
                                     trigger: "external",
                                     /*
-                                     * method is by default
-                                     * triggered externally
-                                     * (e.g. from other scripts)
-                                     */
+									 * method is by default triggered externally
+									 * (e.g. from other scripts)
+									 */
                                     scrollInertia: o.scrollInertia,
                                     /*
-                                     * scrolling
-                                     * inertia
-                                     * (animation
-                                     * duration)
-                                     */
+									 * scrolling inertia (animation duration)
+									 */
                                     scrollEasing: "mcsEaseInOut",
                                     /*
-                                     * animation
-                                     * easing
-                                     */
+									 * animation easing
+									 */
                                     moveDragger: false,
                                     /*
-                                     * move dragger instead of
-                                     * content
-                                     */
+									 * move dragger instead of content
+									 */
                                     timeout: 60,
                                     /* scroll-to delay */
                                     callbacks: true,
@@ -11529,10 +11500,10 @@
                             to[1] = _to.call(this, to[1], "x");
 
                             /*
-                             * check if scroll-to value moves the dragger instead of
-                             * content. Only pixel values apply on dragger (e.g.
-                             * 100, "100px", "-=100" etc.)
-                             */
+							 * check if scroll-to value moves the dragger
+							 * instead of content. Only pixel values apply on
+							 * dragger (e.g. 100, "100px", "-=100" etc.)
+							 */
                             if (methodOptions.moveDragger) {
                                 to[0] *= d.scrollRatio.y;
                                 to[1] *= d.scrollRatio.x;
@@ -11549,18 +11520,16 @@
                                 /* do the scrolling */
                                 if (to[0] !== null && typeof to[0] !== "undefined" && o.axis !== "x" && d.overflowed[0]) {
                                     /*
-                                     * scroll
-                                     * y
-                                     */
+									 * scroll y
+									 */
                                     methodOptions.dir = "y";
                                     methodOptions.overwrite = "all";
                                     _scrollTo($this, to[0].toString(), methodOptions);
                                 }
                                 if (to[1] !== null && typeof to[1] !== "undefined" && o.axis !== "y" && d.overflowed[1]) {
                                     /*
-                                     * scroll
-                                     * x
-                                     */
+									 * scroll x
+									 */
                                     methodOptions.dir = "x";
                                     methodOptions.overwrite = "none";
                                     _scrollTo($this, to[1].toString(), methodOptions);
@@ -11577,10 +11546,10 @@
 
 
                 /*
-                 * plugin stop method stops scrolling animation
-                 * ---------------------------------------- usage:
-                 * $(selector).mCustomScrollbar("stop");
-                 */
+				 * plugin stop method stops scrolling animation
+				 * ---------------------------------------- usage:
+				 * $(selector).mCustomScrollbar("stop");
+				 */
                 stop: function() {
 
                     var selector = _selector.call(this); /* validate selector */
@@ -11591,9 +11560,8 @@
 
                         if ($this.data(pluginPfx)) {
                             /*
-                             * check if plugin has
-                             * initialized
-                             */
+							 * check if plugin has initialized
+							 */
 
                             _stop($this);
 
@@ -11607,11 +11575,11 @@
 
 
                 /*
-                 * plugin disable method temporarily disables the scrollbar(s)
-                 * ---------------------------------------- usage:
-                 * $(selector).mCustomScrollbar("disable",reset); reset (boolean):
-                 * resets content position to 0
-                 */
+				 * plugin disable method temporarily disables the scrollbar(s)
+				 * ---------------------------------------- usage:
+				 * $(selector).mCustomScrollbar("disable",reset); reset
+				 * (boolean): resets content position to 0
+				 */
                 disable: function(r) {
 
                     var selector = _selector.call(this); /* validate selector */
@@ -11622,17 +11590,15 @@
 
                         if ($this.data(pluginPfx)) {
                             /*
-                             * check if plugin has
-                             * initialized
-                             */
+							 * check if plugin has initialized
+							 */
 
                             var d = $this.data(pluginPfx);
 
                             _autoUpdate.call(this, "remove");
                             /*
-                             * remove automatic
-                             * updating
-                             */
+							 * remove automatic updating
+							 */
 
                             _unbindEvents.call(this); /* unbind events */
 
@@ -11640,16 +11606,13 @@
                                 _resetContentPosition.call(this);
                             }
                             /*
-                             * reset
-                             * content
-                             * position
-                             */
+							 * reset content position
+							 */
 
                             _scrollbarVisibility.call(this, true);
                             /*
-                             * show/hide
-                             * scrollbar(s)
-                             */
+							 * show/hide scrollbar(s)
+							 */
 
                             $this.addClass(classes[3]); /* add disable class */
 
@@ -11663,11 +11626,11 @@
 
 
                 /*
-                 * plugin destroy method completely removes the scrollbar(s) and
-                 * returns the element to its original state
-                 * ---------------------------------------- usage:
-                 * $(selector).mCustomScrollbar("destroy");
-                 */
+				 * plugin destroy method completely removes the scrollbar(s) and
+				 * returns the element to its original state
+				 * ---------------------------------------- usage:
+				 * $(selector).mCustomScrollbar("destroy");
+				 */
                 destroy: function() {
 
                     var selector = _selector.call(this); /* validate selector */
@@ -11678,9 +11641,8 @@
 
                         if ($this.data(pluginPfx)) {
                             /*
-                             * check if plugin has
-                             * initialized
-                             */
+							 * check if plugin has initialized
+							 */
 
                             var d = $this.data(pluginPfx),
                                 o = d.opt,
@@ -11692,62 +11654,47 @@
                                 removeLiveTimers(o.liveSelector || $(selector).selector);
                             }
                             /*
-                             * remove
-                             * live
-                             * timers
-                             */
+							 * remove live timers
+							 */
 
                             _autoUpdate.call(this, "remove");
                             /*
-                             * remove automatic
-                             * updating
-                             */
+							 * remove automatic updating
+							 */
 
                             _unbindEvents.call(this); /* unbind events */
 
                             _resetContentPosition.call(this);
                             /*
-                             * reset content
-                             * position
-                             */
+							 * reset content position
+							 */
 
                             $this.removeData(pluginPfx);
                             /*
-                             * remove plugin data
-                             * object
-                             */
+							 * remove plugin data object
+							 */
 
                             _delete(this, "mcs"); /* delete callbacks object */
 
                             /* remove plugin markup */
                             scrollbar.remove();
                             /*
-                             * remove scrollbar(s) first (those
-                             * can be either inside or outside
-                             * plugin's inner wrapper)
-                             */
+							 * remove scrollbar(s) first (those can be either
+							 * inside or outside plugin's inner wrapper)
+							 */
                             mCSB_container.find("img." + classes[2]).removeClass(classes[2]);
                             /*
-                             * remove
-                             * loaded
-                             * images
-                             * flag
-                             */
+							 * remove loaded images flag
+							 */
                             mCustomScrollBox.replaceWith(mCSB_container.contents());
                             /*
-                             * replace
-                             * plugin's
-                             * inner
-                             * wrapper
-                             * with
-                             * the
-                             * original
-                             * content
-                             */
+							 * replace plugin's inner wrapper with the original
+							 * content
+							 */
                             /*
-                             * remove plugin classes from the element and add
-                             * destroy class
-                             */
+							 * remove plugin classes from the element and add
+							 * destroy class
+							 */
                             $this.removeClass(pluginNS + " _" + pluginPfx + "_" + d.idx + " " + classes[6] + " " + classes[7] + " " + classes[5] + " " + classes[3]).addClass(classes[4]);
 
                         }
@@ -11763,14 +11710,14 @@
 
 
             /*
-             * ---------------------------------------- FUNCTIONS
-             * ----------------------------------------
-             */
+			 * ---------------------------------------- FUNCTIONS
+			 * ----------------------------------------
+			 */
 
             /*
-             * validates selector (if selector is invalid or undefined uses the
-             * default one)
-             */
+			 * validates selector (if selector is invalid or undefined uses the
+			 * default one)
+			 */
             _selector = function() {
                 return (typeof $(this) !== "object" || $(this).length < 1) ? defaultSelector : this;
             },
@@ -11811,9 +11758,9 @@
 
 
             /*
-             * normalizes scrollButtons.scrollType option to valid values:
-             * "stepless", "stepped"
-             */
+			 * normalizes scrollButtons.scrollType option to valid values:
+			 * "stepless", "stepped"
+			 */
             _findScrollButtonsType = function(val) {
                 return (val === "stepped" || val === "pixels" || val === "step" || val === "click") ? "stepped" : "stepless";
             },
@@ -11839,18 +11786,12 @@
                     $this.css("height", o.setHeight);
                 }
                 /*
-                 * set element
-                 * height
-                 */
+				 * set element height
+				 */
                 o.setLeft = (o.axis !== "y" && d.langDir === "rtl") ? "989999px" : o.setLeft;
                 /*
-                 * adjust
-                 * left
-                 * position
-                 * for
-                 * rtl
-                 * direction
-                 */
+				 * adjust left position for rtl direction
+				 */
                 $this.addClass(pluginNS + " _" + pluginPfx + "_" + d.idx + autoHideClass + scrollbarDirClass).wrapInner("<div id='mCSB_" + d.idx + "' class='mCustomScrollBox mCS-" + o.theme + " " + wrapperClass + "'><div id='mCSB_" + d.idx + "_container' class='mCSB_container' style='position:relative; top:" + o.setTop + "; left:" + o.setLeft + ";' dir='" + d.langDir + "' /></div>");
                 var mCustomScrollBox = $("#mCSB_" + d.idx),
                     mCSB_container = $("#mCSB_" + d.idx + "_container");
@@ -11860,10 +11801,8 @@
                 if (o.scrollbarPosition === "outside") {
                     if ($this.css("position") === "static") {
                         /*
-                         * requires elements
-                         * with non-static
-                         * position
-                         */
+						 * requires elements with non-static position
+						 */
                         $this.css("position", "relative");
                     }
                     $this.css("overflow", "visible");
@@ -11914,12 +11853,12 @@
                         });
                     } else {
                         /*
-                         * wrap content with an infinite width div and set its
-                         * position to absolute and width to auto. Setting width to
-                         * auto before calculating the actual width is important! We
-                         * must let the browser set the width as browser zoom values
-                         * are impossible to calculate.
-                         */
+						 * wrap content with an infinite width div and set its
+						 * position to absolute and width to auto. Setting width
+						 * to auto before calculating the actual width is
+						 * important! We must let the browser set the width as
+						 * browser zoom values are impossible to calculate.
+						 */
                         mCSB_container.css({
                                 "overflow-x": "inherit",
                                 "position": "absolute"
@@ -11927,15 +11866,15 @@
                             .wrap("<div class='mCSB_h_wrapper' style='position:relative; left:0; width:999999px;' />")
                             .css({
                                 /*
-                                 * set actual width, original position and
-                                 * un-wrap
-                                 */
+								 * set actual width, original position and
+								 * un-wrap
+								 */
                                 /*
-                                 * get the exact width (with decimals) and then
-                                 * round-up. Using jquery outerWidth() will round
-                                 * the width value which will mess up with inner
-                                 * elements that have non-integer width
-                                 */
+								 * get the exact width (with decimals) and then
+								 * round-up. Using jquery outerWidth() will
+								 * round the width value which will mess up with
+								 * inner elements that have non-integer width
+								 */
                                 "width": (Math.ceil(mCSB_container[0].getBoundingClientRect().right + 0.4) - Math.floor(mCSB_container[0].getBoundingClientRect().left)),
                                 "min-width": "100%",
                                 "position": "relative"
@@ -12039,9 +11978,9 @@
 
 
             /*
-             * checks if content overflows its container to determine if scrolling
-             * is required
-             */
+			 * checks if content overflows its container to determine if
+			 * scrolling is required
+			 */
             _overflowed = function() {
                 var $this = $(this),
                     d = $this.data(pluginPfx),
@@ -12073,23 +12012,20 @@
                 _stop($this); /* stop any current scrolling before resetting */
                 if ((o.axis !== "x" && !d.overflowed[0]) || (o.axis === "y" && d.overflowed[0])) {
                     /*
-                     * reset
-                     * y
-                     */
+					 * reset y
+					 */
                     mCSB_dragger[0].add(mCSB_container).css("top", 0);
                     _scrollTo($this, "_resetY");
                 }
                 if ((o.axis !== "y" && !d.overflowed[1]) || (o.axis === "x" && d.overflowed[1])) {
                     /*
-                     * reset
-                     * x
-                     */
+					 * reset x
+					 */
                     var cx = dx = 0;
                     if (d.langDir === "rtl") {
                         /*
-                         * adjust left position for rtl
-                         * direction
-                         */
+						 * adjust left position for rtl direction
+						 */
                         cx = mCustomScrollBox.width() - mCSB_container.outerWidth(false);
                         dx = Math.abs(cx / d.scrollRatio.x);
                     }
@@ -12115,9 +12051,8 @@
                     _selectable.call(this);
                     if (o.mouseWheel.enable) {
                         /*
-                         * bind mousewheel fn when plugin is
-                         * available
-                         */
+						 * bind mousewheel fn when plugin is available
+						 */
                         function _mwt() {
                             mousewheelTimeout = setTimeout(function() {
                                 if (!$.event.special.mousewheel) {
@@ -12236,9 +12171,9 @@
 
 
             /*
-             * returns input coordinates of pointer, touch and mouse events
-             * (relative to document)
-             */
+			 * returns input coordinates of pointer, touch and mouse events
+			 * (relative to document)
+			 */
             _coordinates = function(e) {
                 var t = e.type,
                     o = e.target.ownerDocument !== document && frameElement !== null ? [$(frameElement).offset().top, $(frameElement).offset().left] : null,
@@ -12267,8 +12202,8 @@
 
 
             /*
-             * SCROLLBAR DRAG EVENTS scrolls content via scrollbar dragging
-             */
+			 * SCROLLBAR DRAG EVENTS scrolls content via scrollbar dragging
+			 */
             _draggable = function() {
                 var $this = $(this),
                     d = $this.data(pluginPfx),
@@ -12295,19 +12230,13 @@
                         }
                     }
                     /*
-                     * disable
-                     * text
-                     * selection
-                     * for
-                     * IE <
-                     * 9
-                     */
+					 * disable text selection for IE < 9
+					 */
                     _iframe.call(mCSB_container, false);
                     /*
-                     * enable scrollbar dragging
-                     * over iframes by disabling
-                     * their events
-                     */
+					 * enable scrollbar dragging over iframes by disabling their
+					 * events
+					 */
                     _stop($this);
                     draggable = $(this);
                     var offset = draggable.offset(),
@@ -12348,9 +12277,8 @@
                         document.onselectstart = null;
                     }
                     /*
-                     * enable text selection
-                     * for IE < 9
-                     */
+					 * enable text selection for IE < 9
+					 */
                     _iframe.call(mCSB_container, true); /* enable iframes events */
                 });
 
@@ -12373,10 +12301,10 @@
 
 
             /*
-             * TOUCH SWIPE EVENTS scrolls content via touch swipe Emulates the
-             * native touch-swipe scrolling with momentum found in iOS, Android and
-             * WP devices
-             */
+			 * TOUCH SWIPE EVENTS scrolls content via touch swipe Emulates the
+			 * native touch-swipe scrolling with momentum found in iOS, Android
+			 * and WP devices
+			 */
             _contentDraggable = function() {
                 var $this = $(this),
                     d = $this.data(pluginPfx),
@@ -12474,9 +12402,8 @@
                         }
                         if (prevent || preventX) {
                             /*
-                             * prevent native document
-                             * scrolling
-                             */
+							 * prevent native document scrolling
+							 */
                             if (!touchAction) {
                                 e.preventDefault();
                             }
@@ -12545,9 +12472,8 @@
                     durB = [(absDistance[0] * 4) + o.scrollInertia, (absDistance[1] * 4) + o.scrollInertia];
                     var md = parseInt(o.contentTouchScroll) || 0;
                     /*
-                     * absolute minimum
-                     * distance required
-                     */
+					 * absolute minimum distance required
+					 */
                     amount[0] = absDistance[0] > md ? amount[0] : 0;
                     amount[1] = absDistance[1] > md ? amount[1] : 0;
                     if (d.overflowed[0]) {
@@ -12588,8 +12514,8 @@
 
 
             /*
-             * SELECT TEXT EVENTS scrolls content when text is selected
-             */
+			 * SELECT TEXT EVENTS scrolls content when text is selected
+			 */
             _selectable = function() {
                 var $this = $(this),
                     d = $this.data(pluginPfx),
@@ -12659,18 +12585,17 @@
 
 
             /*
-             * MOUSE WHEEL EVENT scrolls content via mouse-wheel via mouse-wheel
-             * plugin (https://github.com/brandonaaron/jquery-mousewheel)
-             */
+			 * MOUSE WHEEL EVENT scrolls content via mouse-wheel via mouse-wheel
+			 * plugin (https://github.com/brandonaaron/jquery-mousewheel)
+			 */
             _mousewheel = function() {
                 if (!$(this).data(pluginPfx)) {
                     return;
                 }
                 /*
-                 * Check if the scrollbar is
-                 * ready to use mousewheel
-                 * events (issue: #185)
-                 */
+				 * Check if the scrollbar is ready to use mousewheel events
+				 * (issue: #185)
+				 */
                 var $this = $(this),
                     d = $this.data(pluginPfx),
                     o = d.opt,
@@ -12700,12 +12625,8 @@
                         return;
                     }
                     /*
-                     * disables
-                     * mouse-wheel
-                     * when hovering
-                     * specific
-                     * elements
-                     */
+					 * disables mouse-wheel when hovering specific elements
+					 */
                     var deltaFactor = o.mouseWheel.deltaFactor !== "auto" ? parseInt(o.mouseWheel.deltaFactor) : (oldIE && e.deltaFactor < 100) ? 100 : e.deltaFactor || 100,
                         dur = o.scrollInertia;
                     if (o.axis === "x" || o.mouseWheel.axis === "x") {
@@ -12740,7 +12661,8 @@
                     }
                     if (e.deltaFactor < 5 && !o.mouseWheel.normalizeDelta) {
                         // very low deltaFactor values mean some kind of delta
-                        // acceleration (e.g. osx trackpad), so adjusting scrolling
+                        // acceleration (e.g. osx trackpad), so adjusting
+						// scrolling
                         // accordingly
                         amount = e.deltaFactor;
                         dur = 17;
@@ -12792,9 +12714,9 @@
 
 
             /*
-             * switches iframe's pointer-events property (drag, mousewheel etc. over
-             * cross-domain iframes)
-             */
+			 * switches iframe's pointer-events property (drag, mousewheel etc.
+			 * over cross-domain iframes)
+			 */
             _iframe = function(evt) {
                 var el = this.find("iframe");
                 if (!el.length) {
@@ -12803,17 +12725,16 @@
                 var val = !evt ? "none" : "auto";
                 el.css("pointer-events", val);
                 /*
-                 * for IE11, iframe's display
-                 * property should not be "block"
-                 */
+				 * for IE11, iframe's display property should not be "block"
+				 */
             },
             /* -------------------- */
 
 
             /*
-             * disables mouse-wheel when hovering specific elements like select,
-             * datalist etc.
-             */
+			 * disables mouse-wheel when hovering specific elements like select,
+			 * datalist etc.
+			 */
             _disableMousewheel = function(el, target) {
                 var tag = target.nodeName.toLowerCase(),
                     tags = el.data(pluginPfx).opt.mouseWheel.disableOver,
@@ -12825,8 +12746,8 @@
 
 
             /*
-             * DRAGGER RAIL CLICK EVENT scrolls content via dragger rail
-             */
+			 * DRAGGER RAIL CLICK EVENT scrolls content via dragger rail
+			 */
             _draggerRail = function() {
                 var $this = $(this),
                     d = $this.data(pluginPfx),
@@ -12877,9 +12798,9 @@
 
 
             /*
-             * FOCUS EVENT scrolls content via element focus (e.g. clicking an
-             * input, pressing TAB key etc.)
-             */
+			 * FOCUS EVENT scrolls content via element focus (e.g. clicking an
+			 * input, pressing TAB key etc.)
+			 */
             _focus = function() {
                 var $this = $(this),
                     d = $this.data(pluginPfx),
@@ -12937,9 +12858,8 @@
                     if (wrapper.scrollTop() !== 0 || wrapper.scrollLeft() !== 0) {
                         $(".mCSB_" + d.idx + "_scrollbar").css("visibility", "hidden");
                         /*
-                         * hide
-                         * scrollbar(s)
-                         */
+						 * hide scrollbar(s)
+						 */
                     }
                 });
             },
@@ -12947,8 +12867,9 @@
 
 
             /*
-             * BUTTONS EVENTS scrolls content via up, down, left and right buttons
-             */
+			 * BUTTONS EVENTS scrolls content via up, down, left and right
+			 * buttons
+			 */
             _buttons = function() {
                 var $this = $(this),
                     d = $this.data(pluginPfx),
@@ -13011,9 +12932,9 @@
 
 
             /*
-             * KEYBOARD EVENTS scrolls content via keyboard Keys: up arrow, down
-             * arrow, left arrow, right arrow, PgUp, PgDn, Home, End
-             */
+			 * KEYBOARD EVENTS scrolls content via keyboard Keys: up arrow, down
+			 * arrow, left arrow, right arrow, PgUp, PgDn, Home, End
+			 */
             _keyboard = function() {
                 var $this = $(this),
                     d = $this.data(pluginPfx),
@@ -13054,7 +12975,10 @@
                             var code = e.keyCode ? e.keyCode : e.which,
                                 action = "on";
                             if ((o.axis !== "x" && (code === 38 || code === 40)) || (o.axis !== "y" && (code === 37 || code === 39))) {
-                                /* up (38), down (40), left (37), right (39) arrows */
+                                /*
+								 * up (38), down (40), left (37), right (39)
+								 * arrows
+								 */
                                 if (((code === 38 || code === 40) && !d.overflowed[0]) || ((code === 37 || code === 39) && !d.overflowed[1])) {
                                     return;
                                 }
@@ -13126,9 +13050,9 @@
 
 
             /*
-             * scrolls content sequentially (used when scrolling via buttons,
-             * keyboard arrows etc.)
-             */
+			 * scrolls content sequentially (used when scrolling via buttons,
+			 * keyboard arrows etc.)
+			 */
             _sequentialScroll = function(el, action, trigger, e, s) {
                 var d = el.data(pluginPfx),
                     o = d.opt,
@@ -13164,9 +13088,8 @@
                         seq.scrollAmount = !(o.snapAmount instanceof Array) ? o.snapAmount : seq.dir[0] === "x" ? o.snapAmount[1] : o.snapAmount[0];
                     }
                     /*
-                     * scrolling
-                     * snapping
-                     */
+					 * scrolling snapping
+					 */
                     var c = seq.type !== "stepped",
                         /* continuous scrolling */
                         t = s ? s : !once ? 1000 / 60 : c ? steplessSpeed / 1.5 : steppedSpeed,
@@ -13216,18 +13139,16 @@
                     val = val();
                 }
                 /*
-                 * check if the value is a
-                 * single anonymous function
-                 */
+				 * check if the value is a single anonymous function
+				 */
                 /*
-                 * check if value is object or array, its length and create an array
-                 * with yx values
-                 */
+				 * check if value is object or array, its length and create an
+				 * array with yx values
+				 */
                 if (!(val instanceof Array)) {
                     /*
-                     * object value (e.g.
-                     * {y:"100",x:"100"}, 100 etc.)
-                     */
+					 * object value (e.g. {y:"100",x:"100"}, 100 etc.)
+					 */
                     vals[0] = val.y ? val.y : val.x || o.axis === "x" ? null : val;
                     vals[1] = val.x ? val.x : val.y || o.axis === "y" ? null : val;
                 } else {
@@ -13247,9 +13168,9 @@
 
 
             /*
-             * translates values (e.g. "top", 100, "100px", "#id") to actual
-             * scroll-to positions
-             */
+			 * translates values (e.g. "top", 100, "100px", "#id") to actual
+			 * scroll-to positions
+			 */
             _to = function(val, dir) {
                 if (val == null || typeof val == "undefined") {
                     return;
@@ -13269,9 +13190,8 @@
                 switch (t) {
                     case "function":
                         /*
-                         * this currently is not used. Consider
-                         * removing it
-                         */
+						 * this currently is not used. Consider removing it
+						 */
                         return val();
                         break;
                     case "object":
@@ -13299,12 +13219,8 @@
                             return p >= 0 ? 0 : Math.abs(p);
                         } else if (val.indexOf("px") !== -1 && _isNumeric(val.split("px")[0])) {
                             /*
-                             * pixels
-                             * string
-                             * value
-                             * (e.g.
-                             * "100px")
-                             */
+							 * pixels string value (e.g. "100px")
+							 */
                             return Math.abs(val.split("px")[0]);
                         } else {
                             if (val === "top" || val === "left") {
@@ -13343,9 +13259,9 @@
                     mCSB_container = $("#mCSB_" + d.idx + "_container");
                 if (rem) {
                     /*
-                     * removes autoUpdate timer usage:
-                     * _autoUpdate.call(this,"remove");
-                     */
+					 * removes autoUpdate timer usage:
+					 * _autoUpdate.call(this,"remove");
+					 */
                     clearTimeout(mCSB_container[0].autoUpdate);
                     _delete(mCSB_container[0], "autoUpdate");
                     return;
@@ -13426,9 +13342,9 @@
                     img.src = el.src;
                 }
                 /*
-                 * returns the total height and width sum of all elements matching
-                 * the selector
-                 */
+				 * returns the total height and width sum of all elements
+				 * matching the selector
+				 */
                 function sizesSum() {
                     if (o.advanced.updateOnSelectorChange === true) {
                         o.advanced.updateOnSelectorChange = "*";
@@ -13470,8 +13386,8 @@
 
 
             /*
-             * ANIMATES CONTENT This is where the actual scrolling happens
-             */
+			 * ANIMATES CONTENT This is where the actual scrolling happens
+			 */
             _scrollTo = function(el, to, options) {
                 var d = el.data(pluginPfx),
                     o = d.opt,
@@ -13497,10 +13413,8 @@
                 d.trigger = options.trigger;
                 if (wrapper.scrollTop() !== 0 || wrapper.scrollLeft() !== 0) {
                     /*
-                     * always
-                     * reset
-                     * scrollTop/Left
-                     */
+					 * always reset scrollTop/Left
+					 */
                     $(".mCSB_" + d.idx + "_scrollbar").css("visibility", "visible");
                     wrapper.scrollTop(0).scrollLeft(0);
                 }
@@ -13580,16 +13494,15 @@
                 if (!el[0].mcs) {
                     _mcs();
                     /*
-                     * init mcs object (once) to make it available
-                     * before callbacks
-                     */
+					 * init mcs object (once) to make it available before
+					 * callbacks
+					 */
                     if (_cb("onInit")) {
                         o.callbacks.onInit.call(el[0]);
                     }
                     /*
-                     * callbacks:
-                     * onInit
-                     */
+					 * callbacks: onInit
+					 */
                 }
                 clearTimeout(mCSB_container[0].onCompleteTimeout);
                 _tweenTo(mCSB_dragger[0], property, Math.round(scrollTo[1]), dur[1], options.scrollEasing);
@@ -13626,9 +13539,9 @@
                             var t = mCSB_container[0].idleTimer || 0;
                             mCSB_container[0].onCompleteTimeout = setTimeout(function() {
                                 /*
-                                 * callbacks: onScroll, onTotalScroll,
-                                 * onTotalScrollBack
-                                 */
+								 * callbacks: onScroll, onTotalScroll,
+								 * onTotalScrollBack
+								 */
                                 if (_cb("onScroll")) {
                                     _mcs();
                                     o.callbacks.onScroll.call(el[0]);
@@ -13657,41 +13570,36 @@
                     return [o.callbacks.alwaysTriggerOffsets || contentPos >= limit[0] + tso, o.callbacks.alwaysTriggerOffsets || contentPos <= -tsbo];
                 }
                 /*
-                 * populates object with useful values for the user values: content:
-                 * this.mcs.content content top position: this.mcs.top content left
-                 * position: this.mcs.left dragger top position: this.mcs.draggerTop
-                 * dragger left position: this.mcs.draggerLeft scrolling y
-                 * percentage: this.mcs.topPct scrolling x percentage:
-                 * this.mcs.leftPct scrolling direction: this.mcs.direction
-                 */
+				 * populates object with useful values for the user values:
+				 * content: this.mcs.content content top position: this.mcs.top
+				 * content left position: this.mcs.left dragger top position:
+				 * this.mcs.draggerTop dragger left position:
+				 * this.mcs.draggerLeft scrolling y percentage: this.mcs.topPct
+				 * scrolling x percentage: this.mcs.leftPct scrolling direction:
+				 * this.mcs.direction
+				 */
                 function _mcs() {
                     var cp = [mCSB_container[0].offsetTop, mCSB_container[0].offsetLeft],
                         /*
-                         * content
-                         * position
-                         */
+						 * content position
+						 */
                         dp = [mCSB_dragger[0].offsetTop, mCSB_dragger[0].offsetLeft],
                         /*
-                         * dragger
-                         * position
-                         */
+						 * dragger position
+						 */
                         cl = [mCSB_container.outerHeight(false), mCSB_container.outerWidth(false)],
                         /*
-                         * content
-                         * length
-                         */
+						 * content length
+						 */
                         pl = [mCustomScrollBox.height(), mCustomScrollBox.width()];
                     /*
-                     * content
-                     * parent
-                     * length
-                     */
+					 * content parent length
+					 */
                     el[0].mcs = {
                         content: mCSB_container,
                         /*
-                         * original content wrapper as
-                         * jquery object
-                         */
+						 * original content wrapper as jquery object
+						 */
                         top: cp[0],
                         left: cp[1],
                         draggerTop: dp[0],
@@ -13701,19 +13609,19 @@
                         direction: options.dir
                     };
                     /*
-                     * this refers to the original element containing the
-                     * scrollbar(s) usage: this.mcs.top, this.mcs.leftPct etc.
-                     */
+					 * this refers to the original element containing the
+					 * scrollbar(s) usage: this.mcs.top, this.mcs.leftPct etc.
+					 */
                 }
             },
             /* -------------------- */
 
 
             /*
-             * CUSTOM JAVASCRIPT ANIMATION TWEEN Lighter and faster than jquery
-             * animate() and css transitions Animates top/left properties and
-             * includes easings
-             */
+			 * CUSTOM JAVASCRIPT ANIMATION TWEEN Lighter and faster than jquery
+			 * animate() and css transitions Animates top/left properties and
+			 * includes easings
+			 */
             _tweenTo = function(el, prop, to, duration, easing, overwrite, callbacks) {
                 if (!el._mTween) {
                     el._mTween = {
@@ -13953,16 +13861,15 @@
 
 
         /*
-         * ---------------------------------------- PLUGIN SETUP
-         * ----------------------------------------
-         */
+		 * ---------------------------------------- PLUGIN SETUP
+		 * ----------------------------------------
+		 */
 
         /* plugin constructor functions */
         $.fn[pluginNS] = function(method) {
             /*
-             * usage:
-             * $(selector).mCustomScrollbar();
-             */
+			 * usage: $(selector).mCustomScrollbar();
+			 */
             if (methods[method]) {
                 return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
             } else if (typeof method === "object" || !method) {
@@ -13983,28 +13890,27 @@
         };
 
         /*
-         * allow setting plugin default options. usage:
-         * $.mCustomScrollbar.defaults.scrollInertia=500; to apply any changed
-         * default options on default selectors (below), use inside document ready
-         * fn e.g.: $(document).ready(function(){
-         * $.mCustomScrollbar.defaults.scrollInertia=500; });
-         */
+		 * allow setting plugin default options. usage:
+		 * $.mCustomScrollbar.defaults.scrollInertia=500; to apply any changed
+		 * default options on default selectors (below), use inside document
+		 * ready fn e.g.: $(document).ready(function(){
+		 * $.mCustomScrollbar.defaults.scrollInertia=500; });
+		 */
         $[pluginNS].defaults = defaults;
 
         /*
-         * add window object (window.mCustomScrollbar) usage:
-         * if(window.mCustomScrollbar){console.log("custom scrollbar plugin
-         * loaded");}
-         */
+		 * add window object (window.mCustomScrollbar) usage:
+		 * if(window.mCustomScrollbar){console.log("custom scrollbar plugin
+		 * loaded");}
+		 */
         window[pluginNS] = true;
 
         $(window).bind("load", function() {
 
             $(defaultSelector)[pluginNS]();
             /*
-             * add scrollbars automatically on
-             * default selector
-             */
+			 * add scrollbars automatically on default selector
+			 */
 
             /* extend jQuery expressions */
             $.extend($.expr[":"], {
@@ -14022,9 +13928,9 @@
                         cPos[1] + _childPos($el)[1] >= 0 && cPos[1] + _childPos($el)[1] < wrapper.width() - $el.outerWidth(false);
                 },
                 /*
-                 * checks if element or part of element is in view of scrollable
-                 * viewport
-                 */
+				 * checks if element or part of element is in view of scrollable
+				 * viewport
+				 */
                 mcsInSight: $.expr[":"].mcsInSight || function(el, i, m) {
                     var $el = $(el),
                         elD, content = $el.parents(".mCSB_container"),
@@ -14097,8 +14003,8 @@ var wysihtml5 = {
  * @license Rangy, a cross-browser JavaScript range and selection library
  *          http://code.google.com/p/rangy/
  * 
- * Copyright 2011, Tim Down Licensed under the MIT license. Version: 1.2.2
- * Build date: 13 November 2011
+ * Copyright 2011, Tim Down Licensed under the MIT license. Version: 1.2.2 Build
+ * date: 13 November 2011
  */
 window['rangy'] = (function() {
 
@@ -14306,8 +14212,8 @@ window['rangy'] = (function() {
     api.createMissingNativeApi = createMissingNativeApi;
 
     /**
-     * @constructor
-     */
+	 * @constructor
+	 */
     function Module(name) {
         this.name = name;
         this.initialized = false;
@@ -14436,9 +14342,9 @@ rangy.createModule("DomUtil", function(api, module) {
     // is the document.
     var arrayContains =
         /*
-         * Array.prototype.indexOf ? function(arr, val) { return
-         * arr.indexOf(val) > -1; }:
-         */
+		 * Array.prototype.indexOf ? function(arr, val) { return
+		 * arr.indexOf(val) > -1; }:
+		 */
 
         function(arr, val) {
             var i = arr.length;
@@ -14663,8 +14569,8 @@ rangy.createModule("DomUtil", function(api, module) {
     }
 
     /**
-     * @constructor
-     */
+	 * @constructor
+	 */
     function NodeIterator(root) {
         this.root = root;
         this._next = root;
@@ -14705,8 +14611,8 @@ rangy.createModule("DomUtil", function(api, module) {
     }
 
     /**
-     * @constructor
-     */
+	 * @constructor
+	 */
     function DomPosition(node, offset) {
         this.node = node;
         this.offset = offset;
@@ -14723,8 +14629,8 @@ rangy.createModule("DomUtil", function(api, module) {
     };
 
     /**
-     * @constructor
-     */
+	 * @constructor
+	 */
     function DOMException(codeName) {
         this.code = this[codeName];
         this.codeName = codeName;
@@ -14951,8 +14857,8 @@ rangy.createModule("DomRange", function(api, module) {
     // (http://github.com/timcameronryan/IERange)
 
     /**
-     * @constructor
-     */
+	 * @constructor
+	 */
     function RangeIterator(range, clonePartiallySelectedTextNodes) {
         this.range = range;
         this.clonePartiallySelectedTextNodes = clonePartiallySelectedTextNodes;
@@ -15082,8 +14988,8 @@ rangy.createModule("DomRange", function(api, module) {
     // Exceptions
 
     /**
-     * @constructor
-     */
+	 * @constructor
+	 */
     function RangeException(codeName) {
         this.code = this[codeName];
         this.codeName = codeName;
@@ -15102,12 +15008,12 @@ rangy.createModule("DomRange", function(api, module) {
     /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Currently iterates through all nodes in the range on creation until I
-     * think of a decent way to do it TODO: Look into making this a proper
-     * iterator, not requiring preloading everything first
-     * 
-     * @constructor
-     */
+	 * Currently iterates through all nodes in the range on creation until I
+	 * think of a decent way to do it TODO: Look into making this a proper
+	 * iterator, not requiring preloading everything first
+	 * 
+	 * @constructor
+	 */
     function RangeNodeIterator(range, nodeTypes, filter) {
         this.nodes = getNodesInRange(range, nodeTypes, filter);
         this._next = this.nodes[0];
@@ -15280,7 +15186,8 @@ rangy.createModule("DomRange", function(api, module) {
                     dom.isHtmlNamespace(el)
                 )) {
 
-                // "let element be a new Element with "body" as its local name and
+                // "let element be a new Element with "body" as its local name
+				// and
                 // the HTML
                 // namespace as its namespace.""
                 el = doc.createElement("body");
@@ -16003,8 +15910,8 @@ rangy.createModule("DomRange", function(api, module) {
     }
 
     /**
-     * @constructor
-     */
+	 * @constructor
+	 */
     function Range(doc) {
         this.startContainer = doc;
         this.startOffset = 0;
@@ -16041,8 +15948,8 @@ rangy.createModule("WrappedRange", function(api, module) {
     api.requireModules(["DomUtil", "DomRange"]);
 
     /**
-     * @constructor
-     */
+	 * @constructor
+	 */
     var WrappedRange;
     var dom = api.dom;
     var DomPosition = dom.DomPosition;
@@ -16053,20 +15960,20 @@ rangy.createModule("WrappedRange", function(api, module) {
     /*----------------------------------------------------------------------------------------------------------------*/
 
     /*
-     * This is a workaround for a bug where IE returns the wrong container
-     * element from the TextRange's parentElement() method. For example, in the
-     * following (where pipes denote the selection boundaries):
-     * 
-     * <ul id="ul"><li id="a">| a </li><li id="b"> b |</li></ul>
-     * 
-     * var range = document.selection.createRange();
-     * alert(range.parentElement().id); // Should alert "ul" but alerts "b"
-     * 
-     * This method returns the common ancestor node of the following: - the
-     * parentElement() of the textRange - the parentElement() of the textRange
-     * after calling collapse(true) - the parentElement() of the textRange after
-     * calling collapse(false)
-     */
+	 * This is a workaround for a bug where IE returns the wrong container
+	 * element from the TextRange's parentElement() method. For example, in the
+	 * following (where pipes denote the selection boundaries):
+	 * 
+	 * <ul id="ul"><li id="a">| a </li><li id="b"> b |</li></ul>
+	 * 
+	 * var range = document.selection.createRange();
+	 * alert(range.parentElement().id); // Should alert "ul" but alerts "b"
+	 * 
+	 * This method returns the common ancestor node of the following: - the
+	 * parentElement() of the textRange - the parentElement() of the textRange
+	 * after calling collapse(true) - the parentElement() of the textRange after
+	 * calling collapse(false)
+	 */
     function getTextRangeContainerElement(textRange) {
         var parentEl = textRange.parentElement();
 
@@ -16150,48 +16057,48 @@ rangy.createModule("WrappedRange", function(api, module) {
 
             if (/[\r\n]/.test(boundaryNode.data)) {
                 /*
-                 * For the particular case of a boundary within a text node
-                 * containing line breaks (within a <pre> element, for example),
-                 * we need a slightly complicated approach to get the boundary's
-                 * offset in IE. The facts:
-                 *  - Each line break is represented as \r in the text node's
-                 * data/nodeValue properties - Each line break is represented as
-                 * \r\n in the TextRange's 'text' property - The 'text' property
-                 * of the TextRange does not contain trailing line breaks
-                 * 
-                 * To get round the problem presented by the final fact above,
-                 * we can use the fact that TextRange's moveStart() and
-                 * moveEnd() methods return the actual number of characters
-                 * moved, which is not necessarily the same as the number of
-                 * characters it was instructed to move. The simplest approach
-                 * is to use this to store the characters moved when moving both
-                 * the start and end of the range to the start of the document
-                 * body and subtracting the start offset from the end offset
-                 * (the "move-negative-gazillion" method). However, this is
-                 * extremely slow when the document is large and the range is
-                 * near the end of it. Clearly doing the mirror image (i.e.
-                 * moving the range boundaries to the end of the document) has
-                 * the same problem.
-                 * 
-                 * Another approach that works is to use moveStart() to move the
-                 * start boundary of the range up to the end boundary one
-                 * character at a time and incrementing a counter with the value
-                 * returned by the moveStart() call. However, the check for
-                 * whether the start boundary has reached the end boundary is
-                 * expensive, so this method is slow (although unlike
-                 * "move-negative-gazillion" is largely unaffected by the
-                 * location of the range within the document).
-                 * 
-                 * The method below is a hybrid of the two methods above. It
-                 * uses the fact that a string containing the TextRange's 'text'
-                 * property with each \r\n converted to a single \r character
-                 * cannot be longer than the text of the TextRange, so the start
-                 * of the range is moved that length initially and then a
-                 * character at a time to make up for any trailing line breaks
-                 * not contained in the 'text' property. This has good
-                 * performance in most situations compared to the previous two
-                 * methods.
-                 */
+				 * For the particular case of a boundary within a text node
+				 * containing line breaks (within a <pre> element, for example),
+				 * we need a slightly complicated approach to get the boundary's
+				 * offset in IE. The facts: - Each line break is represented as
+				 * \r in the text node's data/nodeValue properties - Each line
+				 * break is represented as \r\n in the TextRange's 'text'
+				 * property - The 'text' property of the TextRange does not
+				 * contain trailing line breaks
+				 * 
+				 * To get round the problem presented by the final fact above,
+				 * we can use the fact that TextRange's moveStart() and
+				 * moveEnd() methods return the actual number of characters
+				 * moved, which is not necessarily the same as the number of
+				 * characters it was instructed to move. The simplest approach
+				 * is to use this to store the characters moved when moving both
+				 * the start and end of the range to the start of the document
+				 * body and subtracting the start offset from the end offset
+				 * (the "move-negative-gazillion" method). However, this is
+				 * extremely slow when the document is large and the range is
+				 * near the end of it. Clearly doing the mirror image (i.e.
+				 * moving the range boundaries to the end of the document) has
+				 * the same problem.
+				 * 
+				 * Another approach that works is to use moveStart() to move the
+				 * start boundary of the range up to the end boundary one
+				 * character at a time and incrementing a counter with the value
+				 * returned by the moveStart() call. However, the check for
+				 * whether the start boundary has reached the end boundary is
+				 * expensive, so this method is slow (although unlike
+				 * "move-negative-gazillion" is largely unaffected by the
+				 * location of the range within the document).
+				 * 
+				 * The method below is a hybrid of the two methods above. It
+				 * uses the fact that a string containing the TextRange's 'text'
+				 * property with each \r\n converted to a single \r character
+				 * cannot be longer than the text of the TextRange, so the start
+				 * of the range is moved that length initially and then a
+				 * character at a time to make up for any trailing line breaks
+				 * not contained in the 'text' property. This has good
+				 * performance in most situations compared to the previous two
+				 * methods.
+				 */
                 var tempRange = workingRange.duplicate();
                 var rangeLength = tempRange.text.replace(/\r\n/g, "\r").length;
 
@@ -16374,9 +16281,9 @@ rangy.createModule("WrappedRange", function(api, module) {
             // insertNode, which works but is almost certainly slower than the
             // native implementation.
             /*
-             * rangeProto.insertNode = function(node) { this.nativeRange.insertNode(node);
-             * updateRangeProperties(this); };
-             */
+			 * rangeProto.insertNode = function(node) {
+			 * this.nativeRange.insertNode(node); updateRangeProperties(this); };
+			 */
 
             rangeProto.surroundContents = function(node) {
                 this.nativeRange.surroundContents(node);
@@ -16973,8 +16880,8 @@ rangy.createModule("WrappedSelection", function(api, module) {
     }
 
     /**
-     * @constructor
-     */
+	 * @constructor
+	 */
     function WrappedSelection(selection, docSelection, win) {
         this.nativeSelection = selection;
         this.docSelection = docSelection;
@@ -17498,7 +17405,8 @@ Base.extend = function(_instance, _static) { // subclass
     var proto = new this;
     extend.call(proto, _instance);
     proto.base = function() {
-        // call this method from any other method to invoke that method's ancestor
+        // call this method from any other method to invoke that method's
+		// ancestor
     };
     delete Base._prototyping;
 
@@ -17641,18 +17549,19 @@ wysihtml5.browser = (function() {
     }
 
     return {
-        // Static variable needed, publicly accessible, to be able override it in
+        // Static variable needed, publicly accessible, to be able override it
+		// in
         // unit tests
         USER_AGENT: userAgent,
 
         /**
-         * Exclude browsers that are not capable of displaying and handling
-         * contentEditable as desired: - iPhone, iPad (tested iOS 4.2.2) and Android
-         * (tested 2.2) refuse to make contentEditables focusable - IE < 8 create
-         * invalid markup and crash randomly from time to time
-         * 
-         * @return {Boolean}
-         */
+		 * Exclude browsers that are not capable of displaying and handling
+		 * contentEditable as desired: - iPhone, iPad (tested iOS 4.2.2) and
+		 * Android (tested 2.2) refuse to make contentEditables focusable - IE <
+		 * 8 create invalid markup and crash randomly from time to time
+		 * 
+		 * @return {Boolean}
+		 */
         supported: function() {
             var userAgent = this.USER_AGENT.toLowerCase(),
                 // Essential for making html elements editable
@@ -17660,10 +17569,12 @@ wysihtml5.browser = (function() {
                 // Following methods are needed in order to interact with the
                 // contentEditable area
                 hasEditingApiSupport = document.execCommand && document.queryCommandSupported && document.queryCommandState,
-                // document selector apis are only supported by IE 8+, Safari 4+,
+                // document selector apis are only supported by IE 8+, Safari
+				// 4+,
                 // Chrome and Firefox 3.5+
                 hasQuerySelectorSupport = document.querySelector && document.querySelectorAll,
-                // contentEditable is unusable in mobile browsers (tested iOS 4.2.2,
+                // contentEditable is unusable in mobile browsers (tested iOS
+				// 4.2.2,
                 // Android 2.2, Opera Mobile, WebOS 3.05)
                 isIncompatibleMobileBrowser = (this.isIos() && iosVersion(userAgent) < 5) || userAgent.indexOf("opera mobi") !== -1 || userAgent.indexOf("hpwos/") !== -1;
 
@@ -17683,48 +17594,49 @@ wysihtml5.browser = (function() {
         },
 
         /**
-         * Whether the browser supports sandboxed iframes Currently only IE 6+
-         * offers such feature <iframe security="restricted">
-         * 
-         * http://msdn.microsoft.com/en-us/library/ms534622(v=vs.85).aspx
-         * http://blogs.msdn.com/b/ie/archive/2008/01/18/using-frames-more-securely.aspx
-         * 
-         * HTML5 sandboxed iframes are still buggy and their DOM is not reachable
-         * from the outside (except when using postMessage)
-         */
+		 * Whether the browser supports sandboxed iframes Currently only IE 6+
+		 * offers such feature <iframe security="restricted">
+		 * 
+		 * http://msdn.microsoft.com/en-us/library/ms534622(v=vs.85).aspx
+		 * http://blogs.msdn.com/b/ie/archive/2008/01/18/using-frames-more-securely.aspx
+		 * 
+		 * HTML5 sandboxed iframes are still buggy and their DOM is not
+		 * reachable from the outside (except when using postMessage)
+		 */
         supportsSandboxedIframes: function() {
             return isIE;
         },
 
         /**
-         * IE6+7 throw a mixed content warning when the src of an iframe is
-         * empty/unset or about:blank window.querySelector is implemented as of IE8
-         */
+		 * IE6+7 throw a mixed content warning when the src of an iframe is
+		 * empty/unset or about:blank window.querySelector is implemented as of
+		 * IE8
+		 */
         throwsMixedContentWarningWhenIframeSrcIsEmpty: function() {
             return !("querySelector" in document);
         },
 
         /**
-         * Whether the caret is correctly displayed in contentEditable elements
-         * Firefox sometimes shows a huge caret in the beginning after focusing
-         */
+		 * Whether the caret is correctly displayed in contentEditable elements
+		 * Firefox sometimes shows a huge caret in the beginning after focusing
+		 */
         displaysCaretInEmptyContentEditableCorrectly: function() {
             return !isGecko;
         },
 
         /**
-         * Opera and IE are the only browsers who offer the css value in the
-         * original unit, thx to the currentStyle object All other browsers provide
-         * the computed style in px via window.getComputedStyle
-         */
+		 * Opera and IE are the only browsers who offer the css value in the
+		 * original unit, thx to the currentStyle object All other browsers
+		 * provide the computed style in px via window.getComputedStyle
+		 */
         hasCurrentStyleProperty: function() {
             return "currentStyle" in testElement;
         },
 
         /**
-         * Whether the browser inserts a <br>
-         * when pressing enter in a contentEditable element
-         */
+		 * Whether the browser inserts a <br>
+		 * when pressing enter in a contentEditable element
+		 */
         insertsLineBreaksOnReturn: function() {
             return isGecko;
         },
@@ -17741,30 +17653,31 @@ wysihtml5.browser = (function() {
         },
 
         /**
-         * Opera doesn't correctly fire focus/blur events when clicking in- and
-         * outside of iframe
-         */
+		 * Opera doesn't correctly fire focus/blur events when clicking in- and
+		 * outside of iframe
+		 */
         supportsEventsInIframeCorrectly: function() {
             return !isOpera;
         },
 
         /**
-         * Chrome & Safari only fire the ondrop/ondragend/... events when the
-         * ondragover event is cancelled with event.preventDefault Firefox 3.6 fires
-         * those events anyway, but the mozilla doc says that the dragover/dragenter
-         * event needs to be cancelled
-         */
+		 * Chrome & Safari only fire the ondrop/ondragend/... events when the
+		 * ondragover event is cancelled with event.preventDefault Firefox 3.6
+		 * fires those events anyway, but the mozilla doc says that the
+		 * dragover/dragenter event needs to be cancelled
+		 */
         firesOnDropOnlyWhenOnDragOverIsCancelled: function() {
             return isWebKit || isGecko;
         },
 
         /**
-         * Whether the browser supports the event.dataTransfer property in a proper
-         * way
-         */
+		 * Whether the browser supports the event.dataTransfer property in a
+		 * proper way
+		 */
         supportsDataTransfer: function() {
             try {
-                // Firefox doesn't support dataTransfer in a safe way, it doesn't strip
+                // Firefox doesn't support dataTransfer in a safe way, it
+				// doesn't strip
                 // script code in the html payload (like Chrome does)
                 return isWebKit && (window.Clipboard || window.DataTransfer).prototype.getData;
             } catch (e) {
@@ -17773,13 +17686,14 @@ wysihtml5.browser = (function() {
         },
 
         /**
-         * Everything below IE9 doesn't know how to treat HTML5 tags
-         * 
-         * @param {Object}
-         *            context The document object on which to check HTML5 support
-         * 
-         * @example wysihtml5.browser.supportsHTML5Tags(document);
-         */
+		 * Everything below IE9 doesn't know how to treat HTML5 tags
+		 * 
+		 * @param {Object}
+		 *            context The document object on which to check HTML5
+		 *            support
+		 * 
+		 * @example wysihtml5.browser.supportsHTML5Tags(document);
+		 */
         supportsHTML5Tags: function(context) {
             var element = context.createElement("div"),
                 html5 = "<article>foo</article>";
@@ -17788,34 +17702,38 @@ wysihtml5.browser = (function() {
         },
 
         /**
-         * Checks whether a document supports a certain queryCommand In particular,
-         * Opera needs a reference to a document that has a contentEditable in it's
-         * dom tree in oder to report correct results
-         * 
-         * @param {Object}
-         *            doc Document object on which to check for a query command
-         * @param {String}
-         *            command The query command to check for
-         * @return {Boolean}
-         * 
-         * @example wysihtml5.browser.supportsCommand(document, "bold");
-         */
+		 * Checks whether a document supports a certain queryCommand In
+		 * particular, Opera needs a reference to a document that has a
+		 * contentEditable in it's dom tree in oder to report correct results
+		 * 
+		 * @param {Object}
+		 *            doc Document object on which to check for a query command
+		 * @param {String}
+		 *            command The query command to check for
+		 * @return {Boolean}
+		 * 
+		 * @example wysihtml5.browser.supportsCommand(document, "bold");
+		 */
         supportsCommand: (function() {
-            // Following commands are supported but contain bugs in some browsers
+            // Following commands are supported but contain bugs in some
+			// browsers
             var buggyCommands = {
                 // formatBlock fails with some tags (eg. <blockquote>)
                 "formatBlock": isIE,
-                // When inserting unordered or ordered lists in Firefox, Chrome or
+                // When inserting unordered or ordered lists in Firefox, Chrome
+				// or
                 // Safari, the current selection or line gets
                 // converted into a list (<ul><li>...</li></ul>,
                 // <ol><li>...</li></ol>)
-                // IE and Opera act a bit different here as they convert the entire
+                // IE and Opera act a bit different here as they convert the
+				// entire
                 // content of the current block element into a list
                 "insertUnorderedList": isIE || isOpera || isWebKit,
                 "insertOrderedList": isIE || isOpera || isWebKit
             };
 
-            // Firefox throws errors for queryCommandSupported, so we have to build
+            // Firefox throws errors for queryCommandSupported, so we have to
+			// build
             // up our own object of supported commands
             var supported = {
                 "insertHTML": isGecko
@@ -17824,7 +17742,8 @@ wysihtml5.browser = (function() {
             return function(doc, command) {
                 var isBuggy = buggyCommands[command];
                 if (!isBuggy) {
-                    // Firefox throws errors when invoking queryCommandSupported or
+                    // Firefox throws errors when invoking queryCommandSupported
+					// or
                     // queryCommandEnabled
                     try {
                         return doc.queryCommandSupported(command);
@@ -17841,75 +17760,76 @@ wysihtml5.browser = (function() {
         })(),
 
         /**
-         * IE: URLs starting with: www., http://, https://, ftp://, gopher://,
-         * mailto:, new:, snews:, telnet:, wasis:, file://, nntp://, newsrc:,
-         * ldap://, ldaps://, outlook:, mic:// and url: will automatically be
-         * auto-linked when either the user inserts them via copy&paste or presses
-         * the space bar when the caret is directly after such an url. This behavior
-         * cannot easily be avoided in IE < 9 since the logic is hardcoded in the
-         * mshtml.dll (related blog post on msdn
-         * http://blogs.msdn.com/b/ieinternals/archive/2009/09/17/prevent-automatic-hyperlinking-in-contenteditable-html.aspx).
-         */
+		 * IE: URLs starting with: www., http://, https://, ftp://, gopher://,
+		 * mailto:, new:, snews:, telnet:, wasis:, file://, nntp://, newsrc:,
+		 * ldap://, ldaps://, outlook:, mic:// and url: will automatically be
+		 * auto-linked when either the user inserts them via copy&paste or
+		 * presses the space bar when the caret is directly after such an url.
+		 * This behavior cannot easily be avoided in IE < 9 since the logic is
+		 * hardcoded in the mshtml.dll (related blog post on msdn
+		 * http://blogs.msdn.com/b/ieinternals/archive/2009/09/17/prevent-automatic-hyperlinking-in-contenteditable-html.aspx).
+		 */
         doesAutoLinkingInContentEditable: function() {
             return isIE;
         },
 
         /**
-         * As stated above, IE auto links urls typed into contentEditable elements
-         * Since IE9 it's possible to prevent this behavior
-         */
+		 * As stated above, IE auto links urls typed into contentEditable
+		 * elements Since IE9 it's possible to prevent this behavior
+		 */
         canDisableAutoLinking: function() {
             return this.supportsCommand(document, "AutoUrlDetect");
         },
 
         /**
-         * IE leaves an empty paragraph in the contentEditable element after
-         * clearing it Chrome/Safari sometimes an empty <div>
-         */
+		 * IE leaves an empty paragraph in the contentEditable element after
+		 * clearing it Chrome/Safari sometimes an empty <div>
+		 */
         clearsContentEditableCorrectly: function() {
             return isGecko || isOpera || isWebKit;
         },
 
         /**
-         * IE gives wrong results for getAttribute
-         */
+		 * IE gives wrong results for getAttribute
+		 */
         supportsGetAttributeCorrectly: function() {
             var td = document.createElement("td");
             return td.getAttribute("rowspan") != "1";
         },
 
         /**
-         * When clicking on images in IE, Opera and Firefox, they are selected,
-         * which makes it easy to interact with them. Chrome and Safari both don't
-         * support this
-         */
+		 * When clicking on images in IE, Opera and Firefox, they are selected,
+		 * which makes it easy to interact with them. Chrome and Safari both
+		 * don't support this
+		 */
         canSelectImagesInContentEditable: function() {
             return isGecko || isIE || isOpera;
         },
 
         /**
-         * When the caret is in an empty list (
-         * <ul>
-         * <li>|</li>
-         * </ul>) which is the first child in an contentEditable container pressing
-         * backspace doesn't remove the entire list as done in other browsers
-         */
+		 * When the caret is in an empty list (
+		 * <ul>
+		 * <li>|</li>
+		 * </ul>) which is the first child in an contentEditable container
+		 * pressing backspace doesn't remove the entire list as done in other
+		 * browsers
+		 */
         clearsListsInContentEditableCorrectly: function() {
             return isGecko || isIE || isWebKit;
         },
 
         /**
-         * All browsers except Safari and Chrome automatically scroll the
-         * range/caret position into view
-         */
+		 * All browsers except Safari and Chrome automatically scroll the
+		 * range/caret position into view
+		 */
         autoScrollsToCaret: function() {
             return !isWebKit;
         },
 
         /**
-         * Check whether the browser automatically closes tags that don't need to be
-         * opened
-         */
+		 * Check whether the browser automatically closes tags that don't need
+		 * to be opened
+		 */
         autoClosesUnclosedTags: function() {
             var clonedTestElement = testElement.cloneNode(false),
                 returnValue,
@@ -17928,71 +17848,72 @@ wysihtml5.browser = (function() {
         },
 
         /**
-         * Whether the browser supports the native document.getElementsByClassName
-         * which returns live NodeLists
-         */
+		 * Whether the browser supports the native
+		 * document.getElementsByClassName which returns live NodeLists
+		 */
         supportsNativeGetElementsByClassName: function() {
             return String(document.getElementsByClassName).indexOf("[native code]") !== -1;
         },
 
         /**
-         * As of now (19.04.2011) only supported by Firefox 4 and Chrome See
-         * https://developer.mozilla.org/en/DOM/Selection/modify
-         */
+		 * As of now (19.04.2011) only supported by Firefox 4 and Chrome See
+		 * https://developer.mozilla.org/en/DOM/Selection/modify
+		 */
         supportsSelectionModify: function() {
             return "getSelection" in window && "modify" in window.getSelection();
         },
 
         /**
-         * Whether the browser supports the classList object for fast className
-         * manipulation See https://developer.mozilla.org/en/DOM/element.classList
-         */
+		 * Whether the browser supports the classList object for fast className
+		 * manipulation See
+		 * https://developer.mozilla.org/en/DOM/element.classList
+		 */
         supportsClassList: function() {
             return "classList" in testElement;
         },
 
         /**
-         * Opera needs a white space after a <br>
-         * in order to position the caret correctly
-         */
+		 * Opera needs a white space after a <br>
+		 * in order to position the caret correctly
+		 */
         needsSpaceAfterLineBreak: function() {
             return isOpera;
         },
 
         /**
-         * Whether the browser supports the speech api on the given element See
-         * http://mikepultz.com/2011/03/accessing-google-speech-api-chrome-11/
-         * 
-         * @example var input = document.createElement("input"); if
-         *          (wysihtml5.browser.supportsSpeechApiOn(input)) { // ... }
-         */
+		 * Whether the browser supports the speech api on the given element See
+		 * http://mikepultz.com/2011/03/accessing-google-speech-api-chrome-11/
+		 * 
+		 * @example var input = document.createElement("input"); if
+		 *          (wysihtml5.browser.supportsSpeechApiOn(input)) { // ... }
+		 */
         supportsSpeechApiOn: function(input) {
             var chromeVersion = userAgent.match(/Chrome\/(\d+)/) || [, 0];
             return chromeVersion[1] >= 11 && ("onwebkitspeechchange" in input || "speech" in input);
         },
 
         /**
-         * IE9 crashes when setting a getter via Object.defineProperty on
-         * XMLHttpRequest or XDomainRequest See
-         * https://connect.microsoft.com/ie/feedback/details/650112 or try the POC
-         * http://tifftiff.de/ie9_crash/
-         */
+		 * IE9 crashes when setting a getter via Object.defineProperty on
+		 * XMLHttpRequest or XDomainRequest See
+		 * https://connect.microsoft.com/ie/feedback/details/650112 or try the
+		 * POC http://tifftiff.de/ie9_crash/
+		 */
         crashesWhenDefineProperty: function(property) {
             return isIE && (property === "XMLHttpRequest" || property === "XDomainRequest");
         },
 
         /**
-         * IE is the only browser who fires the "focus" event not immediately when
-         * .focus() is called on an element
-         */
+		 * IE is the only browser who fires the "focus" event not immediately
+		 * when .focus() is called on an element
+		 */
         doesAsyncFocus: function() {
             return isIE;
         },
 
         /**
-         * In IE it's impssible for the user and for the selection library to set
-         * the caret after an <img> when it's the lastChild in the document
-         */
+		 * In IE it's impssible for the user and for the selection library to
+		 * set the caret after an <img> when it's the lastChild in the document
+		 */
         hasProblemsSettingCaretAfterImg: function() {
             return isIE;
         },
@@ -18005,10 +17926,10 @@ wysihtml5.browser = (function() {
 wysihtml5.lang.array = function(arr) {
     return {
         /**
-         * Check whether a given object exists in an array
-         * 
-         * @example wysihtml5.lang.array([1, 2]).contains(1); // => true
-         */
+		 * Check whether a given object exists in an array
+		 * 
+		 * @example wysihtml5.lang.array([1, 2]).contains(1); // => true
+		 */
         contains: function(needle) {
             if (arr.indexOf) {
                 return arr.indexOf(needle) !== -1;
@@ -18023,10 +17944,11 @@ wysihtml5.lang.array = function(arr) {
         },
 
         /**
-         * Substract one array from another
-         * 
-         * @example wysihtml5.lang.array([1, 2, 3, 4]).without([3, 4]); // => [1, 2]
-         */
+		 * Substract one array from another
+		 * 
+		 * @example wysihtml5.lang.array([1, 2, 3, 4]).without([3, 4]); // =>
+		 *          [1, 2]
+		 */
         without: function(arrayToSubstract) {
             arrayToSubstract = wysihtml5.lang.array(arrayToSubstract);
             var newArr = [],
@@ -18041,13 +17963,13 @@ wysihtml5.lang.array = function(arr) {
         },
 
         /**
-         * Return a clean native array
-         * 
-         * Following will convert a Live NodeList to a proper Array
-         * 
-         * @example var childNodes =
-         *          wysihtml5.lang.array(document.body.childNodes).get();
-         */
+		 * Return a clean native array
+		 * 
+		 * Following will convert a Live NodeList to a proper Array
+		 * 
+		 * @example var childNodes =
+		 *          wysihtml5.lang.array(document.body.childNodes).get();
+		 */
         get: function() {
             var i = 0,
                 length = arr.length,
@@ -18107,9 +18029,9 @@ wysihtml5.lang.Dispatcher = Base.extend(
 wysihtml5.lang.object = function(obj) {
     return {
         /**
-         * @example wysihtml5.lang.object({ foo: 1, bar: 1 }).merge({ bar: 2, baz: 3
-         *          }).get(); // => { foo: 1, bar: 2, baz: 3 }
-         */
+		 * @example wysihtml5.lang.object({ foo: 1, bar: 1 }).merge({ bar: 2,
+		 *          baz: 3 }).get(); // => { foo: 1, bar: 2, baz: 3 }
+		 */
         merge: function(otherObj) {
             for (var i in otherObj) {
                 obj[i] = otherObj[i];
@@ -18122,8 +18044,8 @@ wysihtml5.lang.object = function(obj) {
         },
 
         /**
-         * @example wysihtml5.lang.object({ foo: 1 }).clone(); // => { foo: 1 }
-         */
+		 * @example wysihtml5.lang.object({ foo: 1 }).clone(); // => { foo: 1 }
+		 */
         clone: function() {
             var newObj = {},
                 i;
@@ -18134,8 +18056,8 @@ wysihtml5.lang.object = function(obj) {
         },
 
         /**
-         * @example wysihtml5.lang.object([]).isArray(); // => true
-         */
+		 * @example wysihtml5.lang.object([]).isArray(); // => true
+		 */
         isArray: function() {
             return Object.prototype.toString.call(obj) === "[object Array]";
         }
@@ -18148,16 +18070,16 @@ wysihtml5.lang.object = function(obj) {
         str = String(str);
         return {
             /**
-             * @example wysihtml5.lang.string(" foo ").trim(); // => "foo"
-             */
+			 * @example wysihtml5.lang.string(" foo ").trim(); // => "foo"
+			 */
             trim: function() {
                 return str.replace(WHITE_SPACE_START, "").replace(WHITE_SPACE_END, "");
             },
 
             /**
-             * @example wysihtml5.lang.string("Hello #{name}").interpolate({ name:
-             *          "Christopher" }); // => "Hello Christopher"
-             */
+			 * @example wysihtml5.lang.string("Hello #{name}").interpolate({
+			 *          name: "Christopher" }); // => "Hello Christopher"
+			 */
             interpolate: function(vars) {
                 for (var i in vars) {
                     str = this.replace("#{" + i + "}").by(vars[i]);
@@ -18166,9 +18088,9 @@ wysihtml5.lang.object = function(obj) {
             },
 
             /**
-             * @example wysihtml5.lang.string("Hello
-             *          Tom").replace("Tom").with("Hans"); // => "Hello Hans"
-             */
+			 * @example wysihtml5.lang.string("Hello
+			 *          Tom").replace("Tom").with("Hans"); // => "Hello Hans"
+			 */
             replace: function(search) {
                 return {
                     by: function(replace) {
@@ -18180,8 +18102,8 @@ wysihtml5.lang.object = function(obj) {
     };
 })();
 /**
- * Find urls in descendant text nodes of an element and auto-links them
- * Inspired by
+ * Find urls in descendant text nodes of an element and auto-links them Inspired
+ * by
  * http://james.padolsey.com/javascript/find-and-replace-text-with-javascript/
  * 
  * @param {Element}
@@ -18193,18 +18115,18 @@ wysihtml5.lang.object = function(obj) {
 (function(wysihtml5) {
     var
         /**
-         * Don't auto-link urls that are contained in the following elements:
-         */
+		 * Don't auto-link urls that are contained in the following elements:
+		 */
         IGNORE_URLS_IN = wysihtml5.lang.array(["CODE", "PRE", "A", "SCRIPT", "HEAD", "TITLE", "STYLE"]),
         /**
-         * revision 1: /(\S+\.{1}[^\s\,\.\!]+)/g
-         * 
-         * revision 2:
-         * /(\b(((https?|ftp):\/\/)|(www\.))[-A-Z0-9+&@#\/%?=~_|!:,.;\[\]]*[-A-Z0-9+&@#\/%=~_|])/gim
-         * 
-         * put this in the beginning if you don't wan't to match within a word
-         * (^|[\>\(\{\[\s\>])
-         */
+		 * revision 1: /(\S+\.{1}[^\s\,\.\!]+)/g
+		 * 
+		 * revision 2:
+		 * /(\b(((https?|ftp):\/\/)|(www\.))[-A-Z0-9+&@#\/%?=~_|!:,.;\[\]]*[-A-Z0-9+&@#\/%=~_|])/gim
+		 * 
+		 * put this in the beginning if you don't wan't to match within a word
+		 * (^|[\>\(\{\[\s\>])
+		 */
         URL_REG_EXP = /((https?:\/\/|www\.)[^\s<]{3,})/gi,
         TRAILING_CHAR_REG_EXP = /([^\w\/\-](,?))$/i,
         MAX_DISPLAY_LENGTH = 100,
@@ -18227,8 +18149,8 @@ wysihtml5.lang.object = function(obj) {
     }
 
     /**
-     * This is basically a rebuild of the rails auto_link_urls text helper
-     */
+	 * This is basically a rebuild of the rails auto_link_urls text helper
+	 */
     function _convertUrlsToLinks(str) {
         return str.replace(URL_REG_EXP, function(match, url) {
             var punctuation = (url.match(TRAILING_CHAR_REG_EXP) || [])[1] || "",
@@ -18254,9 +18176,9 @@ wysihtml5.lang.object = function(obj) {
     }
 
     /**
-     * Creates or (if already cached) returns a temp element for the given
-     * document object
-     */
+	 * Creates or (if already cached) returns a temp element for the given
+	 * document object
+	 */
     function _getTempElement(context) {
         var tempElement = context._wysihtml5_tempElement;
         if (!tempElement) {
@@ -18266,8 +18188,8 @@ wysihtml5.lang.object = function(obj) {
     }
 
     /**
-     * Replaces the original text nodes with the newly auto-linked dom tree
-     */
+	 * Replaces the original text nodes with the newly auto-linked dom tree
+	 */
     function _wrapMatchesInNode(textNode) {
         var parentNode = textNode.parentNode,
             tempElement = _getTempElement(parentNode.ownerDocument);
@@ -18377,16 +18299,14 @@ wysihtml5.dom.contains = (function() {
  * @param {Element}
  *            element The element which should be turned into a list
  * @param {String}
- *            listType The list type in which to convert the tree
- *            (either "ul" or "ol")
+ *            listType The list type in which to convert the tree (either "ul"
+ *            or "ol")
  * @return {Element} The created list
  * 
- * @example <!-- Assume the following dom: --> <span id="pseudo-list">
- *          eminem<br>
+ * @example <!-- Assume the following dom: --> <span id="pseudo-list"> eminem<br>
  *          dr. dre <div>50 Cent</div> </span>
  * 
- * <script>
- * wysihtml5.dom.convertToList(document.getElementById("pseudo-list"),
+ * <script> wysihtml5.dom.convertToList(document.getElementById("pseudo-list"),
  * "ul"); </script>
  * 
  * <!-- Will result in: -->
@@ -18427,7 +18347,8 @@ wysihtml5.dom.convertToList = (function() {
             currentListItem,
             i;
 
-        // First find <br> at the end of inline elements and move them behind them
+        // First find <br> at the end of inline elements and move them behind
+		// them
         for (i = 0; i < lineBreaksLength; i++) {
             lineBreak = lineBreaks[i];
             while ((parentNode = lineBreak.parentNode) && parentNode !== element && parentNode.lastChild === lineBreak) {
@@ -18449,7 +18370,8 @@ wysihtml5.dom.convertToList = (function() {
             isLineBreak = childNode.nodeName === "BR";
 
             if (isBlockElement) {
-                // Append blockElement to current <li> if empty, otherwise create a new
+                // Append blockElement to current <li> if empty, otherwise
+				// create a new
                 // one
                 currentListItem = currentListItem.firstChild ? _createListItem(doc, list) : currentListItem;
                 currentListItem.appendChild(childNode);
@@ -18458,7 +18380,8 @@ wysihtml5.dom.convertToList = (function() {
             }
 
             if (isLineBreak) {
-                // Only create a new list item in the next iteration when the current
+                // Only create a new list item in the next iteration when the
+				// current
                 // one has already content
                 currentListItem = currentListItem.firstChild ? null : currentListItem;
                 continue;
@@ -18478,15 +18401,15 @@ wysihtml5.dom.convertToList = (function() {
  * 
  * @param {Array}
  *            attributesToCopy List of attributes which should be copied
- * @return {Object} Returns an object which offers the "from" method
- *         which can be invoked with the element where to copy the
- *         attributes from., this again returns an object which provides
- *         a method named "to" which can be invoked with the element
- *         where to copy the attributes to (see example)
+ * @return {Object} Returns an object which offers the "from" method which can
+ *         be invoked with the element where to copy the attributes from., this
+ *         again returns an object which provides a method named "to" which can
+ *         be invoked with the element where to copy the attributes to (see
+ *         example)
  * 
  * @example var textarea = document.querySelector("textarea"), div =
- *          document.querySelector("div[contenteditable=true]"),
- *          anotherDiv = document.querySelector("div.preview");
+ *          document.querySelector("div[contenteditable=true]"), anotherDiv =
+ *          document.querySelector("div.preview");
  *          wysihtml5.dom.copyAttributes(["spellcheck", "value",
  *          "placeholder"]).from(textarea).to(div).andTo(anotherDiv);
  * 
@@ -18514,19 +18437,18 @@ wysihtml5.dom.copyAttributes = function(attributesToCopy) {
     };
 };
 /**
- * Copy a set of styles from one element to another Please note that this
- * only works properly across browsers when the element from which to copy
- * the styles is in the dom
+ * Copy a set of styles from one element to another Please note that this only
+ * works properly across browsers when the element from which to copy the styles
+ * is in the dom
  * 
  * Interesting article on how to copy styles
  * 
  * @param {Array}
  *            stylesToCopy List of styles which should be copied
- * @return {Object} Returns an object which offers the "from" method which
- *         can be invoked with the element where to copy the styles from.,
- *         this again returns an object which provides a method named "to"
- *         which can be invoked with the element where to copy the styles to
- *         (see example)
+ * @return {Object} Returns an object which offers the "from" method which can
+ *         be invoked with the element where to copy the styles from., this
+ *         again returns an object which provides a method named "to" which can
+ *         be invoked with the element where to copy the styles to (see example)
  * 
  * @example var textarea = document.querySelector("textarea"), div =
  *          document.querySelector("div[contenteditable=true]"), anotherDiv =
@@ -18538,10 +18460,10 @@ wysihtml5.dom.copyAttributes = function(attributesToCopy) {
 (function(dom) {
 
     /**
-     * Mozilla, WebKit and Opera recalculate the computed width when box-sizing:
-     * boder-box; is set So if an element has "width: 200px; -moz-box-sizing:
-     * border-box; border: 1px;" then its computed css width will be 198px
-     */
+	 * Mozilla, WebKit and Opera recalculate the computed width when box-sizing:
+	 * boder-box; is set So if an element has "width: 200px; -moz-box-sizing:
+	 * border-box; border: 1px;" then its computed css width will be 198px
+	 */
     var BOX_SIZING_PROPERTIES = ["-webkit-box-sizing", "-moz-box-sizing", "-ms-box-sizing", "box-sizing"];
 
     var shouldIgnoreBoxSizingBorderBox = function(element) {
@@ -18592,8 +18514,8 @@ wysihtml5.dom.copyAttributes = function(attributesToCopy) {
 /**
  * Event Delegation
  * 
- * @example wysihtml5.dom.delegate(document.body, "a",
- *          "click", function() { // foo });
+ * @example wysihtml5.dom.delegate(document.body, "a", "click", function() { //
+ *          foo });
  */
 (function(wysihtml5) {
 
@@ -18616,15 +18538,13 @@ wysihtml5.dom.copyAttributes = function(attributesToCopy) {
 /**
  * Returns the given html wrapped in a div element
  * 
- * Fixing IE's inability to treat unknown elements (HTML5
- * section, article, ...) correctly when inserted via innerHTML
+ * Fixing IE's inability to treat unknown elements (HTML5 section, article, ...)
+ * correctly when inserted via innerHTML
  * 
  * @param {String}
- *            html The html which should be wrapped in a dom
- *            element
+ *            html The html which should be wrapped in a dom element
  * @param {Obejct}
- *            [context] Document object of the context the html
- *            belongs to
+ *            [context] Document object of the context the html belongs to
  * 
  * @example wysihtml5.dom.getAsDom("<article>foo</article>");
  */
@@ -18634,7 +18554,8 @@ wysihtml5.dom.getAsDom = (function() {
         var tempElement = context.createElement("div");
         tempElement.style.display = "none";
         context.body.appendChild(tempElement);
-        // IE throws an exception when trying to insert <frameset></frameset> via
+        // IE throws an exception when trying to insert <frameset></frameset>
+		// via
         // innerHTML
         try {
             tempElement.innerHTML = html;
@@ -18644,9 +18565,9 @@ wysihtml5.dom.getAsDom = (function() {
     };
 
     /**
-     * Make sure IE supports HTML5 tags, which is accomplished by simply
-     * creating one instance of each element
-     */
+	 * Make sure IE supports HTML5 tags, which is accomplished by simply
+	 * creating one instance of each element
+	 */
     var _ensureHTML5Compatibility = function(context) {
         if (context._wysihtml5_supportsHTML5Tags) {
             return;
@@ -18659,8 +18580,8 @@ wysihtml5.dom.getAsDom = (function() {
 
 
     /**
-     * List of html5 tags taken from http://simon.html5.org/html5-elements
-     */
+	 * List of html5 tags taken from http://simon.html5.org/html5-elements
+	 */
     var HTML5_ELEMENTS = [
         "abbr", "article", "aside", "audio", "bdi", "canvas", "command", "datalist", "details", "figcaption",
         "figure", "footer", "header", "hgroup", "keygen", "mark", "meter", "nav", "output", "progress",
@@ -18684,8 +18605,8 @@ wysihtml5.dom.getAsDom = (function() {
     };
 })();
 /**
- * Walks the dom tree from the given node up until it finds a match
- * Designed for optimal performance.
+ * Walks the dom tree from the given node up until it finds a match Designed for
+ * optimal performance.
  * 
  * @param {Element}
  *            node The from which to check the parent nodes
@@ -18693,8 +18614,8 @@ wysihtml5.dom.getAsDom = (function() {
  *            matchingSet Object to match against (possible properties:
  *            nodeName, className, classRegExp)
  * @param {Number}
- *            [levels] How many parents should the function check up
- *            from the current node (defaults to 50)
+ *            [levels] How many parents should the function check up from the
+ *            current node (defaults to 50)
  * @return {null|Element} Returns the first element that matched the
  *         desiredNodeName(s)
  * @example var listElement =
@@ -18703,9 +18624,9 @@ wysihtml5.dom.getAsDom = (function() {
  *          unorderedListElement =
  *          wysihtml5.dom.getParentElement(document.querySelector("li"), {
  *          nodeName: "UL" }); // ... or ... var coloredElement =
- *          wysihtml5.dom.getParentElement(myTextNode, { nodeName:
- *          "SPAN", className: "wysiwyg-color-red", classRegExp:
- *          /wysiwyg-color-[a-z]/g });
+ *          wysihtml5.dom.getParentElement(myTextNode, { nodeName: "SPAN",
+ *          className: "wysiwyg-color-red", classRegExp: /wysiwyg-color-[a-z]/g
+ *          });
  */
 wysihtml5.dom.getParentElement = (function() {
 
@@ -18807,20 +18728,25 @@ wysihtml5.dom.getStyle = (function() {
                     return styleValue;
                 }
 
-                // currentStyle is no standard and only supported by Opera and IE but it
+                // currentStyle is no standard and only supported by Opera and
+				// IE but it
                 // has one important advantage over the standard-compliant
-                // window.getComputedStyle, since it returns css property values in
+                // window.getComputedStyle, since it returns css property values
+				// in
                 // their original unit:
-                // If you set an elements width to "50%", window.getComputedStyle will
+                // If you set an elements width to "50%",
+				// window.getComputedStyle will
                 // give you it's current width in px while currentStyle
                 // gives you the original "50%".
-                // Opera supports both, currentStyle and window.getComputedStyle, that's
+                // Opera supports both, currentStyle and
+				// window.getComputedStyle, that's
                 // why checking for currentStyle should have higher prio
                 if (currentStyle) {
                     try {
                         return currentStyle[camelizedProperty];
                     } catch (e) {
-                        // ie will occasionally fail for unknown reasons. swallowing
+                        // ie will occasionally fail for unknown reasons.
+						// swallowing
                         // exception
                     }
                 }
@@ -18831,9 +18757,11 @@ wysihtml5.dom.getStyle = (function() {
                     returnValue;
 
                 if (win.getComputedStyle) {
-                    // Chrome and Safari both calculate a wrong width and height for
+                    // Chrome and Safari both calculate a wrong width and height
+					// for
                     // textareas when they have scroll bars
-                    // therfore we remove and restore the scrollbar and calculate the
+                    // therfore we remove and restore the scrollbar and
+					// calculate the
                     // value in between
                     if (needsOverflowReset) {
                         originalOverflow = style.overflow;
@@ -18850,9 +18778,9 @@ wysihtml5.dom.getStyle = (function() {
     };
 })();
 /**
- * High performant way to check whether an element with a specific tag
- * name is in the given document Optimized for being heavily executed
- * Unleashes the power of live node lists
+ * High performant way to check whether an element with a specific tag name is
+ * in the given document Optimized for being heavily executed Unleashes the
+ * power of live node lists
  * 
  * @param {Object}
  *            doc The document object of the context where to check
@@ -18879,9 +18807,9 @@ wysihtml5.dom.hasElementWithTagName = (function() {
     };
 })();
 /**
- * High performant way to check whether an element with a specific class
- * name is in the given document Optimized for being heavily executed
- * Unleashes the power of live node lists
+ * High performant way to check whether an element with a specific class name is
+ * in the given document Optimized for being heavily executed Unleashes the
+ * power of live node lists
  * 
  * @param {Object}
  *            doc The document object of the context where to check
@@ -18899,7 +18827,8 @@ wysihtml5.dom.hasElementWithTagName = (function() {
 
     wysihtml5.dom.hasElementWithClassName = function(doc, className) {
         // getElementsByClassName is not supported by IE<9
-        // but is sometimes mocked via library code (which then doesn't return live
+        // but is sometimes mocked via library code (which then doesn't return
+		// live
         // node lists)
         if (!wysihtml5.browser.supportsNativeGetElementsByClassName()) {
             return !!doc.querySelector("." + className);
@@ -18954,8 +18883,8 @@ wysihtml5.dom.insertCSS = function(rules) {
 /**
  * Method to set dom events
  * 
- * @example wysihtml5.dom.observe(iframe.contentWindow.document.body,
- *          ["focus", "blur"], function() { ... });
+ * @example wysihtml5.dom.observe(iframe.contentWindow.document.body, ["focus",
+ *          "blur"], function() { ... });
  */
 wysihtml5.dom.observe = function(element, eventNames, handler) {
     eventNames = typeof(eventNames) === "string" ? [eventNames] : eventNames;
@@ -19054,13 +18983,13 @@ wysihtml5.dom.observe = function(element, eventNames, handler) {
 wysihtml5.dom.parse = (function() {
 
     /**
-     * It's not possible to use a XMLParser/DOMParser as HTML5 is not always
-     * well-formed XML new DOMParser().parseFromString('<img src="foo.gif">')
-     * will cause a parseError since the node isn't closed
-     * 
-     * Therefore we've to use the browser's ordinary HTML parser invoked by
-     * setting innerHTML.
-     */
+	 * It's not possible to use a XMLParser/DOMParser as HTML5 is not always
+	 * well-formed XML new DOMParser().parseFromString('<img src="foo.gif">')
+	 * will cause a parseError since the node isn't closed
+	 * 
+	 * Therefore we've to use the browser's ordinary HTML parser invoked by
+	 * setting innerHTML.
+	 */
     var NODE_TYPE_MAPPING = {
             "1": _handleElement,
             "3": _handleText
@@ -19075,9 +19004,9 @@ wysihtml5.dom.parse = (function() {
         currentRules = {};
 
     /**
-     * Iterates over all childs of the element, recreates them, appends them
-     * into a document fragment which later replaces the entire body content
-     */
+	 * Iterates over all childs of the element, recreates them, appends them
+	 * into a document fragment which later replaces the entire body content
+	 */
     function parse(elementOrHtml, rules, context, cleanUp) {
         wysihtml5.lang.object(currentRules).merge(defaultRules).merge(rules).get();
 
@@ -19153,9 +19082,9 @@ wysihtml5.dom.parse = (function() {
             scopeName = oldNode.scopeName;
 
         /**
-         * We already parsed that element ignore it! (yes, this sometimes happens in
-         * IE8 when the html is invalid)
-         */
+		 * We already parsed that element ignore it! (yes, this sometimes
+		 * happens in IE8 when the html is invalid)
+		 */
         if (oldNode._wysihtml5) {
             return null;
         }
@@ -19166,22 +19095,22 @@ wysihtml5.dom.parse = (function() {
         }
 
         /**
-         * IE is the only browser who doesn't include the namespace in the nodeName,
-         * that's why we have to prepend it by ourselves scopeName is a proprietary
-         * IE feature read more here
-         * http://msdn.microsoft.com/en-us/library/ms534388(v=vs.85).aspx
-         */
+		 * IE is the only browser who doesn't include the namespace in the
+		 * nodeName, that's why we have to prepend it by ourselves scopeName is
+		 * a proprietary IE feature read more here
+		 * http://msdn.microsoft.com/en-us/library/ms534388(v=vs.85).aspx
+		 */
         if (scopeName && scopeName != "HTML") {
             nodeName = scopeName + ":" + nodeName;
         }
 
         /**
-         * Repair node IE is a bit bitchy when it comes to invalid nested markup
-         * which includes unclosed tags A
-         * <p>
-         * doesn't need to be closed according HTML4-5 spec, we simply replace it
-         * with a <div> to preserve its content and layout
-         */
+		 * Repair node IE is a bit bitchy when it comes to invalid nested markup
+		 * which includes unclosed tags A
+		 * <p>
+		 * doesn't need to be closed according HTML4-5 spec, we simply replace
+		 * it with a <div> to preserve its content and layout
+		 */
         if ("outerHTML" in oldNode) {
             if (!wysihtml5.browser.autoClosesUnclosedTags() &&
                 oldNode.nodeName === "P" &&
@@ -19310,14 +19239,16 @@ wysihtml5.dom.parse = (function() {
         for (attributeName in attributes) {
             // Setting attributes can cause a js error in IE under certain
             // circumstances
-            // eg. on a <img> under https when it's new attribute value is non-https
+            // eg. on a <img> under https when it's new attribute value is
+			// non-https
             // TODO: Investigate this further and check for smarter handling
             try {
                 newNode.setAttribute(attributeName, attributes[attributeName]);
             } catch (e) {}
         }
 
-        // IE8 sometimes loses the width/height attributes when those are set before
+        // IE8 sometimes loses the width/height attributes when those are set
+		// before
         // the "src"
         // so we make sure to set them again
         if (attributes.src) {
@@ -19331,18 +19262,19 @@ wysihtml5.dom.parse = (function() {
     }
 
     /**
-     * IE gives wrong results for hasAttribute/getAttribute, for example: var td =
-     * document.createElement("td"); td.getAttribute("rowspan"); // => "1" in IE
-     * 
-     * Therefore we have to check the element's outerHTML for the attribute
-     */
+	 * IE gives wrong results for hasAttribute/getAttribute, for example: var td =
+	 * document.createElement("td"); td.getAttribute("rowspan"); // => "1" in IE
+	 * 
+	 * Therefore we have to check the element's outerHTML for the attribute
+	 */
     var HAS_GET_ATTRIBUTE_BUG = !wysihtml5.browser.supportsGetAttributeCorrectly();
 
     function _getAttribute(node, attributeName) {
         attributeName = attributeName.toLowerCase();
         var nodeName = node.nodeName;
         if (nodeName == "IMG" && attributeName == "src" && _isLoadedImage(node) === true) {
-            // Get 'src' attribute value via object property since this will always
+            // Get 'src' attribute value via object property since this will
+			// always
             // contain the
             // full absolute url (http://...)
             // this fixes a very annoying bug in firefox (ver 3.6 & 4) and IE 8
@@ -19351,10 +19283,12 @@ wysihtml5.dom.parse = (function() {
             // attributeCheckMethods.url)
             return node.src;
         } else if (HAS_GET_ATTRIBUTE_BUG && "outerHTML" in node) {
-            // Don't trust getAttribute/hasAttribute in IE 6-8, instead check the
+            // Don't trust getAttribute/hasAttribute in IE 6-8, instead check
+			// the
             // element's outerHTML
             var outerHTML = node.outerHTML.toLowerCase(),
-                // TODO: This might not work for attributes without value: <input
+                // TODO: This might not work for attributes without value:
+				// <input
                 // disabled>
                 hasAttribute = outerHTML.indexOf(" " + attributeName + "=") != -1;
 
@@ -19365,9 +19299,9 @@ wysihtml5.dom.parse = (function() {
     }
 
     /**
-     * Check whether the given node is a proper loaded image FIXME: Returns
-     * undefined when unknown (Chrome, Safari)
-     */
+	 * Check whether the given node is a proper loaded image FIXME: Returns
+	 * undefined when unknown (Chrome, Safari)
+	 */
     function _isLoadedImage(node) {
         try {
             return node.complete && !node.mozMatchesSelector(":-moz-broken");
@@ -19533,8 +19467,8 @@ wysihtml5.dom.renameElement = function(element, newNodeName) {
  * 
  * @param {Object}
  *            node The node which to replace with it's child nodes
- * @example <div id="foo"> <span>hello</span> </div> <script> // Remove
- *          #foo and replace with it's children
+ * @example <div id="foo"> <span>hello</span> </div> <script> // Remove #foo
+ *          and replace with it's children
  *          wysihtml5.dom.replaceWithChildNodes(document.getElementById("foo"));
  *          </script>
  */
@@ -19611,7 +19545,8 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
             lastChild = listItem.lastChild;
             while (firstChild = listItem.firstChild) {
                 isLastChild = firstChild === lastChild;
-                // This needs to be done before appending it to the fragment, as it
+                // This needs to be done before appending it to the fragment, as
+				// it
                 // otherwise will loose style information
                 shouldAppendLineBreak = isLastChild && !_isBlockElement(firstChild) && !_isLineBreak(firstChild);
                 fragment.appendChild(firstChild);
@@ -19628,54 +19563,48 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
     dom.resolveList = resolveList;
 })(wysihtml5.dom);
 /**
- * Sandbox for executing javascript, parsing css styles and
- * doing dom operations in a secure way
+ * Sandbox for executing javascript, parsing css styles and doing dom operations
+ * in a secure way
  * 
- * Browser Compatibility: - Secure in MSIE 6+, but only when
- * the user hasn't made changes to his security level
- * "restricted" - Partially secure in other browsers
- * (Firefox, Opera, Safari, Chrome, ...)
+ * Browser Compatibility: - Secure in MSIE 6+, but only when the user hasn't
+ * made changes to his security level "restricted" - Partially secure in other
+ * browsers (Firefox, Opera, Safari, Chrome, ...)
  * 
- * Please note that this class can't benefit from the HTML5
- * sandbox attribute for the following reasons: - sandboxing
- * doesn't work correctly with inlined content
- * (src="javascript:'<html>...</html>'") - sandboxing of
- * physical documents causes that the dom isn't accessible
- * anymore from the outside (iframe.contentWindow, ...) -
- * setting the "allow-same-origin" flag would fix that, but
- * then still javascript and dom events refuse to fire -
- * therefore the "allow-scripts" flag is needed, which then
- * would deactivate any security, as the js executed inside
- * the iframe can do anything as if the sandbox attribute
+ * Please note that this class can't benefit from the HTML5 sandbox attribute
+ * for the following reasons: - sandboxing doesn't work correctly with inlined
+ * content (src="javascript:'<html>...</html>'") - sandboxing of physical
+ * documents causes that the dom isn't accessible anymore from the outside
+ * (iframe.contentWindow, ...) - setting the "allow-same-origin" flag would fix
+ * that, but then still javascript and dom events refuse to fire - therefore the
+ * "allow-scripts" flag is needed, which then would deactivate any security, as
+ * the js executed inside the iframe can do anything as if the sandbox attribute
  * wasn't set
  * 
  * @param {Function}
- *            [readyCallback] Method that gets invoked when
- *            the sandbox is ready
+ *            [readyCallback] Method that gets invoked when the sandbox is ready
  * @param {Object}
  *            [config] Optional parameters
  * 
  * @example new wysihtml5.dom.Sandbox(function(sandbox) {
- *          sandbox.getWindow().document.body.innerHTML = '<img
- *          src=foo.gif onerror="alert(document.cookie)">';
- *          });
+ *          sandbox.getWindow().document.body.innerHTML = '<img src=foo.gif
+ *          onerror="alert(document.cookie)">'; });
  */
 (function(wysihtml5) {
     var
         /**
-         * Default configuration
-         */
+		 * Default configuration
+		 */
         doc = document,
         /**
-         * Properties to unset/protect on the window object
-         */
+		 * Properties to unset/protect on the window object
+		 */
         windowProperties = [
             "parent", "top", "opener", "frameElement", "frames",
             "localStorage", "globalStorage", "sessionStorage", "indexedDB"
         ],
         /**
-         * Properties on the window object which are set to an empty function
-         */
+		 * Properties on the window object which are set to an empty function
+		 */
         windowProperties2 = [
             "open", "close", "openDialog", "showModalDialog",
             "alert", "confirm", "prompt",
@@ -19683,8 +19612,8 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
             "XMLHttpRequest", "XDomainRequest"
         ],
         /**
-         * Properties to unset/protect on the document object
-         */
+		 * Properties to unset/protect on the document object
+		 */
         documentProperties = [
             "referrer",
             "write", "open", "close"
@@ -19730,25 +19659,27 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
             },
 
             /**
-             * Creates the sandbox iframe
-             * 
-             * Some important notes: - We can't use HTML5 sandbox for now: setting it
-             * causes that the iframe's dom can't be accessed from the outside Therefore
-             * we need to set the "allow-same-origin" flag which enables accessing the
-             * iframe's dom But then there's another problem, DOM events (focus, blur,
-             * change, keypress, ...) aren't fired. In order to make this happen we need
-             * to set the "allow-scripts" flag. A combination of allow-scripts and
-             * allow-same-origin is almost the same as setting no sandbox attribute at
-             * all. - Chrome & Safari, doesn't seem to support sandboxing correctly when
-             * the iframe's html is inlined (no physical document) - IE needs to have
-             * the security="restricted" attribute set before the iframe is inserted
-             * into the dom tree - Believe it or not but in IE "security" in
-             * document.createElement("iframe") is false, even though it supports it -
-             * When an iframe has security="restricted", in IE eval() & execScript()
-             * don't work anymore - IE doesn't fire the onload event when the content is
-             * inlined in the src attribute, therefore we rely on the onreadystatechange
-             * event
-             */
+			 * Creates the sandbox iframe
+			 * 
+			 * Some important notes: - We can't use HTML5 sandbox for now:
+			 * setting it causes that the iframe's dom can't be accessed from
+			 * the outside Therefore we need to set the "allow-same-origin" flag
+			 * which enables accessing the iframe's dom But then there's another
+			 * problem, DOM events (focus, blur, change, keypress, ...) aren't
+			 * fired. In order to make this happen we need to set the
+			 * "allow-scripts" flag. A combination of allow-scripts and
+			 * allow-same-origin is almost the same as setting no sandbox
+			 * attribute at all. - Chrome & Safari, doesn't seem to support
+			 * sandboxing correctly when the iframe's html is inlined (no
+			 * physical document) - IE needs to have the security="restricted"
+			 * attribute set before the iframe is inserted into the dom tree -
+			 * Believe it or not but in IE "security" in
+			 * document.createElement("iframe") is false, even though it
+			 * supports it - When an iframe has security="restricted", in IE
+			 * eval() & execScript() don't work anymore - IE doesn't fire the
+			 * onload event when the content is inlined in the src attribute,
+			 * therefore we rely on the onreadystatechange event
+			 */
             _createIframe: function() {
                 var that = this,
                     iframe = doc.createElement("iframe");
@@ -19784,10 +19715,11 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
             },
 
             /**
-             * Callback for when the iframe has finished loading
-             */
+			 * Callback for when the iframe has finished loading
+			 */
             _onLoadIframe: function(iframe) {
-                // don't resume when the iframe got unloaded (eg. by removing it from
+                // don't resume when the iframe got unloaded (eg. by removing it
+				// from
                 // the dom)
                 if (!wysihtml5.dom.contains(doc.documentElement, iframe)) {
                     return;
@@ -19802,7 +19734,8 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
                         stylesheets: this.config.stylesheets
                     });
 
-                // Create the basic dom tree including proper DOCTYPE and charset
+                // Create the basic dom tree including proper DOCTYPE and
+				// charset
                 iframeDocument.open("text/html", "replace");
                 iframeDocument.write(sandboxHtml);
                 iframeDocument.close();
@@ -19815,7 +19748,8 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
                 };
 
                 // Catch js errors and pass them to the parent's onerror event
-                // addEventListener("error") doesn't work properly in some browsers
+                // addEventListener("error") doesn't work properly in some
+				// browsers
                 // TODO: apparently this doesn't work in IE9!
                 iframeWindow.onerror = function(errorMessage, fileName, lineNumber) {
                     throw new Error("wysihtml5.Sandbox: " + errorMessage, fileName, lineNumber);
@@ -19824,11 +19758,14 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
                 if (!wysihtml5.browser.supportsSandboxedIframes()) {
                     // Unset a bunch of sensitive variables
                     // Please note: This isn't hack safe!
-                    // It more or less just takes care of basic attacks and prevents
+                    // It more or less just takes care of basic attacks and
+					// prevents
                     // accidental theft of sensitive information
-                    // IE is secure though, which is the most important thing, since IE is
+                    // IE is secure though, which is the most important thing,
+					// since IE is
                     // the only browser, who
-                    // takes over scripts & styles into contentEditable elements when copied
+                    // takes over scripts & styles into contentEditable elements
+					// when copied
                     // from external websites
                     // or applications (Microsoft Word, ...)
                     var i, length;
@@ -19877,11 +19814,11 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
             },
 
             /**
-             * Method to unset/override existing variables
-             * 
-             * @example // Make cookie unreadable and unwritable this._unset(document,
-             *          "cookie", "", true);
-             */
+			 * Method to unset/override existing variables
+			 * 
+			 * @example // Make cookie unreadable and unwritable
+			 *          this._unset(document, "cookie", "", true);
+			 */
             _unset: function(object, property, value, setter) {
                 try {
                     object[property] = value;
@@ -20026,7 +19963,8 @@ wysihtml5.dom.setStyles = function(styles) {
 wysihtml5.quirks.cleanPastedHTML = (function() {
     // TODO: We probably need more rules here
     var defaultRules = {
-        // When pasting underlined links <a> into a contentEditable, IE thinks, it
+        // When pasting underlined links <a> into a contentEditable, IE thinks,
+		// it
         // has to insert <u> to keep the styling
         "a u": wysihtml5.dom.replaceWithChildNodes
     };
@@ -20065,12 +20003,12 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
     return cleanPastedHTML;
 })();
 /**
- * IE and Opera leave an empty paragraph in the contentEditable element
- * after clearing it
+ * IE and Opera leave an empty paragraph in the contentEditable element after
+ * clearing it
  * 
  * @param {Object}
- *            contentEditableElement The contentEditable element to
- *            observe for clearing events
+ *            contentEditableElement The contentEditable element to observe for
+ *            clearing events
  * @exaple wysihtml5.quirks.ensureProperClearing(myContentEditableElement);
  */
 (function(wysihtml5) {
@@ -20096,17 +20034,17 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
 
 
     /**
-     * In Opera when the caret is in the first and only item of a list (
-     * <ul>
-     * <li>|</li>
-     * </ul>) and the list is the first child of the contentEditable element,
-     * it's impossible to delete the list by hitting backspace
-     * 
-     * @param {Object}
-     *            contentEditableElement The contentEditable element to observe
-     *            for clearing events
-     * @exaple wysihtml5.quirks.ensureProperClearing(myContentEditableElement);
-     */
+	 * In Opera when the caret is in the first and only item of a list (
+	 * <ul>
+	 * <li>|</li>
+	 * </ul>) and the list is the first child of the contentEditable element,
+	 * it's impossible to delete the list by hitting backspace
+	 * 
+	 * @param {Object}
+	 *            contentEditableElement The contentEditable element to observe
+	 *            for clearing events
+	 * @exaple wysihtml5.quirks.ensureProperClearing(myContentEditableElement);
+	 */
     wysihtml5.quirks.ensureProperClearingOfLists = (function() {
         var ELEMENTS_THAT_CONTAIN_LI = ["OL", "UL", "MENU"];
 
@@ -20184,11 +20122,10 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
     };
 })(wysihtml5);
 /**
- * Some browsers don't insert line breaks when hitting return in
- * a contentEditable element - Opera & IE insert new
+ * Some browsers don't insert line breaks when hitting return in a
+ * contentEditable element - Opera & IE insert new
  * <p>
- * on return - Chrome & Safari insert new <div> on return -
- * Firefox inserts <br>
+ * on return - Chrome & Safari insert new <div> on return - Firefox inserts <br>
  * on return (yippie!)
  * 
  * @param {Element}
@@ -20269,12 +20206,10 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
     };
 })(wysihtml5);
 /**
- * Force rerendering of a given element Needed to fix display
- * misbehaviors of IE
+ * Force rerendering of a given element Needed to fix display misbehaviors of IE
  * 
  * @param {Element}
- *            element The element object which needs to be
- *            rerendered
+ *            element The element object which needs to be rerendered
  * @example wysihtml5.quirks.redraw(document.body);
  */
 (function(wysihtml5) {
@@ -20325,22 +20260,24 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
             },
 
             /**
-             * Get the current selection as a bookmark to be able to later restore it
-             * 
-             * @return {Object} An object that represents the current selection
-             */
+			 * Get the current selection as a bookmark to be able to later
+			 * restore it
+			 * 
+			 * @return {Object} An object that represents the current selection
+			 */
             getBookmark: function() {
                 var range = this.getRange();
                 return range && range.cloneRange();
             },
 
             /**
-             * Restore a selection retrieved via
-             * wysihtml5.Selection.prototype.getBookmark
-             * 
-             * @param {Object}
-             *            bookmark An object that represents the current selection
-             */
+			 * Restore a selection retrieved via
+			 * wysihtml5.Selection.prototype.getBookmark
+			 * 
+			 * @param {Object}
+			 *            bookmark An object that represents the current
+			 *            selection
+			 */
             setBookmark: function(bookmark) {
                 if (!bookmark) {
                     return;
@@ -20350,13 +20287,13 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
             },
 
             /**
-             * Set the caret in front of the given node
-             * 
-             * @param {Object}
-             *            node The element or text node where to position the caret in
-             *            front of
-             * @example selection.setBefore(myElement);
-             */
+			 * Set the caret in front of the given node
+			 * 
+			 * @param {Object}
+			 *            node The element or text node where to position the
+			 *            caret in front of
+			 * @example selection.setBefore(myElement);
+			 */
             setBefore: function(node) {
                 var range = rangy.createRange(this.doc);
                 range.setStartBefore(node);
@@ -20365,13 +20302,13 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
             },
 
             /**
-             * Set the caret after the given node
-             * 
-             * @param {Object}
-             *            node The element or text node where to position the caret in
-             *            front of
-             * @example selection.setBefore(myElement);
-             */
+			 * Set the caret after the given node
+			 * 
+			 * @param {Object}
+			 *            node The element or text node where to position the
+			 *            caret in front of
+			 * @example selection.setBefore(myElement);
+			 */
             setAfter: function(node) {
                 var range = rangy.createRange(this.doc);
                 range.setStartAfter(node);
@@ -20380,12 +20317,12 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
             },
 
             /**
-             * Ability to select/mark nodes
-             * 
-             * @param {Element}
-             *            node The node/element to select
-             * @example selection.selectNode(document.getElementById("my-image"));
-             */
+			 * Ability to select/mark nodes
+			 * 
+			 * @param {Element}
+			 *            node The node/element to select
+			 * @example selection.selectNode(document.getElementById("my-image"));
+			 */
             selectNode: function(node) {
                 var range = rangy.createRange(this.doc),
                     isElement = node.nodeType === wysihtml5.ELEMENT_NODE,
@@ -20396,7 +20333,8 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
                     isBlockElement = (displayStyle === "block" || displayStyle === "list-item");
 
                 if (isEmpty && isElement && canHaveHTML) {
-                    // Make sure that caret is visible in node by inserting a zero width no
+                    // Make sure that caret is visible in node by inserting a
+					// zero width no
                     // breaking space
                     try {
                         node.innerHTML = wysihtml5.INVISIBLE_SPACE;
@@ -20420,15 +20358,15 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
             },
 
             /**
-             * Get the node which contains the selection
-             * 
-             * @param {Boolean}
-             *            [controlRange] (only IE) Whether it should return the selected
-             *            ControlRange element when the selection type is a
-             *            "ControlRange"
-             * @return {Object} The node that contains the caret
-             * @example var nodeThatContainsCaret = selection.getSelectedNode();
-             */
+			 * Get the node which contains the selection
+			 * 
+			 * @param {Boolean}
+			 *            [controlRange] (only IE) Whether it should return the
+			 *            selected ControlRange element when the selection type
+			 *            is a "ControlRange"
+			 * @return {Object} The node that contains the caret
+			 * @example var nodeThatContainsCaret = selection.getSelectedNode();
+			 */
             getSelectedNode: function(controlRange) {
                 var selection,
                     range;
@@ -20467,7 +20405,8 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
                 var node = range.createContextualFragment(placeholderHTML);
                 range.insertNode(node);
 
-                // Make sure that a potential error doesn't cause our placeholder
+                // Make sure that a potential error doesn't cause our
+				// placeholder
                 // element to be left as a placeholder
                 try {
                     method(range.startContainer, range.endContainer);
@@ -20493,7 +20432,8 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
                     body.scrollLeft = oldScrollLeft;
                 }
 
-                // Remove it again, just to make sure that the placeholder is definitely
+                // Remove it again, just to make sure that the placeholder is
+				// definitely
                 // out of the dom tree
                 try {
                     caretPlaceholder.parentNode.removeChild(caretPlaceholder);
@@ -20501,10 +20441,10 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
             },
 
             /**
-             * Different approach of preserving the selection (doesn't modify the dom)
-             * Takes all text nodes in the selection and saves the selection position in
-             * the first and last one
-             */
+			 * Different approach of preserving the selection (doesn't modify
+			 * the dom) Takes all text nodes in the selection and saves the
+			 * selection position in the first and last one
+			 */
             executeAndRestoreSimple: function(method) {
                 var range = this.getRange(),
                     body = this.doc.body,
@@ -20553,17 +20493,17 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
             },
 
             /**
-             * Insert html at the caret position and move the cursor after the inserted
-             * html
-             * 
-             * @param {String}
-             *            html HTML string to insert
-             * @example selection.insertHTML("
-             *          <p>
-             *          foobar
-             *          </p>
-             *          ");
-             */
+			 * Insert html at the caret position and move the cursor after the
+			 * inserted html
+			 * 
+			 * @param {String}
+			 *            html HTML string to insert
+			 * @example selection.insertHTML("
+			 *          <p>
+			 *          foobar
+			 *          </p>
+			 *          ");
+			 */
             insertHTML: function(html) {
                 var range = rangy.createRange(this.doc),
                     node = range.createContextualFragment(html),
@@ -20575,12 +20515,12 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
             },
 
             /**
-             * Insert a node at the caret position and move the cursor behind it
-             * 
-             * @param {Object}
-             *            node HTML string to insert
-             * @example selection.insertNode(document.createTextNode("foobar"));
-             */
+			 * Insert a node at the caret position and move the cursor behind it
+			 * 
+			 * @param {Object}
+			 *            node HTML string to insert
+			 * @example selection.insertNode(document.createTextNode("foobar"));
+			 */
             insertNode: function(node) {
                 var range = this.getRange();
                 if (range) {
@@ -20589,11 +20529,11 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
             },
 
             /**
-             * Wraps current selection with the given node
-             * 
-             * @param {Object}
-             *            node The node to surround the selected elements with
-             */
+			 * Wraps current selection with the given node
+			 * 
+			 * @param {Object}
+			 *            node The node to surround the selected elements with
+			 */
             surround: function(node) {
                 var range = this.getRange();
                 if (!range) {
@@ -20601,7 +20541,8 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
                 }
 
                 try {
-                    // This only works when the range boundaries are not overlapping other
+                    // This only works when the range boundaries are not
+					// overlapping other
                     // elements
                     range.surroundContents(node);
                     this.selectNode(node);
@@ -20613,17 +20554,18 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
             },
 
             /**
-             * Scroll the current caret position into the view FIXME: This is a bit
-             * hacky, there might be a smarter way of doing this
-             * 
-             * @example selection.scrollIntoView();
-             */
+			 * Scroll the current caret position into the view FIXME: This is a
+			 * bit hacky, there might be a smarter way of doing this
+			 * 
+			 * @example selection.scrollIntoView();
+			 */
             scrollIntoView: function() {
                 var doc = this.doc,
                     hasScrollBars = doc.documentElement.scrollHeight > doc.documentElement.offsetHeight,
                     tempElement = doc._wysihtml5ScrollIntoViewElement = doc._wysihtml5ScrollIntoViewElement || (function() {
                         var element = doc.createElement("span");
-                        // The element needs content in order to be able to calculate it's
+                        // The element needs content in order to be able to
+						// calculate it's
                         // position properly
                         element.innerHTML = wysihtml5.INVISIBLE_SPACE;
                         return element;
@@ -20641,8 +20583,8 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
             },
 
             /**
-             * Select line where the caret is in
-             */
+			 * Select line where the caret is in
+			 */
             selectLine: function() {
                 if (wysihtml5.browser.supportsSelectionModify()) {
                     this._selectLine_W3C();
@@ -20652,8 +20594,8 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
             },
 
             /**
-             * See https://developer.mozilla.org/en/DOM/Selection/modify
-             */
+			 * See https://developer.mozilla.org/en/DOM/Selection/modify
+			 */
             _selectLine_W3C: function() {
                 var win = this.doc.defaultView,
                     selection = win.getSelection();
@@ -20677,7 +20619,8 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
                 }
 
                 if (rangeTop === 0) {
-                    // Don't know why, but when the selection ends at the end of a line
+                    // Don't know why, but when the selection ends at the end of
+					// a line
                     // range.boundingTop is 0
                     measureNode = this.doc.createElement("span");
                     this.insertNode(measureNode);
@@ -20694,8 +20637,10 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
                     } catch (e1) {}
                 }
 
-                // Investigate the following in order to handle multi line selections
-                // rangeBottom = rangeTop + (rangeHeight ? (rangeHeight - 1) : 0);
+                // Investigate the following in order to handle multi line
+				// selections
+                // rangeBottom = rangeTop + (rangeHeight ? (rangeHeight - 1) :
+				// 0);
                 rangeBottom = rangeTop;
                 rangeEnd = this.doc.selection.createRange();
                 for (j = scrollWidth; j >= 0; j--) {
@@ -21026,7 +20971,8 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
 
         undoToTextNode: function(textNode, range, ancestorWithClass) {
             if (!range.containsNode(ancestorWithClass)) {
-                // Split out the portion of the ancestor from which we can remove the
+                // Split out the portion of the ancestor from which we can
+				// remove the
                 // CSS class
                 var ancestorRange = range.cloneRange();
                 ancestorRange.selectNode(ancestorWithClass);
@@ -21124,7 +21070,8 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
                 isEmpty = (content === "" || content === wysihtml5.INVISIBLE_SPACE);
 
             if (isEmpty && isElement && canHaveHTML) {
-                // Make sure that caret is visible in node by inserting a zero width no
+                // Make sure that caret is visible in node by inserting a zero
+				// width no
                 // breaking space
                 try {
                     node.innerHTML = wysihtml5.INVISIBLE_SPACE;
@@ -21186,8 +21133,7 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
 /**
  * Rich Text Query/Formatting Commands
  * 
- * @example var commands = new
- *          wysihtml5.Commands(editor);
+ * @example var commands = new wysihtml5.Commands(editor);
  */
 wysihtml5.Commands = Base.extend(
     /** @scope wysihtml5.Commands.prototype */
@@ -21199,30 +21145,30 @@ wysihtml5.Commands = Base.extend(
         },
 
         /**
-         * Check whether the browser supports the given command
-         * 
-         * @param {String}
-         *            command The command string which to check (eg. "bold",
-         *            "italic", "insertUnorderedList")
-         * @example commands.supports("createLink");
-         */
+		 * Check whether the browser supports the given command
+		 * 
+		 * @param {String}
+		 *            command The command string which to check (eg. "bold",
+		 *            "italic", "insertUnorderedList")
+		 * @example commands.supports("createLink");
+		 */
         support: function(command) {
             return wysihtml5.browser.supportsCommand(this.doc, command);
         },
 
         /**
-         * Check whether the browser supports the given command
-         * 
-         * @param {String}
-         *            command The command string which to execute (eg. "bold",
-         *            "italic", "insertUnorderedList")
-         * @param {String}
-         *            [value] The command value parameter, needed for some commands
-         *            ("createLink", "insertImage", ...), optional for commands that
-         *            don't require one ("bold", "underline", ...)
-         * @example commands.exec("insertImage",
-         *          "http://a1.twimg.com/profile_images/113868655/schrei_twitter_reasonably_small.jpg");
-         */
+		 * Check whether the browser supports the given command
+		 * 
+		 * @param {String}
+		 *            command The command string which to execute (eg. "bold",
+		 *            "italic", "insertUnorderedList")
+		 * @param {String}
+		 *            [value] The command value parameter, needed for some
+		 *            commands ("createLink", "insertImage", ...), optional for
+		 *            commands that don't require one ("bold", "underline", ...)
+		 * @example commands.exec("insertImage",
+		 *          "http://a1.twimg.com/profile_images/113868655/schrei_twitter_reasonably_small.jpg");
+		 */
         exec: function(command, value) {
             var obj = wysihtml5.commands[command],
                 args = wysihtml5.lang.array(arguments).get(),
@@ -21246,18 +21192,18 @@ wysihtml5.Commands = Base.extend(
         },
 
         /**
-         * Check whether the current command is active If the caret is within a bold
-         * text, then calling this with command "bold" should return true
-         * 
-         * @param {String}
-         *            command The command string which to check (eg. "bold",
-         *            "italic", "insertUnorderedList")
-         * @param {String}
-         *            [commandValue] The command value parameter (eg. for
-         *            "insertImage" the image src)
-         * @return {Boolean} Whether the command is active
-         * @example var isCurrentSelectionBold = commands.state("bold");
-         */
+		 * Check whether the current command is active If the caret is within a
+		 * bold text, then calling this with command "bold" should return true
+		 * 
+		 * @param {String}
+		 *            command The command string which to check (eg. "bold",
+		 *            "italic", "insertUnorderedList")
+		 * @param {String}
+		 *            [commandValue] The command value parameter (eg. for
+		 *            "insertImage" the image src)
+		 * @return {Boolean} Whether the command is active
+		 * @example var isCurrentSelectionBold = commands.state("bold");
+		 */
         state: function(command, commandValue) {
             var obj = wysihtml5.commands[command],
                 args = wysihtml5.lang.array(arguments).get(),
@@ -21276,13 +21222,14 @@ wysihtml5.Commands = Base.extend(
         },
 
         /**
-         * Get the current command's value
-         * 
-         * @param {String}
-         *            command The command string which to check (eg. "formatBlock")
-         * @return {String} The command value
-         * @example var currentBlockElement = commands.value("formatBlock");
-         */
+		 * Get the current command's value
+		 * 
+		 * @param {String}
+		 *            command The command string which to check (eg.
+		 *            "formatBlock")
+		 * @return {String} The command value
+		 * @example var currentBlockElement = commands.value("formatBlock");
+		 */
         value: function(command) {
             var obj = wysihtml5.commands[command],
                 method = obj && obj.value;
@@ -21339,11 +21286,13 @@ wysihtml5.Commands = Base.extend(
             });
             textContent = dom.getTextContent(anchor);
 
-            // if <a> contains url-like text content, rename it to <code> to prevent
+            // if <a> contains url-like text content, rename it to <code> to
+			// prevent
             // re-autolinking
             // else replace <a> with its childNodes
             if (textContent.match(dom.autoLink.URL_REG_EXP) && !codeElement) {
-                // <code> element is used to prevent later auto-linking of the content
+                // <code> element is used to prevent later auto-linking of the
+				// content
                 codeElement = dom.renameElement(anchor, "code");
             } else {
                 dom.replaceWithChildNodes(anchor);
@@ -21394,10 +21343,10 @@ wysihtml5.Commands = Base.extend(
 
     wysihtml5.commands.createLink = {
         /**
-         * TODO: Use HTMLApplier or formatInline here
-         * 
-         * Turns selection into a link If selection is already a link, it removes
-         * the link and wraps it with a <code> element
+		 * TODO: Use HTMLApplier or formatInline here
+		 * 
+		 * Turns selection into a link If selection is already a link, it
+		 * removes the link and wraps it with a <code> element
          * The <code> element is needed to avoid auto linking
          * 
          * @example
@@ -21405,7 +21354,7 @@ wysihtml5.Commands = Base.extend(
          *    wysihtml5.commands.createLink.exec(composer, "createLink", "http://www.google.de");
          *    // ... or ...
          *    wysihtml5.commands.createLink.exec(composer, "createLink", { href: "http://www.google.de", target: "_blank" });
-         */
+		 */
         exec: function(composer, command, value) {
             var anchors = this.state(composer, command);
             if (anchors) {
@@ -21432,9 +21381,8 @@ wysihtml5.Commands = Base.extend(
     };
 })(wysihtml5);
 /**
- * document.execCommand("fontSize") will create either inline
- * styles (firefox, chrome) or use font tags which we don't want
- * Instead we set a css class
+ * document.execCommand("fontSize") will create either inline styles (firefox,
+ * chrome) or use font tags which we don't want Instead we set a css class
  */
 (function(wysihtml5) {
     var undef,
@@ -21488,9 +21436,9 @@ wysihtml5.Commands = Base.extend(
         BLOCK_ELEMENTS_GROUP = ["H1", "H2", "H3", "H4", "H5", "H6", "P", "BLOCKQUOTE", DEFAULT_NODE_NAME];
 
     /**
-     * Remove similiar classes (based on classRegExp) and add the desired class
-     * name
-     */
+	 * Remove similiar classes (based on classRegExp) and add the desired class
+	 * name
+	 */
     function _addClass(element, className, classRegExp) {
         if (element.className) {
             _removeClass(element, classRegExp);
@@ -21505,15 +21453,15 @@ wysihtml5.Commands = Base.extend(
     }
 
     /**
-     * Check whether given node is a text node and whether it's empty
-     */
+	 * Check whether given node is a text node and whether it's empty
+	 */
     function _isBlankTextNode(node) {
         return node.nodeType === wysihtml5.TEXT_NODE && !wysihtml5.lang.string(node.data).trim();
     }
 
     /**
-     * Returns previous sibling node that is not a blank text node
-     */
+	 * Returns previous sibling node that is not a blank text node
+	 */
     function _getPreviousSiblingThatIsNotBlank(node) {
         var previousSibling = node.previousSibling;
         while (previousSibling && _isBlankTextNode(previousSibling)) {
@@ -21523,8 +21471,8 @@ wysihtml5.Commands = Base.extend(
     }
 
     /**
-     * Returns next sibling node that is not a blank text node
-     */
+	 * Returns next sibling node that is not a blank text node
+	 */
     function _getNextSiblingThatIsNotBlank(node) {
         var nextSibling = node.nextSibling;
         while (nextSibling && _isBlankTextNode(nextSibling)) {
@@ -21534,10 +21482,10 @@ wysihtml5.Commands = Base.extend(
     }
 
     /**
-     * Adds line breaks before and after the given node if the previous and next
-     * siblings aren't already causing a visual line break (block element or
-     * <br>)
-     */
+	 * Adds line breaks before and after the given node if the previous and next
+	 * siblings aren't already causing a visual line break (block element or
+	 * <br>)
+	 */
     function _addLineBreakBeforeAndAfter(node) {
         var doc = node.ownerDocument,
             nextSibling = _getNextSiblingThatIsNotBlank(node),
@@ -21552,8 +21500,8 @@ wysihtml5.Commands = Base.extend(
     }
 
     /**
-     * Removes line breaks before and after the given node
-     */
+	 * Removes line breaks before and after the given node
+	 */
     function _removeLineBreakBeforeAndAfter(node) {
         var nextSibling = _getNextSiblingThatIsNotBlank(node),
             previousSibling = _getPreviousSiblingThatIsNotBlank(node);
@@ -21578,9 +21526,9 @@ wysihtml5.Commands = Base.extend(
     }
 
     /**
-     * Checks whether the elment causes a visual line break (<br>
-     * or block elements)
-     */
+	 * Checks whether the elment causes a visual line break (<br>
+	 * or block elements)
+	 */
     function _isLineBreakOrBlockElement(element) {
         if (_isLineBreak(element)) {
             return true;
@@ -21594,9 +21542,9 @@ wysihtml5.Commands = Base.extend(
     }
 
     /**
-     * Execute native query command and if necessary modify the inserted node's
-     * className
-     */
+	 * Execute native query command and if necessary modify the inserted node's
+	 * className
+	 */
     function _execCommand(doc, command, nodeName, className) {
         if (className) {
             var eventListener = dom.observe(doc, "DOMNodeInserted", function(event) {
@@ -21607,7 +21555,8 @@ wysihtml5.Commands = Base.extend(
                 }
                 displayStyle = dom.getStyle("display").from(target);
                 if (displayStyle.substr(0, 6) !== "inline") {
-                    // Make sure that only block elements receive the given class
+                    // Make sure that only block elements receive the given
+					// class
                     target.className += " " + className;
                 }
             });
@@ -21645,13 +21594,15 @@ wysihtml5.Commands = Base.extend(
                     }
                     var hasClasses = _hasClasses(blockElement);
                     if (!hasClasses && blockElement.nodeName === (nodeName || DEFAULT_NODE_NAME)) {
-                        // Insert a line break afterwards and beforewards when there are
+                        // Insert a line break afterwards and beforewards when
+						// there are
                         // siblings
                         // that are not of type line break or block element
                         _addLineBreakBeforeAndAfter(blockElement);
                         dom.replaceWithChildNodes(blockElement);
                     } else if (hasClasses) {
-                        // Make sure that styling is kept by renaming the element to <div>
+                        // Make sure that styling is kept by renaming the
+						// element to <div>
                         // and copying over the class name
                         dom.renameElement(blockElement, DEFAULT_NODE_NAME);
                     }
@@ -21659,7 +21610,8 @@ wysihtml5.Commands = Base.extend(
                 return;
             }
 
-            // Find similiar block element and rename it (<h2 class="foo"></h2> =>
+            // Find similiar block element and rename it (<h2 class="foo"></h2>
+			// =>
             // <h1 class="foo"></h1>)
             if (nodeName === null || wysihtml5.lang.array(BLOCK_ELEMENTS_GROUP).contains(nodeName)) {
                 selectedNode = composer.selection.getSelectedNode();
@@ -21669,7 +21621,8 @@ wysihtml5.Commands = Base.extend(
 
                 if (blockElement) {
                     composer.selection.executeAndRestoreSimple(function() {
-                        // Rename current block element to new block element and add class
+                        // Rename current block element to new block element and
+						// add class
                         if (nodeName) {
                             blockElement = dom.renameElement(blockElement, nodeName);
                         }
@@ -21709,24 +21662,21 @@ wysihtml5.Commands = Base.extend(
     };
 })(wysihtml5);
 /**
- * formatInline scenarios for tag "B" (| = caret, |foo| =
- * selected text)
+ * formatInline scenarios for tag "B" (| = caret, |foo| = selected text)
  * 
  * #1 caret in unformatted text: abcdefg| output: abcdefg<b>|</b>
  * 
  * #2 unformatted text selected: abc|deg|h output: abc<b>|deg|</b>h
  * 
- * #3 unformatted text selected across boundaries: ab|c
- * <span>defg|h</span> output: ab<b>|c </b><span><b>defg</b>|h</span>
+ * #3 unformatted text selected across boundaries: ab|c <span>defg|h</span>
+ * output: ab<b>|c </b><span><b>defg</b>|h</span>
  * 
- * #4 formatted text entirely selected <b>|abc|</b> output:
- * |abc|
+ * #4 formatted text entirely selected <b>|abc|</b> output: |abc|
  * 
- * #5 formatted text partially selected <b>ab|c|</b> output:
- * <b>ab</b>|c|
+ * #5 formatted text partially selected <b>ab|c|</b> output: <b>ab</b>|c|
  * 
- * #6 formatted text selected across boundaries <span>ab|c</span>
- * <b>de|fgh</b> output: <span>ab|c</span> de|<b>fgh</b>
+ * #6 formatted text selected across boundaries <span>ab|c</span> <b>de|fgh</b>
+ * output: <span>ab|c</span> de|<b>fgh</b>
  */
 (function(wysihtml5) {
     var undef,
@@ -21767,13 +21717,15 @@ wysihtml5.Commands = Base.extend(
                 aliasTagName = ALIAS_MAPPING[tagName] || tagName,
                 range;
 
-            // Check whether the document contains a node with the desired tagName
+            // Check whether the document contains a node with the desired
+			// tagName
             if (!wysihtml5.dom.hasElementWithTagName(doc, tagName) &&
                 !wysihtml5.dom.hasElementWithTagName(doc, aliasTagName)) {
                 return false;
             }
 
-            // Check whether the document contains a node with the desired className
+            // Check whether the document contains a node with the desired
+			// className
             if (className && !wysihtml5.dom.hasElementWithClassName(doc, className)) {
                 return false;
             }
@@ -21817,13 +21769,14 @@ wysihtml5.Commands = Base.extend(
 
     wysihtml5.commands.insertImage = {
         /**
-         * Inserts an <img> If selection is already an image link, it removes it
-         * 
-         * @example // either ... wysihtml5.commands.insertImage.exec(composer,
-         *          "insertImage", "http://www.google.de/logo.jpg"); // ... or ...
-         *          wysihtml5.commands.insertImage.exec(composer, "insertImage", {
-         *          src: "http://www.google.de/logo.jpg", title: "foo" });
-         */
+		 * Inserts an <img> If selection is already an image link, it removes it
+		 * 
+		 * @example // either ... wysihtml5.commands.insertImage.exec(composer,
+		 *          "insertImage", "http://www.google.de/logo.jpg"); // ... or
+		 *          ... wysihtml5.commands.insertImage.exec(composer,
+		 *          "insertImage", { src: "http://www.google.de/logo.jpg",
+		 *          title: "foo" });
+		 */
         exec: function(composer, command, value) {
             value = typeof(value) === "object" ? value : {
                 src: value
@@ -21841,7 +21794,8 @@ wysihtml5.Commands = Base.extend(
                 parent = image.parentNode;
                 parent.removeChild(image);
 
-                // and it's parent <a> too if it hasn't got any other relevant child
+                // and it's parent <a> too if it hasn't got any other relevant
+				// child
                 // nodes
                 wysihtml5.dom.removeEmptyTextNodes(parent);
                 if (parent.nodeName === "A" && !parent.firstChild) {
@@ -21849,7 +21803,8 @@ wysihtml5.Commands = Base.extend(
                     parent.parentNode.removeChild(parent);
                 }
 
-                // firefox and ie sometimes don't remove the image handles, even though
+                // firefox and ie sometimes don't remove the image handles, even
+				// though
                 // the image got removed
                 wysihtml5.quirks.redraw(composer.element);
                 return;
@@ -22197,7 +22152,8 @@ wysihtml5.Commands = Base.extend(
                 this.history = [this.composer.getValue()];
                 this.position = 1;
 
-                // Undo manager currently only supported in browsers who have the
+                // Undo manager currently only supported in browsers who have
+				// the
                 // insertHTML command (not IE)
                 if (this.composer.commands.support("insertHTML")) {
                     this._observe();
@@ -22243,16 +22199,22 @@ wysihtml5.Commands = Base.extend(
                 });
 
                 // Now this is very hacky:
-                // These days browsers don't offer a undo/redo event which we could hook
+                // These days browsers don't offer a undo/redo event which we
+				// could hook
                 // into
-                // to be notified when the user hits undo/redo in the contextmenu.
-                // Therefore we simply insert two elements as soon as the contextmenu
+                // to be notified when the user hits undo/redo in the
+				// contextmenu.
+                // Therefore we simply insert two elements as soon as the
+				// contextmenu
                 // gets opened.
-                // The last element being inserted will be immediately be removed again
+                // The last element being inserted will be immediately be
+				// removed again
                 // by a exexCommand("undo")
-                // => When the second element appears in the dom tree then we know the
+                // => When the second element appears in the dom tree then we
+				// know the
                 // user clicked "redo" in the context menu
-                // => When the first element disappears from the dom tree then we know
+                // => When the first element disappears from the dom tree then
+				// we know
                 // the user clicked "undo" in the context menu
                 if (wysihtml5.browser.hasUndoInContextMenu()) {
                     var interval, observed, cleanUp = function() {
@@ -22367,7 +22329,8 @@ wysihtml5.views.View = Base.extend(
                     if (view === that.name) {
                         that.parent.currentView = that;
                         that.show();
-                        // Using tiny delay here to make sure that the placeholder is set
+                        // Using tiny delay here to make sure that the
+						// placeholder is set
                         // before focusing
                         setTimeout(function() {
                             that.focus();
@@ -22453,7 +22416,8 @@ wysihtml5.views.View = Base.extend(
             show: function() {
                 this.iframe.style.display = this._displayStyle || "";
 
-                // Firefox needs this, otherwise contentEditable becomes uneditable
+                // Firefox needs this, otherwise contentEditable becomes
+				// uneditable
                 this.disable();
                 this.enable();
             },
@@ -22523,14 +22487,16 @@ wysihtml5.views.View = Base.extend(
                 });
                 this.iframe = this.sandbox.getIframe();
 
-                // Create hidden field which tells the server after submit, that the
+                // Create hidden field which tells the server after submit, that
+				// the
                 // user used an wysiwyg editor
                 var hiddenField = document.createElement("input");
                 hiddenField.type = "hidden";
                 hiddenField.name = "_wysihtml5_mode";
                 hiddenField.value = 1;
 
-                // Store reference to current wysihtml5 instance on the textarea element
+                // Store reference to current wysihtml5 instance on the textarea
+				// element
                 var textareaElement = this.textarea.element;
                 dom.insert(this.iframe).after(textareaElement);
                 dom.insert(hiddenField).after(textareaElement);
@@ -22557,7 +22523,8 @@ wysihtml5.views.View = Base.extend(
 
                 dom.addClass(this.element, this.config.composerClassName);
 
-                // Make the editor look like the original textarea, by syncing styles
+                // Make the editor look like the original textarea, by syncing
+				// styles
                 if (this.config.style) {
                     this.style();
                 }
@@ -22570,7 +22537,8 @@ wysihtml5.views.View = Base.extend(
                     dom.addClass(this.iframe, name);
                 }
 
-                // Simulate html5 placeholder attribute on contentEditable element
+                // Simulate html5 placeholder attribute on contentEditable
+				// element
                 var placeholderText = typeof(this.config.placeholder) === "string" ?
                     this.config.placeholder :
                     this.textarea.element.getAttribute("placeholder");
@@ -22578,7 +22546,8 @@ wysihtml5.views.View = Base.extend(
                     dom.simulatePlaceholder(this.parent, this, placeholderText);
                 }
 
-                // Make sure that the browser avoids using inline styles whenever
+                // Make sure that the browser avoids using inline styles
+				// whenever
                 // possible
                 this.commands.exec("styleWithCSS", false);
 
@@ -22595,7 +22564,8 @@ wysihtml5.views.View = Base.extend(
 
                 wysihtml5.quirks.insertLineBreakOnReturn(this);
 
-                // IE sometimes leaves a single paragraph, which can't be removed by the
+                // IE sometimes leaves a single paragraph, which can't be
+				// removed by the
                 // user
                 if (!browser.clearsContentEditableCorrectly()) {
                     wysihtml5.quirks.ensureProperClearing(this);
@@ -22605,7 +22575,8 @@ wysihtml5.views.View = Base.extend(
                     wysihtml5.quirks.ensureProperClearingOfLists(this);
                 }
 
-                // Set up a sync that makes sure that textarea and editor have the same
+                // Set up a sync that makes sure that textarea and editor have
+				// the same
                 // content
                 if (this.initSync && this.config.sync) {
                     this.initSync();
@@ -22630,9 +22601,11 @@ wysihtml5.views.View = Base.extend(
                     return;
                 }
 
-                // Only do the auto linking by ourselves when the browser doesn't
+                // Only do the auto linking by ourselves when the browser
+				// doesn't
                 // support auto linking
-                // OR when he supports auto linking but we were able to turn it off
+                // OR when he supports auto linking but we were able to turn it
+				// off
                 // (IE9+)
                 if (!supportsAutoLinking || (supportsAutoLinking && supportsDisablingOfAutoLinking)) {
                     this.parent.observe("newword:composer", function() {
@@ -22644,14 +22617,18 @@ wysihtml5.views.View = Base.extend(
 
                 // Assuming we have the following:
                 // <a href="http://www.google.de">http://www.google.de</a>
-                // If a user now changes the url in the innerHTML we want to make sure
+                // If a user now changes the url in the innerHTML we want to
+				// make sure
                 // that
-                // it's synchronized with the href attribute (as long as the innerHTML
+                // it's synchronized with the href attribute (as long as the
+				// innerHTML
                 // is still a url)
-                var // Use a live NodeList to check whether there are any links in the
+                var // Use a live NodeList to check whether there are any links
+					// in the
                     // document
                     links = this.sandbox.getDocument().getElementsByTagName("a"),
-                    // The autoLink helper method reveals a reg exp to detect correct
+                    // The autoLink helper method reveals a reg exp to detect
+					// correct
                     // urls
                     urlRegExp = dom.autoLink.URL_REG_EXP,
                     getTextContent = function(element) {
@@ -22719,7 +22696,8 @@ wysihtml5.views.View = Base.extend(
                                     style[property] = "";
                                 }
                             }
-                            // After resizing IE sometimes forgets to remove the old resize
+                            // After resizing IE sometimes forgets to remove the
+							// old resize
                             // handles
                             wysihtml5.quirks.redraw(element);
                         });
@@ -22744,8 +22722,8 @@ wysihtml5.views.View = Base.extend(
         win = window,
         HOST_TEMPLATE = doc.createElement("div"),
         /**
-         * Styles to copy from textarea to the composer element
-         */
+		 * Styles to copy from textarea to the composer element
+		 */
         TEXT_FORMATTING = [
             "background-color",
             "color", "cursor",
@@ -22755,8 +22733,8 @@ wysihtml5.views.View = Base.extend(
             "word-break", "word-wrap", "word-spacing"
         ],
         /**
-         * Styles to copy from textarea to the iframe
-         */
+		 * Styles to copy from textarea to the iframe
+		 */
         BOX_FORMATTING = [
             "background-color",
             "border-collapse",
@@ -22779,8 +22757,8 @@ wysihtml5.views.View = Base.extend(
             "width", "height"
         ],
         /**
-         * Styles to sync while the window gets resized
-         */
+		 * Styles to sync while the window gets resized
+		 */
         RESIZE_STYLE = [
             "width", "height",
             "top", "left", "right", "bottom"
@@ -22798,18 +22776,19 @@ wysihtml5.views.View = Base.extend(
         ];
 
     /**
-     * With "setActive" IE offers a smart way of focusing elements without
-     * scrolling them into view:
-     * http://msdn.microsoft.com/en-us/library/ms536738(v=vs.85).aspx
-     * 
-     * Other browsers need a more hacky way: (pssst don't tell my mama) In order
-     * to prevent the element being scrolled into view when focusing it, we
-     * simply move it out of the scrollable area, focus it, and reset it's
-     * position
-     */
+	 * With "setActive" IE offers a smart way of focusing elements without
+	 * scrolling them into view:
+	 * http://msdn.microsoft.com/en-us/library/ms536738(v=vs.85).aspx
+	 * 
+	 * Other browsers need a more hacky way: (pssst don't tell my mama) In order
+	 * to prevent the element being scrolled into view when focusing it, we
+	 * simply move it out of the scrollable area, focus it, and reset it's
+	 * position
+	 */
     var focusWithoutScrolling = function(element) {
         if (element.setActive) {
-            // Following line could cause a js error when the textarea is invisible
+            // Following line could cause a js error when the textarea is
+			// invisible
             // See https://github.com/xing/wysihtml5/issues/9
             try {
                 element.setActive();
@@ -22829,7 +22808,8 @@ wysihtml5.views.View = Base.extend(
                 position: "absolute",
                 top: "-99999px",
                 left: "-99999px",
-                // Don't ask why but temporarily setting -webkit-user-select to none
+                // Don't ask why but temporarily setting -webkit-user-select to
+				// none
                 // makes the whole thing performing smoother
                 WebkitUserSelect: "none"
             }).on(element);
@@ -22839,10 +22819,12 @@ wysihtml5.views.View = Base.extend(
             dom.setStyles(originalStyles).on(element);
 
             if (win.scrollTo) {
-                // Some browser extensions unset this method to prevent annoyances
+                // Some browser extensions unset this method to prevent
+				// annoyances
                 // "Better PopUp Blocker" for Chrome
                 // http://code.google.com/p/betterpopupblocker/source/browse/trunk/blockStart.js#100
-                // Issue: http://code.google.com/p/betterpopupblocker/issues/detail?id=1
+                // Issue:
+				// http://code.google.com/p/betterpopupblocker/issues/detail?id=1
                 win.scrollTo(originalScrollLeft, originalScrollTop);
             }
         }
@@ -22858,7 +22840,8 @@ wysihtml5.views.View = Base.extend(
         this.focusStylesHost = this.focusStylesHost || HOST_TEMPLATE.cloneNode(false);
         this.blurStylesHost = this.blurStylesHost || HOST_TEMPLATE.cloneNode(false);
 
-        // Remove placeholder before copying (as the placeholder has an affect on
+        // Remove placeholder before copying (as the placeholder has an affect
+		// on
         // the computed style)
         if (hasPlaceholder) {
             textareaElement.removeAttribute("placeholder");
@@ -22868,7 +22851,8 @@ wysihtml5.views.View = Base.extend(
             textareaElement.blur();
         }
 
-        // --------- iframe styles (has to be set before editor styles, otherwise
+        // --------- iframe styles (has to be set before editor styles,
+		// otherwise
         // IE9 sets wrong fontFamily on blurStylesHost) ---------
         dom.copyStyles(BOX_FORMATTING).from(textareaElement).to(this.iframe).andTo(this.blurStylesHost);
 
@@ -22885,7 +22869,8 @@ wysihtml5.views.View = Base.extend(
 
         // Make sure that we don't change the display style of the iframe when
         // copying styles oblur/onfocus
-        // this is needed for when the change_view event is fired where the iframe
+        // this is needed for when the change_view event is fired where the
+		// iframe
         // is hidden and then
         // the blur event fires and re-displays it
         var boxFormattingStyles = wysihtml5.lang.array(BOX_FORMATTING).without(["display"]);
@@ -22941,17 +22926,16 @@ wysihtml5.views.View = Base.extend(
     };
 })(wysihtml5);
 /**
- * Taking care of events - Simulating 'change' event on
- * contentEditable element - Handling drag & drop logic - Catch
- * paste events - Dispatch proprietary newword:composer event -
- * Keyboard shortcuts
+ * Taking care of events - Simulating 'change' event on contentEditable element -
+ * Handling drag & drop logic - Catch paste events - Dispatch proprietary
+ * newword:composer event - Keyboard shortcuts
  */
 (function(wysihtml5) {
     var dom = wysihtml5.dom,
         browser = wysihtml5.browser,
         /**
-         * Map keyCodes to query commands
-         */
+		 * Map keyCodes to query commands
+		 */
         shortcuts = {
             "66": "bold", // B
             "73": "italic", // I
@@ -22964,7 +22948,8 @@ wysihtml5.views.View = Base.extend(
             iframe = this.sandbox.getIframe(),
             element = this.element,
             focusBlurElement = browser.supportsEventsInIframeCorrectly() ? element : this.sandbox.getWindow(),
-            // Firefox < 3.5 doesn't support the drop event, instead it supports a
+            // Firefox < 3.5 doesn't support the drop event, instead it supports
+			// a
             // so called "dragdrop" event which behaves almost the same
             pasteEvents = browser.supportsEvent("drop") ? ["drop", "paste"] : ["dragdrop", "paste"];
 
@@ -23002,9 +22987,11 @@ wysihtml5.views.View = Base.extend(
         });
 
         if (wysihtml5.browser.isIos()) {
-            // When on iPad/iPhone/IPod after clicking outside of editor, the editor
+            // When on iPad/iPhone/IPod after clicking outside of editor, the
+			// editor
             // loses focus
-            // but the UI still acts as if the editor has focus (blinking caret and
+            // but the UI still acts as if the editor has focus (blinking caret
+			// and
             // onscreen keyboard visible)
             // We prevent that by focusing a temporary input element which
             // immediately loses focus
@@ -23105,7 +23092,8 @@ wysihtml5.views.View = Base.extend(
                 parent = target.parentNode;
                 // delete the <img>
                 parent.removeChild(target);
-                // and it's parent <a> too if it hasn't got any other child nodes
+                // and it's parent <a> too if it hasn't got any other child
+				// nodes
                 if (parent.nodeName === "A" && !parent.firstChild) {
                     parent.parentNode.removeChild(parent);
                 }
@@ -23139,8 +23127,8 @@ wysihtml5.views.View = Base.extend(
     };
 })(wysihtml5);
 /**
- * Class that takes care that the value of the composer and the
- * textarea is always in sync
+ * Class that takes care that the value of the composer and the textarea is
+ * always in sync
  */
 (function(wysihtml5) {
     var INTERVAL = 400;
@@ -23158,23 +23146,23 @@ wysihtml5.views.View = Base.extend(
             },
 
             /**
-             * Sync html from composer to textarea Takes care of placeholders
-             * 
-             * @param {Boolean}
-             *            shouldParseHtml Whether the html should be sanitized before
-             *            inserting it into the textarea
-             */
+			 * Sync html from composer to textarea Takes care of placeholders
+			 * 
+			 * @param {Boolean}
+			 *            shouldParseHtml Whether the html should be sanitized
+			 *            before inserting it into the textarea
+			 */
             fromComposerToTextarea: function(shouldParseHtml) {
                 this.textarea.setValue(wysihtml5.lang.string(this.composer.getValue()).trim(), shouldParseHtml);
             },
 
             /**
-             * Sync value of textarea to composer Takes care of placeholders
-             * 
-             * @param {Boolean}
-             *            shouldParseHtml Whether the html should be sanitized before
-             *            inserting it into the composer
-             */
+			 * Sync value of textarea to composer Takes care of placeholders
+			 * 
+			 * @param {Boolean}
+			 *            shouldParseHtml Whether the html should be sanitized
+			 *            before inserting it into the composer
+			 */
             fromTextareaToComposer: function(shouldParseHtml) {
                 var textareaValue = this.textarea.getValue();
                 if (textareaValue) {
@@ -23186,12 +23174,12 @@ wysihtml5.views.View = Base.extend(
             },
 
             /**
-             * Invoke syncing based on view state
-             * 
-             * @param {Boolean}
-             *            shouldParseHtml Whether the html should be sanitized before
-             *            inserting it into the composer/textarea
-             */
+			 * Invoke syncing based on view state
+			 * 
+			 * @param {Boolean}
+			 *            shouldParseHtml Whether the html should be sanitized
+			 *            before inserting it into the composer/textarea
+			 */
             sync: function(shouldParseHtml) {
                 if (this.editor.currentView.name === "textarea") {
                     this.fromTextareaToComposer(shouldParseHtml);
@@ -23201,10 +23189,10 @@ wysihtml5.views.View = Base.extend(
             },
 
             /**
-             * Initializes interval-based syncing also makes sure that on-submit the
-             * composer's content is synced with the textarea immediately when the form
-             * gets submitted
-             */
+			 * Initializes interval-based syncing also makes sure that on-submit
+			 * the composer's content is synced with the textarea immediately
+			 * when the form gets submitted
+			 */
             _observe: function() {
                 var interval,
                     that = this,
@@ -23222,7 +23210,8 @@ wysihtml5.views.View = Base.extend(
                 startInterval();
 
                 if (form) {
-                    // If the textarea is in a form make sure that after onreset and
+                    // If the textarea is in a form make sure that after onreset
+					// and
                     // onsubmit the composer
                     // has the correct state
                     wysihtml5.dom.observe(form, "submit", function() {
@@ -23299,10 +23288,11 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     focusout: "blur"
                 },
                 /**
-                 * Calling focus() or blur() on an element doesn't synchronously trigger
-                 * the attached focus/blur events This is the case for focusin and
-                 * focusout, so let's use them whenever possible, kkthxbai
-                 */
+				 * Calling focus() or blur() on an element doesn't synchronously
+				 * trigger the attached focus/blur events This is the case for
+				 * focusin and focusout, so let's use them whenever possible,
+				 * kkthxbai
+				 */
                 events = wysihtml5.browser.supportsEvent("focusin") ? ["focusin", "focusout", "change"] : ["focus", "blur", "change"];
 
             parent.observe("beforeload", function() {
@@ -23327,8 +23317,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
  * @param {Element}
  *            container The dialog container
  * 
- * @example <!-- Toolbar link --> <a
- *          data-wysihtml5-command="insertImage">insert an image</a>
+ * @example <!-- Toolbar link --> <a data-wysihtml5-command="insertImage">insert
+ *          an image</a>
  * 
  * <!-- Dialog --> <div data-wysihtml5-dialog="insertImage" style="display:
  * none;"> <label> URL: <input data-wysihtml5-dialog-field="src"
@@ -23338,8 +23328,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
  * <script> var dialog = new wysihtml5.toolbar.Dialog(
  * document.querySelector("[data-wysihtml5-command='insertImage']"),
  * document.querySelector("[data-wysihtml5-dialog='insertImage']") );
- * dialog.observe("save", function(attributes) { // do something });
- * </script>
+ * dialog.observe("save", function(attributes) { // do something }); </script>
  */
 (function(wysihtml5) {
     var dom = wysihtml5.dom,
@@ -23416,9 +23405,9 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Grabs all fields in the dialog and puts them in key=>value style in an
-             * object which then gets returned
-             */
+			 * Grabs all fields in the dialog and puts them in key=>value style
+			 * in an object which then gets returned
+			 */
             _serialize: function() {
                 var data = this.elementToChange || {},
                     fields = this.container.querySelectorAll(SELECTOR_FIELDS),
@@ -23431,25 +23420,25 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Takes the attributes of the "elementToChange" and inserts them in their
-             * corresponding dialog input fields
-             * 
-             * Assume the "elementToChange" looks like this: <a
-             * href="http://www.google.com" target="_blank">foo</a>
-             * 
-             * and we have the following dialog: <input type="text"
-             * data-wysihtml5-dialog-field="href" value=""> <input type="text"
-             * data-wysihtml5-dialog-field="target" value="">
-             * 
-             * after calling _interpolate() the dialog will look like this <input
-             * type="text" data-wysihtml5-dialog-field="href"
-             * value="http://www.google.com"> <input type="text"
-             * data-wysihtml5-dialog-field="target" value="_blank">
-             * 
-             * Basically it adopted the attribute values into the corresponding input
-             * fields
-             * 
-             */
+			 * Takes the attributes of the "elementToChange" and inserts them in
+			 * their corresponding dialog input fields
+			 * 
+			 * Assume the "elementToChange" looks like this: <a
+			 * href="http://www.google.com" target="_blank">foo</a>
+			 * 
+			 * and we have the following dialog: <input type="text"
+			 * data-wysihtml5-dialog-field="href" value=""> <input type="text"
+			 * data-wysihtml5-dialog-field="target" value="">
+			 * 
+			 * after calling _interpolate() the dialog will look like this
+			 * <input type="text" data-wysihtml5-dialog-field="href"
+			 * value="http://www.google.com"> <input type="text"
+			 * data-wysihtml5-dialog-field="target" value="_blank">
+			 * 
+			 * Basically it adopted the attribute values into the corresponding
+			 * input fields
+			 * 
+			 */
             _interpolate: function(avoidHiddenFields) {
                 var field,
                     fieldName,
@@ -23461,7 +23450,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 for (; i < length; i++) {
                     field = fields[i];
 
-                    // Never change elements where the user is currently typing in
+                    // Never change elements where the user is currently typing
+					// in
                     if (field === focusedElement) {
                         continue;
                     }
@@ -23479,8 +23469,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Show the dialog element
-             */
+			 * Show the dialog element
+			 */
             show: function(elementToChange) {
                 var that = this,
                     firstField = this.container.querySelector(SELECTOR_FORM_ELEMENTS);
@@ -23503,8 +23493,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Hide the dialog element
-             */
+			 * Hide the dialog element
+			 */
             hide: function() {
                 clearInterval(this.interval);
                 this.elementToChange = null;
@@ -23606,14 +23596,11 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
  * @param {Object}
  *            parent Reference to instance of Editor instance
  * @param {Element}
- *            container Reference to the toolbar container
- *            element
+ *            container Reference to the toolbar container element
  * 
- * @example <div id="toolbar"> <a
- *          data-wysihtml5-command="createLink">insert link</a>
- *          <a data-wysihtml5-command="formatBlock"
- *          data-wysihtml5-command-value="h1">insert h1</a>
- *          </div>
+ * @example <div id="toolbar"> <a data-wysihtml5-command="createLink">insert
+ *          link</a> <a data-wysihtml5-command="formatBlock"
+ *          data-wysihtml5-command-value="h1">insert h1</a> </div>
  * 
  * <script> var toolbar = new wysihtml5.toolbar.Toolbar(editor,
  * document.getElementById("toolbar")); </script>
@@ -23720,10 +23707,11 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * @example var toolbar = new wysihtml5.Toolbar(); // Insert a <blockquote>
-             *          element or wrap current selection in <blockquote>
-             *          toolbar.execCommand("formatBlock", "blockquote");
-             */
+			 * @example var toolbar = new wysihtml5.Toolbar(); // Insert a
+			 *          <blockquote> element or wrap current selection in
+			 *          <blockquote> toolbar.execCommand("formatBlock",
+			 *          "blockquote");
+			 */
             execCommand: function(command, commandValue) {
                 if (this.commandsDisabled) {
                     return;
@@ -23740,7 +23728,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             _execCommand: function(command, commandValue) {
-                // Make sure that composer is focussed (false => don't move caret to the
+                // Make sure that composer is focussed (false => don't move
+				// caret to the
                 // end)
                 this.editor.focus(false);
 
@@ -23770,9 +23759,11 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     i = 0;
 
                 for (; i < length; i++) {
-                    // 'javascript:;' and unselectable=on Needed for IE, but done in all
+                    // 'javascript:;' and unselectable=on Needed for IE, but
+					// done in all
                     // browsers to make sure that all get the same css applied
-                    // (you know, a:link { ... } doesn't match anchors with missing href
+                    // (you know, a:link { ... } doesn't match anchors with
+					// missing href
                     // attribute)
                     dom.setAttributes({
                         href: "javascript:;",
@@ -23816,7 +23807,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 });
 
                 editor.observe("change_view", function(currentView) {
-                    // Set timeout needed in order to let the blur event fire first
+                    // Set timeout needed in order to let the blur event fire
+					// first
                     setTimeout(function() {
                         that.commandsDisabled = (currentView !== "composer");
                         that._updateLinkStates();
@@ -23852,11 +23844,14 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     } else {
                         state = this.composer.commands.state(command.name, command.value);
                         if (wysihtml5.lang.object(state).isArray()) {
-                            // Grab first and only object/element in state array, otherwise
+                            // Grab first and only object/element in state
+							// array, otherwise
                             // convert state into boolean
-                            // to avoid showing a dialog for multiple selected elements which
+                            // to avoid showing a dialog for multiple selected
+							// elements which
                             // may have different attributes
-                            // eg. when two links with different href are selected, the state
+                            // eg. when two links with different href are
+							// selected, the state
                             // will be an array consisting of both link elements
                             // but the dialog interface can only update one
                             state = state.length === 1 ? state[0] : true;
@@ -23939,7 +23934,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
     var undef;
 
     var defaultConfig = {
-        // Give the editor a name, the name will also be set as class name on the
+        // Give the editor a name, the name will also be set as class name on
+		// the
         // iframe and on the iframe's body
         name: undef,
         // Whether the editor should look like the textarea (by adopting styles)
@@ -23950,7 +23946,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
         // Whether urls, entered by the user should automatically become
         // clickable-links
         autoLink: true,
-        // Object which includes parser rules to apply when html gets inserted via
+        // Object which includes parser rules to apply when html gets inserted
+		// via
         // copy & paste
         // See parser_rules/*.js for examples
         parserRules: {
@@ -23969,7 +23966,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
         composerClassName: "wysihtml5-editor",
         // Class name to add to the body when the wysihtml5 editor is supported
         bodyClassName: "wysihtml5-supported",
-        // Array (or single string) of stylesheet urls to be loaded in the editor's
+        // Array (or single string) of stylesheet urls to be loaded in the
+		// editor's
         // iframe
         stylesheets: [],
         // Placeholder text to use, defaults to the placeholder attribute on the
@@ -24002,7 +24000,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     return;
                 }
 
-                // Add class name to body, to indicate that the editor is supported
+                // Add class name to body, to indicate that the editor is
+				// supported
                 wysihtml5.dom.addClass(document.body, this.config.bodyClassName);
 
                 this.composer = new wysihtml5.views.Composer(this, this.textareaElement, this.config);
@@ -24051,16 +24050,16 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Deactivate editor (make it readonly)
-             */
+			 * Deactivate editor (make it readonly)
+			 */
             disable: function() {
                 this.currentView.disable();
                 return this;
             },
 
             /**
-             * Activate editor
-             */
+			 * Activate editor
+			 */
             enable: function() {
                 this.currentView.enable();
                 return this;
@@ -24083,8 +24082,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Prepare html parser logic - Observes for paste and drop
-             */
+			 * Prepare html parser logic - Observes for paste and drop
+			 */
             _initParser: function() {
                 this.observe("paste:composer", function() {
                     var keepScrollPosition = true,
@@ -24611,7 +24610,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             defaults = {
                 classes: '',
                 inline: false,
-                language: 'ru',
+                language: 'ko',
                 startDate: new Date(),
                 firstDay: '',
                 weekends: [6, 0],
@@ -24654,7 +24653,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 prevHtml: '<svg><path d="M 17,12 l -5,5 l 5,5"></path></svg>',
                 nextHtml: '<svg><path d="M 14,12 l 5,5 l -5,5"></path></svg>',
                 navTitles: {
-                    days: 'MM, <i>yyyy</i>',
+                    days: '<i>yyyy</i>년 MM',
                     months: 'yyyy',
                     years: 'yyyy1 - yyyy2'
                 },
@@ -24741,7 +24740,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
         datepicker.prototype = {
             VERSION: VERSION,
-            viewIndexes: ['days', 'months', 'years'],
+            viewIndexes: ['days','months','years'],
 
             init: function() {
                 if (!containerBuilt && !this.opts.inline && this.elIsInput) {
@@ -24885,7 +24884,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
             _triggerOnChange: function() {
                 if (!this.selectedDates.length) {
-                    // Prevent from triggering multiple onSelect callback with same
+                    // Prevent from triggering multiple onSelect callback with
+					// same
                     // argument (empty string) in IE10-11
                     if (this._prevOnSelectValue === '') return;
                     this._prevOnSelectValue = '';
@@ -25068,7 +25068,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     this.timepicker._setTime(date);
                 }
 
-                // On this step timepicker will set valid values in it's instance
+                // On this step timepicker will set valid values in it's
+				// instance
                 _this._trigger('selectDate', date);
 
                 // Set correct time values after timepicker's validation
@@ -25099,7 +25100,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     _this.nav._render()
                 }
 
-                if (opts.multipleDates && !opts.range) { // Set priority to range
+                if (opts.multipleDates && !opts.range) { // Set priority to
+															// range
                     // functionality
                     if (len === opts.multipleDates) return;
                     if (!_this._isSelected(date)) {
@@ -25117,7 +25119,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                         } else {
                             _this.minRange = date;
                         }
-                        // Swap dates if they were selected via dp.selectDate() and
+                        // Swap dates if they were selected via dp.selectDate()
+						// and
                         // second date was smaller then first
                         if (datepicker.bigger(_this.maxRange, _this.minRange)) {
                             _this.maxRange = _this.minRange;
@@ -25203,14 +25206,14 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Updates datepicker options
-             * 
-             * @param {String|Object}
-             *            param - parameter's name to update. If object then it will
-             *            extend current options
-             * @param {String|Number|Object}
-             *            [value] - new param value
-             */
+			 * Updates datepicker options
+			 * 
+			 * @param {String|Object}
+			 *            param - parameter's name to update. If object then it
+			 *            will extend current options
+			 * @param {String|Number|Object}
+			 *            [value] - new param value
+			 */
             update: function(param, value) {
                 var len = arguments.length,
                     lastSelectedDate = this.lastSelectedDate;
@@ -25308,15 +25311,15 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Check if date is between minDate and maxDate
-             * 
-             * @param date
-             *            {object} - date object
-             * @param type
-             *            {string} - cell type
-             * @returns {boolean}
-             * @private
-             */
+			 * Check if date is between minDate and maxDate
+			 * 
+			 * @param date
+			 *            {object} - date object
+			 * @param type
+			 *            {string} - cell type
+			 * @returns {boolean}
+			 * @private
+			 */
             _isInRange: function(date, type) {
                 var time = date.getTime(),
                     d = datepicker.getParsedDate(date),
@@ -25532,7 +25535,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 totalDaysInNextMonth = datepicker.getDaysCount(new Date(y, m));
                 newDate = new Date(y, m, d);
 
-                // If next month has less days than current, set date to total days
+                // If next month has less days than current, set date to total
+				// days
                 // in that month
                 if (totalDaysInNextMonth < d) d = totalDaysInNextMonth;
 
@@ -25708,7 +25712,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             _handleAlreadySelectedDates: function(alreadySelected, selectedDate) {
                 if (this.opts.range) {
                     if (!this.opts.toggleSelected) {
-                        // Add possibility to select same date when range is true
+                        // Add possibility to select same date when range is
+						// true
                         if (this.selectedDates.length != 2) {
                             this._trigger('clickCell', selectedDate);
                         }
@@ -25719,7 +25724,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     this.removeDate(selectedDate);
                 }
 
-                // Change last selected date to be able to change time when clicking
+                // Change last selected date to be able to change time when
+				// clicking
                 // on this cell
                 if (!this.opts.toggleSelected) {
                     this.lastSelectedDate = alreadySelected;
@@ -25830,7 +25836,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 var $cell = $(e.target).closest('.datepicker--cell'),
                     date = this._getDateFromCell($cell);
 
-                // Prevent from unnecessary rendering and setting new currentDate
+                // Prevent from unnecessary rendering and setting new
+				// currentDate
                 this.silent = true;
 
                 if (this.focused) {
@@ -26062,11 +26069,11 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
         };
 
         /**
-         * Returns copy of date with hours and minutes equals to 0
-         * 
-         * @param date
-         *            {Date}
-         */
+		 * Returns copy of date with hours and minutes equals to 0
+		 * 
+		 * @param date
+		 *            {Date}
+		 */
         datepicker.resetTime = function(date) {
             if (typeof date != 'object') return;
             date = datepicker.getParsedDate(date);
@@ -26099,6 +26106,18 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 today: 'Сегодня',
                 clear: 'Очистить',
                 dateFormat: 'dd.mm.yyyy',
+                timeFormat: 'hh:ii',
+                firstDay: 1
+            },
+            ko: {
+                days: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+                daysShort: ['일', '월', '화', '수', '목', '금', '토'],
+                daysMin: ['일', '월', '화', '수', '목', '금', '토'],
+                months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                monthsShort: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+                today: '오늘',
+                clear: '초기화',
+                dateFormat: 'yyyy-mm-dd',
                 timeFormat: 'hh:ii',
                 firstDay: 1
             }
@@ -26253,13 +26272,14 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Calculates days number to render. Generates days html and returns it.
-             * 
-             * @param {object}
-             *            date - Date object
-             * @returns {string}
-             * @private
-             */
+			 * Calculates days number to render. Generates days html and returns
+			 * it.
+			 * 
+			 * @param {object}
+			 *            date - Date object
+			 * @returns {string}
+			 * @private
+			 */
             _getDaysHtml: function(date) {
                 var totalMonthDays = dp.getDaysCount(date),
                     firstMonthDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
@@ -26294,13 +26314,13 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Generates months html
-             * 
-             * @param {object}
-             *            date - date instance
-             * @returns {string}
-             * @private
-             */
+			 * Generates months html
+			 * 
+			 * @param {object}
+			 *            date - date instance
+			 * @returns {string}
+			 * @private
+			 */
             _getMonthsHtml: function(date) {
                 var html = '',
                     d = dp.getParsedDate(date),
@@ -26628,20 +26648,21 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Sets minHours and minMinutes from date (usually it's a minDate) Also
-             * changes minMinutes if current hours are bigger then
-             * 
-             * @date hours
-             * @param date
-             *            {Date}
-             * @private
-             */
+			 * Sets minHours and minMinutes from date (usually it's a minDate)
+			 * Also changes minMinutes if current hours are bigger then
+			 * 
+			 * @date hours
+			 * @param date
+			 *            {Date}
+			 * @private
+			 */
             _setMinTimeFromDate: function(date) {
                 this.minHours = date.getHours();
                 this.minMinutes = date.getMinutes();
 
                 // If, for example, min hours are 10, and current hours are 12,
-                // update minMinutes to default value, to be able to choose whole
+                // update minMinutes to default value, to be able to choose
+				// whole
                 // range of values
                 if (this.d.lastSelectedDate) {
                     if (this.d.lastSelectedDate.getHours() > date.getHours()) {
@@ -26673,11 +26694,11 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Looks for min/max hours/minutes and if current values are out of
-             * range sets valid values.
-             * 
-             * @private
-             */
+			 * Looks for min/max hours/minutes and if current values are out of
+			 * range sets valid values.
+			 * 
+			 * @private
+			 */
             _validateHoursMinutes: function(date) {
                 if (this.hours < this.minHours) {
                     this.hours = this.minHours;
@@ -26748,13 +26769,13 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Sets minHours, minMinutes etc. from date. If date is not passed, than
-             * sets values from options
-             * 
-             * @param [date]
-             *            {object} - Date object, to get values from
-             * @private
-             */
+			 * Sets minHours, minMinutes etc. from date. If date is not passed,
+			 * than sets values from options
+			 * 
+			 * @param [date]
+			 *            {object} - Date object, to get values from
+			 * @private
+			 */
             _handleDate: function(date) {
                 this._setDefaultMinMaxTime();
                 if (date) {
@@ -26774,16 +26795,16 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             },
 
             /**
-             * Calculates valid hour value to display in text input and datepicker's
-             * body.
-             * 
-             * @param date
-             *            {Date|Number} - date or hours
-             * @param [ampm]
-             *            {Boolean} - 12 hours mode
-             * @returns {{hours: *, dayPeriod: string}}
-             * @private
-             */
+			 * Calculates valid hour value to display in text input and
+			 * datepicker's body.
+			 * 
+			 * @param date
+			 *            {Date|Number} - date or hours
+			 * @param [ampm]
+			 *            {Boolean} - 12 hours mode
+			 * @returns {{hours: *, dayPeriod: string}}
+			 * @private
+			 */
             _getValidHoursFromDate: function(date, ampm) {
                 var d = date,
                     hours = date;
@@ -26794,7 +26815,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 }
 
                 var _ampm = ampm || this.d.ampm,
-                    dayPeriod = 'am';
+                    dayPeriod = '오전';
 
                 if (_ampm) {
                     switch (true) {
@@ -26802,11 +26823,11 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                             hours = 12;
                             break;
                         case hours == 12:
-                            dayPeriod = 'pm';
+                            dayPeriod = '오후';
                             break;
                         case hours > 11:
                             hours = hours - 12;
-                            dayPeriod = 'pm';
+                            dayPeriod = '오후';
                             break;
                         default:
                             break;
@@ -26861,7 +26882,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
             _onMouseOutRange: function(e) {
                 var name = $(e.target).attr('name');
-                if (this.d.inFocus) return; // Prevent removing focus when mouse out
+                if (this.d.inFocus) return; // Prevent removing focus when mouse
+											// out
                 // of range slider
                 $('.datepicker--time-current-' + name, this.$timepicker).removeClass('-focus-');
             },
@@ -26874,7 +26896,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 })(window, jQuery);;
 (function($) {
     $.fn.datepicker.language['en'] = {
-        days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    	days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
         daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
         months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -26885,6 +26907,18 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
         timeFormat: 'hh:ii aa',
         firstDay: 0
     };
+    $.fn.datepicker.language['ko'] = {
+        	days: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+            daysShort: ['일', '월', '화', '수', '목', '금', '토'],
+            daysMin: ['일', '월', '화', '수', '목', '금', '토'],
+            months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthsShort: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+            today: '오늘',
+            clear: '초기화',
+            dateFormat: 'yyyy MM dd',
+            timeFormat: 'hh:ii',
+            firstDay: 1
+        };
 })(jQuery);
 (function($) {
     $.fn.timeDropper = function(options, callbackFnk) {
@@ -26902,7 +26936,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 _td_event = null,
                 _td_options = $.extend({
 
-                    format: 'h:mm a',
+                    format: 'a h시 mm분',
                     autoswitch: false,
                     meridians: false,
                     mousewheel: false,
@@ -26949,7 +26983,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 'readonly': true
             }).addClass('td-input');
 
-            $('body').append('<div class="td-wrap td-n2" id="td-clock-' + _td_id + '"><div class="td-overlay"></div><div class="td-clock td-init"><div class="td-deg td-n"><div class="td-select"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 35.4" enable-background="new 0 0 100 35.4" xml:space="preserve"><g><path fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M98.1,33C85.4,21.5,68.5,14.5,50,14.5S14.6,21.5,1.9,33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1.9" y1="33" x2="1.9" y2="28.6"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1.9" y1="33" x2="6.3" y2="33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="98.1" y1="33" x2="93.7" y2="33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="98.1" y1="33" x2="98.1" y2="28.6"/></g></svg></div></div><div class="td-medirian"><span class="td-icon-am td-n">AM</span><span class="td-icon-pm td-n">PM</span></div><div class="td-lancette"><div></div><div></div></div><div class="td-time"><span class="on"></span>:<span></span></div></div></div>');
+            $('body').append('<div class="td-wrap td-n2" id="td-clock-' + _td_id + '"><div class="td-overlay"></div><div class="td-clock td-init"><div class="td-deg td-n"><div class="td-select"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 35.4" enable-background="new 0 0 100 35.4" xml:space="preserve"><g><path fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M98.1,33C85.4,21.5,68.5,14.5,50,14.5S14.6,21.5,1.9,33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1.9" y1="33" x2="1.9" y2="28.6"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1.9" y1="33" x2="6.3" y2="33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="98.1" y1="33" x2="93.7" y2="33"/><line fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="98.1" y1="33" x2="98.1" y2="28.6"/></g></svg></div></div><div class="td-medirian"><span class="td-icon-am td-n">오전</span><span class="td-icon-pm td-n">오후</span></div><div class="td-lancette"><div></div><div></div></div><div class="td-time"><span class="on"></span>:<span></span></div></div></div>');
 
             $('head').append('<style>#td-clock-' + _td_id + ' .td-clock {color:' + _td_options.textColor + ';background: ' + _td_options.backgroundColor + '; box-shadow: 0 0 0 1px ' + _td_options.borderColor + ',0 0 0 8px rgba(0, 0, 0, 0.05); } #td-clock-' + _td_id + ' .td-clock .td-time span.on { color:' + _td_options.primaryColor + '} #td-clock-' + _td_id + ' .td-clock:before { border-color: ' + _td_options.borderColor + '} #td-clock-' + _td_id + ' .td-select:after { box-shadow: 0 0 0 1px ' + _td_options.borderColor + ' } #td-clock-' + _td_id + ' .td-clock:before,#td-clock-' + _td_id + ' .td-select:after {background: ' + _td_options.backgroundColor + ';} #td-clock-' + _td_id + ' .td-lancette {border: 2px solid ' + _td_options.primaryColor + '; opacity:0.1}#td-clock-' + _td_id + ' .td-lancette div:after { background: ' + _td_options.primaryColor + ';} #td-clock-' + _td_id + ' .td-bulletpoint div:after { background:' + _td_options.primaryColor + '; opacity:0.1}</style>');
 
@@ -27038,12 +27072,12 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     if (Math.round(_td_h) >= 12 && Math.round(_td_h) < 24) {
                         var
                             h = Math.round(_td_h) - 12,
-                            a = 'pm',
+                            a = '오후',
                             A = 'PM';
                     } else {
                         var
                             h = Math.round(_td_h),
-                            a = 'am',
+                            a = '오전',
                             A = 'AM';
                     }
 
@@ -27210,8 +27244,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
                         h = st[0].match(reg);
                         m = st[1].match(reg);
-                        if (_td_input.val().indexOf("am") != -1 || _td_input.val().indexOf("AM") != -1 || _td_input.val().indexOf("pm") != -1 || _td_input.val().indexOf("PM") != -1) {
-                            if (_td_input.val().indexOf("am") != -1 || _td_input.val().indexOf("AM") != -1) am = true;
+                        if (_td_input.val().indexOf("오전") != -1 || _td_input.val().indexOf("AM") != -1 || _td_input.val().indexOf("오후") != -1 || _td_input.val().indexOf("PM") != -1) {
+                            if (_td_input.val().indexOf("오전") != -1 || _td_input.val().indexOf("AM") != -1) am = true;
                             else am = false;
 
                             if (!am) {
@@ -37201,11 +37235,12 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     require = S2;
                 }
                 /**
-                 * @license almond 0.3.3 Copyright jQuery Foundation and other contributors.
-                 *          Released under MIT license,
-                 *          http://github.com/requirejs/almond/LICENSE
-                 */
-                // Going sloppy to avoid 'use strict' string cost, but strict practices should
+				 * @license almond 0.3.3 Copyright jQuery Foundation and other
+				 *          contributors. Released under MIT license,
+				 *          http://github.com/requirejs/almond/LICENSE
+				 */
+                // Going sloppy to avoid 'use strict' string cost, but strict
+				// practices should
                 // be followed.
                 /* global setTimeout: false */
 
@@ -37225,15 +37260,16 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     }
 
                     /**
-                     * Given a relative module name, like ./something, normalize it to a real
-                     * name that can be mapped to a path.
-                     * 
-                     * @param {String}
-                     *            name the relative name
-                     * @param {String}
-                     *            baseName a real name that the name arg is relative to.
-                     * @returns {String} normalized name
-                     */
+					 * Given a relative module name, like ./something, normalize
+					 * it to a real name that can be mapped to a path.
+					 * 
+					 * @param {String}
+					 *            name the relative name
+					 * @param {String}
+					 *            baseName a real name that the name arg is
+					 *            relative to.
+					 * @returns {String} normalized name
+					 */
                     function normalize(name, baseName) {
                         var nameParts, nameSegment, mapValue, foundMap, lastIndex,
                             foundI, foundStarMap, starI, i, j, part, normalizedBaseParts,
@@ -37246,8 +37282,10 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                             name = name.split('/');
                             lastIndex = name.length - 1;
 
-                            // If wanting node ID compatibility, strip .js from end
-                            // of IDs. Have to do this here, and not in nameToUrl
+                            // If wanting node ID compatibility, strip .js from
+							// end
+                            // of IDs. Have to do this here, and not in
+							// nameToUrl
                             // because node allows either .js or non .js to map
                             // to same file.
                             if (config.nodeIdCompat && jsSuffixRegExp.test(name[lastIndex])) {
@@ -37256,11 +37294,15 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
                             // Starts with a '.' so need the baseName
                             if (name[0].charAt(0) === '.' && baseParts) {
-                                // Convert baseName to array, and lop off the last part,
-                                // so that . matches that 'directory' and not name of the
+                                // Convert baseName to array, and lop off the
+								// last part,
+                                // so that . matches that 'directory' and not
+								// name of the
                                 // baseName's
-                                // module. For instance, baseName of 'one/two/three', maps to
-                                // 'one/two/three.js', but we want the directory, 'one/two' for
+                                // module. For instance, baseName of
+								// 'one/two/three', maps to
+                                // 'one/two/three.js', but we want the
+								// directory, 'one/two' for
                                 // this normalization.
                                 normalizedBaseParts = baseParts.slice(0, baseParts.length - 1);
                                 name = normalizedBaseParts.concat(name);
@@ -37273,11 +37315,16 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                                     name.splice(i, 1);
                                     i -= 1;
                                 } else if (part === '..') {
-                                    // If at the start, or previous value is still ..,
-                                    // keep them so that when converted to a path it may
-                                    // still work when converted to a path, even though
-                                    // as an ID it is less than ideal. In larger point
-                                    // releases, may be better to just kick out an error.
+                                    // If at the start, or previous value is
+									// still ..,
+                                    // keep them so that when converted to a
+									// path it may
+                                    // still work when converted to a path, even
+									// though
+                                    // as an ID it is less than ideal. In larger
+									// point
+                                    // releases, may be better to just kick out
+									// an error.
                                     if (i === 0 || (i === 1 && name[2] === '..') || name[i - 1] === '..') {
                                         continue;
                                     } else if (i > 0) {
@@ -37299,18 +37346,22 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                                 nameSegment = nameParts.slice(0, i).join("/");
 
                                 if (baseParts) {
-                                    // Find the longest baseName segment match in the config.
-                                    // So, do joins on the biggest to smallest lengths of
+                                    // Find the longest baseName segment match
+									// in the config.
+                                    // So, do joins on the biggest to smallest
+									// lengths of
                                     // baseParts.
                                     for (j = baseParts.length; j > 0; j -= 1) {
                                         mapValue = map[baseParts.slice(0, j).join('/')];
 
-                                        // baseName segment has config, find if it has one for
+                                        // baseName segment has config, find if
+										// it has one for
                                         // this name.
                                         if (mapValue) {
                                             mapValue = mapValue[nameSegment];
                                             if (mapValue) {
-                                                // Match, update name to the new value.
+                                                // Match, update name to the new
+												// value.
                                                 foundMap = mapValue;
                                                 foundI = i;
                                                 break;
@@ -37323,8 +37374,10 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                                     break;
                                 }
 
-                                // Check for a star map match, but just hold on to it,
-                                // if there is a shorter segment match later in a matching
+                                // Check for a star map match, but just hold on
+								// to it,
+                                // if there is a shorter segment match later in
+								// a matching
                                 // config, then favor over this star map.
                                 if (!foundStarMap && starMap && starMap[nameSegment]) {
                                     foundStarMap = starMap[nameSegment];
@@ -37348,13 +37401,16 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
                     function makeRequire(relName, forceSync) {
                         return function() {
-                            // A version of a require function that passes a moduleName
+                            // A version of a require function that passes a
+							// moduleName
                             // value for items that may need to
                             // look up paths relative to the moduleName
                             var args = aps.call(arguments, 0);
 
-                            // If first arg is not require('string'), and there is only
-                            // one arg, it is the array form without a callback. Insert
+                            // If first arg is not require('string'), and there
+							// is only
+                            // one arg, it is the array form without a callback.
+							// Insert
                             // a null so that the following concat is correct.
                             if (typeof args[0] !== 'string' && args.length === 1) {
                                 args.push(null);
@@ -37402,17 +37458,19 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                         return [prefix, name];
                     }
 
-                    // Creates a parts array for a relName where first part is plugin ID,
-                    // second part is resource ID. Assumes relName has already been normalized.
+                    // Creates a parts array for a relName where first part is
+					// plugin ID,
+                    // second part is resource ID. Assumes relName has already
+					// been normalized.
                     function makeRelParts(relName) {
                         return relName ? splitPrefix(relName) : [];
                     }
 
                     /**
-                     * Makes a name map, normalizing the name, and using a plugin for
-                     * normalization if necessary. Grabs a ref to plugin too, as an
-                     * optimization.
-                     */
+					 * Makes a name map, normalizing the name, and using a
+					 * plugin for normalization if necessary. Grabs a ref to
+					 * plugin too, as an optimization.
+					 */
                     makeMap = function(name, relParts) {
                         var plugin,
                             parts = splitPrefix(name),
@@ -37492,7 +37550,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
                         // Call the callback to define the module, if necessary.
                         if (callbackType === 'undefined' || callbackType === 'function') {
-                            // Pull out the defined dependencies and pass the ordered
+                            // Pull out the defined dependencies and pass the
+							// ordered
                             // values to the callback.
                             // Default to [require, exports, module] if no deps
                             deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
@@ -37526,8 +37585,10 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
                             if (name) {
                                 // If setting exports via "module" is in play,
-                                // favor that over return value and exports. After that,
-                                // favor a non-undefined return value over exports use.
+                                // favor that over return value and exports.
+								// After that,
+                                // favor a non-undefined return value over
+								// exports use.
                                 if (cjsModule && cjsModule.exports !== undef &&
                                     cjsModule.exports !== defined[name]) {
                                     defined[name] = cjsModule.exports;
@@ -37537,7 +37598,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                                 }
                             }
                         } else if (name) {
-                            // May just be an object definition for the module. Only
+                            // May just be an object definition for the module.
+							// Only
                             // worry about defining if have a module name.
                             defined[name] = callback;
                         }
@@ -37549,8 +37611,10 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                                 // callback in this case is really relName
                                 return handlers[deps](callback);
                             }
-                            // Just return the module wanted. In this scenario, the
-                            // deps arg is the module name, and second arg (if passed)
+                            // Just return the module wanted. In this scenario,
+							// the
+                            // deps arg is the module name, and second arg (if
+							// passed)
                             // is just the relName.
                             // Normalize module name, if it contains . or ..
                             return callDep(makeMap(deps, makeRelParts(callback)).f);
@@ -37565,7 +37629,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                             }
 
                             if (callback.splice) {
-                                // callback is an array, which means it is a dependency list.
+                                // callback is an array, which means it is a
+								// dependency list.
                                 // Adjust args if there are dependencies
                                 deps = callback;
                                 callback = relName;
@@ -37589,12 +37654,16 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                         if (forceSync) {
                             main(undef, deps, callback, relName);
                         } else {
-                            // Using a non-zero value because of concern for what old browsers
-                            // do, and latest browsers "upgrade" to 4 if lower value is used:
+                            // Using a non-zero value because of concern for
+							// what old browsers
+                            // do, and latest browsers "upgrade" to 4 if lower
+							// value is used:
                             // http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
-                            // If want a value immediately, use require('id') instead --
+                            // If want a value immediately, use require('id')
+							// instead --
                             // something
-                            // that works in almond on the global level, but not guaranteed and
+                            // that works in almond on the global level, but not
+							// guaranteed and
                             // unlikely to work in other AMD implementations.
                             setTimeout(function() {
                                 main(undef, deps, callback, relName);
@@ -37605,16 +37674,16 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     };
 
                     /**
-                     * Just drops the config on the floor, but returns req in case the config
-                     * return value is used.
-                     */
+					 * Just drops the config on the floor, but returns req in
+					 * case the config return value is used.
+					 */
                     req.config = function(cfg) {
                         return req(cfg);
                     };
 
                     /**
-                     * Expose module registry for debugging and tooling
-                     */
+					 * Expose module registry for debugging and tooling
+					 */
                     requirejs._defined = defined;
 
                     define = function(name, deps, callback) {
@@ -37746,7 +37815,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 }
 
                 var calledMethod = function(methodName) {
-                    // Stub out the original method if it's not decorating an actual method
+                    // Stub out the original method if it's not decorating an
+					// actual method
                     var originalMethod = function() {};
 
                     if (methodName in DecoratedClass.prototype) {
@@ -37798,7 +37868,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     params = [];
                 }
 
-                // If there are no arguments to the event, use a temporary object
+                // If there are no arguments to the event, use a temporary
+				// object
                 if (params.length === 0) {
                     params.push({});
                 }
@@ -37876,7 +37947,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
             Utils.hasScroll = function(index, el) {
                 // Adapted from the function created by @ShadowScripter
-                // and adapted by @BillBarry on the Stack Exchange Code Review website.
+                // and adapted by @BillBarry on the Stack Exchange Code Review
+				// website.
                 // The original code can be found at
                 // http://codereview.stackexchange.com/q/13338
                 // and was designed to be used with the Sizzle selector engine.
@@ -37982,9 +38054,11 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     if (Utils.__cache[id]) {
                         return Utils.__cache[id][name] != null ?
                             Utils.__cache[id][name] :
-                            $(element).data(name); // Fallback to HTML5 data attribs.
+                            $(element).data(name); // Fallback to HTML5 data
+													// attribs.
                     }
-                    return $(element).data(name); // Fallback to HTML5 data attribs.
+                    return $(element).data(name); // Fallback to HTML5 data
+													// attribs.
                 } else {
                     return Utils.__cache[id];
                 }
@@ -38111,7 +38185,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     // If there are selected options, highlight the first
                     $selected.first().trigger('mouseenter');
                 } else {
-                    // If there are no selected options, highlight the first option
+                    // If there are no selected options, highlight the first
+					// option
                     // in the dropdown
                     $options.first().trigger('mouseenter');
                 }
@@ -38655,10 +38730,12 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             BaseSelection.prototype._handleBlur = function(evt) {
                 var self = this;
 
-                // This needs to be delayed as the active element is the body when the tab
+                // This needs to be delayed as the active element is the body
+				// when the tab
                 // key is pressed, possibly along with others.
                 window.setTimeout(function() {
-                    // Don't trigger `blur` if the focus is still in the selection
+                    // Don't trigger `blur` if the focus is still in the
+					// selection
                     if (
                         (document.activeElement == self.$selection[0]) ||
                         ($.contains(self.$selection[0], document.activeElement))
@@ -39042,7 +39119,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                         data: data[d]
                     };
 
-                    // Trigger the `unselect` event, so people can prevent it from being
+                    // Trigger the `unselect` event, so people can prevent it
+					// from being
                     // cleared.
                     this.trigger('unselect', unselectData);
 
@@ -39181,23 +39259,30 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     }
                 });
 
-                // Try to detect the IE version should the `documentMode` property that
-                // is stored on the document. This is only implemented in IE and is
+                // Try to detect the IE version should the `documentMode`
+				// property that
+                // is stored on the document. This is only implemented in IE and
+				// is
                 // slightly cleaner than doing a user agent check.
-                // This property is not available in Edge, but Edge also doesn't have
+                // This property is not available in Edge, but Edge also doesn't
+				// have
                 // this bug.
                 var msie = document.documentMode;
                 var disableInputEvents = msie && msie <= 11;
 
-                // Workaround for browsers which do not support the `input` event
-                // This will prevent double-triggering of events for browsers which support
+                // Workaround for browsers which do not support the `input`
+				// event
+                // This will prevent double-triggering of events for browsers
+				// which support
                 // both the `keyup` and `input` events.
                 this.$selection.on(
                     'input.searchcheck',
                     '.select2-search--inline',
                     function(evt) {
-                        // IE will trigger the `input` event when a placeholder is used on a
-                        // search box. To get around this issue, we are forced to ignore all
+                        // IE will trigger the `input` event when a placeholder
+						// is used on a
+                        // search box. To get around this issue, we are forced
+						// to ignore all
                         // `input` events in IE and keep using `keyup`.
                         if (disableInputEvents) {
                             self.$selection.off('input.search input.searchcheck');
@@ -39213,8 +39298,10 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     'keyup.search input.search',
                     '.select2-search--inline',
                     function(evt) {
-                        // IE will trigger the `input` event when a placeholder is used on a
-                        // search box. To get around this issue, we are forced to ignore all
+                        // IE will trigger the `input` event when a placeholder
+						// is used on a
+                        // search box. To get around this issue, we are forced
+						// to ignore all
                         // `input` events in IE and keep using `keyup`.
                         if (disableInputEvents && evt.type === 'input') {
                             self.$selection.off('input.search input.searchcheck');
@@ -39239,12 +39326,13 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             };
 
             /**
-             * This method will transfer the tabindex attribute from the rendered
-             * selection to the search box. This allows for the search box to be used as
-             * the primary focus instead of the selection container.
-             * 
-             * @private
-             */
+			 * This method will transfer the tabindex attribute from the
+			 * rendered selection to the search box. This allows for the search
+			 * box to be used as the primary focus instead of the selection
+			 * container.
+			 * 
+			 * @private
+			 */
             Search.prototype._transferTabIndex = function(decorated) {
                 this.$search.attr('tabindex', this.$selection.attr('tabindex'));
                 this.$selection.attr('tabindex', '-1');
@@ -40618,7 +40706,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
                 var $options = [];
 
-                // Filter out all items except for the one passed in the argument
+                // Filter out all items except for the one passed in the
+				// argument
                 function onlyItem(item) {
                     return function() {
                         return $(this).val() == item.id;
@@ -40730,7 +40819,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                         var results = self.processResults(data, params);
 
                         if (self.options.get('debug') && window.console && console.error) {
-                            // Check to make sure that the response included a `results` key.
+                            // Check to make sure that the response included a
+							// `results` key.
                             if (!results || !results.results || !$.isArray(results.results)) {
                                 console.error(
                                     'Select2: The AJAX results did not return an array in the ' +
@@ -40932,7 +41022,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                         return $(this).val() === item.id;
                     });
 
-                    // If an existing option wasn't found for it, create the option
+                    // If an existing option wasn't found for it, create the
+					// option
                     if (!$existingOptions.length) {
                         var $option = self.option(item);
                         $option.attr('data-select2-tag', true);
@@ -40941,7 +41032,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                         self.addOptions([$option]);
                     }
 
-                    // Select the item, now that we know there is an option for it
+                    // Select the item, now that we know there is an option for
+					// it
                     select(item);
                 }
 
@@ -41190,8 +41282,10 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     self._keyUpPrevented = evt.isDefaultPrevented();
                 });
 
-                // Workaround for browsers which do not support the `input` event
-                // This will prevent double-triggering of events for browsers which support
+                // Workaround for browsers which do not support the `input`
+				// event
+                // This will prevent double-triggering of events for browsers
+				// which support
                 // both the `keyup` and `input` events.
                 this.$search.on('input', function(evt) {
                     // Unbind the duplicated `keyup` event
@@ -41550,7 +41644,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     top: container.bottom
                 };
 
-                // Determine what the parent element is to use for calciulating the offset
+                // Determine what the parent element is to use for calciulating
+				// the offset
                 var $offsetParent = this.$dropdownParent;
 
                 // For statically positoned elements, we need to get the element
@@ -41674,7 +41769,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 if (params && params.originalSelect2Event != null) {
                     var event = params.originalSelect2Event;
 
-                    // Don't select an item if the close event was triggered from a select
+                    // Don't select an item if the close event was triggered
+					// from a select
                     // or
                     // unselect event
                     if (event._type === 'select' || event._type === 'unselect') {
@@ -42050,13 +42146,17 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                             language = Translation.loadPath(name);
                         } catch (e) {
                             try {
-                                // If we couldn't load it, check if it wasn't the full path
+                                // If we couldn't load it, check if it wasn't
+								// the full path
                                 name = this.defaults.amdLanguageBase + name;
                                 language = Translation.loadPath(name);
                             } catch (ex) {
-                                // The translation could not be loaded at all. Sometimes this is
-                                // because of a configuration problem, other times this can be
-                                // because of how Select2 helps load all possible translation files.
+                                // The translation could not be loaded at all.
+								// Sometimes this is
+                                // because of a configuration problem, other
+								// times this can be
+                                // because of how Select2 helps load all
+								// possible translation files.
                                 if (options.debug && window.console && console.warn) {
                                     console.warn(
                                         'Select2: The language file for "' + name + '" could not be ' +
@@ -42106,7 +42206,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     // Do a recursive check for options with children
                     if (data.children && data.children.length > 0) {
                         // Clone the data object if there are children
-                        // This is required as we modify the object to remove any non-matches
+                        // This is required as we modify the object to remove
+						// any non-matches
                         var match = $.extend(true, {}, data);
 
                         // Check each child of the option
@@ -42115,7 +42216,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
                             var matches = matcher(params, child);
 
-                            // If there wasn't a match, remove the object in the array
+                            // If there wasn't a match, remove the object in the
+							// array
                             if (matches == null) {
                                 match.children.splice(c, 1);
                             }
@@ -42126,7 +42228,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                             return match;
                         }
 
-                        // If there were no matching children, check just the plain object
+                        // If there were no matching children, check just the
+						// plain object
                         return matcher(params, match);
                     }
 
@@ -42273,7 +42376,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 var dataset = {};
 
                 // Prefer the element's `dataset` attribute if it exists
-                // jQuery 1.x does not correctly handle data attributes with multiple dashes
+                // jQuery 1.x does not correctly handle data attributes with
+				// multiple dashes
                 if ($.fn.jquery && $.fn.jquery.substr(0, 2) == '1.' && $e[0].dataset) {
                     dataset = $.extend(true, {}, $e[0].dataset, Utils.GetData($e[0]));
                 } else {
@@ -42685,8 +42789,10 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 var changed = false;
                 var self = this;
 
-                // Ignore any mutation events raised for elements that aren't options or
-                // optgroups. This handles the case when the select element is destroyed
+                // Ignore any mutation events raised for elements that aren't
+				// options or
+                // optgroups. This handles the case when the select element is
+				// destroyed
                 if (
                     evt && evt.target && (
                         evt.target.nodeName !== 'OPTION' && evt.target.nodeName !== 'OPTGROUP'
@@ -42696,7 +42802,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 }
 
                 if (!mutations) {
-                    // If mutation events aren't supported, then we can only assume that the
+                    // If mutation events aren't supported, then we can only
+					// assume that the
                     // change affected the selections
                     changed = true;
                 } else if (mutations.addedNodes && mutations.addedNodes.length > 0) {
@@ -42722,9 +42829,9 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             };
 
             /**
-             * Override the trigger method to automatically trigger pre-events when
-             * there are events that can be prevented.
-             */
+			 * Override the trigger method to automatically trigger pre-events
+			 * when there are events that can be prevented.
+			 */
             Select2.prototype.trigger = function(name, args) {
                 var actualTrigger = Select2.__super__.trigger;
                 var preTriggerMap = {
@@ -43427,11 +43534,11 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
         });
 
         /*
-         * ! jQuery Mousewheel 3.1.13
-         * 
-         * Copyright jQuery Foundation and other contributors Released under the MIT
-         * license http://jquery.org/license
-         */
+		 * ! jQuery Mousewheel 3.1.13
+		 * 
+		 * Copyright jQuery Foundation and other contributors Released under the
+		 * MIT license http://jquery.org/license
+		 */
 
         (function(factory) {
             if (typeof S2.define === 'function' && S2.define.amd) {
@@ -43468,7 +43575,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     } else {
                         this.onmousewheel = handler;
                     }
-                    // Store the line height and page height for this particular element
+                    // Store the line height and page height for this particular
+					// element
                     $.data(this, 'mousewheel-line-height', special.getLineHeight(this));
                     $.data(this, 'mousewheel-page-height', special.getPageHeight(this));
                 },
@@ -43501,7 +43609,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
                 settings: {
                     adjustOldDeltas: true, // see shouldAdjustOldDeltas() below
-                    normalizeOffset: true // calls getBoundingClientRect for each
+                    normalizeOffset: true // calls getBoundingClientRect for
+											// each
                     // event
                 }
             };
@@ -43543,7 +43652,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     deltaX = orgEvent.wheelDeltaX * -1;
                 }
 
-                // Firefox < 17 horizontal scrolling related to DOMMouseScroll event
+                // Firefox < 17 horizontal scrolling related to DOMMouseScroll
+				// event
                 if ('axis' in orgEvent && orgEvent.axis === orgEvent.HORIZONTAL_AXIS) {
                     deltaX = deltaY * -1;
                     deltaY = 0;
@@ -43570,7 +43680,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                     return;
                 }
 
-                // Need to convert lines and pages to pixels if we aren't already in
+                // Need to convert lines and pages to pixels if we aren't
+				// already in
                 // pixels
                 // There are three delta modes:
                 // * deltaMode 0 is by pixels, nothing to do
@@ -43656,7 +43767,8 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
                 // older mouse wheel event and that we should divide the deltas
                 // by 40 to try and get a more usable deltaFactor.
                 // Side note, this actually impacts the reported scroll distance
-                // in older browsers and can cause scrolling to be slower than native.
+                // in older browsers and can cause scrolling to be slower than
+				// native.
                 // Turn this off by setting
                 // $.event.special.mousewheel.settings.adjustOldDeltas to false.
                 return special.settings.adjustOldDeltas && orgEvent.type === 'mousewheel' && absDelta % 120 === 0;

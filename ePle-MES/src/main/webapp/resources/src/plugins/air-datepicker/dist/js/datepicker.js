@@ -13,7 +13,7 @@
         defaults = {
             classes: '',
             inline: false,
-            language: 'ru',
+            language: 'ko',
             startDate: new Date(),
             firstDay: '',
             weekends: [6, 0],
@@ -143,7 +143,7 @@
 
     datepicker.prototype = {
         VERSION: VERSION,
-        viewIndexes: ['years','months', 'years'],
+        viewIndexes: ['days','months', 'years'],
 
         init: function () {
             if (!containerBuilt && !this.opts.inline && this.elIsInput) {

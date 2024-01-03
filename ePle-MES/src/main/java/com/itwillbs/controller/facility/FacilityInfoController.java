@@ -55,6 +55,7 @@ public class FacilityInfoController {
 		pageVO.setCri(cri);
 		searchVO.setIsajax(false);
 		pageVO.setSearch(searchVO);
+		pageVO.getSearch().setBetweenDates();
 		pageVO.setTotalCount(fService.facilityListCount(pageVO));
 		logger.debug("pageVO : " + pageVO);
 		List<FacilityVO> vo = fService.getFacilityList(pageVO);
