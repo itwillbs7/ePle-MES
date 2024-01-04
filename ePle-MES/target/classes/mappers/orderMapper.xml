@@ -9,36 +9,49 @@
   
   	<resultMap type="com.itwillbs.domain.OrderVO" id="order">
 		<result property="code" column="code"/>
-		<result property="material" column="material"/>
 		<result property="date" column="date"/>
+		<result property="group_id" column="group_id"/>
+		<result property="group_name" column="group_name"/>
+		<result property="code_id" column="code_id"/>
+		<result property="code_name" column="code_name"/>
 		<result property="client_code" column="client_code"/>
+		<result property="client_name" column="client_name"/>
 		<result property="amount" column="amount"/>
+		<result property="price" column="price"/>
 		<result property="complete" column="complete"/>
 		<result property="order_date" column="order_date"/>
 		<result property="reg_date" column="reg_date"/>
 		<result property="reg_emp" column="reg_emp"/>
+		<result property="reg_name" column="reg_name"/>
 		<result property="update_date" column="update_date"/>
 		<result property="update_emp" column="update_emp"/>
+		<result property="update_name" column="update_name"/>
 		<result property="status" column="status"/>
-		<result property="name" column="name"/>
-		<result property="category" column="category"/>
 	</resultMap>
+
+
+
+		<!-- 발주 신청 조회 -->
+<!-- 		SELECT o.code, o.date, co.group_name, co.code_name, o.amount, o.price, o.order_date, o.status, o.complete 
+    	FROM ORDERS o
+		JOIN COMMON_CODE co ON o.group_id = co.group_id AND o.code_id = co.code_id
+		WHERE o.group_id IN ('MA','PD','FACETC','FACNPR','FACPRO') AND o.status = '신청'
+		LIMIT #{cri.startPage}, #{cri.pageSize} -->
 
 	
 	<!-- 발주 목록, 발주 검색 -->
 	<select id="selectOrderList" parameterType="hashMap" resultMap="order">
-    	SELECT o.code,o.material,o.date,
+    	SELECT o.code, o.date, co.group_name, co.code_name, cli.name client_name, o.amount, o.price,
+    		o.order_date, o.reg_date, reg.name reg_name, o.update_date, up.name update_name, o.status, o.complete 
     	FROM ORDERS o
-    	JOIN CLIENT c
-    	ON o.client_code=c.code
-    	JOIN EMPLOYEES e1
-    	ON o.reg_emp=e1.code
-    	JOIN EMPLOYEES e2
-    	ON o.update_emp=e2.code
-		<where>
+    	JOIN CLIENT cli ON o.client_code = cli.code
+    	JOIN EMPLOYEES reg ON o.reg_emp = reg.code
+    	JOIN EMPLOYEES up ON o.update_emp = up.code
+		JOIN COMMON_CODE co ON o.group_id = co.group_id AND o.code_id = co.code_id
+		WHERE o.group_id IN ('MA','PD','FACETC','FACNPR','FACPRO') 
 			<if test="searchOrder != null or searchMapd != null">
 			<if test="searchOrder != null">
-				code LIKE CONCAT('%', #{searchOrder}, '%')
+				AND o.code LIKE CONCAT('%', #{searchOrder}, '%')
 			</if>
 			<if test="searchOrder != null and searchMapd != null">
 				AND
@@ -47,7 +60,6 @@
 				material LIKE CONCAT('%', #{searchMapd}, '%')
 			</if>
 			</if>
-    	</where>
     	<!-- ORDER BY CAST(SUBSTRING(code, 4) AS UNSIGNED) DESC -->	<!-- 코드 정하면 바꾸기 -->
     	LIMIT #{cri.startPage}, #{cri.pageSize}
 	</select>

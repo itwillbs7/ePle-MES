@@ -26,6 +26,20 @@ public class OrderDAOImpl implements OrderDAO {
 	private SqlSession sqlSession;
 	
 	
+	
+	@Override
+	public List<OrderVO> getOrderAskList(Criteria cri) throws Exception {
+	    List<OrderVO> orderAskList = sqlSession.selectList(NAMESPACE + ".selectOrderAskList");
+	    return orderAskList;
+	}
+
+	@Override
+	public int getOrderAskCount() throws Exception {
+		return sqlSession.selectOne(NAMESPACE+ ".countOrderAsk");
+	}
+	
+	
+	
 	// 4-9 발주 목록 ~ 4-10 발주 검색 
 	@Override
 	public List<OrderVO> getOrderList(Criteria cri, String searchOrder, String searchMapd) throws Exception {
