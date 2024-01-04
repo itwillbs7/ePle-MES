@@ -77,11 +77,11 @@
 		function submitForm(){
 			
 		$.ajax({
-		    url: '/request/searchManager',
+		    url: '/shipment/searchRequest',
 		    type: 'POST',
 		    data: { 
-		    	manager: $('#manager').val(),
-		    	managerName: $('#managerName').val() 
+		    	clientName: $('#manager').val(),
+		    	productName: $('#managerName').val() 
 		    },
 		    success: function(data) {
 		    	// 서버로부터 받은 데이터를 사용하여 테이블 업데이트
@@ -104,14 +104,6 @@
 	//부모창으로 데이터 넘기기
     function selectWork(a,b,c,d,e,f,g,h,i){ // 부모창으로 값 넘기기
 		
-// 		if(opener.document.getElementById("searchManager") != null){
-//     		opener.document.getElementById("manager").value = a
-//     		opener.document.getElementById("searchManager").value = b
-//     		opener.document.getElementById("manager").dispatchEvent(new Event('input'));
-//     	    opener.document.getElementById("searchManager").dispatchEvent(new Event('input'));
-//     		self.close();
-// 			return;
-// 		}
     		opener.document.getElementById("reqs_code").value = a //수주번호
     		opener.document.getElementById("product").value = b //품번
     		opener.document.getElementById("clientName").value = c //회사명

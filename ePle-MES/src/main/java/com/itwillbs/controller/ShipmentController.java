@@ -127,19 +127,14 @@ public class ShipmentController {
 		
 		// 수주 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
+		sService.dataInsertShipment(vo);
 		
 		// vo에 세션 아이디 추가하기
 //		String id = (String) session.getAttribute("id");
 //		vo.setReg_emp(id);
 		String id = "test";
 		vo.setReg_emp(id);
-		
-//		String code = vo.getCode(); // 출하번호
-//		String request = vo.getReqs_code(); // 수주번호
-//		
-//		// LOT 테이블에 출하번호 넣기
-//		sService.insertIntoLOT(code,request);
-				
+					
 		return "redirect:/request/list";
 	}
 	
@@ -183,7 +178,7 @@ public class ShipmentController {
 	@RequestMapping(value = "searchProduct",method = RequestMethod.POST)
 	@ResponseBody
 	public List<RequestVO> searchProductPOST(@RequestParam("product") String product,
-								  @RequestParam("productName") String productName, Model model)throws Exception{
+								             @RequestParam("productName") String productName, Model model)throws Exception{
 		// 찾아와야하는것 : 품번, 품명, 재고, 단위, 단가
 		logger.debug("controller : 상품 정보 DB 검색결과 가져오기 ");
 		logger.debug("searchProductPOST   실행");
@@ -280,6 +275,7 @@ public class ShipmentController {
 		// 3. 재고 테이블에서 재고 빼기
 		String[] code = codes.split(",");
 		int result = sService.changeStatus(code);
+		
 		String link = "";
 		if (result >= 1) {
 			link = "redirect:/confirm";
@@ -294,7 +290,7 @@ public class ShipmentController {
 		
 	}
 	
-	//======================================================================= 
+	//================================ PDF ======================================= 
 	// 필요기능 1. 프린트
 	
 	@RequestMapping(value = "/print")

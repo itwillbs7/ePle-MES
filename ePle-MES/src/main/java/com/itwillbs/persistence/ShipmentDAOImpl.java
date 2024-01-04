@@ -73,7 +73,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 	@Override
 	public void insertShipment(ShipmentVO vo) throws Exception {
-		logger.debug("DAO 출하 등록하기 insertShipment(ShipmentVO vo) : "+vo);
+		logger.debug("@@@ DAO 출하 등록하기 insertShipment(ShipmentVO vo) : "+vo);
 		// 여기 아이디도 추가해야함(등록자 아이디)
 		int result = sqlSession.insert(NAMESPACE+".insertShipment", vo);
 		
@@ -217,7 +217,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	    // 수주상태 변경
 	    result = sqlSession.update(NAMESPACE+".updateStatusBeforeDelete", params);
 	    
-	    if(result == 1) {
+	    if(result >= 1) {
 	    	result = 0;
 	    	result = sqlSession.delete(NAMESPACE+".deleteShipmentData", params);
 	    }
@@ -241,7 +241,12 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		logger.debug("출하상태 수주상태 출하완료로 변경하기");
 		Map<String, Object> params = new HashMap<>();
 	    params.put("code", code);
-		return sqlSession.update(NAMESPACE+".updateStatusToDone", params);
+	    
+	    int result = sqlSession.update(NAMESPACE+".updateStatusToDone", params);
+		if(result >=1) {
+			
+		}
+	    return sqlSession.update(NAMESPACE+".updateStatusToDone", params);
 	}
 	
 	

@@ -59,7 +59,7 @@
 		order by r.reg_date DESC 
 	</select>
 
-	
+	<!-- =================  add/search -->
 	<!-- 회사찾기 -->
 	<select id="getClientList" resultType="RequestVO">
 		select code client_code, name clientName from CLIENT where active = 0;
@@ -105,9 +105,10 @@
 	LEFT join MAPD m on r.product = m.code 
 	where status in ('등록','생산진행')
 	and s.amount >= r.amount
-		<if test="clientName != null and clientName!= ''">AND r.code like concat('%',#{clientName},'%')</if>
-		<if test="productName != null and productName != ''">AND r.code like concat('%',#{productName},'%')</if>
+		<if test="clientName != null and clientName!= ''">AND c.name like concat('%',#{clientName},'%')</if>
+		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
 	</select>
+	<!-- =================  add/search -->
 	
 	
 	
@@ -120,7 +121,7 @@
 	</insert>
 	
 	<update id="updateRequestStatus">
-		update into REQUEST
+		update REQUEST
 		set status = '출하대기'
 		where code = #{request}
 	</update>
@@ -134,7 +135,7 @@
 	</update>
 	
 	<update id="updateBeforeUpdate">
-		update into REQUEST
+		update REQUEST
 		set status = '등록'
 		where code = #{request}
 	</update>
@@ -153,8 +154,8 @@
 	</select>
 	
 	<update id="updateStatusBeforeDelete">
-		update request r 
-		inner join shipment s on r.code= s.reqs_code
+		update REQUEST r 
+		inner join SHIPMENT s on r.code= s.reqs_code
 		set r.status = '등록'
 		where s.code in 
 		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
@@ -173,27 +174,29 @@
 	<!-- LOT 테이블 넣기 -->
 	<update id="updateLOT" >
 		update LOT l
-		INNER JOIN RESULT r.code = l.lot
-		INNER JOIN INST i.code = l.inst_code
+		INNER JOIN RESULT r on r.code = l.lot
+		INNER JOIN INSTRUCTION i on i.code = r.inst_code
 		INNER JOIN REQUEST rq on rq.code = i.request
-		set l.shipment = #{code}
+		set l.shipment = #{shipment}
 		where i.request = #{request}	
 	</update>
 	
 	<!-- STOCK 재고 업데이트 -->
 	<update id="updateStock">
 		update STOCK s
-		inner join SHIPMENT sp
+		inner join SHIPMENT sp on sp.stock_code = s.code
 		set s.amount=(s.amount - #{amount})
-		where s.mapd_code =
-		and s.warehouse_code = 
+		where sp.code in 
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
+		#{codeNum}
+		 </foreach>
 	
 	</update>
 	
 	<!-- 출하완료 처리 -->
 		<update id="updateStatusToDone">
-		update request r 
-		inner join shipment s on r.code= s.reqs_code 
+		update REQUEST r 
+		inner join SHIPMENT s on r.code= s.reqs_code 
 		set r.status = '출하완료', set s.status = '출하완료' 
 		where s.code in 
 		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">

@@ -103,9 +103,11 @@
 	 // 출하번호 생성 당해 YY+RT(Return)+반품일자MMDD+품목LOT번호
 	 // 24OT0101a23001
 	 let client_code;
-	 
+	 let code;
 	 document.querySelector('input[name="client_code"]').addEventListener('input', function() {
 		 client_code = this.value; 
+		 code = createOrderNum()+client_code
+		 document.querySelector('#code').value = code;
 		});
 	 
 	 function createOrderNum() {
