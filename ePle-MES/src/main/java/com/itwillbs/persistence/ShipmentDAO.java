@@ -43,6 +43,10 @@ public interface ShipmentDAO {
 
 	public int deleteShipment(String[] code) throws Exception;
 
+	public void updateLOTvaluseShipment(String code,String request) throws Exception;
+
+	public int updateStatusToDone(String[] code)throws Exception;
+
 
 
 }

@@ -118,7 +118,13 @@ public class ShipmentController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String shipmentInsertPOST(ShipmentVO vo, RedirectAttributes rttr) throws Exception {
+	public String shipmentInsertPOST(ShipmentVO vo) throws Exception {
+		// 출하 추가 할 때
+		// 1. 출하명령을 추가한다
+		// 2. 수주상태를 출하대기로 변경한다
+		//   :  재고 >= 수주량 일 때!
+		// 3. LOT 테이블에 출하번호 넣기
+		
 		// 수주 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
 		
@@ -128,10 +134,12 @@ public class ShipmentController {
 		String id = "test";
 		vo.setReg_emp(id);
 		
-		sService.dataInsertShipment(vo);
-		
-		rttr.addAttribute("result", "AddDone");
-		
+//		String code = vo.getCode(); // 출하번호
+//		String request = vo.getReqs_code(); // 수주번호
+//		
+//		// LOT 테이블에 출하번호 넣기
+//		sService.insertIntoLOT(code,request);
+				
 		return "redirect:/request/list";
 	}
 	
@@ -252,16 +260,38 @@ public class ShipmentController {
 		String[] code = codes.split(",");
 		int result = sService.deleteShipment(code);
 		String link = "";
-		if (result == 1) {
+		if (result >= 1) {
 			link = "redirect:/confirm";
 			rttr.addFlashAttribute("title", "출하명령 삭제 결과");
-			rttr.addFlashAttribute("result", "출하명령 삭제가 완료되었습니다.");
+			rttr.addFlashAttribute("result", "출하명령이 삭제 되었습니다.");
 		} else {
 			link = "redirect:/error";
 			rttr.addFlashAttribute("title", "출하명령 삭제 결과");
 			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 		}
 		return link;
+	}
+	
+	
+	public String changeStatus(@RequestParam("code") String codes, RedirectAttributes rttr)throws Exception{
+		// 출하완료 변경하기
+		// 1. 출하상태 출하완료로 변경하기
+		// 2. 수주상태 출하완료로 변경하기
+		// 3. 재고 테이블에서 재고 빼기
+		String[] code = codes.split(",");
+		int result = sService.changeStatus(code);
+		String link = "";
+		if (result >= 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "출하상태 변경 결과");
+			rttr.addFlashAttribute("result", "출하완료 되었습니다.");
+		} else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "출하상태 변경 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다");
+		}
+		return link;
+		
 	}
 	
 	//======================================================================= 
@@ -289,5 +319,6 @@ public class ShipmentController {
 		String[] code = codes.split(",");
 	}
 	
-	
+	//=========================================================================
+
 }

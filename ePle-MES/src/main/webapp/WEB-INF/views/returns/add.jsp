@@ -31,9 +31,9 @@
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						<div class="form-group">
-							<label for="client_code">수주번호</label> 
-							<input class="form-control" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" 
-							name="request_code" id="request_code" readonly required="required">
+							<label for="client_code">출하번호</label> 
+							<input class="form-control" type="text" placeholder="클릭 시 검색창이 뜹니다" 
+							name="ship_code" id="ship_code" readonly required="required">
 						</div>
 						<div class="form-group">
 							<label for="deadline">반품일자</label> 
@@ -46,9 +46,19 @@
 						</div>
 						<div class="form-group">
 							<label for="amount">반품사유</label> 
-							<textarea rows="4" cols="20" placeholder="반품사유를 입력하세요" name="reason"></textarea>
+							<textarea class="form-control" placeholder="반품사유를 입력하세요" name="reason"></textarea>
+						</div>
+						<div class="form-group">
+							<label>LOT</label> 
+							<input class="form-control" type="text" name ="lot" id="lot" required="required"
+							placeholder="lot 번호를 입력하세요">
 						</div>
 						<!-- 자동입력내역 -->
+						<div class="form-group">
+							<label for="client_code">수주번호</label> 
+							<input class="form-control" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" 
+							name="request_code" id="request_code" readonly required="required">
+						</div>
 						<div class="form-group">
 							<label for="amount">출하량</label> 
 							<input class="form-control" name="samount" id="samount"
@@ -64,11 +74,6 @@
 							<input class="form-control" type="text" readonly id="clientName" required="required"
 							readonly>
 							<input class="form-control" type="hidden" readonly id="client_code" required="required"
-							readonly>
-						</div>
-						<div class="form-group">
-							<label>LOT</label> 
-							<input class="form-control" type="text" readonly id="product" required="required"
 							readonly>
 						</div>
 
@@ -94,13 +99,8 @@
 
 	 <script type="text/javascript" class="formDataSetting">  
 
-	 // 출하일자 min 설정
-	 document.getElementById('reqsdate').addEventListener('change', function() {
-  		document.getElementById('date').min = this.value;
-	});
-	 
  
-	 // 출하번호 생성 당해연도 YY+OT(Out)+MMDD+출고창고코드+출하인덱스 3자리(001부터)
+	 // 출하번호 생성 당해 YY+RT(Return)+반품일자MMDD+품목LOT번호
 	 // 24OT0101a23001
 	 let client_code;
 	 
@@ -169,11 +169,22 @@
 	<script type="text/javascript">
 	$(document).ready(function(){
 	
-	// 수주번호 찾기	
-		$("#reqs_code").click(function() {
-	// 가로, 세로 설정
-			window.open("/shipment/searchRequest", "Request Search", "width=500,height=600");
+	// 출하번호 찾기	
+		$("#ship_code").click(function() {
+
+			window.open("/returns/searchShipment", "Shipment Search", "width=500,height=600");
+			
 		});
+	
+	// LOT 번호 찾기
+		$("#LOT").click(function() {
+
+			window.open("/returns/searchLOT", "LOT Search", "width=500,height=600");
+			
+		});
+	
+	
+	
 	
 	
 	});//끝

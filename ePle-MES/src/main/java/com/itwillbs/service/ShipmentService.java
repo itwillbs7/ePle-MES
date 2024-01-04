@@ -42,4 +42,8 @@ public interface ShipmentService {
 
 	public int deleteShipment(String[] code) throws Exception;
 
+	public void insertIntoLOT(String code, String request)throws Exception;
+	// 출하상태변경
+	public int changeStatus(String[] code)throws Exception;
+
 }

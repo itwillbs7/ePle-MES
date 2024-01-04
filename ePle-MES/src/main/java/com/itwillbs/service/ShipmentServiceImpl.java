@@ -136,6 +136,23 @@ public class ShipmentServiceImpl implements ShipmentService {
 		logger.debug("Service : deleteShipment(String[] code) 데이터 삭제");
 		return sdao.deleteShipment(code);
 	}
+
+
+	@Override
+	public void insertIntoLOT(String code, String request) throws Exception {
+		logger.debug("LOT 테이블에 출하번호 넣기 : "+code);
+		
+		sdao.updateLOTvaluseShipment(code,request);
+	}
+
+
+	@Override
+	public int changeStatus(String[] code) throws Exception {
+		logger.debug("출하상태 수주상태 변경하기");
+		return sdao.updateStatusToDone(code);
+	}
+	
+	
 	
 	
 }

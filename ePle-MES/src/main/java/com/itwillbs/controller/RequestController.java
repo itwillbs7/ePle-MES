@@ -251,7 +251,7 @@ public class RequestController {
 		String[] code = codes.split(",");
 		int result = rService.deleteRequest(code);
 		String link = "";
-		if (result == 1) {
+		if (result >= 1) {
 			link = "redirect:/confirm";
 			rttr.addFlashAttribute("title", "수주 삭제 결과");
 			rttr.addFlashAttribute("result", "수주 삭제가 완료되었습니다.");

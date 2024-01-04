@@ -41,6 +41,9 @@ public class ReturnsController {
 	
 	@Inject
 	private ReturnsService rtService;
+	
+	@Inject
+	private RequestService rService;
 		
 	
 	// http://localhost:8088/returns/list
@@ -49,7 +52,7 @@ public class ReturnsController {
 							   HttpSession session, 
 							   @ModelAttribute("result") String result, Criteria cri
 							   ) throws Exception { //5-1
-		// 수주 목록 return
+		// 반품 목록 return
 		logger.debug("returnsListGET -> DB에서 목록 가져오기(페이징 처리하기)");
 
 		List<ReturnsVO> returnsList = rtService.returnsListpage(cri);
@@ -66,11 +69,11 @@ public class ReturnsController {
 	
 	// http://localhost:8088/request/info
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
-	public void returnsInfo(@RequestParam(value = "code") String code,Model model) throws Exception {// 수주개별정보 5-2
-		logger.debug("returnsInfo -> DB에서 수주번호가 일치하는 데이터 열 가져오기");
+	public void returnsInfo(@RequestParam(value = "code") String code,Model model) throws Exception {// 반품개별정보 5-2
+		logger.debug("returnsInfo -> DB에서 반품번호가 일치하는 데이터 열 가져오기");
 		logger.debug("Controller - code "+code);
 		
-		RequestVO vo = rtService.getinfo(code);
+		ReturnsVO vo = rtService.getinfo(code);
 		logger.debug("Controller - vo "+vo);
 		
 
@@ -82,18 +85,18 @@ public class ReturnsController {
 	// http://localhost:8088/request/search
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	@ResponseBody
-	public List<RequestVO> searchReturnsGET(RedirectAttributes rttr, @ModelAttribute("result") String result, 
-											ReturnsVO vo) throws Exception { // 수주검색 5-3
+	public List<ReturnsVO> searchReturnsGET(RedirectAttributes rttr, @ModelAttribute("result") String result, 
+											ReturnsVO vo) throws Exception { // 반품검색 5-3
 		logger.debug("searchReturnsGET() -> 정보 받아서 DB에 조회하기");
 		logger.debug("Controller - vo "+vo);
-		// 전달받을 정보(수주상태 ,담당자코드, 업체코드
+		// 전달받을 정보(반품상태 ,담당자코드, 업체코드
 		
 		List<ReturnsVO> ReturnsList= rtService.findReturnsList(vo);
-		logger.debug("검색정보 : "+RequestList);
+		logger.debug("검색정보 : "+ReturnsList);
 		
-		rttr.addFlashAttribute("returnsList",RequestList);
+		rttr.addFlashAttribute("returnsList",ReturnsList);
 		
-		return RequestList;
+		return ReturnsList;
 	}
 	
 	
@@ -103,13 +106,13 @@ public class ReturnsController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public void returnsInsertGET() throws Exception { 
 		logger.debug("returnsInsertGET() -> 입력폼 팝업");
-		// 수주 추가 폼 5-4
+		// 반품 추가 폼 5-4
 		
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String returnsInsertPOST(RequestVO vo, RedirectAttributes rttr) throws Exception {
-		// 수주 추가 액션
+	public String returnsInsertPOST(ReturnsVO vo, RedirectAttributes rttr) throws Exception {
+		// 반품 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
 		
 		rtService.dataInsertReturns(vo);
@@ -119,7 +122,7 @@ public class ReturnsController {
 		return "redirect:/returns/list";
 	}
 	
-	// -------- 수주등록 데이터 찾기 ---------
+	// -------- 반품등록 데이터 찾기 ---------
 	
 	@RequestMapping(value = "searchClient", method=RequestMethod.GET)
 	public void searchClientGET(RequestVO vo, Model model, HttpSession session)throws Exception{
@@ -127,7 +130,7 @@ public class ReturnsController {
 		logger.debug("searchClientGET    실행");
 
 		// 거래사 리스트 출력하기
-		List<RequestVO> clientList = rtService.ClientList();
+		List<RequestVO> clientList = rService.ClientList();
 		logger.debug("clientList : "+clientList);
 		model.addAttribute("List", clientList);
 
@@ -139,7 +142,7 @@ public class ReturnsController {
 		logger.debug("controller : 거래사 정보 DB 검색결과 가져오기");
 		logger.debug("searchClientPOST    실행");
 
-		List<RequestVO> clientList = rtService.findClient(client_code,clientName);
+		List<RequestVO> clientList = rService.findClient(client_code,clientName);
 //		model.addAttribute("List", clientList);
 		logger.debug("가져온 List"+clientList);
 		
@@ -151,7 +154,7 @@ public class ReturnsController {
 		logger.debug("controller : 담당자 정보 찾기");
 		logger.debug("searchManagerGET    실행");
 		
-		List<RequestVO> managerList = rtService.ManagerList();
+		List<RequestVO> managerList = rService.ManagerList();
 		model.addAttribute("List", managerList);
 
 	}
@@ -164,7 +167,7 @@ public class ReturnsController {
 		logger.debug("controller : 담당자 정보 DB 검색결과 가져오기");
 		logger.debug("searchManagerPOST    실행");
 		
-		List<RequestVO> managerList = rtService.findManager(manager,managerName);
+		List<RequestVO> managerList = rService.findManager(manager,managerName);
 //		model.addAttribute("List", managerList);
 		logger.debug("가져온 List"+managerList);
 		
@@ -177,7 +180,7 @@ public class ReturnsController {
 		logger.debug("controller : 상품 정보 찾기");
 		logger.debug("searchProductGET   실행");
 		
-		List<RequestVO> productList = rtService.ProductList();
+		List<RequestVO> productList = rService.ProductList();
 		model.addAttribute("List", productList);
 	}
 	
@@ -189,19 +192,19 @@ public class ReturnsController {
 		logger.debug("controller : 상품 정보 DB 검색결과 가져오기 ");
 		logger.debug("searchProductPOST   실행");
 		
-		List<RequestVO> productList = rtService.findProduct(product,productName); 
+		List<RequestVO> productList = rService.findProduct(product,productName); 
 //		model.addAttribute("List", productList);
 		logger.debug("가져온 List"+productList);
 		return productList;
 	}
 
-	// -------- 수주등록 데이터 찾기 끝---------
+	// -------- 반품등록 데이터 찾기 끝---------
 	
 	
 	// http://localhost:8088/request/update
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public void returnsUpdateGET(ReturnsVO vo, Model model) throws Exception{
-		// 수주 수정 폼5-5
+		// 반품 수정 폼5-5
 		// code 정보 받아서 해당하는 code 데이터 불러오기
 		logger.debug("returnsUpdateGET(RequestVO vo) 폼 정보 받아서 그대로 토해내기");
 		logger.debug("vo "+vo);
@@ -210,8 +213,8 @@ public class ReturnsController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public void returnsUpdatePOST(RequestVO vo) throws Exception{
-		// 수주 수정 액션
+	public void returnsUpdatePOST(ReturnsVO vo) throws Exception{
+		// 반품 수정 액션
 		logger.debug("returnsUpdatePOST() 전달받은 정보 DB 저장하기");
 		logger.debug("vo "+vo);
 		
@@ -225,10 +228,10 @@ public class ReturnsController {
 	// http://localhost:8088/request/delete
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public void returnsDeleteGET(@RequestParam("code") String codes, Model model ) throws Exception{
-		// 수주 삭제 폼5-6
+		// 반품 삭제 폼5-6
 		// 전달정보 저장
 		String[] code = codes.split(",");
-		List<RequestVO> vo = rtService.getinfo(code);
+		List<ReturnsVO> vo = rtService.getinfo(code);
 		logger.debug("찾아온 삭제 정보 vo"+vo);
 		model.addAttribute("List", vo);
 		
@@ -236,10 +239,10 @@ public class ReturnsController {
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public void returnsDeletePOST(@RequestParam("code") String codes) throws Exception{
-		// 수주 삭제 액션
+		// 반품 삭제 액션
 		logger.debug("삭제가 될랑가 codes "+codes);
 		String[] code = codes.split(",");
-		rtService.deleteRequest(code);
+		rtService.deleteReturns(code);
 	}
 	
 	

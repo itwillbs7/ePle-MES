@@ -54,7 +54,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 	@Override
 	public List<ShipmentVO> getShipmentListAll() throws Exception {
-		logger.debug("DAO 수주정보리스트 getShipmentListAll() ");
+		logger.debug("DAO 출하정보리스트 getShipmentListAll() ");
 		return sqlSession.selectList(NAMESPACE+".getShipmentList");
 	}
 	
@@ -62,7 +62,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 	@Override
 	public ShipmentVO getShipmentDetail(String code) throws Exception {
-		logger.debug("DAO 수주정보 자세히보기 getShipmentDetail(String code) "+code);
+		logger.debug("DAO 출하정보 자세히보기 getShipmentDetail(String code) "+code);
 		ShipmentVO vo = sqlSession.selectOne(NAMESPACE+".getShipmentInfo", code);
 		
 		logger.debug("vo : "+vo);
@@ -73,9 +73,26 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 	@Override
 	public void insertShipment(ShipmentVO vo) throws Exception {
-		logger.debug("DAO 수주 등록하기 insertShipment(ShipmentVO vo) : "+vo);
+		logger.debug("DAO 출하 등록하기 insertShipment(ShipmentVO vo) : "+vo);
 		// 여기 아이디도 추가해야함(등록자 아이디)
-		sqlSession.insert(NAMESPACE+".insertShipment", vo);
+		int result = sqlSession.insert(NAMESPACE+".insertShipment", vo);
+		
+		// 추가했을 때 수주상태를 변경해야함!
+		String request = vo.getReqs_code();	// 수주번호
+		String shipment = vo.getCode(); // 출하번호
+		
+		if(result == 1) {
+			// 수주상태변경
+			sqlSession.update(NAMESPACE+".updateRequestStatus", request);
+			
+			// LOT 테이블에 번호 추가
+			Map<String, Object> params = new HashMap<>();
+			params.put("shipment", shipment);
+			params.put("request",request);
+			sqlSession.update(NAMESPACE+".updateLOT", params);
+			
+		}
+		
 	}
 	
 	//----- add 용 검색 ----
@@ -143,6 +160,19 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	@Override
 	public void shipmentUpdate(ShipmentVO vo, String id) throws Exception {
 		logger.debug("DAO  ShipmentUpdate(ShipmentVO vo, String id)");
+		// 출하정보 수정할때
+		// 1. 기존 수주정보의 수주상태를 다시 등록으로 변경한다
+		// 2. 출하정보를 업데이트 한다
+		// 3. 해당하는 수주번호의 수주상태를 "출하대기"로 변경한다
+		String code = vo.getCode();
+		ShipmentVO check = sqlSession.selectOne(NAMESPACE+".getShipmentInfo", code);
+		
+		String request = check.getReqs_code();
+		String newReqs = vo.getReqs_code();
+		if(!request.equals(newReqs)) {
+			// 기존 수주코드와 새로 입력된 수주코드가 일치하지 않으면 수주상태를 등록으로 변경
+			sqlSession.update(NAMESPACE+".updateBeforeUpdate", request);
+		}
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("userid", id);
@@ -154,7 +184,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 	@Override
 	public List<ShipmentVO> searchShipmentAll(ShipmentVO vo) throws Exception {
-		// 수주 검색
+		// 출하 검색
 		logger.debug("DAO searchShipmentAll(ShipmentVO vo)"+vo);
 		// 여기에 페이지 Criteria 추가해야함
 		
@@ -179,10 +209,42 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	@Override
 	public int deleteShipment(String[] code) throws Exception {
 		logger.debug("DAO 디비에서 데이터 삭제하기");
+		// 삭제를 하고 수주 상태를 "등록"으로 변경해야함!
+		int result = 0;
+		
 		Map<String, Object> params = new HashMap<>();
 	    params.put("code", code);
-	    return sqlSession.delete(NAMESPACE+".deleteShipmentData", params);
+	    // 수주상태 변경
+	    result = sqlSession.update(NAMESPACE+".updateStatusBeforeDelete", params);
+	    
+	    if(result == 1) {
+	    	result = 0;
+	    	result = sqlSession.delete(NAMESPACE+".deleteShipmentData", params);
+	    }
+	    
+	    return result;
 	}
+
+	@Override
+	public void updateLOTvaluseShipment(String code,String request) throws Exception {
+		// LOT 테이블에 출하번호 넣기
+		logger.debug("Shipment -> LOT : "+code);
+		Map<String, Object> params = new HashMap<>();
+	    params.put("code", code);
+	    params.put("request",request);
+		
+		sqlSession.update(NAMESPACE+".updateLOT", params);
+	}
+
+	@Override
+	public int updateStatusToDone(String[] code) throws Exception {
+		logger.debug("출하상태 수주상태 출하완료로 변경하기");
+		Map<String, Object> params = new HashMap<>();
+	    params.put("code", code);
+		return sqlSession.update(NAMESPACE+".updateStatusToDone", params);
+	}
+	
+	
 	
 	
 }
