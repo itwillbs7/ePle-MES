@@ -120,10 +120,21 @@ public class RequestController {
 		String id = "test";
 		vo.setReg_emp(id);
 		
-		rService.dataInsertRequest(vo);
+		int result = rService.dataInsertRequest(vo);
+		
+		String link = "";
+		if (result >= 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "수주 등록 결과");
+			rttr.addFlashAttribute("result", "수주 등록 완료되었습니다.");
+		} else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "수주 등록 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+		}
 		
 		
-		return "redirect:/request/list";
+		return link;
 	}
 	
 	// -------- 수주등록 데이터 찾기 ---------
@@ -207,17 +218,19 @@ public class RequestController {
 	
 	// http://localhost:8088/request/update
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public void requestUpdateGET(RequestVO vo, Model model) throws Exception{
+	public void requestUpdateGET(@RequestParam("code") String code, Model model) throws Exception{
 		// 수주 수정 폼5-5
 		// code 정보 받아서 해당하는 code 데이터 불러오기
 		logger.debug("requestUpdateGET(RequestVO vo) 폼 정보 받아서 그대로 토해내기");
-		logger.debug("vo "+vo);
-		model.addAttribute("List",vo);
+		logger.debug("code "+code);
+		
+		RequestVO vo = rService.getinfo(code);
+		model.addAttribute("List", vo);
 		
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public void requestUpdatePOST(RequestVO vo,HttpSession session) throws Exception{
+	public String requestUpdatePOST(RequestVO vo,HttpSession session, RedirectAttributes rttr) throws Exception{
 		// 수주 수정 액션
 		logger.debug("requestUpdatePOST() 전달받은 정보 DB 저장하기");
 		logger.debug("vo "+vo);
@@ -226,7 +239,19 @@ public class RequestController {
 //		String id = (String) session.getAttribute("id");
 //		vo.setUpdate_emp(id);
 		String id = "id";
-		rService.updateRequest(vo, id);
+		int result = rService.updateRequest(vo, id);
+		String link = "";
+		if (result >= 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "수주 수정 결과");
+			rttr.addFlashAttribute("result", "수주 수정 완료되었습니다.");
+		} else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "수주 수정 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+		}
+		
+		return link;
 
 	}
 	
@@ -257,7 +282,7 @@ public class RequestController {
 			rttr.addFlashAttribute("result", "수주 삭제가 완료되었습니다.");
 		} else {
 			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "보전 등록 결과");
+			rttr.addFlashAttribute("title", "수주 삭제 결과");
 			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 		}
 		return link;

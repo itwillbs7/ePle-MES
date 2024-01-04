@@ -23,9 +23,9 @@
 				<h1 class="text-center text-primary">반품 등록</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="" method="post" id="addForm">
+			<form action="" method="post" id="addForm" onsubmit="">
 				<!-- 비입력 구간 -->
-				<input class="form-control" type="hidden" placeholder="출하번호" name="code" id="code" value="" >
+				<input class="form-control" type="hidden" placeholder="출하번호" name="code" id="code"  >
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
@@ -84,7 +84,8 @@
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-						<input type="button" class="btn btn-success" value="등록" onclick="finished()" id="sa-custom-position">
+<!-- 						<input type="button" class="btn btn-success" value="등록" onclick="finished()" id="sa-custom-position"> -->
+						<input type="submit" class="btn btn-success" value="등록"  id="sa-custom-position">
 					</div>
 				</div>
 					</div>
@@ -106,8 +107,9 @@
 	 let code;
 	 document.querySelector('input[name="client_code"]').addEventListener('input', function() {
 		 client_code = this.value; 
-		 code = createOrderNum()+client_code
-		 document.querySelector('#code').value = code;
+		});
+	 document.querySelector('input[name="lot"]').addEventListener('input', function() {
+		 client_code = this.value; 
 		});
 	 
 	 function createOrderNum() {
@@ -119,6 +121,19 @@
 			const orderNum = year+"RT"+month+day+client_code; 
 			return orderNum;
 		}
+	 document.querySelector('form').addEventListener('submit', function(event) {
+		    // 기본 제출 이벤트를 막음
+		    event.preventDefault();
+		    
+		    // 출하번호 생성
+		    const orderNum = createOrderNum();
+		    
+		    // 생성된 출하번호를 name="code"인 요소의 값으로 설정
+		    document.querySelector('input[name="code"]').value = orderNum;
+		    
+		    // 폼 제출
+		    this.submit();
+		});
 	 </script>
 	 <!-- ajax -->
 	 <script type="text/javascript" id="ajaxForSubmit">

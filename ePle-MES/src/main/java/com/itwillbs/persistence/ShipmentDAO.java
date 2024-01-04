@@ -18,7 +18,7 @@ public interface ShipmentDAO {
 
 	public ShipmentVO getShipmentDetail(String code) throws Exception;
 
-	public void insertShipment(ShipmentVO vo) throws Exception;
+	public int insertShipment(ShipmentVO vo) throws Exception;
 
 	// ================ add / search 용 ========================
 	public List<RequestVO> getClientList() throws Exception;
@@ -35,7 +35,7 @@ public interface ShipmentDAO {
 	
 	
 	//================= ============================================
-	public void shipmentUpdate(ShipmentVO vo, String id) throws Exception;
+	public int shipmentUpdate(ShipmentVO vo, String id) throws Exception;
 
 	public List<ShipmentVO> searchShipmentAll(ShipmentVO vo) throws Exception;
 

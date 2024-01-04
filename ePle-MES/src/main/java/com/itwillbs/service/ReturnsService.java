@@ -16,12 +16,12 @@ public interface ReturnsService {
 
 	public List<ReturnsVO> findReturnsList(ReturnsVO vo)throws Exception;
 
-	public void dataInsertReturns(ReturnsVO vo)throws Exception;
+	public int dataInsertReturns(ReturnsVO vo)throws Exception;
 
-	public void deleteReturns(String[] code)throws Exception;
+	public int deleteReturns(String[] code)throws Exception;
 
 	public List<ReturnsVO> getinfo(String[] code)throws Exception;
 
-	public void updateReturns(ReturnsVO vo, String id)throws Exception;
+	public int updateReturns(ReturnsVO vo, String id)throws Exception;
 
 }

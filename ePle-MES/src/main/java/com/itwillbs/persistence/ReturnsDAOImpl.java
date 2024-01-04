@@ -43,9 +43,9 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 	}
 
 	@Override
-	public void insertReturns(ReturnsVO vo) throws Exception {
+	public int insertReturns(ReturnsVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		
+		return 0;
 	}
 
 	@Override
@@ -56,9 +56,10 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 
 
 	@Override
-	public void returnsUpdate(ReturnsVO vo, String id) throws Exception {
+	public int returnsUpdate(ReturnsVO vo, String id) throws Exception {
 		// TODO Auto-generated method stub
 		
+		return 0;
 	}
 
 	@Override

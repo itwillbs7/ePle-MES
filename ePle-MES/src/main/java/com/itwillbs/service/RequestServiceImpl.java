@@ -52,9 +52,9 @@ public class RequestServiceImpl implements RequestService {
 	
 
 	@Override
-	public void dataInsertRequest(RequestVO vo) throws Exception {
+	public int dataInsertRequest(RequestVO vo) throws Exception {
 		logger.debug("Service : dataInsertRequest(RequestVO vo) : "+vo);
-		rdao.insertRequest(vo);
+		return rdao.insertRequest(vo);
 		
 	}
 
@@ -101,10 +101,10 @@ public class RequestServiceImpl implements RequestService {
 
 
 	@Override
-	public void updateRequest(RequestVO vo, String id) throws Exception {
+	public int updateRequest(RequestVO vo, String id) throws Exception {
 		// 수정
 		logger.debug("Service : updateRequest(RequestVO vo, String id) 수정");
-		rdao.requestUpdate(vo,id);
+		return rdao.requestUpdate(vo,id);
 	}
 
 

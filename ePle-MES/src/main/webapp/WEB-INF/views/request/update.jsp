@@ -30,7 +30,7 @@
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">
 							<label>수주번호</label> 
-							<input class="form-control" type="text"  name="code" id="code" readonly 
+							<input class="form-control" type="text"  id="code" readonly 
 							value="${List.code }" required="required">
 						</div>
 						<!-- 필수입력내역 -->
@@ -113,7 +113,8 @@
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-						<input type="button" class="btn btn-success" value="등록" onclick="finished();">
+						<input type="submit" class="btn btn-success" value="등록" >
+<!-- 						<input type="button" class="btn btn-success" value="등록" onclick="finished();"> -->
 					</div>
 				</div>
 					</div>

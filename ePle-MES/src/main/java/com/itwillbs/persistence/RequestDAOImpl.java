@@ -79,10 +79,10 @@ public class RequestDAOImpl implements RequestDAO {
 
 
 	@Override
-	public void insertRequest(RequestVO vo) throws Exception {
+	public int insertRequest(RequestVO vo) throws Exception {
 		logger.debug("DAO 수주 등록하기 insertRequest(RequestVO vo) : "+vo);
 		
-		sqlSession.insert(NAMESPACE+".insertRequest", vo);
+		return sqlSession.insert(NAMESPACE+".insertRequest", vo);
 	}
 	
 	//----- add 용 검색 ----
@@ -151,13 +151,13 @@ public class RequestDAOImpl implements RequestDAO {
 
 	
 	@Override
-	public void requestUpdate(RequestVO vo, String id) throws Exception {
+	public int requestUpdate(RequestVO vo, String id) throws Exception {
 		logger.debug("DAO  requestUpdate(RequestVO vo, String id)");
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("userid", id);
 		paramMap.put("vo", vo);
-		sqlSession.update(NAMESPACE+".updateRequestInfo", paramMap);
+		return sqlSession.update(NAMESPACE+".updateRequestInfo", paramMap);
 	}
 
 

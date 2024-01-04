@@ -115,11 +115,19 @@ public class ReturnsController {
 		// 반품 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
 		
-		rtService.dataInsertReturns(vo);
+		int result= rtService.dataInsertReturns(vo);
 		
-		rttr.addAttribute("result", "AddDone");
-		
-		return "redirect:/returns/list";
+		String link = "";
+		if (result >= 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "출하상태 변경 결과");
+			rttr.addFlashAttribute("result", "출하완료 되었습니다.");
+		} else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "출하상태 변경 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다");
+		}
+		return link;
 	}
 	
 	// -------- 반품등록 데이터 찾기 ---------
@@ -213,14 +221,25 @@ public class ReturnsController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public void returnsUpdatePOST(ReturnsVO vo) throws Exception{
+	public String returnsUpdatePOST(ReturnsVO vo, RedirectAttributes rttr) throws Exception{
 		// 반품 수정 액션
 		logger.debug("returnsUpdatePOST() 전달받은 정보 DB 저장하기");
 		logger.debug("vo "+vo);
 		
 		// 일단 임시 아이디값(실제로는 세션에서 값을 받아와야함)
 		String id = "id";
-		rtService.updateReturns(vo, id);
+		int result= rtService.updateReturns(vo, id);
+		String link = "";
+		if (result >= 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "출하상태 변경 결과");
+			rttr.addFlashAttribute("result", "출하완료 되었습니다.");
+		} else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "출하상태 변경 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다");
+		}
+		return link;
 
 	}
 	
@@ -238,11 +257,23 @@ public class ReturnsController {
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public void returnsDeletePOST(@RequestParam("code") String codes) throws Exception{
+	public String returnsDeletePOST(@RequestParam("code") String codes, RedirectAttributes rttr) throws Exception{
 		// 반품 삭제 액션
 		logger.debug("삭제가 될랑가 codes "+codes);
 		String[] code = codes.split(",");
-		rtService.deleteReturns(code);
+		int result= rtService.deleteReturns(code);
+		
+		String link = "";
+		if (result >= 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "출하상태 변경 결과");
+			rttr.addFlashAttribute("result", "출하완료 되었습니다.");
+		} else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "출하상태 변경 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다");
+		}
+		return link;
 	}
 	
 	

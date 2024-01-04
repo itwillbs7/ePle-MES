@@ -15,7 +15,7 @@ public interface RequestDAO {
 	// 수주리스트
 	public List<RequestVO> getRequestListAll () throws Exception;
 	// 수주등록
-	public void insertRequest(RequestVO vo) throws Exception;
+	public int insertRequest(RequestVO vo) throws Exception;
 	// 수주상세보기
 	public RequestVO getRequestDetail(String code) throws Exception;
 	//회사리스트
@@ -31,7 +31,7 @@ public interface RequestDAO {
 	// 사원검색
 	public List<RequestVO> searchManager(String manager, String managerName)throws Exception;
 	// 수주 수정
-	public void requestUpdate(RequestVO vo, String id)throws Exception;
+	public int requestUpdate(RequestVO vo, String id)throws Exception;
 	// 수주 검색
 	public List<RequestVO> searchRequestAll(RequestVO vo)throws Exception;
 	// 삭제용

@@ -72,7 +72,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 
 	@Override
-	public void insertShipment(ShipmentVO vo) throws Exception {
+	public int insertShipment(ShipmentVO vo) throws Exception {
 		logger.debug("@@@ DAO 출하 등록하기 insertShipment(ShipmentVO vo) : "+vo);
 		// 여기 아이디도 추가해야함(등록자 아이디)
 		int result = sqlSession.insert(NAMESPACE+".insertShipment", vo);
@@ -92,6 +92,8 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 			sqlSession.update(NAMESPACE+".updateLOT", params);
 			
 		}
+		
+		return result;
 		
 	}
 	
@@ -158,7 +160,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	
 
 	@Override
-	public void shipmentUpdate(ShipmentVO vo, String id) throws Exception {
+	public int shipmentUpdate(ShipmentVO vo, String id) throws Exception {
 		logger.debug("DAO  ShipmentUpdate(ShipmentVO vo, String id)");
 		// 출하정보 수정할때
 		// 1. 기존 수주정보의 수주상태를 다시 등록으로 변경한다
@@ -174,10 +176,19 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 			sqlSession.update(NAMESPACE+".updateBeforeUpdate", request);
 		}
 		
+		String prevStatus = check.getStatus(); // 이전상태
+		String newStatus = vo.getStatus(); //수정할 상태
+		if(request.equals(newReqs)) {
+			// 수주코드의 변경이 없을 때 출하상태의 변경이 있을 경우(출하완료 -> 출하등록)
+			if(prevStatus.equals("출하완료") && !prevStatus.equals(newStatus)) {
+				sqlSession.update(NAMESPACE+".updateBeforeUpdate2", request);
+			}
+		}
+		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("userid", id);
 		paramMap.put("vo", vo);
-		sqlSession.update(NAMESPACE+".updateShipmentInfo", paramMap);
+		return sqlSession.update(NAMESPACE+".updateShipmentInfo", paramMap);
 	}
 
 
@@ -242,11 +253,9 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		Map<String, Object> params = new HashMap<>();
 	    params.put("code", code);
 	    
-	    int result = sqlSession.update(NAMESPACE+".updateStatusToDone", params);
-		if(result >=1) {
-			
-		}
-	    return sqlSession.update(NAMESPACE+".updateStatusToDone", params);
+	    int result=	sqlSession.update(NAMESPACE+".updateStatusToRequest", params);
+	    result=	sqlSession.update(NAMESPACE+".updateStatusToShipment", params);
+	    return result;
 	}
 	
 	

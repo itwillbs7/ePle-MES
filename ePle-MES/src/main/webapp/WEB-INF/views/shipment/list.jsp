@@ -306,11 +306,11 @@
 								var stautsList = [];
 								$("input:checkbox[name=tableCheck]:checked")
 										.each(function() {
-											deleteList.push($(this).val());
+											stautsList.push($(this).val());
 										});
-								if (deleteList.length > 0) {
+								if (stautsList.length > 0) {
 									openPage("/shipment/statusChange?code="
-											+ deleteList.join(','), 400, 700);
+											+ stautsList.join(','), 400, 700);
 								} else {
 									alert('관리자에게 문의하세요');
 								}

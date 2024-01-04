@@ -14,7 +14,7 @@ public interface RequestService {
 	 // 수주상세
 	 public RequestVO getinfo(String code)throws Exception;
 	 // 수주등록
-	 public void dataInsertRequest(RequestVO vo) throws Exception;
+	 public int dataInsertRequest(RequestVO vo) throws Exception;
 	 // 회사검색
 	 public List<RequestVO> findClient(String client_code, String clientName)throws Exception;
 	 // 회사리스트
@@ -28,7 +28,7 @@ public interface RequestService {
 	 // 품목검색
 	 public List<RequestVO> findProduct(String product, String productName)throws Exception;
 	 // 품목 수정
-	 public void updateRequest(RequestVO vo, String id)throws Exception;
+	 public int updateRequest(RequestVO vo, String id)throws Exception;
 	 // 수주검색
 	 public List<RequestVO> findRequestList(RequestVO vo)throws Exception;
 	 // 삭제용

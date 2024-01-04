@@ -52,9 +52,9 @@ public class ShipmentServiceImpl implements ShipmentService {
 	
 
 	@Override
-	public void dataInsertShipment(ShipmentVO vo) throws Exception {
+	public int dataInsertShipment(ShipmentVO vo) throws Exception {
 		logger.debug("Service : dataInsertShipment(ShipmentVO vo) : "+vo);
-		sdao.insertShipment(vo);
+		return sdao.insertShipment(vo);
 		
 	}
 
@@ -106,10 +106,10 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 	//========================================= add /search 용
 	@Override
-	public void updateShipment(ShipmentVO vo, String id) throws Exception {
+	public int updateShipment(ShipmentVO vo, String id) throws Exception {
 		// 수정
 		logger.debug("Service : updateShipment(ShipmentVO vo, String id) 수정");
-		sdao.shipmentUpdate(vo,id);
+		return sdao.shipmentUpdate(vo,id);
 	}
 
 

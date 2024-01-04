@@ -37,7 +37,7 @@
 						<div id="faq1" class="collapse" data-parent="#accordion" style="">
 							<div class="card-body">
 								<form id="accordion-search" method="get"
-									action="/shipment/search">
+									action="/returns/search">
 									<div class="col-md-12">
 										<div class="form-group">
 											<div class="row">
@@ -187,11 +187,6 @@
 							</div>
 							</div>
 							<div class="col-sm-5 col-md-7 text-right">
-							<div>
-							<button type="button" class="btn btn-success btn-sm" id="print">
-							<b>거래명세서</b>
-							</button>
-							</div>
 							</div>
 						</div>
 						<div class="btn-toolbar justify-content-center mb-15">
@@ -328,6 +323,11 @@
 					$("#searchProduct").click(function() {
 						openPage("/shipment/searchProduct", 400, 700);
 					});
+					
+					// 담당자 검색
+					$("#searchManager").click(function() {
+						openPage("/request/searchManager", 400, 700);
+					});
 
 					
 
@@ -338,7 +338,7 @@
 	<script type="text/javascript">
 		$('#accordion-search').on('submit', function(e) {
 			alert('ajax 시작 전');
-			e.preventDefault(); // form의 기본 submit 이벤트를 막습니다.
+			e.preventDefault(); 
 			let statusList = [];
 				$('input[name="statusList"]:checked').each(function() {
 						statusList.push($(this).val());

@@ -24,7 +24,7 @@
 				<h1 class="text-center text-primary">출하명령 수정</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="" method="post" id="addForm">
+			<form action="/shipment/update" method="post" id="addForm">
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
@@ -106,7 +106,8 @@
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-						<input type="button" class="btn btn-success" value="등록" onclick="finished();">
+<!-- 						<input type="button" class="btn btn-success" value="등록" onclick="finished();"> -->
+						<input type="submit" class="btn btn-success" value="등록" >
 					</div>
 				</div>
 					</div>

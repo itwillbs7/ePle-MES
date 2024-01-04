@@ -16,7 +16,7 @@ public interface ShipmentService {
 
 	public List<ShipmentVO> shipmentList() throws Exception;
 
-	public void dataInsertShipment(ShipmentVO vo) throws Exception;
+	public int dataInsertShipment(ShipmentVO vo) throws Exception;
 
 	public ShipmentVO getinfo(String code) throws Exception;
 
@@ -34,7 +34,7 @@ public interface ShipmentService {
 	public List<RequestVO> findRequest(String clientName, String productName)throws Exception;
 	//============= add / search 용
 
-	public void updateShipment(ShipmentVO vo, String id) throws Exception;
+	public int updateShipment(ShipmentVO vo, String id) throws Exception;
 
 	public List<ShipmentVO> findShipmentList(ShipmentVO vo) throws Exception;
 

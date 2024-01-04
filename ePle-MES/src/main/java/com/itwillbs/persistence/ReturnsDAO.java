@@ -15,14 +15,14 @@ public interface ReturnsDAO {
 		// 반품리스트
 		public List<ReturnsVO> getReturnsListAll () throws Exception;
 		// 반품등록
-		public void insertReturns(ReturnsVO vo) throws Exception;
+		public int insertReturns(ReturnsVO vo) throws Exception;
 		// 반품상세보기
 		public ReturnsVO getReturnsDetail(String code) throws Exception;
 		
 		
 		
 		// 반품 수정
-		public void returnsUpdate(ReturnsVO vo, String id)throws Exception;
+		public int returnsUpdate(ReturnsVO vo, String id)throws Exception;
 		// 반품 검색
 		public List<ReturnsVO> searchReturnsAll(ReturnsVO vo)throws Exception;
 		// 삭제용

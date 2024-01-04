@@ -118,7 +118,7 @@ public class ShipmentController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String shipmentInsertPOST(ShipmentVO vo) throws Exception {
+	public String shipmentInsertPOST(ShipmentVO vo,RedirectAttributes rttr) throws Exception {
 		// 출하 추가 할 때
 		// 1. 출하명령을 추가한다
 		// 2. 수주상태를 출하대기로 변경한다
@@ -127,15 +127,28 @@ public class ShipmentController {
 		
 		// 수주 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
-		sService.dataInsertShipment(vo);
 		
 		// vo에 세션 아이디 추가하기
 //		String id = (String) session.getAttribute("id");
 //		vo.setReg_emp(id);
 		String id = "test";
 		vo.setReg_emp(id);
+		
+		int result = sService.dataInsertShipment(vo);
 					
-		return "redirect:/request/list";
+		String link = "";
+		if (result >= 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "출하명령 등록 결과");
+			rttr.addFlashAttribute("result", "출하명령 등록 완료되었습니다.");
+		} else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "출하 등록 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+		}
+		
+		
+		return link;
 	}
 	
 	// -------- 수주등록 데이터 찾기 ---------
@@ -224,14 +237,28 @@ public class ShipmentController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public void shipmentUpdatePOST(ShipmentVO vo) throws Exception{
+	public String shipmentUpdatePOST(ShipmentVO vo,RedirectAttributes rttr) throws Exception{
 		// 수주 수정 액션
 		logger.debug("shipmentUpdatePOST() 전달받은 정보 DB 저장하기");
 		logger.debug("vo "+vo);
 		
 		// 일단 임시 아이디값(실제로는 세션에서 값을 받아와야함)
 		String id = "id";
-		sService.updateShipment(vo, id);
+		int result = sService.updateShipment(vo, id);
+		
+		String link = "";
+		if (result >= 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "출하명령 수정 결과");
+			rttr.addFlashAttribute("result", "출하명령 수정이 완료되었습니다.");
+		} else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "출하명령 수정 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+		}
+		
+		
+		return link;
 
 	}
 	
@@ -267,7 +294,7 @@ public class ShipmentController {
 		return link;
 	}
 	
-	
+	@RequestMapping(value = "/statusChange", method = RequestMethod.GET)
 	public String changeStatus(@RequestParam("code") String codes, RedirectAttributes rttr)throws Exception{
 		// 출하완료 변경하기
 		// 1. 출하상태 출하완료로 변경하기

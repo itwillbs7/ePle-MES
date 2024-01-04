@@ -51,9 +51,9 @@ public class ReturnsServiceImpl implements ReturnsService {
 	}
 
 	@Override
-	public void dataInsertReturns(ReturnsVO vo) throws Exception {
+	public int dataInsertReturns(ReturnsVO vo) throws Exception {
 		logger.debug("반품추가 dataInsertReturns(RequestVO vo)"+vo);
-		rtdao.insertReturns(vo);
+		return rtdao.insertReturns(vo);
 	}
 
 
@@ -63,15 +63,15 @@ public class ReturnsServiceImpl implements ReturnsService {
 		return rtdao.getReturnsDetail(code);
 	}
 	@Override
-	public void deleteReturns(String[] code) throws Exception {
+	public int deleteReturns(String[] code) throws Exception {
 		logger.debug("삭제하기 deleteReturns(String[] code) "+code);
-		rtdao.deleteReturns(code);
+		return rtdao.deleteReturns(code);
 	}
 
 	@Override
-	public void updateReturns(ReturnsVO vo, String id) throws Exception {
+	public int updateReturns(ReturnsVO vo, String id) throws Exception {
 		logger.debug("수정내용 updateReturns(RequestVO vo, String id)");
-		rtdao.returnsUpdate(vo, id);
+		return rtdao.returnsUpdate(vo, id);
 	}
 	
 	
