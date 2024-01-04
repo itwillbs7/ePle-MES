@@ -34,7 +34,7 @@ public class ClientController {
 
     // http://localhost:8088/client/clientAll
     
-    // 품목 리스트 - GET
+    // 거래처 리스트 - GET
     @RequestMapping(value = "/clientAll", method = RequestMethod.GET)
     public String listAllGET(Model model,
                              @ModelAttribute("result") String result,
@@ -45,7 +45,7 @@ public class ClientController {
         return "/client/clientAll";
     }
 
-    // 품목 수정 - GET
+    // 거래처 수정 - GET
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String updateGET(@RequestParam(value = "code", defaultValue = "") String code, 
                             @RequestParam(value = "checked", defaultValue = "false") boolean checked,
@@ -62,28 +62,28 @@ public class ClientController {
         }
     }
 
-    // 품목 수정 - POST
+    // 거래처 수정 - POST
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updatePOST(@ModelAttribute ClientVO cvo) throws Exception {
         cService.clientModify(cvo);
         return "redirect:/client/clientAll"; // 수정 후 목록 페이지로 이동
     }
 
-    // 품목 삭제 - GET
+    // 거래처 삭제 - GET
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String removeGET(@RequestParam("code") String code, RedirectAttributes rttr) throws Exception {
         cService.clientRemove(code);
         return "redirect:/client/clientAll"; // 삭제 후 목록 페이지로 이동
     }
 
-    // 품목 삭제 - POST
+    // 거래처 삭제 - POST
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String removePOST(@ModelAttribute("code") String code, RedirectAttributes rttr) throws Exception {
         cService.clientRemove(code);
         return "redirect:/client/clientAll"; // 삭제 후 목록 페이지로 이동
     }
 
-    // 페이징 처리 - 게시판 리스트 - GET
+    // 페이징 처리 - 거래처 리스트 - GET
     @RequestMapping(value = "/clientPage", method = RequestMethod.GET)
     public String listPageGET(Model model,
                               @ModelAttribute("result") String result,

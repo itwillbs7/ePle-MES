@@ -15,7 +15,7 @@
                 <h1 class="text-center text-primary">품목 등록</h1>
             </div>
             <!-- 폼 -->
-            <form action="/product/add" method="post">
+            <form action="/line/add" method="post">
 
                 <!-- 입력 구간 -->
                 <div class="row">
@@ -31,11 +31,21 @@
                             <label>규격</label> <input class="form-control" type="text" name="size">
                         </div>
                         <div class="form-group">
-                            <label>단위</label> <input class="form-control" type="number" name="unit">
-                        </div>
+						    <label>단위</label>
+						    <select class="form-control" name="unit">
+						        <option value="" disabled selected>선택</option>
+						        <option value="EA">EA</option>
+						    </select>
+						</div>
                         <div class="form-group">
-                            <label>입고 단가</label> <input class="form-control" type="text" name="inprice">
-                        </div>
+					    <label>입고 단가</label>
+					    <div class="input-group">
+					        <input class="form-control" type="text" name="inprice">
+					        <div class="input-group-append">
+					            <span class="input-group-text">원</span>
+					        </div>
+						</div>
+					</div>
                         
                         <div class="form-group">
                             <label>이미지</label> <input type="file" class="form-control-file form-control height-auto" name="image">
@@ -61,17 +71,15 @@
             <!-- 폼 -->
         </div>
     </div>
-    <!-- 콘텐츠 끝> -->
+    <!-- 콘텐츠 끝 -->
     <script type="text/javascript">
-        // Function to notify the parent window about the success
         function notifyParent() {
-            // Check if the parent window exists
+            
             if (window.opener) {
-                // Notify the parent window about the success
                 window.opener.showSuccessAlert();
-                // Close the popup window
                 window.close();
             }
+            
         }
     </script>
     <%@ include file="../include/footer.jsp"%>

@@ -100,7 +100,7 @@
 										<th>비고</th>
 										<th>사용 여부</th>
 									</tr>
-									<c:forEach var="line" items="${LineVO}">
+									<c:forEach var="client" items="${ClientVO}">
 									    <tr>
 										<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 										<td>
@@ -110,15 +110,15 @@
 												<label class="custom-control-label" for="checkTable1"></label>
 									        </div>
 									        </td>
-									        <td>${line.code}</td>
-									        <td>${line.name}</td>
-									        <td>${line.condition}</td>
-									        <td>${line.items}</td>
-									        <td>${line.manager}</td>
-									        <td>${line.tel}</td>
-									        <td>${line.email}</td>
-									        <td>${line.note}</td>
-									        <td>${line.active}</td>
+									        <td>${client.code}</td>
+									        <td>${client.name}</td>
+									        <td>${client.condition}</td>
+									        <td>${client.items}</td>
+									        <td>${client.manager}</td>
+									        <td>${client.tel}</td>
+									        <td>${client.email}</td>
+									        <td>${client.note}</td>
+									        <td>${client.active}</td>
 									    </tr>
 									</c:forEach>
 								</table>
@@ -194,7 +194,7 @@
 		    // 추가
 		    $("#add").click(function() {
 		        // 가로, 세로 설정
-		        openPage("/product/add", 500, 600);
+		        openPage("/client/add", 500, 600);
 		    });
 
 		    // 수정
@@ -205,7 +205,7 @@
 		        // 체크된 체크박스가 하나 이상인 경우에만 팝업 열기
 		        if (checkedCount > 0) {
 		            // 가로, 세로 설정
-		            openPage("/product/update", 400, 700);
+		            openPage("/client/update", 400, 700);
 		        } else {
 		            // 체크박스를 선택하지 않았을 때 경고 메시지 출력 또는 원하는 동작 수행
 		            alert("수정할 항목을 선택해주세요.");
@@ -220,7 +220,7 @@
 		        // 체크된 체크박스가 하나 이상인 경우에만 삭제 팝업 열기
 		        if (checkedCount > 0) {
 		            // 가로, 세로 설정
-		            openPage("/product/delete", 400, 297);
+		            openPage("/client/delete", 400, 297);
 		        } else {
 		            // 체크박스를 선택하지 않았을 때 아무 동작도 수행하지 않음
 		            // 또는 원하는 동작을 수행할 수 있습니다.

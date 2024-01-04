@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<title>품목 등록</title>
+<title>거래처 등록</title>
 </head>
 <body>
     <!-- 콘텐츠 시작 -->
@@ -12,34 +12,70 @@
         <div class="login-box bg-white box-shadow border-radius-10">
             <!-- 타이틀 -->
             <div class="login-title">
-                <h1 class="text-center text-primary">품목 등록</h1>
+                <h1 class="text-center text-primary">거래처 등록</h1>
             </div>
             <!-- 폼 -->
-            <form action="/product/add" method="post">
+            <form action="/client/add" method="post">
 
                 <!-- 입력 구간 -->
                 <div class="row">
                     <div class="col-sm-12 mb-3">
                         <!-- examples -->
                         <div class="form-group">
-                            <label>품번</label> <input class="form-control" type="text" name="code">
+                            <label>거래처 코드</label> <input class="form-control" type="text" name="code">
                         </div>
                         <div class="form-group">
-                            <label>품목명</label> <input class="form-control" type="text" name="name">
+                            <label>거래처명</label> <input class="form-control" type="text" name="name">
                         </div>
                         <div class="form-group">
-                            <label>규격</label> <input class="form-control" type="text" name="size">
+                            <label>거래처 구분</label> <input class="form-control" type="text" name="type">
                         </div>
                         <div class="form-group">
-                            <label>단위</label> <input class="form-control" type="number" name="unit">
+                            <label>업태</label> <input class="form-control" type="number" name="condition">
                         </div>
                         <div class="form-group">
-                            <label>입고 단가</label> <input class="form-control" type="text" name="inprice">
+                            <label>종목</label> <input class="form-control" type="text" name="items">
                         </div>
-                        
                         <div class="form-group">
-                            <label>이미지</label> <input type="file" class="form-control-file form-control height-auto" name="image">
+                            <label>대표자</label> <input class="form-control" type="text" name="ceo">
                         </div>
+                        <div class="form-group">
+                            <label>담당자</label> <input class="form-control" type="text" name="manager">
+                        </div>
+                        <div class="form-group">
+                            <label>주소</label> <input class="form-control" type="text" name="address">
+                        </div>
+                        <div class="form-group">
+                            <label>상세 주소</label> <input class="form-control" type="text" name="address2">
+                        </div>
+                        <div class="form-group">
+						    <label>전화번호</label> 
+						    <input class="form-control" type="tel" name="tel" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" placeholder="예: 02-1234-5678">
+						</div>
+						<div class="form-group">
+						    <label>휴대폰 번호</label> 
+						    <input class="form-control" type="tel" name="phone" pattern="01[0-9]-[0-9]{3,4}-[0-9]{4}" placeholder="예: 010-1234-5678">
+						</div>
+                        <div class="form-group">
+						    <label>팩스 번호</label> 
+						    <input class="form-control" type="tel" name="fax" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" placeholder="예: 02-1234-5678">
+						</div>
+                        <div class="form-group">
+						    <label>이메일</label> 
+						    <input class="form-control" type="email" name="email" placeholder="예: example@example.com">
+						</div>
+                        <div class="form-group">
+						    <label>비고</label>
+						    <textarea class="form-control" name="note" rows="4"></textarea>
+						</div>
+                        <div class="form-group">
+						    <label>사용 여부</label>
+						    <select class="form-control" name="active">
+						        <option value="" disabled selected>선택</option>
+						        <option value="Y">Y</option>
+						        <option value="N">N</option>
+						    </select>
+						</div>
                         <!-- examples end -->
                     </div>
                 </div>
@@ -61,17 +97,15 @@
             <!-- 폼 -->
         </div>
     </div>
-    <!-- 콘텐츠 끝> -->
+    <!-- 콘텐츠 끝 -->
     <script type="text/javascript">
-        // Function to notify the parent window about the success
         function notifyParent() {
-            // Check if the parent window exists
+            
             if (window.opener) {
-                // Notify the parent window about the success
                 window.opener.showSuccessAlert();
-                // Close the popup window
                 window.close();
             }
+            
         }
     </script>
     <%@ include file="../include/footer.jsp"%>
