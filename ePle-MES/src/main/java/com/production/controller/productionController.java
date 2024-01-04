@@ -97,4 +97,9 @@ public class productionController {
 		pdService.deleteInstruction(code_arr);
 		return "redirect:/production/instruction";
 	}
+	//수주정보 선택 GET
+	@RequestMapping(value = "/chooseRequest", method = RequestMethod.GET)
+	public void chooseRequestGET() throws Exception {
+		logger.debug("Controller : chooseRequestGET() 호출");
+	}
 }

@@ -42,28 +42,6 @@
 										<div class="col-md-12">
 											<div class="form-group">
 												<div class="row">
-													<h4 class="text-blue h4">작업지시 검색</h4>
-													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
-														<div class="btn-group dropdown">
-															<button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-																카테고리 <span class="caret"></span>
-															</button>
-															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" href="javascript:buttonCategory();">선택</a>
-																<a class="dropdown-item" href="javascript:buttonCategory('A');">A</a>
-																<a class="dropdown-item" href="javascript:buttonCategory('B');">B</a>
-																<a class="dropdown-item" href="javascript:buttonCategory('C');">C</a>
-															</div>
-														</div>
-														<input type="hidden" id="searchCategory" name="searchCategory">
-														<input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
-													</div>
-												</div>
-												<hr>
-												<div class="row">
-													<h4 class="text-blue h4">상세 검색</h4>
-												</div>
-												<div class="row">
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
 															<label>품번</label>

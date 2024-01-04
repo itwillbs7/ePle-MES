@@ -112,11 +112,23 @@
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="result" role="tabpanel">
-								<div class="pd-20">
+								<div>
+									<button type="button" class="btn btn-secondary" id="Save">저장</button>
+									<button type="button" class="btn btn-success" id="Start">시작</button>
+									<button type="button" class="btn btn-danger" id="Complete">완료</button>
+									<button type="button" class="btn btn-warning" id="CompleteCancle">완료취소</button>
 								</div>
+								<form action="" id="resultForm">
+									
+								</form>
 							</div>
 							<div class="tab-pane fade" id="failed" role="tabpanel">
-								<div class="pd-20">failed</div>
+								<div>
+									<button type="button" class="btn btn-secondary" id="SaveFailed">저장</button>
+								</div>
+								<form action="" id="failedForm">
+									
+								</form>
 							</div>
 							<div class="tab-pane fade" id="input" role="tabpanel">
 								<div class="pd-20">input</div>
@@ -148,23 +160,14 @@
 					},
 					success : function(data) {
 						var dataFailedList = data.failedList;
-						//alert(dataFailedList[0].code);//불량리스트[0]
-						var rsList = ${rsList};
-						alert(rsList);
-						alert(code);
-						var index = rsList.findIndex(element => element.code === code);
-						if (index !== -1) {
-							alert(index);
-						}else{
-							alert("fail");
-						}
+						var dataResult = data.result;
 						$('#result').empty();
 						var html = "";
-						/* html += "<table border='1px solid black' style='border-spacing: 10px; border-collapse: separate;'>";
+						html += "<table border='1px solid black' style='border-spacing: 10px; border-collapse: separate;'>";
 						html += "<tr>";
 						html += "<td>";
 						html += "<span class='infoDF'>실적번호</span>";
-						html += "<span class='infoAS'><input type='text' value='" + dataResult[0].code + "'></span>";
+						html += "<span class='infoAS'><input type='text' value='" + dataResult.code + "'></span>";
 						html += "</td>";
 						html += "<td>";
 						html += "<span class='infoDF'>제품코드</span>";
@@ -202,7 +205,7 @@
 						html += "</td>";
 						html += "<td>";
 						html += "<span class='infoDF'>양품량</span>";
-						html += "<span class='infoAS'><input type='text' value='" + dataResult.product + "'></span>";
+						html += "<span class='infoAS'><input type='text' value='" + dataResult.amount + "'></span>";
 						html += "</td>";
 						html += "<td>";
 						html += "<span class='infoDF'>부적합량</span>";
@@ -210,11 +213,9 @@
 						html += "</td>";
 						html += "</tr>";
 						html += "</table>";
-						$('#result').append(html); */
+						$('#result').append(html);
 					}
 				});
-	        }else{
-	        	//실적 정보 편집 삭제
 	        }
 		});
 		

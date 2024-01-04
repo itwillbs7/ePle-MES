@@ -41,9 +41,14 @@
 	  		WHERE 1=1;
 		]]>
 	</select>
-	<select id="getResult" resultType="com.production.domain.resultVO">
+	<select id="getResult" resultType="com.production.domain.resultVO" resultMap="resultVOMap">
 		<![CDATA[
-			SELECT * FROM RESULT WHERE code = #{code}
+			SELECT R.code AS R_code,emp_code,group_id,code_id,R.amount AS R_amount,R.reg_date AS R_reg_date,R.reg_emp AS R_reg_emp,R.update_date AS R_update_date,R.update_emp AS R_update_emp,inst_code,
+	  		I.code AS I_code,product,line_code,content,request,I.amount AS I_amount,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date 
+	  		FROM RESULT R 
+	  		LEFT JOIN INSTRUCTION I 
+	  		ON R.inst_code = I.code 
+	  		WHERE R.code = #{code};
 		]]>
 	</select>
 	<select id="getFailedList" resultType="com.production.domain.failedVO">

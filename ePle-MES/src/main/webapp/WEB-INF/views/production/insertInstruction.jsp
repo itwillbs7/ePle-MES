@@ -26,7 +26,7 @@
 						<div class="form-group">
 							<label><b>수주정보</b></label>
 							<input class="form-control required" type="text" placeholder="수주정보" name="request" id="request" readonly>
-							<button type="button" class="btn btn-success" onclick="">
+							<button type="button" class="btn btn-success" id="chooseRequest">
 								<b>수주정보 조회</b>
 							</button>
 						</div>
@@ -182,5 +182,45 @@
 	});
 	</script>
 	<!-- 필수입력 체크 끝-->
+	<!-- 수주정보 조회 시작 -->
+	<script type="text/javascript">
+			var popupWidth, popupHeight, popupX, popupY, link;
+			var set;
+
+			function retPopupSetting(width, height){
+				// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
+				popupX = Math.ceil((window.screen.width - width) / 2);
+				// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
+				popupY = Math.ceil((window.screen.height - height) / 2);
+
+				var setting = "";
+				setting += "toolbar=0,";
+				setting += "scrollbars=0,";
+				setting += "statusbar=0,";
+				setting += "menubar=0,";
+				setting += "resizeable=0,";
+				setting += "width=" + width + ",";
+				setting += "height=" + height + ",";
+				setting += "top=" + popupY + ",";
+				setting += "left=" + popupX;
+				return setting;
+			}
+
+			function openPage(i, width, height) {
+				set = retPopupSetting(width, height);
+				return window.open(i, 'chooseRequest', set);
+			}
+
+			$(document).ready(function() {
+				// 추가
+				$("#chooseRequest").click(function() {
+					// 가로, 세로 설정
+					openPage("/production/chooseRequest", 1000, 600);
+				});
+
+			});
+	</script>
+	<!-- 수주정보 조회 끝 -->
+	
 </body>
 </html>
