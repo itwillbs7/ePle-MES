@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 미완성 -->
+<!-- facMt.xml -->
+<mapper namespace="com.itwillbs.mapper.FacMtMapper">
+	<resultMap type="" id="">
+	
+	</resultMap>
+	<resultMap type="" id="">
+	
+	</resultMap>
+	
+	<!-- 설비보전 담당 -->
+	<select id="">
+	
+	</select>
+	<select id="">
+		
+	</select>
+	<!-- 보전 결과 -->
+	<insert id="setResult">
+	
+	</insert>
+	<!-- 설비보전 담당 -->
+	
+	<!-- 직원 -->
+	<insert id="">
+		
+	</insert>
+	<update id="">
+	
+	</update>
+	<delete id="">
+	
+	</delete>
+	<!-- 직원 -->
+</mapper>
