@@ -7,11 +7,10 @@
 <mapper namespace="com.itwillbs.mapper.returnsMapper">
 	<!-- 페이징처리 + 리스트 가져오기 -->
 	<select id="listPage" resultType="ReturnsVO">
-		select rt.*, c.name clientName 
+		select rt.*
 		FROM RETURNS rt 
 		join REQUEST r on rt.request_code = r.code 
-		join CLIENT c on c.code = r.client_code 
-		order by .reg_date DESC 
+		order by rt.reg_date DESC 
 		limit #{startPage}, #{pageSize}
 	</select>
 	

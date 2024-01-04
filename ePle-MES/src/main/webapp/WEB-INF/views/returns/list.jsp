@@ -152,7 +152,7 @@
 										<tr>
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<c:choose>
-												<c:when test="${List.status eq '반품등록'}">
+												<c:when test="${List.status eq '등록'}">
 													<td><div class="custom-control custom-checkbox mb-5">
 															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 															<input type="checkbox" class="custom-control-input"
@@ -169,12 +169,12 @@
 											<!-- 상세 정보 이동! -->
 											<th class="info${status.index}"
 												style="color: blue; text-decoration: underline;">${List.code }</th>
-											<th>${List.reqs_code }</th>
-											<th>${List.reqsdate }</th>
-											<th>${List.product }</th>
-											<th>${List.clientName }</th>
-											<th>${List.reqsamount }</th>
-											<th>${List.stock }</th>
+											<th>${List.request_code }</th>
+											<th>${List.ship_code }</th>
+											<th>${List.lot }</th>
+											<th>${List.amount }</th>
+											<th>${List.reason }</th>
+											<th>${List.status }</th>
 										</tr>
 									</c:forEach>
 								</tbody>

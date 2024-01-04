@@ -21,5 +21,7 @@ public class ReturnsVO {
 	private String update_date;
 	private String update_emp;
 	
+	private String reqsdate;
+	
 	
 }

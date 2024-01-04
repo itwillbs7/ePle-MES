@@ -54,6 +54,10 @@ public class ReturnsController {
 							   ) throws Exception { //5-1
 		// 반품 목록 return
 		logger.debug("returnsListGET -> DB에서 목록 가져오기(페이징 처리하기)");
+		logger.debug("\r\n▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄\r\n" + 
+				"█░░░░░░░░▀█▄▀▄▀██████░▀█▄▀▄▀██████░\r\n" + 
+				"░░░░░░░░░░░▀█▄█▄███▀░░░ ▀██▄█▄███▀░\r\n" + 
+				"");
 
 		List<ReturnsVO> returnsList = rtService.returnsListpage(cri);
 		
@@ -88,6 +92,7 @@ public class ReturnsController {
 	public List<ReturnsVO> searchReturnsGET(RedirectAttributes rttr, @ModelAttribute("result") String result, 
 											ReturnsVO vo) throws Exception { // 반품검색 5-3
 		logger.debug("searchReturnsGET() -> 정보 받아서 DB에 조회하기");
+
 		logger.debug("Controller - vo "+vo);
 		// 전달받을 정보(반품상태 ,담당자코드, 업체코드
 		
