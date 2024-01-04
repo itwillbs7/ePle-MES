@@ -6,12 +6,14 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.OrderVO;
 import com.itwillbs.domain.StockVO;
 import com.itwillbs.persistence.StockDAO;
 
+@Service
 public class StockServiceImpl implements StockService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(StockServiceImpl.class);

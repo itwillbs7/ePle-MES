@@ -8,8 +8,9 @@ import com.itwillbs.domain.WarehouseVO;
 
 public interface OrderService {
 
+	 // 4-1 발주 요청 목록
 	 public List<OrderVO> orderAskList(Criteria cri) throws Exception;
-	 
+	 // 	전체 요청 수
 	 public int orderAskListCount() throws Exception;
 
 	 

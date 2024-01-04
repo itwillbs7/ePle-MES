@@ -19,7 +19,7 @@ import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.service.WarehouseService;
 
 
-/** WarehouseController : 창고 컨트롤러 
+/** WarehouseController : 창고 컨트롤러 (타부서 요청 + 관리)
 * 
 *	http://localhost:8088/warehouse/list 
 */

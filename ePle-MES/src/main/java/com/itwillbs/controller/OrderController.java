@@ -1,5 +1,7 @@
 package com.itwillbs.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -8,9 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.OrderVO;
@@ -19,7 +24,7 @@ import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.service.OrderService;
 
 
-/** WarehouseController : 발주 컨트롤러 
+/** WarehouseController : 발주 컨트롤러 (타부서 요청 + 관리)
 * 
 *	http://localhost:8088/order/list 
 */
@@ -35,7 +40,7 @@ public class OrderController {
 
 	
 	
-	  // 발주 요청 목록 (출력/페이징) --------------------------------------------------------
+	  // 발주 요청 (출력/페이징) -------------------------------------------------------------
 	  @RequestMapping(value = "/askList", method = RequestMethod.GET) 
 	  public void orderAskList(Model model, Criteria cri) throws Exception {
 
@@ -47,10 +52,9 @@ public class OrderController {
 	  model.addAttribute("pageVO", pageVO);
 	  model.addAttribute("orderAskList", orderAskList);
 	  }
+
+	  
 	
-	
-	
-	  // 
 	  // 발주 메인 (출력/페이징/검색) --------------------------------------------------------
 	  @RequestMapping(value = "/list", method = RequestMethod.GET) 
 	  public void orderList(Model model, Criteria cri,
