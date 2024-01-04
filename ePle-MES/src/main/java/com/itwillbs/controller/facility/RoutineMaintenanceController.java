@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.itwillbs.domain.MaintenanceVO;
+import com.itwillbs.domain.FacMtVO;
 import com.itwillbs.service.facility.FacilityService;
 import com.itwillbs.service.facility.MaintenanceService;
 
@@ -50,7 +50,7 @@ public class RoutineMaintenanceController {
 	}
 	
 	@PostMapping("/insert")
-	public String insertPOST(MaintenanceVO vo, RedirectAttributes rttr) throws Exception {
+	public String insertPOST(FacMtVO vo, RedirectAttributes rttr) throws Exception {
 		String link = "";
 		// 최상단에 등록된 일상보전 가져오기
 		String recentCode = mService.getRecentCode(vo.getCode());

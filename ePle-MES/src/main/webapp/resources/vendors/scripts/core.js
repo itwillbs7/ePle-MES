@@ -8311,7 +8311,7 @@
 
     // RFC 2822 regex: For details see
     // https://tools.ietf.org/html/rfc2822#section-3.3
-    var rfc2822 = /^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s)?(\d{1,2})\s(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(\d{2,4})\s(\d\d):(\d\d)(?::(\d\d))?\s(?:(UT|GMT|[ECMP][SD]T)|([Zz])|([+-]\d{4}))$/;
+    var rfc2822 = /^(?:(월|화|수|목|금|토|일),?\s)?(\d{1,2})\s(1월|2월|3월|4월|5월|6월|7월|8월|9월|10월|11월|12월)\s(\d{2,4})\s(\d\d):(\d\d)(?::(\d\d))?\s(?:(UT|GMT|[ECMP][SD]T)|([Zz])|([+-]\d{4}))$/;
 
     function extractFromRFC2822Strings(yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr) {
         var result = [
@@ -9417,7 +9417,7 @@
     hooks.defaultFormatUtc = 'YYYY-MM-DDTHH:mm:ss[Z]';
 
     function toString() {
-        return this.clone().locale('ko').format('YYYY MMM DD ddd HH:mm:ss [GMT]ZZ');
+        return this.clone().locale('ko').format('YYYY MM DD ddd HH:mm:ss [KST]ZZ');
     }
 
     function toISOString(keepOffset) {

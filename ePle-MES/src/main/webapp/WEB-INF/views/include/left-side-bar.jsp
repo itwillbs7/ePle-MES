@@ -65,19 +65,7 @@
 				</a>
 					<ul class="submenu">
 						<li><a href="/facility/info/list">설비 정보</a></li>
-						<li><a href="/facility/routine/">일상 보전</a></li>
-						<li class="dropdown">
-						<a href="javascript:;" class="dropdown-toggle"> 
-						<span class="micon fa fa-cog"></span>
-						<span class="mtext">사후/예약 보전</span>
-						</a>
-							<ul class="submenu child">
-								<li><a href="/facility/maintenance/list">사후/예약 보전 목록</a></li>
-								<li><a href="/facility/maintenance/reservation">예약</a></li>
-								<li><a href="/facility/maintenance/process">보전 진행</a></li>
-								<li><a href="/facility/maintenance/result/list">결과 내역</a></li>			
-							</ul>
-						</li>
+						<li><a href="/facility/mt/main">보전</a></li>
 						<li><a href="/facility/order/list">발주 신청</a></li>
 					</ul></li>
 

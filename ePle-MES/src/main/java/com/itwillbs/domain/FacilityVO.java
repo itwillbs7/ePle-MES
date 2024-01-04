@@ -25,5 +25,5 @@ public class FacilityVO {
 	private boolean active;
 	
 	// 설비 보전 리스트
-	private List<MaintenanceVO> mainList;
+	private List<FacMtVO> mainList;
 }

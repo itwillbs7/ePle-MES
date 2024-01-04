@@ -234,7 +234,7 @@
 	</select>
 	
 	<select id="getLineList" resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
-		SELECT code AS line_code, name AS line_name FROM LINE
+		SELECT code, name FROM LINE
 	</select>
 	
 	<select id="getCommonCodeList" resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">

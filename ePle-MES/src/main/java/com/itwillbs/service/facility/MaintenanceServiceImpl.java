@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.FacilityVO;
-import com.itwillbs.domain.MaintenanceVO;
+import com.itwillbs.domain.FacMtVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.persistence.facility.MaintenanceDAO;
 
@@ -23,17 +23,17 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	}
 	
 	@Override
-	public int insert(MaintenanceVO vo) throws Exception {
+	public int insert(FacMtVO vo) throws Exception {
 		return dao.insert(vo);
 	}
 	
 	@Override
-	public int updateMT(MaintenanceVO vo) throws Exception {
+	public int updateMT(FacMtVO vo) throws Exception {
 		return dao.updateMT(vo);
 	}
 	
 	@Override
-	public int updateResult(MaintenanceVO vo) throws Exception {
+	public int updateResult(FacMtVO vo) throws Exception {
 		return dao.updateResult(vo);
 	}
 	
@@ -43,7 +43,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	}
 	
 	@Override
-	public List<MaintenanceVO> getList(PageVO vo) throws Exception {
+	public List<FacMtVO> getList(PageVO vo) throws Exception {
 		return dao.getList(vo);
 	}
 	
@@ -53,12 +53,12 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	}
 	
 	@Override
-	public MaintenanceVO getDetail(String code) throws Exception {
+	public FacMtVO getDetail(String code) throws Exception {
 		return dao.getDetail(code);
 	}
 	
 	@Override
-	public List<MaintenanceVO> getFacilityInfo(String code) throws Exception {
+	public List<FacMtVO> getFacilityInfo(String code) throws Exception {
 		return dao.getFacilityInfo(code);
 	}
 	
@@ -68,7 +68,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	}
 	
 	@Override
-	public List<MaintenanceVO> getDailyRM(String emp_code) throws Exception {
+	public List<FacMtVO> getDailyRM(String emp_code) throws Exception {
 		return dao.getDailyRM(emp_code);
 	}
 	
@@ -78,7 +78,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	}
 	
 	@Override
-	public List<MaintenanceVO> getAjax(PageVO vo) throws Exception {
+	public List<FacMtVO> getAjax(PageVO vo) throws Exception {
 		return dao.getAjax(vo);
 	}
 }

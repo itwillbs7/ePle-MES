@@ -25,7 +25,7 @@
 					<c:when test="${empty role}">
 						<c:redirect url="/" />
 					</c:when>
-					<c:when test="${role eq 'emp' or role eq 'manager'}">
+					<c:when test="${role eq 'emp'}">
 						<!-- row -->
 						<div class="row">
 							<div class="col-md-6 mb-20">
@@ -51,10 +51,8 @@
 						</div>
 						<!-- row -->
 					</c:when>
-					<c:when test="${role eq 'admin'}">
-						<!-- row -->
-						<!-- 조회 페이지 작성 -->
-						<!-- row -->
+					<c:when test="${role eq 'manager'}">
+						<c:redirect url="/facility/mt/status" />
 					</c:when>
 				</c:choose>
 				<!-- 푸터 -->

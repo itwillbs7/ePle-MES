@@ -43,7 +43,6 @@
 				</div>
 			</div>
 		</div>
-		
 		<!-- 회원 정보 (드롭다운 포함) -->
 		<div class="user-info-dropdown">
 			<div class="dropdown">

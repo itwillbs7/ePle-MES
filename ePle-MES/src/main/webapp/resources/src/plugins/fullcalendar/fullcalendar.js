@@ -1281,7 +1281,7 @@
         var r = n(4);
         e.globalDefaults = {
             titleRangeSeparator: " ~ ",
-            monthYearFormat: "YYYY/MM/DD",
+            monthYearFormat: "YYYY년 MM/DD",
             dayNamesShort: ["일","월","화","수","목","금","토"],
             defaultTimedEventDuration: "02:00:00",
             defaultAllDayEventDuration: {
@@ -1333,7 +1333,7 @@
             dropAccept: "*",
             eventOrder: "title",
             eventLimit: !1,
-            eventLimitText: "more",
+            eventLimitText: "더 보기",
             eventLimitClick: "popover",
             dayPopoverFormat: "LL",
             handleWindowResize: !0,
