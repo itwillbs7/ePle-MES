@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD:target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
 Built-By: ITWILL
 Build-Jdk: 11.0.20
+=======
+Built-By: klop1
+Build-Jdk: 11.0.15
+>>>>>>> sm:ePle-MES/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
 Created-By: Maven Integration for Eclipse
 

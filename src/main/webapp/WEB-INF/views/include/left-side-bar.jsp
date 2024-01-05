@@ -7,9 +7,9 @@
 	<!-- 로고(메인 페이지 이동) -->
 	<div class="brand-logo">
 		<a href="/"> <!-- 로고 이미지 svg --> <img
-			src="../resources/vendors/images/deskapp-logo.svg" alt=""
+			src="${pageContext.request.contextPath }/resources/vendors/images/deskapp-logo.svg" alt=""
 			class="dark-logo" /> <img
-			src="../resources/vendors/images/deskapp-logo-white.svg" alt=""
+			src="${pageContext.request.contextPath }/resources/vendors/images/deskapp-logo-white.svg" alt=""
 			class="light-logo" />
 		</a>
 
@@ -93,9 +93,9 @@
 						class="mtext">시스템 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="index.html">Dashboard style 1</a></li>
-						<li><a href="index2.html">Dashboard style 2</a></li>
-						<li><a href="index3.html">Dashboard style 3</a></li>
+						<li><a href="/system/common/main">공통코드 관리</a></li>
+						<li><a href="/system/user/main">사용자 관리</a></li>
+						<li><a href="/system/authority/main">권한 관리</a></li>
 					</ul></li>
 
 			</ul>

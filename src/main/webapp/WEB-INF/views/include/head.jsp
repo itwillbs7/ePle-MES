@@ -7,11 +7,11 @@
 
 <!-- 사이트 아이콘 -->
 <link rel="apple-touch-icon" sizes="180x180"
-	href="../resources/vendors/images/apple-touch-icon.png" />
+	href="${pageContext.request.contextPath }/resources/vendors/images/apple-touch-icon.png" />
 <link rel="icon" type="image/png" sizes="32x32"
-	href="../resources/vendors/images/favicon-32x32.png" />
+	href="${pageContext.request.contextPath }/resources/vendors/images/favicon-32x32.png" />
 <link rel="icon" type="image/png" sizes="16x16"
-	href="../resources/vendors/images/favicon-16x16.png" />
+	href="${pageContext.request.contextPath }/resources/vendors/images/favicon-16x16.png" />
 
 <!-- Mobile Specific Metas -->
 <meta name="viewport"
@@ -24,15 +24,15 @@
 	
 <!-- CSS -->
 <link rel="stylesheet" type="text/css"
-	href="../resources/vendors/styles/core.css" />
+	href="${pageContext.request.contextPath }/resources/vendors/styles/core.css" />
 <link rel="stylesheet" type="text/css"
-	href="../resources/vendors/styles/icon-font.min.css" />
+	href="${pageContext.request.contextPath }/resources/vendors/styles/icon-font.min.css" />
 <link rel="stylesheet" type="text/css"
-	href="../resources/src/plugins/datatables/css/dataTables.bootstrap4.min.css" />
+	href="${pageContext.request.contextPath }/resources/src/plugins/datatables/css/dataTables.bootstrap4.min.css" />
 <link rel="stylesheet" type="text/css"
-	href="../resources/src/plugins/datatables/css/responsive.bootstrap4.min.css" />
+	href="${pageContext.request.contextPath }/resources/src/plugins/datatables/css/responsive.bootstrap4.min.css" />
 <link rel="stylesheet" type="text/css"
-	href="../resources/vendors/styles/style.css" />
+	href="${pageContext.request.contextPath }/resources/vendors/styles/style.css" />
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async
@@ -66,3 +66,6 @@
 	})(window, document, "script", "dataLayer", "GTM-NXZMQSS");
 </script>
 <!-- End Google Tag Manager -->
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+<!-- jQuery -->
