@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- resultMaintenancetenanceMapper.xml -->
+<mapper namespace="com.itwillbs.mapper.ResultMaintenanceMapper">
+	
+	<!-- 보전 결과 입력 -->
+	<update id="updateResult">
+		UPDATE FAC_MT
+		<set>
+			complete = true, manager = #{manager}, res_info = #{res_info},
+			#{res_content}, comp_date = now()
+		</set>
+		<where>
+			code = #{code}
+		</where>
+	</update>
+	
+	<!-- 보전 결과 리스트 -->
+	<select id="searchResultList">
+		SELECT m.code, m.reg_date, m.emp_code, e1.name as writer, m.fac_code, f.model, 
+		f.name as facName, manager, e2.name as managerName, res_info 
+		FROM FAC_MT m 
+		JOIN EMPLOYEES e1 ON m.emp_code = e1.code 
+        JOIN EMPLOYEES e2 ON m.manager = e2.code 
+        JOIN FAC_INFO f ON f.code = m.fac_code
+		<where>
+			<choose>
+				<when test="search eq null">
+					complete = true 
+				</when>
+				<!-- 검색 -->
+				<when test="search neq null">
+					<if test="searchKeyword neq null and searchKeyword.toString() neq ''">
+						<choose>
+							<when test="searchCategory eq null">
+							<![CDATA[
+								AND (e1.name like '%'||#{search.searchKeyword}||'%' OR
+									e2.name like  '%'||#{search.searchKeyword}||'%' OR
+									f.model like  '%'||#{search.searchKeyword}||'%' OR
+									f.name like '%'||#{search.searchKeyword}||'%' OR
+									res_info like '%'||#{search.searchKeyword}||'%' ) 
+							]]>
+							</when>
+							<when test="searchCategory neq null and searchCategory.toString() neq ''">
+								<choose>
+									<when test="searchCategory.toString() eq 'manager'">
+										AND e2.name like '%'||#{search.searchKeyword}||'%' 
+									</when>
+									<when test="searchCategory.toString() eq 'res_info'">
+										AND res_info like '%'||#{search.searchKeyword}||'%' 
+									</when>
+									<when test="searchCategory.toString() eq 'model'">
+										AND f.model like  '%'||#{search.searchKeyword}||'%' 
+									</when>
+									<when test="searchCategory.toString() eq 'writer'">
+										AND e1.name like '%'||#{search.searchKeyword}||'%' 
+									</when>
+									<when test="searchCategory.toString() eq 'fac_name'">
+										AND f.name like '%'||#{search.searchKeyword}||'%' 
+									</when>
+								</choose>
+							</when>
+						</choose>
+					</if>
+					<if test="formC">
+						
+					</if>
+					<if test="">
+						
+					</if>
+					<if test="">
+						
+					</if>
+					<if test="">
+						
+					</if>
+					<if test="">
+						
+					</if>
+					<if test="">
+						
+					</if>
+				</when>
+			</choose>
+		</where>
+		ORDER BY 
+		<!-- 정렬 -->
+		<choose>
+			<when test=""></when>
+			<when test=""></when>
+		</choose>
+		<choose>
+			<when test=""></when>
+			<when test=""></when>
+		</choose>
+		<choose>
+			<when test=""></when>
+			<when test=""></when>
+		</choose>
+		<choose>
+			<when test=""></when>
+			<when test=""></when>
+		</choose>
+		<!-- 정렬 -->
+		LIMIT #{cri.page}, #{cri.pageSize}
+	</select>
+	<!-- 보전 결과 -->
+</mapper>
