@@ -1,11 +1,22 @@
 jQuery(document).ready(function () {
 	jQuery("#add-event").submit(function () {
-		alert("Submitted");
-		var values = {};
-		$.each($("#add-event").serializeArray(), function (i, field) {
-			values[field.name] = field.value;
+		var formData = $(this).serialize();
+		$.ajax({
+			cache : false,
+			type : 'POST', // post 방식으로 전송
+			url : "/facility/maintenance/reservation",// 링크
+			data : formData,
+			success : function() {
+				alert("데이터 전송 성공!");
+			},
+			error : function() {
+				alert("데이터 받기 실패!");
+			},
+			complete : function(){
+				window.location.href=window.location.href;
+			}
 		});
-		console.log(values);
+		return false;
 	});
 });
 
@@ -16,30 +27,38 @@ jQuery(document).ready(function () {
 	// ------------------------------------------------------ //
 	jQuery(function () {
 		// page is ready
-		jQuery("#calendar").fullCalendar({
+		$("#calendar").fullCalendar({
+			timeZone:"KST",
 			themeSystem: "bootstrap4",
+			defaultView: "month",
 			// emphasizes business hours
 			businessHours: false,
-			defaultView: "month",
 			// event dragging & resizing
 			editable: true,
 			// header
-			header: {
-				left: "title",
-				center: "month,agendaWeek,agendaDay",
-				right: "today prev,next",
-			},
+			selectable : true, // 달력 일자 드래그 설정가능
+			droppable : true,
+			nowIndicator: true, // 현재 시간 마크,
+            header: {
+                left: "today",
+                center: "prev, title, next",
+                right: ""
+            },
+            // 국경일, 기념일, 공휴일 가져오기
+            // 공공 데이터 포털에서 가능(API 신청 완료)
 			events: [
 				{
-					title: "Barber",
+					index: '1',
+					title: "정보",
 					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
-					start: "2023-05-05",
-					end: "2023-05-05",
+						"내용",
+					start: "2024-01-05",
+					end: "2024-01-05",
 					className: "fc-bg-default",
 					icon: "circle",
 				},
 				{
+					index: '1',
 					title: "Flight Paris",
 					description:
 						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
@@ -50,6 +69,7 @@ jQuery(document).ready(function () {
 					allDay: false,
 				},
 				{
+					code: '1',
 					title: "Team Meeting",
 					description:
 						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
@@ -60,6 +80,7 @@ jQuery(document).ready(function () {
 					allDay: false,
 				},
 				{
+					index: '1',
 					title: "Meeting",
 					description:
 						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
@@ -68,6 +89,7 @@ jQuery(document).ready(function () {
 					icon: "suitcase",
 				},
 				{
+					index: '1',
 					title: "Conference",
 					description:
 						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
@@ -77,6 +99,7 @@ jQuery(document).ready(function () {
 					icon: "calendar",
 				},
 				{
+					index: '1',
 					title: "Baby Shower",
 					description:
 						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
@@ -86,6 +109,7 @@ jQuery(document).ready(function () {
 					icon: "child",
 				},
 				{
+					index: '1',
 					title: "Birthday",
 					description:
 						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
@@ -95,6 +119,7 @@ jQuery(document).ready(function () {
 					icon: "birthday-cake",
 				},
 				{
+					index: '1',
 					title: "Restaurant",
 					description:
 						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
@@ -105,6 +130,7 @@ jQuery(document).ready(function () {
 					allDay: false,
 				},
 				{
+					index: '1',
 					title: "Dinner",
 					description:
 						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
@@ -115,6 +141,7 @@ jQuery(document).ready(function () {
 					allDay: false,
 				},
 				{
+					index: '1',
 					title: "Shooting",
 					description:
 						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
@@ -124,6 +151,7 @@ jQuery(document).ready(function () {
 					icon: "camera",
 				},
 				{
+					index: '1',
 					title: "Go Space :)",
 					description:
 						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
@@ -133,6 +161,7 @@ jQuery(document).ready(function () {
 					icon: "rocket",
 				},
 				{
+					index: '1',
 					title: "Dentist",
 					description:
 						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
@@ -147,9 +176,9 @@ jQuery(document).ready(function () {
 				jQuery("#modal-view-event-add").modal();
 			},
 			eventClick: function (event, jsEvent, view) {
-				jQuery(".event-icon").html("<i class='fa fa-" + event.icon + "'></i>");
 				jQuery(".event-title").html(event.title);
-				jQuery(".event-body").html(event.description);
+				jQuery(".event-index").html(" (" + event.index + ")");
+				jQuery(".event-description").append(event.description);
 				jQuery(".eventUrl").attr("href", event.url);
 				jQuery("#modal-view-event").modal();
 			},

@@ -182,28 +182,30 @@ jQuery(document).ready(function () {
 
 	// date picker
 	$(".date-picker").datepicker({
-		language: "en",
+		language: "kr",
 		autoClose: true,
-		dateFormat: "dd MM yyyy",
+		dateFormat: "yyyy-mm-dd"
 	});
 	$(".datetimepicker").datepicker({
+		dateformat: 'yyyy-mm-dd',
 		timepicker: true,
-		language: "en",
+		language: "kr",
 		autoClose: true,
-		dateFormat: "dd MM yyyy",
+		dateFormat: "yy-mm-dd"
 	});
 	$(".datetimepicker-range").datepicker({
-		language: "en",
+		dateFormat: 'yyyy-mm-dd',
+		language: "kr",
 		range: true,
 		multipleDates: true,
-		multipleDatesSeparator: " - ",
+		multipleDatesSeparator: " - "
 	});
 	$(".month-picker").datepicker({
-		language: "en",
+		language: "kr",
 		minView: "months",
 		view: "months",
 		autoClose: true,
-		dateFormat: "MM yyyy",
+		dateFormat: 'yyyy-MM'
 	});
 
 	// only time picker
