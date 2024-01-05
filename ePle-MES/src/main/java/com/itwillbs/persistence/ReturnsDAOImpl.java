@@ -66,6 +66,7 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 		logger.debug("╔═══*.·:·.☽✧   반품 등록하기   ✧☾.·:·.*═══╗");
 		// 반품을 등록했을 때
 		// 1. 반품등록하기
+		logger.debug("════*.·:·.☽✧ "+vo+"✧☾.·:·.*═════");
 
 		int result = sqlSession.insert(NAMESPACE + ".insertReturns", vo);
 
@@ -104,13 +105,27 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 	}
 
 	@Override
-	public ShipmentVO findShipment(String clientName, String productName) throws Exception {
+	public List<ShipmentVO> findShipment(String clientName, String productName) throws Exception {
 		logger.debug("╔═══*.·:·.☽✧   출하정보 검색하기   ✧☾.·:·.*═══╗");
-		// 회사명과 상품명을 이용해서 출하정보 가져오기
-		return null;
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("clientName", clientName);
+		paramMap.put("productName", productName);
+		return sqlSession.selectList(NAMESPACE+".findShipment", paramMap);
+	}
+	
+	
+	@Override
+	public List<ReturnsVO> selectLOTList(String request_code,String ship_code) throws Exception {
+		logger.debug("╔═══*.·:·.☽✧   LOT 리스트 가져오기   ✧☾.·:·.*═══╗");
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("request_code", request_code);
+		paramMap.put("ship_code", ship_code);
+		
+		return sqlSession.selectList(NAMESPACE+".getLOTList", paramMap);
 	}
 	
 	//============================= add/search 용
+
 
 
 	@Override

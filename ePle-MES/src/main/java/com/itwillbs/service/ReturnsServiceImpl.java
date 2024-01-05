@@ -60,12 +60,18 @@ public class ReturnsServiceImpl implements ReturnsService {
 	}
 
 	@Override
-	public ShipmentVO findShipment(String clientName, String productName) throws Exception {
+	public List<ShipmentVO> findShipment(String clientName, String productName) throws Exception {
 		logger.debug("회사명, 상품명 검색해서 출하정보 가져오기!");
 		return rtdao.findShipment(clientName, productName);
 	}
 	
 	
+
+	@Override
+	public List<ReturnsVO> getLOTList(String request_code,String ship_code) throws Exception {
+		logger.debug("Service : request_code "+ request_code);
+		return rtdao.selectLOTList(request_code,ship_code);
+	}
 
 	// ============== add / search
 	@Override
