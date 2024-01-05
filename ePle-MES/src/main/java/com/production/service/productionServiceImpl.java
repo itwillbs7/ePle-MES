@@ -86,4 +86,9 @@ public class productionServiceImpl implements productionService {
 		pdDAO.deleteInstruction(code_arr);
 	}
 
+	@Override
+	public requestVO getRequest(String code) throws Exception {
+		return pdDAO.getRequest(code);
+	}
+
 }

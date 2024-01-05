@@ -186,6 +186,9 @@ jQuery(document).ready(function () {
 		language: "ko",
 		autoClose: true,
 		dateFormat: "yy-mm-dd",
+		onSelect: function() {
+	        $(this).change();
+	    }
 	});
 	$(".datetimepicker").datepicker({
 		timepicker: true,

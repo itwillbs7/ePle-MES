@@ -19,6 +19,7 @@ import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.service.RequestService;
 import com.production.domain.instructionVO;
+import com.production.domain.requestVO;
 import com.production.service.productionService;
 
 @Controller
@@ -122,10 +123,9 @@ public class productionController {
 	//수주정보 선택(ajax)
 	@RequestMapping(value = "/ajaxRequest", method = RequestMethod.POST)
 	@ResponseBody
-	public void ajaxRequest(String code) throws Exception {
+	public requestVO ajaxRequest(String code) throws Exception {
 		logger.debug("Controller : ajaxRequest() 호출");
 		logger.debug("code : " + code);
-		
-		
+		return pdService.getRequest(code);
 	}
 }

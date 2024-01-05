@@ -31,4 +31,6 @@ public interface productionDAO {
 	public void updateInstruction(instructionVO instVO) throws Exception;
 
 	public void deleteInstruction(String[] code_arr) throws Exception;
+
+	public requestVO getRequest(String code) throws Exception;
 }

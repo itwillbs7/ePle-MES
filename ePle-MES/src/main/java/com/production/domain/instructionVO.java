@@ -12,6 +12,7 @@ public class instructionVO {
 	private int amount;
 	private String line_code;
 	private String content;
+	private Timestamp production_date;
 	private Timestamp reg_date;
 	private String reg_emp;
 	private Timestamp update_date;

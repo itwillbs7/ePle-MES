@@ -19,7 +19,7 @@
 				<h1 class="text-center text-primary">작업지시 추가</h1>
 			</div>
 			<!-- 폼 -->
-			<form method="post">
+			<form method="post" id="insertForm">
 				<!-- 카테고리 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
@@ -41,10 +41,10 @@
 								<h4 class="h4 pb-10">수량</h4>
 								<div class="row">
 									<div class="col-md-6 mb-30 mb-md-0">
-										<input id="amount" class="required"/>
+										<input id="amount" class="required" name="amount"/>
 									</div>
 								</div>
-								<input type="number" id="amount_input" class="form-control required"/>
+								<input type="number" id="amount_input" class="form-control required" min="0" max="100"/>
 							</div>
 							<!-- 슬라이드바 -->
 						</div>
@@ -62,6 +62,10 @@
 									<option value="${line_code }">${line_code }</option>
 								</c:forEach>
 							</select>
+						</div>
+						<div class="form-group">
+							<label><b>생산일</b></label>
+							<input class="form-control date-picker required" placeholder="Select Date" type="text" name="production_date" id=""/>
 						</div>
 						<div class="form-group">
 							<label>지시사항</label>
@@ -99,21 +103,6 @@
 	<!-- js -->
 	<script src="../resources/src/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
 	<script src="../resources/vendors/scripts/range-slider-setting.js"></script>
-	<!-- 수주정보 조회 시작 -->
-	<script type="text/javascript">
-		
-	</script>
-	<!-- 수주정보 조회 끝 -->
-	<!-- 수주정보 변경 감지 시작 -->
-	<script type="text/javascript">
-		//수주 정보 변경 시
-		$('#request').change(function() {
-			//변경된 수주정보에서 물품정보,수량을 받아 갱신
-			productUpdate("");//제품정보 갱신
-			sliderUpdate(/*amount*/);//수량정보 갱신
-		});
-	</script>
-	<!-- 수주정보 변경 감지 끝 -->
 	<!-- 슬라이더바 초기설정 시작 -->
 	<script type="text/javascript">
 		$("#amount").ionRangeSlider({
@@ -128,13 +117,6 @@
 		});
 	</script>
 	<!-- 슬라이더바 초기설정 끝 -->
-	<!-- 제품정보 업데이트 시작 -->
-	<script type="text/javascript">
-		function productUpdate(product) {
-			$("#product").val(product).change();
-		}
-	</script>
-	<!-- 제품정보 업데이트 끝 -->
 	<!-- 슬라이더바 업데이트 시작 -->
 	<script type="text/javascript">
 		function sliderUpdate(amount) {
@@ -144,6 +126,7 @@
                 from: 0,
                 to: 1
             });
+		    $("#amount_input").attr("max",amount);
 		}
 	</script>
 	<!-- 슬라이더바 업데이트 끝 -->
@@ -171,6 +154,7 @@
 	<script type="text/javascript">
 	//필수입력 클래스 요소 변경시 
 	$('.required').on("change",function () {
+		alert(1);
 		//등록버튼 활성화
 		$('#submit').attr("disabled",false);
 		//필수입력 클래스 요소 중 빈 값이 있을 시 다시 등록버튼 비활성화
@@ -221,11 +205,11 @@
 			});
 	</script>
 	<!-- 수주정보 조회 끝 -->
+	<!-- 수주정보 받기 시작 -->
 	<script type="text/javascript">
 		window.addEventListener('message', function(event) {
 			if (event.data.conditionMet){
 				var code = event.data.code;
-				
 				$.ajax({
 					url : "/production/ajaxRequest",
 					type : "POST",
@@ -234,12 +218,35 @@
 						alert("error");
 					},
 					success : function(data) {
-						alert("success");
+						var requestVO = data;
+						$("#request").val(requestVO.code).change();
+						$("#product").val(requestVO.product).change();
+						sliderUpdate(data.amount);
 					}
 				});
 			}
 		});
 	</script>
+	<!-- 수주정보 받기 끝 -->
+	<!-- submit시 시작 -->
+	<script type="text/javascript">
+		$("#insertForm").submit(function(e) {
+			e.preventDefault();
+			$.ajax({
+			    type: "POST",
+			    url: "/production/insertInstruction",
+			    data: $(this).serialize(),
+			    success: function() {
+			    	window.opener.postMessage("refresh", "*");
+			        window.close();
+			    },
+			    error: function() {
+			    	alert("error");
+			    }
+			});
+		});
+	</script>
+	<!-- submit시 끝 -->
 	
 </body>
 </html>

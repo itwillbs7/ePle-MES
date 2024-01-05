@@ -98,4 +98,9 @@ public class productionDAOImpl implements productionDAO {
 		sqlSession.delete(NAMESPACE + ".deleteInstruction", map);
 	}
 
+	@Override
+	public requestVO getRequest(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getRequestAll", code);
+	}
+
 }

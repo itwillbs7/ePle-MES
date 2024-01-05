@@ -51,8 +51,6 @@ public class resultController {
 		//실적 목록 가져오기
 		List<resultVO> rsList = rsService.getResultList(date,line_code,isFinish);
 		logger.debug("rsList : " + rsList);
-		logger.debug("rsListin : " + rsList.get(0).getAmount());
-		logger.debug("rsListin : " + rsList.get(0).getVo().getAmount());
 		model.addAttribute("rsList", rsList);
 		
 	}

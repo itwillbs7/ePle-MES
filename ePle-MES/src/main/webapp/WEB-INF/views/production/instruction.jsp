@@ -114,10 +114,7 @@
 									<th>라인코드</th>
 									<th>지시사항</th>
 									<th>수주번호</th>
-									<th>등록자</th>
-									<th>등록일</th>
-									<th>수정자</th>
-									<th>최종수정일</th>
+									<th>생산일</th>
 								</tr>
 								<c:forEach items="${instructionVOList }" var="vo">
 									<tr class="instructionVO">
@@ -135,29 +132,7 @@
 										<th>${vo.line_code }</th>
 										<th>${vo.content }</th>
 										<th>${vo.request }</th>
-										<th>${vo.reg_emp }</th>
-										<th>${vo.reg_date }</th>
-										<th>${vo.update_emp }</th>
-										<th>${vo.update_date }</th>
-										<td style="">
-											<!-- 옵션 -->
-											<div class="dropdown">
-												<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
-												</a>
-												<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-													<!-- 링크 설정 -->
-													<!-- 상세 보기 -->
-													<a class="dropdown-item" href="#"> <i class="dw dw-eye"></i> 상세 보기
-													</a>
-													<!-- 수정 -->
-													<a class="dropdown-item" href="javascript:openPage('/maintenance/update?index=1', 400, 600)"> <i class="dw dw-edit2"></i> 수정
-													</a>
-													<!-- 삭제 -->
-													<a class="dropdown-item" href="javascript:openPage('/maintenance/delete?index=1', 400, 600)"> <i class="dw dw-delete-3"></i> 삭제
-													</a>
-												</div>
-											</div>
-										</td>
+										<th>${vo.production_date }</th>
 									</tr>
 								</c:forEach>
 							</table>
@@ -292,26 +267,8 @@
 						html += "<th>" + this.request +"</th>";
 						html += "<th>" + this.reg_emp +"</th>";
 						html += "<th>" + this.reg_date +"</th>";
-						html += "<th>" + this.update_emp +"</th>";
-						html += "<th>" + this.update_date +"</th>";
-						html += "<td style=''>";
-						html += "<div class='dropdown'>";
-						html += "<a class='btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle' href='#' role='button' data-toggle='dropdown'>";
-						html += "<i class='dw dw-more'></i>";
-						html += "</a>";
-						html += "<div class='dropdown-menu dropdown-menu-right dropdown-menu-icon-list'>";
-						html += "<a class='dropdown-item' href='#'>";
-						html += "<i class='dw dw-eye'></i> 상세 보기";
-						html += "</a>";
-						html += "<a class='dropdown-item' href='javascript:openPage('/maintenance/update?index=1', 400, 600)'>";
-						html += "<i class='dw dw-edit2'></i> 수정";
-						html += "</a>";
-						html += "<a class='dropdown-item' href='javascript:openPage('/maintenance/delete?index=1', 400, 600)'>";
-						html += "<i class='dw dw-delete-3'></i> 삭제";
-						html += "</a>";
-						html += "</div>";
-						html += "</div>";
-						html += "</td>";
+						html += "<th>" + (this.update_emp!=null?this.update_emp:" ") +"</th>";
+						html += "<th>" + (this.update_date!=null?this.update_date:" ") +"</th>";
 						html += "</tr>";
 					});
 					$("table").append(html);
@@ -319,5 +276,14 @@
 			});
 		}
 	</script>
+	<!-- 수주정보 받기 시작 -->
+	<script type="text/javascript">
+		window.addEventListener("message", function(event) {
+			if (event.data == "refresh"){
+				location.reload();
+			}
+		});
+	</script>
+	<!-- 수주정보 받기 끝 -->
 </body>
 </html>

@@ -48,13 +48,13 @@
 		SELECT product FROM REQUEST WHERE status = '등록' AND code = #{request}
 	</select>
 	<insert id="insertInstruction">
-		INSERT INTO INSTRUCTION VALUES(DEFAULT,#{product},#{line_code},#{content},#{request},#{amount},#{reg_emp},now(),null,null)
+		INSERT INTO INSTRUCTION VALUES(DEFAULT,#{product},#{line_code},#{content},#{request},#{amount},#{production_date},#{reg_emp},now(),null,null)
 	</insert>
 	<select id="getInstructionUpdate" resultType="com.production.domain.instructionVO">
 		SELECT * FROM INSTRUCTION WHERE code = #{code}
 	</select>
 	<update id="updateInstruction">
-		UPDATE INSTRUCTION SET product = #{product},line_code = #{line_code},content = #{content},request = #{request},amount = #{amount},update_emp = #{update_emp},update_date = now() WHERE code = #{code}
+		UPDATE INSTRUCTION SET product = #{product},line_code = #{line_code},content = #{content},request = #{request},amount = #{amount},production_date = #{production_date},update_emp = #{update_emp},update_date = now() WHERE code = #{code}
 	</update>
 	<delete id="deleteInstruction" parameterType="hashmap">
 		DELETE FROM INSTRUCTION WHERE code IN
@@ -62,5 +62,8 @@
 			#{item}
 		</foreach>
 	</delete>
+	<select id="getRequestAll" resultType="com.production.domain.requestVO">
+		SELECT * FROM REQUEST WHERE code = #{code}
+	</select>
 
 </mapper>
