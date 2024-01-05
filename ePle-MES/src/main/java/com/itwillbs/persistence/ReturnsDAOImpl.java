@@ -82,6 +82,36 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 
 		return result;
 	}
+	
+	//============================= add/search 용
+	
+	
+	@Override
+	public List<ShipmentVO> getShipmentList() throws Exception {
+		logger.debug("╔═══*.·:·.☽✧   출하 목록 가져오기   ✧☾.·:·.*═══╗");
+		
+		return sqlSession.selectList(NAMESPACE+".selectShipmentCodeList");
+	}
+	
+	@Override
+	public ShipmentVO getShipmentList(String code) throws Exception {
+		logger.debug("╔═══*.·:·.☽✧   코드로 출하내역 가져오기   ✧☾.·:·.*═══╗");
+		logger.debug("code : "+code);
+		// 코드로 출하내역 가져오기
+		Map<String, String> params = new HashMap<>();
+		params.put("code", code);
+		return sqlSession.selectOne(NAMESPACE+".selectShipmentCodeList", params);
+	}
+
+	@Override
+	public ShipmentVO findShipment(String clientName, String productName) throws Exception {
+		logger.debug("╔═══*.·:·.☽✧   출하정보 검색하기   ✧☾.·:·.*═══╗");
+		// 회사명과 상품명을 이용해서 출하정보 가져오기
+		return null;
+	}
+	
+	//============================= add/search 용
+
 
 	@Override
 	public int returnsUpdate(ReturnsVO vo, String id) throws Exception {
@@ -116,6 +146,7 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 		paramMap.put("vo", vo);
 		return sqlSession.update(NAMESPACE + ".updateShipmentInfo", paramMap);
 	}
+
 
 	@Override
 	public List<ReturnsVO> searchReturnsAll(ReturnsVO vo) throws Exception {
@@ -157,5 +188,23 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 
 		return result;
 	}
+
+	@Override
+	public int changeDispose(String[] code) throws Exception {
+		logger.debug("╔═══*.·:·.☽✧   반품상태 폐기처리 하기  ✧☾.·:·.*═══╗");
+		// 반품상태 폐기처리로 변경하기
+		// 1. 반품상태 변경 + dispose 폐기 1 로 변경 
+		int result = 0;
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("code", code);
+		
+		result = sqlSession.update(NAMESPACE+".statusChangetoDispose",params);
+		logger.debug("╚═══*.·:·.☽✧   반품 상태 변경 완     ✧☾.·:·.*═══╝");
+		
+		return result;
+	}
+	
+	
 
 }

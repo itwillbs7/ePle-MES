@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,6 +26,7 @@ import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RequestSearchVO;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.domain.ReturnsVO;
+import com.itwillbs.domain.ShipmentVO;
 import com.itwillbs.service.RequestService;
 import com.itwillbs.service.ReturnsService;
 
@@ -109,8 +111,12 @@ public class ReturnsController {
 
 	// http://localhost:8088/request/add
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public void returnsInsertGET() throws Exception { 
+	public void returnsInsertGET(@RequestParam(value="code",required=false) String code, Model model) throws Exception { 
 		logger.debug("returnsInsertGET() -> 입력폼 팝업");
+		if(code != null) { //코드정보가 있을 때
+			ShipmentVO List = rtService.getShipmentList(code);
+			model.addAttribute("List", List);
+		}
 		// 반품 추가 폼 5-4
 		
 	}
@@ -137,78 +143,22 @@ public class ReturnsController {
 	
 	// -------- 반품등록 데이터 찾기 ---------
 	
-	@RequestMapping(value = "searchClient", method=RequestMethod.GET)
-	public void searchClientGET(RequestVO vo, Model model, HttpSession session)throws Exception{
-		logger.debug("controller : 거래사 정보 찾기");
-		logger.debug("searchClientGET    실행");
-
-		// 거래사 리스트 출력하기
-		List<RequestVO> clientList = rService.ClientList();
-		logger.debug("clientList : "+clientList);
-		model.addAttribute("List", clientList);
-
-	}
-	
-	@RequestMapping(value = "searchClient", method=RequestMethod.POST)
-	public List<RequestVO> searchClientPOST(@RequestParam("client_code") String client_code,
-											@RequestParam("clientName") String clientName,Model model)throws Exception{
-		logger.debug("controller : 거래사 정보 DB 검색결과 가져오기");
-		logger.debug("searchClientPOST    실행");
-
-		List<RequestVO> clientList = rService.findClient(client_code,clientName);
-//		model.addAttribute("List", clientList);
-		logger.debug("가져온 List"+clientList);
-		
-		return clientList;
-	}
-	
-	@RequestMapping(value = "searchManager" ,method = RequestMethod.GET)
-	public void searchManagerGET(Model model, HttpSession session)throws Exception{
-		logger.debug("controller : 담당자 정보 찾기");
-		logger.debug("searchManagerGET    실행");
-		
-		List<RequestVO> managerList = rService.ManagerList();
-		model.addAttribute("List", managerList);
-
-	}
-	
-	@RequestMapping(value = "searchManager" ,method = RequestMethod.POST)
-	@ResponseBody
-	public List<RequestVO> searchManagerPOST(@RequestParam("manager") String manager,
-								  @RequestParam("managerName") String managerName, Model model)throws Exception{
-		
-		logger.debug("controller : 담당자 정보 DB 검색결과 가져오기");
-		logger.debug("searchManagerPOST    실행");
-		
-		List<RequestVO> managerList = rService.findManager(manager,managerName);
-//		model.addAttribute("List", managerList);
-		logger.debug("가져온 List"+managerList);
-		
-		return managerList;
+	@RequestMapping(value ="/searchShipment" , method = RequestMethod.GET)
+	public void getShipmentList(Model model)throws Exception{
+		logger.debug("출하정보 리스트로 가져오기");
+			List<ShipmentVO> List = rtService.getShipmentList();
+			
 		
 	}
 	
-	@RequestMapping(value = "searchProduct",method = RequestMethod.GET)
-	public void searchProductGET(Model model, HttpSession session)throws Exception{
-		logger.debug("controller : 상품 정보 찾기");
-		logger.debug("searchProductGET   실행");
-		
-		List<RequestVO> productList = rService.ProductList();
-		model.addAttribute("List", productList);
-	}
 	
-	@RequestMapping(value = "searchProduct",method = RequestMethod.POST)
-	@ResponseBody
-	public List<RequestVO> searchProductPOST(@RequestParam("product") String product,
-								  @RequestParam("productName") String productName, Model model)throws Exception{
-		// 찾아와야하는것 : 품번, 품명, 재고, 단위, 단가
-		logger.debug("controller : 상품 정보 DB 검색결과 가져오기 ");
-		logger.debug("searchProductPOST   실행");
+	@RequestMapping(value = "/searchShipment", method = RequestMethod.POST)
+	public ShipmentVO searchShipment(@RequestParam("clientName")String clientName,
+									 @RequestParam("productName") String productName)throws Exception {
+		logger.debug("출하번호 및 출하정보 찾기");
+		ShipmentVO List = rtService.findShipment(clientName,productName);
 		
-		List<RequestVO> productList = rService.findProduct(product,productName); 
-//		model.addAttribute("List", productList);
-		logger.debug("가져온 List"+productList);
-		return productList;
+		return List;
 	}
 
 	// -------- 반품등록 데이터 찾기 끝---------
@@ -278,6 +228,38 @@ public class ReturnsController {
 			rttr.addFlashAttribute("title", "출하상태 변경 결과");
 			rttr.addFlashAttribute("result", "오류가 발생했습니다");
 		}
+		return link;
+	}
+	
+	@RequestMapping(value = "/dispose", method = RequestMethod.GET)
+	public void disposeGET(@RequestParam("code") String codes, Model model)throws Exception {
+		logger.debug("반품 폐기처리 하기");
+		logger.debug("삭제기능 응용하기");
+		
+		String[] code = codes.split(",");
+		List<ReturnsVO> vo = rtService.getinfo(code);
+		logger.debug("찾아온 폐기 정보 vo"+vo);
+		model.addAttribute("List", vo);
+	}
+	
+	@RequestMapping(value = "/dispose", method = RequestMethod.POST)
+	public String disposePOST(@RequestParam("code") String codes, RedirectAttributes rttr) throws Exception{
+		// 반품 삭제 액션
+		logger.debug("폐기처리할것들 "+codes);
+		String[] code = codes.split(",");
+		int result= rtService.disposeReturns(code);
+		
+		String link = "";
+		if (result >= 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "폐기 처리 결과");
+			rttr.addFlashAttribute("result", "폐기 완료 되었습니다.");
+		} else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "폐기 처리 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다");
+		}
+		
 		return link;
 	}
 	

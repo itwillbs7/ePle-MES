@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class ShipmentVO {
-	private String code;
+	private String code; 
 	private String reqs_code;
 	
 	private String date; // 출하일자

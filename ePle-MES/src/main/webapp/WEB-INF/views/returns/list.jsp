@@ -50,9 +50,8 @@
 														autocomplete="off" readonly>
 												</div>
 												<div class="col-md-5 col-sm-12 btn-group ml-auto">
-													<label>품명</label> 
-													<input type="hidden" name="product" id="product"> 
-														<input type="text"
+													<label>품명</label> <input type="hidden" name="product"
+														id="product"> <input type="text"
 														name="productName" class="form-control" id="searchProduct"
 														style="width: 100%;" placeholder="품명 찾아보기"
 														autocomplete="off" readonly>
@@ -68,12 +67,11 @@
 											</div>
 											<div class="row">
 												<div class="col-md-5 col-sm-12 btn-group ml-auto">
-													<label>담당자</label> 
-													<input type="hidden" name="manager" id="manager"> 
-														<input type="text"
+													<label>담당자</label> <input type="hidden" name="manager"
+														id="manager"> <input type="text"
 														name="managerName" class="form-control" id="searchManager"
-														style="width: 100%;" placeholder=""
-														autocomplete="off" readonly>
+														style="width: 100%;" placeholder="" autocomplete="off"
+														readonly>
 												</div>
 												<div class="col-md-1 col-sm-12">
 													<label class="weight-600">출하 상태</label>
@@ -91,8 +89,7 @@
 													</div>
 												</div>
 											</div>
-											<div class="col-md-2 col-sm-12">
-											</div>
+											<div class="col-md-2 col-sm-12"></div>
 										</div>
 									</div>
 									<div class="btn-group pull-right" style="margin-bottom: 10px">
@@ -120,8 +117,11 @@
 						<button type="button" class="btn btn-success" id="add">
 							<b>추가</b>
 						</button>
-						<button type="button" class="btn btn-danger" id="delete">
+						<button type="button" class="btn btn-danger" id="dispose">
 							<b>폐기완료</b>
+						</button>
+						<button type="button" class="btn btn-danger" id="delete">
+							<b>삭제</b>
 						</button>
 					</div>
 				</div>
@@ -183,42 +183,41 @@
 						<div class="row">
 							<div class="col-sm-12 col-md-5">
 								<div class="dataTables_info" id="DataTables_Table_0_info"
-									role="status" aria-live="polite">
+									role="status" aria-live="polite"></div>
 							</div>
-							</div>
-							<div class="col-sm-5 col-md-7 text-right">
-							</div>
+							<div class="col-sm-5 col-md-7 text-right"></div>
 						</div>
 						<div class="btn-toolbar justify-content-center mb-15">
 							<c:if test="${pageVO.totalCount > 1}">
-							<div class="btn-group">
-								<c:if test="${pageVo.prev }">
-									<a href="/request/list?page=${pageVO.startPage - 1 }"
-										class="btn btn-outline-primary prev"><i
-										class="fa fa-angle-double-left"></i></a>
-								</c:if>
-								<c:forEach begin="${pageVO.startPage }" end="${pageVO.endPage }"
-									step="1" var="i">
-									<c:if test="${pageVO.cri.page == i }">
-										<span class="btn btn-primary current">${i }</span>
+								<div class="btn-group">
+									<c:if test="${pageVo.prev }">
+										<a href="/request/list?page=${pageVO.startPage - 1 }"
+											class="btn btn-outline-primary prev"><i
+											class="fa fa-angle-double-left"></i></a>
 									</c:if>
-									<c:if test="${pageVO.cri.page != i}">
-												<a href="/shipment/list?page=${i}" class="btn btn-outline-primary">${i}</a>
+									<c:forEach begin="${pageVO.startPage }"
+										end="${pageVO.endPage }" step="1" var="i">
+										<c:if test="${pageVO.cri.page == i }">
+											<span class="btn btn-primary current">${i }</span>
+										</c:if>
+										<c:if test="${pageVO.cri.page != i}">
+											<a href="/shipment/list?page=${i}"
+												class="btn btn-outline-primary">${i}</a>
+										</c:if>
+									</c:forEach>
+									<c:if test="${pageVO.next }">
+										<a href="/request/list?page=${pageVO.endPage + 1 }"
+											class="btn btn-outline-primary next"><i
+											class="fa fa-angle-double-right"></i></a>
 									</c:if>
-								</c:forEach>
-								<c:if test="${pageVO.next }">
-									<a href="/request/list?page=${pageVO.endPage + 1 }"
-										class="btn btn-outline-primary next"><i
-										class="fa fa-angle-double-right"></i></a>
-								</c:if>
-							</div>
+								</div>
 							</c:if>
 						</div>
 					</div>
 				</div>
 			</div>
 			<!-- Checkbox select Datatable End -->
-			
+
 			<!-- 푸터 -->
 			<div class="footer-wrap pd-20 mb-20 card-box">
 				ePle MES made by <a href="https://github.com/dropways"
@@ -260,8 +259,6 @@
 			return window.open(i, 'Popup_Window', set); // 가운데거가 이름이 똑같으면 같은창에서 열림
 		}
 
-		
-
 		$(document).ready(
 				function() {
 
@@ -290,18 +287,18 @@
 									alert('삭제 실패');
 								}
 							});
-					
+
 					// 삭제
-					$("#statusChange").click(
+					$("#dispose").click(
 							function() {
-								var stautsList = [];
+								var disposeList = [];
 								$("input:checkbox[name=tableCheck]:checked")
 										.each(function() {
-											deleteList.push($(this).val());
+											disposeList.push($(this).val());
 										});
-								if (deleteList.length > 0) {
-									openPage("/shipment/statusChange?code="
-											+ deleteList.join(','), 400, 700);
+								if (disposeList.length > 0) {
+									openPage("/returns/dispose?code="
+											+ disposeList.join(','), 400, 700);
 								} else {
 									alert('관리자에게 문의하세요');
 								}
@@ -323,62 +320,89 @@
 					$("#searchProduct").click(function() {
 						openPage("/shipment/searchProduct", 400, 700);
 					});
-					
+
 					// 담당자 검색
 					$("#searchManager").click(function() {
 						openPage("/request/searchManager", 400, 700);
 					});
-
-					
 
 				});
 	</script>
 	<!-- 검색은 ajax -->
 
 	<script type="text/javascript">
-		$('#accordion-search').on('submit', function(e) {
-			alert('ajax 시작 전');
-			e.preventDefault(); 
-			let statusList = [];
-				$('input[name="statusList"]:checked').each(function() {
-						statusList.push($(this).val());
-						});
+		$('#accordion-search')
+				.on(
+						'submit',
+						function(e) {
+							alert('ajax 시작 전');
+							e.preventDefault();
+							let statusList = [];
+							$('input[name="statusList"]:checked').each(
+									function() {
+										statusList.push($(this).val());
+									});
 
-				let statusListJson = JSON.stringify(statusList);
+							let statusListJson = JSON.stringify(statusList);
 
-					$.ajax({
-						url : $(this).attr('action'),
-						type : $(this).attr('method'),
-						data : $(this).serialize(),
-						success : function(data) {
-								if(data == null || data == ''){						
-								  alert('검색결과가 없습니다');
-								  return;
-								}
-								  var table = '';
-									$.each(data,function(index,item) {
-												table += '<tr>';
-												table += '<td><div class="custom-control custom-checkbox mb-5">';
-												table += '<input type="checkbox" class="custom-control-input" id="checkTable'+index+'" name="tableCheck" value="'+item.code+'"></label>';
-												table += '<label class="custom-control-label" for="checkTable'+index+'"></label></div></td>';
-												table += '<th class="info'+index+'" style="color: blue; text-decoration: underline;">'
-														+ item.code+ '</th> ';
-												table += '<th>'+ item.reqs_code+ '</th>';
-												table += '<th>'+ item.reqsdate+ '</th>';
-												table += '<th>'+ item.product+ '</th>';
-												table += '<th>'+ item.clientName+ '</th>';
-												table += '<th>'+ item.reqsamount+ '</th>';
-												table += '<th>'+ item.stock+ '</th>';
-												table += '<th>'+ item.amount+ '</th>';
-												table += '<th>'+ item.date+ '</th>';
-												table += '<th>'+ item.status+ '</th>';
-												table += '</tr>';
+							$
+									.ajax({
+										url : $(this).attr('action'),
+										type : $(this).attr('method'),
+										data : $(this).serialize(),
+										success : function(data) {
+											if (data == null || data == '') {
+												alert('검색결과가 없습니다');
+												return;
+											}
+											var table = '';
+											$
+													.each(
+															data,
+															function(index,
+																	item) {
+																table += '<tr>';
+																table += '<td><div class="custom-control custom-checkbox mb-5">';
+																table += '<input type="checkbox" class="custom-control-input" id="checkTable'+index+'" name="tableCheck" value="'+item.code+'"></label>';
+																table += '<label class="custom-control-label" for="checkTable'+index+'"></label></div></td>';
+																table += '<th class="info'+index+'" style="color: blue; text-decoration: underline;">'
+																		+ item.code
+																		+ '</th> ';
+																table += '<th>'
+																		+ item.reqs_code
+																		+ '</th>';
+																table += '<th>'
+																		+ item.reqsdate
+																		+ '</th>';
+																table += '<th>'
+																		+ item.product
+																		+ '</th>';
+																table += '<th>'
+																		+ item.clientName
+																		+ '</th>';
+																table += '<th>'
+																		+ item.reqsamount
+																		+ '</th>';
+																table += '<th>'
+																		+ item.stock
+																		+ '</th>';
+																table += '<th>'
+																		+ item.amount
+																		+ '</th>';
+																table += '<th>'
+																		+ item.date
+																		+ '</th>';
+																table += '<th>'
+																		+ item.status
+																		+ '</th>';
+																table += '</tr>';
 															});
 
 											$('#table tbody').html(table);
-											
+
 										},
-										error : function(jqXHR, textStatus, errorThrown) {
+										error : function(jqXHR, textStatus,
+												errorThrown) {
 											alert('관리자에게 문의하세요');
 										}
 									});

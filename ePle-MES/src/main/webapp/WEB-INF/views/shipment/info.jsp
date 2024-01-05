@@ -107,7 +107,7 @@
 	<script type="text/javascript">
 	$(document).ready(function(){
 		
-		 var code = document.getElementById('reqs_code').value;
+		 var code = document.getElementById('code').value;
 
 		// 반품등록
 		$("#returns").click(function() {

@@ -33,7 +33,7 @@
 						<div class="form-group">
 							<label for="client_code">출하번호</label> 
 							<input class="form-control" type="text" placeholder="클릭 시 검색창이 뜹니다" 
-							name="ship_code" id="ship_code" readonly required="required">
+							name="ship_code" id="ship_code" readonly required="required" value="${List.code }">
 						</div>
 						<div class="form-group">
 							<label for="deadline">반품일자</label> 
@@ -57,22 +57,22 @@
 						<div class="form-group">
 							<label for="client_code">수주번호</label> 
 							<input class="form-control" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" 
-							name="request_code" id="request_code" readonly required="required">
+							name="request_code" id="request_code" readonly required="required" value="${List.reqs_code }">
 						</div>
 						<div class="form-group">
 							<label for="amount">출하량</label> 
 							<input class="form-control" name="samount" id="samount"
-							type="number" autocomplete="off" min="1" required="required" readonly>
+							type="number" autocomplete="off" min="1" required="required" readonly value="${List.amount }">
 						</div>
 						<div class="form-group">
 							<label for="date">출하일자</label> 
 							<input class="form-control " name="shipdate" type="date" id="shipdate"
-							 autocomplete="off" required="required" readonly>
+							 autocomplete="off" required="required" readonly value="${List.date }">
 						</div>
 						<div class="form-group">
 							<label>수주업체</label> 
 							<input class="form-control" type="text" readonly id="clientName" required="required"
-							readonly>
+							readonly value="${List.clientName }">
 							<input class="form-control" type="hidden" readonly id="client_code" required="required"
 							readonly>
 						</div>

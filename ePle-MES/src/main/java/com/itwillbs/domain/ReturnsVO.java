@@ -22,6 +22,6 @@ public class ReturnsVO {
 	private String update_emp;
 	
 	private String reqsdate;
-	
+	private String clientName;
 	
 }
