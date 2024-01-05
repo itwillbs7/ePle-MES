@@ -1,0 +1,102 @@
+package com.itwillbs.persistence;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+
+import com.itwillbs.domain.CommonVO;
+import com.itwillbs.domain.UserVO;
+
+@Repository
+public class SystemDAOImpl implements SystemDAO {
+	
+	private static final Logger logger = LoggerFactory.getLogger(SystemDAOImpl.class);
+	private final String NAMESPACE = "com.itwillbs.mapper.systemMapper";
+	@Inject
+	private SqlSession sqlSession;
+	
+	@Override
+	public void registCommons(CommonVO cvo) throws Exception {
+		logger.debug("dd : registCommons 실행");
+		logger.debug("dd : sqlSession = " + sqlSession);
+		sqlSession.selectOne(NAMESPACE+".insertCommons", cvo);
+		
+	}
+
+	@Override
+	public List<CommonVO> getCommons() throws Exception {
+		logger.debug("getCommons 실행");
+		return sqlSession.selectList(NAMESPACE+".selectCommons");
+	}
+
+	@Override
+	public CommonVO getOneCommon(CommonVO cvo) throws Exception {
+		logger.debug("getOneCommon 실행");
+		logger.debug("cvo : " + sqlSession.selectOne(NAMESPACE+".selectOneCommon", cvo));
+		return sqlSession.selectOne(NAMESPACE+".selectOneCommon", cvo);
+	}
+
+	@Override
+	public void updateCommon(Map<String, Object> newCommon) throws Exception {
+		
+		logger.debug("updateCommon 실행");
+		logger.debug("cvoList : " + newCommon.toString());
+		sqlSession.update(NAMESPACE+".updateCommon", newCommon);
+		
+	}
+
+	@Override
+	public void deleteCommon(CommonVO cvo) throws Exception {
+		
+		logger.debug("deleteCommon 실행");
+		logger.debug("cvo : " + cvo.toString());
+		sqlSession.delete(NAMESPACE+".deleteCommon", cvo);
+	}
+
+	@Override
+	public void userTest() {
+		logger.debug("deleteCommon 실행");
+		sqlSession.selectOne(NAMESPACE+".test");
+		
+	}
+
+	@Override
+	public List<UserVO> getAllUsers() throws Exception {
+		logger.debug("getUsers 실행");
+		return sqlSession.selectList(NAMESPACE+".selectAllUsers");
+	}
+
+	@Override
+	public UserVO getOneUser(UserVO uvo) throws Exception {
+		logger.debug("getOneUser 실행");
+		return sqlSession.selectOne(NAMESPACE+".selectOneUser", uvo);
+	}
+	
+	@Override
+	public List<UserVO> getSomeUsers(Map<String, Object> index) throws Exception {
+		logger.debug("getSomeUsers 실행");
+		return sqlSession.selectList(NAMESPACE+".selectSomeUsers", index);
+	}
+
+	@Override
+	public int updateOneUser(UserVO uvo) throws Exception {
+		logger.debug("updateOneUser 실행");
+		return sqlSession.update(NAMESPACE+".updateOneUser", uvo);
+	}
+
+	@Override
+	public int deleteUser(Map<String, Object> codeMap) throws Exception {
+		logger.debug("deleteUser 실행");
+		return sqlSession.delete(NAMESPACE+".deleteUser", codeMap);
+	}
+	
+	
+	
+	
+}

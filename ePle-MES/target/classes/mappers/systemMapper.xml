@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <!-- systemMapper.xml -->
+ 
+<mapper namespace="com.itwillbs.mapper.systemMapper">
+
+ <resultMap type="com.itwillbs.domain.CommonVO" id="CommonVO">
+ 	<result property="group_id" column="group_id"/>
+ 	<result property="group_name" column="group_name"/>
+ 	<result property="code_id" column="code_id"/>
+ 	<result property="code_name" column="code_name"/>
+ 	<result property="sortorder" column="sortorder"/>
+ 	<result property="active" column="active"/>
+ </resultMap>
+ 
+ <resultMap type="com.itwillbs.domain.UserVO" id="UserVO">
+	<result property="code" column="code"/>
+	<result property="id" column="id"/>
+	<result property="dep_group" column="dep_group"/>
+	<result property="dep_id" column="dep_id"/>
+	<result property="pos_id" column="pos_id"/>
+	<result property="pw" column="pw"/>
+	<result property="name" column="name"/>
+	<result property="hiredate" column="hiredate"/>
+	<result property="phone" column="phone"/>
+	<result property="email" column="email"/>
+	<result property="address" column="address"/>
+	<result property="active" column="active"/>
+	<result property="auth" column="auth"/>
+</resultMap>
+
+ <select id="test" resultType="String">
+ 	select now()
+ </select>
+ <insert id="insertCommons">
+ 	insert into COMMON_CODE (group_id, group_name, code_id, code_name, sortorder, active) 
+ 	values (#{group_id}, #{group_name}, #{code_id}, #{code_name}, #{sortorder}, #{active})
+ </insert>
+ <select id="selectCommons" resultType="CommonVO">
+ 	select * from COMMON_CODE order by group_id, sortorder
+ </select>
+ <select id="selectOneCommon" resultType="CommonVO">
+ 	select * from COMMON_CODE where group_id = #{group_id} and code_id = #{code_id}
+ </select>
+ <update id="updateCommon" parameterType="java.util.Map">
+ 	update COMMON_CODE set group_id = #{new_group_id}, group_name = #{new_group_name}, code_id = #{new_code_id}, 
+ 	code_name = #{new_code_name}, sortorder = #{new_sortorder}, active = #{new_active} 
+ 	where group_id = #{old_group_id} and code_id = #{old_code_id}
+ </update>
+ <delete id="deleteCommon">
+ 	delete from COMMON_CODE where group_id = #{group_id} and code_id = #{code_id}
+ </delete>
+ <select id="selectAllUsers" resultType="UserVO">
+ 	select * from EMPLOYEES order by code asc
+ </select>
+ <select id="selectSomeUsers" parameterType="java.util.Map" resultType="UserVO">
+	select * from EMPLOYEES where code IN 
+	<foreach collection="indexArray" item="code" open="(" separator="," close=")">
+	#{code}
+	</foreach> 
+ </select>
+ <select id="selectOneUser" resultType="UserVO">
+ 	select * from EMPLOYEES where code = #{code}
+ </select>
+ <update id="updateOneUser">
+ 	update EMPLOYEES set id=#{id},dep_group=#{dep_group},pos_group=#{pos_group},dep_id=#{dep_id},pos_id=#{pos_id}, 
+ 	pw=#{pw},name=#{name},hiredate=#{hiredate},phone=#{phone},email=#{email},address=#{address},active=#{active},auth=#{auth} 
+ 	where code=#{code}
+ </update>
+ <delete id="deleteUser" parameterType="java.util.Map">
+	delete from EMPLOYEES where code in 
+	<foreach collection="codeList" item="code" open="(" separator="," close=")">
+	#{code}
+	</foreach> 
+ </delete>
+</mapper>
