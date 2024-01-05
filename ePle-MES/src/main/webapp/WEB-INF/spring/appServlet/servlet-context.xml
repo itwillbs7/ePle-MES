@@ -29,6 +29,10 @@
 	
 	<context:component-scan base-package="com.itwillbs.controller" />
 	
+<<<<<<< HEAD
 		<!-- 예외처리 패키지 등록 -->
+=======
+	<!-- 예외처리 패키지 등록 -->
+>>>>>>> origin/KHR
 	<context:component-scan base-package="com.itwillbs.exception" />
 </beans:beans>

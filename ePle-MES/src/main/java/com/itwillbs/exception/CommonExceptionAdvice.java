@@ -12,13 +12,27 @@ public class CommonExceptionAdvice {
 	private static final Logger logger = LoggerFactory.getLogger(CommonExceptionAdvice.class);
 	
 	@ExceptionHandler(Exception.class)
-	public String commonException(Exception e, Model model) {
-		logger.debug(" commonException() 실행 ");
-		logger.debug("reduce reuse ecycy");
+	public String CommonException(Exception e,Model model) {
+		logger.debug(" CommonException() 실행 ");
+
 		e.printStackTrace();
-		model.addAttribute("e",e);
+		model.addAttribute("e", e);
+		 
 		return "commons";
-		
-		
 	}
+	
+	//@ExceptionHandler(Exception.class)
+	public ModelAndView CommonException2(Exception e,Model model) {
+		logger.debug(" CommonException2() 실행 ");
+
+		e.printStackTrace();
+
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("commons");
+		mav.addObject("e", e);
+		
+		return mav;
+	}
+	
+	
 }

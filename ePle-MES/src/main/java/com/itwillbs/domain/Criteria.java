@@ -5,7 +5,8 @@ package com.itwillbs.domain;
 public class Criteria {
 	private int page;
 	private int pageSize;
-		
+
+	
 	public Criteria() {
 		this.page = 1;
 		this.pageSize = 10;
@@ -35,17 +36,13 @@ public class Criteria {
 		}
 		this.pageSize = pageSize;
 	}
-	
+
 	public int getStartPage() {
-		// 페이지 정보를 쿼리에서 사용되는 값으로 변경
-		return (this.page-1) * pageSize;
+		return (page - 1) * pageSize;
 	}
-	
-	
+
 	@Override
 	public String toString() {
-		return "Criteria [page=" + page + ", pageSize=" + pageSize + "]";
+		return "Criteria [page=" + page + ", pageSize=" + pageSize + ", toString()=" + super.toString() + "]";
 	}
-	
-	
 }

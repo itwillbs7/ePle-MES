@@ -38,7 +38,7 @@
 				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-clipboard2-plus"></span><span class="mtext">발주 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="index.html">Dashboard style 1</a></li>
+						<li><a href="/order/askList">발주 요청</a></li>
 						<li><a href="index2.html">Dashboard style 2</a></li>
 						<li><a href="index3.html">Dashboard style 3</a></li>
 					</ul></li>
@@ -47,9 +47,9 @@
 				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-archive"></span><span class="mtext">자재 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="index.html">Dashboard style 1</a></li>
-						<li><a href="index2.html">Dashboard style 2</a></li>
-						<li><a href="index3.html">Dashboard style 3</a></li>
+						<li><a href="/warehouseHistory/list">입출고 관리</a></li>
+						<li><a href="/stock/list">재고 관리</a></li>
+						<li><a href="/warehouse/list">창고 목록</a></li>
 					</ul></li>
 
 				<!-- 드롭다운 -->

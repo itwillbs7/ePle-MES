@@ -60,6 +60,7 @@
 	
 	
 	<!-- com.itwillbs.persistence 패키지 등록 -->
+<<<<<<< HEAD
 	<context:component-scan base-package="com.itwillbs.persistence" />
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -68,6 +69,15 @@
 	<context:component-scan base-package="com.itwillbs.service" />
 	
 >>>>>>> origin/feature-hj
+=======
+	<context:component-scan base-package="com.itwillbs.controller" />
+	
+	
+	<!-- com.itwillbs.persistence 패키지 등록 -->
+	<context:component-scan base-package="com.itwillbs.persistence"/>
+	<!-- com.itwillbs.service 패키지 등록 -->
+	<context:component-scan base-package="com.itwillbs.service"/>
+>>>>>>> origin/KHR
 </beans>
 =======
 	<!-- com.itwillbs.service 패키지 등록 -->

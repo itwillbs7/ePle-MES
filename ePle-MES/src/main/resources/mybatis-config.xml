@@ -3,9 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
   
-  <!-- mybatis 설정 파일 -->
+ <!-- mybatis 설정파일 --> 
   <configuration>
+<<<<<<< HEAD
   	 <typeAliases>
       	 <package name="com.itwillbs.domain"/>
       </typeAliases>
+=======
+  		<typeAliases>
+  			<package name="com.itwillbs.domain"/>
+  		</typeAliases>  
+  
+>>>>>>> origin/KHR
   </configuration>
