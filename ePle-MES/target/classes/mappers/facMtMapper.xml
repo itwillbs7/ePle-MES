@@ -134,6 +134,13 @@
 	<!-- 설비보전 담당 -->
 	
 	<!-- 직원 -->
+	<select id="getInfo" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
+		SELECT m.*, f.name, f.model, f.line_code, l.name as line_name 
+		FROM FAC_MT m JOIN FAC_INFO f ON m.fac_code = f.code 
+		JOIN LINE l ON f.line_code = l.code 
+		WHERE m.code = #{code}
+	</select>
+	
 	<!-- 자신이 신청한 사후 보전 리스트 return -->
 	<select id="getInsertedList" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
 		SELECT m.*, f.name, f.model, f.line_code, l.name as line_name 

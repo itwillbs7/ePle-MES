@@ -39,28 +39,6 @@
 						</div>
 					</div>
 
-					<!-- 카테고리 -->
-					<!-- 예방보전/긴급보전의 경우 예약 시간 표시 -->
-					<div class="row">
-						<div class="col-sm-12 mb-3">
-							<div class="form-group">
-								<label><b>카테고리</b></label> <select class="custom-select2 form-control" name="code" style="width: 100%; height: 38px">
-									<!-- 공통 코드로 받아오기 -->
-									<c:choose>
-										<c:when test="${role eq 'emp'}">
-											<option value="BM">사후 보전</option>
-										</c:when>
-										<c:when test="${role eq 'manager'}">
-											<option value="PM">예약 보전</option>
-											<option value="CM">개량 보전</option>
-											<option value="BM">사후 보전</option>
-										</c:when>
-									</c:choose>
-								</select>
-							</div>
-						</div>
-					</div>
-
 					<!-- 입력 구간 -->
 					<div class="row">
 						<div class="col-sm-12 mb-3">
@@ -68,7 +46,6 @@
 							<div class="form-group">
 								<label>사유</label> <input class="form-control" name="mt_subject" type="text" placeholder="입력">
 							</div>
-							<input type="hidden" name="group_id" value="MT">
 							<div class="col-md-6 col-sm-12">
 								<label class="weight-600">원인</label>
 								<div class="custom-control custom-radio mb-5">

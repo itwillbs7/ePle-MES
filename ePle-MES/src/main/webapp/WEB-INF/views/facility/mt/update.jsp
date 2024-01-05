@@ -35,29 +35,6 @@
 						</div>
 					</div>
 					<!-- 설비 목록 -->
-					<!-- 카테고리 -->
-					<div class="row">
-						<div class="col-sm-12 mb-10">
-							<div class="form-group">
-								<label><b>카테고리</b></label> <select class="custom-select2 form-control" name="code" style="width: 100%; height: 38px">
-									<!-- 공통 코드로 받아오기 -->
-									<c:choose>
-										<c:when test="${role eq 'emp'}">
-											<option value="BM">사후 보전</option>
-										</c:when>
-										<c:when test="${role eq 'manager' or role eq 'admin'}">
-											<option value="PM">예방 보전</option>
-											<option value="CM">개량 보전</option>
-											<option value="BM">사후 보전</option>
-											<option value="MP">보전 예방</option>
-											<option value="EM">긴급 보전</option>
-										</c:when>
-									</c:choose>
-								</select>
-							</div>
-						</div>
-					</div>
-					<!-- 카테고리 -->
 
 					<!-- 입력 구간 -->
 					<div class="row">
@@ -106,12 +83,5 @@
 		<!-- 콘텐츠 끝> -->
 		<%@ include file="../../include/footer.jsp"%>
 	</div>
-	<script type="text/javascript">
-		$(function() {
-			$(".date-picker").datepicker({
-				format : 'YYYY-MM-DD'
-			});
-		});
-	</script>
 </body>
 </html>

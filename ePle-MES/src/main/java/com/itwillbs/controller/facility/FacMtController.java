@@ -136,8 +136,9 @@ public class FacMtController {
 	}
 	
 	@GetMapping("/insert")
-	public void insert() throws Exception{
+	public void insert(Model model) throws Exception{
 		// 보전 추가(사후보전) 폼
+		model.addAttribute("list", fService.getFacManager());
 	}
 	
 	@PostMapping("/insert")
@@ -180,13 +181,12 @@ public class FacMtController {
 	@GetMapping("/update")
 	public void update(Model model, String code) throws Exception{
 		// 자신이 등록한 보전 수정
-		model.addAttribute("info", "");
+		model.addAttribute("info", mService.getInfo(code));
 	}
 	
 	@PostMapping("/update")
 	public String update(FacMtVO vo, RedirectAttributes rttr) throws Exception{
 		// 자신이 등록한 보전 수정 진행
-		String link = "";
 		if(mService.updateProblem(vo) == 1) {
 			rttr.addFlashAttribute("title", "보전 수정 결과");
 			rttr.addFlashAttribute("result", "보전 수정이 완료되었습니다.");

@@ -33,6 +33,8 @@ public interface MtService {
 	// list(직원)
 	public List<FacMtVO> getInsertedList(String emp_code) throws Exception;
 	
+	public FacMtVO getInfo(String code) throws Exception;
+	
 	public int insertProblem(FacMtVO vo) throws Exception;
 	public int updateProblem(FacMtVO vo) throws Exception;
 	public int deleteProblem(String code) throws Exception;

@@ -83,6 +83,11 @@ public class MtServiceImpl implements MtService {
 	}
 	
 	@Override
+	public FacMtVO getInfo(String code) throws Exception {
+		return dao.getInfo(code);
+	}
+	
+	@Override
 	public int insertProblem(FacMtVO vo) throws Exception {
 		return dao.insertProblem(vo);
 	}

@@ -83,6 +83,11 @@ public class MtDAOImpl implements MtDAO{
 	}
 	
 	@Override
+	public FacMtVO getInfo(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getInfo", code);
+	}
+	
+	@Override
 	public int insertProblem(FacMtVO vo) throws Exception {
 		return sqlSession.insert(NAMESPACE + ".insertProblem", vo);
 	}
