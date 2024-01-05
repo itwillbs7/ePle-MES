@@ -2,14 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
-	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
-		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
-		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-	
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
+<<<<<<< HEAD
 	
 
 <!-- 		hikariCP : 연결 정보 저장객체, 로컬 -->
@@ -38,24 +35,64 @@
 	<!-- dataSource : DB 연결 -->
 	<bean id="dataSource" 
 		class="com.zaxxer.hikari.HikariDataSource"
+=======
+	<!-- 프로젝트 전반의 설정을 준비하는 곳(웹 제외) -->
+
+	<!-- hikariCP : 연결정보 저장객체 -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<!-- <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" 
+			/> -->
+		<!-- <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/springdb"/> -->
+		<property name="driverClassName"
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+		<property name="jdbcUrl"
+			value="jdbc:log4jdbc:mysql://localhost:3306/c7d2307t1_2" />
+		<property name="username" value="root" />
+		<property name="password" value="1234" />
+	</bean>
+	<!-- hikariCP : 연결정보 저장객체 -->
+
+	<!-- dataSource(CP): 디비연결 -->
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
+>>>>>>> origin/gk
 		destroy-method="close">
-		<constructor-arg ref="hikariConfig"/>
+
+		<constructor-arg ref="hikariConfig" />
 	</bean>
-	<!-- dataSource : DB 연결 -->
-	
-	<!-- sqlSessionFactory : DB 연결, 데이터 처리(SQL 실행, MyBatis 설정) -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"/>
-		<property name="configLocation" value="classpath:/mybatis-config.xml"/>
-		<property name="mapperLocations" value="classpath:/mappers/**/*Mapper.xml"/>
+	<!-- dataSource(CP) : 디비연결 -->
+
+	<!-- dataSource : 디비연결 -->
+	<!-- <bean id="dataSource" -->
+	<!-- class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+
+	<!-- <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/> -->
+	<!-- <property name="url" value="jdbc:mysql://localhost:3306/springdb"/> -->
+	<!-- <property name="username" value="root"/> -->
+	<!-- <property name="password" value="1234"/> -->
+	<!-- </bean> -->
+	<!-- dataSource : 디비연결 -->
+
+	<!-- sqlSessionFactory : 디비연결, 데이터처리(SQL실행,Mybatis설정) -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:/mybatis-config.xml" />
+		<property name="mapperLocations"
+			value="classpath:/mappers/**/*Mapper.xml" />
 	</bean>
-	<!-- sqlSessionFactory : DB 연결, 데이터 처리(SQL 실행, MyBatis 설정) -->
-	
-	<!-- sqlSession : DB연결, 데이터 처리(SQL 실행, ㅡMyBatis 설정), 자원 해제 처리 -->
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
-	destroy-method="clearCache">
-		<constructor-arg ref="sqlSessionFactory" />
+	<!-- sqlSessionFactory : 디비연결, 데이터처리(SQL실행,Mybatis설정) -->
+
+	<!-- sqlSession : 자동 디비연결,데이터처리(SQL실행,Mybatis설정), 자동 자원해제처리 -->
+	<!-- 기본적인 트랜잭션 관리,쓰레드 처리 안정성 높임 -->
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate" destroy-method="close">
+
+		<constructor-arg name="sqlSessionFactory"
+			ref="sqlSessionFactory" />
+
 	</bean>
+<<<<<<< HEAD
 	
 	<!-- sqlSession : DB연결, 데이터 처리(SQL 실행, ㅡMyBatis 설정), 자원 해제 처리 -->
 	
@@ -99,6 +136,17 @@
 	<context:component-scan base-package="com.itwillbs.service" />
 	
 >>>>>>> origin/PJH
+=======
+	<!-- sqlSession : 자동 디비연결,데이터처리(SQL실행,Mybatis설정), 자동 자원해제처리 -->
+ 
+
+	<!-- com.itwillbs.persistence 패키지 등록 -->
+	<context:component-scan	base-package="com.itwillbs.persistence" />
+	<!-- com.itwillbs.service 패키지 등록 -->
+	<context:component-scan	base-package="com.itwillbs.service" />
+
+
+>>>>>>> origin/gk
 </beans>
 =======
 	<!-- com.itwillbs.service 패키지 등록 -->
