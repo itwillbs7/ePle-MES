@@ -7,59 +7,166 @@
 <!-- facMt.xml -->
 <mapper namespace="com.itwillbs.mapper.FacMtMapper">
 	<resultMap type="com.itwillbs.domain.FacMtVO" id="mt">
-		
+		<result property="code" column="code"/>
+		<result property="reg_date" column="reg_date"/>
+		<result property="emp_code" column="emp_code"/>
+		<result property="emp_name" column="emp_name"/>
+		<result property="group_id" column="group_id"/>
+		<result property="group_name" column="group_name"/>
+		<result property="code_id" column="code_id"/>
+		<result property="code_name" column="code_name"/>
+		<result property="mt_subject" column="mt_subject"/>
+		<result property="mt_content" column="mt_content"/>
+		<result property="complete" column="complete"/>
+		<result property="manager" column="manager"/>
+		<result property="manager_name" column="manager_name"/>
+		<result property="res_info" column="res_info"/>
+		<result property="res_content" column="res_content"/>
+		<result property="comp_date" column="comp_date"/>
+		<collection resultMap="fac" property="facility">
+			<result property="code" column="fac_code"/>
+			<result property="group_id" column="fac_group_id"/>
+			<result property="group_name" column="fac_group_name"/>
+			<result property="code_id" column="fac_code_id"/>
+			<result property="code_name" column="fac_code_name"/>
+			<result property="name" column="fac_name"/>
+			<result property="model" column="model"/>
+			<result property="line_code" column="line_code" />
+			<result property="line_name" column="line_name"/>
+		</collection>
 	</resultMap>
 	<resultMap type="com.itwillbs.domain.FacilityVO" id="fac">
-	
+		<result property="code" column="code" />
+		<result property="group_id" column="group_id"/>
+		<result property="code_id" column="code_id"/>
+		<result property="group_name" column="group_name"/>
+		<result property="code_name" column="code_name"/>
+		<result property="name" column="name" />
+		<result property="model" column="model" />
+		<result property="client_code" column="client_code"/>
+		<result property="client_name" column="client_name"/>
+		<result property="purchase_date" column="purchase_date" />
+		<result property="inprice" column="inprice" />
+		<result property="line_code" column="line_code" />
+		<result property="line_name" column="line_name"/>
+		<result property="uph" column="uph" />
+		<result property="active" column="active" />
 	</resultMap>
+	
+	<!-- 공통 -->
+	<!-- 최근 코드 불러오기 -->
+	<select id="getRecentCode" resultType="String">
+		SELECT code FROM FAC_MT 
+		WHERE code LIKE '%'||#{code}||'%' AND 
+		DATE_FORMAT(reg_date, "%Y-%m-%d") = now() 
+	</select>
+	<!-- 공통 -->
 	
 	<!-- 설비보전 담당 -->
 	<!-- 일상 보전 목록 표시(FAC_INFO 기준) -->
-	<select id="getStatus">
-		
+	<select id="getStatusList" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
+		SELECT f.code as fac_code, model, f.name as name, f.line_code, l.name as line_name, m.reg_date
+		FROM FAC_MT m RIGHT OUTER JOIN FAC_INFO f on m.fac_code = f.code left OUTER join LINE l ON l.code = f.line_code 
+		WHERE m.complete = true and m.code_id = 'PM' order by m.reg_date;
 	</select>
 	
 	<!-- 보전 신청 목록 표시(문제 발생시)(FAC_MT 기준) -->
-	<select id="getProblem">
-		
+	<select id="getOrderList" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
+		SELECT f.code as fac_code, model, f.name as name, f.line_code, l.name as line_name, mt_content, m.reg_date
+		FROM FAC_MT m RIGHT OUTER JOIN FAC_INFO f on m.fac_code = f.code left OUTER join LINE l ON l.code = f.line_code WHERE m.complete = false and m.code_id = 'None' order by m.reg_date;
 	</select>
+	
+	<select id="getOrderCount" resultType="int">
+		SELECT count(f.code)
+		FROM FAC_MT m RIGHT OUTER JOIN FAC_INFO f on m.fac_code = f.code left OUTER join LINE l ON l.code = f.line_code WHERE m.complete = false and m.code_id = 'None' order by m.reg_date;
+	</select>
+	<!-- 보전 신청 목록 표시(문제 발생시)(FAC_MT 기준) -->
 	
 	<!-- 디테일 표시 -->
 	<!-- 설비 정보의 경우 FAC_INFO에서 가져오기 -->
-	<select id="getDetail">
-	
+	<!-- 보전 신청 목록 -->
+	<select id="getMtList" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
+		SELECT m.*, f.model, f.name, f.line_code, l.line_name 
+		FROM FAC_MT m JOIN FAC_INFO f ON m.fac_code = f.code 
+		JOIN LINE l ON f.line_code = l.code 
+		WHERE m.fac_code = #{code} AND m.code_id = 'None'
 	</select>
+	<select id="getMtListCount" resultType="int">
+		SELECT count(*)
+		WHERE fac_code = #{code} AND code_id = 'None'
+	</select>
+	<!-- 보전 신청 목록 -->
+	<!-- 보전 결과 목록 -->
+	<select id="getResultList" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
+		SELECT * FROM FAC_MT WHERE fac_code = #{code} AND complete = true AND code_id in ('BM', 'CM')
+	</select>
+	<select id="getResultCount" resultType="int">
+		SELECT COUNT(*) FROM FAC_MT WHERE fac_code = #{code} AND complete = true AND code_id in ('BM', 'CM')
+	</select>
+	<!-- 보전 결과 목록 -->
+	
+	<!-- 일상보전 목록 -->
+	<select id="getRoutineList" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
+		SELECT * FROM FAC_MT WHERE fac_code = #{code} AND complete = true AND code_id = 'PM'
+	</select>
+	<select id="getRoutineCount" resultType="int">
+		SELECT COUNT(*) FROM FAC_MT WHERE fac_code = #{code} AND complete = true AND code_id = 'PM'
+	</select>
+	<!-- 일상보전 목록 -->
+	<!-- 디테일 표시 -->
 	
 	<!-- 보전 결과 -->
 	<!-- 일상 보전(예방 보전) 삽입 -->
 	<insert id="insertRoutine">
-		
+		INSERT INTO FAC_MT (code, reg_date, emp_code, fac_code, mt_subject, mt_content, complete, manager, comp_date)
+		VALUES (#{code}, now(), #{emp_code}, #{fac_code}, #{mt_subject}, #{mt_content}, TRUE, #{emp_code}, now())
 	</insert>
 	<!-- 보전 결과 입력, 여기서 개량,사후 보전 결정 -->
 	<update id="setResult">
-	
+		UPDATE FAC_MT 
+		<set>
+			code_id = #{code_id}, complete = true, manager = #{manager}, res_info = #{res_info}, res_content = #{res_content}, comp_date = now() 
+		</set>
+		<where>
+			code = #{code}
+		</where>
 	</update>
 	<!-- 설비보전 담당 -->
 	
 	<!-- 직원 -->
 	<!-- 자신이 신청한 사후 보전 리스트 return -->
-	<select id="getInsertedList">
-	
+	<select id="getInsertedList" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
+		SELECT m.*, f.name, f.model, f.line_code, l.name as line_name 
+		FROM FAC_MT m JOIN FAC_INFO f ON m.fac_code = f.code 
+		JOIN LINE l ON f.line_code = l.code 
+		<where>
+			emp_code = #{emp}
+		</where>
 	</select>
 	
 	<!-- 사후보전 신청 추가 -->
 	<insert id="insertProblem">
-		
+		INSERT INTO FAC_MT (code, reg_date, emp_code, fac_code, code_id, mt_subject, mt_content) 
+		VALUES (#{code}, now(), #{emp_code}, #{fac_code}, 'None', #{mt_subject}, #{mt_content})
 	</insert>
 	
 	<!-- 사후보전 신청 편집 -->
 	<update id="updateProblem">
-	
+		UPDATE FAC_MT 
+		<set>
+			mt_subject = #{mt_subject}, mt_content = #{mt_content}
+		</set>
+		<where>
+			code = #{code}
+		</where>
 	</update>
 	
 	<!-- 사후보전 신청 삭제 -->
 	<delete id="deleteProblem">
-	
+		DELETE FROM FAC_MT 
+		<where>
+			code = #{code}
+		</where>
 	</delete>
 	<!-- 직원 -->
 </mapper>

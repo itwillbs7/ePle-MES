@@ -26,7 +26,7 @@ import com.itwillbs.domain.FacilitySearchVO;
 import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.facility.FacilityService;
-import com.itwillbs.service.facility.MaintenanceService;
+import com.itwillbs.service.facility.MtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +42,7 @@ public class FacilityInfoController {
 	private FacilityService fService;
 	
 	@Inject
-	private MaintenanceService mService;
+	private MtService mService;
 	
 	// http://localhost:8088/facility/info/list
 	@GetMapping(value = "/list")
@@ -118,11 +118,10 @@ public class FacilityInfoController {
 	
 	// http://localhost:8088/facility/info/update
 	@GetMapping(value = "/update")
-	public void facilityUpdateGET(FacilityVO vo, Model model) throws Exception {
+	public void facilityUpdateGET(String code, Model model) throws Exception {
 		// 설비 수정 폼
 		// 설비 정보 가져오기
-		FacilityVO info = fService.getFacility(vo);
-		model.addAttribute("info", info);
+		model.addAttribute("info", fService.getFacility(code));
 		model.addAttribute("line", fService.getLineList());
 		
 		model.addAttribute("proList", fService.getCommonCodeList("FACPRO"));
@@ -150,13 +149,13 @@ public class FacilityInfoController {
 	
 	// http://localhost:8088/facility/info/delete
 	@GetMapping(value = "/delete")
-	public void facilityDeleteGET(Model model, FacilityVO vo) throws Exception {
+	public void facilityDeleteGET(Model model, String code) throws Exception {
 		// 설비 삭제 폼
-		if(vo.getCode() == null || vo.getCode().equals("")) {
+		if(code == null || code.equals("")) {
 			// info == null
 		}
 		else {
-			model.addAttribute("info", fService.getFacility(vo));
+			model.addAttribute("info", fService.getFacility(code));
 		}
 	}
 	
@@ -179,11 +178,8 @@ public class FacilityInfoController {
 	}
 	
 	@GetMapping("/detail")
-	public void facilityDetail(Model model, FacilityVO vo) throws Exception {
-		FacilityVO info = fService.getFacility(vo);
-		info.setMainList(mService.getFacilityInfo(vo.getCode()));
-		model.addAttribute("count", mService.getFacilityInfoCount(vo.getCode()));
-		model.addAttribute("info", info);
+	public void facilityDetail(Model model, String code) throws Exception {
+		model.addAttribute("info", fService.getFacility(code));
 	}
 	
 	@PostMapping(value="/json")

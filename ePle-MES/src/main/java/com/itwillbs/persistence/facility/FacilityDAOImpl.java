@@ -48,8 +48,8 @@ public class FacilityDAOImpl implements FacilityDAO {
 	}
 	
 	@Override
-	public FacilityVO getFacility(FacilityVO vo) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".getFacility", vo);
+	public FacilityVO getFacility(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getFacility", code);
 	}
 	
 	@Override

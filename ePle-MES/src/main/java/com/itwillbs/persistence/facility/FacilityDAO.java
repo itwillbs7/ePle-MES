@@ -12,7 +12,7 @@ public interface FacilityDAO {
 	public int getFacilityCount(PageVO vo) throws Exception;
 	public List<FacilityVO> getFacilityList(PageVO vo) throws Exception;
 	public List<FacilityVO> getExportList(PageVO vo) throws Exception; 
-	public FacilityVO getFacility(FacilityVO vo) throws Exception;
+	public FacilityVO getFacility(String code) throws Exception;
 	public String getRecentFacility() throws Exception;
 	public List<FacilityVO> getLineList() throws Exception;
 	public List<FacilityVO> getCommonCodeList(String group_id) throws Exception;

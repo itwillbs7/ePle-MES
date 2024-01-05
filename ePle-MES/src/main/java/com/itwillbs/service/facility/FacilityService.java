@@ -18,7 +18,7 @@ public interface FacilityService {
 	
 	public List<FacilityVO> getAjaxResult(PageVO vo) throws Exception;
 	
-	public FacilityVO getFacility(FacilityVO vo) throws Exception;
+	public FacilityVO getFacility(String code) throws Exception;
 	
 	public String getRecentFacility() throws Exception;
 	

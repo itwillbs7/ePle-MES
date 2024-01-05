@@ -35,45 +35,119 @@
 									<table class="table table-striped">
 										<thead>
 											<tr>
-												<th>코드</th><th>모델</th><th>이름</th><th>위치</th><th>최근 보전일자</th><th>평균 보전간격</th>
+												<th>코드</th>
+												<th>모델</th>
+												<th>이름</th>
+												<th>위치</th>
+												<th>최근 보전일자</th>
 											</tr>
 										</thead>
 										<tbody>
 											<c:choose>
 												<c:when test="${empty list}">
 													<!-- 리스트가 없을 때 작동 -->
+													<tr class="table-warning">
+														<td colspan="6" class="text-center"><b>등록된 설비가 없습니다.</b></td>
+													</tr>
 												</c:when>
 												<c:otherwise>
 													<!-- 리스트가 있을 때 작동 -->
+													<!-- 
+														사후보전이 등록되어 있을 때 danger 처리,
+														complete asc, regdate asc
+													 -->
+													 <c:forEach items="" var="i">
+													 	<c:choose>
+													 		<c:when test="">
+													 			<tr>
+													 				
+													 			</tr>
+													 		</c:when>
+													 		<c:when test="">
+													 		
+													 		</c:when>
+													 		<c:otherwise>
+													 			<tr>
+													 			
+													 			</tr>
+													 		</c:otherwise>
+													 	</c:choose>
+													 </c:forEach>
+													<tr class="table-active">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-primary">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-secondary">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-success">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-danger">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-warning">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-info">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-light">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-dark">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
 												</c:otherwise>
 											</c:choose>
-											<tr class="table-active">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-primary">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-secondary">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-success">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-danger">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-warning">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-info">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-light">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-dark">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
+
 										</tbody>
 									</table>
 								</div>
@@ -85,45 +159,99 @@
 									<table class="table table-striped">
 										<thead>
 											<tr>
-												<th>코드</th><th>모델</th><th>이름</th><th>위치</th><th>상태</th><th>등록 일자</th>
+												<th>코드</th>
+												<th>모델</th>
+												<th>이름</th>
+												<th>위치</th>
+												<th>상태</th>
+												<th>등록 일자</th>
 											</tr>
 										</thead>
 										<tbody>
 											<c:choose>
 												<c:when test="${empty list}">
 													<!-- 리스트가 없을 때 작동 -->
+													<tr class="table-warning">
+														<td colspan="6" class="text-center"><b>등록된 보전 신청이 없습니다.</b></td>
+													</tr>
 												</c:when>
 												<c:otherwise>
 													<!-- 리스트가 있을 때 작동 -->
+													<!-- 등록 코드 오름차순 정렬!, complete = false -->
+													<tr class="table-active">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-primary">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-secondary">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-success">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-danger">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-warning">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-info">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-light">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr class="table-dark">
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
 												</c:otherwise>
 											</c:choose>
-											<tr class="table-active">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-primary">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-secondary">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-success">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-danger">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-warning">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-info">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-light">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
-											<tr class="table-dark">
-												<td></td><td></td><td></td><td></td><td></td><td></td>
-											</tr>
 										</tbody>
 									</table>
 								</div>

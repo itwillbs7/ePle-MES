@@ -17,8 +17,6 @@ public class FacMtVO {
 		
 	 */
 	private String code;
-	
-	private String fac_code;
 	private Timestamp reg_date;
 	private String emp_code;
 	private String emp_name;
@@ -40,5 +38,4 @@ public class FacMtVO {
 	private Timestamp comp_date;
 	
 	private FacilityVO facility;
-	private LineVO line;
 }

@@ -47,8 +47,8 @@ public class FailityServiceImpl implements FacilityService {
 	}
 	
 	@Override
-	public FacilityVO getFacility(FacilityVO vo) throws Exception {
-		return dao.getFacility(vo);
+	public FacilityVO getFacility(String code) throws Exception {
+		return dao.getFacility(code);
 	}
 	
 	@Override

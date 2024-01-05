@@ -210,7 +210,7 @@
 													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 													<input type="checkbox" class="custom-control-input" id="checkTable${i.code}" name="tableCheck" value="${i.code}"> <label class="custom-control-label" for="checkTable${i.code}"></label>
 												</div></td>
-											<th><a href="/facility/info/detail?code=${i.code}"><b class="text-blue" id="tableTitle1">${i.code}</b></a></th>
+											<th><a href="javascript:openPage('/facility/info/detail?code=${i.code}', 500, 600)"><b class="text-blue" id="tableTitle1">${i.code}</b></a></th>
 											<th>${i.group_name}</th>
 											<th>${i.code_name}</th>
 											<th id="tableinfo${i.code}">${i.model}</th>
@@ -225,7 +225,7 @@
 													<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 														<!-- 링크 설정 -->
 														<!-- 상세 보기 -->
-														<a class="dropdown-item" href="/facility/info/detail?code=${i.code}"><i class="dw dw-eye"></i> 상세 보기</a>
+														<a class="dropdown-item" href="javascript:openPage('/facility/info/detail?code=${i.code}', 500, 600)"><i class="dw dw-eye"></i> 상세 보기</a>
 														<!-- 수정 -->
 														<a class="dropdown-item" href="javascript:openPage('/facility/info/update?code=${i.code}', 500, 600)"><i class="dw dw-edit2"></i> 수정</a>
 														<!-- 삭제 -->
@@ -330,17 +330,6 @@
 			$("#add").click(function() {
 				// 가로, 세로 설정
 				openPage("/facility/info/insert", 500, 600);
-			});
-
-			// 수정
-			$("#update").click(function() {
-				// 가로, 세로 설정
-				var ch = $("input:checkbox[name=tableCheck]:checked").length;
-				if (ch == 1) {
-					// 가로, 세로 설정
-					var code = $("input:checkbox[name=tableCheck]:checked").val();
-					openPage("/facility/info/update?code=" + code, 400, 700);
-				}
 			});
 
 			// 삭제
