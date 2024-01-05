@@ -27,10 +27,12 @@ public interface ReturnsService {
 	// 폐기처리
 	public int disposeReturns(String[] code)throws Exception;
 	// 출하정보 가져오기
-	public ShipmentVO findShipment(String clientName, String productName)throws Exception;
+	public List<ShipmentVO> findShipment(String clientName, String productName)throws Exception;
 
 	public List<ShipmentVO> getShipmentList()throws Exception;
 
 	public ShipmentVO getShipmentList(String code)throws Exception;
+	// LOT 번호 가져오기
+	public List<ReturnsVO> getLOTList(String request_code,String ship_code)throws Exception;
 
 }

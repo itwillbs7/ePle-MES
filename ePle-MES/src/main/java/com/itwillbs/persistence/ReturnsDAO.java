@@ -25,7 +25,7 @@ public interface ReturnsDAO {
 		// 코드로 출하정보 가져오기
 		public ShipmentVO getShipmentList(String code)throws Exception;
 		// 회사명,품명으로 출하정보 검색하기
-		public ShipmentVO findShipment(String clientName, String productName)throws Exception;
+		public List<ShipmentVO> findShipment(String clientName, String productName)throws Exception;
 		
 		
 		// 반품 수정
@@ -38,6 +38,8 @@ public interface ReturnsDAO {
 		public int deleteReturns(String[] code)throws Exception;
 		// 폐기처리 상태변경
 		public int changeDispose(String[] code)throws Exception;
+		// LOT 번호 목록 가져오기
+		public List<ReturnsVO> selectLOTList(String request_code,String ship_code)throws Exception;
 		
 		
 }

@@ -141,16 +141,28 @@ public class ReturnsController {
 		logger.debug("출하정보 리스트로 가져오기");
 			List<ShipmentVO> List = rtService.getShipmentList();
 			
+			model.addAttribute("List", List);
+			
 		
 	}
 	
 	
 	@RequestMapping(value = "/searchShipment", method = RequestMethod.POST)
-	public ShipmentVO searchShipment(@RequestParam("clientName")String clientName,
+	public List<ShipmentVO> searchShipment(@RequestParam("clientName")String clientName,
 									 @RequestParam("productName") String productName)throws Exception {
 		logger.debug("출하번호 및 출하정보 찾기");
-		ShipmentVO List = rtService.findShipment(clientName,productName);
+		List<ShipmentVO> List = rtService.findShipment(clientName,productName);
 		
+		return List;
+	}
+	
+	@RequestMapping(value = "/searchLOT", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ReturnsVO> searchLOT(@RequestParam("request_code") String request_code,
+						  @RequestParam("ship_code")String ship_code) throws Exception {
+		logger.debug("lot 번호 찾기! => 해당하는 LOT 번호 LIST 로 가져와야함");
+		
+		List<ReturnsVO> List = rtService.getLOTList(request_code,ship_code);
 		return List;
 	}
 

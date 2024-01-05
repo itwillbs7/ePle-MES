@@ -57,7 +57,7 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${List}" var="item">
-				<tr onclick="selectWork('${item.code}','${item.product}','${item.clientName}','${item.date}','${item.amount}','${item.reqs_code}')">
+				<tr onclick="selectWork('${item.code}','${item.product}','${item.clientName}','${item.date}','${item.amount}','${item.reqs_code}','${item.unit}')">
 					<th >${item.code}</th>
 					<th >${item.product }</th>
 					<th >${item.date}</th>
@@ -87,8 +87,7 @@
 		    	// 서버로부터 받은 데이터를 사용하여 테이블 업데이트
 	            var table = '';
 	            $.each(data, function(index, item) {
-	                table += '<tr onclick="selectWork(\'' + item.code + '\',\'' + item.product + '\',\'' +item.clientName+ '\',\''+item.date+ '\',\''+ item.amount
-	                		+ '\',\'' +item.reqs_code  + '\')">';
+	                table += '<tr onclick="selectWork(\'' + item.code + '\',\'' + item.product + '\',\'' +item.clientName+ '\',\''+item.date+ '\',\''+ item.amount+ '\',\'' +item.reqs_code+ '\',\'' + item.unit  + '\')">';
 	                table += '<th>' + item.code + '</th>';
 	                table += '<th>' + item.product + '</th>';
 	                table += '<th>' + item.date+ '</th>';
@@ -103,21 +102,21 @@
 		
 		
 	//부모창으로 데이터 넘기기
-    function selectWork(a,b,c,d,e,f){ // 부모창으로 값 넘기기
+    function selectWork(a,b,c,d,e,f,g){ // 부모창으로 값 넘기기
 		
-    		opener.document.getElementById("reqs_code").value = a //수주번호
-    		opener.document.getElementById("product").value = b //품번
+    		opener.document.getElementById("ship_code").value = a //출하번호
     		opener.document.getElementById("clientName").value = c //회사명
-    		opener.document.getElementById("reqsdate").value = d //수주일자
-    		opener.document.getElementById("reqsamount").value = e // 수주량
-    		opener.document.getElementById("ware_code").value = f // 창고코드
+    		opener.document.getElementById("shipdate").value = d //출하일자
+    		opener.document.getElementById("samount").value = e // 출하량
+    		opener.document.getElementById("request_code").value = f //수주번호
+    		opener.document.getElementById("unit").value = g // unit
     		
-    		opener.document.getElementById("reqs_code").dispatchEvent(new Event('input'));
-    	    opener.document.getElementById("product").dispatchEvent(new Event('input'));
+    		opener.document.getElementById("ship_code").dispatchEvent(new Event('input'));
     	    opener.document.getElementById("clientName").dispatchEvent(new Event('input'));
-    	    opener.document.getElementById("reqsdate").dispatchEvent(new Event('input'));
-    	    opener.document.getElementById("reqsamount").dispatchEvent(new Event('input'));
-    	    opener.document.getElementById("ware_code").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("shipdate").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("samount").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("request_code").dispatchEvent(new Event('input'));
+    	    opener.document.getElementById("unit").dispatchEvent(new Event('input'));
     	    
     		self.close();
     	
