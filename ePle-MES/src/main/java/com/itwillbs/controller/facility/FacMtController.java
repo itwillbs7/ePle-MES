@@ -1,5 +1,6 @@
 package com.itwillbs.controller.facility;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -131,7 +132,7 @@ public class FacMtController {
 	public void list(HttpSession session, Model model) throws Exception{
 		// 자신이 등록한 보전 리스트 출력, 매니저 정보 표시
 		// 보전 완료 및 미완료 표시!
-		String emp_code = "test4";
+		String emp_code = "123123123123";
 		model.addAttribute("list", mService.getInsertedList(emp_code));
 	}
 	
@@ -155,7 +156,7 @@ public class FacMtController {
 		}
 		else {
 			// 날짜가 오늘일 경우엔 + 1 해주기
-			String fDate = recentCode.substring(3, recentCode.length()-3);
+			String fDate = recentCode.substring(2, recentCode.length()-3);
 			if(now.equals(fDate)) {				
 				String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
 				while(fCount.length() < 3) fCount = "0" + fCount;
@@ -165,6 +166,7 @@ public class FacMtController {
 				code += now + "001";
 			}
 		}
+		logger.debug("code : " + code);
 		vo.setCode(code);
 		if(mService.insertProblem(vo) == 1) {
 			rttr.addFlashAttribute("title", "보전 등록 결과");
@@ -202,7 +204,7 @@ public class FacMtController {
 	@GetMapping("/delete")
 	public void delete(String code, Model model) throws Exception{
 		// 자신이 등록한 보전 삭제 폼
-		model.addAttribute("info", "");
+		model.addAttribute("code", code);
 	}
 	
 	@PostMapping("/delete")

@@ -21,6 +21,7 @@ public class FacMtVO {
 	private String emp_code;
 	private String emp_name;
 	
+	private String fac_code;
 	private String group_id;
 	private String group_name;
 	private String code_id;

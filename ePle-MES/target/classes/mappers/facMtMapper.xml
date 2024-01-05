@@ -11,6 +11,7 @@
 		<result property="reg_date" column="reg_date"/>
 		<result property="emp_code" column="emp_code"/>
 		<result property="emp_name" column="emp_name"/>
+		<result property="fac_code" column="fac_code"/>
 		<result property="group_id" column="group_id"/>
 		<result property="group_name" column="group_name"/>
 		<result property="code_id" column="code_id"/>
@@ -24,7 +25,6 @@
 		<result property="res_content" column="res_content"/>
 		<result property="comp_date" column="comp_date"/>
 		<collection resultMap="fac" property="facility">
-			<result property="code" column="fac_code"/>
 			<result property="group_id" column="fac_group_id"/>
 			<result property="group_name" column="fac_group_name"/>
 			<result property="code_id" column="fac_code_id"/>
@@ -58,16 +58,25 @@
 	<select id="getRecentCode" resultType="String">
 		SELECT code FROM FAC_MT 
 		WHERE code LIKE '%'||#{code}||'%' AND 
-		DATE_FORMAT(reg_date, "%Y-%m-%d") = now() 
+		DATE_FORMAT(reg_date, "%Y-%m-%d") = date_format(now(), '%Y-%m-%d') 
+		ORDER BY code DESC LIMIT 0, 1
 	</select>
 	<!-- 공통 -->
 	
 	<!-- 설비보전 담당 -->
 	<!-- 일상 보전 목록 표시(FAC_INFO 기준) -->
 	<select id="getStatusList" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
-		SELECT f.code as fac_code, model, f.name as name, f.line_code, l.name as line_name, m.reg_date
-		FROM FAC_MT m RIGHT OUTER JOIN FAC_INFO f on m.fac_code = f.code left OUTER join LINE l ON l.code = f.line_code 
-		WHERE m.complete = true and m.code_id = 'PM' order by m.reg_date;
+		SELECT f.code AS fac_code, model, f.name, l.name AS line_name, k.reg_date 
+		FROM FAC_INFO f 
+		LEFT OUTER JOIN LINE l ON l.code = f.line_code 
+		LEFT OUTER JOIN 
+			(SELECT fac_code, reg_date FROM
+				(SELECT fac_code, reg_date, 
+				row_number() OVER
+				(PARTITION BY fac_code ORDER BY reg_date DESC) AS rn 
+			FROM FAC_MT WHERE complete = TRUE AND code_id = 'PM') 
+			AS r where r.rn = 1) 
+		AS k ON f.code = k.fac_code ORDER BY reg_date;
 	</select>
 	
 	<!-- 보전 신청 목록 표시(문제 발생시)(FAC_MT 기준) -->
@@ -86,13 +95,13 @@
 	<!-- 설비 정보의 경우 FAC_INFO에서 가져오기 -->
 	<!-- 보전 신청 목록 -->
 	<select id="getMtList" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
-		SELECT m.*, f.model, f.name, f.line_code, l.line_name 
+		SELECT m.*, f.model, f.name, f.line_code, l.name as line_name 
 		FROM FAC_MT m JOIN FAC_INFO f ON m.fac_code = f.code 
 		JOIN LINE l ON f.line_code = l.code 
 		WHERE m.fac_code = #{code} AND m.code_id = 'None'
 	</select>
 	<select id="getMtListCount" resultType="int">
-		SELECT count(*)
+		SELECT count(*) FROM FAC_MT 
 		WHERE fac_code = #{code} AND code_id = 'None'
 	</select>
 	<!-- 보전 신청 목록 -->
@@ -135,20 +144,12 @@
 	
 	<!-- 직원 -->
 	<select id="getInfo" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
-		SELECT m.*, f.name, f.model, f.line_code, l.name as line_name 
-		FROM FAC_MT m JOIN FAC_INFO f ON m.fac_code = f.code 
-		JOIN LINE l ON f.line_code = l.code 
-		WHERE m.code = #{code}
+		SELECT * FROM FAC_MT WHERE code = #{code}
 	</select>
 	
 	<!-- 자신이 신청한 사후 보전 리스트 return -->
 	<select id="getInsertedList" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
-		SELECT m.*, f.name, f.model, f.line_code, l.name as line_name 
-		FROM FAC_MT m JOIN FAC_INFO f ON m.fac_code = f.code 
-		JOIN LINE l ON f.line_code = l.code 
-		<where>
-			emp_code = #{emp}
-		</where>
+		SELECT * FROM FAC_MT WHERE emp_code = #{code}
 	</select>
 	
 	<!-- 사후보전 신청 추가 -->

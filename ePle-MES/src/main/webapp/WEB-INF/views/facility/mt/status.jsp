@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.Date"%>
 <%
-	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 	String today = dateFormat.format(new Date());
 %>
 <html>
@@ -44,7 +45,7 @@
 										</thead>
 										<tbody>
 											<c:choose>
-												<c:when test="${empty list}">
+												<c:when test="${empty status}">
 													<!-- 리스트가 없을 때 작동 -->
 													<tr class="table-warning">
 														<td colspan="6" class="text-center"><b>등록된 설비가 없습니다.</b></td>
@@ -56,98 +57,44 @@
 														사후보전이 등록되어 있을 때 danger 처리,
 														complete asc, regdate asc
 													 -->
-													 <c:forEach items="" var="i">
-													 	<c:choose>
-													 		<c:when test="">
-													 			<tr>
-													 				
-													 			</tr>
-													 		</c:when>
-													 		<c:when test="">
-													 		
-													 		</c:when>
-													 		<c:otherwise>
-													 			<tr>
-													 			
-													 			</tr>
-													 		</c:otherwise>
-													 	</c:choose>
-													 </c:forEach>
-													<tr class="table-active">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-primary">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-secondary">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-success">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-danger">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-warning">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-info">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-light">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-dark">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
+													<c:forEach items="${status}" var="i">
+														<c:choose>
+															<c:when test="${empty i.reg_date}">
+																<tr class="table-warning">
+																	<th><a href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b class="text-blue">${i.fac_code}</b></a></th>
+																	<th>${i.facility.model}</th>
+																	<th>${i.facility.name}</th>
+																	<th>${i.facility.line_name}</th>
+																	<th>보전 내역 없음!</th>
+																</tr>
+															</c:when>
+															<c:when test="${dateformat.format(i.reg_date) < today}">
+																<tr class="table-primary">
+																	<th><a href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b class="text-blue">${i.fac_code}</b></a></th>
+																	<th>${i.facility.model}</th>
+																	<th>${i.facility.name}</th>
+																	<th>${i.facility.line_name}</th>
+																	<th><fmt:formatDate value="${i.reg_date}" type="both"/></th>
+																</tr>
+															</c:when>
+															<c:when test="${dateformat.format(i.reg_date) eq today}">
+																<tr class="table-success">
+																	<th><a href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b class="text-blue">${i.fac_code}</b></a></th>
+																	<th>${i.facility.model}</th>
+																	<th>${i.facility.name}</th>
+																	<th>${i.facility.line_name}</th>
+																	<th>오늘 완료됨</th>
+																</tr>
+															</c:when>
+															<c:otherwise>
+																<tr>
+																	<th></th>
+																</tr>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
 												</c:otherwise>
 											</c:choose>
-
 										</tbody>
 									</table>
 								</div>
