@@ -215,12 +215,31 @@
 				// 추가
 				$("#chooseRequest").click(function() {
 					// 가로, 세로 설정
-					openPage("/production/chooseRequest", 1000, 600);
+					openPage("/production/chooseRequest", 1200, 600);
 				});
 
 			});
 	</script>
 	<!-- 수주정보 조회 끝 -->
+	<script type="text/javascript">
+		window.addEventListener('message', function(event) {
+			if (event.data.conditionMet){
+				var code = event.data.code;
+				
+				$.ajax({
+					url : "/production/ajaxRequest",
+					type : "POST",
+					data : {code: code},
+					error : function() {
+						alert("error");
+					},
+					success : function(data) {
+						alert("success");
+					}
+				});
+			}
+		});
+	</script>
 	
 </body>
 </html>

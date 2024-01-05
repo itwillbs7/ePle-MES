@@ -8,11 +8,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.RequestVO;
+import com.itwillbs.service.RequestService;
 import com.production.domain.instructionVO;
 import com.production.service.productionService;
 
@@ -24,6 +29,9 @@ public class productionController {
 	
 	@Inject
 	private productionService pdService;
+	
+	@Inject
+	private RequestService rService;
 	
 	//http://localhost:8088/production/instruction
 	//지시사항 조회
@@ -99,7 +107,25 @@ public class productionController {
 	}
 	//수주정보 선택 GET
 	@RequestMapping(value = "/chooseRequest", method = RequestMethod.GET)
-	public void chooseRequestGET() throws Exception {
+	public void chooseRequestGET(Model model,Criteria cri) throws Exception {
 		logger.debug("Controller : chooseRequestGET() 호출");
+		List<RequestVO> requestList = rService.requestListpage(cri);
+		
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
+		
+		model.addAttribute("List",requestList);
+		model.addAttribute("pageVO", pageVO);
+	}
+	
+	//수주정보 선택(ajax)
+	@RequestMapping(value = "/ajaxRequest", method = RequestMethod.POST)
+	@ResponseBody
+	public void ajaxRequest(String code) throws Exception {
+		logger.debug("Controller : ajaxRequest() 호출");
+		logger.debug("code : " + code);
+		
+		
 	}
 }

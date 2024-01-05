@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="result.css" />
 <%@ include file="../include/head.jsp"%>
-<title>실적등록</title>
+<title>실적 관리</title>
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -16,8 +16,9 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>실적 등록</h1>
+				<h1>실적 관리</h1>
 			</div>
+			<br>
 			<div class="min-height-200px">
 				<!-- 검색 시작 -->
 				<div class="faq-wrap">

@@ -10,7 +10,7 @@
 <body>
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
-		<div class="login-box bg-white box-shadow border-radius-10" style="max-width: 1000px">
+		<div class="login-box bg-white box-shadow border-radius-10" style="max-width: 1200px">
 			<!-- 타이틀 -->
 			<div class="login-title">
 				<h1 class="text-center text-primary">수주정보 선택</h1>
@@ -20,8 +20,9 @@
 				<div class="row">
 					<!-- 검색구간 -->
 				</div>
-				<div class="row">
-					<table class="table table-striped">
+				<div class="row" style="width: 100%">
+					<!-- <table class="table table-striped"> -->
+					<table class="data-table table hover select-row nowrap table-striped">
 						<thead>
 							<tr>
 								<th>수주번호</th>
@@ -38,8 +39,8 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${List}" var="List" varStatus="status">
-								<tr>
-									<th class="info${status.index}" style="color: blue; text-decoration: underline;">${List.code }</th>
+								<tr class="request">
+									<th class="info${status.index}" style="color: blue; text-decoration: underline;">${List.code }<input class="hiddenCode" type="hidden" value="${List.code }"></th>
 									<th>${List.clientName }</th>
 									<th>${List.date }</th>
 									<th>${List.deadline }</th>
@@ -54,14 +55,38 @@
 						</tbody>
 					</table>
 				</div>
-
+				<div class="row">
+					<div class="col-sm-12 col-md-5">
+						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">전체 수주 ${pageVO.totalCount}개 중 (${List.size() }) 개</div>
+					</div>
+				</div>
+				<div class="btn-toolbar justify-content-center mb-15">
+					<c:if test="${pageVO.totalCount > 1}">
+						<div class="btn-group">
+							<c:if test="${pageVo.prev }">
+								<a href="/production/chooseRequest?page=${pageVO.startPage - 1 }" class="btn btn-outline-primary prev"><i class="fa fa-angle-double-left"></i></a>
+							</c:if>
+							<c:forEach begin="${pageVO.startPage }" end="${pageVO.endPage }" step="1" var="i">
+								<c:if test="${pageVO.cri.page == i }">
+									<span class="btn btn-primary current">${i }</span>
+								</c:if>
+								<c:if test="${pageVO.cri.page != i}">
+									<a href="/production/chooseRequest?page=${i}" class="btn btn-outline-primary">${i}</a>
+								</c:if>
+							</c:forEach>
+							<c:if test="${pageVO.next }">
+								<a href="/production/chooseRequest?page=${pageVO.endPage + 1 }" class="btn btn-outline-primary next"><i class="fa fa-angle-double-right"></i></a>
+							</c:if>
+						</div>
+					</c:if>
+				</div>
 				<!-- 버튼 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-						<button type="submit" class="btn btn-success" id="submit" disabled>
+						<button type="button" class="btn btn-success" id="submit" disabled onclick="sendMessageToParent()">
 							<b>선택</b>
 						</button>
 					</div>
@@ -73,5 +98,30 @@
 	</div>
 	<!-- 콘텐츠 끝> -->
 	<%@ include file="../include/footer.jsp"%>
+	<%@ include file="../include/datatable.jsp"%>
+	<script type="text/javascript">
+		$(function() {
+			$('#DataTables_Table_0_wrapper').width('100%');
+			$('#DataTables_Table_0_wrapper').children().first().remove();
+			$('#DataTables_Table_0_wrapper').children().last().remove();
+		});
+	</script>
+	<script type="text/javascript">
+		$(".request").click(function(){
+			if (!$(this).hasClass('selected')) {
+				var code = $(this).find($(".hiddenCode")).val();
+			    $("#submit").prop("disabled", false);
+	        }else{
+			    $("#submit").prop("disabled", true);
+	        }
+		});
+	</script>
+	<script type="text/javascript">
+		function sendMessageToParent() {
+			var code = $("tr.selected").find($(".hiddenCode")).val();
+	        window.opener.postMessage({ code: code, conditionMet: true }, '*');
+	        window.close();
+	    }
+	</script>
 </body>
 </html>

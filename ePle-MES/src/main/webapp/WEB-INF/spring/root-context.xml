@@ -11,14 +11,15 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
-		<!-- hikariCP : 연결 정보 저장객체 -->
+
+<!-- 		hikariCP : 연결 정보 저장객체, 로컬 -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
-		<property name="jdbcUrl" value="jdbc:log4jdbc:mysql://itwillbs.com:3306/c7d2307t1_2?characterEncoding=UTF-8" />
+		<property name="jdbcUrl" value="jdbc:log4jdbc:mysql://itwillbs.com/c7d2307t1_2?characterEncoding=UTF-8" />
 		<property name="username" value="c7d2307t1" />
 		<property name="password" value="1234" />
-	</bean>	
-	<!-- hikariCP : 연결 정보 저장객체 -->
+	</bean>	 
+	<!-- hikariCP : 연결 정보 저장객체 --> 
 	
 	<!-- dataSource : DB 연결 -->
 	<bean id="dataSource" 
@@ -43,6 +44,14 @@
 	</bean>
 	
 	<!-- sqlSession : DB연결, 데이터 처리(SQL 실행, ㅡMyBatis 설정), 자원 해제 처리 -->
+	
+	<!-- Validator -->
+	<bean id="messageSource"
+    class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <property name="basename" value="/WEB-INF/message" />
+</bean>
+	
+	
 	<!-- com.itwillbs.persistence 패키지 등록 -->
 	<context:component-scan base-package="com.itwillbs.controller" />
 	<!-- com.production.controller 패키지 등록 -->
@@ -53,4 +62,7 @@
 	<context:component-scan base-package="com.production.service" />
 	<!-- com.production.domain 패키지 등록 -->
 	<context:component-scan base-package="com.production.domain" />
+	<context:component-scan base-package="com.itwillbs.persistence" />
+	<context:component-scan base-package="com.itwillbs.service" />
+	
 </beans>
