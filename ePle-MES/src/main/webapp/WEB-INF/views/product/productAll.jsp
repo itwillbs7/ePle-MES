@@ -98,7 +98,7 @@
 										<th>이미지</th>
 										<th>사용여부</th>
 									</tr>
-									<c:forEach var="product" items="${MAPDVO}">
+									<c:forEach var="product" items="${productList}">
 									    <tr>
 										<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 										<td>

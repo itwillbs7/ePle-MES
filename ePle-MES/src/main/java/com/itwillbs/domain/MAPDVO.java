@@ -8,7 +8,9 @@ import lombok.Data;
 public class MAPDVO {
 
 	private String code;
-	private String category;
+	private String group_id;
+	private String code_id;
+//	private String category;
 	private String name;
 	private String size;
 	private String unit;

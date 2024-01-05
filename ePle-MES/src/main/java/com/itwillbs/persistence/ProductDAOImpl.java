@@ -24,7 +24,7 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public List<MAPDVO> getProductListAll() throws Exception {
-		return null;
+		return sqlSession.selectList(NAMESPACE + ".selectProductList");
 	}
 
 	@Override

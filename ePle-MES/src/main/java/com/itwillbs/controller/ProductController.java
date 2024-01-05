@@ -35,6 +35,7 @@ public class ProductController {
                              HttpSession session) throws Exception {
         session.setAttribute("viewcntCheck", true);
         List<MAPDVO> productList = sService.productListAll();
+        System.out.println(productList);
         model.addAttribute("productList", productList);
         return "/product/productAll";
     }
