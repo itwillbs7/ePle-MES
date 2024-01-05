@@ -28,17 +28,9 @@ public class testConnection {
 	private static final Logger logger = LoggerFactory.getLogger(testConnection.class);
 	
 	@Test
-	public void 설비추가테스트() {
-		String recentCode = sqlSession.selectOne(FacilityMapper + ".findLastFacility");
-		String fDate = recentCode.substring(3, recentCode.length()-3);
-		
-		String d = (new Date().getYear() + 1900) + "" + (new Date().getMonth()+1) + "" + new Date().getDate();
-		logger.debug("date compare : " + fDate.equals(d));
-		
-		String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
-		while(fCount.length() < 3) fCount = "0" + fCount;
-		
-		logger.debug("fCount : " + fCount);
+	public void DB연결확인() {
+		logger.debug("testststststststststtest");
+		logger.debug("SqlSession : " + sqlSession);
 	}
 	
 }

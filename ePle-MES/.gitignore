@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,eclipse,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,eclipse,visualstudiocode
 
+target/
+pom.properties
+
 ### Eclipse ###
 .metadata
 bin/
@@ -13,7 +16,6 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-
 # External tool builders
 .externalToolBuilders/
 

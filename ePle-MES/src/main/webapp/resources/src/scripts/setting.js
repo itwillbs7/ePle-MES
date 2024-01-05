@@ -181,21 +181,21 @@ jQuery(document).ready(function () {
 	});
 
 	// date picker
+	
 	$(".date-picker").datepicker({
-		language: "kr",
+		language: "ko",
 		autoClose: true,
-		dateFormat: "yyyy-mm-dd"
+		dateFormat: "yy-mm-dd",
 	});
 	$(".datetimepicker").datepicker({
 		dateformat: 'yyyy-mm-dd',
 		timepicker: true,
-		language: "kr",
+		language: "ko",
 		autoClose: true,
-		dateFormat: "yy-mm-dd"
+		dateFormat: "yy-mm-dd",
 	});
 	$(".datetimepicker-range").datepicker({
-		dateFormat: 'yyyy-mm-dd',
-		language: "kr",
+		language: "ko",
 		range: true,
 		multipleDates: true,
 		multipleDatesSeparator: " - "
