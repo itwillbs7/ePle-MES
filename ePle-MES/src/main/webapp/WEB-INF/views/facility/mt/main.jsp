@@ -95,11 +95,11 @@
 		}
 
 		function insert() {
-			openPage("/facility/routine/insert", 500, 766);
+			openPage("/facility/mt/insert", 500, 766);
 		}
 
 		function list() {
-			openPage("/facility/routine/list", 500, 600);
+			openPage("/facility/mt/list", 500, 600);
 		}
 	</script>
 </body>

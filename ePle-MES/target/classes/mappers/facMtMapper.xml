@@ -6,34 +6,59 @@
 <!-- 미완성 -->
 <!-- facMt.xml -->
 <mapper namespace="com.itwillbs.mapper.FacMtMapper">
-	<resultMap type="" id="">
-	
+	<resultMap type="com.itwillbs.domain.FacMtVO" id="mt">
+		
 	</resultMap>
-	<resultMap type="" id="">
+	<resultMap type="com.itwillbs.domain.FacilityVO" id="fac">
 	
 	</resultMap>
 	
 	<!-- 설비보전 담당 -->
-	<select id="">
-	
-	</select>
-	<select id="">
+	<!-- 일상 보전 목록 표시(FAC_INFO 기준) -->
+	<select id="getStatus">
 		
 	</select>
-	<!-- 보전 결과 -->
-	<insert id="setResult">
 	
+	<!-- 보전 신청 목록 표시(문제 발생시)(FAC_MT 기준) -->
+	<select id="getProblem">
+		
+	</select>
+	
+	<!-- 디테일 표시 -->
+	<!-- 설비 정보의 경우 FAC_INFO에서 가져오기 -->
+	<select id="getDetail">
+	
+	</select>
+	
+	<!-- 보전 결과 -->
+	<!-- 일상 보전(예방 보전) 삽입 -->
+	<insert id="insertRoutine">
+		
 	</insert>
+	<!-- 보전 결과 입력, 여기서 개량,사후 보전 결정 -->
+	<update id="setResult">
+	
+	</update>
 	<!-- 설비보전 담당 -->
 	
 	<!-- 직원 -->
-	<insert id="">
+	<!-- 자신이 신청한 사후 보전 리스트 return -->
+	<select id="getInsertedList">
+	
+	</select>
+	
+	<!-- 사후보전 신청 추가 -->
+	<insert id="insertProblem">
 		
 	</insert>
-	<update id="">
+	
+	<!-- 사후보전 신청 편집 -->
+	<update id="updateProblem">
 	
 	</update>
-	<delete id="">
+	
+	<!-- 사후보전 신청 삭제 -->
+	<delete id="deleteProblem">
 	
 	</delete>
 	<!-- 직원 -->

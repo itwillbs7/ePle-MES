@@ -25,8 +25,8 @@
 			<div class="pd-20 mb-20 card-box">
 				<div class="tab">
 					<ul class="nav nav-pills" role="tablist">
-						<li class="nav-item"><a class="nav-link text-blue active" data-toggle="tab" href="#home5" role="tab" aria-selected="true">이상 없음</a></li>
-						<li class="nav-item"><a class="nav-link text-blue" data-toggle="tab" href="#profile5" role="tab" aria-selected="false">이상 있음</a></li>
+						<li class="nav-item"><a class="nav-link text-blue active" data-toggle="tab" href="#home5" role="tab" aria-selected="true">기본</a></li>
+						<li class="nav-item"><a class="nav-link text-blue" data-toggle="tab" href="#profile5" role="tab" aria-selected="false">보전 신청 목록</a></li>
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane fade active show" id="home5" role="tabpanel">
@@ -34,40 +34,49 @@
 								<div class="table-responsive">
 									<table class="table table-striped">
 										<thead>
-											<tr><td></td></tr>
+											<tr>
+												<th>코드</th><th>모델</th><th>이름</th><th>위치</th><th>최근 보전일자</th><th>평균 보전간격</th>
+											</tr>
 										</thead>
 										<tbody>
+											<c:choose>
+												<c:when test="${empty list}">
+													<!-- 리스트가 없을 때 작동 -->
+												</c:when>
+												<c:otherwise>
+													<!-- 리스트가 있을 때 작동 -->
+												</c:otherwise>
+											</c:choose>
 											<tr class="table-active">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-primary">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-secondary">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-success">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-danger">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-warning">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-info">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-light">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-dark">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
-
 							</div>
 						</div>
 						<div class="tab-pane fade" id="profile5" role="tabpanel">
@@ -75,35 +84,45 @@
 								<div class="table-responsive">
 									<table class="table table-striped">
 										<thead>
-											<tr><td></td></tr>
+											<tr>
+												<th>코드</th><th>모델</th><th>이름</th><th>위치</th><th>상태</th><th>등록 일자</th>
+											</tr>
 										</thead>
 										<tbody>
+											<c:choose>
+												<c:when test="${empty list}">
+													<!-- 리스트가 없을 때 작동 -->
+												</c:when>
+												<c:otherwise>
+													<!-- 리스트가 있을 때 작동 -->
+												</c:otherwise>
+											</c:choose>
 											<tr class="table-active">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-primary">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-secondary">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-success">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-danger">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-warning">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-info">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-light">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 											<tr class="table-dark">
-												<td></td>
+												<td></td><td></td><td></td><td></td><td></td><td></td>
 											</tr>
 										</tbody>
 									</table>
