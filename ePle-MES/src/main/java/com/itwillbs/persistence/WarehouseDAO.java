@@ -7,7 +7,16 @@ import com.itwillbs.domain.WarehouseVO;
 
 public interface WarehouseDAO {
 	
-	// 4-39 창고 목록 ~ 4-40 창고 검색 
+
+	public List<WarehouseVO> getInList(Criteria cri, String searchCode, String searchName) throws Exception;
+	
+	public int getInListCount(String searchCode, String searchName) throws Exception;
+	
+	public List<WarehouseVO> getOutList(Criteria cri, String searchCode, String searchName) throws Exception;
+	
+	public int getOutListCount(String searchCode, String searchName) throws Exception;
+	
+	
 	public List<WarehouseVO> getWarehouseList(Criteria cri, String searchCode, String searchName) throws Exception;
 	
 	// 모든 창고 수

@@ -8,7 +8,7 @@
   <mapper namespace="com.itwillbs.mapper.WarehouseMapper">
   
   	<resultMap type="com.itwillbs.domain.WarehouseVO" id="warehouse">
-		<result property="wh_code" column="code"/>
+		<result property="w_code" column="code"/>
 		<result property="location" column="location"/>
 		<result property="group_id" column="group_id"/>
 		<result property="group_name" column="group_name"/>
@@ -18,8 +18,26 @@
 		<result property="emp_code" column="code"/>
 		<result property="name" column="name"/>
 		<result property="phone" column="phone"/>
+
+		<result property="io_code" column="io_code"/>
+		<result property="wh_code" column="wh_code"/>
+		<result property="io" column="io"/>
+		<result property="category" column="category"/>
+		<result property="amount" column="amount"/>
+		<result property="order_num" column="order_num"/>
+		<result property="date" column="date"/>
 	</resultMap>
 
+
+	<select id="selectInList" parameterType="hashMap" resultMap="warehouse">
+    	SELECT 
+    	FROM WAREHOUSE_HISTORY 
+    	WHERE io = 'IN'
+    	<!-- ORDER BY CAST(SUBSTRING(w.code, 4) AS UNSIGNED) DESC -->	<!-- 코드 정하면 수정하기 -->
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>
+	
+	
 	
 	<!-- 창고 목록, 창고 검색 -->
 	<select id="selectWarehouseList" parameterType="hashMap" resultMap="warehouse">

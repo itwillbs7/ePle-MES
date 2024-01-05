@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class WarehouseVO {
 
-	private String wh_code;		// 창고코드
+	private String w_code;		// 창고코드
 	private String location;	// 위치
 	private String group_id;	// 구분 (원자재/완제품)
 	private String group_name;	// 창고이름
@@ -20,4 +20,14 @@ public class WarehouseVO {
 
 	// Criteria 
 	private Criteria cri;
+	
+	// 입출고 테이블
+	private int io_code;	 // 입출고 이력코드
+	private String wh_code;  // 창고코드
+	private String io;		 // 입출고구분
+	private String category; // 구분 (원자재/완제품)
+	private int amount;		 // 수량
+	private String order_num;// 발주,출하번호
+	private String date;	 // 일자
+
 }

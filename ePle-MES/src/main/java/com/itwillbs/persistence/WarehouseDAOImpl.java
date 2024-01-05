@@ -26,7 +26,46 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	private SqlSession sqlSession;
 	
 	
-	// 4-39 창고 목록 ~ 4-40 창고 검색 
+	
+	@Override
+	public List<WarehouseVO> getInList(Criteria cri, String searchCode, String searchName) throws Exception {
+	    Map<String, Object> data = new HashMap<String, Object>(); 
+	    data.put("cri", cri);
+	    data.put("searchCode", searchCode);
+	    data.put("searchName", searchName);
+	    List<WarehouseVO> inList = sqlSession.selectList(NAMESPACE + ".selectInList", data);
+	    return inList;
+	}
+
+	@Override
+	public int getInListCount(String searchCode, String searchName) throws Exception {
+		Map<String, Object> data = new HashMap<String, Object>(); 
+	    data.put("searchCode", searchCode);
+	    data.put("searchName", searchName);
+		return sqlSession.selectOne(NAMESPACE+ ".countInList", data);
+	}
+	
+	@Override
+	public List<WarehouseVO> getOutList(Criteria cri, String searchCode, String searchName) throws Exception {
+		Map<String, Object> data = new HashMap<String, Object>(); 
+		data.put("cri", cri);
+		data.put("searchCode", searchCode);
+		data.put("searchName", searchName);
+		List<WarehouseVO> outList = sqlSession.selectList(NAMESPACE + ".selectOutList", data);
+		return outList;
+	}
+	
+	@Override
+	public int getOutListCount(String searchCode, String searchName) throws Exception {
+		Map<String, Object> data = new HashMap<String, Object>(); 
+		data.put("searchCode", searchCode);
+		data.put("searchName", searchName);
+		return sqlSession.selectOne(NAMESPACE+ ".countInList", data);
+	}
+	
+
+	
+	
 	@Override
 	public List<WarehouseVO> getWarehouseList(Criteria cri, String searchCode, String searchName) throws Exception {
 	    Map<String, Object> data = new HashMap<String, Object>(); 

@@ -14,5 +14,5 @@ public class StockVO {
 	
 	private String wh_code;
 	private String wh_name;
-	
 }
+

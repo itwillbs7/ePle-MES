@@ -22,7 +22,28 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	
 	
-	// 4-39 창고 목록 ~ 4-40 창고 검색 
+	@Override
+	public List<WarehouseVO> inList(Criteria cri, String searchCode, String searchName) throws Exception {
+		return wdao.getInList(cri, searchCode, searchName);
+	}
+
+	@Override
+	public int inListCount(String searchCode, String searchName) throws Exception {
+		return wdao.getInListCount(searchCode, searchName);
+	}
+
+	@Override
+	public List<WarehouseVO> outList(Criteria cri, String searchCode, String searchName) throws Exception {
+		return wdao.getOutList(cri, searchCode, searchName);
+	}
+	
+	@Override
+	public int outListCount(String searchCode, String searchName) throws Exception {
+		return wdao.getOutListCount(searchCode, searchName);
+	}
+	
+	
+	
 	@Override
 	public List<WarehouseVO> warehouseList(Criteria cri, String searchCode, String searchName) throws Exception {
 		return wdao.getWarehouseList(cri, searchCode, searchName);

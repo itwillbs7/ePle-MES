@@ -19,7 +19,7 @@ import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.service.WarehouseService;
 
 
-/** WarehouseController : 창고 컨트롤러 (타부서 요청 + 관리)
+/** WarehouseController : 창고 + 입출고 컨트롤러 
 * 
 *	http://localhost:8088/warehouse/list 
 */
@@ -34,8 +34,46 @@ public class WarehouseController {
 	private WarehouseService wService;
 
 	
+	  // 입고 리스트
+	  @RequestMapping(value = "/inList", method = RequestMethod.GET) 
+	  public void inList(Model model, Criteria cri,
+			  					@RequestParam(value = "searchCode",required = false) String searchCode, 
+			  					@RequestParam(value = "searchName",required = false) String searchName) throws Exception {
+
+	  List<WarehouseVO> inList = wService.inList(cri,searchCode,searchName); 
+	  
+	  PageVO pageVO = new PageVO(); 
+	  
+	  pageVO.setCri(cri);
+	  pageVO.setTotalCount(wService.inListCount(searchCode,searchName));
+	  
+	  model.addAttribute("pageVO", pageVO);
+	  model.addAttribute("inList", inList);
 	
-	  // 4-39 , 4-40
+	  }
+	
+	  
+	  // 출고 리스트
+	  @RequestMapping(value = "/outList", method = RequestMethod.GET) 
+	  public void outList(Model model, Criteria cri,
+			  					@RequestParam(value = "searchCode",required = false) String searchCode, 
+			  					@RequestParam(value = "searchName",required = false) String searchName) throws Exception {
+
+	  List<WarehouseVO> outList = wService.outList(cri,searchCode,searchName); 
+	  
+	  PageVO pageVO = new PageVO(); 
+	  
+	  pageVO.setCri(cri);
+	  pageVO.setTotalCount(wService.outListCount(searchCode,searchName));
+	  
+	  model.addAttribute("pageVO", pageVO);
+	  model.addAttribute("outList", outList);
+	
+	  }
+	
+	
+	  /*-------------------------------------------------------------------------------------*/
+	
 	  // 창고 메인 (출력/페이징/검색) --------------------------------------------------------
 	  @RequestMapping(value = "/list", method = RequestMethod.GET) 
 	  public void warehouseList(Model model, Criteria cri,

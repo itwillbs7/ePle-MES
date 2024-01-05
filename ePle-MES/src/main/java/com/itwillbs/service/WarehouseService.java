@@ -7,7 +7,17 @@ import com.itwillbs.domain.WarehouseVO;
 
 public interface WarehouseService {
 	
-	 // 4-39 창고 목록 ~ 4-40 창고 검색 
+
+	
+	 public List<WarehouseVO> inList(Criteria cri, String searchCode, String searchName) throws Exception;
+	 
+	 public int inListCount(String searchCode, String searchName) throws Exception;
+	
+	 public List<WarehouseVO> outList(Criteria cri, String searchCode, String searchName) throws Exception;
+	 
+	 public int outListCount(String searchCode, String searchName) throws Exception;
+	 
+	
 	 public List<WarehouseVO> warehouseList(Criteria cri, String searchCode, String searchName) throws Exception;
 	 
 	 // 모든 창고 수

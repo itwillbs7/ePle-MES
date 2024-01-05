@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.OrderVO;
-import com.itwillbs.domain.WarehouseVO;
 
 public interface OrderService {
 
@@ -20,6 +19,7 @@ public interface OrderService {
 	 // 모든 발주 수
 	 public int orderListCount(String searchOrder, String searchMapd) throws Exception;
 
+	 
 	 // 품목 검색 팝업 
 	 public List<OrderVO> SearchMAPD(Criteria cri, String mapdCode, String mapdName) throws Exception;
 	 

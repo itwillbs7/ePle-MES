@@ -41,24 +41,23 @@
 		LIMIT #{startPage}, #{pageSize}
 	</select>
 		
-	<!-- 4-1 전체 요청 수 -->
+	<!-- 전체 요청 수 -->
 	<select id="countOrderAsk" resultType="int">
 		SELECT count(*) 
 		FROM ORDERS
 		WHERE status = '신청'
 	</select>
 
-<!-- 	
-	발주 목록, 발주 검색
-	<select id="selectOrderList" parameterType="hashMap" resultMap="order">
-    	SELECT o.code, o.date, co.group_name, co.code_name, cli.name client_name, o.amount, o.price,
+
+<!-- 	<select id="selectOrderList" parameterType="hashMap" resultMap="order">
+    	SELECT o.code, o.date, co.group_name, co.code_name, cl.name client_name, o.amount, o.price,
     		o.order_date, o.reg_date, reg.name reg_name, o.update_date, up.name update_name, o.status, o.complete 
     	FROM ORDERS o
-    	JOIN CLIENT cli ON o.client_code = cli.code
+    	JOIN CLIENT cl ON o.client_code = cli.code
     	JOIN EMPLOYEES reg ON o.reg_emp = reg.code
     	JOIN EMPLOYEES up ON o.update_emp = up.code
 		JOIN COMMON_CODE co ON o.group_id = co.group_id AND o.code_id = co.code_id
-		WHERE o.group_id IN ('MA','PD','FACETC','FACNPR','FACPRO') 
+		WHERE o.group_id IN ('MAT','PROD','FACETC','FACNPR','FACPRO') 
 			<if test="searchOrder != null or searchMapd != null">
 			<if test="searchOrder != null">
 				AND o.code LIKE CONCAT('%', #{searchOrder}, '%')
@@ -72,7 +71,10 @@
 			</if>
     	ORDER BY CAST(SUBSTRING(code, 4) AS UNSIGNED) DESC	코드 정하면 바꾸기
     	LIMIT #{cri.startPage}, #{cri.pageSize}
-	</select>
+	</select> -->
+	
+<!-- 	
+	발주 목록, 발주 검색
 
 	모든 발주 수
 	<select id="countOrder" parameterType="hashMap" resultType="int">

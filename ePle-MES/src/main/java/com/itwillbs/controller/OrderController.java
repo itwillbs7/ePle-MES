@@ -55,7 +55,7 @@ public class OrderController {
 
 	  
 	
-	  // 발주 메인 (출력/페이징/검색) --------------------------------------------------------
+	  // 발주 관리 (출력/페이징/검색) --------------------------------------------------------
 	  @RequestMapping(value = "/list", method = RequestMethod.GET) 
 	  public void orderList(Model model, Criteria cri,
 			  					@RequestParam(value = "searchOrder",required = false) String searchOrder, 
