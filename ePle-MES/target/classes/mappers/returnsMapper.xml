@@ -7,10 +7,18 @@
 <mapper namespace="com.itwillbs.mapper.returnsMapper">
 	<!-- 페이징처리 + 리스트 가져오기 -->
 	<select id="listPage" resultType="ReturnsVO">
+<<<<<<< HEAD
 		select rt.*
 		FROM RETURNS rt 
 		join REQUEST r on rt.request_code = r.code 
 		order by rt.reg_date DESC 
+=======
+		select rt.*, c.name clientName 
+		FROM RETURNS rt 
+		join REQUEST r on rt.request_code = r.code 
+		join CLIENT c on c.code = r.client_code 
+		order by .reg_date DESC 
+>>>>>>> origin/PJH
 		limit #{startPage}, #{pageSize}
 	</select>
 	
@@ -21,7 +29,11 @@
   ]]>
 	</select>
 
+<<<<<<< HEAD
 	<!-- 반품번호의 정보 가져오기 -->
+=======
+	<!-- 출하번호의 정보 가져오기 -->
+>>>>>>> origin/PJH
 	<select id="getReturnsInfo" resultType="ReturnsVO">
 		SELECT rt.*,c.name clientName, r.deadline. s.amount
 		from RETURNS rt 
@@ -32,6 +44,7 @@
 
 	</select>
 	
+<<<<<<< HEAD
 	
 	<!-- ================================================================= add/search -->
 	<!-- 출하번호 검색하기(출하번호,수주번호,출하량, 출하일자,수주업체 -->
@@ -60,6 +73,9 @@
 	
 	
 	<!-- 반품정보 검색하기 -->
+=======
+	<!-- 출하정보 검색하기 -->
+>>>>>>> origin/PJH
 	<select id="research" resultType="ReturnsVO">
 		select rt.*,c.name clientName, r.deadline. s.amount
 		from RETURNS rt
@@ -85,6 +101,7 @@
 		order by r.reg_date DESC 
 	</select>
 
+<<<<<<< HEAD
 
 	<!-- 반품정보 등록하기 -->
 	<insert id="insertReturns">
@@ -98,10 +115,72 @@
 	<update id="updateReturnsInfo">
 		update SHIPMENT set requset_code=#{vo.requset_code}, ship_code=#{vo.ship_code}, 
 		lot=#{vo.lot}, date=#{date}, amount=#{vo.amount}, unit=#{unit}, status=#{vo.status}, 
+=======
+	<!-- 회사찾기 -->
+	<select id="getClientList" resultType="RequestVO">
+		select code client_code, name clientName from CLIENT where active = 0;
+	</select>
+
+	<select id="findCompany" resultType="RequestVO">
+		select code client_code, name clientName from CLIENT where active = 0
+		<if test="client_code!= null"> AND code like concat('%',#{client_code},'%') </if>
+		<if test="clientName != null"> AND name like concat('%',#{clientName},'%') </if>
+	</select>
+
+	<!-- 물품찾기 -->
+	<select id="getProductList" resultType="RequestVO">
+		select m.code product, m.name productName, m.unit, s.amount stock
+		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0
+	</select>
+
+	<select id="findProduct" resultType="RequestVO">
+		select m.code product, m.name productName, s.amount stock, s.code ware_code 
+		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0
+		<if test="product != null and product != ''">AND m.code like concat('%',#{product},'%')</if>
+		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
+	</select>
+	
+	<!-- 수주정보 찾기 -->
+	<select id="getRequestList" resultType="RequestVO">  
+	SELECT r.code code, r.date date, r.product product, c.name clientName, r.amount amount, 
+	m.name productName, s.amount stock , s.warehouse_code ware_code , r.unit unit, s.code stock_code 
+	FROM REQUEST r 
+	LEFT JOIN CLIENT c on r.client_code = c.code 
+	RIGHT join STOCK s on r.product = s.mapd_code 
+	LEFT join MAPD m on r.product = m.code 
+	where status = '출하대기'
+	</select>
+	
+	<select id="findRequest" resultType="RequestVO">
+	SELECT r.code code, r.date date, r.product product, c.name clientName, r.amount amount, 
+	m.name productName, s.amount stock , s.warehouse_code ware_code , r.unit unit, s.code stock_code 
+	FROM REQUEST r 
+	LEFT JOIN CLIENT c on r.client_code = c.code 
+	RIGHT join STOCK s on r.product = s.mapd_code 
+	LEFT join MAPD m on r.product = m.code 
+	where status = '출하대기' 
+		<if test="clientName != null and clientName!= ''">AND r.code like concat('%',#{clientName},'%')</if>
+		<if test="productName != null and productName != ''">AND r.code like concat('%',#{productName},'%')</if>
+	</select>
+	
+	<!-- 출하정보 등록하기 -->
+	<insert id="insertReturns">
+		insert into SHIPMENT
+		values
+		(#{code},#{reqs_code},#{date},#{ware_code},#{amount}, 
+		"출하대기",now(),"test",now(),"test",#{stock_code});
+	</insert>
+
+	<!-- 출하정보 수정하기 -->
+	<update id="updateReturnsInfo">
+		update SHIPMENT set reqs_code=#{vo.reqs_code}, date=#{vo.date}, 
+		ware_code=#{vo.ware_code}, amount=#{vo.amount}, status=#{vo.status}, 
+>>>>>>> origin/PJH
 		update_date=now(), update_emp=#{userid}
 		where code = #{vo.code}
 	</update>
 	
+<<<<<<< HEAD
 	<!-- 반품정보 삭제하기 -->
 		<select id="getDeleteInfo" resultType="ReturnsVO">
 		SELECT r.code, r.request_code , c.name clientName, r.lot, r.amount
@@ -109,6 +188,16 @@
 		join REQUEST rq on r.request_code = rq.code
 		join CLIENT c on rq.client_code = c.code
 		where r.code in 
+=======
+	<!-- 출하정보 삭제하기 -->
+		<select id="getDeleteInfo" resultType="ReturnsVO">
+		SELECT sp.*, c.name clientName, m.name product 
+		from SHIPMENT sp 
+		join REQUEST r on r.code = sp.reqs_code 
+		inner join CLIENT c on c.code = r.client_code 
+		inner join MAPD m on m.code = r.product 
+		where sp.code in 
+>>>>>>> origin/PJH
 		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
 		 #{codeNum}
 		 </foreach>
@@ -121,6 +210,7 @@
 		 #{codeNum}
 		</foreach>
 	</delete>
+<<<<<<< HEAD
 	
 	<!-- 반품상태 폐기수정 -->
 	<update id="statusChangetoDispose">
@@ -130,4 +220,6 @@
 		 #{codeNum}
 		</foreach>
 	</update>
+=======
+>>>>>>> origin/PJH
 </mapper>

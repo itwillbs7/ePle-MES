@@ -43,9 +43,6 @@ public class ReturnsController {
 	
 	@Inject
 	private ReturnsService rtService;
-	
-	@Inject
-	private RequestService rService;
 		
 	
 	// http://localhost:8088/returns/list
@@ -54,12 +51,8 @@ public class ReturnsController {
 							   HttpSession session, 
 							   @ModelAttribute("result") String result, Criteria cri
 							   ) throws Exception { //5-1
-		// 반품 목록 return
+		// 수주 목록 return
 		logger.debug("returnsListGET -> DB에서 목록 가져오기(페이징 처리하기)");
-		logger.debug("\r\n▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄\r\n" + 
-				"█░░░░░░░░▀█▄▀▄▀██████░▀█▄▀▄▀██████░\r\n" + 
-				"░░░░░░░░░░░▀█▄█▄███▀░░░ ▀██▄█▄███▀░\r\n" + 
-				"");
 
 		List<ReturnsVO> returnsList = rtService.returnsListpage(cri);
 		

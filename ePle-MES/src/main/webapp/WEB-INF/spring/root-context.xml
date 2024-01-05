@@ -13,6 +13,7 @@
 	
 
 <!-- 		hikariCP : 연결 정보 저장객체, 로컬 -->
+<<<<<<< HEAD
 <!-- 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig"> -->
 <!-- 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" /> -->
 <!-- 		<property name="jdbcUrl" value="jdbc:log4jdbc:mysql://localhost:3306/c7d2307t1_2?characterEncoding=UTF-8" /> -->
@@ -20,13 +21,19 @@
 <!-- 		<property name="password" value="1234" /> -->
 <!-- 	</bean>	  -->
 	<!-- hikariCP : 연결 정보 저장객체 --> 
+=======
+>>>>>>> origin/PJH
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
-		<property name="jdbcUrl" value="jdbc:log4jdbc:mysql://itwillbs.com:3306/c7d2307t1_2?characterEncoding=UTF-8" />
+		<property name="jdbcUrl" value="jdbc:log4jdbc:mysql://itwillbs.com/c7d2307t1_2?characterEncoding=UTF-8" />
 		<property name="username" value="c7d2307t1" />
 		<property name="password" value="1234" />
 	</bean>	 
+<<<<<<< HEAD
  	<!-- hikariCP : 연결 정보 저장객체 -->  
+=======
+	<!-- hikariCP : 연결 정보 저장객체 --> 
+>>>>>>> origin/PJH
 	
 	<!-- dataSource : DB 연결 -->
 	<bean id="dataSource" 
@@ -71,6 +78,7 @@
 >>>>>>> origin/feature-hj
 =======
 	<context:component-scan base-package="com.itwillbs.controller" />
+<<<<<<< HEAD
 	
 	
 	<!-- com.itwillbs.persistence 패키지 등록 -->
@@ -78,6 +86,19 @@
 	<!-- com.itwillbs.service 패키지 등록 -->
 	<context:component-scan base-package="com.itwillbs.service"/>
 >>>>>>> origin/KHR
+=======
+	<!-- com.production.controller 패키지 등록 -->
+	<context:component-scan base-package="com.production.controller" />
+	<!-- com.production.persistence 패키지 등록 -->
+	<context:component-scan base-package="com.production.persistence" />
+	<!-- com.production.service 패키지 등록 -->
+	<context:component-scan base-package="com.production.service" />
+	<!-- com.production.domain 패키지 등록 -->
+	<context:component-scan base-package="com.production.domain" />
+	<context:component-scan base-package="com.itwillbs.persistence" />
+	<context:component-scan base-package="com.itwillbs.service" />
+	
+>>>>>>> origin/PJH
 </beans>
 =======
 	<!-- com.itwillbs.service 패키지 등록 -->

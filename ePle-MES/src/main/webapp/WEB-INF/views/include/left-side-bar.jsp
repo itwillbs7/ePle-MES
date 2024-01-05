@@ -30,9 +30,8 @@
 				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-gear-wide-connected"></span><span class="mtext">생산 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="index.html">Dashboard style 1</a></li>
-						<li><a href="index2.html">Dashboard style 2</a></li>
-						<li><a href="index3.html">Dashboard style 3</a></li>
+						<li><a href="/production/instruction">작업지시 관리</a></li>
+						<li><a href="/production/result">실적 관리</a></li>
 					</ul></li>
 				<!-- 드롭다운 -->
 				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-clipboard2-plus"></span><span class="mtext">발주 관리</span>

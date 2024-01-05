@@ -36,11 +36,6 @@
 							name="ship_code" id="ship_code" readonly required="required" value="${List.code }">
 						</div>
 						<div class="form-group">
-							<label for="deadline">반품일자</label> 
-							<input class="form-control " name="date" type="date" id="date"
-							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
-						</div>
-						<div class="form-group">
 							<label for="amount">반품량</label> <input class="form-control" name="amount" id="amount"
 							type="number" placeholder="출하량을 입력해주세요" autocomplete="off" min="1" required="required">
 						</div>

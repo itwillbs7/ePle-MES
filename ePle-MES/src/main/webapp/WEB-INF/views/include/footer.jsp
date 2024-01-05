@@ -50,6 +50,12 @@
 		setting += "left=" + popupX;
 		return setting;
 	}
+	
+	function closePopup(){
+		opener.location.reload();
+		window.close();
+	}
+	
 
 	// 창 열기
 	function openPage(i, width, height) {

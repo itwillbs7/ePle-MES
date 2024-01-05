@@ -90,10 +90,6 @@
 												</div>
 											</div>
 											<div class="col-md-2 col-sm-12"></div>
-										</div>
-									</div>
-									<div class="btn-group pull-right" style="margin-bottom: 10px">
-										<button type="submit" class="btn btn-primary" id="search">
 											<b>검색</b>
 										</button>
 										<button type="reset" class="btn btn-secondary" id="reset">
@@ -217,7 +213,6 @@
 				</div>
 			</div>
 			<!-- Checkbox select Datatable End -->
-
 			<!-- 푸터 -->
 			<div class="footer-wrap pd-20 mb-20 card-box">
 				ePle MES made by <a href="https://github.com/dropways"
