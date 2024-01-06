@@ -37,6 +37,11 @@ public class MtDAOImpl implements MtDAO{
 	}
 	
 	@Override
+	public FacMtVO getOrder(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getOrder", code);
+	}
+	
+	@Override
 	public List<FacMtVO> getMtList(String code) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getMtList", code);
 	}

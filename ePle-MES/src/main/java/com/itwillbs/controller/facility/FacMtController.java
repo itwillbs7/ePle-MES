@@ -65,12 +65,13 @@ public class FacMtController {
 	@GetMapping("/routine")
 	public void routine(Model model, String code) throws Exception{
 		// 일상 보전, 예방 보전 등록 폼
-		model.addAttribute("info", fService.getFacility(code));
+		model.addAttribute("code", code);
 	}
 	
 	@PostMapping("/routine")
-	public String routine(FacMtVO vo, RedirectAttributes rttr) throws Exception{
+	public String routine(FacMtVO vo, RedirectAttributes rttr, HttpSession session) throws Exception{
 		// 일상 보전, 예방 보전 등록
+		vo.setEmp_code("123121231233");
 		String recentCode = mService.getRecentCode(vo.getCode());
 		String code = vo.getCode();
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
@@ -108,12 +109,13 @@ public class FacMtController {
 	@GetMapping("/result")
 	public void result(Model model, String code) throws Exception{
 		// 보전 결과 등록(사후 보전이 있을 때)
-		model.addAttribute("info", fService.getFacility(code));
+		model.addAttribute("info", mService.getOrder(code));
 	}
 	
 	@PostMapping("/result")
-	public String result(FacMtVO vo, RedirectAttributes rttr) throws Exception{
+	public String result(FacMtVO vo, HttpSession session,RedirectAttributes rttr) throws Exception{
 		// 보전 결과 등록 처리
+		vo.setManager("123123123");
 		if(mService.setResult(vo) == 1) {
 			rttr.addFlashAttribute("title", "보전 등록 결과");
 			rttr.addFlashAttribute("result", "보전 등록이 완료되었습니다.");

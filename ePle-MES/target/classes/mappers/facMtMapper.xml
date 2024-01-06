@@ -81,7 +81,7 @@
 	
 	<!-- 보전 신청 목록 표시(문제 발생시)(FAC_MT 기준) -->
 	<select id="getOrderList" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
-		SELECT f.code as fac_code, model, f.name as name, f.line_code, l.name as line_name, mt_content, m.reg_date
+		SELECT f.code as fac_code, model, f.name as name, f.line_code, l.name as line_name, mt_subject, m.reg_date
 		FROM FAC_MT m RIGHT OUTER JOIN FAC_INFO f on m.fac_code = f.code left OUTER join LINE l ON l.code = f.line_code WHERE m.complete = false and m.code_id = 'None' order by m.reg_date;
 	</select>
 	
@@ -89,16 +89,18 @@
 		SELECT count(f.code)
 		FROM FAC_MT m RIGHT OUTER JOIN FAC_INFO f on m.fac_code = f.code left OUTER join LINE l ON l.code = f.line_code WHERE m.complete = false and m.code_id = 'None' order by m.reg_date;
 	</select>
+	
+	<select id="getOrder" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
+		SELECT * FROM FAC_MT WHERE code = #{code}
+	</select>
 	<!-- 보전 신청 목록 표시(문제 발생시)(FAC_MT 기준) -->
 	
 	<!-- 디테일 표시 -->
 	<!-- 설비 정보의 경우 FAC_INFO에서 가져오기 -->
 	<!-- 보전 신청 목록 -->
 	<select id="getMtList" resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
-		SELECT m.*, f.model, f.name, f.line_code, l.name as line_name 
-		FROM FAC_MT m JOIN FAC_INFO f ON m.fac_code = f.code 
-		JOIN LINE l ON f.line_code = l.code 
-		WHERE m.fac_code = #{code} AND m.code_id = 'None'
+		SELECT * FROM FAC_MT
+		WHERE fac_code = #{code} AND code_id = 'None'
 	</select>
 	<select id="getMtListCount" resultType="int">
 		SELECT count(*) FROM FAC_MT 

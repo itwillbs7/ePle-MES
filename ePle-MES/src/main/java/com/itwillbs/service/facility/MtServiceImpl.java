@@ -37,6 +37,11 @@ public class MtServiceImpl implements MtService {
 	}
 	
 	@Override
+	public FacMtVO getOrder(String code) throws Exception {
+		return dao.getOrder(code);
+	}
+	
+	@Override
 	public List<FacMtVO> getMtList(String code) throws Exception {
 		return dao.getMtList(code);
 	}
