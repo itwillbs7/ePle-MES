@@ -7,11 +7,7 @@ import com.itwillbs.domain.WarehouseVO;
 
 public interface WarehouseService {
 	
-
 	
-	 public List<WarehouseVO> inList(Criteria cri, String searchCode, String searchName) throws Exception;
-	 
-	 public int inListCount(String searchCode, String searchName) throws Exception;
 	
 	 public List<WarehouseVO> outList(Criteria cri, String searchCode, String searchName) throws Exception;
 	 

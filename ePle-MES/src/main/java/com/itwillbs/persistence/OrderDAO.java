@@ -8,11 +8,6 @@ import com.itwillbs.domain.WarehouseVO;
 
 public interface OrderDAO {
 	
-	// 4-1 발주 요청 목록
-	public List<OrderVO> getOrderAskList(Criteria cri) throws Exception;
-	// 	   전체 요청 수
-	public int getOrderAskCount() throws Exception;
-	
 	
 	// 4-9 발주 목록 ~ 4-10 발주 검색 
 	public List<OrderVO> getOrderList(Criteria cri, String searchOrder, String searchMapd) throws Exception;

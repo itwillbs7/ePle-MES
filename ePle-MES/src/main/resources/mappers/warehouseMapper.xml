@@ -28,16 +28,6 @@
 		<result property="date" column="date"/>
 	</resultMap>
 
-
-	<select id="selectInList" parameterType="hashMap" resultMap="warehouse">
-    	SELECT 
-    	FROM WAREHOUSE_HISTORY 
-    	WHERE io = 'IN'
-    	<!-- ORDER BY CAST(SUBSTRING(w.code, 4) AS UNSIGNED) DESC -->	<!-- 코드 정하면 수정하기 -->
-    	LIMIT #{cri.startPage}, #{cri.pageSize}
-	</select>
-	
-	
 	
 	<!-- 창고 목록, 창고 검색 -->
 	<select id="selectWarehouseList" parameterType="hashMap" resultMap="warehouse">

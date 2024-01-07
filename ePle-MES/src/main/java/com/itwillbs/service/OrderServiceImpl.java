@@ -22,18 +22,6 @@ public class OrderServiceImpl implements OrderService {
 	private OrderDAO odao;
 
 	
-	// 4-1 발주 요청 목록
-	@Override
-	public List<OrderVO> orderAskList(Criteria cri) throws Exception {
-		return odao.getOrderAskList(cri);
-	}
-	
-	// 	전체 요청 수
-	@Override
-	public int orderAskListCount() throws Exception {
-		return odao.getOrderAskCount();
-	}
-	
 	// 발주 목록 ~ 발주 검색 
 	@Override
 	public List<OrderVO> orderList(Criteria cri, String searchOrder, String searchMapd) throws Exception {

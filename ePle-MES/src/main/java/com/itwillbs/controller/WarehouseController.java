@@ -19,7 +19,7 @@ import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.service.WarehouseService;
 
 
-/** WarehouseController : 창고 + 입출고 컨트롤러 
+/** WarehouseController : 창고 컨트롤러 
 * 
 *	http://localhost:8088/warehouse/list 
 */
@@ -33,25 +33,6 @@ public class WarehouseController {
 	@Inject
 	private WarehouseService wService;
 
-	
-	  // 입고 리스트
-	  @RequestMapping(value = "/inList", method = RequestMethod.GET) 
-	  public void inList(Model model, Criteria cri,
-			  					@RequestParam(value = "searchCode",required = false) String searchCode, 
-			  					@RequestParam(value = "searchName",required = false) String searchName) throws Exception {
-
-	  List<WarehouseVO> inList = wService.inList(cri,searchCode,searchName); 
-	  
-	  PageVO pageVO = new PageVO(); 
-	  
-	  pageVO.setCri(cri);
-	  pageVO.setTotalCount(wService.inListCount(searchCode,searchName));
-	  
-	  model.addAttribute("pageVO", pageVO);
-	  model.addAttribute("inList", inList);
-	
-	  }
-	
 	  
 	  // 출고 리스트
 	  @RequestMapping(value = "/outList", method = RequestMethod.GET) 
@@ -130,36 +111,12 @@ public class WarehouseController {
 		  String[] code_arr = codes.split(",");
 		  wService.deleteWarehouse(code_arr);
 	  }
-	  
-	  
-	  
-	  
-	  
-	
-	
 
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public void warehouseInsertGET() throws Exception { 
-		logger.debug("/warehouse/add -> warehouseInsertGET() 호출 ");
-		logger.debug("/warehouse/add.jsp 뷰페이지로 이동");
-		
-	}
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String warehouseInsertPOST(WarehouseVO vo, RedirectAttributes rttr) throws Exception {
-
-		logger.debug("폼submit -> warehouseInsertPOST() 호출 ");
-		logger.debug(" vo : " + vo);
-		// 서비스 - DB에 글쓰기(insert) 동작 호출
-		wService.InsertWarehouse(vo);	
-		
-		rttr.addFlashAttribute("result", "CREATEOK");
-		
-		logger.debug("/warehouse/list 이동");
-		return "redirect:/warehouse/list";
-	}
-	
-		
-		
+	  
+	  
+	  
+	  
+	  
 	
 	private String searchKeyword; 
 

@@ -1,12 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
-<title>입고 내역</title>
+<style>
+  .table th,
+  .table td {
+    text-align: center;
+  }
+</style>
+<title>입고 관리</title>
 </head>
 <body>
 	<!----------------- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 ----------------->
@@ -18,14 +25,14 @@
 	<div class="main-container">
 	<div class="pd-ltr-20 xs-pd-20-10">
 	<div class="title" style="margin-bottom: 10px;">
-		<a href="${pageContext.request.contextPath}/warehouse/inOutList"><h1>입고 내역</h1></a>
+		<a href="${pageContext.request.contextPath}/material/inList"><h1>입고 관리</h1></a>
 	</div>
 		<div class="min-height-200px">
 			
 	    <ul class="nav nav-pills">
-			<li class="nav-item"><a class="nav-link text-blue active" href="/warehouse/inList">입고 내역</a></li>
-			<li class="nav-item"><a class="nav-link text-blue" href="/warehouse/outList">출고 내역</a></li>
-		</ul> -->
+			<li class="nav-item"><a class="nav-link text-blue active" href="/material/inList">입고 현황</a></li>
+			<li class="nav-item"><a class="nav-link text-blue" href="/material/outList">출고 현황</a></li>
+		</ul> 
 		
 	<br>
 				
@@ -47,7 +54,7 @@
 									<div class="row">
 										<div class="col-md-5 col-sm-12 btn-group" >
 											<div class="col-md-5 col-sm-12 btn-group" >
-											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="창고코드" autocomplete="off" >
+											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="입고코드" autocomplete="off" >
 											<label>관리자</label> 
 											<input type="text" name="searchName" id="manager" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
 											<input type="text" id="managerName" class="form-control" placeholder="관리자이름" autocomplete="off" readonly>
@@ -87,7 +94,7 @@
 			<div class="col-sm-30">
 				<form class="table" id="table">
 					<table class="table table-striped">
-					<!-- 체크박스 / 입고코드 / 창고 / 발주수주코드 / 제품코드 / 수량 / 입고일자 -->
+					<!-- 체크박스 / 입고코드 / 발주수주코드 / 창고코드 / 구분 / 품명 / 수량+단위 / 담당자 / 입고일자 / 입고상태 -->
 						<tr>
 							<td style="width: 100px;">
 								<div class="custom-control custom-checkbox mb-5">
@@ -96,11 +103,14 @@
 								</div>
 							</td>
 							<th>입고코드</th>
-							<th>창고</th>
 							<th>발주/수주코드</th>
-							<th>제품코드</th>
+							<th>창고</th>
+							<th>구분</th>
+							<th>품명</th>
 							<th>수량</th>
+							<th>담당자</th>
 							<th>입고일자</th>
+							<th>입고상태</th>
 							<th>옵션</th>
 						</tr>
 
@@ -108,17 +118,19 @@
 						<tr>
 							<td>
 								<div class="custom-control custom-checkbox mb-5">
-									<input type="checkbox" class="custom-control-input checkCode" id="${vo.io_code }" name="tableCheck" value="${vo.io_code }"> 
-									<label class="custom-control-label" for="${vo.io_code }"></label>
+									<input type="checkbox" class="custom-control-input checkCode" id="${vo.code }" name="tableCheck" value="${vo.code }"> 
+									<label class="custom-control-label" for="${vo.code }"></label>
 								</div>
 							</td>
-							<th>${vo.io_code }</th>
-							<th>${vo.wh_code }</th>
+							<th class="inInfo${vo.code}" style="color: #FF1493; cursor:pointer;">${vo.code }</th>
 							<th>${vo.order_num }</th>
-							<th>${vo.group_name }</th>
-							<th>${vo.amount }</th>
-							<th>${vo.phone }</th>
-							<th>${vo.active }</th>
+							<th>${vo.warehouse_code }</th>
+							<th>${vo.category }</th>
+							<th>${vo.mapdName }</th>
+							<th>${vo.amount } ${vo.unit }</th>
+							<th>${vo.empName }</th>
+							<th><fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></th>
+							<th>${vo.status }</th>
 							<td style="">
 
 
@@ -128,9 +140,9 @@
 								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i> </a>
 									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 										<!-- 상세 보기 -->
-										<a class="dropdown-item" href="#"><i class="dw dw-eye"></i>상세 보기</a>
+										<a class="dropdown-item" href="javascript:openPage('/material/inInfo?code=${vo.code }', 400, 700"><i class="dw dw-eye"></i>상세 보기</a>
 										<!-- 수정 -->
-										<a class="dropdown-item" href="javascript:openPage('/warehouse/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
+										<a class="dropdown-item" href="javascript:openPage('/material/inEdit?code=${vo.code }', 400, 700"><i class="dw dw-edit2"></i> 수정</a>
 										<!-- 삭제 -->
 										<a class="dropdown-item" id="optDelete"><i class="dw dw-delete-3"></i> 삭제</a>
 									</div>
@@ -144,7 +156,7 @@
 					</table>
 				</form>
 
-				<!-------------------------------- 창고 갯수 -------------------------------->
+				<!-------------------------------- 입고 갯수 -------------------------------->
 				<div class="row">
 					<div class="col-sm-12 col-md-5">
 						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
@@ -156,13 +168,13 @@
 				<div class="btn-toolbar justify-content-center mb-15">
 					<div class="btn-group">
 						<c:if test="${pageVO.prev}">
-							<a href="/warehouse/list?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+							<a href="/material/inList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
 						</c:if>
 						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/warehouse/list?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+							<a href="/material/inList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
 						</c:forEach>
 						<c:if test="${pageVO.next}">
-							<a href="/warehouse/list?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+							<a href="/material/inList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
 						</c:if>
 					</div>
 				</div>
@@ -244,38 +256,29 @@
 
 		function openPage(i, width, height) {
 			set = retPopupSetting(width, height);
-			return window.open(i, 'Popup_Window', set); // 가운데거가 이름이 똑같으면 같은창에서 열림
+			return window.open(i, 'Popup_Window', set);
 		}
 
 		$(document).ready(function() {
-			// 추가
+			// 추가 O
 			$("#add").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/add", 400, 700);
+				openPage("/material/inAdd", 400, 700);
 			});
 
-			// 수정
+		 	// 수정 O
 			$("#update").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/update", 400, 700);
-			});
-
-			// 상세보기
-			$('body').on('click', '[class^="info"]', function(){
-        		var code = $(this).text().trim();
-      		  openPage("/request/info?code=" + code, 400, 700);
-  			});
-			
-			
-			// 검색 - 사원 리스트 O
-			$("#manager,#managerName").click(function() {
-				// 가로, 세로 설정
-				openPage("/warehouse/searchEmployees", 400,700);
+			    var check = $("input:checkbox[name=tableCheck]:checked");
+			    if (check.length === 0 || check.length > 1) {
+			        alert("수정할 항목을 하나만 선택하세요!");
+			    } else {
+			        var code = check.val();
+			        openPage("/material/inEdit?code=" + code, 400, 700);
+			    }
 			});
 
 			
 			// 삭제
-			$("#delete,#optDelete").click(function() {
+/* 			$("#delete,#optDelete").click(function() {
 				var codes = [];
 			    $("input:checkbox[name=tableCheck]:checked").each(function() {
 			    	codes.push($(this).val());
@@ -286,8 +289,20 @@
 			    } else {
 			        $('#warning-modal').modal('show'); 
 			    }
+			}); */
+			
+			
+			// 상세보기 O
+			$('body').on('click', '[class^="inInfo"]', function(){
+        		var code = $(this).text().trim();
+      		  openPage("${pageContext.request.contextPath}/material/inInfo?code=" + code, 400, 700); });
+			
+			
+			// 검색 - 사원 리스트 
+			$("#manager,#managerName").click(function() {
+				// 가로, 세로 설정
+				openPage("/warehouse/searchEmployees", 400,700);
 			});
-
 
 			
 			

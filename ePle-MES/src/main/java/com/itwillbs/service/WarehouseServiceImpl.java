@@ -22,15 +22,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	
 	
-	@Override
-	public List<WarehouseVO> inList(Criteria cri, String searchCode, String searchName) throws Exception {
-		return wdao.getInList(cri, searchCode, searchName);
-	}
-
-	@Override
-	public int inListCount(String searchCode, String searchName) throws Exception {
-		return wdao.getInListCount(searchCode, searchName);
-	}
 
 	@Override
 	public List<WarehouseVO> outList(Criteria cri, String searchCode, String searchName) throws Exception {

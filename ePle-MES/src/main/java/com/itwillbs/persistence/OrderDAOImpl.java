@@ -26,19 +26,6 @@ public class OrderDAOImpl implements OrderDAO {
 	private SqlSession sqlSession;
 	
 	
-	// 4-1 발주 요청 목록	
-	@Override
-	public List<OrderVO> getOrderAskList(Criteria cri) throws Exception {
-	    List<OrderVO> orderAskList = sqlSession.selectList(NAMESPACE + ".selectOrderAskList", cri);
-	    return orderAskList;
-	}
-	// 	   전체 요청 수
-	@Override
-	public int getOrderAskCount() throws Exception {
-		return sqlSession.selectOne(NAMESPACE+ ".countOrderAsk");
-	}
-	
-	
 	
 	// 4-9 발주 목록 ~ 4-10 발주 검색 
 	@Override

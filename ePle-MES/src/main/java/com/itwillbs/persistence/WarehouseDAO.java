@@ -8,10 +8,6 @@ import com.itwillbs.domain.WarehouseVO;
 public interface WarehouseDAO {
 	
 
-	public List<WarehouseVO> getInList(Criteria cri, String searchCode, String searchName) throws Exception;
-	
-	public int getInListCount(String searchCode, String searchName) throws Exception;
-	
 	public List<WarehouseVO> getOutList(Criteria cri, String searchCode, String searchName) throws Exception;
 	
 	public int getOutListCount(String searchCode, String searchName) throws Exception;

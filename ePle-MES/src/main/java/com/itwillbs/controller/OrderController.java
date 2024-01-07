@@ -40,20 +40,6 @@ public class OrderController {
 
 	
 	
-	  // 발주 요청 (출력/페이징) -------------------------------------------------------------
-	  @RequestMapping(value = "/askList", method = RequestMethod.GET) 
-	  public void orderAskList(Model model, Criteria cri) throws Exception {
-
-	  List<OrderVO> orderAskList = oService.orderAskList(cri); 
-	  PageVO pageVO = new PageVO(); 
-	  pageVO.setCri(cri);
-	  pageVO.setTotalCount(oService.orderAskListCount());
-	  
-	  model.addAttribute("pageVO", pageVO);
-	  model.addAttribute("orderAskList", orderAskList);
-	  }
-
-	  
 	
 	  // 발주 관리 (출력/페이징/검색) --------------------------------------------------------
 	  @RequestMapping(value = "/list", method = RequestMethod.GET) 

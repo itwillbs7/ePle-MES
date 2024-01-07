@@ -31,22 +31,6 @@
 
 
 
-	<!-- 발주 요청 리스트 조회 -->
-	<select id="selectOrderAskList" resultMap="order">
-		SELECT o.code, o.date, co.group_id, co.group_name, co.code_name, o.amount, o.status
-    	FROM ORDERS o
-		JOIN COMMON_CODE co ON o.group_id = co.group_id AND o.code_id = co.code_id
-		WHERE o.group_id IN ('MAT','PROD','FACETC','FACNPR','FACPRO') AND o.status = '신청'
-		ORDER BY date
-		LIMIT #{startPage}, #{pageSize}
-	</select>
-		
-	<!-- 전체 요청 수 -->
-	<select id="countOrderAsk" resultType="int">
-		SELECT count(*) 
-		FROM ORDERS
-		WHERE status = '신청'
-	</select>
 
 
 <!-- 	<select id="selectOrderList" parameterType="hashMap" resultMap="order">

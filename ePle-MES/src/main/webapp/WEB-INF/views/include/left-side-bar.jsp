@@ -45,11 +45,10 @@
 				<!-- 드롭다운 -->
 				<li class="dropdown"><a href="javascript:;"
 					class="dropdown-toggle"> <span
-						class="micon bi bi-clipboard2-plus"></span><span class="mtext">발주
+						class="micon bi bi-clipboard2-plus"></span><span class="mtext">기준정보
 							관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="/order/askList">발주 요청</a></li>
 						<li><a href="index2.html">Dashboard style 2</a></li>
 						<li><a href="index3.html">Dashboard style 3</a></li>
 					</ul></li>
@@ -60,7 +59,8 @@
 						class="mtext">자재 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="/warehouseHistory/list">입출고 관리</a></li>
+						<li><a href="/material/askOrderList">발주 요청</a></li>
+						<li><a href="/material/inList">입출고 관리</a></li>
 						<li><a href="/stock/list">재고 관리</a></li>
 						<li><a href="/warehouse/list">창고 목록</a></li>
 					</ul></li>

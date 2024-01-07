@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  	<!--materialMapper.xml-->
+    <mapper namespace="com.itwillbs.mapper.MaterialMapper">
+  
+
+	<!-- 입고 리스트 -->
+	<select id="InList" resultType="Warehouse_HistoryVO">
+		SELECT wh.*, m.name mapdName, m.unit, e.name empName
+		FROM WAREHOUSE_HISTORY wh
+		JOIN MAPD m
+		ON wh.mapd_code = m.code
+		LEFT OUTER JOIN WAREHOUSE w
+        ON wh.warehouse_code = w.code
+        LEFT OUTER JOIN EMPLOYEES e
+        ON w.manager = e.code
+        WHERE wh.io = 'IN'
+		ORDER BY wh.code DESC
+		LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>
+	
+	<!-- 전체 입고 데이터 수 -->
+	<select id="InListCount" resultType="int">
+		SELECT count(*)
+		FROM WAREHOUSE_HISTORY
+		WHERE io = 'IN' 
+	</select>
+	
+	<!-- 입고 등록 -->
+	<insert id="InAdd">
+		INSERT INTO WAREHOUSE_HISTORY (code,order_num,warehouse_code,io,category,amount,mapd_code,emp_code,date,status) 
+		VALUES (#{code},#{order_num},#{warehouse_code},'IN',#{category},#{amount},'#{mapd_code}','#{emp_code}',now(),'입고대기')
+	</insert>
+
+	<!-- 최신코드 가져오기 -->
+	<select id="getRecentCode" resultType="String">
+		SELECT code FROM WAREHOUSE_HISTORY WHERE code LIKE 'IN%' AND DATE(date) = CURDATE() ORDER BY code DESC LIMIT 0, 1
+	</select>
+
+	<!-- 입고 상세 -->
+	<select id="inInfo" parameterType="String" resultType="Warehouse_HistoryVO">
+		SELECT wh.*, m.name mapdName, m.unit, e.name empName, m.unit, m.category
+		FROM WAREHOUSE_HISTORY wh
+		JOIN MAPD m
+		ON wh.mapd_code = m.code
+		LEFT OUTER JOIN WAREHOUSE w
+        ON wh.warehouse_code = w.code
+        LEFT OUTER JOIN EMPLOYEES e
+        ON w.manager = e.code
+        WHERE wh.io = 'IN' AND wh.code = #{code}
+	</select>
+	
+	<!-- 입고 수정 -->
+	<update id="inEdit">
+		UPDATE WAREHOUSE_HISTORY 
+		SET amount = #{amount}, warehouse_code = #{warehouse_code}, emp_code = #{emp_code}
+		WHERE io = 'IN' AND code = #{code} AND status = '입고대기'
+	</update>
+
+	
+	
+	<!-- 입고등록) 발주 목록 -->
+	<select id="SearchOrder" resultType="OrderVO">
+		SELECT o.code, o.material, m.name, o.amount
+		FROM ORDERS o
+		LEFT OUTER JOIN MAPD m
+		ON o.material = m.code
+		WHERE complete = 0 AND status = '완료' 
+			<if test="searchCode != null or searchName != null">
+			<if test="searchCode != null">
+				AND o.code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchName != null">
+				AND m.name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+			</if>
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>	
+	
+	<!-- 입고등록) 발주 목록 데이터 수 -->
+	<select id="OrderListCount" resultType="int">
+		SELECT count(*) 
+		FROM ORDERS o
+		LEFT OUTER JOIN MAPD m
+		ON o.material = m.code
+		WHERE complete = 0 AND status = '완료'
+			<if test="searchCode != null or searchName != null" >
+			<if test="searchCode != null">
+				AND o.code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchName != null">
+				AND m.name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+			</if>
+	</select>
+	
+	<!-- 입고등록) 발주 상태 업데이트 -->
+	<update id="updateComplete">
+		UPDATE ORDERS
+		SET complete = 1
+		WHERE code = #{code}
+	</update>
+	
+	<!-- 입고등록) 창고 목록 (원자재) -->
+	<select id="orderWarehouse" resultType="WarehouseVO">
+		SELECT w.code, w.group_name, w.manager, e.name
+		FROM WAREHOUSE w
+		LEFT OUTER JOIN EMPLOYEES e
+		ON w.manager = e.code
+		WHERE w.active = 1 AND w.group_id = '원자재' 
+			<if test="searchCode != null or searchName != null">
+			<if test="searchCode != null">
+				AND w.code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchName != null">
+				AND e.name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+			</if>
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>	
+	
+	<!-- 입고등록) 창고 데이터 수 (원자재) -->
+	<select id="warehouseListCount" resultType="int">
+		SELECT count(*) 
+		FROM WAREHOUSE w
+		LEFT OUTER JOIN EMPLOYEES e
+		ON w.manager = e.code
+		WHERE w.active = 1 AND w.group_id = '원자재' 
+			<if test="searchCode != null or searchName != null" >
+			<if test="searchCode != null">
+				AND w.code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchName != null">
+				AND e.name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+			</if>
+	</select>
+	
+	
+	
+	<!-- 발주요청 리스트 -->
+	<select id="askOrderList" resultType="OrderVO">
+		SELECT o.code, o.material, m.category, m.name, o.amount, m.unit, o.date, o.status
+    	FROM ORDERS o
+		LEFT OUTER JOIN MAPD m
+        ON o.material = m.code
+		WHERE o.complete = 0 AND o.status = '신청'
+		ORDER BY o.code desc
+		LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>
+	
+	<!-- 전체 발주요청 데이터 수 -->
+	<select id="askOrderListCount" resultType="int">
+		SELECT count(*)
+		FROM ORDERS
+		WHERE complete = 0 AND status = '신청'
+	</select>
+	
+	<!-- 발주요청 등록 -->
+	<insert id="askOrderAdd">
+		INSERT INTO ORDERS (code,material,date,amount,complete,status) 
+		VALUES (#{code},#{material},now(),#{amount},'0','신청')
+	</insert>
+
+	<!-- 발주 최신코드 가져오기 -->
+	<select id="orderRecentCode" resultType="String">
+		SELECT code FROM ORDERS WHERE code LIKE 'OR%' AND DATE(date) = CURDATE() ORDER BY code DESC LIMIT 0, 1
+	</select>	
+	
+	<!-- 발주요청 상세 -->
+	<select id="askOrderInfo" parameterType="String" resultType="OrderVO">
+		SELECT o.code, o.material, m.category, m.name, o.amount, m.unit, o.date, o.status
+    	FROM ORDERS o
+		LEFT OUTER JOIN MAPD m
+        ON o.material = m.code
+        WHERE o.status = '신청' AND o.code = #{code}
+	</select>
+	
+	
+	<!-- 발주요청등록) 품목 목록 (원자재) -->
+	<select id="searchMAPD" resultType="OrderVO">
+		SELECT code, name
+		FROM MAPD
+		WHERE category = '원자재' 
+			<if test="searchName != null">
+				AND name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>	
+	
+	<!-- 발주요청등록) 품목 데이터 수 (원자재) -->
+	<select id="searchMAPDCount" resultType="int">
+		SELECT count(*) 
+		FROM MAPD
+		WHERE category = '원자재'
+			<if test="searchName != null">
+				AND name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+	</select>	
+	
+	
+	
+	
+	</mapper>
