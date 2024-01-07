@@ -15,7 +15,7 @@
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous" />
-<title>반품 등록</title>
+<title>반품 수정</title>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -23,40 +23,44 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">반품 등록</h1>
+				<h1 class="text-center text-primary">반품 수정</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="" method="post" id="addForm" onsubmit="">
-				<!-- 비입력 구간 -->
-				<input class="form-control" type="hidden" placeholder="반품번호"
-					name="code" id="code">
+			<form action="/returns/update" method="post" id="addForm" onsubmit="">
+
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						<div class="form-group">
-							<label for="client_code">출하번호</label> <input class="form-control"
-								type="text" placeholder="클릭 시 검색창이 뜹니다" name="ship_code"
-								id="ship_code" readonly required="required"
+							<label for="code">반품번호</label> <input class="form-control"
+								type="text"  name="code"
+								id="code" readonly required="required"
 								value="${List.code }">
 						</div>
 						<div class="form-group">
-							<label for="deadline">반품일자</label> <input class="form-control "
-								name="date" type="date" id="date" placeholder="클릭 시 달력이 뜹니다"
-								autocomplete="off" required="required">
+							<label for="client_code">출하번호</label> <input class="form-control"
+								type="text" placeholder="클릭 시 검색창이 뜹니다" name="ship_code"
+								id="ship_code" readonly required="required"
+								value="${List.ship_code }">
 						</div>
 						<div class="form-group">
-							<label for="amount">반품량</label> <input class="form-control"
+							<label for="deadline">반품일자</label> <input class="form-control "
+								name="date" type="date" id="date" value="${List.date }"
+								autocomplete="off" required="required" readonly>
+						</div>
+						<div class="form-group">
+							<label for="amount">반품량</label> 
+							<input class="form-control"
 								name="amount" id="amount" type="number"
-								placeholder="출하량을 입력해주세요" autocomplete="off" min="1"
-								required="required">
+								readonly autocomplete="off" min="1"
+								required="required" value=${List.amount }>
 						</div>
 						<div class="form-group">
 							<label for="amount">반품사유</label>
 							<textarea class="form-control" placeholder="반품사유를 입력하세요"
-								name="reason"></textarea>
+								name="reason" readonly>${List.reason}</textarea>
 						</div>
-						
 						<div class="form-group">
 							<label>lot</label> 
 							<select class="custom-select2 form-control select2-hidden-accessible"
@@ -70,27 +74,34 @@
 							<label for="client_code">수주번호</label> <input class="form-control"
 								type="text" placeholder="클릭 시 팝업검색창이 뜹니다" name="request_code"
 								id="request_code" readonly required="required"
-								value="${List.reqs_code }">
+								value="${List.request_code }">
 						</div>
 						<div class="form-group">
 							<label for="amount">출하량</label> <input class="form-control"
 								name="samount" id="samount" type="number" autocomplete="off"
 								min="1" required="required" readonly value="${List.amount }">
-							<input type="hidden" name="unit" id="unit">
+							<input type="hidden" name="unit" id="unit" value="${List.unit }">
 						</div>
 						<div class="form-group">
 							<label for="date">출하일자</label> <input class="form-control "
-								name="shipdate" type="date" id="shipdate" autocomplete="off"
-								required="required" readonly value="${List.date }">
+								name="reqsdate" type="date" id="reqsdate" autocomplete="off"
+								required="required" readonly value="${List.reqsdate }">
 						</div>
 						<div class="form-group">
 							<label>수주업체</label> <input class="form-control" type="text"
 								readonly id="clientName" required="required" readonly
-								value="${List.clientName }"> <input class="form-control"
+								value="${List.clientName }"> 
+								<input class="form-control"
 								type="hidden" readonly id="client_code" required="required"
-								readonly>
+								readonly value="${List.client_code }">
 						</div>
-
+						<div class="form-group">
+							<label for="status">수주상태</label>
+								<select name="status" id="status" class="custom-select col-12"  required="required">
+									<option value="반품등록" <c:if test="${List.status eq '반품등록'}">selected</c:if>>반품등록</option>
+									<option value="폐기완료" <c:if test="${List.status eq '폐기완료'}">selected</c:if>>폐기완료</option>		
+								</select>
+						</div>
 						<!-- 버튼 -->
 						<div class="row">
 							<div
@@ -100,7 +111,7 @@
 									<b>취소</b>
 								</button>
 								<!-- 						<input type="button" class="btn btn-success" value="등록" onclick="finished()" id="sa-custom-position"> -->
-								<input type="submit" class="btn btn-success" value="등록"
+								<input type="submit" class="btn btn-success" value="수정"
 									id="sa-custom-position">
 							</div>
 						</div>
@@ -124,85 +135,33 @@
 					document.getElementById('amount').max = document
 							.getElementById('samount').value;
 				});
-		
 
-		 // 수주번호 생성
-		 let returnNumber;
-		 let lot;
-		 
-		 document.querySelector('input[name="date"]').addEventListener('input', function() {
-			 let pickedDate = new Date(this.value);
-			    returnNumber = pickedDate.getFullYear().toString().substr(-2) + "RT"
-			    + ("0" + (pickedDate.getMonth() + 1)).slice(-2) 
-			    + ("0" + pickedDate.getDate()).slice(-2);
-			});
-		 
-		 document.querySelector('select[name="lot"]').addEventListener('input', function() {
-			 lot = this.value; 
-			});
-
-		 function createOrderNum() {
-				
-				const orderNum = returnNumber+lot; 
-				return orderNum;
-			}
-		 document.querySelector('form').addEventListener('submit', function(event) {
-			    // 기본 제출 이벤트를 막음
-			    event.preventDefault();
-			    
-			    // 출하번호 생성
-			    const orderNum = createOrderNum();
-			    
-			    // 생성된 출하번호를 name="code"인 요소의 값으로 설정
-			    document.querySelector('input[name="code"]').value = orderNum;
-			    
-			    // 폼 제출
-			    this.submit();
-			});
-		
-		
 	</script>
-	<!-- ajax -->
-	<script type="text/javascript" id="ajaxForSubmit">
-		function finished() {
-
-			document.querySelector('#code').value = createOrderNum();
-
-			// 미입력 찾기
-			var form = document.getElementById('addForm');
-			if (!form.checkValidity()) {
-				var inputs = form.getElementsByTagName('input');
-				for (var i = 0; i < inputs.length; i++) {
-					if (!inputs[i].validity.valid) {
-						var label = form.querySelector('label[for="'
-								+ inputs[i].id + '"]');
-						if (label) {
-							label.innerHTML += '<span style="color: red; font-size: 12px;"> * 내용을 입력해주세요 </span>';
-						}
-						inputs[i].focus();
-						break;
-					}
-				}
-				return;
-			}
-
-			$.ajax({
-				type : "POST",
-				url : '/shipment/add', // 폼을 제출할 서버의 URL
-				data : $("#addForm").serialize(), // 'addForm' ID를 가진 폼의 데이터를 직렬화
-				success : function(data) {
-
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					// 폼 제출에 실패하면
-					alert('폼 제출에 실패했습니다: ' + textStatus);
-				}
-			});
-		}
-	</script>
+	
 	<!-- 팝업 -->
 	<script type="text/javascript">
 		$(document).ready(function() {
+			$.ajax({
+				type : "GET",
+				url : "/returns/searchLOT",
+				data : {
+					request_code : $("#request_code").val(),
+					ship_code : $("#ship_code").val()
+				},
+				success : function(data){
+					 // 먼저 기존의 option을 모두 제거합니다.
+			        $('#lot').empty();
+
+			        // AJAX로 받아온 데이터를 각각 처리합니다.
+			        $.each(data, function(index, item) {
+			            // item을 이용하여 option 요소를 만들고 select 요소에 추가합니다.
+			            $('#lot').append('<option value="' + item.lot + '">' + item.lot + '</option>');
+			        });
+				},
+				error : function(data){
+					alert('다시시도');
+				}
+			});
 
 					// 출하번호 찾기	
 					$("#ship_code").click(function() {

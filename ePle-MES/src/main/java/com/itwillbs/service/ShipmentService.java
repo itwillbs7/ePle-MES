@@ -42,8 +42,13 @@ public interface ShipmentService {
 
 	public int deleteShipment(String[] code) throws Exception;
 
-	public void insertIntoLOT(String code, String request)throws Exception;
 	// 출하상태변경
 	public int changeStatus(String[] code)throws Exception;
+
+	public String getRecentCode(String vocode)throws Exception;
+
+	public List<ShipmentVO> getinfoList(String[] codeArr)throws Exception;
+
+	public List<RequestVO> getinfoRequest(List<String> reqsArr)throws Exception;
 
 }

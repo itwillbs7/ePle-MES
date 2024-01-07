@@ -1,6 +1,10 @@
 package com.itwillbs.controller;
 
+import java.awt.PageAttributes.MediaType;
+import java.io.ByteArrayOutputStream;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -8,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RequestVO;
@@ -128,11 +138,42 @@ public class ShipmentController {
 		// 수주 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
 		
+		//출하코드
+		String vocode=vo.getCode();
+		// ex) 23ODMG1207 여기까지 검색해서 가장 최근 등록된 코드
+		String recentCode = sService.getRecentCode(vocode);
+						
+				// ex ) 기존 코드 23ODMG1207BB1
+				String code = vo.getCode();
+				// ex) BB1 지금 상품코드
+				String lastThreeCharacters = code.substring(code.length()-3);
+
+				if(recentCode == null || recentCode.equals("")) {
+					// 등록된 코드가 없는 경우
+					// 코드 새로 생성
+					code += "001";
+				}else {
+					// 마지막 3자리 숫자 추출
+				    String lastFourNums = recentCode.substring(recentCode.length()-3);
+				    // 숫자로 변환 후 1 증가
+				    int increasedNum = Integer.parseInt(lastFourNums) + 1;
+				    // 다시 문자열로 변환
+				    String newLastFourNums = String.format("%03d", increasedNum);
+				    // 마지막 3자리 숫자를 증가시킨 숫자로 대체
+				    code = recentCode.substring(0, recentCode.length()-3) + newLastFourNums;
+					}
+					
+				vo.setCode(code);
+		
 		// vo에 세션 아이디 추가하기
 //		String id = (String) session.getAttribute("id");
 //		vo.setReg_emp(id);
 		String id = "test";
 		vo.setReg_emp(id);
+		
+		// 창고 입출고내역 코드 만드는거 하기...?(효린씨꺼 참고해야함)
+		String history = "test2";
+		vo.setWareHistory_code(history);
 		
 		int result = sService.dataInsertShipment(vo);
 					
@@ -281,6 +322,7 @@ public class ShipmentController {
 		logger.debug("삭제가 될랑가 codes "+codes);
 		String[] code = codes.split(",");
 		int result = sService.deleteShipment(code);
+		
 		String link = "";
 		if (result >= 1) {
 			link = "redirect:/confirm";
@@ -321,18 +363,48 @@ public class ShipmentController {
 	// 필요기능 1. 프린트
 	
 	@RequestMapping(value = "/print")
-	public void printShipment(@RequestParam("code") String codes)throws Exception{
+	public String printShipment(@RequestParam("code") String codes, Model model)throws Exception{
 		logger.debug("일단 큐알 이미지를 생성해서 jsp로 전달해야함");
 		logger.debug("get방식으로 code 전달해야함");
 		
 		String[] codeArr = codes.split(",");
+		// 선택한 출하정보 가져오기
+		List<ShipmentVO> List = sService.getinfoList(codeArr);\
+		model.addAttribute("ship", List);
+		
+		List<String> reqsArr = new ArrayList<>();
+		for (ShipmentVO shipment : List) {
+			String reqsCode = shipment.getReqs_code();
+			reqsArr.add(reqsCode);
+		}
+		
+		// request 정보 가져오기
+		List<RequestVO> requestList = sService.getinfoRequest(reqsArr);
+		model.addAttribute("request",requestList );
+		
+		
 		String code = String.join(",", codeArr);
 		String encodedCode = URLEncoder.encode(code, "UTF-8");
 		
 		int width = 200;
         int height = 200;
         String url = "http://localhost:8088/shipment/qr?code="+encodedCode;
+        
+        QRCodeWriter barcodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = 
+        	barcodeWriter.encode(url, BarcodeFormat.QR_CODE, width, height);
+        
+        ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
+        MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
+        byte[] pngData = pngOutputStream.toByteArray();
+        String base64String = Base64.getEncoder().encodeToString(pngData);
+      
+        model.addAttribute("qrCodeImage", base64String);
+        
+        return "/shipment/print";
 	}
+	
+	
 	
 	// 필요기능 2. 큐알 스캔 시 업뎃
 	@RequestMapping(value = "/qr", method = RequestMethod.GET)

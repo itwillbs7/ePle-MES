@@ -60,6 +60,14 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 
 		return sqlSession.selectOne(NAMESPACE + ".getReturnsInfo", code);
 	}
+	
+
+	@Override
+	public String getRecentCode(String code) throws Exception {
+		logger.debug("╔═══*.·:·.☽✧   코드 찾기   ✧☾.·:·.*═══╗");
+		String result =  code.substring(0, code.length()-3);
+		return sqlSession.selectOne(NAMESPACE+".getRecentCode", result);
+	}
 
 	@Override
 	public int insertReturns(ReturnsVO vo) throws Exception {
@@ -159,7 +167,7 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("userid", id);
 		paramMap.put("vo", vo);
-		return sqlSession.update(NAMESPACE + ".updateShipmentInfo", paramMap);
+		return sqlSession.update(NAMESPACE + ".updateReturnsInfo", paramMap);
 	}
 
 
@@ -197,7 +205,7 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 
 //		if (result >= 1) {
 //			result = 0;
-			result = sqlSession.delete(NAMESPACE + ".deleteShipmentData", params);
+			result = sqlSession.delete(NAMESPACE + ".deleteReturnsData", params);
 //		}
 			logger.debug("╚═══*.·:·.☽✧   삭제하기 완료     ✧☾.·:·.*═══╝");
 

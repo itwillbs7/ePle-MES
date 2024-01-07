@@ -77,6 +77,15 @@ public class RequestDAOImpl implements RequestDAO {
 	}
 
 
+	@Override
+	public String getRecentCode(String code)throws Exception {
+		logger.debug("수주 번호 찾기");
+		String result =  code.substring(0, code.length()-3);
+		logger.debug("#@@@@@@@@@@@@@@@@@@@@@@@@"+result);
+		return sqlSession.selectOne(NAMESPACE+".getRecentCode", result);
+	}
+
+
 
 	@Override
 	public int insertRequest(RequestVO vo) throws Exception {

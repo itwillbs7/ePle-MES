@@ -81,10 +81,8 @@ public class ReturnsController {
 		
 		ReturnsVO vo = rtService.getinfo(code);
 		logger.debug("Controller - vo "+vo);
-		
 
-		
-		model.addAttribute("vo",vo);
+		model.addAttribute("List",vo);
 
 	}
 	
@@ -125,6 +123,32 @@ public class ReturnsController {
 	public String returnsInsertPOST(ReturnsVO vo, RedirectAttributes rttr) throws Exception {
 		// 반품 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
+		
+		String vocode=vo.getCode();
+		// ex) 23ODMG1207 여기까지 검색해서 가장 최근 등록된 코드
+		String recentCode = rtService.getRecentCode(vocode);
+						
+				// ex ) 기존 코드 23ODMG1207BB1
+				String code = vo.getCode();
+				// ex) BB1 지금 상품코드
+				String lastThreeCharacters = code.substring(code.length()-3);
+
+				if(recentCode == null || recentCode.equals("")) {
+					// 등록된 코드가 없는 경우
+					// 코드 새로 생성
+					code += "001";
+				}else {
+					// 마지막 3자리 숫자 추출
+				    String lastFourNums = recentCode.substring(recentCode.length()-3);
+				    // 숫자로 변환 후 1 증가
+				    int increasedNum = Integer.parseInt(lastFourNums) + 1;
+				    // 다시 문자열로 변환
+				    String newLastFourNums = String.format("%03d", increasedNum);
+				    // 마지막 3자리 숫자를 증가시킨 숫자로 대체
+				    code = recentCode.substring(0, recentCode.length()-3) + newLastFourNums;
+					}
+					
+				vo.setCode(code);
 		
 		int result= rtService.dataInsertReturns(vo);
 		
@@ -196,6 +220,7 @@ public class ReturnsController {
 		// 일단 임시 아이디값(실제로는 세션에서 값을 받아와야함)
 		String id = "id";
 		int result= rtService.updateReturns(vo, id);
+		
 		String link = "";
 		if (result >= 1) {
 			link = "redirect:/confirm";
@@ -233,11 +258,11 @@ public class ReturnsController {
 		String link = "";
 		if (result >= 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "출하상태 변경 결과");
-			rttr.addFlashAttribute("result", "출하완료 되었습니다.");
+			rttr.addFlashAttribute("title", "반품 삭제 결과");
+			rttr.addFlashAttribute("result", "반품 내용이 삭제 되었습니다.");
 		} else {
 			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "출하상태 변경 결과");
+			rttr.addFlashAttribute("title", "반품 삭제  결과");
 			rttr.addFlashAttribute("result", "오류가 발생했습니다");
 		}
 		return link;

@@ -117,25 +117,28 @@
 	<select id="getProductList" resultType="RequestVO">
 		select m.code product, m.name productName, m.unit, m.outprice currency,
 		s.amount stock
-		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0
+		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 1
 	</select>
 
 	<select id="findProduct" resultType="RequestVO">
 		select m.code product, m.name productName, m.unit, m.outprice
 		currency, s.amount stock
-		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 0
+		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 1
 		<if test="product != null and product != ''">AND m.code like concat('%',#{product},'%')</if>
 		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
 	</select>
+	
+	<!-- 수주번호 가져오기 -->
+	<select id="getRecentCode" resultType="String">
+		SELECT code FROM REQUEST WHERE code LIKE concat(#{result},'%') ORDER BY reg_date DESC LIMIT 0, 1
+	</select>
+	
 	<!-- 수주정보 등록하기 -->
-
-
 	<insert id="insertRequest">
 		insert into REQUEST
 		values
 		(#{code},#{client_code},#{deadline},#{date},#{manager},#{product},#{amount},
 		#{unit},#{stock},#{currency},"등록",0,now(),#{reg_emp},now(),#{reg_emp});
-
 	</insert>
 
 	<!-- 수주정보 수정하기 -->

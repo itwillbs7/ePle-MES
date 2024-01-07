@@ -137,16 +137,12 @@
 	 // 수주번호 생성
 	 let client;
 	 let product;
-	 let amount;
 	 
 	 document.querySelector('input[name="client_code"]').addEventListener('input', function() {
 		 client = this.value; 
 		});
 	 document.querySelector('input[name="product"]').addEventListener('input', function() {
 		 product = this.value; 
-		});
-	 document.querySelector('input[name="amount"]').addEventListener('input', function() {
-		 amount = this.value; 
 		});
 	 
 	 function createOrderNum() {
@@ -155,9 +151,7 @@
 			const month = String(date.getMonth() + 1).padStart(2, "0"); //이번달
 			const day = String(date.getDate()).padStart(2, "0"); //오늘날짜 
 			
-			console.log(client);
-			console.log(product); 
-			const orderNum = year+"OD"+client+month+day+product+amount; 
+			const orderNum = year+"RQ"+client+month+day+product; 
 			return orderNum;
 		}
 	 document.querySelector('form').addEventListener('submit', function(event) {

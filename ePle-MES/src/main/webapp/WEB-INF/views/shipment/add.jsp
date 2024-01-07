@@ -62,7 +62,7 @@
 						</div>
 						<div class="form-group">
 							<label>품번</label> 
-							<input class="form-control" type="text" readonly id="product" required="required">
+							<input class="form-control" name = "product" type="text" readonly id="product" required="required">
 						</div>
 						<div class="form-group">
 							<label>단위</label> 

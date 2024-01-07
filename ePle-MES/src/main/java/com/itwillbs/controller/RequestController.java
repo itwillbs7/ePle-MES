@@ -1,5 +1,7 @@
 package com.itwillbs.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -113,6 +115,31 @@ public class RequestController {
 	public String requestInsertPOST(HttpSession session,RequestVO vo, RedirectAttributes rttr) throws Exception {
 		// 수주 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
+		String vocode=vo.getCode();
+		// ex) 23ODMG1207 여기까지 검색해서 가장 최근 등록된 코드
+		String recentCode = rService.getRecentCode(vocode);
+						
+				// ex ) 기존 코드 23ODMG1207BB1
+				String code = vo.getCode();
+				// ex) BB1 지금 상품코드
+				String lastThreeCharacters = code.substring(code.length()-3);
+
+				if(recentCode == null || recentCode.equals("")) {
+					// 등록된 코드가 없는 경우
+					// 코드 새로 생성
+					code += "001";
+				}else {
+					// 마지막 3자리 숫자 추출
+				    String lastFourNums = recentCode.substring(recentCode.length()-3);
+				    // 숫자로 변환 후 1 증가
+				    int increasedNum = Integer.parseInt(lastFourNums) + 1;
+				    // 다시 문자열로 변환
+				    String newLastFourNums = String.format("%03d", increasedNum);
+				    // 마지막 3자리 숫자를 증가시킨 숫자로 대체
+				    code = recentCode.substring(0, recentCode.length()-3) + newLastFourNums;
+					}
+					
+				vo.setCode(code);
 		
 		// vo에 세션 아이디 추가하기
 //		String id = (String) session.getAttribute("id");

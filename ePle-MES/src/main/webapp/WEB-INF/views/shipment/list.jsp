@@ -186,15 +186,12 @@
 						</form>
 						<div class="row">
 							<div class="col-sm-12 col-md-5">
-								<div class="dataTables_info" id="DataTables_Table_0_info"
-									role="status" aria-live="polite">전체 출하
-									${pageVO.totalCount}개 중 ${pageVO.totalCount} 개</div>
 							</div>
 							<div class="col-sm-5 col-md-7 text-right">
 							<div>
-							<button type="button" class="btn btn-success btn-sm" id="print">
-							<b>거래명세서</b>
-							</button>
+								<button type="button" class="btn btn-success btn-sm" id="print">
+									<b>거래명세서</b>
+								</button>
 							</div>
 							</div>
 						</div>
@@ -310,6 +307,21 @@
 										});
 								if (stautsList.length > 0) {
 									openPage("/shipment/statusChange?code="
+											+ stautsList.join(','), 400, 700);
+								} else {
+									alert('관리자에게 문의하세요');
+								}
+							});
+					
+					$("#print").click(
+							function() {
+								var stautsList = [];
+								$("input:checkbox[name=tableCheck]:checked")
+										.each(function() {
+											stautsList.push($(this).val());
+										});
+								if (stautsList.length > 0) {
+									openPage("/shipment/print?code="
 											+ stautsList.join(','), 400, 700);
 								} else {
 									alert('관리자에게 문의하세요');

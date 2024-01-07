@@ -43,8 +43,9 @@
 											<div class="row">
 												<h4 class="text-blue h4">기본 검색</h4>
 												<div class="col-md-5 col-sm-12 btn-group ml-auto">
-													<label>업체명</label> <input type="hidden" name="client_code"
-														id="client_code"> <input type="text"
+													<label>업체명</label> 
+													<input type="hidden" name="client_code" id="client_code"> 
+														<input type="text"
 														name="clientName" class="form-control" id="searchCompany"
 														style="width: 100%;" placeholder="업체명 찾아보기"
 														autocomplete="off" readonly>
@@ -152,7 +153,7 @@
 										<tr>
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<c:choose>
-												<c:when test="${List.status eq '등록'}">
+												<c:when test="${List.status eq '반품등록'}">
 													<td><div class="custom-control custom-checkbox mb-5">
 															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 															<input type="checkbox" class="custom-control-input"
@@ -307,7 +308,7 @@
 					// 상세보기
 					$('body').on('click', '[class^="info"]', function() {
 						var code = $(this).text().trim();
-						openPage("/shipment/info?code=" + code, 400, 700);
+						openPage("/returns/info?code=" + code, 400, 700);
 					});
 
 					// 각각의 검색창

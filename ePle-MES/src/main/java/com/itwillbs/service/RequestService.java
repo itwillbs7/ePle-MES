@@ -13,6 +13,8 @@ public interface RequestService {
 	 public List<RequestVO> requestList() throws Exception;
 	 // 수주상세
 	 public RequestVO getinfo(String code)throws Exception;
+	 // 수주번호 인덱스 올리기용 코드찾기
+	 public String getRecentCode(String code)throws Exception;
 	 // 수주등록
 	 public int dataInsertRequest(RequestVO vo) throws Exception;
 	 // 회사검색

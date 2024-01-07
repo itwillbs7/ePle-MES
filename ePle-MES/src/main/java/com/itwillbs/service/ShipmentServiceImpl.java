@@ -50,6 +50,14 @@ public class ShipmentServiceImpl implements ShipmentService {
 		return sdao.getShipmentDetail(code);
 	}
 	
+	
+
+	@Override
+	public String getRecentCode(String vocode) throws Exception {
+		
+		return sdao.getRecentCode(vocode);
+	}
+
 
 	@Override
 	public int dataInsertShipment(ShipmentVO vo) throws Exception {
@@ -138,18 +146,27 @@ public class ShipmentServiceImpl implements ShipmentService {
 	}
 
 
-	@Override
-	public void insertIntoLOT(String code, String request) throws Exception {
-		logger.debug("LOT 테이블에 출하번호 넣기 : "+code);
-		
-		sdao.updateLOTvaluseShipment(code,request);
-	}
+	
 
 
 	@Override
 	public int changeStatus(String[] code) throws Exception {
 		logger.debug("출하상태 수주상태 변경하기");
 		return sdao.updateStatusToDone(code);
+	}
+
+
+	@Override
+	public List<ShipmentVO> getinfoList(String[] codeArr) throws Exception {
+		logger.debug("프린트하기~~~ 출하정보 가져오기!");
+		return sdao.getinfoList(codeArr);
+	}
+
+
+	@Override
+	public List<RequestVO> getinfoRequest(List<String> reqsArr) throws Exception {
+		logger.debug("프린트하기~~~ 수주정보 가져오기!");
+		return sdao.getinfoRequest( reqsArr);
 	}
 	
 	

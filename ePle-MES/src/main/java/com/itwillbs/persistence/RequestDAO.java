@@ -14,6 +14,8 @@ public interface RequestDAO {
 
 	// 수주리스트
 	public List<RequestVO> getRequestListAll () throws Exception;
+	// 수주번호찾기
+	public String getRecentCode(String code)throws Exception;
 	// 수주등록
 	public int insertRequest(RequestVO vo) throws Exception;
 	// 수주상세보기

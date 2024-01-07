@@ -35,4 +35,6 @@ public interface ReturnsService {
 	// LOT 번호 가져오기
 	public List<ReturnsVO> getLOTList(String request_code,String ship_code)throws Exception;
 
+	public String getRecentCode(String vocode)throws Exception;
+
 }

@@ -1,5 +1,6 @@
 package com.itwillbs.persistence;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,12 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 
 	@Override
+	public String getRecentCode(String code) throws Exception {
+		String result =  code.substring(0, code.length()-3);
+		return sqlSession.selectOne(NAMESPACE+".getRecentCode", result);
+	}
+
+	@Override
 	public int insertShipment(ShipmentVO vo) throws Exception {
 		logger.debug("@@@ DAO 출하 등록하기 insertShipment(ShipmentVO vo) : "+vo);
 		// 여기 아이디도 추가해야함(등록자 아이디)
@@ -85,11 +92,31 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 			// 수주상태변경
 			sqlSession.update(NAMESPACE+".updateRequestStatus", request);
 			
-			// LOT 테이블에 번호 추가
+			// LOT 번호 가져오기
 			Map<String, Object> params = new HashMap<>();
 			params.put("shipment", shipment);
 			params.put("request",request);
-			sqlSession.update(NAMESPACE+".updateLOT", params);
+			params.put("vo",vo);
+			
+			List<String> lotList = sqlSession.selectList(NAMESPACE+".getLOT", params);
+			logger.debug("List"+lotList);
+			
+			//LOT 테이블에 insert (지금 code를 TEST라고 대충 해놨는데 이거 어케하지... 종헌씨한테 물어보기)
+			params.put("lot",lotList);
+			sqlSession.insert(NAMESPACE+".insertLOT", params);
+		
+			// 창고입출고내역 남기기 (이부분 효린씨랑 맞추기)
+			// 효린씨 가 만든 코드 확인해보기. 안되면 그냥 내가 code 작성하는걸로
+			List<String> historyLotList = new ArrayList<>();
+
+			for(String lot : lotList) {
+				historyLotList.add(lot +"/"+vo.getWareHistory_code());
+			}
+			params.put("history", historyLotList);
+			sqlSession.insert(NAMESPACE+".insertWarehouseHistory", params);
+			
+			// stock에서 빼기
+			sqlSession.update(NAMESPACE+".updateStockForInsert", params);
 			
 		}
 		
@@ -164,10 +191,18 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		logger.debug("DAO  ShipmentUpdate(ShipmentVO vo, String id)");
 		// 출하정보 수정할때
 		// 1. 기존 수주정보의 수주상태를 다시 등록으로 변경한다
+		//  + 입출고 기록에서 출하번호가 들어가있는 데이터를 찾아 출고량을 찾기
+		//  + 출고량을 찾은 뒤 출하번호가 들어가있는 데이터 전부 지우기
+		//  + 출고량만큼 STOCK에 더해서 update하기
 		// 2. 출하정보를 업데이트 한다
 		// 3. 해당하는 수주번호의 수주상태를 "출하대기"로 변경한다
 		String code = vo.getCode();
+		// 기존 출하정보 얻기
 		ShipmentVO check = sqlSession.selectOne(NAMESPACE+".getShipmentInfo", code);
+		
+		//  + 입출고 기록에서 출하번호가 들어가있는 데이터를 찾아 출고량을 찾기
+		
+		
 		
 		String request = check.getReqs_code();
 		String newReqs = vo.getReqs_code();
@@ -236,17 +271,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	    return result;
 	}
 
-	@Override
-	public void updateLOTvaluseShipment(String code,String request) throws Exception {
-		// LOT 테이블에 출하번호 넣기
-		logger.debug("Shipment -> LOT : "+code);
-		Map<String, Object> params = new HashMap<>();
-	    params.put("code", code);
-	    params.put("request",request);
-		
-		sqlSession.update(NAMESPACE+".updateLOT", params);
-	}
-
+	
 	@Override
 	public int updateStatusToDone(String[] code) throws Exception {
 		logger.debug("출하상태 수주상태 출하완료로 변경하기");
@@ -256,6 +281,22 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	    int result=	sqlSession.update(NAMESPACE+".updateStatusToRequest", params);
 	    result=	sqlSession.update(NAMESPACE+".updateStatusToShipment", params);
 	    return result;
+	}
+
+	@Override
+	public List<ShipmentVO> getinfoList(String[] codeArr) throws Exception {
+		logger.debug("프린트하기~~ 출하정보 가져오기!!!!!");
+		Map<String, Object> params = new HashMap<>();
+	    params.put("code", codeArr);
+		return sqlSession.selectList(NAMESPACE+".getShipmentInfoList",params);
+	}
+
+	@Override
+	public List<RequestVO> getinfoRequest(List<String> reqsArr) throws Exception {
+		logger.debug("프린트하기~~ 수주정보 가져오기!!!!!");
+		Map<String, Object> params = new HashMap<>();
+		params.put("code", reqsArr);
+		return sqlSession.selectList(NAMESPACE+".getRequestInfoList", params);
 	}
 	
 	

@@ -41,5 +41,7 @@ public interface ReturnsDAO {
 		// LOT 번호 목록 가져오기
 		public List<ReturnsVO> selectLOTList(String request_code,String ship_code)throws Exception;
 		
+		public String getRecentCode(String vocode)throws Exception;
+		
 		
 }

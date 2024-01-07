@@ -43,9 +43,13 @@ public interface ShipmentDAO {
 
 	public int deleteShipment(String[] code) throws Exception;
 
-	public void updateLOTvaluseShipment(String code,String request) throws Exception;
-
 	public int updateStatusToDone(String[] code)throws Exception;
+
+	public String getRecentCode(String vocode)throws Exception;
+
+	public List<ShipmentVO> getinfoList(String[] codeArr)throws Exception;
+
+	public List<RequestVO> getinfoRequest(List<String> reqsArr)throws Exception;
 
 
 

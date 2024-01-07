@@ -80,17 +80,24 @@ public class ReturnsServiceImpl implements ReturnsService {
 		logger.debug("service findReturnsList(ReturnsVO vo) : "+vo);
 		return rtdao.searchReturnsAll(vo);
 	}
-
+	
+	@Override
+	public String getRecentCode(String vocode) throws Exception {
+		logger.debug("반품번호 찾기");
+		return rtdao.getRecentCode(vocode);
+	}
 
 	@Override
 	public int dataInsertReturns(ReturnsVO vo) throws Exception {
-		logger.debug("반품추가 dataInsertReturns(RequestVO vo)"+vo);
+		logger.debug("반품등록하기 dataInsertReturns(RequestVO vo)"+vo);
+		
 		return rtdao.insertReturns(vo);
+		
 	}
 
 	@Override
 	public int updateReturns(ReturnsVO vo, String id) throws Exception {
-		logger.debug("수정내용 updateReturns(RequestVO vo, String id)");
+		logger.debug("수정하기 updateReturns(RequestVO vo, String id)");
 		return rtdao.returnsUpdate(vo, id);
 	}
 

@@ -52,6 +52,14 @@ public class RequestServiceImpl implements RequestService {
 	
 
 	@Override
+	public String getRecentCode(String code)throws Exception {
+		logger.debug("Service : 수주 코드 찾기");
+		return rdao.getRecentCode(code);
+	}
+
+
+
+	@Override
 	public int dataInsertRequest(RequestVO vo) throws Exception {
 		logger.debug("Service : dataInsertRequest(RequestVO vo) : "+vo);
 		return rdao.insertRequest(vo);
