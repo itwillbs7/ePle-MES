@@ -62,7 +62,7 @@
 												</div>
 												<div class="col-md-2 col-sm-12">
 													<div class="form-group">
-														<label>기간</label> <input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="datetime">
+														<label>기간</label> <input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="dateRange">
 													</div>
 												</div>
 											</div>
@@ -265,10 +265,7 @@
 						html += "<th>" + this.line_code +"</th>";
 						html += "<th>" + this.content +"</th>";
 						html += "<th>" + this.request +"</th>";
-						html += "<th>" + this.reg_emp +"</th>";
-						html += "<th>" + this.reg_date +"</th>";
-						html += "<th>" + (this.update_emp!=null?this.update_emp:" ") +"</th>";
-						html += "<th>" + (this.update_date!=null?this.update_date:" ") +"</th>";
+						html += "<th>" + this.production_date +"</th>";
 						html += "</tr>";
 					});
 					$("table").append(html);

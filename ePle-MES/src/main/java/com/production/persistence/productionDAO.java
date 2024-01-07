@@ -14,7 +14,7 @@ public interface productionDAO {
 
 	public List<String> getRequest() throws Exception;
 
-	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request) throws Exception;
+	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request, String[] dateRange) throws Exception;
 
 	public List<requestVO> getRequestList() throws Exception;
 

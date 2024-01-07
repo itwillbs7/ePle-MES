@@ -45,11 +45,12 @@ public class productionDAOImpl implements productionDAO {
 	}
 
 	@Override
-	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request) throws Exception {
+	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request, String[] dateRange) throws Exception {
 		Map<String,String[]>map = new HashMap<String,String[]>();
 		map.put("product", product);
 		map.put("line_code", line_code);
 		map.put("request", request);
+		map.put("dateRange", dateRange);
 		return sqlSession.selectList(NAMESPACE + ".ajaxSearch",map);
 	}
 

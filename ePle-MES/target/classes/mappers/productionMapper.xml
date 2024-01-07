@@ -37,6 +37,12 @@
 				#{arr}
 			</foreach>
 		</if>
+		<if test="dateRange != null">
+			 AND production_date BETWEEN
+			<foreach collection="dateRange" item="arr" open="'" close="'" separator="' and '">
+				#{arr}
+			</foreach>
+		</if>
 	</select>
 	<select id="getRequestList" resultType="com.production.domain.requestVO">
 		SELECT * FROM REQUEST WHERE status = '등록'
