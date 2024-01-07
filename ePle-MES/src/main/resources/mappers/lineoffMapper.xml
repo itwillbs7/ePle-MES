@@ -2,37 +2,58 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="com.itwillbs.mapper.LineOffMapper">
 	<resultMap type="com.itwillbs.domain.LineOffVO" id="off">
-		<result property="index" column="index"/>
-		<result property="start_time" column="start_time"/>
-		<result property="end_time" column="end_time"/>
-		<result property="line_code" column="line_code"/>
+		<result property="code" column="code" />
+		<result property="start_time" column="start_time" />
+		<result property="end_time" column="end_time" />
 		<result property="group_id" column="group_id" />
-		<result property="group_name" column="group_name"/>
-		<result property="code_id" column="code_id"/>
-		<result property="code_name" column="code_name"/>
+		<result property="group_name" column="group_name" />
+		<result property="code_id" column="code_id" />
+		<result property="code_name" column="code_name" />
+		<collection property="line" resultMap="line">
+			<result property="code" column="line_code" />
+			<result property="name" column="line_name" />
+			<result property="process" column="process" />
+			<result property="place" column="place" />
+			<result property="status" column="status" />
+			<result property="note" column="note" />
+			<result property="active" column="active" />
+		</collection>
 	</resultMap>
-	
-	<insert id="insert">
-		INSERT INTO LINE_OFF VALUES 
-		(#{index}, STR_TO_DATE(#{start_time}, '%Y-%m-%d %h:%i'), STR_TO_DATE(#{end_time}, '%Y-%m-%d %h:%i'),
-		#{line_code}, #{group_id}, #{code_id})
+
+	<resultMap type="com.itwillbs.domain.LineVO" id="line">
+		<result property="code" column="code" />
+		<result property="name" column="name" />
+		<result property="process" column="process" />
+		<result property="place" column="place" />
+		<result property="status" column="status" />
+		<result property="note" column="note" />
+		<result property="active" column="active" />
+	</resultMap>
+
+	<!-- 라인 off -->
+	<insert id="insertOffInfo">
+		INSERT INTO LINE_OFF (code, start_time, group_id, code_id) 
+		VALUES (#{code}, now(), #{group_id}, #{code_id})
 	</insert>
 	
-	<select id="getList" resultMap="off" resultType="com.itwillbs.domain.LineOffVO">
-		SELECT * FROM LINE_OFF WHERE start_date BETWEEN DATE_SUB(NOW(), INTERVAL 6 MONTH) AND DATE_ADD(NOW(), INTERVAL 6 MONTH)
-	</select>
-	
-	<update id="">
-		UPDATE LINE_OFF 
+	<update id="setLineOff">
+		UPDATE LINE 
 		<set>
-			start_time = STR_TO_DATE(#{start_time}, '%Y-%m-%d %h:%i'), end_time = STR_TO_DATE(#{end_time}, '%Y-%m-%d %h:%i'),
-			line_code = #{line_code} 
+			active = FALSE
 		</set>
 		<where>
-			index = #{index}
+			code = #{code}
 		</where>
 	</update>
+	<!-- 라인 off -->
+
+	<!-- 라인 리스트 -->
+	<select id="">
+		SELECT l.code as line_code, l.name as line_name, process, place, status, active, start_time 
+		FROM LINE LEFT OUTER JOIN (SELECT line_code, start_time FROM(SELECT line_code, start_time, row_number() OVER(PARTITION BY line_code ORDER BY start_time DESC) AS rn FROM LINE_OFF))
+	</select>
+	<!-- 라인 리스트 -->
 </mapper>
