@@ -24,7 +24,7 @@ import com.itwillbs.service.ClientService;
 /** 거래처 관리 컨트롤러 **/
 
 @Controller
-@RequestMapping("/client")
+@RequestMapping("/client/*")
 public class ClientController {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientController.class);
