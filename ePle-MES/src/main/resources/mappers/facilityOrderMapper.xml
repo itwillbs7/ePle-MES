@@ -5,93 +5,124 @@
 
 <!-- facilityOrderMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.FacilityOrderMapper">
-	<resultMap type="com.itwillbs.domain.FacilityOrderVO" id="order">
-		<result property="code" column="code"/>
-		<result property="date" column="date"/>
-		<result property="group_id" column="group_id"/>
-		<result property="code_id" column="code_id" />
-		<result property="group_name" column="group_name"/>
-		<result property="code_name" column="code_name"/>
+	<resultMap type="com.itwillbs.domain.FacilityOrderVO"
+		id="order">
+		<result property="code" column="code" />
+		<result property="date" column="date" />
+		<result property="group_name" column="group_name" />
+		<result property="code_name" column="code_name" />
 		<result property="client_code" column="client_code" />
 		<result property="client_name" column="client_name" />
 		<result property="amount" column="amount" />
-		<result property="reg_date" column="reg_date"/>
-		<result property="reg_emp" column="reg_emp"/>
-		<result property="reg_name" column="reg_name"/>
-		<result property="update_date" column="update_date"/>
-		<result property="update_emp" column="update_emp"/>
-		<result property="update_name" column="update_name"/>
-		<result property="status" column="status"/>
+		<result property="reg_date" column="reg_date" />
+		<result property="reg_emp" column="reg_emp" />
+		<result property="reg_name" column="reg_name" />
+		<result property="update_date" column="update_date" />
+		<result property="update_emp" column="update_emp" />
+		<result property="update_name" column="update_name" />
+		<result property="status" column="status" />
+		<collection property="mapd" resultMap="mapd">
+			<result property="mapd_code" column="mapd_code" />
+			<result property="name" column="mapd_name"/>
+			<result property="group_id" column="group_id" />
+			<result property="code_id" column="code_id" />
+		</collection>
 	</resultMap>
-	
+	<resultMap type="com.itwillbs.domain.MAPDVO" id="mapd">
+		<result property="code" column="code" />
+		<result property="group_id" column="group_id" />
+		<result property="code_id" column="code_id" />
+		<result property="name" column="name" />
+		<result property="size" column="size" />
+		<result property="unit" column="unit" />
+		<result property="inprice" column="inprice" />
+	</resultMap>
+
 	<select id="getOrderList" resultMap="order">
-		SELECT o.code, o.date, o.group_id, o.code_id, co.group_name, 
-		co.code_name, o.client_code, cli.name AS client_name, amount, 
-		o.reg_date, o.reg_emp, e1.name AS reg_name, 
-		o.update_date, o.update_emp, e2.name AS update_name, 
-		o.status
-		FROM ORDERS o 
-		LEFT OUTER JOIN CLIENT cli ON o.client_code = cli.code  
-		LEFT OUTER JOIN EMPLOYEES e1 ON o.reg_emp = e1.code 
-		LEFT OUTER JOIN EMPLOYEES e2 ON o.update_emp = e2.code 
-		JOIN COMMON_CODE co ON o.group_id = co.group_id AND o.code_id = co.code_id 
-		WHERE complete = FALSE AND o.group_id IN ('FACPRO', 'FACNPR', 'FACETC') 
-		ORDER BY 
+		select o.code, o.date,
+		o.material, m.group_id, c.group_name, m.code_id,
+		c.code_name, o.amount, m.name as mapd_name, o.reg_date, o.reg_emp, e1.name as
+		reg_name,
+		o.update_date, o.update_emp, e2.name as update_name, o.status
+		from ORDERS o
+		left outer join MAPD m ON o.material = m.code
+		left outer join COMMON_CODE c ON c.group_id = m.group_id AND c.code_id =
+		m.code_id
+		left outer join EMPLOYEES e1 ON e1.code = o.reg_emp
+		left outer join EMPLOYEES e2 ON e2.code = o.update_emp
+		where o.code like '%FO%' and o.status = '신청'
+		ORDER BY
 		${search.eng[search.activeSortCategory]} ${search.sortValue}
-		LIMIT ${cri.startPage}, ${cri.pageSize}
-	</select>
-	
-	<select id="getOrderCount" resultType="int">
-		SELECT COUNT(*) FROM ORDERS WHERE complete = false AND group_id IN ('FACPRO', 'FACNPR', 'FACETC') 
+		LIMIT
+		${cri.startPage}, ${cri.pageSize}
 	</select>
 
-	<select id="getCommonList" resultMap="order" resultType="com.itwillbs.domain.FacilityOrderVO">
-		SELECT group_id, code_id, group_name, code_name from COMMON_CODE 
+	<select id="getOrderCount" resultType="int">
+		SELECT COUNT(*) FROM
+		ORDERS WHERE complete = false AND code like '%FO%'
+	</select>
+
+	<select id="getCommonList" resultMap="order"
+		resultType="com.itwillbs.domain.FacilityOrderVO">
+		SELECT group_id, code_id, group_name, code_name from
+		COMMON_CODE
 		WHERE group_id = #{group_id}
 	</select>
-	
+
 	<select id="getRecentCode" resultType="String">
-		SELECT code FROM ORDERS WHERE code LIKE 'FO%' ORDER BY code DESC LIMIT 0, 1
+		SELECT code FROM ORDERS
+		WHERE code LIKE '%FO%' ORDER BY code DESC LIMIT 0, 1
 	</select>
-	
+
 	<insert id="insertOrder">
-		INSERT INTO ORDERS 
-		(code, group_id, code_id, date, amount, reg_date, 
+		INSERT INTO ORDERS
+		(code, material, date, amount,
+		reg_date,
 		reg_emp, update_date, update_emp, status) VALUES
-		(#{code}, #{group_id}, #{code_id}, now(), ${amount}, 
-		now(), #{reg_emp}, now(), #{reg_emp}, '신청')
+		(#{code},
+		#{material}, now(), ${amount},
+		now(), #{reg_emp}, now(), #{reg_emp},
+		'신청')
 	</insert>
-	
-	<select id="getDetail" resultMap="order" resultType="com.itwillbs.domain.FacilityOrderVO">
-		SELECT o.code, o.date, o.group_id, o.code_id, co.group_name, 
-		co.code_name, o.client_code, cli.name AS client_name, amount, 
-		o.reg_date, o.reg_emp, e1.name AS reg_name, 
-		o.update_date, o.update_emp, e2.name AS update_name, 
-		o.status
-		FROM ORDERS o 
-		LEFT OUTER JOIN CLIENT cli ON o.client_code = cli.code  
-		LEFT OUTER JOIN EMPLOYEES e1 ON o.reg_emp = e1.code 
-		LEFT OUTER JOIN EMPLOYEES e2 ON o.update_emp = e2.code 
-		JOIN COMMON_CODE co ON o.group_id = co.group_id AND o.code_id = co.code_id 
-		WHERE complete = FALSE AND o.code = #{code}
+
+	<select id="getDetail" resultMap="order"
+		resultType="com.itwillbs.domain.FacilityOrderVO">
+		select o.code, o.date,
+		o.material, m.group_id, c.group_name, m.code_id,
+		c.code_name, o.amount, m.name as mapd_name, o.reg_date, o.reg_emp, e1.name as
+		reg_name,
+		o.update_date, o.update_emp, e2.name as update_name, o.status
+		from ORDERS o
+		left outer join MAPD m ON o.material = m.code
+		left outer join COMMON_CODE c ON c.group_id = m.group_id AND c.code_id =
+		m.code_id
+		left outer join EMPLOYEES e1 ON e1.code = o.reg_emp
+		left outer join EMPLOYEES e2 ON e2.code = o.update_emp
+		where o.code = #{code}
 	</select>
-	
+
 	<!-- 수정 -->
 	<update id="updateOrder">
-		UPDATE ORDERS 
+		UPDATE ORDERS
 		<set>
-			group_id = #{group_id}, code_id = #{code_id}, amount = ${amount}, 
-			update_date = now(), update_emp = #{update_emp}
+			material = #{material}, amount = ${amount},
+			update_date = now(),
+			update_emp = #{update_emp}
 		</set>
 		<where>
 			code = #{code} AND status = '신청'
 		</where>
 	</update>
-	
+
 	<delete id="deleteOrder">
-		DELETE FROM ORDERS WHERE code IN 
-		<foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+		DELETE FROM ORDERS WHERE code IN
+		<foreach collection="array" item="item" index="index" open="("
+			close=")" separator=",">
 			#{item}
 		</foreach>
 	</delete>
+	
+	<select id="getMapdList" resultMap="mapd">
+		SELECT code, name FROM MAPD where group_id = #{group_id} order by code_id
+	</select>
 </mapper>

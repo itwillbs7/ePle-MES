@@ -12,7 +12,7 @@
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
-		<button type="button" class="close" onclick="window.close();">×</button>
+		<button type="button" class="close" onclick="closePopup();">×</button>
 			<!-- 타이틀 -->
 			<div class="login-title">
 				<h1 class="text-center text-primary">발주 삭제</h1>

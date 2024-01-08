@@ -17,7 +17,7 @@
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
-			<button type="button" class="close" onclick="window.close();">×</button>
+			<button type="button" class="close" onclick="closePopup();">×</button>
 			<!-- 타이틀 -->
 			<div class="login-title">
 				<h1 class="text-center text-primary">설비 수정</h1>
@@ -121,7 +121,7 @@
 					<!-- 버튼 -->
 					<div class="row">
 						<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-							<button type="button" class="btn btn-secondary" onclick="window.close();">
+							<button type="button" class="btn btn-secondary" onclick="closePopup();">
 								<b>취소</b>
 							</button>
 							<button type="submit" class="btn btn-success">
