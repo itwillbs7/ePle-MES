@@ -7,20 +7,18 @@ import com.itwillbs.domain.Criteria;
 
 public interface ClientService {
 	
+	public void clientWrite(ClientVO cvo) throws Exception;
+	
 	public List<ClientVO> clientListAll() throws Exception;
 	
 	public ClientVO getClient(String code) throws Exception;
 	
-	public int clientUpdate(ClientVO cvo) throws Exception;
+	public int clientModify(ClientVO cvo) throws Exception;
 	
-	public int deleteClients(String[] codes) throws Exception;
+	public void clientRemove(String code) throws Exception;
 	
 	public List<ClientVO> clientListPage(Criteria cri) throws Exception;
 	
 	public int totalClientCount() throws Exception;
-	
-	public List<ClientVO> getInfo(String[] codes) throws Exception;
-	
-	public void InsertClient(ClientVO cvo) throws Exception;
 
 }

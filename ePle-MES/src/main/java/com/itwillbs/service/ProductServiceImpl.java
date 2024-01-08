@@ -55,6 +55,11 @@ public class ProductServiceImpl implements ProductService {
 		return pdao.getProductCount();
 	}
 
+//	@Override
+//	public void productWrite(MAPDVO mvo) throws Exception {
+//		pdao.insertProduct(mvo);
+//	}
+
     @Override
     public List<MAPDVO> getInfo(String[] codes) throws Exception {
         return pdao.getInfo(codes);

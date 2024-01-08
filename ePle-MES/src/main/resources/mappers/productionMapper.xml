@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- productionMapper.xml -->
+<mapper namespace="com.itwillbs.mapper.productionMapper">
+	<select id="getInstruction" resultType="com.production.domain.instructionVO">
+		SELECT * FROM INSTRUCTION
+	</select>
+	<select id="getProduct" resultType="String">
+		SELECT DISTINCT product FROM INSTRUCTION
+	</select>
+	<select id="getLine_code" resultType="String">
+		SELECT DISTINCT line_code FROM INSTRUCTION
+	</select>
+	<select id="getRequest" resultType="String">
+		SELECT DISTINCT request FROM INSTRUCTION
+	</select>
+	<select id="ajaxSearch" parameterType="hashmap" resultType="com.production.domain.instructionVO">
+		SELECT * FROM INSTRUCTION WHERE 1 = 1 
+		<if test="product != null">
+			AND product IN
+			<foreach collection="product" item="arr" open="(" close=")" separator=",">
+				#{arr}
+			</foreach>
+		</if>
+		<if test="line_code != null">
+			 AND line_code IN
+			<foreach collection="line_code" item="arr" open="(" close=")" separator=",">
+				#{arr}
+			</foreach>
+		</if>
+		<if test="request != null">
+			 AND request IN
+			<foreach collection="request" item="arr" open="(" close=")" separator=",">
+				#{arr}
+			</foreach>
+		</if>
+	</select>
+	<select id="getRequestList" resultType="com.production.domain.requestVO">
+		SELECT * FROM REQUEST WHERE status = '등록'
+	</select>
+	<select id="getLine_codeList" resultType="String">
+		SELECT code FROM LINE
+	</select>
+	<select id="getProductList" resultType="String">
+		SELECT product FROM REQUEST WHERE status = '등록' AND code = #{request}
+	</select>
+	<insert id="insertInstruction">
+		INSERT INTO INSTRUCTION VALUES(DEFAULT,#{product},#{line_code},#{content},#{request},#{amount},#{production_date},#{reg_emp},now(),null,null)
+	</insert>
+	<select id="getInstructionUpdate" resultType="com.production.domain.instructionVO">
+		SELECT * FROM INSTRUCTION WHERE code = #{code}
+	</select>
+	<update id="updateInstruction">
+		UPDATE INSTRUCTION SET product = #{product},line_code = #{line_code},content = #{content},request = #{request},amount = #{amount},production_date = #{production_date},update_emp = #{update_emp},update_date = now() WHERE code = #{code}
+	</update>
+	<delete id="deleteInstruction" parameterType="hashmap">
+		DELETE FROM INSTRUCTION WHERE code IN
+		<foreach collection="code_arr" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	<select id="getRequestAll" resultType="com.production.domain.requestVO">
+		SELECT * FROM REQUEST WHERE code = #{code}
+	</select>
+
+</mapper>

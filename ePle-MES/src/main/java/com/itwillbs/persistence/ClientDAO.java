@@ -13,14 +13,10 @@ public interface ClientDAO {
 	
 	public int updateClient(ClientVO cvo) throws Exception;
 	
-	public int deleteClients(String[] codes) throws Exception;
+	public void deleteClient(String code) throws Exception;
 	
 	public List<ClientVO> getClientListPage(Criteria cri) throws Exception;
 	
 	public int getClientCount() throws Exception;
-	
-	public void insertClient(ClientVO cvo) throws Exception;
-			
-	public List<ClientVO> getInfo(String[] codes) throws Exception;
 	
 }
