@@ -106,4 +106,14 @@ public class MtServiceImpl implements MtService {
 	public int deleteProblem(String code) throws Exception {
 		return dao.deleteProblem(code);
 	}
+	
+	@Override
+	public int getHistoryCount(PageVO page) throws Exception {
+		return dao.getHistoryCount(page);
+	}
+	
+	@Override
+	public List<FacMtVO> getHistoryList(PageVO page) throws Exception {
+		return dao.getHistoryList(page);
+	}
 }

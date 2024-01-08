@@ -7,6 +7,9 @@
 <%
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 	String today = dateFormat.format(new Date());
+	
+	pageContext.setAttribute("dateFormat", dateFormat);
+	pageContext.setAttribute("today", today);
 %>
 <html>
 <head>
@@ -64,7 +67,7 @@
 													 -->
 													<c:forEach items="${status}" var="i">
 														<c:choose>
-															<c:when test="${empty i.reg_date}">
+															<c:when test="${empty i.reg_date || i.reg_date == null}">
 																<tr class="table-warning">
 																	<th><a
 																		href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b
@@ -84,7 +87,7 @@
 																	<th>보전 내역 없음!</th>
 																</tr>
 															</c:when>
-															<c:when test="${dateformat.format(i.reg_date) < today}">
+															<c:when test="${!empty i.reg_date}">
 																<tr class="table-primary">
 																	<th><a
 																		href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b
@@ -103,29 +106,6 @@
 																			type="both" /></th>
 																</tr>
 															</c:when>
-															<c:when test="${dateformat.format(i.reg_date) eq today}">
-																<tr class="table-success">
-																	<th><a
-																		href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b
-																			class="text-blue">${i.fac_code}</b></a></th>
-																	<th>${i.facility.model}</th>
-																	<th>${i.facility.name}</th>
-																	<th><c:choose>
-																			<c:when test="${empty i.facility.line_name}">
-																				없음
-																			</c:when>
-																			<c:otherwise>
-																				${i.facility.line_name}
-																			</c:otherwise>
-																		</c:choose></th>
-																	<th>오늘 완료됨</th>
-																</tr>
-															</c:when>
-															<c:otherwise>
-																<tr>
-																	<th></th>
-																</tr>
-															</c:otherwise>
 														</c:choose>
 													</c:forEach>
 												</c:otherwise>

@@ -14,7 +14,7 @@ public class FacilitySearchVO extends SearchVO{
 	}
 	
 	private final String[] eng = {"code", "co.group_name", "co.code_name", "model", "name", "line_code"};
-	private final String[] kor = {"코드", "카테고리", "제품 종류", "모델", "이름", "라인"};
+	private final String[] kor = {"코드", "카테고리", "물품 종류", "모델", "이름", "라인"};
 	
 	private final String[] searchMenu = {"code", "co.group_name", "co.code_name", "model", "name"};
 	private final String[] searchKor = {"코드", "카테고리", "물품 종류" ,"모델", "이름"};

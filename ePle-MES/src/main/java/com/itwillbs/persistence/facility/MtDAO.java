@@ -42,4 +42,7 @@ public interface MtDAO {
 		public int insertProblem(FacMtVO vo) throws Exception;
 		public int updateProblem(FacMtVO vo) throws Exception;
 		public int deleteProblem(String code) throws Exception;
+		
+		public int getHistoryCount(PageVO page) throws Exception;
+		public List<FacMtVO> getHistoryList(PageVO page) throws Exception;
 }

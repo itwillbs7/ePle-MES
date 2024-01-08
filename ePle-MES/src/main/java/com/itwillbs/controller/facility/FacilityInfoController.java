@@ -41,9 +41,6 @@ public class FacilityInfoController {
 	@Inject
 	private FacilityService fService;
 	
-	@Inject
-	private MtService mService;
-	
 	// http://localhost:8088/facility/info/list
 	@GetMapping(value = "/list")
 	public void facilityListGET

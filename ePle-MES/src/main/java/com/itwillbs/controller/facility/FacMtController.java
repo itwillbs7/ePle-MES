@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.FacMtVO;
+import com.itwillbs.domain.MtSearchVO;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.facility.FacilityService;
 import com.itwillbs.service.facility.MtService;
 
@@ -222,6 +225,15 @@ public class FacMtController {
 			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 			return "redirect:/error";
 		}
+	}
+	
+	@GetMapping("/history")
+	public void history(PageVO vo, MtSearchVO search, Criteria cri, Model model) throws Exception{
+		vo.setCri(cri);
+		vo.setSearch(search);
+		vo.setTotalCount(mService.getHistoryCount(vo));
+		model.addAttribute("list", mService.getHistoryList(vo));
+		model.addAttribute("pageVO", vo);
 	}
 	// 직원
 }
