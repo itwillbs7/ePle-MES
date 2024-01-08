@@ -29,8 +29,8 @@
 	<!-- resultMap -->
 
 	<select id="getFacility" resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
-		SELECT f.code, co.group_name, co.code_name, f.name, f.model,  
-		cli.name as client_name, f.purchase_date, inprice, l.name as line_name, f.uph, f.active
+		SELECT f.code, f.group_id, co.group_name, f.code_id,co.code_name, f.name, f.model,  
+		cli.name as client_name, f.purchase_date, inprice, f.line_code, l.name as line_name, f.uph, f.active
 		FROM FAC_INFO f
 		JOIN COMMON_CODE co ON f.group_id = co.group_id AND f.code_id = co.code_id 
 		LEFT OUTER JOIN CLIENT cli ON cli.code = f.client_code 
@@ -43,10 +43,10 @@
 		<where>
 			<choose>
 				<when test="search.formRadio eq null">
-					<![CDATA[f.active = true ]]>
+					<![CDATA[f.code = f.code ]]>
 				</when>
 				<when test="search.formRadio.toString() eq 'all'">
-					<![CDATA[f.code = code ]]>
+					<![CDATA[f.code = f.code ]]>
 				</when>
 				<when test="search.formRadio.toString() eq 'true'">
 					<![CDATA[f.active = true ]]>
@@ -163,9 +163,11 @@
 	<update id="updateFacility">
 		UPDATE FAC_INFO
 		<set>
-			active = #{active}, 
-			group_id = #{group_id}, code_id = #{code_id}, 
-			
+			model = #{model}, name = #{name}, 
+			group_id = #{group_id}, code_id = #{code_id}, purchase_date = #{purchase_date}, inprice = ${inprice}, 
+			line_code = #{line_code}, 
+			<if test="group_id.toString() eq 'FACPRO'">uph = ${uph}, </if>
+			active = #{active} 
 		</set>
 		<where>
 			code = #{code}
@@ -234,7 +236,7 @@
 	</select>
 	
 	<select id="getLineList" resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
-		SELECT code, name FROM LINE
+		SELECT code as line_code, name as line_name FROM LINE
 	</select>
 	
 	<select id="getCommonCodeList" resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">

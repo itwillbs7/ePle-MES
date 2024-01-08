@@ -118,6 +118,7 @@ public class FacilityInfoController {
 	public void facilityUpdateGET(String code, Model model) throws Exception {
 		// 설비 수정 폼
 		// 설비 정보 가져오기
+		model.addAttribute("code", code);
 		model.addAttribute("info", fService.getFacility(code));
 		model.addAttribute("line", fService.getLineList());
 		
@@ -127,11 +128,12 @@ public class FacilityInfoController {
 	}
 	
 	@PostMapping(value = "/update")
-	public String facilityUpdatePOST(FacilityVO vo, RedirectAttributes rttr) throws Exception {
+	public String facilityUpdatePOST(FacilityVO vo, String active, RedirectAttributes rttr) throws Exception {
 		// 설비 수정 액션
 		String link = "";
-		int result = fService.updateFacility(vo);
-		if(result >= 1) {
+		if(active == null || active.equals("")) vo.setActive(false);
+		else vo.setActive(true);
+		if(fService.updateFacility(vo) >= 1) {
 			link = "redirect:/confirm";
 			rttr.addFlashAttribute("title", "설비 수정 결과");
 			rttr.addFlashAttribute("result", "설비 수정이 완료되었습니다.");

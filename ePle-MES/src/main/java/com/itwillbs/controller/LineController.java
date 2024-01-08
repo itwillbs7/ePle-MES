@@ -13,7 +13,7 @@ import com.itwillbs.domain.LineVO;
 @Controller
 @RequestMapping(value = "/line/*")
 public class LineController {
-	@GetMapping("/list")
+	@GetMapping("/status")
 	public void list() {
 		// 라인 리스트 표시(이건 나중에 있는지 보기)
 		

@@ -77,7 +77,9 @@
 						<li><a href="index2.html">Dashboard style 2</a></li>
 						<li><a href="index3.html">Dashboard style 3</a></li>
 					</ul></li>
-
+				
+				<li><a href="/line/status" class="dropdown-toggle no-arrow"> <span class="micon bi bi-command"></span> <span class="mtext">라인 관리</span>
+				</a></li>
 			</ul>
 		</div>
 	</div>
