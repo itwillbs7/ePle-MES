@@ -416,7 +416,7 @@ public class ShipmentController {
 		// 일단 출하코드들 qr 먼저 
 		int width = 200;
         int height = 200;
-        String url = "http://localhost:8088/shipment/qr?code="+encodedCode;
+        String url = "http://localhost:8088/shipment/shipqr?code="+encodedCode;
         
         QRCodeWriter barcodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = 
@@ -435,7 +435,7 @@ public class ShipmentController {
         // 일단 출하코드들 qr 먼저 
         width = 200;
         height = 200;
-        url = "http://localhost:8088/shipment/qr?code="+encodedCode;
+        url = "http://localhost:8088/shipment/clientqr?code="+encodedCode;
         
         barcodeWriter = new QRCodeWriter();
         bitMatrix = 
@@ -455,11 +455,32 @@ public class ShipmentController {
 	
 	
 	// 필요기능 2. 큐알 스캔 시 업뎃
-	@RequestMapping(value = "/qr", method = RequestMethod.GET)
-	public void scanningQR(@RequestParam("code") String codes)throws Exception{
+	@RequestMapping(value = "/shipqr", method = RequestMethod.GET)
+	public void scanningQRForShipment(@RequestParam("code") String codes)throws Exception{
+		logger.debug("QR을 스캔하면 /shipment/qr로 이동.");
+		logger.debug("이곳에서 출하상태와 수주상태를 출하완료로 변경하면 된다");
+		String[] code = codes.split("%2C");
+	}
+	@RequestMapping(value = "/clientqr", method = RequestMethod.GET)
+	public String scanningQRForClient(@RequestParam("code") String codes,  RedirectAttributes rttr)throws Exception{
 		logger.debug("QR을 스캔하면 /shipment/qr로 이동.");
 		logger.debug("이곳에서 수주상태를 수령 으로 변경하면 된다!");
 		String[] code = codes.split("%2C");
+		
+		int result = sService.receiptToClient(code);
+		
+		String link = "";
+		if (result >= 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "수령 완료");
+			rttr.addFlashAttribute("result", "주문해주셔서 감사합니다!");
+		} else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "오류 발생");
+			rttr.addFlashAttribute("result", "문의전화 바랍니다");
+		}
+		return link;
+		
 	}
 	
 	//=========================================================================

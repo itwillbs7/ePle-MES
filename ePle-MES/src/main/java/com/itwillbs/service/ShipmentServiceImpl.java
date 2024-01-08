@@ -176,6 +176,13 @@ public class ShipmentServiceImpl implements ShipmentService {
 	}
 
 
+	@Override
+	public int receiptToClient(String[] code) throws Exception {
+		logger.debug("고객님이 큐알을 찍으셨다네~~~~ 이건 수주번호~~"+code);
+		return sdao.receiptToClient(code);
+	}
+
+
 
 	
 	

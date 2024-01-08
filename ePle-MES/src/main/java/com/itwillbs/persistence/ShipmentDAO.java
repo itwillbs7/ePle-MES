@@ -53,6 +53,8 @@ public interface ShipmentDAO {
 
 	public String getRecentHistory(String vocode)throws Exception;
 
+	public int receiptToClient(String[] code)throws Exception;
+
 
 
 }

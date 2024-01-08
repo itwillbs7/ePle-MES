@@ -393,6 +393,14 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		return sqlSession.selectList(NAMESPACE+".getRequestInfoList", params);
 	}
 
+	@Override
+	public int receiptToClient(String[] code) throws Exception {
+		logger.debug("큐알코드 처리하기~~~ 수주번호를 가져왔다~~@!@"+code);
+		Map<String, Object> params = new HashMap<>();
+		params.put("code", code);
+		return sqlSession.update(NAMESPACE+".receiptToClient", code);
+	}
+
 	
 	
 	

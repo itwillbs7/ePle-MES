@@ -277,8 +277,7 @@ WHERE T.Total >= 1;
 		INNER JOIN SHIPMENT s ON r.code= s.reqs_code
 		SET r.status = '출하완료'
 		WHERE s.code IN
-		<foreach collection="code" item="codeNum" open="(" close=")"
-			separator=",">
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
 			#{codeNum}
 		</foreach>
 	</update>
@@ -287,8 +286,16 @@ WHERE T.Total >= 1;
 		UPDATE SHIPMENT s
 		SET s.status = '출하완료'
 		WHERE s.code IN
-		<foreach collection="code" item="codeNum" open="(" close=")"
-			separator=",">
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
+			#{codeNum}
+		</foreach>
+	</update>
+
+	<update id="receiptToClient">
+		UDATE REQUEST 
+		set status = '수령'
+		WHERE code IN
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
 			#{codeNum}
 		</foreach>
 	</update>
