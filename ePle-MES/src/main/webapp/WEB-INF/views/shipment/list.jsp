@@ -43,7 +43,7 @@
 											<div class="row">
 												<h4 class="text-blue h4">기본 검색</h4>
 												<div class="col-md-5 col-sm-12 btn-group ml-auto">
-													<label>업체명</label> <input type="hidden" name="client_code"
+													<label>업체명</label> <input type="hidden" 
 														id="client_code"> <input type="text"
 														name="clientName" class="form-control" id="searchCompany"
 														style="width: 100%;" placeholder="업체명 찾아보기"
@@ -53,7 +53,7 @@
 													<label>품명</label> 
 													<input type="hidden" name="product" id="product"> 
 														<input type="text"
-														name="productName" class="form-control" id="searchProduct"
+														class="form-control" id="searchProduct"
 														style="width: 100%;" placeholder="품명 찾아보기"
 														autocomplete="off" readonly>
 												</div>
@@ -77,12 +77,12 @@
 											</div>
 											<div class="col-md-2 col-sm-12">
 												<div class="form-group">
-													<label>출하 일자</label> <input class="form-control "
-														placeholder="Select Month" type="date" name="startDate"
-														autocomplete="off" id="deadline"> ~ <input
-														class="form-control" placeholder="Select Month"
-														type="date" name="endDate" autocomplete="off"
-														id="deadline">
+													<label>출하 일자</label> 
+													<input class="form-control date-picker" type="text" name="startDate"
+														autocomplete="off" id="deadline"> 
+														~ 
+													<input class="form-control date-picker" type="text" name="endDate" 
+													autocomplete="off" id="deadline2">
 												</div>
 											</div>
 										</div>
@@ -337,12 +337,12 @@
 					// 각각의 검색창
 					// 업체검색
 					$("#searchCompany").click(function() {
-						openPage("/shipment/searchClient", 400, 700);
+						openPage("/request/searchClient", 400, 700);
 					});
 
 					// 제품검색
 					$("#searchProduct").click(function() {
-						openPage("/shipment/searchProduct", 400, 700);
+						openPage("/request/searchProduct", 400, 700);
 					});
 
 					

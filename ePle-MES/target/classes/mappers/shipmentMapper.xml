@@ -43,13 +43,13 @@
 		inner join CLIENT c on c.code = r.client_code
 		inner join STOCK s on s.mapd_code = r.product
 		where 1 = 1
-		<if test="client_code neq null and client_code.toString() neq '' "> AND r.client_code = #{client_code} </if>
+		<if test="clientName neq null and clientName.toString() neq '' "> AND c.name = #{clientName} </if>
 		<if test="product neq null and product.toString() neq ''"> AND s.mapd_code = #{product} </if>
 		<if test="date neq null and date.toString() neq '' ">
 			<choose>
 				<when test="endDate neq null and endDate.toString() neq '' ">AND r.date between #{startDate} and #{endDate}
 				</when>
-				<otherwise>ND r.date = #{startDate} </otherwise>
+				<otherwise>AND r.date = #{startDate} </otherwise>
 			</choose>
 		</if>
 		<if test="statusList != null and statusList.size() > 0">

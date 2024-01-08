@@ -98,17 +98,17 @@
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
 															<label>수주일자</label> 
-															<input class="form-control " placeholder="Select Month" 
+															<input class="form-control date-picker" 
 															type="date" name="startDate" autocomplete="off" id="startDate"> ~ 
 															<input class="form-control " placeholder="Select Month" 
 															type="date" name="endDate" autocomplete="off" id="endDate">
 														</div>
 														<div class="form-group">
 															<label>납품예정일</label> 
-															<input class="form-control " placeholder="Select Month" 
-															type="date" name="startDead" autocomplete="off" id="deadline"> ~ 
+															<input class="form-control date-picker" 
+															type="date" name="startDead" autocomplete="off" id="startDead"> ~ 
 															<input class="form-control" placeholder="Select Month" 
-															type="date" name="endDead" autocomplete="off" id="deadline">
+															type="date" name="endDead" autocomplete="off" id="endDead">
 														</div>
 													</div>
 												</div>

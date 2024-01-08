@@ -45,8 +45,8 @@
 								value="${List.ship_code }">
 						</div>
 						<div class="form-group">
-							<label for="deadline">반품일자</label> <input class="form-control "
-								name="date" type="date" id="date" value="${List.date }"
+							<label for="deadline">반품일자</label> <input class="form-control date-picker"
+								name="date" type="text" id="date" value="${List.date }"
 								autocomplete="off" required="required" readonly>
 						</div>
 						<div class="form-group">

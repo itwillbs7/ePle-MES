@@ -40,7 +40,7 @@
 						</div>
 						<div class="form-group">
 							<label for="deadline">출하일자</label> 
-							<input class="form-control " name="date" type="date" id="date"
+							<input class="form-control date-picker" name="date" type="text" id="date"
 							autocomplete="off" required="required"  value="${List.date }">
 						</div>
 						<div class="form-group">

@@ -41,8 +41,8 @@
 								value="${List.code }">
 						</div>
 						<div class="form-group">
-							<label for="deadline">반품일자</label> <input class="form-control "
-								name="date" type="date" id="date" placeholder="클릭 시 달력이 뜹니다"
+							<label for="deadline ">반품일자</label> <input class="form-control date-picker"
+								name="date" type="text" id="date" placeholder="클릭 시 달력이 뜹니다"
 								autocomplete="off" required="required">
 						</div>
 						<div class="form-group">

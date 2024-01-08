@@ -41,7 +41,7 @@
 						</div>
 						<div class="form-group">
 							<label>수주일자</label> 
-							<input class="form-control" name="date" type="date" value="${List.date }"
+							<input class="form-control date-picker" name="date" type="text" value="${List.date }"
 							placeholder="클릭 시 달력이 뜹니다" id="date" autocomplete="off" required="required"> 
 						</div>
 						<div class="form-group">

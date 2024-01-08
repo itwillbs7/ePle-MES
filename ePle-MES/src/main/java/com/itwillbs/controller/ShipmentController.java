@@ -369,7 +369,7 @@ public class ShipmentController {
 		
 		String[] codeArr = codes.split(",");
 		// 선택한 출하정보 가져오기
-		List<ShipmentVO> List = sService.getinfoList(codeArr);\
+		List<ShipmentVO> List = sService.getinfoList(codeArr);
 		model.addAttribute("ship", List);
 		
 		List<String> reqsArr = new ArrayList<>();

@@ -58,12 +58,12 @@
 														autocomplete="off" readonly>
 												</div>
 												<div class="form-group">
-													<label>반품 일자</label> <input class="form-control "
-														placeholder="Select Month" type="date" name="startDate"
-														autocomplete="off" id="deadline"> ~ <input
-														class="form-control" placeholder="Select Month"
-														type="date" name="endDate" autocomplete="off"
-														id="deadline">
+													<label>반품 일자</label> <input class="form-control date-picker"
+														type="text" name="startDate" autocomplete="off" id="startDate"> 
+														~ 
+														<input class="form-control date-picker" 
+														type="text" name="endDate" autocomplete="off"
+														id="endDate">
 												</div>
 											</div>
 											<div class="row">
