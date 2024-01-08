@@ -33,16 +33,15 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int productModify(MAPDVO mvo) throws Exception {
-		logger.debug(" S : productModify(MAPDVO mvo) ");
+	public int productUpdate(MAPDVO mvo) throws Exception {
+		logger.debug(" S : productUpdate(MAPDVO mvo) ");
 		return pdao.updateProduct(mvo);
 	}
 
-	@Override
-	public void productRemove(String code) throws Exception {
-		logger.debug(" S : productRemove(String code) ");
-		pdao.deleteProduct(code);
-	}
+    @Override
+    public int deleteProducts(String[] codes) throws Exception {
+        return pdao.deleteProducts(codes);
+    }
 
 	@Override
 	public List<MAPDVO> productListPage(Criteria cri) throws Exception {
@@ -56,10 +55,22 @@ public class ProductServiceImpl implements ProductService {
 		return pdao.getProductCount();
 	}
 
+//	@Override
+//	public void productWrite(MAPDVO mvo) throws Exception {
+//		pdao.insertProduct(mvo);
+//	}
+
+    @Override
+    public List<MAPDVO> getInfo(String[] codes) throws Exception {
+        return pdao.getInfo(codes);
+    }
+
 	@Override
-	public void productWrite(MAPDVO mvo) throws Exception {
-		logger.debug(" S : productWrite(MAPDVO mvo) ");
+	public void InsertProduct(MAPDVO mvo) throws Exception {
+		pdao.insertProduct(mvo);
 	}
+	
+	
 	
 	
 }

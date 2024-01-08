@@ -24,29 +24,29 @@
         <result property="active" column="active"/>
     </resultMap>
 
-    <!-- 클라이언트 리스트 조회 -->
-    <select id="selectClientList" resultMap="client">
-        SELECT * FROM client;
+    <!-- 클라이언트 리스트 전체 조회 -->
+    <select id="selectClientList" resultType="ClientVO">
+        SELECT * FROM CLIENT
     </select>
 
     <!-- 클라이언트 등록 -->
     <insert id="insertClient">
-        INSERT INTO client (name, email, phone, address, reg_date) VALUES (#{name}, #{email}, #{phone}, #{address}, #{reg_date});
+        INSERT INTO CLIENT (name, email, phone, address, reg_date) VALUES (#{name}, #{email}, #{phone}, #{address}, #{reg_date})
     </insert>
 
     <!-- 클라이언트 수정 -->
     <update id="updateClient">
-        UPDATE client SET name = #{name}, email = #{email}, phone = #{phone}, address = #{address} WHERE id = #{id};
+        UPDATE CLIENT SET name = #{name}, email = #{email}, phone = #{phone}, address = #{address} WHERE id = #{id}
     </update>
 
     <!-- 클라이언트 삭제 -->
     <delete id="deleteClient">
-        DELETE FROM client WHERE id = #{id};
+        DELETE FROM CLIENT WHERE id = #{id}
     </delete>
 
     <!-- 클라이언트 상세 조회 -->
     <select id="selectClientById" resultMap="client">
-        SELECT * FROM client WHERE id = #{id};
+        SELECT * FROM CLIENT WHERE id = #{id}
     </select>
 
 </mapper>

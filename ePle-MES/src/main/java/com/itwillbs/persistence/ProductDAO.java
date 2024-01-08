@@ -13,10 +13,14 @@ public interface ProductDAO {
 	
 	public int updateProduct(MAPDVO mvo) throws Exception;
 	
-	public void deleteProduct(String code) throws Exception;
+	public int deleteProducts(String[] codes) throws Exception;
 	
 	public List<MAPDVO> getProductListPage(Criteria cri) throws Exception;
 	
 	public int getProductCount() throws Exception;
+	
+	public void insertProduct(MAPDVO mvo) throws Exception;
+			
+	public List<MAPDVO> getInfo(String[] codes) throws Exception;
 	
 }

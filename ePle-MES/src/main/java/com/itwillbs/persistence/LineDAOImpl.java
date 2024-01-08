@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.LineVO;
-import com.itwillbs.domain.MAPDVO;
 
 @Repository
 public class LineDAOImpl implements LineDAO {
@@ -25,38 +24,43 @@ public class LineDAOImpl implements LineDAO {
 
 	@Override
 	public List<LineVO> getLineListAll() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList(NAMESPACE + ".selectLineList");
 	}
 
 	@Override
-	public MAPDVO getLine(String code) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public LineVO getLine(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getLine",code);
 	}
 
 	@Override
-	public int updateLine(MAPDVO mvo) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateLine(LineVO lvo) throws Exception {
+		return sqlSession.update(NAMESPACE +".updateLine", lvo);
 	}
 
 	@Override
-	public void deleteLine(String code) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
+    public int deleteLines(String[] codes) {
+        return sqlSession.delete(NAMESPACE + ".deleteLines", codes);
+    }
 
 	@Override
 	public List<LineVO> getLineListPage(Criteria cri) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int getLineCount() throws Exception {
-		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public void insertLine(LineVO lvo) throws Exception {
+		sqlSession.insert(NAMESPACE+".insertLine", lvo);
+	}
+
+
+    @Override
+    public List<LineVO> getInfo(String[] codes) throws Exception {
+        return sqlSession.selectList(NAMESPACE + ".getInfo", codes);
+    }
 
 }

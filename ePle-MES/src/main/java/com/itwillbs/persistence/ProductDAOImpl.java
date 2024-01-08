@@ -29,17 +29,18 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public MAPDVO getProduct(String code) throws Exception {
-		return null;
+		return sqlSession.selectOne(NAMESPACE + ".getProduct",code);
 	}
 
 	@Override
 	public int updateProduct(MAPDVO mvo) throws Exception {
-		return 0;
+		return sqlSession.update(NAMESPACE +".updateProduct", mvo);
 	}
 
 	@Override
-	public void deleteProduct(String code) throws Exception {
-	}
+    public int deleteProducts(String[] codes) {
+        return sqlSession.delete(NAMESPACE + ".deleteProducts", codes);
+    }
 
 	@Override
 	public List<MAPDVO> getProductListPage(Criteria cri) throws Exception {
@@ -51,4 +52,14 @@ public class ProductDAOImpl implements ProductDAO {
 		return 0;
 	}
 
+	@Override
+	public void insertProduct(MAPDVO mvo) throws Exception {
+		sqlSession.insert(NAMESPACE+".insertProduct", mvo);
+	}
+
+
+    @Override
+    public List<MAPDVO> getInfo(String[] codes) throws Exception {
+        return sqlSession.selectList(NAMESPACE + ".getInfo", codes);
+    }
 }

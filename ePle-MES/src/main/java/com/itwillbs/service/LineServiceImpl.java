@@ -20,43 +20,48 @@ public class LineServiceImpl implements LineService {
     @Inject
     private LineDAO ldao;
 
-    @Override
-    public void lineWrite(LineVO lvo) throws Exception {
-        logger.debug(" S : lineWrite(LineVO lvo) ");
-    }
+	@Override
+	public List<LineVO> lineListAll() throws Exception {
+		logger.debug(" S : lineListAll() ");
+		return ldao.getLineListAll();
+	}
+
+	@Override
+	public LineVO getLine(String code) throws Exception {
+		logger.debug(" S : getLine(String code) ");
+		return ldao.getLine(code);
+	}
+
+	@Override
+	public int lineUpdate(LineVO lvo) throws Exception {
+		logger.debug(" S : lineUpdate(LineVO lvo) ");
+		return ldao.updateLine(lvo);
+	}
 
     @Override
-    public List<LineVO> lineListAll() throws Exception {
-        logger.debug(" S : lineListAll() ");
-        return null;
+    public int deleteLines(String[] codes) throws Exception {
+        return ldao.deleteLines(codes);
     }
 
+	@Override
+	public List<LineVO> lineListPage(Criteria cri) throws Exception {
+		logger.debug(" S : lineListPage(Criteria cri) ");
+		return ldao.getLineListPage(cri);
+	}
+
+	@Override
+	public int totalLineCount() throws Exception {
+		logger.debug(" S : totalLineCount() ");
+		return ldao.getLineCount();
+	}
+	
     @Override
-    public LineVO getLine(String code) throws Exception {
-        logger.debug(" S : getLine(String code) ");
-        return null;
+    public List<LineVO> getInfo(String[] codes) throws Exception {
+        return ldao.getInfo(codes);
     }
 
-    @Override
-    public int lineModify(LineVO lvo) throws Exception {
-        logger.debug(" S : lineModify(LineVO lvo) ");
-        return 0;
-    }
-
-    @Override
-    public void lineRemove(String code) throws Exception {
-        logger.debug(" S : lineRemove(String code) ");
-    }
-
-    @Override
-    public List<LineVO> lineListPage(Criteria cri) throws Exception {
-        logger.debug(" S : lineListPage(Criteria cri) ");
-        return null;
-    }
-
-    @Override
-    public int totalLineCount() throws Exception {
-        logger.debug(" S : totalLineCount() ");
-        return 0;
-    }
+	@Override
+	public void InsertLine(LineVO lvo) throws Exception {
+		ldao.insertLine(lvo);
+	}
 }

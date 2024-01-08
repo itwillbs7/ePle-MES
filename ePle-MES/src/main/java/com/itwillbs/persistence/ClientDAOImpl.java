@@ -25,7 +25,7 @@ public class ClientDAOImpl implements ClientDAO {
 
 	@Override
 	public List<ClientVO> getClientListAll() throws Exception {
-		return null;
+		return sqlSession.selectList(NAMESPACE + ".selectClientList");
 	}
 
 	@Override
