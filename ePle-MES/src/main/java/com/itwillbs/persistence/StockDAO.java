@@ -5,9 +5,28 @@
 
   import com.itwillbs.domain.Criteria;
   import com.itwillbs.domain.StockVO;
+import com.itwillbs.domain.WarehouseVO;
   
   public interface StockDAO { 
 	  
+	  
+		 // 창고 리스트 (페이징)
+		 public List<WarehouseVO> warehouseList(WarehouseVO vo) throws Exception;
+		 // 전체 창고 데이터 수
+		 public int warehouseListCount(WarehouseVO vo) throws Exception;
+		 // 창고 등록
+		 public int warehouseAdd(WarehouseVO vo) throws Exception;
+		 // 창고 상세
+		 public WarehouseVO warehouseInfo(String code) throws Exception;
+		 // 창고 수정
+		 public int warehouseEdit(WarehouseVO vo)throws Exception;
+		 // 창고 삭제 
+		 public List<WarehouseVO> delInfo(String[] code_arr)throws Exception;
+		 public void warehouseDel(String[] code_arr) throws Exception;
+		 
+		 
+		 
+		 
 		// 재고 목록 ~ 재고 검색 
 		public List<StockVO> getStockList(Criteria cri, String searchWarehouse, String searchMapd) throws Exception;
 		

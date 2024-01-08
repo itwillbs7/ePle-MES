@@ -2,6 +2,7 @@ package com.itwillbs.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -24,14 +25,15 @@ import com.itwillbs.service.MaterialService;
 
 /** MaterialController : 자재 컨트롤러 합치는중
 * 
-*	입고 - http://localhost:8088/material/inList
+*	    입고 - http://localhost:8088/material/inList
+*	발주요청 - http://localhost:8088/material/askOrderList
 */
 
 @Controller
 @RequestMapping(value = "/material/*")
 public class MaterialController {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(WarehouseController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MaterialController.class);
 	
 	@Inject
 	private MaterialService mService;	
@@ -131,7 +133,7 @@ public class MaterialController {
 			  return "material/resultFailed"; 
 		  } 
 	  }
-	 
+	  
 	  /*-----------------------------------------입고 끝--------------------------------------------*/
 	 
 	  
@@ -199,7 +201,7 @@ public class MaterialController {
   	  public void askOrderInfo(@RequestParam(value = "code") String code,Model model) throws Exception {
   		
     	OrderVO askOrderInfo = mService.askOrderInfo(code);
-  		model.addAttribute("askOrderInfo", askOrderInfo);
+  		model.addAttribute("List", askOrderInfo);
 
   	  }
       
@@ -208,7 +210,7 @@ public class MaterialController {
 	  public void askOrderEdit(@RequestParam("code") String code, Model model) throws Exception {
 	 
 		OrderVO askOrderInfo = mService.askOrderInfo(code);
-	  	model.addAttribute("askOrderInfo", askOrderInfo);
+	  	model.addAttribute("List", askOrderInfo);
 	  }
 	  
 	  @RequestMapping(value = "/askOrderEdit", method = RequestMethod.POST) 
@@ -223,8 +225,21 @@ public class MaterialController {
 		  } 
 	  }
 	  
+	  // ======================================발주요청 - 삭제
+	  @RequestMapping(value = "/askOrderDel", method = RequestMethod.GET)
+	  public void askOrderDel(@RequestParam("codes") String codes, Model model) throws Exception {
+		  String[] code_arr = codes.split(",");
+		  List<OrderVO> askOrderDel = mService.delAskInfo(code_arr);
+		  model.addAttribute("List", askOrderDel);
+	  }
+
+	  @RequestMapping(value = "/askOrderDel", method = RequestMethod.POST)
+	  public void deleteWarehouse(@RequestParam("codes") String codes) throws Exception {
+		  String[] code_arr = codes.split(",");
+		  mService.askOrderDel(code_arr);
+	  }
 	  
-	  
+	  /*--------------------------------------발주요청  끝 -----------------------------------------*/
 	  
 	  
 	  

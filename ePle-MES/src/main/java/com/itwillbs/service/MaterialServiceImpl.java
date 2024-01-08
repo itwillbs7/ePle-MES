@@ -8,12 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.OrderVO;
 import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.domain.Warehouse_HistoryVO;
 import com.itwillbs.persistence.MaterialDAO;
-import com.itwillbs.persistence.WarehouseDAO;
 
 @Service
 public class MaterialServiceImpl implements MaterialService {
@@ -60,7 +58,6 @@ public class MaterialServiceImpl implements MaterialService {
 		logger.debug("S - inEdit(Warehouse_HistoryVO vo)");
 		return mdao.inEdit(vo);
 	}
-	
 	
 	
 	// 입고등록) 발주 목록 	
@@ -132,6 +129,18 @@ public class MaterialServiceImpl implements MaterialService {
 		logger.debug("S - askOrderEdit(OrderVO vo)");
 		return mdao.askOrderEdit(vo);
 	}
+	// 발주요청 삭제
+	@Override
+	public List<OrderVO> delAskInfo(String[] code_arr) throws Exception {
+		return mdao.delAskInfo(code_arr);
+	}
+	@Override
+	public void askOrderDel(String[] code_arr) throws Exception {
+		mdao.askOrderDel(code_arr);
+	}
+	
+
+	
 	
 	// 발주요청등록) 품목 목록 (원자재)
 	@Override

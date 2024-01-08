@@ -24,7 +24,7 @@ import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.service.OrderService;
 
 
-/** WarehouseController : 발주 컨트롤러 (타부서 요청 + 관리)
+/** OrderController : 발주 컨트롤러 (타부서 요청 + 관리)
 * 
 *	http://localhost:8088/order/list 
 */
@@ -33,7 +33,7 @@ import com.itwillbs.service.OrderService;
 @RequestMapping(value = "/order/*")
 public class OrderController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(WarehouseController.class);
+	private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	
 	@Inject
 	private OrderService oService;

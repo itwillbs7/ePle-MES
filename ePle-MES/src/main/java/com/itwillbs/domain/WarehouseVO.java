@@ -12,7 +12,7 @@ public class WarehouseVO {
 	private String manager;		
 	private String mng_phone;	
 	private int active;			
-	
+	 
 	// employees 
 	private String emp_code;	
 	private String name;

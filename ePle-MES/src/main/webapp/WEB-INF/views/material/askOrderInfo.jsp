@@ -22,37 +22,29 @@
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
-						
 								<div class="form-group">
-									<label>입고코드</label> 
-								<input class="form-control" type="text" name="code" id="code" readonly value="${inInfo.code }">
+									<label>발주 코드</label> 
+								<input class="form-control" type="text" name="code" id="code" value="${List.code }" readonly>
 								</div>
 								
 								<div class="form-group">
-									<label>자재 유형</label> <input class="form-control" type="text" name="category" value="${inInfo.category }" readonly>
+									<!-- <label>자재 유형</label>  -->
 								</div>
 
 								<div class="form-group">
-									<label>발주/수주 정보</label> 
-									<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="발주/수주코드" readonly value="${inInfo.order_num}">
+									<label>품목 정보</label> 
+									<input class="form-control" type="text" id="material" name="material" placeholder="품목코드" value="${List.material}" readonly>
+									<input class="form-control" type="text" id="name" placeholder="품명" readonly value="${List.name }">
 								</div>
 								<div class="form-group">
-									<input class="form-control" type="text"   id="mapdName" placeholder="품명" readonly value="${inInfo.mapdName }">
-									<input class="form-control" type="hidden" id="mapdCode" name="mapd_code" placeholder="자재코드" readonly value="${inInfo.mapd_code }">
-								</div>
-								<div class="form-group">
-									<input class="form-control" type="text" id="orderAmount" name="amount" placeholder="수량" readonly value="${inInfo.amount } ${inInfo.unit }">
+									<label>요청량</label> 
+									<input class="form-control" type="text" id="orderAmount" name="amount" placeholder="요청량" value="${List.amount } ${List.unit }" readonly>
 								</div>
 
 								<div class="form-group">
-									<label>창고 정보</label> 
-									<input class="form-control" type="text" id="warehouseCode" name="warehouse_code" placeholder="창고코드" readonly value="${inInfo.warehouse_code}">
+									<label>신청 일자</label> 
+									<input class="form-control" type="text" id="warehouseCode" name="warehouse_code" placeholder="" value="${List.date}" readonly>
 								</div>
-								<div class="form-group">
-									<input class="form-control" type="text" id="empName" placeholder="담당자" readonly value="${inInfo.empName}">
-									<input class="form-control" type="hidden" id="empCode" name="emp_code" placeholder="담당자" readonly value="${inInfo.emp_code}">
-								</div>
-
 
 				<!-- 버튼 -->
 				<div class="row">

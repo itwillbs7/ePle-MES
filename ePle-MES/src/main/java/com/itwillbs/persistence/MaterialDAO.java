@@ -45,7 +45,10 @@ public interface MaterialDAO {
 	// 발주요청 상세
 	public OrderVO askOrderInfo(String code) throws Exception;
 	// 발주요청 수정
-	public int askOrderEdit(OrderVO vo)throws Exception;	
+	public int askOrderEdit(OrderVO vo)throws Exception;
+	// 발주요청 삭제 
+	public List<OrderVO> delAskInfo(String[] code_arr)throws Exception;
+	public void askOrderDel(String[] code_arr) throws Exception;
 	
 	// 발주요청등록) 품목 목록 (원자재) 
 	public List<OrderVO> searchMAPD(OrderVO vo) throws Exception;

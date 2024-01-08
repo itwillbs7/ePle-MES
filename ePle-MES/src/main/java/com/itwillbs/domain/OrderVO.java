@@ -36,8 +36,9 @@ public class OrderVO {
 	private Criteria cri;	
 	
 	// MAPD
-	private String category;
 	private String name;
+	private String group_id;
+	private String code_id;
 	private String size;
 	private String unit;
 	private int inprice;

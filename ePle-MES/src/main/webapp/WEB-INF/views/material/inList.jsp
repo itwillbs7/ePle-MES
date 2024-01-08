@@ -83,7 +83,6 @@
 			<div class="btn-group pull-right" style="margin-bottom: 10px">
 				<button type="button" class="btn btn-success" id="add"><b>추가</b></button>
 				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
-				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
 			</div>
 		</div>
 
@@ -143,8 +142,6 @@
 										<a class="dropdown-item" href="javascript:openPage('/material/inInfo?code=${vo.code }', 400, 700"><i class="dw dw-eye"></i>상세 보기</a>
 										<!-- 수정 -->
 										<a class="dropdown-item" href="javascript:openPage('/material/inEdit?code=${vo.code }', 400, 700"><i class="dw dw-edit2"></i> 수정</a>
-										<!-- 삭제 -->
-										<a class="dropdown-item" id="optDelete"><i class="dw dw-delete-3"></i> 삭제</a>
 									</div>
 							</div>
 								
@@ -276,23 +273,8 @@
 			    }
 			});
 
-			
-			// 삭제
-/* 			$("#delete,#optDelete").click(function() {
-				var codes = [];
-			    $("input:checkbox[name=tableCheck]:checked").each(function() {
-			    	codes.push($(this).val());
-			    });
-			    
-			    if (codes.length > 0) { 
-			        openPage("/warehouse/delete?codes=" + codes.join(','), 400, 600);
-			    } else {
-			        $('#warning-modal').modal('show'); 
-			    }
-			}); */
-			
-			
-			// 상세보기 O
+
+		 	// 상세보기 O
 			$('body').on('click', '[class^="inInfo"]', function(){
         		var code = $(this).text().trim();
       		  openPage("${pageContext.request.contextPath}/material/inInfo?code=" + code, 400, 700); });

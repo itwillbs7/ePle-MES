@@ -81,7 +81,7 @@
 							</td>
 							<th class="inInfo${vo.code}" style="color: #FF1493; cursor:pointer;">${vo.code }</th>
 							<th>${vo.material }</th>
-							<th>${vo.category }</th>
+							<th>${vo.code_id }</th>
 							<th>${vo.name }</th>
 							<th>${vo.amount } ${vo.unit }</th>
 							<th><fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></th>
@@ -231,21 +231,19 @@
 			    }
 			});
 
-			
-			// 삭제
-/* 			$("#delete,#optDelete").click(function() {
+			// 삭제 O
+ 			$("#delete,#optDelete").click(function() {
 				var codes = [];
 			    $("input:checkbox[name=tableCheck]:checked").each(function() {
 			    	codes.push($(this).val());
 			    });
 			    
 			    if (codes.length > 0) { 
-			        openPage("/warehouse/delete?codes=" + codes.join(','), 400, 600);
+			        openPage("/material/askOrderDel?codes=" + codes.join(','), 400, 600);
 			    } else {
 			        $('#warning-modal').modal('show'); 
 			    }
-			}); */
-			
+			}); 
 			
 			// 상세보기 O
 			$('body').on('click', '[class^="inInfo"]', function(){

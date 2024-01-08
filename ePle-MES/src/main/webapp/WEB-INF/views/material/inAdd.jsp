@@ -38,7 +38,7 @@ input[readonly] {
 								<div class="col-sm-12 mb-3">
 								
 									<div class="form-group">
-										<label>자재 유형</label> <input class="form-control" type="text" name="category" value="'원자재'" readonly>
+										<label>자재 유형</label> <input class="form-control" type="text" value="'원자재'" readonly>
 									</div>
 
 									<div class="form-group">

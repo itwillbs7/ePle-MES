@@ -29,7 +29,7 @@
 								</div>
 								
 								<div class="form-group">
-									<label>자재 유형</label> <input class="form-control" type="text" name="category" value="${inInfo.category }" readonly>
+									<!-- <label>자재 유형</label>  -->
 								</div>
 
 								<div class="form-group">

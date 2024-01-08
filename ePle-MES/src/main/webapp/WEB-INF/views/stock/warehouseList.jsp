@@ -1,11 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
+<style>
+  .table th,
+  .table td {
+    text-align: center;
+  }
+</style>
 <title>창고 목록</title>
 </head>
 <body>
@@ -18,15 +25,9 @@
 	<div class="main-container">
 	<div class="pd-ltr-20 xs-pd-20-10">
 	<div class="title" style="margin-bottom: 10px;">
-		<a href="${pageContext.request.contextPath}/warehouse/list"><h1>창고 목록</h1></a>
+		<a href="${pageContext.request.contextPath}/stock/warehouseList"><h1>창고 목록</h1></a>
 	</div>
 		<div class="min-height-200px">
-			
-<!-- 나중에		<ul class="nav nav-pills">
-			<li class="nav-item"><a class="nav-link text-blue active" href="/warehouse/list">보전 목록</a></li>
-			<li class="nav-item"><a class="nav-link text-blue" href="/warehouse/resultList">보전 결과</a></li>
-		</ul> -->
-		
 	<br>
 				
 				
@@ -45,8 +46,8 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<div class="row">
-										<div class="col-md-5 col-sm-12 btn-group" >
-											<div class="col-md-5 col-sm-12 btn-group" >
+										<div class="col-md-20 col-sm-12 btn-group" >
+											<div class="col-md-7 col-sm-12 btn-group" >
 											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="창고코드" autocomplete="off" >
 											<label>관리자</label> 
 											<input type="text" name="searchName" id="manager" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
@@ -109,11 +110,11 @@
 						<tr>
 							<td>
 								<div class="custom-control custom-checkbox mb-5">
-									<input type="checkbox" class="custom-control-input checkCode" id="${vo.wh_code }" name="tableCheck" value="${vo.wh_code }"> 
-									<label class="custom-control-label" for="${vo.wh_code }"></label>
+									<input type="checkbox" class="custom-control-input checkCode" id="${vo.code }" name="tableCheck" value="${vo.code }"> 
+									<label class="custom-control-label" for="${vo.code }"></label>
 								</div>
 							</td>
-							<th>${vo.wh_code }</th>
+							<th class="inInfo${vo.code}" style="color: #FF1493; cursor:pointer;">${vo.code }</th>
 							<th>${vo.location }</th>
 							<th>${vo.group_id }</th>
 							<th>${vo.group_name }</th>
@@ -129,11 +130,9 @@
 								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i> </a>
 									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 										<!-- 상세 보기 -->
-										<a class="dropdown-item" href="#"><i class="dw dw-eye"></i>상세 보기</a>
+										<a class="dropdown-item" href="javascript:openPage('/stock/warehouseInfo?code=${vo.code }', 400, 700"><i class="dw dw-eye"></i>상세 보기</a>
 										<!-- 수정 -->
-										<a class="dropdown-item" href="javascript:openPage('/warehouse/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
-										<!-- 삭제 -->
-										<a class="dropdown-item" id="optDelete"><i class="dw dw-delete-3"></i> 삭제</a>
+										<a class="dropdown-item" href="javascript:openPage('/stock/warehouseEdit?code=${vo.code }', 400, 700"><i class="dw dw-edit2"></i> 수정</a>
 									</div>
 							</div>
 								
@@ -157,13 +156,13 @@
 				<div class="btn-toolbar justify-content-center mb-15">
 					<div class="btn-group">
 						<c:if test="${pageVO.prev}">
-							<a href="/warehouse/list?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+							<a href="/stock/warehouselist?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
 						</c:if>
 						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/warehouse/list?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+							<a href="/stock/warehouselist?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
 						</c:forEach>
 						<c:if test="${pageVO.next}">
-							<a href="/warehouse/list?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+							<a href="/stock/warehouselist?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
 						</c:if>
 					</div>
 				</div>
@@ -245,37 +244,40 @@
 
 		function openPage(i, width, height) {
 			set = retPopupSetting(width, height);
-			return window.open(i, 'Popup_Window', set); // 가운데거가 이름이 똑같으면 같은창에서 열림
+			return window.open(i, 'Popup_Window', set); 
 		}
 
 		$(document).ready(function() {
-			// 추가
+			// 추가 O
 			$("#add").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/add", 400, 700);
+				openPage("/stock/warehouseAdd", 400, 700);
 			});
 
-			// 수정
+		 	// 수정 O
 			$("#update").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/update", 400, 700);
+			    var check = $("input:checkbox[name=tableCheck]:checked");
+			    if (check.length === 0 || check.length > 1) {
+			        alert("수정할 항목을 하나만 선택하세요!");
+			    } else {
+			        var code = check.val();
+			        openPage("/stock/warehouseEdit?code=" + code, 400, 700);
+			    }
 			});
-
-			// 상세보기
-			$('body').on('click', '[class^="info"]', function(){
+		 	
+		 	// 상세보기 O
+			$('body').on('click', '[class^="inInfo"]', function(){
         		var code = $(this).text().trim();
-      		  openPage("/request/info?code=" + code, 400, 700);
-  			});
+      		  openPage("${pageContext.request.contextPath}/stock/warehouseInfo?code=" + code, 400, 700); });
 			
 			
-			// 검색 - 사원 리스트 O
+			// 검색 
 			$("#manager,#managerName").click(function() {
 				// 가로, 세로 설정
 				openPage("/warehouse/searchEmployees", 400,700);
 			});
 
 			
-			// 삭제
+			// 삭제 O
 			$("#delete,#optDelete").click(function() {
 				var codes = [];
 			    $("input:checkbox[name=tableCheck]:checked").each(function() {
@@ -283,7 +285,7 @@
 			    });
 			    
 			    if (codes.length > 0) { 
-			        openPage("/warehouse/delete?codes=" + codes.join(','), 400, 600);
+			        openPage("/stock/warehouseInfo?codes=" + codes.join(','), 400, 600);
 			    } else {
 			        $('#warning-modal').modal('show'); 
 			    }

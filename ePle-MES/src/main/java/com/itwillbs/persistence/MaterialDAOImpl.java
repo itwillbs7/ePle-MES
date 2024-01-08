@@ -1,6 +1,8 @@
 package com.itwillbs.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -59,7 +61,6 @@ public class MaterialDAOImpl implements MaterialDAO {
 		logger.debug("D - inEdit(Warehouse_HistoryVO vo)");
 		return sqlSession.update(NAMESPACE+".inEdit", vo);
 	}
-	
 	
 	
 	// 입고등록) 발주 목록 
@@ -131,6 +132,20 @@ public class MaterialDAOImpl implements MaterialDAO {
 		logger.debug("D - askOrderEdit(OrderVO vo)");
 		return sqlSession.update(NAMESPACE+".askOrderEdit", vo);
 	}
+	// 발주요청 삭제 
+	@Override
+	public List<OrderVO> delAskInfo(String[] code_arr) throws Exception{
+		Map<String, Object> data = new HashMap<>();
+		data.put("code_arr", code_arr);
+		List<OrderVO> delAskInfo = sqlSession.selectList(NAMESPACE+".delAskInfo", data);		
+	    return delAskInfo;
+	}
+	@Override
+	public void askOrderDel(String[] code_arr) throws Exception {
+		Map<String,String[]>data = new HashMap<String,String[]>();
+		data.put("code_arr", code_arr);
+		sqlSession.delete(NAMESPACE + ".askOrderDel", data);
+	}		
 	
 	
 	
