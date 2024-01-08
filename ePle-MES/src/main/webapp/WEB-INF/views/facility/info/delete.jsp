@@ -39,7 +39,7 @@
 					<div
 						class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
 						<button type="button" class="btn btn-secondary"
-							onclick="window">
+							onclick="window.close();">
 							<b>취소</b>
 						</button>
 						<button type="submit" class="btn btn-warning">

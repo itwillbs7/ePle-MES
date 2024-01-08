@@ -28,7 +28,7 @@
 					<c:when test="${role eq 'emp'}">
 						<!-- row -->
 						<div class="row">
-							<div class="col-md-6 mb-20">
+							<div class="col-md-4 mb-20">
 								<a href="javascript:insert();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
 									<div class="img pb-30 ">
 										<img src="${pageContext.request.contextPath}/resources/images/plus.png" alt="">
@@ -38,13 +38,23 @@
 									</div>
 								</a>
 							</div>
-							<div class="col-md-6 mb-20">
+							<div class="col-md-4 mb-20">
 								<a href="javascript:list();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
+									<div class="img pb-30">
+										<img src="${pageContext.request.contextPath}/resources/images/settings.png" alt="">
+									</div>
+									<div class="content">
+										<h3 class="h1">보전 조회</h3>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-4 mb-20">
+								<a href="javascript:history();" class="card-box d-block mx-auto pd-20 text-secondary text-center">
 									<div class="img pb-30">
 										<img src="${pageContext.request.contextPath}/resources/images/table.png" alt="">
 									</div>
 									<div class="content">
-										<h3 class="h1">보전 조회</h3>
+										<h3 class="h1">보전 내역</h3>
 									</div>
 								</a>
 							</div>
@@ -64,42 +74,16 @@
 
 	<!-- 추가, 수정, 삭제 -->
 	<script type="text/javascript">
-		// 팝업 설정
-		var popupWidth, popupHeight, popupX, popupY, link;
-		var set;
-
-		// 팝업 세팅 return
-		function retPopupSetting(width, height) {
-			// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
-			popupX = Math.ceil((window.screen.width - width) / 2);
-			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
-			popupY = Math.ceil((window.screen.height - height) / 2);
-
-			var setting = "";
-			setting += "toolbar=0,";
-			setting += "scrollbars=0,";
-			setting += "statusbar=0,";
-			setting += "menubar=0,";
-			setting += "resizeable=0,";
-			setting += "width=" + width + ",";
-			setting += "height=" + height + ",";
-			setting += "top=" + popupY + ",";
-			setting += "left=" + popupX;
-			return setting;
-		}
-
-		// 창 열기
-		function openPage(i, width, height) {
-			set = retPopupSetting(width, height);
-			return window.open(i, 'Popup_Window', set);
-		}
-
 		function insert() {
 			openPage("/facility/mt/insert", 500, 766);
 		}
 
 		function list() {
 			openPage("/facility/mt/list", 500, 600);
+		}
+		
+		function history() {
+			openPage("/facility/mt/history", 500, 600);
 		}
 	</script>
 </body>

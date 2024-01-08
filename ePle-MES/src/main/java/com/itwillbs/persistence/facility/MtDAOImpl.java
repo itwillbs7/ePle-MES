@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.FacMtVO;
+import com.itwillbs.domain.PageVO;
 
 @Repository
 public class MtDAOImpl implements MtDAO{
@@ -34,6 +35,11 @@ public class MtDAOImpl implements MtDAO{
 	@Override
 	public int getOrderCount() throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".getOrderCount");
+	}
+	
+	@Override
+	public FacMtVO getOrder(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getOrder", code);
 	}
 	
 	@Override
@@ -100,5 +106,15 @@ public class MtDAOImpl implements MtDAO{
 	@Override
 	public int deleteProblem(String code) throws Exception {
 		return sqlSession.delete(NAMESPACE + ".deleteProblem", code);
+	}
+	
+	@Override
+	public int getHistoryCount(PageVO page) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getHistoryCount", page);
+	}
+	
+	@Override
+	public List<FacMtVO> getHistoryList(PageVO page) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getHistoryList", page);
 	}
 }
