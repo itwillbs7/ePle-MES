@@ -8,9 +8,9 @@
    <!-- 프로퍼티명과 컬럼명 동일 시 생략가능  -->
     <resultMap type="com.itwillbs.domain.MAPDVO" id="product">
     	<result property="code" column="code"/>
-<!--     	<result property="group_id" column="group_id"/> -->
-<!--     	<result property="code_id" column="code_id"/> -->
-    	<result property="category" column="category"/>
+    	<result property="group_id" column="group_id"/>
+    	<result property="code_id" column="code_id"/>
+<!--     	<result property="category" column="category"/> -->
     	<result property="name" column="name"/>
     	<result property="size" column="size"/>
     	<result property="unit" column="unit"/>

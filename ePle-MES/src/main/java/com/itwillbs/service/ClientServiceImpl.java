@@ -33,16 +33,15 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	@Override
-	public int clientModify(ClientVO cvo) throws Exception {
-		logger.debug(" S : clientModify(ClientVO cvo) ");
+	public int clientUpdate(ClientVO cvo) throws Exception {
+		logger.debug(" S : clientUpdate(ClientVO cvo) ");
 		return cdao.updateClient(cvo);
 	}
 
-	@Override
-	public void clientRemove(String code) throws Exception {
-		logger.debug(" S : clientRemove(String code) ");
-		cdao.deleteClient(code);
-	}
+    @Override
+    public int deleteClients(String[] codes) throws Exception {
+        return cdao.deleteClients(codes);
+    }
 
 	@Override
 	public List<ClientVO> clientListPage(Criteria cri) throws Exception {
@@ -55,10 +54,15 @@ public class ClientServiceImpl implements ClientService {
 		logger.debug(" S : totalClientCount() ");
 		return cdao.getClientCount();
 	}
-	
+
+    @Override
+    public List<ClientVO> getInfo(String[] codes) throws Exception {
+        return cdao.getInfo(codes);
+    }
+
 	@Override
-	public void clientWrite(ClientVO cvo) throws Exception {
-		logger.debug(" S : clientWrite(ClientVO cvo) ");
+	public void InsertClient(ClientVO cvo) throws Exception {
+		cdao.insertClient(cvo);
 	}
 	
 }

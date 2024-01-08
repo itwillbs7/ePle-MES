@@ -104,7 +104,7 @@
 									        <td>
 									            <div class="custom-control custom-checkbox mb-5">
 									                <!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-									                <input type="checkbox" class="custom-control-input" id="checkTable${loop.index + 1}" name="tableCheck" value="${product.code}"> 
+									                <input type="checkbox" class="custom-control-input" id="checkTable${loop.index + 1}" name="tableCheck" value="${line.code}"> 
 									                <label class="custom-control-label" for="checkTable${loop.index + 1}"></label>
 									            </div>
 									        </td>        

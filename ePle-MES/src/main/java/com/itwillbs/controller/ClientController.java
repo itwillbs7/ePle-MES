@@ -60,31 +60,31 @@ public class ClientController {
 
     // 거래처 수정 - POST
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updatePOST(ClientVO mvo, RedirectAttributes rttr) throws Exception {
-    	pService.productUpdate(mvo);
-        return "redirect:/product/productAll"; // 수정 후 목록 페이지로 이동
+    public String updatePOST(ClientVO cvo, RedirectAttributes rttr) throws Exception {
+    	cService.clientUpdate(cvo);
+        return "redirect:/client/clientAll"; // 수정 후 목록 페이지로 이동
     }
 
     // 거래처 삭제 - GET, POST
     @GetMapping("/delete")
-    public String productDeleteGET(@RequestParam("code") String codes, Model model) throws Exception {
+    public String clientDeleteGET(@RequestParam("code") String codes, Model model) throws Exception {
         // 품목 삭제 폼
         String[] codeArr = codes.split(",");
-        List<MAPDVO> mvo = pService.getInfo(codeArr);
-        model.addAttribute("mvo", mvo);
+        List<ClientVO> cvo = cService.getInfo(codeArr);
+        model.addAttribute("cvo", cvo);
 
         // JavaScript 변수 설정
         model.addAttribute("delCheckedCount", codeArr.length);
         model.addAttribute("array", Arrays.asList(codeArr));
 
-        return "product/delete"; // 적절한 뷰 페이지로 이동
+        return "client/delete"; // 적절한 뷰 페이지로 이동
     }
 
     @PostMapping("/delete")
-    public String productDeletePOST(@RequestParam("code") String codes, RedirectAttributes rttr, Model model) throws Exception {
+    public String clientDeletePOST(@RequestParam("code") String codes, RedirectAttributes rttr, Model model) throws Exception {
         // 품목 삭제 액션
         String[] codeArr = codes.split(",");
-        int result = pService.deleteProducts(codeArr);
+        int result = cService.deleteClients(codeArr);
 
         String link = "";
         if (result >= 1) {
@@ -109,42 +109,42 @@ public class ClientController {
 
 
     // 페이징 처리 - 거래처 리스트 - GET
-    @RequestMapping(value = "/productPage", method = RequestMethod.GET)
+    @RequestMapping(value = "/clientPage", method = RequestMethod.GET)
     public String listPageGET(Model model,
                               @ModelAttribute("result") String result,
                               HttpSession session,
                               Criteria cri) throws Exception {
         session.setAttribute("viewcntCheck", true);
 
-        List<MAPDVO> productList = pService.productListPage(cri);
+        List<ClientVO> clientList = cService.clientListPage(cri);
 
         PageVO pageVO = new PageVO();
         pageVO.setCri(cri);
-        pageVO.setTotalCount(pService.totalProductCount());
+        pageVO.setTotalCount(cService.totalClientCount());
         model.addAttribute("pageVO", pageVO);
-        model.addAttribute("productList", productList);
-        return "/product/productAll";
+        model.addAttribute("clientList", clientList);
+        return "/client/clientAll";
     }
 
     // 거래처 추가 - GET, POST
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public void productInsertGET() throws Exception { 
+	public void clientInsertGET() throws Exception { 
 		
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String productInsertPOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
+	public String clientInsertPOST(ClientVO cvo, RedirectAttributes rttr) throws Exception {
 
 		// 서비스 - DB에 글쓰기(insert) 동작 호출
-		pService.InsertProduct(mvo);	
-		return "redirect:/product/productAll";
+		cService.InsertClient(cvo);	
+		return "redirect:/client/clientAll";
 	}
 
     // 전체 목록의 수를 가져오는 메서드
-    @RequestMapping(value = "/totalProductCount", method = RequestMethod.GET)
+    @RequestMapping(value = "/totalClientCount", method = RequestMethod.GET)
     @ResponseBody
-    public int getTotalProductCount() throws Exception {
-        return pService.totalProductCount();
+    public int getTotalClientCount() throws Exception {
+        return cService.totalClientCount();
     }
     
     // 거래처 검색 - GET
