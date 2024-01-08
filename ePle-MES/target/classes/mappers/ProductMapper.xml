@@ -37,7 +37,7 @@
 
     <!-- 품목 수정 -->
     <update id="updateProduct">
-        UPDATE MAPD SET code = #{code}, category = #{category}, name = #{name}, size = #{size}, unit = #{unit}, inprice = #{inprice}, outprice = #{outprice}, image = #{image}, reg_emp = #{reg_emp}, reg_date = #{reg_date}, update_emp = #{update_emp}, update_date = #{update_date},active = #{active}  
+        UPDATE MAPD SET category = #{category}, name = #{name}, size = #{size}, unit = #{unit}, inprice = #{inprice}, outprice = #{outprice}, image = #{image}, reg_emp = #{reg_emp}, reg_date = #{reg_date}, update_emp = #{update_emp}, update_date = #{update_date},active = #{active}  
         where code = #{code}
     </update>
     
