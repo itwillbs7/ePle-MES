@@ -32,14 +32,11 @@
 									<tr>
 										<th>출하번호</th>
 										<th>수주번호</th>
-										<th>납품예정일</th>
 										<th>품번</th>
 										<th>수주업체</th>
 										<th>수주수량</th>
-										<th>재고량</th>
 										<th>출하량</th>
 										<th>출하일자</th>
-										<th>출하상태</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -47,14 +44,11 @@
 										<tr>
 											<th>${List.code }</th>
 											<th>${List.reqs_code }</th>
-											<th>${List.reqsdate }</th>
 											<th>${List.product }</th>
 											<th>${List.clientName }</th>
 											<th>${List.reqsamount }</th>
-											<th>${List.stock }</th>
 											<th>${List.amount }</th>
 											<th>${List.date }</th>
-											<th>${List.status }</th>
 										</tr>
 									</c:forEach>
 								</tbody>

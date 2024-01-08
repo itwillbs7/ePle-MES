@@ -246,7 +246,8 @@ WHERE T.Total >= 1;
 	
 	<!-- 출하정보리스트로 가져오기 -->
 	<select id="getShipmentInfoList" resultType="ShipmentVO">
-		SELECT sp.* , c.name clientName, r.product product, r.unit unit
+		SELECT sp.* , c.name clientName, r.product product, r.unit unit, c.address StartDate, c.address2 endDate, 
+		r.amount reqsamount
 		from SHIPMENT sp 
 		join REQUEST r on r.code = sp.reqs_code 
 		join STOCK s on sp.stock_code = s.code 
