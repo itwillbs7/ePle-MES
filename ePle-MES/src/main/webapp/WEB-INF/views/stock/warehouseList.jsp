@@ -120,7 +120,7 @@
 							<th>${vo.group_name }</th>
 							<th>${vo.name }</th>
 							<th>${vo.phone }</th>
-							<th>${vo.active }</th>
+							<th th:class="${vo.active == 1 ? 'blue-bold' : 'red-bold'}" th:text="${vo.active == 1 ? '사용중' : '사용중지'}">${vo.active }</th>
 							<td style="">
 
 
@@ -340,6 +340,13 @@
 		    $("#manager").attr("placeholder", "관리자코드");
 		    $("#managerName").attr("placeholder", "관리자이름");
 		}
+		
+		
+		// 
+		let formattedNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+		document.getElementById('phoneNumber').innerText = formattedNumber;
+
+
 
 		
 	</script>

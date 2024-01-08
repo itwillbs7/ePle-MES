@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class WarehouseVO {
-
+	// 창고
 	private String code;	
 	private String location;	
 	private String group_id;	

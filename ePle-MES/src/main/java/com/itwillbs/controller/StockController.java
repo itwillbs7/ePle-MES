@@ -22,7 +22,7 @@ import com.itwillbs.service.StockService;
 
 /** StockController : 창고 + 재고 컨트롤러 합치는중
 * 
-*	창고 - http://localhost:8088/Stock/list 
+*	창고 - http://localhost:8088/stock/warehouseList 
 */
 
 @Controller
@@ -34,7 +34,8 @@ public class StockController {
 	@Inject
 	private StockService sService;
 
-	  
+	private int warehouseCount = 1;
+	
 	  /*--------------------------------------창고관리 시작-----------------------------------------*/
     
 	  // ======================================창고 - 목록
@@ -60,14 +61,19 @@ public class StockController {
       @RequestMapping(value = "/warehouseAdd", method = RequestMethod.POST)
 	  public String warehouseAdd(WarehouseVO vo, RedirectAttributes rttr) throws Exception {
   	
-  	  int result = sService.warehouseAdd(vo); 
+    	  String code = "W" + String.format("%02d", warehouseCount);
+    	  warehouseCount++; 
+
+    	  vo.setCode(code);
+    	    
+    	  int result = sService.warehouseAdd(vo); 
   	
-  	  if (result == 1) {
-  		  return "material/resultSuccess"; 
-  	  } else {
-  		  return "material/resultFailed"; 
-  	  } 
-    }
+    	  if (result == 1) {
+    		  return "material/resultSuccess"; 
+    	  } else {
+    		  return "material/resultFailed"; 
+    	  } 
+      }
     
     // ======================================창고 - 상세
     @RequestMapping(value = "/warehouseInfo", method = RequestMethod.GET)
@@ -194,30 +200,7 @@ public class StockController {
 	  
 	  
 	  
-	  
-		private String searchKeyword; 
-
-//		public void setSearchKeyword(String searchCode, String searchName) {
-//		 
-//		 if(searchCode.equals("") || searchName.equals("")) {
-//		  searchKeyword = ""; 
-//		 } else {
-//		  searchKeyword = "&amp;searchCode=" + searchCode + "&amp;searchName=" + searchName; 
-//		 }  
-//		}
-
-		public String getSearchKeyword() {
-		 return searchKeyword;
-		}
-		
-		public void setSearchKeyword(String searchCode, String searchName) {
-			
-		    if (searchCode == null || searchName == null || searchCode.isEmpty() || searchName.isEmpty()) {
-		        searchKeyword = "";
-		    } else {
-		        searchKeyword = "&amp;searchCode=" + searchCode + "&amp;searchName=" + searchName;
-		    }
-		}
+	
 	
 	
 }
