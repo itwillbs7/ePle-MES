@@ -23,7 +23,7 @@
 
 
 			<!-- Checkbox select Datatable start -->
-			
+			<h1> 출하증 </h1>
 				<div class="pb-20">
 					<div class="col-sm-30">
 						<form class="table" id="table">
@@ -35,8 +35,10 @@
 										<th>품번</th>
 										<th>수주업체</th>
 										<th>수주수량</th>
+										<th>단위</th>
 										<th>출하량</th>
 										<th>출하일자</th>
+										<th>출하창고</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -47,8 +49,51 @@
 											<th>${List.product }</th>
 											<th>${List.clientName }</th>
 											<th>${List.reqsamount }</th>
+											<th>${List.unit }</th>
 											<th>${List.amount }</th>
 											<th>${List.date }</th>
+											<th>${List.ware_code }</th>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</form>
+						<img src="data:image/png;base64,${qrCodeImage }">
+					</div>
+				</div>
+			</div>
+			<!-- Checkbox select Datatable End -->
+			
+			<!-- Checkbox select Datatable start -->
+			<h1> 거래명세서 </h1>
+				<div class="pb-20">
+					<div class="col-sm-30">
+						<form class="table" id="table">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>수주업체</th>
+										<th></th>
+										<th>품번</th>
+										<th>수주수량</th>
+										<th>단위</th>
+										<th>출하량</th>
+										<th>출하일자</th>
+										<th>출하창고</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${request}" var="List" varStatus="status">
+										<tr>
+											<th>${List.code }</th>
+											<th>${List.reqs_code }</th>
+											<th>${List.product }</th>
+											<th>${List.clientName }</th>
+											<th>${List.reqsamount }</th>
+											<th>${List.unit }</th>
+											<th>${List.amount }</th>
+											<th>${List.date }</th>
+											<th>${List.ware_code }</th>
 										</tr>
 									</c:forEach>
 								</tbody>
