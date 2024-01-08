@@ -38,10 +38,18 @@
 			</foreach>
 		</if>
 		<if test="dateRange != null">
-			 AND production_date BETWEEN
-			<foreach collection="dateRange" item="arr" open="'" close="'" separator="' and '">
-				#{arr}
-			</foreach>
+			<if test="dateRange.length > 1">
+				 AND production_date BETWEEN 
+				<foreach collection="dateRange" item="arr" open="" close="" separator=" and ">
+					#{arr}
+				</foreach>
+			</if>
+			<if test="dateRange.length == 1">
+				 AND production_date =
+				<foreach collection="dateRange" item="arr" open="" close="" separator=" and ">
+					#{arr}
+				</foreach>
+			</if>
 		</if>
 	</select>
 	<select id="getRequestList" resultType="com.production.domain.requestVO">
@@ -54,7 +62,10 @@
 		SELECT product FROM REQUEST WHERE status = '등록' AND code = #{request}
 	</select>
 	<insert id="insertInstruction">
-		INSERT INTO INSTRUCTION VALUES(DEFAULT,#{product},#{line_code},#{content},#{request},#{amount},#{production_date},#{reg_emp},now(),null,null)
+		INSERT INTO INSTRUCTION VALUES(DEFAULT,#{product},#{line_code},#{content},#{request},#{amount},#{production_date},#{reg_emp},now(),null,null);
+	</insert>
+	<insert id="insertResult">
+		INSERT INTO RESULT VALUES(DEFAULT,null,DEFAULT,DEFAULT,now(),#{reg_emp},null,null,LAST_INSERT_ID());
 	</insert>
 	<select id="getInstructionUpdate" resultType="com.production.domain.instructionVO">
 		SELECT * FROM INSTRUCTION WHERE code = #{code}

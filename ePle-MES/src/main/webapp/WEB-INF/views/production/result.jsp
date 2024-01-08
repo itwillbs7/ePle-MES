@@ -30,12 +30,13 @@
 										<div class="row">
 											<div class="col-md-2 col-sm-12">
 												<div class="form-group">
-													<label>생산일</label> <input class="form-control date-picker" placeholder="Select Date" type="text" />
+													<label>생산일</label>
+													<input class="form-control date-picker" placeholder="Select Date" type="text" id="searchProduction_date" name="searchProduction_date"/>
 												</div>
 											</div>
 											<div class="col-md-2 col-sm-12">
 												<div class="form-group">
-													<label>라인코드</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="line_code">
+													<label>라인코드</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="searchLine_code">
 														<c:forEach items="${line_codeList }" var="line_code">
 															<option value="${line_code }">${line_code }</option>
 														</c:forEach>
@@ -44,7 +45,7 @@
 											</div>
 											<div class="col-md-2 col-sm-12">
 												<div class="custom-control custom-checkbox mb-5" style="position: absolute; top: 50%; margin-top: -8px;">
-													<input type="checkbox" class="custom-control-input" id="customCheck1" /> <label class="custom-control-label" for="customCheck1">완료포함</label>
+													<input type="checkbox" class="custom-control-input" id="isFinished" name="isFinished"/> <label class="custom-control-label" for="isFinished">완료포함</label>
 												</div>
 											</div>
 											<div class="col-md-2 col-sm-12">
@@ -77,27 +78,13 @@
 									<th>상태</th>
 									<th>제품코드</th>
 									<th>제품명</th>
-									<th>단위</th>
 									<th>지시량</th>
 									<th>양품량</th>
 									<th>부적합량</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${rsList }" var="result">
-									<tr class="result">
-										<td>${result.code }<input type="hidden" class="hiddenCode" value="${result.code }"></td>
-										<td>생산일</td>
-										<td>${result.vo.line_code }</td>
-										<td>상태</td>
-										<td>지시사항.제품코드</td>
-										<td>${result.vo.product }</td>
-										<td>단위</td>
-										<td>${result.vo.amount }</td>
-										<td>${result.amount }</td>
-										<td>부적합량</td>
-									</tr>
-								</c:forEach>
+								
 							</tbody>
 						</table>
 					</div>
@@ -118,6 +105,8 @@
 									<button type="button" class="btn btn-success" id="Start">시작</button>
 									<button type="button" class="btn btn-danger" id="Complete">완료</button>
 									<button type="button" class="btn btn-warning" id="CompleteCancle">완료취소</button>
+									<button type="button" class="btn btn-success" id="addResult">양품추가</button>
+									<button type="button" class="btn btn-danger" id="addFailed">불량추가</button>
 								</div>
 								<form action="" id="resultForm">
 									
@@ -147,6 +136,44 @@
 			</div>
 		</div>
 	</div>
+	<!-- 검색 초기 설정 시작 -->
+	<script type="text/javascript">
+		var today = new Date();
+		var todayString = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2, '0') + "-" + today.getDate().toString().padStart(2, '0');
+		$("#searchProduction_date").val(todayString);
+		var queryString = $("#accordion-search").serialize();
+		$.ajax({
+			type : 'post',
+			url : '/production/ajaxSearch1',
+			data : queryString,
+			error: function(){
+				alert("error");
+			},
+			success : function(data){
+				//$('tbody').replaceChildren();
+				$('tbody .odd').remove();
+				$('tbody .result').remove();
+				var html = "";
+				//지시사항 상세 검색 결과가 초기 지시사항 페이지와 다르게 나온다.개선필요
+				$(data).each(function(){
+					html += "<tr class='result'>";
+					html += "<td>" + this.code + "<input type='hidden' class='hiddenCode' value='" + this.code + "'></td>";
+					html += "<td>" + this.vo.production_date + "</td>";
+					html += "<td>" + this.vo.line_code + "</td>";
+					html += "<td>" + this.status + "</td>";
+					html += "<td>제품코드</td>";
+					html += "<td>" + this.vo.product + "</td>";
+					html += "<td>" + this.vo.amount + "</td>";
+					html += "<td>" + this.amount + "</td>";
+					html += "<td>부적합량</td>";
+					html += "</tr>";
+				});
+				$("tbody").append(html);
+			}
+		});
+	</script>
+	<!-- 검색 초기 설정 시작 -->
+	<!-- 테이블 선택 시 시작 -->
 	<script type="text/javascript">
 		$(".result").click(function(){
 			if (!$(this).hasClass('selected')) {
@@ -182,11 +209,6 @@
 						html += "<span class='infoDF'>상태</span>";
 						html += "<span class='infoAS'>상태1</span>";
 						html += "</td>";
-						html += "<td>";
-						html += "<span class='infoDF'>단위</span>";
-						html += "<span class='infoAS'>단위1</span>";
-						html += "</td>";
-						html += "<td>";
 						html += "<span class='infoDF'>LOT</span>";
 						html += "<span class='infoAS'>LOT1</span>";
 						html += "</td>";
@@ -217,16 +239,12 @@
 						$('#result').append(html);
 					}
 				});
+	        }else{
+	        	$('#result').empty();
 	        }
 		});
 		
 	</script>
-	<script type="text/javascript">
-		$('.select-row tbody').on('click', 'tr', function () {
-			if ($(this).hasClass('selected')) {
-				$('#result').empty();
-			}
-		});
-	</script>
+	<!-- 테이블 선택 시 끝 -->
 </body>
 </html>

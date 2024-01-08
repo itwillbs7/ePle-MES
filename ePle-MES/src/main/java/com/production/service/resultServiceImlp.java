@@ -23,7 +23,7 @@ public class resultServiceImlp implements resultService{
 	private resultDAO rsDAO;
 
 	@Override
-	public List<resultVO> getResultList(Timestamp date, String line_code, Boolean isFinish) throws Exception {
+	public List<resultVO> getResultList(String date, String[] line_code, Boolean isFinish) throws Exception {
 		return rsDAO.getResultList(date,line_code,isFinish);
 	}
 
@@ -40,6 +40,11 @@ public class resultServiceImlp implements resultService{
 	@Override
 	public BOMVO getBOM(String code) throws Exception {
 		return rsDAO.getBOM(code);
+	}
+
+	@Override
+	public List<String> getLine_codeList() throws Exception {
+		return rsDAO.getLine_codeList();
 	}
 
 }

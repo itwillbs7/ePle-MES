@@ -1,6 +1,9 @@
 package com.production.controller;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,33 +35,21 @@ public class resultController {
 	//http://localhost:8088/production/result
 	//실적페이지 GET
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
-	public void resultGET(@RequestParam(value = "date",required = false) Timestamp date,@RequestParam(value = "line_code",required = false) String line_code,@RequestParam(value = "isFinish",required = false) Boolean isFinish,Model model) throws Exception {
+	public void resultGET(Model model) throws Exception {
 		logger.debug("Controller : resultGET() 호출");
-		//검색 조건 입력
-		//검색조건 초기값 : 오늘 라인전체 완료미포함
-		if (date == null) {
-			date = new Timestamp(System.currentTimeMillis());
-		}
-		if (line_code == null) {
-			line_code = "*";
-		}
-		if (isFinish == null) {
-			isFinish = false;
-		}
-		logger.debug("date : " + date);
-		logger.debug("line_code : " + line_code);
-		logger.debug("isFinish : " + isFinish);
-		//실적 목록 가져오기
-		List<resultVO> rsList = rsService.getResultList(date,line_code,isFinish);
-		logger.debug("rsList : " + rsList);
-		model.addAttribute("rsList", rsList);
-		
+		List<String> line_codeList = rsService.getLine_codeList();
+		logger.debug("line_codeList : " + line_codeList);
+		model.addAttribute("line_codeList", line_codeList);
 	}
 	
 	//실적페이지 POST
-	@RequestMapping(value = "/result", method = RequestMethod.POST)
-	public void resultPOST() throws Exception {
-		logger.debug("Controller : resultPOST() 호출");
+	@RequestMapping(value = "/ajaxSearch1", method = RequestMethod.POST)
+	@ResponseBody
+	public List<resultVO> resultPOST(String searchProduction_date, String[] searchLine_code, Boolean isFinished) throws Exception {
+		logger.debug("Controller : ajaxSearch() 호출");
+		logger.debug("line_code : " + searchLine_code);
+		logger.debug("isFinished : " + isFinished);
+		return rsService.getResultList(searchProduction_date, searchLine_code, isFinished);
 	}
 	//실적페이지ajax POST
 	@RequestMapping(value = "/ajaxResult", method = RequestMethod.POST)

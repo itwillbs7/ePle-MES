@@ -8,9 +8,8 @@ import lombok.Data;
 public class resultVO {
 	private String code;
 	private String emp_code;
-	private String group_id;
-	private String code_id;
 	private int amount;
+	private String status;
 	private Timestamp reg_date;
 	private String reg_emp;
 	private Timestamp update_date;

@@ -16,7 +16,7 @@ public class instructionVO {
 	private String line_code;
 	private String content;
 	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-mm-dd", timezone="Asia/Seoul")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 	private Date production_date;
 	
 	private Timestamp reg_date;

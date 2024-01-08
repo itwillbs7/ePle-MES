@@ -52,7 +52,7 @@
 
 		// 상세검색 초기화
 		$("#reset").click(function() {
-			buttonCategory(null);
+			//buttonCategory(null);
 			$(".select2-selection__choice").remove();
 		});
 

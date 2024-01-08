@@ -9,9 +9,8 @@
   	<resultMap type="com.production.domain.resultVO" id="resultVOMap">
   		<result property="code" column="R_code"/>
   		<result property="emp_code" column="emp_code"/>
-  		<result property="group_id" column="group_id"/>
-  		<result property="code_id" column="code_id"/>
   		<result property="amount" column="R_amount"/>
+  		<result property="status" column="status"/>
   		<result property="reg_date" column="R_reg_date"/>
   		<result property="reg_emp" column="R_reg_emp"/>
   		<result property="update_date" column="R_update_date"/>
@@ -26,24 +25,37 @@
   		<result property="content" column="content"/>
   		<result property="request" column="request"/>
   		<result property="amount" column="I_amount"/>
+  		<result property="production_date" column="production_date"/>
   		<result property="reg_emp" column="I_reg_emp"/>
   		<result property="reg_date" column="I_reg_date"/>
   		<result property="update_emp" column="I_update_emp"/>
   		<result property="update_date" column="I_update_date"/>
   	</resultMap>
 	<select id="getResultList" parameterType="hashmap" resultType="com.production.domain.resultVO" resultMap="resultVOMap">
-		<![CDATA[
-	  		SELECT R.code AS R_code,emp_code,group_id,code_id,R.amount AS R_amount,R.reg_date AS R_reg_date,R.reg_emp AS R_reg_emp,R.update_date AS R_update_date,R.update_emp AS R_update_emp,inst_code,
-	  		I.code AS I_code,product,line_code,content,request,I.amount AS I_amount,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date 
-	  		FROM RESULT R 
-	  		LEFT JOIN INSTRUCTION I 
-	  		ON R.inst_code = I.code 
-	  		WHERE 1=1;
-		]]>
+		SELECT R.code AS R_code,emp_code,R.amount AS R_amount,status,R.reg_date AS R_reg_date,R.reg_emp AS R_reg_emp,R.update_date AS R_update_date,R.update_emp AS R_update_emp,inst_code,
+		I.code AS I_code,product,line_code,content,request,I.amount AS I_amount,production_date,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date 
+		FROM RESULT R 
+		LEFT JOIN INSTRUCTION I 
+		ON R.inst_code = I.code 
+		WHERE 1=1
+		<if test="date != null">
+			AND production_date = #{date}
+		</if>
+		<if test="line_code != null">
+			 AND line_code IN
+			<foreach collection="line_code" item="arr" open="(" close=")" separator=",">
+				#{arr}
+			</foreach>
+		</if>
+		<if test="isFinish != null">
+			<if test="!isFinish">
+				 AND status != '완료'
+			</if>
+		</if>
 	</select>
 	<select id="getResult" resultType="com.production.domain.resultVO" resultMap="resultVOMap">
 		<![CDATA[
-			SELECT R.code AS R_code,emp_code,group_id,code_id,R.amount AS R_amount,R.reg_date AS R_reg_date,R.reg_emp AS R_reg_emp,R.update_date AS R_update_date,R.update_emp AS R_update_emp,inst_code,
+			SELECT R.code AS R_code,emp_code,R.amount AS R_amount,status,R.reg_date AS R_reg_date,R.reg_emp AS R_reg_emp,R.update_date AS R_update_date,R.update_emp AS R_update_emp,inst_code,
 	  		I.code AS I_code,product,line_code,content,request,I.amount AS I_amount,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date 
 	  		FROM RESULT R 
 	  		LEFT JOIN INSTRUCTION I 
@@ -60,6 +72,9 @@
 		<![CDATA[
 			SELECT * FROM FAILED WHERE result_code = #{code}
 		]]>
+	</select>
+	<select id="getLine_codeList" resultType="String">
+		SELECT DISTINCT line_code FROM RESULT R LEFT JOIN INSTRUCTION I ON R.inst_code = I.code;
 	</select>
 	
 </mapper>

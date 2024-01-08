@@ -78,6 +78,7 @@ public class productionDAOImpl implements productionDAO {
 	public void insertInstruction(instructionVO instVO) throws Exception {
 		logger.debug("DAO : insertInstruction(instructionVO instVO) 호출");
 		sqlSession.insert(NAMESPACE + ".insertInstruction", instVO);
+		sqlSession.insert(NAMESPACE + ".insertResult", instVO);
 	}
 
 	@Override

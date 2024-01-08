@@ -61,6 +61,7 @@ public class productionController {
 			for (String string : dateArr) {
 				logger.debug("dateArr11 : " + string);
 			}
+			logger.debug("dateLength : " + dateArr.length);
 			logger.debug("Not null");
 		}
 		logger.debug("dateArr : " + dateArr);

@@ -27,7 +27,7 @@ public class resultDAOImpl implements resultDAO{
 	private static final String NAMESPACE = "com.itwillbs.mapper.resultMapper";
 
 	@Override
-	public List<resultVO> getResultList(Timestamp date, String line_code, Boolean isFinish) throws Exception {
+	public List<resultVO> getResultList(String date, String[] line_code, Boolean isFinish) throws Exception {
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("date", date);
 		map.put("line_code", line_code);
@@ -48,6 +48,11 @@ public class resultDAOImpl implements resultDAO{
 	@Override
 	public BOMVO getBOM(String code) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".getBOM",code);
+	}
+
+	@Override
+	public List<String> getLine_codeList() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getLine_codeList");
 	}
 
 }
