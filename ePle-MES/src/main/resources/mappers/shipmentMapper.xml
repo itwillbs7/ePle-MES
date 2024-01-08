@@ -246,10 +246,11 @@ WHERE T.Total >= 1;
 	
 	<!-- 출하정보리스트로 가져오기 -->
 	<select id="getShipmentInfoList" resultType="ShipmentVO">
-		SELECT sp.* 
-		from SHIPMENT sp
-		join REQUEST r on r.code = sp.reqs_code
-		join STOCK s on sp.stock_code = s.code
+		SELECT sp.* , c.name clientName, r.product product, r.unit unit
+		from SHIPMENT sp 
+		join REQUEST r on r.code = sp.reqs_code 
+		join STOCK s on sp.stock_code = s.code 
+		join CLIENT c on r.client_code = c.code 
 		where sp.code in
 		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
 			#{codeNum}

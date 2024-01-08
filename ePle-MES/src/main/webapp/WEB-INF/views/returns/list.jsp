@@ -354,9 +354,13 @@
 								var table = '';
 									$.each(data,function(index,item) {
 											table += '<tr>';
+											if(item.status === '등록') {
 											table += '<td><div class="custom-control custom-checkbox mb-5">';
 											table += '<input type="checkbox" class="custom-control-input" id="checkTable'+index+'" name="tableCheck" value="'+item.code+'"></label>';
 											table += '<label class="custom-control-label" for="checkTable'+index+'"></label></div></td>';
+											}else{
+							                	 table += '<td></td>';
+							                }
 											table += '<th class="info'+index+'" style="color: blue; text-decoration: underline;">'+ item.code+ '</th> ';
 											table += '<th>'+ item.request_code+ '</th>';
 											table += '<th>'+ item.ship_code+ '</th>';

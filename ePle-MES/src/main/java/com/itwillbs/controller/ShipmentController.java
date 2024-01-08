@@ -146,7 +146,6 @@ public class ShipmentController {
 				// ex ) 기존 코드 23ODMG1207BB1
 				String code = vo.getCode();
 				// ex) BB1 지금 상품코드
-				String lastThreeCharacters = code.substring(code.length()-3);
 
 				if(recentCode == null || recentCode.equals("")) {
 					// 등록된 코드가 없는 경우
@@ -181,7 +180,6 @@ public class ShipmentController {
 				String recentHistory = sService.getRecentHistory(voHistory);
 						
 						// ex) BB1 지금 상품코드
-						String lastThree = voHistory.substring(voHistory.length()-3);
 
 						if(recentHistory == null || recentHistory.equals("")) {
 							// 등록된 코드가 없는 경우
@@ -399,7 +397,7 @@ public class ShipmentController {
 		String[] codeArr = codes.split(",");
 		// 선택한 출하정보 가져오기
 		List<ShipmentVO> List = sService.getinfoList(codeArr); // 가져온 출하정보 전부 저장!
-		model.addAttribute("ship", List);
+		model.addAttribute("ship", List); // 출하테이블 만들어야함
 		
 		List<String> reqsArr = new ArrayList<>();
 		for (ShipmentVO shipment : List) {
@@ -409,7 +407,7 @@ public class ShipmentController {
 		
 		// request 정보 가져오기
 		List<RequestVO> requestList = sService.getinfoRequest(reqsArr); // 가져온 출하번호의 수주정보 전부 저장!
-		model.addAttribute("request",requestList );
+		model.addAttribute("request",requestList ); // 수주테이블 만들어야함
 		
 		
 		String code = String.join(",", codeArr);
@@ -429,7 +427,28 @@ public class ShipmentController {
         byte[] pngData = pngOutputStream.toByteArray();
         String base64String = Base64.getEncoder().encodeToString(pngData);
       
-        model.addAttribute("qrCodeImage", base64String);
+        model.addAttribute("qrCodeImage", base64String); // 이미지가 넘어가는건 확인함 데이터도 확인함
+        
+        code = String.join(",", reqsArr);
+        encodedCode = URLEncoder.encode(code, "UTF-8");
+        
+        // 일단 출하코드들 qr 먼저 
+        width = 200;
+        height = 200;
+        url = "http://localhost:8088/shipment/qr?code="+encodedCode;
+        
+        barcodeWriter = new QRCodeWriter();
+        bitMatrix = 
+        		barcodeWriter.encode(url, BarcodeFormat.QR_CODE, width, height);
+        
+        pngOutputStream = new ByteArrayOutputStream();
+        MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
+        pngData = pngOutputStream.toByteArray();
+        base64String = Base64.getEncoder().encodeToString(pngData);
+        
+        model.addAttribute("qrCodeForClient", base64String); // 이건 고객용
+        
+        
         
         return "/shipment/print";
 	}
@@ -440,7 +459,7 @@ public class ShipmentController {
 	public void scanningQR(@RequestParam("code") String codes)throws Exception{
 		logger.debug("QR을 스캔하면 /shipment/qr로 이동.");
 		logger.debug("이곳에서 수주상태를 수령 으로 변경하면 된다!");
-		String[] code = codes.split(",");
+		String[] code = codes.split("%2C");
 	}
 	
 	//=========================================================================

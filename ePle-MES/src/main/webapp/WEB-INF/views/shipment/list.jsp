@@ -332,11 +332,6 @@
 					    var hiddenCheckboxes = document.querySelectorAll('input.hidden-checkbox:checked');
 					    var selectedReqsCode = null; 
 					    
-					    if (checkboxes.length !== hiddenCheckboxes.length) {
-					        alert('보이는 체크박스와 숨겨진 체크박스의 수가 일치하지 않습니다.');
-					        return; // 함수 종료
-					    }
-
 					    for(var i = 0; i < checkboxes.length; i++) {
 					        var currentReqsCode = hiddenCheckboxes[i].dataset.reqsCode.substring(0, 11);
 
@@ -345,7 +340,7 @@
 					        }
 					        else {
 					            if(selectedReqsCode !== currentReqsCode) {
-					                alert('동일한 수주만 선택하십시오.');
+					                alert('동일한 수주만 선택해주세요.');
 					                return; // 함수 종료
 					            }
 					        }
@@ -407,22 +402,27 @@
 								}
 								  var table = '';
 									$.each(data,function(index,item) {
-												table += '<tr>';
-												table += '<td><div class="custom-control custom-checkbox mb-5">';
-												table += '<input type="checkbox" class="custom-control-input" id="checkTable'+index+'" name="tableCheck" value="'+item.code+'"></label>';
-												table += '<label class="custom-control-label" for="checkTable'+index+'"></label></div></td>';
-												table += '<th class="info'+index+'" style="color: blue; text-decoration: underline;">'
-														+ item.code+ '</th> ';
-												table += '<th>'+ item.reqs_code+ '</th>';
-												table += '<th>'+ item.reqsdate+ '</th>';
-												table += '<th>'+ item.product+ '</th>';
-												table += '<th>'+ item.clientName+ '</th>';
-												table += '<th>'+ item.reqsamount+ '</th>';
-												table += '<th>'+ item.stock+ '</th>';
-												table += '<th>'+ item.amount+ '</th>';
-												table += '<th>'+ item.date+ '</th>';
-												table += '<th>'+ item.status+ '</th>';
-												table += '</tr>';
+										table += '<tr>';
+									    if(item.status === '출하대기') {
+									        table += '<td><div class="custom-control custom-checkbox mb-5">';
+									        table += '<input type="checkbox" class="custom-control-input" id="checkTable'+index+'" name="tableCheck" value="'+item.code+'">';
+									        table += '<label class="custom-control-label" for="checkTable'+index+'"></label>'; 
+									        table += '<input type="checkbox" class="hidden-checkbox" id="hiddenCheckTable${status.index}" data-reqs-code="'+item.reqs_code+'" style="display: none;">';
+									        table += '</div></td>';
+									    } else {
+									        table += '<td></td>';
+									    }
+										table += '<th class="info'+index+'" style="color: blue; text-decoration: underline;">'+ item.code+ '</th> ';
+										table += '<th>'+ item.reqs_code+ '</th>';
+										table += '<th>'+ item.clientName+ '</th>';
+										table += '<th>'+ item.reqsdate+ '</th>';
+										table += '<th>'+ item.product+ '</th>';
+										table += '<th>'+ item.reqsamount+ '</th>';
+										table += '<th>'+ item.stock+ '</th>';
+										table += '<th>'+ item.amount+ '</th>';
+										table += '<th>'+ item.date+ '</th>';
+										table += '<th>'+ item.status+ '</th>';
+										table += '</tr>';
 															});
 
 											$('#table tbody').html(table);
