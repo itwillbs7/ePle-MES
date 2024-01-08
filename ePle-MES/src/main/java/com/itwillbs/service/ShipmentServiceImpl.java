@@ -57,6 +57,12 @@ public class ShipmentServiceImpl implements ShipmentService {
 		
 		return sdao.getRecentCode(vocode);
 	}
+	
+	@Override
+	public String getRecentHistory(String vocode) throws Exception {
+		logger.debug("입출고테이블에서 출고 데이터 찾기~~~~~~~");
+		return sdao.getRecentHistory(vocode);
+	}
 
 
 	@Override
@@ -168,6 +174,9 @@ public class ShipmentServiceImpl implements ShipmentService {
 		logger.debug("프린트하기~~~ 수주정보 가져오기!");
 		return sdao.getinfoRequest( reqsArr);
 	}
+
+
+
 	
 	
 	

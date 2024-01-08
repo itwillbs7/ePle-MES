@@ -168,12 +168,41 @@ public class ShipmentController {
 		// vo에 세션 아이디 추가하기
 //		String id = (String) session.getAttribute("id");
 //		vo.setReg_emp(id);
+				
 		String id = "test";
 		vo.setReg_emp(id);
 		
 		// 창고 입출고내역 코드 만드는거 하기...?(효린씨꺼 참고해야함)
-		String history = "test2";
-		vo.setWareHistory_code(history);
+		
+		//출하코드
+		
+				String voHistory = vo.getWareHistory_code();
+				// ex) 23ODMG1207 여기까지 검색해서 가장 최근 등록된 코드
+				String recentHistory = sService.getRecentHistory(voHistory);
+						
+						// ex) BB1 지금 상품코드
+						String lastThree = voHistory.substring(voHistory.length()-3);
+
+						if(recentHistory == null || recentHistory.equals("")) {
+							// 등록된 코드가 없는 경우
+							// 코드 새로 생성
+							voHistory += "001";
+						}else {
+							// 마지막 3자리 숫자 추출
+						    String lastFourNums = recentHistory.substring(recentHistory.length()-3);
+						    // 숫자로 변환 후 1 증가
+						    int increasedNum = Integer.parseInt(lastFourNums) + 1;
+						    // 다시 문자열로 변환
+						    String newLastFourNums = String.format("%03d", increasedNum);
+						    // 마지막 3자리 숫자를 증가시킨 숫자로 대체
+						    voHistory = recentHistory.substring(0, recentHistory.length()-3) + newLastFourNums;
+							}
+							
+						vo.setWareHistory_code(voHistory);
+						logger.debug("입출고코드~~~~~~~~~~~~!!!!"+vo.getWareHistory_code());
+		
+//		String history = "test2";
+//		vo.setWareHistory_code(history);
 		
 		int result = sService.dataInsertShipment(vo);
 					
@@ -404,7 +433,6 @@ public class ShipmentController {
         
         return "/shipment/print";
 	}
-	
 	
 	
 	// 필요기능 2. 큐알 스캔 시 업뎃

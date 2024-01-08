@@ -36,7 +36,7 @@
 							name="reqs_code" id="reqs_code" readonly required="required">
 						</div>
 						<div class="form-group">
-							<label for="deadline">출하일자</label> 
+							<label for="date">출하일자</label> 
 							<input class="form-control date-picker" name="date" type="text" id="date"
 							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
 						</div>
@@ -46,12 +46,12 @@
 						</div>
 						<!-- 자동입력내역 -->
 						<div class="form-group">
-							<label for="amount">수주량</label> 
+							<label >수주량</label> 
 							<input class="form-control" name="reqsamount" id="reqsamount"
 							type="number" autocomplete="off" min="1" required="required" readonly>
 						</div>
 						<div class="form-group">
-							<label for="date">수주일자</label> 
+							<label >수주일자</label> 
 							<input class="form-control " name="reqsdate" type="text" id="reqsdate"
 							 autocomplete="off" required="required" readonly>
 						</div>
@@ -73,6 +73,7 @@
 							<input class="form-control" name ="stock" type="text" readonly id="stock" required="required">
 							<input class="form-control" name ="ware_code" type="hidden" readonly id="ware_code" required="required">
 							<input class="form-control" name ="stock_code" type="hidden" readonly id="stock_code" required="required">
+							<input class="form-control" name ="wareHistory_code" type="hidden" readonly id="wareHistory_code" required="required">
 						</div>
 
 
@@ -82,7 +83,6 @@
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-<!-- 						<input type="button" class="btn btn-success" value="등록" onclick="finished()" id="sa-custom-position"> -->
 						<input type="submit" class="btn btn-success" value="등록" id="sa-custom-position">
 					</div>
 				</div>
@@ -98,11 +98,27 @@
 
 	 <script type="text/javascript" class="formDataSetting">  
 
-	 // 출하일자 min 설정
+	 // 출하일자 min / 출하량 max 설정
 	 document.getElementById('reqsdate').addEventListener('input', function() {
   		document.getElementById('date').min = document.getElementById('reqsdate').value;
   		document.getElementById('amount').max = document.getElementById('reqsamount').value;
 	});
+	 
+	// 출하량 입력 필드 선택
+	 var amountInput = document.getElementById('amount');
+
+	 // 'keyup' 이벤트 리스너 추가
+	 amountInput.addEventListener('keyup', function() {
+	   // 수주량과 출하량 가져오기
+	   var reqsAmount = Number(document.getElementById('reqsamount').value);
+	   var amount = Number(this.value);
+
+	   // 출하량이 수주량을 초과하는지 확인
+	   if (amount > reqsAmount) {
+	     // 메시지 표시(이거 alert 말고 append로 바꾸기)
+	     alert('출하량이 수주량을 초과하였습니다.');
+	   }
+	 });
 	 
  
 	 // 출하번호 생성 당해연도 YY+OT(Out)+MMDD+출고창고코드+출하인덱스 3자리(001부터)
@@ -123,67 +139,36 @@
 			return orderNum;
 		}
 	 
+	 function createHistoryNum(){
+		 const date = new Date();
+			const year = date.getFullYear().toString(); //올해연도 끝 2자리
+			const month = String(date.getMonth() + 1).padStart(2, "0"); //이번달
+			const day = String(date.getDate()).padStart(2, "0"); //오늘날짜 
+			
+			const historyNum = "OT"+year+month+day;
+			return historyNum;
+	 }
+	 
+	 
+	 
+	 
 	 document.querySelector('form').addEventListener('submit', function(event) {
 		    // 기본 제출 이벤트를 막음
 		    event.preventDefault();
 		    
 		    // 출하번호 생성
 		    const orderNum = createOrderNum();
+		    const historyNum = createHistoryNum();
 		    
 		    // 생성된 출하번호를 name="code"인 요소의 값으로 설정
 		    document.querySelector('input[name="code"]').value = orderNum;
-		    
+		    document.querySelector('input[name="wareHistory_code"]').value = historyNum;
+		 
 		    // 폼 제출
 		    this.submit();
 		});
 	 </script>
-	 <!-- ajax -->
-	 <script type="text/javascript" id="ajaxForSubmit">
-	 function finished(){
-		 
-			document.querySelector('#code').value = createOrderNum();
-			
-			// 미입력 찾기
-			 var form = document.getElementById('addForm');
-			 if (!form.checkValidity()) {
-				    var inputs = form.getElementsByTagName('input');
-				    for (var i = 0; i < inputs.length; i++) {
-				        if (!inputs[i].validity.valid) {
-				            var label = form.querySelector('label[for="' + inputs[i].id + '"]');
-				            if (label) {
-				                label.innerHTML += '<span style="color: red; font-size: 12px;"> * 내용을 입력해주세요 </span>';
-				            }
-				            inputs[i].focus();
-				            break;
-				        }
-				    }
-				    return;
-				}
-			    
-			$.ajax({
-			    type: "POST",
-			    url: '/shipment/add', // 폼을 제출할 서버의 URL
-			    data: $("#addForm").serialize(), // 'addForm' ID를 가진 폼의 데이터를 직렬화
-			    success: function(data) {
-			    	Swal.fire({
-			            icon: 'success',
-			            title: '출하 등록 완료',
-			            text: '출하명령을 등록하셨습니다',
-			        }).then((result) => {
-			            // SweetAlert이 닫힌 후에 수행됩니다.
-			            localStorage.setItem('success', 'true');
-			            opener.location.reload();
-			            self.close(); // 창을 닫습니다.
-			        });
-			    },
-			    error: function(jqXHR, textStatus, errorThrown) {
-			        // 폼 제출에 실패하면
-			        alert('폼 제출에 실패했습니다: ' + textStatus);
-			    }
-			});
-	 }
-	 
-	</script> 
+	
 	<!-- 팝업 -->
 	<script type="text/javascript">
 	$(document).ready(function(){

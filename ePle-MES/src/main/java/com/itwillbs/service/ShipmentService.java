@@ -51,4 +51,6 @@ public interface ShipmentService {
 
 	public List<RequestVO> getinfoRequest(List<String> reqsArr)throws Exception;
 
+	public String getRecentHistory(String vocode)throws Exception;
+
 }
