@@ -130,16 +130,16 @@
 									<tr>
 										<td style="width: 100px;">
 											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input"
-													id="tableCheckAll"> <label
-													class="custom-control-label" for="tableCheckAll"></label>
+												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> 
+												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> 
+												<label class="custom-control-label" for="tableCheckAll"></label>
 											</div>
 										</td>
 										<th>출하번호</th>
 										<th>수주번호</th>
+										<th>수주업체</th>
 										<th>납품예정일</th>
 										<th>품번</th>
-										<th>수주업체</th>
 										<th>수주수량</th>
 										<th>재고량</th>
 										<th>출하량</th>
@@ -157,9 +157,10 @@
 															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 															<input type="checkbox" class="custom-control-input"
 																id="checkTable${status.index}" name="tableCheck"
-																value="${List.code }"> <label
-																class="custom-control-label"
-																for="checkTable${status.index}"></label>
+																value="${List.code }">
+															<input type="checkbox" class="hidden-checkbox" id="hiddenCheckTable${status.index}" 
+															data-reqs-code="${List.reqs_code }" style="display: none;">
+															<label class="custom-control-label" for="checkTable${status.index}"></label>
 														</div></td>
 												</c:when>
 												<c:otherwise>
@@ -170,15 +171,14 @@
 											<th class="info${status.index}"
 												style="color: blue; text-decoration: underline;">${List.code }</th>
 											<th>${List.reqs_code }</th>
+											<th>${List.clientName }</th>
 											<th>${List.reqsdate }</th>
 											<th>${List.product }</th>
-											<th>${List.clientName }</th>
 											<th>${List.reqsamount }</th>
 											<th>${List.stock }</th>
 											<th>${List.amount }</th>
 											<th>${List.date }</th>
 											<th>${List.status }</th>
-
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -237,6 +237,18 @@
 
 
 
+	<script type="text/javascript">
+	$('input[name="tableCheck"]').change(function() {
+    var index = this.id.replace('checkTable', '');
+    var hiddenCheckbox = document.getElementById('hiddenCheckTable' + index);
+    
+    if(this.checked) {
+        hiddenCheckbox.checked = true;
+  	  } else {
+        hiddenCheckbox.checked = false;
+  	  }
+		});
+	</script>
 	<!-- 추가, 수정, 삭제, 상세보기 -->
 	<script type="text/javascript">
 		var popupWidth, popupHeight, popupX, popupY, link;
@@ -268,9 +280,16 @@
 
 		
 
-		$(document).ready(
-				function() {
-
+		$(document).ready(function() {
+			
+			$("#tableCheckAll").click(function() {
+			    if ($("#tableCheckAll").is(":checked")) {
+			        $("input.hidden-checkbox").prop("checked", true);
+			    } else {
+			    	 $("input.hidden-checkbox").prop("checked", false);
+			    }
+			});
+			
 					// 추가
 					$("#add").click(function() {
 						openPage("/shipment/add", 400, 700);
@@ -282,52 +301,67 @@
 					});
 
 					// 삭제
-					$("#delete").click(
-							function() {
+					$("#delete").click(function() {
 								var deleteList = [];
-								$("input:checkbox[name=tableCheck]:checked")
-										.each(function() {
+								$("input:checkbox[name=tableCheck]:checked").each(function() {
 											deleteList.push($(this).val());
 										});
 								if (deleteList.length > 0) {
-									openPage("/shipment/delete?code="
-											+ deleteList.join(','), 400, 700);
+									openPage("/shipment/delete?code="+ deleteList.join(','), 400, 700);
 								} else {
-									alert('삭제 실패');
+									alert('관리자에게 문의하세요');
 								}
 							});
 					
 					// 삭제
-					$("#statusChange").click(
-							function() {
+					$("#statusChange").click(function() {
 								var stautsList = [];
-								$("input:checkbox[name=tableCheck]:checked")
-										.each(function() {
+								$("input:checkbox[name=tableCheck]:checked").each(function() {
 											stautsList.push($(this).val());
 										});
 								if (stautsList.length > 0) {
-									openPage("/shipment/statusChange?code="
-											+ stautsList.join(','), 400, 700);
+									openPage("/shipment/statusChange?code="+ stautsList.join(','), 400, 700);
 								} else {
 									alert('관리자에게 문의하세요');
 								}
 							});
 					
-					$("#print").click(
-							function() {
-								var stautsList = [];
-								$("input:checkbox[name=tableCheck]:checked")
-										.each(function() {
-											stautsList.push($(this).val());
-										});
-								if (stautsList.length > 0) {
-									openPage("/shipment/print?code="
-											+ stautsList.join(','), 400, 700);
-								} else {
-									alert('관리자에게 문의하세요');
-								}
-							});
+					$("#print").click(function() {
+					    var stautsList = [];
+					    var checkboxes = document.querySelectorAll('input[name="tableCheck"]:checked');
+					    var hiddenCheckboxes = document.querySelectorAll('input.hidden-checkbox:checked');
+					    var selectedReqsCode = null; 
+					    
+					    if (checkboxes.length !== hiddenCheckboxes.length) {
+					        alert('보이는 체크박스와 숨겨진 체크박스의 수가 일치하지 않습니다.');
+					        return; // 함수 종료
+					    }
 
+					    for(var i = 0; i < checkboxes.length; i++) {
+					        var currentReqsCode = hiddenCheckboxes[i].dataset.reqsCode.substring(0, 11);
+
+					        if(!selectedReqsCode) {
+					            selectedReqsCode = currentReqsCode;
+					        }
+					        else {
+					            if(selectedReqsCode !== currentReqsCode) {
+					                alert('동일한 수주만 선택하십시오.');
+					                return; // 함수 종료
+					            }
+					        }
+
+					        stautsList.push(checkboxes[i].value);
+					    }
+
+					    if (stautsList.length > 0) {
+					        openPage("/shipment/print?code="+ stautsList.join(','), 400, 700);
+					    } 
+					    else {
+					        alert('관리자에게 문의하세요');
+					    }
+					});
+
+						
 					// 상세보기
 					$('body').on('click', '[class^="info"]', function() {
 						var code = $(this).text().trim();

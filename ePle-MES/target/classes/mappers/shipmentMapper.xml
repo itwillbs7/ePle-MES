@@ -237,15 +237,37 @@
 		where s.mapd_code = #{vo.product}
 	</update>
 	
+	<!-- 출하량만큼 다시 채우기  -->
 	<update id="updateStockForUpdate">
-		update STOCK s
-		inner join SHIPMENT sp on sp.stock_code = s.code
-		inner join REQUEST r on r.product = s.mapd_code 
-		set s.amount=(s.amount + #{amount})
-		where sp.code=#{code}
-	</update>
+    <foreach item="item" index="index" collection="shipment" open="" separator=";" close="">
+        update STOCK s
+            inner join SHIPMENT sp on sp.stock_code = s.code
+            inner join REQUEST r on r.product = s.mapd_code 
+        set s.amount=(s.amount + #{item.amount})
+        where sp.code=#{item.code}
+    </foreach>
+</update>
 
+	
+	<!-- LOT 테이블에서 데이터 지우기 -->
+	<delete id="deleteLOTUpdate"> 
+            delete from LOT 
+            where shipment in 
+            <foreach item="item" index="index" collection="shipment" open="(" separator="," close=")">
+                #{item.code}
+            </foreach> 
+</delete>
 
+	<!-- 입출고 테이블에서 데이터 지우기 -->
+	<delete id="deleteHistoryUpdate">
+            delete from WAREHOUSE_HISTORY 
+            where 
+            <foreach item="item" index="index" collection="shipment" separator=" or " close="">
+                order_num LIKE concat('%',#{item.code})
+            </foreach>
+	</delete>
+
+	
 	<!-- 출하정보리스트로 가져오기 -->
 	<select id="getShipmentInfoList" resultType="ShipmentVO">
 		SELECT sp.* 

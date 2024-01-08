@@ -98,6 +98,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 			params.put("request",request);
 			params.put("vo",vo);
 			
+			//LOT 번호 가져오기
 			List<String> lotList = sqlSession.selectList(NAMESPACE+".getLOT", params);
 			logger.debug("List"+lotList);
 			
@@ -192,15 +193,17 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		// 출하정보 수정할때
 		// 1. 기존 수주정보의 수주상태를 다시 등록으로 변경한다
 		//  + 입출고 기록에서 출하번호가 들어가있는 데이터를 찾아 출고량을 찾기
-		//  + 출고량을 찾은 뒤 출하번호가 들어가있는 데이터 전부 지우기
+		//  + 출고량을 찾은 뒤 출하번호가 들어가있는 데이터 전부 지우기(입출고 기록,LOT)
 		//  + 출고량만큼 STOCK에 더해서 update하기
 		// 2. 출하정보를 업데이트 한다
 		// 3. 해당하는 수주번호의 수주상태를 "출하대기"로 변경한다
 		String code = vo.getCode();
+		
 		// 기존 출하정보 얻기
 		ShipmentVO check = sqlSession.selectOne(NAMESPACE+".getShipmentInfo", code);
 		
-		//  + 입출고 기록에서 출하번호가 들어가있는 데이터를 찾아 출고량을 찾기
+		Map<String, Object> singleValueParams = new HashMap<>();
+		singleValueParams.put("shipment", vo);
 		
 		
 		
@@ -209,6 +212,45 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		if(!request.equals(newReqs)) {
 			// 기존 수주코드와 새로 입력된 수주코드가 일치하지 않으면 수주상태를 등록으로 변경
 			sqlSession.update(NAMESPACE+".updateBeforeUpdate", request);
+			
+			//  + 출고량만큼 STOCK에 더해서 update하기
+			sqlSession.update(NAMESPACE+".updateStockForUpdate", singleValueParams);
+			
+			// lot 테이블 데이터 지우기
+			sqlSession.delete(NAMESPACE+".deleteLOTUpdate", singleValueParams);
+			
+			// 입출고기록 지우기
+			sqlSession.delete(NAMESPACE+".deleteHistoryUpdate", singleValueParams);
+			
+			String reqs_code = vo.getReqs_code();	// 수주번호
+			String shipment = vo.getCode(); // 출하번호
+			
+			// LOT 번호 가져오기
+			Map<String, Object> params = new HashMap<>();
+			params.put("shipment", shipment);
+			params.put("request",reqs_code);
+			params.put("vo",vo);
+			
+			//LOT 번호 가져오기
+			List<String> lotList = sqlSession.selectList(NAMESPACE+".getLOT", params);
+			logger.debug("List"+lotList);
+			
+			//LOT 테이블에 insert (지금 code를 TEST라고 대충 해놨는데 이거 어케하지... 종헌씨한테 물어보기)
+			params.put("lot",lotList);
+			sqlSession.insert(NAMESPACE+".insertLOT", params);
+
+			// 창고입출고내역 남기기 (이부분 효린씨랑 맞추기)
+			// 효린씨 가 만든 코드 확인해보기. 안되면 그냥 내가 code 작성하는걸로
+			List<String> historyLotList = new ArrayList<>();
+
+			for(String lot : lotList) {
+				historyLotList.add(lot +"/"+vo.getWareHistory_code());
+			}
+			params.put("history", historyLotList);
+			sqlSession.insert(NAMESPACE+".insertWarehouseHistory", params);
+
+			// stock에서 빼기
+			sqlSession.update(NAMESPACE+".updateStockForInsert", params);
 		}
 		
 		String prevStatus = check.getStatus(); // 이전상태
@@ -258,8 +300,23 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		// 삭제를 하고 수주 상태를 "등록"으로 변경해야함!
 		int result = 0;
 		
+		
 		Map<String, Object> params = new HashMap<>();
 	    params.put("code", code);
+		
+		// lot 테이블 데이터 지우기
+		sqlSession.delete(NAMESPACE+".deleteLOTUpdate", params);
+		
+		// 입출고기록 지우기
+		sqlSession.delete(NAMESPACE+".deleteHistoryUpdate", params);
+	    
+	    // 출하정보 가져오기
+	    List vo = sqlSession.selectList(NAMESPACE+".getShipmentInfoList", params);
+	    params.put("shipment",vo);
+	    
+	    //  + 출고량만큼 STOCK에 더해서 update하기
+	    sqlSession.update(NAMESPACE+".updateStockForUpdate", params);
+	    
 	    // 수주상태 변경
 	    result = sqlSession.update(NAMESPACE+".updateStatusBeforeDelete", params);
 	    

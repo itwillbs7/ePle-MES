@@ -369,7 +369,7 @@ public class ShipmentController {
 		
 		String[] codeArr = codes.split(",");
 		// 선택한 출하정보 가져오기
-		List<ShipmentVO> List = sService.getinfoList(codeArr);
+		List<ShipmentVO> List = sService.getinfoList(codeArr); // 가져온 출하정보 전부 저장!
 		model.addAttribute("ship", List);
 		
 		List<String> reqsArr = new ArrayList<>();
@@ -379,13 +379,14 @@ public class ShipmentController {
 		}
 		
 		// request 정보 가져오기
-		List<RequestVO> requestList = sService.getinfoRequest(reqsArr);
+		List<RequestVO> requestList = sService.getinfoRequest(reqsArr); // 가져온 출하번호의 수주정보 전부 저장!
 		model.addAttribute("request",requestList );
 		
 		
 		String code = String.join(",", codeArr);
 		String encodedCode = URLEncoder.encode(code, "UTF-8");
 		
+		// 일단 출하코드들 qr 먼저 
 		int width = 200;
         int height = 200;
         String url = "http://localhost:8088/shipment/qr?code="+encodedCode;
