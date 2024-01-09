@@ -31,26 +31,28 @@
 								
 									<div class="form-group">
     									<label>창고 정보</label>
-    									<select class="form-control" name="group_id" required>
+    									<select class="form-control" name="category" required>
         									<option value="" disabled selected hidden>창고를 선택하세요</option>
         									<option value="원자재">원자재</option>
         									<option value="완제품">완제품</option>
+        									<option value="설비품">설비품</option>
     									</select>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="text" name="group_name" placeholder="창고이름">
+										<input class="form-control" type="text" name="name" placeholder="창고이름" required>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="text" name="location" placeholder="창고위치">
+										<input class="form-control" type="text" name="location" placeholder="창고위치" required>
 									</div>
 								
 									
 									<label>담당자 정보</label> 
 									<div class="form-group">
-										<input class="form-control" type="text" id="mapdCode" name="manager" placeholder="사원이름" readonly>
+										<input class="form-control" type="hidden" id="selectA">
+										<input class="form-control" type="text" id="selectB" name="manager" placeholder="사원이름" readonly required>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="text" id="mapdName" name="mng_phone" placeholder="사원연락처" readonly>
+										<input class="form-control" type="text" id="selectC" name="mng_phone" placeholder="사원연락처" readonly required>
 									</div>
 
 									
@@ -93,9 +95,9 @@
 	    popupWindow.focus();
 	}
 	$(document).ready(function() {
-		// 등록 - 품목 리스트 (원자재)
-	    $("#mapdCode,#mapdName").click(function() {
-	        var url = '${pageContext.request.contextPath}/material/searchMAPD';
+		// 등록 - 사원 리스트 (자재부)
+	    $("#selectB,#selectC").click(function() {
+	        var url = '${pageContext.request.contextPath}/stock/searchEmployees';
 	        openPopup(url);
 	    });
 	 

@@ -38,9 +38,14 @@ input[readonly] {
 								<div class="col-sm-12 mb-3">
 								
 									<div class="form-group">
-										<label>자재 유형</label> <input class="form-control" type="text" value="'원자재'" readonly>
+    									<label>자재 유형</label>
+    									<select class="form-control" name="category" required>
+        									<option value="" disabled selected hidden>창고를 선택하세요</option>
+        									<option value="원자재">원자재</option>
+        									<option value="완제품">완제품</option>
+    									</select>
 									</div>
-
+									
 									<div class="form-group">
 										<label>발주 정보</label> 
 										<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="발주코드" readonly>

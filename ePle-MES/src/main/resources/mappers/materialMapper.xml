@@ -186,11 +186,11 @@
 	
 	<!-- 입고등록) 창고 목록 (원자재) -->
 	<select id="orderWarehouse" resultType="WarehouseVO">
-		SELECT w.code, w.group_name, w.manager, e.name
+		SELECT w.code, w.name wh_name, w.manager, e.name
 		FROM WAREHOUSE w
 		LEFT OUTER JOIN EMPLOYEES e
 		ON w.manager = e.code
-		WHERE w.active = 1 AND w.group_id = '원자재' 
+		WHERE w.active = 1 AND w.category = '원자재' 
 			<if test="searchCode != null or searchName != null">
 			<if test="searchCode != null">
 				AND w.code LIKE CONCAT('%', #{searchCode}, '%')
@@ -208,7 +208,7 @@
 		FROM WAREHOUSE w
 		LEFT OUTER JOIN EMPLOYEES e
 		ON w.manager = e.code
-		WHERE w.active = 1 AND w.group_id = '원자재' 
+		WHERE w.active = 1 AND w.category = '원자재' 
 			<if test="searchCode != null or searchName != null" >
 			<if test="searchCode != null">
 				AND w.code LIKE CONCAT('%', #{searchCode}, '%')

@@ -50,16 +50,14 @@
 					<div class="card-body">
 								
 							<div class="col-md-12">
-								<div class="form-group">
+								<div class="form-inline">
 									<div class="row">
-										<div class="col-md-5 col-sm-12 btn-group" >
-											<div class="col-md-5 col-sm-12 btn-group" >
+											<div class="col-md-12 col-sm-12 btn-group" >
 											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="입고코드" autocomplete="off" >
 											<label>관리자</label> 
 											<input type="text" name="searchName" id="manager" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
 											<input type="text" id="managerName" class="form-control" placeholder="관리자이름" autocomplete="off" readonly>
 											</div>
-										</div>
 									</div>
 								</div>
 							</div>

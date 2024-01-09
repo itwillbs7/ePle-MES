@@ -12,6 +12,11 @@
   .table td {
     text-align: center;
   }
+  .form-inline{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  }
 </style>
 <title>창고 목록</title>
 </head>
@@ -44,15 +49,14 @@
 					<div class="card-body">
 								
 							<div class="col-md-12">
-								<div class="form-group">
+								<div class="form-inline">
 									<div class="row">
 										<div class="col-md-20 col-sm-12 btn-group" >
-											<div class="col-md-7 col-sm-12 btn-group" >
 											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="창고코드" autocomplete="off" >
 											<label>관리자</label> 
-											<input type="text" name="searchName" id="manager" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
-											<input type="text" id="managerName" class="form-control" placeholder="관리자이름" autocomplete="off" readonly>
-											</div>
+											<input type="text" name="searchName" id="selectA" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
+											<input type="text" id="selectB" class="form-control" placeholder="관리자이름" autocomplete="off" readonly>
+											<input type="hidden" id="selectC" class="form-control" autocomplete="off" readonly>
 										</div>
 									</div>
 								</div>
@@ -116,11 +120,11 @@
 							</td>
 							<th class="inInfo${vo.code}" style="color: #FF1493; cursor:pointer;">${vo.code }</th>
 							<th>${vo.location }</th>
-							<th>${vo.group_id }</th>
-							<th>${vo.group_name }</th>
+							<th>${vo.category }</th>
+							<th>${vo.wh_name }</th>
 							<th>${vo.name }</th>
 							<th>${vo.phone }</th>
-							<th th:class="${vo.active == 1 ? 'blue-bold' : 'red-bold'}" th:text="${vo.active == 1 ? '사용중' : '사용중지'}">${vo.active }</th>
+							<th>${vo.active }</th>
 							<td style="">
 
 
@@ -156,13 +160,13 @@
 				<div class="btn-toolbar justify-content-center mb-15">
 					<div class="btn-group">
 						<c:if test="${pageVO.prev}">
-							<a href="/stock/warehouselist?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+							<a href="/stock/warehouseList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
 						</c:if>
 						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/stock/warehouselist?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+							<a href="/stock/warehouseList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
 						</c:forEach>
 						<c:if test="${pageVO.next}">
-							<a href="/stock/warehouselist?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+							<a href="/stock/warehouseList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
 						</c:if>
 					</div>
 				</div>
@@ -271,9 +275,9 @@
 			
 			
 			// 검색 
-			$("#manager,#managerName").click(function() {
+			$("#selectA,#selectB").click(function() {
 				// 가로, 세로 설정
-				openPage("/warehouse/searchEmployees", 400,700);
+				openPage("/stock/searchEmployees", 400,700);
 			});
 
 			
@@ -285,7 +289,7 @@
 			    });
 			    
 			    if (codes.length > 0) { 
-			        openPage("/stock/warehouseInfo?codes=" + codes.join(','), 400, 600);
+			        openPage("/stock/warehouseDel?codes=" + codes.join(','), 400, 600);
 			    } else {
 			        $('#warning-modal').modal('show'); 
 			    }
@@ -300,28 +304,28 @@
 
  		// 검색하기
   		function doSearch() {
-		        var query = {"searchCode" : $("#whCode").val(), "searchName" : $("#manager").val()};
+		        var query = {"searchCode" : $("#whCode").val(), "searchName" : $("#selectA").val()};
 		        
 		        console.log("searchCode:", query.searchCode);
 		        console.log("searchName:", query.searchName);
 		        
 		        $.ajax({
-		            url : "${pageContext.request.contextPath}/warehouse/list",
+		            url : "${pageContext.request.contextPath}/stock/warehouseList",
 		            type : "get",
 		            data : query,
 		            dataType : "text",
 		            success : function(data){
 		                 if (query.searchCode == "" && query.searchName == "") {
-		                    location.href = "${pageContext.request.contextPath}/warehouse/list";
+		                    location.href = "${pageContext.request.contextPath}/stock/warehouseList";
 		                } else {
-		                    location.href = "${pageContext.request.contextPath}/warehouse/list?searchCode=" + $("#whCode").val() + "&searchName=" + $("#manager").val();
+		                    location.href = "${pageContext.request.contextPath}/stock/warehouseList?searchCode=" + $("#whCode").val() + "&searchName=" + $("#selectA").val();
 		                } 
 		                 
-		                if (data) {
+		              /*   if (data) {
 		                    alert("완료");
 		                } else {
 		                    alert("전송된 값 없음");
-		                }
+		                } */
 		                
 		            },
 		            
@@ -333,19 +337,17 @@
 		} 
 		
 
-		// 검색 초기화 , placeholder 재지정 
+	 	// 검색 초기화 , placeholder 재지정 
 		function resetSearch() {
-			$("#manager").val("");
-			$("#managerName").val("");
-		    $("#manager").attr("placeholder", "관리자코드");
-		    $("#managerName").attr("placeholder", "관리자이름");
-		}
+			$("#whCode").val("");
+			$("#selectA").val("");
+			$("#selectB").val("");
+		    $("#whCode").attr("placeholder", "창고코드");
+		    $("#selectA").attr("placeholder", "관리자코드");
+		    $("#selectB").attr("placeholder", "관리자이름");
+		} 
 		
 		
-		// 
-		let formattedNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-		document.getElementById('phoneNumber').innerText = formattedNumber;
-
 
 
 		

@@ -10,7 +10,7 @@
 	
 	<!-- 창고 목록, 창고 검색 -->
 	<select id="warehouseList" resultType="WarehouseVO">
-    	SELECT w.code, w.location, w.group_id, w.group_name, e.code, e.name, e.phone, w.active
+    	SELECT w.code, w.location, w.category, w.name wh_name, e.code, e.name, e.phone, w.active
     	FROM WAREHOUSE w 
     	JOIN EMPLOYEES e 
     	ON w.manager = e.code
@@ -52,13 +52,13 @@
 	
 	<!-- 창고 등록 -->
 	<insert id="warehouseAdd">
-		INSERT INTO WAREHOUSE (code,location,group_id,group_name,manager,mng_phone,active) 
-		VALUES (#{code},#{location},#{group_id},#{group_name},#{manager},#{mng_phone},'1')
+		INSERT INTO WAREHOUSE (code,location,category,name,manager,mng_phone,active) 
+		VALUES (#{code},#{location},#{category},#{name},#{manager},#{mng_phone},'1')
 	</insert>	
 	
 	<!-- 창고 상세 -->
 	<select id="warehouseInfo" parameterType="String" resultType="WarehouseVO">
-		SELECT w.code, w.location, w.group_id, w.group_name, e.code, e.name, e.phone, w.active
+		SELECT w.code, w.location, w.category, w.name wh_name, e.code, e.name, e.phone, w.active
     	FROM WAREHOUSE w 
     	JOIN EMPLOYEES e 
     	ON w.manager = e.code
@@ -72,8 +72,65 @@
 		WHERE code = #{code}
 	</update>
 	
+	<!-- 창고 삭제 -->
+	<select id="delInfo" resultType="WarehouseVO">
+    	SELECT w.code, w.location, w.category, w.name wh_name, e.code, e.name, e.phone, w.active
+    	FROM WAREHOUSE w 
+    	JOIN EMPLOYEES e 
+    	ON w.manager = e.code
+		WHERE w.code IN
+		<foreach collection="code_arr" item="item" open="(" close=")" separator=",">
+			#{item}
+		 </foreach>
+	</select>
+	
+	<delete id="warehouseDel" parameterType="hashmap">
+		DELETE FROM WAREHOUSE WHERE code IN
+		<foreach collection="code_arr" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>	
 	
 	
+	<!-- id mapdcode whcode category mapdname unit expiryd amount -->
 	
+	<!-- 창고등록) 사원 검색 팝업 -->
+	<select id="searchEmployees" resultType="WarehouseVO">
+		SELECT code, name, phone
+		FROM EMPLOYEES
+		WHERE dep_id = '자재부'	
+			<if test="searchCode != null or searchName != null">
+			<if test="searchCode != null">
+				AND code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchCode != null and searchName != null">
+				AND
+			</if>
+			<if test="searchName != null">
+				name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+			</if>
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>	
+	
+	<!-- 창고등록) 모든 사원 수 -->
+	<select id="searchEmployeesCount" resultType="int">
+		SELECT count(*) 
+		FROM EMPLOYEES
+		WHERE dep_id = '자재부'	
+			<if test="searchCode != null or searchName != null">
+			<if test="searchCode != null">
+				AND code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchCode != null and searchName != null">
+				AND
+			</if>
+			<if test="searchName != null">
+				name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+			</if>
+	</select>
+	
+		
 	
 	</mapper>

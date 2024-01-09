@@ -32,9 +32,9 @@
                                 </tr>
                                 <c:forEach items="${delInfo}" var="vo">
                                     <tr>
-                                        <th>${vo.wh_code}</th>
-                                        <th>${vo.group_id }</th>
-                                        <th>${vo.group_name }</th>
+                                        <th>${vo.code}</th>
+                                        <th>${vo.category }</th>
+                                        <th>${vo.wh_name }</th>
                                         <th>${vo.name }</th>
                                     </tr>
                                 </c:forEach>
@@ -79,7 +79,7 @@
 
                 $.ajax({
                     type : 'POST',
-                    url : "${pageContext.request.contextPath}/warehouse/delete",
+                    url : "${pageContext.request.contextPath}/stock/warehouseDel",
                     data : data,
                     success : function(response) {
                         window.opener.location.reload(); 

@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <%@ include file="../include/head.jsp"%>
 
-<title>관리자 조회</title>
+<title>사원 조회</title>
 
 <style type="text/css">
 .con:hover{
@@ -22,7 +22,7 @@
 	<div class="login-box bg-white box-shadow border-radius-10">
 			
 			<div class="login-title">
-			<h2 class="text-center text-primary">관리자 조회</h2>
+			<h2 class="text-center text-primary">사원 조회</h2>
 			</div>
 			
 			<!------------------------------- 검색 시작 ------------------------------->
@@ -32,13 +32,14 @@
 						
 						<div class="form-group">
 							<label>사원코드</label> 
-							<input class="form-control" type="text" name="empCode" id="manager">
+							<input class="form-control" type="text" name="searchCode" id="selectA">
 						</div>
 						
 						<div class="form-group">
 							<label>사원명</label> 
-							<input class="form-control" type="text" name="empName" id="managerName">
+							<input class="form-control" type="text" name="searchName" id="selectB">
 						</div>
+							<input class="form-control" type="hidden" id="selectC">
 
 						<div class="row">
 							<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
@@ -57,14 +58,16 @@
 				<tr>
 					<th>사원코드</th>
 					<th>사원명</th>
+					<th>연락처</th>
 				</tr>
 			</thead>
 			
 			<tbody>
-				<c:forEach items="${employeesList}" var="vo">
-				<tr onclick="selectWork('${vo.emp_code }','${vo.name }')">
-					<td class="con">${vo.emp_code }</td>
+				<c:forEach items="${searchEmployees}" var="vo">
+				<tr onclick="selectWork('${vo.code }','${vo.name }','${vo.phone }')">
+					<td class="con">${vo.code }</td>
 					<td class="con">${vo.name }</td>
+					<td class="con">${vo.phone }</td>
 				</tr>
 				</c:forEach>
 			</tbody>
@@ -76,16 +79,16 @@
 							<c:if test="${pageVO.totalCount > 1}">
 								<div class="btn-group">
 									<c:if test="${pageVO.prev}">
-										<a href="/warehouse/searchEmployees?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> 
+										<a href="/stock/searchEmployees?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> 
 											<i class="fa fa-angle-double-left"></i>
 										</a>
 									</c:if>
 									<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i" step="1">
-										<a href="/warehouse/searchEmployees?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}">
+										<a href="/stock/searchEmployees?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}">
 											${i} </a>
 									</c:forEach>
 									<c:if test="${pageVO.next}">
-										<a href="/warehouse/searchEmployees?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> 
+										<a href="/stock/searchEmployees?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> 
 											<i class="fa fa-angle-double-right"></i>
 										</a>
 									</c:if>
@@ -94,10 +97,11 @@
 							</div>
 
 			<script type="text/javascript">
-				function selectWork(a, b) { // 부모창으로 값 넘기기
+				function selectWork(a, b, c) { // 부모창으로 값 넘기기
 
-					opener.document.getElementById("manager").value = a
-					opener.document.getElementById("managerName").value = b
+					opener.document.getElementById("selectA").value = a
+					opener.document.getElementById("selectB").value = b
+					opener.document.getElementById("selectC").value = c
 					window.close();
 				}
 				
@@ -106,21 +110,21 @@
 				
 		 		//검색하기
 		  		function doSearch() {
-				        var query = {"empCode" : $("#manager").val(), "empName" : $("#managerName").val()};
+				        var query = {"searchCode" : $("#selectA").val(), "searchName" : $("#selectB").val()};
 				        
-				        console.log("empCode:", query.empCode);
-				        console.log("empName:", query.empName);
+				        console.log("searchCode:", query.searchCode);
+				        console.log("searchName:", query.searchName);
 				        
 				        $.ajax({
-				            url : "${pageContext.request.contextPath}/warehouse/searchEmployees",
+				            url : "${pageContext.request.contextPath}/stock/searchEmployees",
 				            type : "get",
 				            data : query,
 				            dataType : "text",
 				            success : function(data){
-				                 if (query.empCode == "" && query.empName == "") {
-				                    location.href = "${pageContext.request.contextPath}/warehouse/searchEmployees";
+				                 if (query.searchCode == "" && query.searchName == "") {
+				                    location.href = "${pageContext.request.contextPath}/stock/searchEmployees";
 				                } else {
-				                    location.href = "${pageContext.request.contextPath}/warehouse/searchEmployees?empCode=" + $("#manager").val() + "&empName=" + $("#managerName").val();
+				                    location.href = "${pageContext.request.contextPath}/stock/searchEmployees?searchCode=" + $("#selectA").val() + "&searchName=" + $("#selectB").val();
 				                } 
 				                 
 //				                if (data) {

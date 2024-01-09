@@ -64,9 +64,9 @@
 			
 			<tbody>
 				<c:forEach items="${orderWarehouse}" var="vo">
-				<tr onclick="selectWork('${vo.code }','${vo.group_name }','${vo.manager }', '${vo.name }')">
+				<tr onclick="selectWork('${vo.code }','${vo.wh_name }','${vo.manager }', '${vo.name }')">
 					<td class="con">${vo.code }</td>
-					<td class="con">${vo.group_name }</td>
+					<td class="con">${vo.wh_name }</td>
 					<td class="con">${vo.manager }</td>
 					<td class="con">${vo.name }</td>
 				</tr>

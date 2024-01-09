@@ -72,31 +72,52 @@ public class StockDAOImpl implements StockDAO {
 		data.put("code_arr", code_arr);
 		sqlSession.delete(NAMESPACE + ".warehouseDel", data);
 	}		
-	
-	
-	
-	
-	
-	
-	// 재고 목록 ~ 재고 검색 
+	// 창고등록) 사원 목록  
 	@Override
-	public List<StockVO> getStockList(Criteria cri, String searchWarehouse, String searchMapd) throws Exception {
-	    Map<String, Object> data = new HashMap<String, Object>(); 
-	    data.put("cri", cri);
-	    data.put("searchWarehouse", searchWarehouse);
-	    data.put("searchMapd", searchMapd);
-	    List<StockVO> stockList = sqlSession.selectList(NAMESPACE + ".selectStockList", data);
-	    return stockList;
+	public List<WarehouseVO> searchEmployees(WarehouseVO vo) throws Exception {
+		logger.debug("D - searchEmployees(WarehouseVO vo)");
+		return sqlSession.selectList(NAMESPACE + ".searchEmployees", vo);
 	}
-
-	// 모든 재고 데이터 수
+	// 창고등록) 사원 목록 데이터 수
 	@Override
-	public int getStockCount(String searchWarehouse, String searchMapd) throws Exception {
-		Map<String, Object> data = new HashMap<String, Object>(); 
-	    data.put("searchWarehouse", searchWarehouse);
-	    data.put("searchMapd", searchMapd);
-		return sqlSession.selectOne(NAMESPACE+ ".countStock", data);
+	public int searchEmployeesCount(WarehouseVO vo) throws Exception {
+		logger.debug("D - searchEmployeesCount(WarehouseVO vo)");
+		return sqlSession.selectOne(NAMESPACE + ".searchEmployeesCount", vo);
 	}
+	
+	 /*-----------------------------------------------------------------*/
+	
+	// 재고 리스트 (페이징)
+	@Override
+	public List<WarehouseVO> stockList(WarehouseVO vo) throws Exception {
+		logger.debug("D - stockList(WarehouseVO vo)");
+		return sqlSession.selectList(NAMESPACE + ".stockList", vo);
+	}
+	// 전체 재고 데이터 수
+	@Override
+	public int stockListCount(WarehouseVO vo) throws Exception {
+		logger.debug("D - stockListCount(WarehouseVO vo)");
+		return sqlSession.selectOne(NAMESPACE + ".stockListCount", vo);
+	}
+	// 재고 상세
+	@Override
+	public WarehouseVO stockInfo(String code) throws Exception {
+		logger.debug("D - stockInfo(String code)");
+		return sqlSession.selectOne(NAMESPACE + ".stockInfo", code); 
+	}	
+	// 재고 수정
+	@Override
+	public int stockEdit(WarehouseVO vo) throws Exception {
+		logger.debug("D - stockEdit(WarehouseVO vo)");
+		return sqlSession.update(NAMESPACE+".stockEdit", vo);
+	}
+	
+	
+	
+	 
+	
+	
+	
 	
 	// 품목 검색 팝업 
 	@Override

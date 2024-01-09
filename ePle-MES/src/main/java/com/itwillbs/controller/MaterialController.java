@@ -244,6 +244,19 @@ public class MaterialController {
 	  
 	  
 	  
+	  @RequestMapping(value = "/orderList", method = RequestMethod.GET) 
+	  public void orderList(Model model, Criteria cri, OrderVO vo) throws Exception {
+	  
+		  vo.setCri(cri);
+		  
+		  PageVO pageVO = new PageVO(); 
+		  pageVO.setCri(cri);
+		  pageVO.setTotalCount(mService.askOrderListCount(vo));
+	  
+		  model.addAttribute("pageVO", pageVO);
+		  model.addAttribute("askOrderList", mService.askOrderList(vo));
+
+	  }  
 	  
 	  
 	  

@@ -62,9 +62,9 @@ public class StockController {
 	  public String warehouseAdd(WarehouseVO vo, RedirectAttributes rttr) throws Exception {
   	
     	  String code = "W" + String.format("%02d", warehouseCount);
-    	  warehouseCount++; 
-
     	  vo.setCode(code);
+
+    	  warehouseCount++; 
     	    
     	  int result = sService.warehouseAdd(vo); 
   	
@@ -122,42 +122,61 @@ public class StockController {
 	  
 	  
 	  
-	  // 사원 팝업 (출력/페이징/검색) --------------------------------------------------------
-	  @RequestMapping(value = "/searchEmployees" , method = RequestMethod.GET)
-	  public void SearchEmployees(Model model, Criteria cri,
-								  @RequestParam(value = "empCode",required = false) String empCode,
-								  @RequestParam(value = "empName",required = false) String empName) throws Exception{
-			
-//	  List<WarehouseVO> employeesList = sService.SearchEmployees(cri,empCode,empName);
-			
-	  PageVO pageVO = new PageVO(); 
-			  
-	  pageVO.setCri(cri);
-//	  pageVO.setTotalCount(sService.employeesListCount(empCode,empName));
 	  
-			  
-	  model.addAttribute("pageVO", pageVO);
-//	  model.addAttribute("employeesList", employeesList);
-			
-	  }
+		
+	  /*--------------------------------------재고관리 시작-----------------------------------------*/
+    
+	  // ======================================재고 - 목록
+	  @RequestMapping(value = "/stockList", method = RequestMethod.GET) 
+	  public void stockList(Model model, Criteria cri, WarehouseVO vo) throws Exception {
 	  
-	  // 재고 메인 (출력/페이징/검색) --------------------------------------------------------
-	  @RequestMapping(value = "/list", method = RequestMethod.GET) 
-	  public void StockList(Model model, Criteria cri,
-			  					@RequestParam(value = "searchWarehouse",required = false) String searchWarehouse, 
-			  					@RequestParam(value = "searchMAPD",required = false) String searchMapd) throws Exception {
+		  vo.setCri(cri);
+		  
+		  PageVO pageVO = new PageVO(); 
+		  pageVO.setCri(cri);
+		  pageVO.setTotalCount(sService.stockListCount(vo));
+	  
+		  model.addAttribute("pageVO", pageVO);
+		  model.addAttribute("stockList", sService.stockList(vo));
 
-	  List<StockVO> stockList = sService.stockList(cri,searchWarehouse,searchMapd); 
-	  
-	  PageVO pageVO = new PageVO(); 
-	  
-	  pageVO.setCri(cri);
-	  pageVO.setTotalCount(sService.stockListCount(searchWarehouse,searchMapd));
-	  
-	  model.addAttribute("pageVO", pageVO);
-	  model.addAttribute("stockList", stockList);
-	 
 	  }
+	  
+	    // ======================================재고 - 상세
+	    @RequestMapping(value = "/stockInfo", method = RequestMethod.GET)
+		  public void stockInfo(@RequestParam(value = "code") String code,Model model) throws Exception {
+			
+	    	WarehouseVO stockInfo = sService.stockInfo(code);
+			model.addAttribute("List", stockInfo);
+
+		  }
+	    
+	    // ======================================재고 - 수정
+		  @RequestMapping(value = "/stockEdit", method = RequestMethod.GET) 
+		  public void stockEdit(@RequestParam("code") String code, Model model) throws Exception {
+		 
+			WarehouseVO stockInfo = sService.stockInfo(code);
+		  	model.addAttribute("List", stockInfo);
+		  }
+		  
+		  @RequestMapping(value = "/stockEdit", method = RequestMethod.POST) 
+		  public String stockEdit(WarehouseVO vo,HttpSession session, RedirectAttributes rttr) throws Exception{
+		  
+			  int result = sService.stockEdit(vo);
+		
+			  if (result == 1) {
+				  return "material/resultSuccess"; 
+			  } else {
+				  return "material/resultFailed"; 
+			  } 
+		  }
+	  /*--------------------------------------재고관리  끝 -----------------------------------------*/
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 	  
 	  // 품목 팝업 (출력/페이징/검색) --------------------------------------------------------
 	  @RequestMapping(value = "/searchMAPD" , method = RequestMethod.GET)
@@ -200,6 +219,24 @@ public class StockController {
 	  
 	  
 	  
+	  
+	  /*--------------------------------------팝업 리스트-----------------------------------------*/
+	  
+	  // 창고등록) 사원 목록  
+	  @RequestMapping(value = "/searchEmployees" , method = RequestMethod.GET)
+	  public void searchEmployees(Model model, Criteria cri, WarehouseVO vo) throws Exception{
+		  
+		  vo.setCri(cri);
+		  PageVO pageVO = new PageVO();
+		  pageVO.setCri(cri);
+		  pageVO.setTotalCount(sService.searchEmployeesCount(vo));
+		  model.addAttribute("pageVO", pageVO);
+		  model.addAttribute("searchEmployees", sService.searchEmployees(vo));
+		  
+	  }
+	  
+			
+			
 	
 	
 	
