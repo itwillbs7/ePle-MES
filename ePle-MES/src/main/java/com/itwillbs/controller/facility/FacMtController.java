@@ -144,7 +144,7 @@ public class FacMtController {
 	@GetMapping("/insert")
 	public void insert(Model model) throws Exception{
 		// 보전 추가(사후보전) 폼
-		model.addAttribute("list", fService.getFacManager());
+		model.addAttribute("list", fService.getFacListManager());
 	}
 	
 	@PostMapping("/insert")

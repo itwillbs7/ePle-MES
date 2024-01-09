@@ -9,8 +9,6 @@ public class LineVO {
 	private String process;
 	private String place;
 	private String status;
-	private String product;
-	private int amount;
 	private String note;
 	private boolean active;
 }

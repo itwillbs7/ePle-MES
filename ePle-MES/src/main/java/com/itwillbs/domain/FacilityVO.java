@@ -9,12 +9,9 @@ import lombok.Data;
 public class FacilityVO {
 	private String code;
 	private String emp_code;
-	private String group_id;
+	private String order_code;
 	private String group_name;
-	private String code_id;
 	private String code_name;
-	private String model;
-	private String name;
 	private String client_code;
 	private String client_name;
 	private Date purchase_date;
@@ -24,6 +21,9 @@ public class FacilityVO {
 	private int uph;
 	private boolean active;
 	
+	private MAPDVO mapd;
+	private FacilityOrderVO order;
+	private LineVO line;
 	// 설비 보전 리스트
 	private List<FacMtVO> mainList;
 }

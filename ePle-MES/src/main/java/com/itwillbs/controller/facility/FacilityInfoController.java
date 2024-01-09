@@ -24,7 +24,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.FacilitySearchVO;
 import com.itwillbs.domain.FacilityVO;
+import com.itwillbs.domain.HistoryVO;
 import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.StockVO;
 import com.itwillbs.service.facility.FacilityService;
 import com.itwillbs.service.facility.MtService;
 import org.slf4j.Logger;
@@ -51,7 +53,7 @@ public class FacilityInfoController {
 		searchVO.setIsajax(false);
 		pageVO.setSearch(searchVO);
 		pageVO.getSearch().setBetweenDates();
-		pageVO.setTotalCount(fService.facilityListCount(pageVO));
+		pageVO.setTotalCount(fService.getFacilityCount(pageVO));
 		logger.debug("pageVO : " + pageVO);
 		List<FacilityVO> vo = fService.getFacilityList(pageVO);
 		if (vo == null) vo = new ArrayList<FacilityVO>();
@@ -63,31 +65,25 @@ public class FacilityInfoController {
 	@GetMapping(value = "/insert")
 	public void facilityInsertGET(Model model) throws Exception {
 		// 설비 추가 폼
+		// 입고된 리스트 불러오기(입고 날짜와 정보는 mapd, orders 불러오기, 재고상황도 함께 불러오기)
 		model.addAttribute("line", fService.getLineList());
-		
-		model.addAttribute("proList", fService.getCommonCodeList("FACPRO"));
-		model.addAttribute("nprList", fService.getCommonCodeList("FACNPR"));
-		model.addAttribute("etcList", fService.getCommonCodeList("FACETC"));
+		model.addAttribute("FACPRO", fService.getStockList("FACPRO"));
+		model.addAttribute("FACNPR", fService.getStockList("FACNPR"));
+		model.addAttribute("FACETC", fService.getStockList("FACETC"));
 	}
 	
-	@PostMapping(value = "/insert")
-	public String facilityInsertPOST(FacilityVO vo, RedirectAttributes rttr, MultipartFile file) throws Exception {
-		// 설비 추가 액션
-		// FAC 20231229 001
-		String recentCode = fService.getRecentFacility();
-		String code = "FAC";
+	private String makeInsertCode(String code, String get) {
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
 		String now = dateformat.format(new Date());
-		if(recentCode == null || recentCode.equals("")) {
+		if(get == null || get.equals("")) {
 			// 코드 새로 생성
 			code += now;
 			code += "001";
 		}
 		else {
-			// 날짜가 오늘일 경우엔 + 1 해주기
-			String fDate = recentCode.substring(3, recentCode.length()-3);
+			String fDate = get.substring(code.length(), get.length()-3);
 			if(now.equals(fDate)) {				
-				String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
+				String fCount = "" + (Integer.parseInt(get.substring(get.length()-3)) + 1);
 				while(fCount.length() < 3) fCount = "0" + fCount;
 				code += fDate + fCount;
 			}
@@ -95,20 +91,37 @@ public class FacilityInfoController {
 				code += now + "001";
 			}
 		}
-		vo.setCode(code);		
 		logger.debug("code : " + code);
-		String link = "";
+		return code;
+	}
+	
+	@PostMapping(value = "/insert")
+	public String facilityInsertPOST(FacilityVO vo, String mapd, RedirectAttributes rttr, MultipartFile file) throws Exception {
+		// 설비 추가 액션
+		// FAC 20231229 001
+		vo.setCode(makeInsertCode("FAC", fService.findLastFacility()));
+		vo.setOrder_code(fService.getOrderCode(mapd));
+		String link = "redirect:/error";
+		rttr.addFlashAttribute("title", "설비 등록 결과");
+		rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 		logger.debug("vo : " + vo);
-		int result = fService.addFacility(vo);
-		if(result == 1) {
-			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "설비 등록 결과");
-			rttr.addFlashAttribute("result", "설비 등록이 완료되었습니다.");
-		}
-		else {
-			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "설비 등록 결과");
-			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+		if(fService.insertFacility(vo) > 0) {
+			HistoryVO his = new HistoryVO();
+			his.setCode(makeInsertCode("OUT", fService.getRecentHistory()));
+			his.setOrder_num(vo.getCode());
+			his.setWarehouse_code(fService.getWarehouseOne(mapd));
+			his.setMapd_code(mapd);
+			his.setEmp_code("test");
+			if(fService.insertHistory(his) > 0) {
+				StockVO stock = new StockVO();
+				stock.setWarehouse_code(his.getWarehouse_code());
+				stock.setMapd_code(his.getMapd_code());
+				if(fService.updateStock(stock) > 0) {
+					rttr.addFlashAttribute("title", "설비 등록 결과");
+					rttr.addFlashAttribute("result", "설비 등록이 완료되었습니다.");
+					link = "redirect:/confirm";
+				}
+			}
 		}
 		return link;
 	}
@@ -121,10 +134,6 @@ public class FacilityInfoController {
 		model.addAttribute("code", code);
 		model.addAttribute("info", fService.getFacility(code));
 		model.addAttribute("line", fService.getLineList());
-		
-		model.addAttribute("proList", fService.getCommonCodeList("FACPRO"));
-		model.addAttribute("nprList", fService.getCommonCodeList("FACNPR"));
-		model.addAttribute("etcList", fService.getCommonCodeList("FACETC"));
 	}
 	
 	@PostMapping(value = "/update")
@@ -181,30 +190,22 @@ public class FacilityInfoController {
 		model.addAttribute("info", fService.getFacility(code));
 	}
 	
-	@PostMapping(value="/json")
-	@ResponseBody
-	public List<Map<String, Object>> facilityAjax
-	(FacilitySearchVO searchVO, PageVO pageVO, Criteria cri) throws Exception {
-		pageVO.setCri(cri);
-		searchVO.setIsajax(true);
-		pageVO.setSearch(searchVO);
-		List<Map<String, Object>> ajax = new LinkedList<Map<String,Object>>();
-		List<FacilityVO> list = fService.getAjaxResult(pageVO);
-		for(int i = 0; i<list.size(); i++) {
-			Map<String, Object> col = new HashMap<String, Object>();
-			col.put("코드", list.get(i).getCode());
-			col.put("카테고리", list.get(i).getGroup_name());
-			col.put("상품 종류", list.get(i).getCode_name());
-			col.put("이름", list.get(i).getName());
-			col.put("모델", list.get(i).getModel());
-			col.put("제조사", list.get(i).getClient_name());
-			col.put("구매 일자", list.get(i).getPurchase_date());
-			col.put("구매 가격", list.get(i).getInprice());
-			col.put("라인명", list.get(i).getLine_name());
-			col.put("시간당 생산량", list.get(i).getUph());
-			ajax.add(col);
-		}
-		logger.debug("ajax : " + ajax);
-		return ajax;
-	}
+	/*
+	 * @PostMapping(value="/json")
+	 * 
+	 * @ResponseBody public List<Map<String, Object>> facilityAjax (FacilitySearchVO
+	 * searchVO, PageVO pageVO, Criteria cri) throws Exception { pageVO.setCri(cri);
+	 * searchVO.setIsajax(true); pageVO.setSearch(searchVO); List<Map<String,
+	 * Object>> ajax = new LinkedList<Map<String,Object>>(); List<FacilityVO> list =
+	 * fService.getAjaxResult(pageVO); for(int i = 0; i<list.size(); i++) {
+	 * Map<String, Object> col = new HashMap<String, Object>(); col.put("코드",
+	 * list.get(i).getCode()); col.put("카테고리", list.get(i).getGroup_name());
+	 * col.put("상품 종류", list.get(i).getCode_name()); col.put("이름",
+	 * list.get(i).getName()); col.put("모델", list.get(i).getModel()); col.put("제조사",
+	 * list.get(i).getClient_name()); col.put("구매 일자",
+	 * list.get(i).getPurchase_date()); col.put("구매 가격", list.get(i).getInprice());
+	 * col.put("라인명", list.get(i).getLine_name()); col.put("시간당 생산량",
+	 * list.get(i).getUph()); ajax.add(col); } logger.debug("ajax : " + ajax);
+	 * return ajax; }
+	 */
 }
