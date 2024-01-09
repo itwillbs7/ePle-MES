@@ -21,7 +21,8 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>설비 종류</label> <select class="custom-select2 form-control" name="material" style="width: 100%; height: 38px">
+							<label>설비 종류</label> <select class="custom-select2 form-control" name="material" style="width: 100%; height: 38px" required>
+								<option value="" selected>선택</option>
 								<optgroup label="생산용 설비">
 									<c:forEach items="${proList}" var="i">
 										<option value="${i.code}">${i.name}</option>

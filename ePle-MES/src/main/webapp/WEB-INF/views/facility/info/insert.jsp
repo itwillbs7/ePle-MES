@@ -17,12 +17,13 @@
 			<div class="login-title">
 				<h1 class="text-center text-primary">설비 등록</h1>
 			</div>
-			<form method="post">
+			<form method="post" onsubmit="return formCheck()">
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
 							<!-- 설비 현재 수량 가져오기(설비용 자재 제외) -->
-							<label>설비 종류</label> <select class="custom-select2 form-control" name="mapd" style="width: 100%; height: 38px">
+							<label>설비 종류</label> <select class="custom-select2 form-control" name="mapd" style="width: 100%; height: 38px" required>
+								<option value="" selected>선택</option>
 								<optgroup label="생산용 설비">
 									<c:forEach var="i" items="${FACPRO}">
 										<c:choose>
@@ -62,8 +63,8 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label>라인</label> <select class="custom-select2 form-control" name="line" style="width: 100%; height: 38px">
-								<option>선택</option>
+							<label>라인</label> <select class="custom-select2 form-control" name="line" style="width: 100%; height: 38px" required>
+								<option value="" selected>선택</option>
 								<c:forEach var="i" items="${line}">
 									<option value="${i.code}">${i.name}</option>
 								</c:forEach>
@@ -72,7 +73,7 @@
 						<div class="form-group row">
 							<label class="col-sm-12 col-md-2 col-form-label">uph</label>
 							<div class="col-sm-12 col-md-10">
-								<input class="form-control" name="uph" value="1" type="number" min="1" max="100">
+								<input class="form-control" name="uph" value="1" type="number" min="1" max="100" required>
 							</div>
 						</div>
 					</div>

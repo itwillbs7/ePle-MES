@@ -211,7 +211,7 @@
 											<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 										</div>
 									</td>
-									<c:forEach begin="0" end="5" var="i">
+									<c:forEach begin="0" end="4" var="i">
 										<th class="btn-light" onclick="javascript:orderList(${i})"><c:if test="${i eq pageVO.search.activeSortCategory}">
 												<c:choose>
 													<c:when test="${pageVO.search.sortValue eq 'asc'}">
