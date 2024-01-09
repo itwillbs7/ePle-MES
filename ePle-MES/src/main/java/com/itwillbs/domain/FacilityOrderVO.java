@@ -11,6 +11,7 @@ public class FacilityOrderVO {
 	private String code;		// 코드 작성방식은 다음주에 논의
 	private String group_name;
 	private String code_name;
+	private String material;
 	private Date date;			// 접수 일자
 	private String client_code;	// 회사 코드
 	private String client_name; // 회사 이름

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.FacilityOrderVO;
+import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.persistence.facility.FacilityOrderDAO;
 
@@ -42,8 +43,8 @@ public class FacilityOrderServiceImpl implements FacilityOrderService{
 	}
 	
 	@Override
-	public List<FacilityOrderVO> getCommonList(String group_id) throws Exception {
-		return dao.getCommonList(group_id);
+	public List<MAPDVO> getMapdList(String group_id) throws Exception {
+		return dao.getMapdList(group_id);
 	}
 
 	@Override

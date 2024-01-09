@@ -17,38 +17,53 @@
 			<div class="login-title">
 				<h1 class="text-center text-primary">발주 수정</h1>
 			</div>
-			<form>
+			<form method="post" action="/facility/order/update">
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>설비 종류</label> <select class="custom-select2 form-control" name="material" style="width: 100%; height: 38px">
+							<input type="hidden" name="code" value="${info.code}"> <label>설비 종류</label> <select class="custom-select2 form-control" name="material" style="width: 100%; height: 38px">
 								<optgroup label="생산용 설비">
-									<option value="AK">Alaska</option>
-									<option value="HI">Hawaii</option>
+									<c:forEach items="${proList}" var="i">
+										<c:choose>
+											<c:when test="${info.material eq i.code}">
+												<option value="${i.code}" selected>${i.name}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${i.code}">${i.name}</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
 								</optgroup>
 								<optgroup label="비생산 설비">
-									<option value="CA">California</option>
-									<option value="NV">Nevada</option>
-									<option value="OR">Oregon</option>
-									<option value="WA">Washington</option>
+									<c:forEach items="${nprList}" var="i">
+										<c:choose>
+											<c:when test="${info.material eq i.code}">
+												<option value="${i.code}" selected>${i.name}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${i.code}">${i.name}</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
 								</optgroup>
 								<optgroup label="기타">
-									<option value="AZ">Arizona</option>
-									<option value="CO">Colorado</option>
-									<option value="ID">Idaho</option>
-									<option value="MT">Montana</option>
-									<option value="NE">Nebraska</option>
-									<option value="NM">New Mexico</option>
-									<option value="ND">North Dakota</option>
-									<option value="UT">Utah</option>
-									<option value="WY">Wyoming</option>
+									<c:forEach items="${etcList}" var="i">
+										<c:choose>
+											<c:when test="${info.material eq i.code}">
+												<option value="${i.code}" selected>${i.name}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${i.code}">${i.name}</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
 								</optgroup>
 							</select>
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-12 col-md-2 col-form-label">수량</label>
 							<div class="col-sm-12 col-md-10">
-								<input class="form-control" value="100" type="number" min="0">
+								<input class="form-control" value="1" name="amount" type="number" min="1" max="100">
 							</div>
 						</div>
 					</div>

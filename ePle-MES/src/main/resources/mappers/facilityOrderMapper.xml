@@ -23,7 +23,7 @@
 		<result property="status" column="status" />
 		<collection property="mapd" resultMap="mapd">
 			<result property="mapd_code" column="mapd_code" />
-			<result property="name" column="mapd_name"/>
+			<result property="name" column="name"/>
 			<result property="group_id" column="group_id" />
 			<result property="code_id" column="code_id" />
 		</collection>
@@ -41,7 +41,7 @@
 	<select id="getOrderList" resultMap="order">
 		select o.code, o.date,
 		o.material, m.group_id, c.group_name, m.code_id,
-		c.code_name, o.amount, m.name as mapd_name, o.reg_date, o.reg_emp, e1.name as
+		c.code_name, o.amount, m.name, o.reg_date, o.reg_emp, e1.name as
 		reg_name,
 		o.update_date, o.update_emp, e2.name as update_name, o.status
 		from ORDERS o
@@ -60,13 +60,6 @@
 	<select id="getOrderCount" resultType="int">
 		SELECT COUNT(*) FROM
 		ORDERS WHERE complete = false AND code like '%FO%'
-	</select>
-
-	<select id="getCommonList" resultMap="order"
-		resultType="com.itwillbs.domain.FacilityOrderVO">
-		SELECT group_id, code_id, group_name, code_name from
-		COMMON_CODE
-		WHERE group_id = #{group_id}
 	</select>
 
 	<select id="getRecentCode" resultType="String">
