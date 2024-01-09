@@ -183,6 +183,14 @@ public class ShipmentServiceImpl implements ShipmentService {
 	}
 
 
+	@Override
+	public int actDoneShipment(String[] code) throws Exception {
+		logger.debug("출하완료~~~~ 이건 출하번호~~"+code);
+		
+		return sdao.actDoneShipment(code);
+	}
+
+
 
 	
 	

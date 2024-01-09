@@ -10,9 +10,11 @@
 </head>
 <body >
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
+	<div class="header" style='display :none;'>
 	<%@ include file="../include/header.jsp"%>
 	<%@ include file="../include/right-side-bar.jsp"%>
 	<%@ include file="../include/left-side-bar.jsp"%>
+	</div>
 	<!-- 비로그인 거름망 -->
 	<%-- <c:if test="${empty id}" > --%>
 	<%-- 	<c:redirect url="/main/login"/> --%>
@@ -23,7 +25,10 @@
 
 
 			<!-- Checkbox select Datatable start -->
+			<div style='page-break-before:always'>
+			<br><br><br>
 			<h1> 출하증 </h1>
+			<br><br>
 				<div class="pb-20">
 					<div class="col-sm-30">
 						<form class="table" id="table">
@@ -62,69 +67,76 @@
 					</div>
 				</div>
 			</div>
+			</div>
 			<!-- Checkbox select Datatable End -->
 			
 			<!-- Checkbox select Datatable start -->
+			<div style='page-break-before:always'>
+			<br><br><br>
 			<h1> 거래명세서 </h1>
+			<br><br>
+			<table class="table table-bordered">
+			<c:forEach items="${request}" var="req" varStatus="status">
+				<tr>
+					<th>업체명 : ${req.clientName }</th>
+					<th>수주일 : ${req.date }</th>
+					<th>주소  : ${req.startDate } ${req.endDate }</th>
+					<th>연락처 : ${req.startDead }</th>
+				</tr>
+			</c:forEach>
+			</table>
+			<br>
 				<div class="pb-20">
 					<div class="col-sm-30">
 						<form class="table" id="table">
 							<table class="table table-bordered">
 								<thead>
 									<tr>
-										<th>수주업체</th>
-										<th></th>
-										<th>품번</th>
+										<th>품명</th>
 										<th>수주수량</th>
 										<th>단위</th>
-										<th>출하량</th>
-										<th>출하일자</th>
-										<th>출하창고</th>
+										<th>가격</th>
+										<th>총 금액(원)</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${request}" var="List" varStatus="status">
 										<tr>
-											<th>${List.code }</th>
-											<th>${List.reqs_code }</th>
-											<th>${List.product }</th>
-											<th>${List.clientName }</th>
-											<th>${List.reqsamount }</th>
-											<th>${List.unit }</th>
+											<th>${List.productName }</th>
 											<th>${List.amount }</th>
-											<th>${List.date }</th>
-											<th>${List.ware_code }</th>
+											<th>${List.unit }</th>
+											<th>${List.currency}</th>
+											<th>${List.currency * List.amount }</th>
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
 						</form>
-						<img src="data:image/png;base64,${qrCodeImage }">
+						<img src="data:image/png;base64,${qrCodeForClient }">
 					</div>
 				</div>
+			</div>
 			</div>
 			<!-- Checkbox select Datatable End -->
 			
 			
 			
-						<img src="data:image/png;base64,${qrCodeForClient }">
 			
 			
 			<%@ include file="../include/footer.jsp"%>
 			<%@ include file="../include/datatable.jsp"%>
-		</div>
+		
 	
 
 
 
 	<!-- 추가, 수정, 삭제, 상세보기 -->
 	<script type="text/javascript">
-	window.onload = function() {
-	    window.print();
-	    window.onafterprint = function() {
-	        window.close();
-	    }
-	}
+	$(document).ready(function() {
+		window.print() ;
+		
+		
+	});
 
 	</script>
 </body>

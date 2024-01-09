@@ -1,6 +1,5 @@
 package com.itwillbs.controller;
 
-import java.awt.PageAttributes.MediaType;
 import java.io.ByteArrayOutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -12,11 +11,8 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -220,55 +215,55 @@ public class ShipmentController {
 	}
 	
 	// -------- 수주등록 데이터 찾기 ---------
-	
-	@RequestMapping(value = "searchClient", method=RequestMethod.GET)
-	public void searchClientGET(RequestVO vo, Model model, HttpSession session)throws Exception{
-		logger.debug("controller : 거래사 정보 찾기");
-		logger.debug("searchClientGET    실행");
-
-		// 거래사 리스트 출력하기
-		List<RequestVO> clientList = rService.ClientList();
-		logger.debug("clientList : "+clientList);
-		model.addAttribute("List", clientList);
-
-	}
-	
-	@RequestMapping(value = "searchClient", method=RequestMethod.POST)
-	public List<RequestVO> searchClientPOST(@RequestParam("client_code") String client_code,
-											@RequestParam("clientName") String clientName,Model model)throws Exception{
-		logger.debug("controller : 거래사 정보 DB 검색결과 가져오기");
-		logger.debug("searchClientPOST    실행");
-
-		List<RequestVO> clientList = rService.findClient(client_code,clientName);
+//	
+//	@RequestMapping(value = "searchClient", method=RequestMethod.GET)
+//	public void searchClientGET(RequestVO vo, Model model, HttpSession session)throws Exception{
+//		logger.debug("controller : 거래사 정보 찾기");
+//		logger.debug("searchClientGET    실행");
+//
+//		// 거래사 리스트 출력하기
+//		List<RequestVO> clientList = rService.ClientList();
+//		logger.debug("clientList : "+clientList);
 //		model.addAttribute("List", clientList);
-		logger.debug("가져온 List"+clientList);
-		
-		return clientList;
-	}
-	
-	
-	@RequestMapping(value = "searchProduct",method = RequestMethod.GET)
-	public void searchProductGET(Model model, HttpSession session)throws Exception{
-		logger.debug("controller : 상품 정보 찾기");
-		logger.debug("searchProductGET   실행");
-		
-		List<RequestVO> productList = rService.ProductList();
-		model.addAttribute("List", productList);
-	}
-	
-	@RequestMapping(value = "searchProduct",method = RequestMethod.POST)
-	@ResponseBody
-	public List<RequestVO> searchProductPOST(@RequestParam("product") String product,
-								             @RequestParam("productName") String productName, Model model)throws Exception{
-		// 찾아와야하는것 : 품번, 품명, 재고, 단위, 단가
-		logger.debug("controller : 상품 정보 DB 검색결과 가져오기 ");
-		logger.debug("searchProductPOST   실행");
-		
-		List<RequestVO> productList = rService.findProduct(product,productName); 
+//
+//	}
+//	
+//	@RequestMapping(value = "searchClient", method=RequestMethod.POST)
+//	public List<RequestVO> searchClientPOST(@RequestParam("client_code") String client_code,
+//											@RequestParam("clientName") String clientName,Model model)throws Exception{
+//		logger.debug("controller : 거래사 정보 DB 검색결과 가져오기");
+//		logger.debug("searchClientPOST    실행");
+//
+//		List<RequestVO> clientList = rService.findClient(client_code,clientName);
+////		model.addAttribute("List", clientList);
+//		logger.debug("가져온 List"+clientList);
+//		
+//		return clientList;
+//	}
+//	
+//	
+//	@RequestMapping(value = "searchProduct",method = RequestMethod.GET)
+//	public void searchProductGET(Model model, HttpSession session)throws Exception{
+//		logger.debug("controller : 상품 정보 찾기");
+//		logger.debug("searchProductGET   실행");
+//		
+//		List<RequestVO> productList = rService.ProductList();
 //		model.addAttribute("List", productList);
-		logger.debug("가져온 List"+productList);
-		return productList;
-	}
+//	}
+//	
+//	@RequestMapping(value = "searchProduct",method = RequestMethod.POST)
+//	@ResponseBody
+//	public List<RequestVO> searchProductPOST(@RequestParam("product") String product,
+//								             @RequestParam("productName") String productName, Model model)throws Exception{
+//		// 찾아와야하는것 : 품번, 품명, 재고, 단위, 단가
+//		logger.debug("controller : 상품 정보 DB 검색결과 가져오기 ");
+//		logger.debug("searchProductPOST   실행");
+//		
+//		List<RequestVO> productList = rService.findProduct(product,productName); 
+////		model.addAttribute("List", productList);
+//		logger.debug("가져온 List"+productList);
+//		return productList;
+//	}
 	
 	@RequestMapping(value = "searchRequest", method = RequestMethod.GET)
 	public void searchRequestGET(Model model, HttpSession sessio)throws Exception{
@@ -407,6 +402,7 @@ public class ShipmentController {
 		
 		// request 정보 가져오기
 		List<RequestVO> requestList = sService.getinfoRequest(reqsArr); // 가져온 출하번호의 수주정보 전부 저장!
+		
 		model.addAttribute("request",requestList ); // 수주테이블 만들어야함
 		
 		
@@ -456,16 +452,34 @@ public class ShipmentController {
 	
 	// 필요기능 2. 큐알 스캔 시 업뎃
 	@RequestMapping(value = "/shipqr", method = RequestMethod.GET)
-	public void scanningQRForShipment(@RequestParam("code") String codes)throws Exception{
+	public String scanningQRForShipment(@RequestParam("code") String codes,  RedirectAttributes rttr)throws Exception{
 		logger.debug("QR을 스캔하면 /shipment/qr로 이동.");
 		logger.debug("이곳에서 출하상태와 수주상태를 출하완료로 변경하면 된다");
-		String[] code = codes.split("%2C");
+		List test = new ArrayList();
+		String[] code = codes.split(",");
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@나눠지는거 확인 "+code[0]);
+		
+		int result = sService.actDoneShipment(code);
+		String link = "";
+		if (result >= 1) {
+			link = "redirect:/confirm";
+			rttr.addFlashAttribute("title", "수령 완료");
+			rttr.addFlashAttribute("result", "주문해주셔서 감사합니다!");
+		} else {
+			link = "redirect:/error";
+			rttr.addFlashAttribute("title", "오류 발생");
+			rttr.addFlashAttribute("result", "문의전화 바랍니다");
+		}
+		return link;
+		
 	}
+	
 	@RequestMapping(value = "/clientqr", method = RequestMethod.GET)
 	public String scanningQRForClient(@RequestParam("code") String codes,  RedirectAttributes rttr)throws Exception{
 		logger.debug("QR을 스캔하면 /shipment/qr로 이동.");
 		logger.debug("이곳에서 수주상태를 수령 으로 변경하면 된다!");
-		String[] code = codes.split("%2C");
+		String[] code = codes.split(",");
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@나눠지는거 확인 "+code[0]);
 		
 		int result = sService.receiptToClient(code);
 		

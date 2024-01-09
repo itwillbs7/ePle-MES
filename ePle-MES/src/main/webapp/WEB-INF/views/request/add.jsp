@@ -13,6 +13,12 @@
          crossorigin="anonymous"
       />
 <title>수주 등록</title>
+<style>
+::-webkit-calendar-picker-indicator{
+display : none;
+}
+
+</style>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -37,12 +43,12 @@
 						</div>
 						<div class="form-group">
 							<label for="date">수주일자</label> 
-							<input class="form-control date-picker" name="date" type="text" id="date"
+							<input class="form-control date-picker " name="date" type="text" id="date"
 							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
 						</div>
 						<div class="form-group">
 							<label for="deadline">납품일자</label> 
-							<input class="form-control date-picker" name="deadline" type="text" id="deadline"
+							<input class="form-control date-picker deadline" name="deadline" type="text" id="deadline"
 							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
 						</div>
 						<div class="form-group">
@@ -88,7 +94,6 @@
 						<button type="button" class="btn btn-secondary" onclick="window.close();">
 							<b>취소</b>
 						</button>
-<!-- 						<input type="button" class="btn btn-success" value="등록" onclick="finished()" id="sa-custom-position"> -->
 						<input type="submit" class="btn btn-success" value="등록"  id="sa-custom-position">
 					</div>
 				</div>
@@ -168,53 +173,10 @@
 		    this.submit();
 		});
 	 </script>
-	 <!-- ajax -->
-	 <script type="text/javascript" id="ajaxForSubmit">
-	 function finished(){
-		 
-			document.querySelector('#code').value = createOrderNum();
-			
-			// 미입력 찾기
-			 var form = document.getElementById('addForm');
-			 if (!form.checkValidity()) {
-				    var inputs = form.getElementsByTagName('input');
-				    for (var i = 0; i < inputs.length; i++) {
-				        if (!inputs[i].validity.valid) {
-				            var label = form.querySelector('label[for="' + inputs[i].id + '"]');
-				            if (label) {
-				                label.innerHTML += '<span style="color: red; font-size: 12px;"> * 내용을 입력해주세요 </span>';
-				            }
-				            inputs[i].focus();
-				            break;
-				        }
-				    }
-				    return;
-				}
-			    
-			$.ajax({
-			    type: "POST",
-			    url: '/request/add', // 폼을 제출할 서버의 URL
-			    data: $("#addForm").serialize(), // 'addForm' ID를 가진 폼의 데이터를 직렬화
-			    success: function(data) {
-			    	Swal.fire({
-			            icon: 'success',
-			            title: '수주 등록 완료',
-			            text: '수주를 등록하셨습니다',
-			        }).then((result) => {
-			            // SweetAlert이 닫힌 후에 수행됩니다.
-			            localStorage.setItem('success', 'true');
-			            opener.location.reload();
-			            self.close(); // 창을 닫습니다.
-			        });
-			    },
-			    error: function(jqXHR, textStatus, errorThrown) {
-			        // 폼 제출에 실패하면
-			        alert('폼 제출에 실패했습니다: ' + textStatus);
-			    }
-			});
-	 }
-	 
-	</script> 
+	 <!-- 유효성검사 -->
+	<script type="text/javascript">
+	
+	</script>
 	<!-- 팝업 -->
 	<script type="text/javascript">
 	$(document).ready(function(){

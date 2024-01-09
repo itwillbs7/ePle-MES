@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.persistence.RequestDAO;
 
@@ -22,18 +23,18 @@ public class RequestServiceImpl implements RequestService {
 	
 
 	@Override
-	public List<RequestVO> requestListpage(Criteria cri) throws Exception {
+	public List<RequestVO> requestListpage(RequestVO vo,Criteria cri) throws Exception {
 		logger.debug("페이징처리하기 "+cri);
 
-		return rdao.getRequestListPage(cri);
+		return rdao.getRequestListPage(vo, cri);
 	}
 	
 	
 
 	@Override
-	public int getTotal() throws Exception {
+	public int getTotal(RequestVO vo) throws Exception {
 		logger.debug("servide : getTotal()");
-		return rdao.getRequestCount();
+		return rdao.getRequestCount(vo);
 	}
 
 
@@ -74,10 +75,10 @@ public class RequestServiceImpl implements RequestService {
 	}
 
 	@Override
-	public List<RequestVO> ClientList() throws Exception {
+	public List<RequestVO> ClientList(Criteria cri) throws Exception {
 		logger.debug("Service : ClientList() 회사리스트 뽑기  ");
 
-		return rdao.getClientList();
+		return rdao.getClientList(cri);
 	}
 
 	@Override
@@ -118,10 +119,10 @@ public class RequestServiceImpl implements RequestService {
 
 
 	@Override
-	public List<RequestVO> findRequestList(RequestVO vo) throws Exception {
+	public List<RequestVO> findRequestList(RequestVO vo, Criteria cri) throws Exception {
 		// 수주 검색
 		logger.debug("Service : findRequestList(RequestVO vo) 수주 검색");
-		return rdao.searchRequestAll(vo);
+		return rdao.searchRequestAll(vo,cri);
 	}
 
 

@@ -17,18 +17,15 @@
 	</resultMap>
 
 	<!-- 리스트 가져오기 -->
-	<select id="listPage" resultType="RequestVO">
-		SELECT r.code code,r.client_code client_code, r.date date,
-		r.deadline deadline, c.name clientName ,r.product product, m.name productName, 
-		s.amount stock, r.status status, r.amount amount 
+	<select id="listPage" resultType="RequestVO" parameterType="hashMap">
+		SELECT r.*, c.name clientName, m.name productName
 		FROM REQUEST r 
 		join CLIENT c on r.client_code = c.code 
 		join STOCK s on r.product = s.mapd_code 
 		join MAPD m on r.product = m.code 
 		order by r.reg_date DESC 
-		limit #{startPage}, #{pageSize} 
+		LIMIT #{cri.startPage},#{cri.pageSize}
 	</select>
-
 
 	<!-- 전체 글 개수 조회 -->
 	<select id="countRequest" resultType="int">
@@ -37,6 +34,91 @@
   ]]>
 	</select>
 
+	
+	<!-- 수주정보 검색하기 -->
+	<select id="research" resultType="RequestVO" parameterType="hashMap">
+		SELECT r.*, c.name clientName, m.name productName
+		FROM REQUEST r
+		LEFT JOIN CLIENT c on r.client_code = c.code
+		RIGHT join STOCK s on r.product = s.mapd_code
+		LEFT join MAPD m on r.product = m.code
+		where 1 = 1
+		<if test="vo.clientName neq null and vo.clientName.toString() neq '' "> AND c.name = #{vo.clientName} </if>
+		<if test="vo.productName neq null and vo.productName.toString() neq ''"> AND m.name = #{vo.productName} </if>
+		<if test="vo.date neq null and vo.date.toString() neq '' "> 
+		<choose>
+			<when test="vo.endDate neq null and vo.endDate.toString() neq '' and vo.startDate neq null and vo.startDate.toString() neq ''">
+			AND r.date between #{vo.startDate} and #{vo.endDate} 
+			</when>
+			<when test="vo.endDate neq null and vo.endDate.toString() neq '' and (vo.startDate eq null or vo.startDate.toString() eq '')">
+			AND r.date = #{vo.endDate} </when>
+			<otherwise>AND r.date = #{vo.startDate} </otherwise>
+		</choose>
+		</if>
+		<if test="vo.deadline neq null and vo.deadline.toString() neq '' ">
+		<choose>
+			<when test="vo.endDead neq null and vo.endDead.toString() neq '' and vo.startDead neq null and vo.startDead.toString() neq ''">
+			AND r.deadline between #{vo.startDead} and #{vo.endDead} 
+			</when>
+			<when test="vo.endDead neq null and vo.endDead.toString() neq ''  and (vo.startDead eq null or vo.startDead.toString() eq '')">
+			AND r.deadline = #{vo.endDead} 
+			</when>
+			<otherwise>AND r.deadline = #{vo.startDead} </otherwise>
+		</choose>
+		 </if>
+		<if test="vo.manager neq null and vo.manager.toString() neq '' "> AND r.manager = #{vo.manager} </if>
+		<if test="vo.statusList != null and vo.statusList.size() > 0" >
+		 AND r.status in 
+		 <foreach collection="vo.statusList" item="status" open="(" close=")" separator=",">
+		 #{status} 
+		 </foreach>
+		 </if>
+		 order by r.reg_date DESC 
+		 LIMIT #{cri.startPage},#{cri.pageSize}
+	</select>
+	
+	<!-- 검색 글 개수 조회 -->
+	<select id="countSearch" resultType="int" parameterType="hashMap">
+  <![CDATA[
+  	select count(*) 
+  	from REQUEST r 
+  	LEFT JOIN CLIENT c on r.client_code = c.code
+	RIGHT join STOCK s on r.product = s.mapd_code
+	LEFT join MAPD m on r.product = m.code
+  	where 1=1
+  ]]>
+  <if test="vo.clientName != null and vo.clientName.toString() != '' "> AND c.name = #{vo.clientName} </if>
+		<if test="vo.productName != null and vo.productName.toString() != ''"> AND m.name = #{vo.productName} </if>
+		<if test="vo.date != null and vo.date.toString() != '' "> 
+		<choose>
+			<when test="vo.endDate != null and vo.endDate.toString() != '' and vo.startDate != null and vo.startDate.toString() != ''">
+			AND r.date between #{vo.startDate} and #{vo.endDate} 
+			</when>
+			<when test="vo.endDate != null and vo.endDate.toString() != '' and (vo.startDate = null or vo.startDate.toString() = '')">
+			AND r.date = #{vo.endDate} </when>
+			<otherwise>AND r.date = #{vo.startDate} </otherwise>
+		</choose>
+		</if>
+		<if test="vo.deadline != null and vo.deadline.toString() != '' ">
+		<choose>
+			<when test="vo.endDead != null and vo.endDead.toString() != '' and vo.startDead != null and vo.startDead.toString() != ''">
+			AND r.deadline between #{vo.startDead} and #{vo.endDead} 
+			</when>
+			<when test="vo.endDead != null and vo.endDead.toString() != ''  and (vo.startDead = null or vo.startDead.toString() = '')">
+			AND r.deadline = #{vo.endDead} 
+			</when>
+			<otherwise>AND r.deadline = #{vo.startDead} </otherwise>
+		</choose>
+		 </if>
+		<if test="vo.manager != null and vo.manager.toString() != '' "> AND r.manager = #{vo.manager} </if>
+		<if test="vo.statusList != null and vo.statusList.size() > 0" >
+		 AND r.status in 
+		 <foreach collection="vo.statusList" item="status" open="(" close=")" separator=",">
+		 #{status} 
+		 </foreach>
+		 </if>
+	</select>
+	
 	<!-- 수주번호의 정보 가져오기 -->
 	<select id="getRequestInfo" resultType="RequestVO">
 		SELECT DISTINCT r.*, c.name clientName, m.name productName, e.name managerName
@@ -45,65 +127,27 @@
 		JOIN EMPLOYEES e on r.manager = e.code 
 		LEFT join MAPD m on r.product = m.code
 		where r.code = #{code}
-
-	</select>
-	
-	<!-- 수주정보 검색하기 -->
-	<select id="research" resultType="RequestVO">
-		SELECT r.*, c.name clientName, m.name productName
-		FROM REQUEST r
-		LEFT JOIN CLIENT c on r.client_code = c.code
-		RIGHT join STOCK s on r.product = s.mapd_code
-		LEFT join MAPD m on r.product = m.code
-		where 1 = 1
-		<if test="clientName neq null and clientName.toString() neq '' "> AND r.client_code = #{client_code} </if>
-		<if test="productName neq null and productName.toString() neq ''"> AND m.name = #{productName} </if>
-		<if test="date neq null and date.toString() neq '' "> 
-		<choose>
-			<when test="endDate neq null and endDate.toString() neq '' and startDate neq null and startDate.toString() neq ''">
-			AND r.date between #{startDate} and #{endDate} 
-			</when>
-			<when test="endDate neq null and endDate.toString() neq '' and (startDate eq null or startDate.toString() eq '')">
-			AND r.date = #{endDate} </when>
-			<otherwise>AND r.date = #{startDate} </otherwise>
-		</choose>
-		</if>
-		<if test="deadline neq null and deadline.toString() neq '' ">
-		<choose>
-			<when test="endDead neq null and endDead.toString() neq '' and startDead neq null and startDead.toString() neq ''">
-			AND r.deadline between #{startDead} and #{endDead} 
-			</when>
-			<when test="endDead neq null and endDead.toString() neq ''  and (startDead eq null or startDead.toString() eq '')">
-			AND r.deadline = #{endDead} 
-			</when>
-			<otherwise>AND r.deadline = #{startDead} </otherwise>
-		</choose>
-		 </if>
-		<if test="manager neq null and manager.toString() neq '' "> AND r.manager = #{manager} </if>
-		<if test="statusList != null and statusList.size() > 0" >
-		 AND r.status in 
-		 <foreach collection="statusList" item="status" open="(" close=")" separator=",">
-		 #{status} 
-		 </foreach>
-		 </if>
-		order by r.reg_date DESC 
 	</select>
 
+
+<!-- ============================ add / search ====================== -->
 	<!-- 회사찾기 -->
 	<select id="getClientList" resultType="RequestVO">
-		select code client_code, name clientName from CLIENT where active = 0;
+		select code client_code, name clientName from CLIENT where active = 1  LIMIT #{startPage},#{pageSize}
 	</select>
 
 	<select id="findCompany" resultType="RequestVO">
-		select code client_code, name clientName from CLIENT where active = 0
+		select code client_code, name clientName from CLIENT where active = 1
 		<if test="client_code!= null"> AND code like concat('%',#{client_code},'%') </if>
 		<if test="clientName != null"> AND name like concat('%',#{clientName},'%') </if>
+		LIMIT #{startPage},#{pageSize}
 	</select>
 
 	<select id="getManagerList" resultType="RequestVO">
 		select code manager, name managerName
 		from EMPLOYEES
 		where dep_id = '영업부'
+		LIMIT #{startPage},#{pageSize}
 	</select>
 
 	<select id="findManager" resultType="RequestVO">
@@ -112,12 +156,14 @@
 		where dep_id = '영업부'
 		<if test="manager != null"> AND code like concat('%',#{manager},'%')</if>
 		<if test="managerName != null">AND name like concat('%',#{managerName},'%')</if>
+		LIMIT #{startPage},#{pageSize}
 	</select>
 
 	<select id="getProductList" resultType="RequestVO">
 		select m.code product, m.name productName, m.unit, m.outprice currency,
 		s.amount stock
 		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 1
+		LIMIT #{startPage},#{pageSize}
 	</select>
 
 	<select id="findProduct" resultType="RequestVO">
@@ -126,8 +172,11 @@
 		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 1
 		<if test="product != null and product != ''">AND m.code like concat('%',#{product},'%')</if>
 		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
+		LIMIT #{startPage},#{pageSize}
 	</select>
 	
+<!-- ============================ add / search ====================== -->
+
 	<!-- 수주번호 가져오기 -->
 	<select id="getRecentCode" resultType="String">
 		SELECT code FROM REQUEST WHERE code LIKE concat(#{result},'%') ORDER BY reg_date DESC LIMIT 0, 1

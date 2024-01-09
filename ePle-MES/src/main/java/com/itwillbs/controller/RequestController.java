@@ -1,8 +1,8 @@
 package com.itwillbs.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -11,11 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
-import com.itwillbs.domain.RequestSearchVO;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.service.RequestService;
 
@@ -42,21 +36,31 @@ public class RequestController {
 	
 	// http://localhost:8088/request/list
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void requestListGET(Model model, 
+	public void requestListGET(Model model, RequestVO vo,
 							   HttpSession session, 
-							   @ModelAttribute("result") String result, Criteria cri
+							   PageVO pageVO, Criteria cri
 							   ) throws Exception { //5-1
 		// 수주 목록 return
 		logger.debug("requestListGET -> DB에서 목록 가져오기(페이징 처리하기)");
-
-		List<RequestVO> requestList = rService.requestListpage(cri);
 		
-		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
+		pageVO.setTotalCount(rService.getTotal(vo)); // 디비에서 직접 실행결과 가져오기
+		List<RequestVO> requestList = rService.requestListpage(vo,cri);
 		
-		model.addAttribute("List",requestList);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		logger.debug("test"+vo.getClientName());
+		paramMap.put("clientName", vo.getClientName());
+		paramMap.put("productName", vo.getProductName());
+		paramMap.put("managerName", vo.getManagerName());
+		paramMap.put("statusList", vo.getStatusList());
+		paramMap.put("startDate", vo.getStartDate());
+		paramMap.put("endDate", vo.getEndDate());
+		paramMap.put("startDead", vo.getStartDead());
+		paramMap.put("endDead", vo.getEndDead());
+		
+		model.addAttribute("requestList",requestList);
 		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("paramMap", paramMap);
 		
 
 	}
@@ -75,32 +79,6 @@ public class RequestController {
 		model.addAttribute("vo",vo);
 
 	}
-	
-	// http://localhost:8088/request/search
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	@ResponseBody
-	public List<RequestVO> searchRequestGET(RedirectAttributes rttr, @ModelAttribute("result") String result, 
-								 RequestVO vo) throws Exception { // 수주검색 5-3
-		logger.debug("searchRequestGET() -> 정보 받아서 DB에 조회하기");
-		logger.debug("Controller - vo "+vo);
-		// 전달받을 정보(수주상태 ,담당자코드, 업체코드
-		String startDate = vo.getStartDate() != null ? vo.getStartDate() : "";
-		String endDate = vo.getEndDate() != null ? vo.getEndDate() : "";
-		vo.setDate(startDate+endDate);
-		
-		String startDead = vo.getStartDead() != null ? vo.getStartDead() : "";
-		String endDead = vo.getEndDead() != null ? vo.getEndDead() : "";
-		vo.setDeadline(startDead +endDead);
-		
-		List<RequestVO> RequestList= rService.findRequestList(vo);
-		logger.debug("검색정보 : "+RequestList);
-		
-		rttr.addFlashAttribute("searchList",RequestList);
-		
-		return RequestList;
-	}
-	
-	
 	
 
 	// http://localhost:8088/request/add
@@ -121,8 +99,6 @@ public class RequestController {
 						
 				// ex ) 기존 코드 23ODMG1207BB1
 				String code = vo.getCode();
-				// ex) BB1 지금 상품코드
-				String lastThreeCharacters = code.substring(code.length()-3);
 
 				if(recentCode == null || recentCode.equals("")) {
 					// 등록된 코드가 없는 경우
@@ -167,12 +143,14 @@ public class RequestController {
 	// -------- 수주등록 데이터 찾기 ---------
 	
 	@RequestMapping(value = "searchClient", method=RequestMethod.GET)
-	public void searchClientGET(RequestVO vo, Model model, HttpSession session)throws Exception{
+	public void searchClientGET(RequestVO vo, Model model, PageVO pageVO, Criteria cri, HttpSession session)throws Exception{
 		logger.debug("controller : 거래사 정보 찾기");
 		logger.debug("searchClientGET    실행");
 
 		// 거래사 리스트 출력하기
-		List<RequestVO> clientList = rService.ClientList();
+		List<RequestVO> clientList = rService.ClientList(cri);
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(rService.getClientTotal(vo)); // 디비에서 직접 실행결과 가져오기
 		logger.debug("clientList : "+clientList);
 		model.addAttribute("List", clientList);
 
@@ -180,11 +158,14 @@ public class RequestController {
 	
 	@RequestMapping(value = "searchClient", method=RequestMethod.POST)
 	public List<RequestVO> searchClientPOST(@RequestParam("client_code") String client_code,
-											@RequestParam("clientName") String clientName,Model model)throws Exception{
+											@RequestParam("clientName") String clientName,
+											PageVO pageVO, Criteria cri,Model model)throws Exception{
 		logger.debug("controller : 거래사 정보 DB 검색결과 가져오기");
 		logger.debug("searchClientPOST    실행");
 
 		List<RequestVO> clientList = rService.findClient(client_code,clientName);
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(rService.getClientTotal(vo));
 //		model.addAttribute("List", clientList);
 		logger.debug("가져온 List"+clientList);
 		
@@ -192,7 +173,7 @@ public class RequestController {
 	}
 	
 	@RequestMapping(value = "searchManager" ,method = RequestMethod.GET)
-	public void searchManagerGET(Model model, HttpSession session)throws Exception{
+	public void searchManagerGET(Model model,PageVO pageVO, Criteria cri, HttpSession session)throws Exception{
 		logger.debug("controller : 담당자 정보 찾기");
 		logger.debug("searchManagerGET    실행");
 		
@@ -204,7 +185,7 @@ public class RequestController {
 	@RequestMapping(value = "searchManager" ,method = RequestMethod.POST)
 	@ResponseBody
 	public List<RequestVO> searchManagerPOST(@RequestParam("manager") String manager,
-								  @RequestParam("managerName") String managerName, Model model)throws Exception{
+								  @RequestParam("managerName") String managerName,PageVO pageVO, Criteria cri, Model model)throws Exception{
 		
 		logger.debug("controller : 담당자 정보 DB 검색결과 가져오기");
 		logger.debug("searchManagerPOST    실행");
@@ -218,7 +199,7 @@ public class RequestController {
 	}
 	
 	@RequestMapping(value = "searchProduct",method = RequestMethod.GET)
-	public void searchProductGET(Model model, HttpSession session)throws Exception{
+	public void searchProductGET(Model model,PageVO pageVO, Criteria cri, HttpSession session)throws Exception{
 		logger.debug("controller : 상품 정보 찾기");
 		logger.debug("searchProductGET   실행");
 		
@@ -229,7 +210,7 @@ public class RequestController {
 	@RequestMapping(value = "searchProduct",method = RequestMethod.POST)
 	@ResponseBody
 	public List<RequestVO> searchProductPOST(@RequestParam("product") String product,
-								  @RequestParam("productName") String productName, Model model)throws Exception{
+								  @RequestParam("productName") String productName,PageVO pageVO, Criteria cri, Model model)throws Exception{
 		// 찾아와야하는것 : 품번, 품명, 재고, 단위, 단가
 		logger.debug("controller : 상품 정보 DB 검색결과 가져오기 ");
 		logger.debug("searchProductPOST   실행");

@@ -8,9 +8,9 @@ import com.itwillbs.domain.ShipmentVO;
 
 public interface RequestDAO {
 	// 페이징처리
-	public List<RequestVO> getRequestListPage(Criteria cri)throws Exception;
+	public List<RequestVO> getRequestListPage(RequestVO vo,Criteria cri)throws Exception;
 	public List<RequestVO> getRequestListPage(int page)throws Exception;
-	public int getRequestCount() throws Exception;
+	public int getRequestCount(RequestVO vo) throws Exception;
 
 	// 수주리스트
 	public List<RequestVO> getRequestListAll () throws Exception;
@@ -21,7 +21,7 @@ public interface RequestDAO {
 	// 수주상세보기
 	public RequestVO getRequestDetail(String code) throws Exception;
 	//회사리스트
-	public List<RequestVO> getClientList() throws Exception;
+	public List<RequestVO> getClientList(Criteria cri) throws Exception;
 	//회사검색
 	public List<RequestVO> searchClient(String client_code, String clientName) throws Exception;
 	// 품목리스트
@@ -35,7 +35,7 @@ public interface RequestDAO {
 	// 수주 수정
 	public int requestUpdate(RequestVO vo, String id)throws Exception;
 	// 수주 검색
-	public List<RequestVO> searchRequestAll(RequestVO vo)throws Exception;
+	public List<RequestVO> searchRequestAll(RequestVO vo, Criteria cri)throws Exception;
 	// 삭제용
 	public List<RequestVO> getRequestDetail(String[] code)throws Exception;
 	// DB삭제용

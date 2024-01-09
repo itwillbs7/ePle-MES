@@ -27,15 +27,42 @@ public class RequestDAOImpl implements RequestDAO {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<RequestVO> getRequestListPage(Criteria cri) throws Exception {
+	public List<RequestVO> getRequestListPage(RequestVO vo,Criteria cri) throws Exception {
 		logger.debug("DAO 페이징 처리 getRequestListPage(Criteria cri) + "+ cri);
 		
 		
-		return sqlSession.selectList(NAMESPACE+".listPage", cri);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("cri", cri);
+		paramMap.put("vo", vo);
+		
+		List<RequestVO> list = new ArrayList<RequestVO>();
+				
+		if(vo == null) {
+			list = sqlSession.selectList(NAMESPACE+".listPage", paramMap);
+		}else {
+			list = sqlSession.selectList(NAMESPACE+".research", paramMap);
+		}
+		
+		
+		return list;
 
 	}
 
 
+	@Override
+	public int getRequestCount(RequestVO vo) throws Exception {
+		logger.debug("DAO getRequestCount()");
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("vo", vo);
+		int result = 0;
+		if(paramMap.get("vo") == null) {			
+			result = sqlSession.selectOne(NAMESPACE+".countRequest");
+		}else {
+			result = sqlSession.selectOne(NAMESPACE+".countSearch",paramMap);
+		}
+		return result;
+		
+	}
 
 	@Override
 	public List<RequestVO> getRequestListPage(int page) throws Exception {
@@ -50,12 +77,6 @@ public class RequestDAOImpl implements RequestDAO {
 
 
 
-	@Override
-	public int getRequestCount() throws Exception {
-		logger.debug("DAO getRequestCount()");
-		return sqlSession.selectOne(NAMESPACE+".countRequest");
-
-	}
 
 
 
@@ -97,9 +118,9 @@ public class RequestDAOImpl implements RequestDAO {
 	//----- add 용 검색 ----
 
 	@Override
-	public List<RequestVO> getClientList() throws Exception {
+	public List<RequestVO> getClientList(Criteria cri) throws Exception {
 		logger.debug("DAO 회사리스트뽑기 getClientList() ");
-		return sqlSession.selectList(NAMESPACE+".getClientList");
+		return sqlSession.selectList(NAMESPACE+".getClientList",cri);
 	}
 
 	@Override
@@ -172,12 +193,14 @@ public class RequestDAOImpl implements RequestDAO {
 
 
 	@Override
-	public List<RequestVO> searchRequestAll(RequestVO vo) throws Exception {
+	public List<RequestVO> searchRequestAll(RequestVO vo,Criteria cri) throws Exception {
 		// 수주 검색
 		logger.debug("DAO searchRequestAll(RequestVO vo)"+vo);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("cri", cri);
+		paramMap.put("vo", vo);
 		
-		
-		List list = sqlSession.selectList(NAMESPACE+".research", vo);
+		List list = sqlSession.selectList(NAMESPACE+".research", paramMap);
 		logger.debug("list : "+list);
 		return list;
 	}

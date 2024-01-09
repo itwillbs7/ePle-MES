@@ -116,14 +116,10 @@
 
 	<script type="text/javascript" class="formDataSetting">
 		// 출하일자 min 설정
-		document.getElementById('shipdate').addEventListener(
-				'input',
-				function() {
-					document.getElementById('date').min = document
-							.getElementById('shipdate').value;
-					document.getElementById('amount').max = document
-							.getElementById('samount').value;
-				});
+		document.getElementById('shipdate').addEventListener('input',function() {
+					document.getElementById('date').min = document.getElementById('shipdate').value;
+					document.getElementById('amount').max = document.getElementById('samount').value;
+		});
 		
 
 		 // 수주번호 생성
@@ -164,41 +160,7 @@
 	</script>
 	<!-- ajax -->
 	<script type="text/javascript" id="ajaxForSubmit">
-		function finished() {
-
-			document.querySelector('#code').value = createOrderNum();
-
-			// 미입력 찾기
-			var form = document.getElementById('addForm');
-			if (!form.checkValidity()) {
-				var inputs = form.getElementsByTagName('input');
-				for (var i = 0; i < inputs.length; i++) {
-					if (!inputs[i].validity.valid) {
-						var label = form.querySelector('label[for="'
-								+ inputs[i].id + '"]');
-						if (label) {
-							label.innerHTML += '<span style="color: red; font-size: 12px;"> * 내용을 입력해주세요 </span>';
-						}
-						inputs[i].focus();
-						break;
-					}
-				}
-				return;
-			}
-
-			$.ajax({
-				type : "POST",
-				url : '/shipment/add', // 폼을 제출할 서버의 URL
-				data : $("#addForm").serialize(), // 'addForm' ID를 가진 폼의 데이터를 직렬화
-				success : function(data) {
-
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					// 폼 제출에 실패하면
-					alert('폼 제출에 실패했습니다: ' + textStatus);
-				}
-			});
-		}
+	
 	</script>
 	<!-- 팝업 -->
 	<script type="text/javascript">

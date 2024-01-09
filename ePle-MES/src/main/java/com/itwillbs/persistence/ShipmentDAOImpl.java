@@ -398,7 +398,14 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		logger.debug("큐알코드 처리하기~~~ 수주번호를 가져왔다~~@!@"+code);
 		Map<String, Object> params = new HashMap<>();
 		params.put("code", code);
-		return sqlSession.update(NAMESPACE+".receiptToClient", code);
+		return sqlSession.update(NAMESPACE+".receiptToClient", params);
+	}
+
+	@Override
+	public int actDoneShipment(String[] code) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		params.put("code", code);
+		return sqlSession.update(NAMESPACE+".updateStatusToShipment",code);
 	}
 
 	

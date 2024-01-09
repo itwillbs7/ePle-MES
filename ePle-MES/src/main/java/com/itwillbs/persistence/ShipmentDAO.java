@@ -55,6 +55,8 @@ public interface ShipmentDAO {
 
 	public int receiptToClient(String[] code)throws Exception;
 
+	public int actDoneShipment(String[] code)throws Exception;
+
 
 
 }

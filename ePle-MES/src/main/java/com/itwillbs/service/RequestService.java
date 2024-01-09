@@ -7,8 +7,8 @@ import com.itwillbs.domain.RequestVO;
 
 public interface RequestService {
 	// 페이징처리
-	public List<RequestVO> requestListpage(Criteria cri)throws Exception;
-	public int getTotal() throws Exception;
+	public List<RequestVO> requestListpage(RequestVO vo,Criteria cri)throws Exception;
+	public int getTotal(RequestVO vo) throws Exception;
 	 //수주리스트
 	 public List<RequestVO> requestList() throws Exception;
 	 // 수주상세
@@ -20,7 +20,7 @@ public interface RequestService {
 	 // 회사검색
 	 public List<RequestVO> findClient(String client_code, String clientName)throws Exception;
 	 // 회사리스트
-	 public List<RequestVO> ClientList() throws Exception;
+	 public List<RequestVO> ClientList(Criteria cri) throws Exception;
 	 // 사원리스트
 	 public List<RequestVO> ManagerList() throws Exception;
 	 // 사원검색
@@ -32,11 +32,12 @@ public interface RequestService {
 	 // 품목 수정
 	 public int updateRequest(RequestVO vo, String id)throws Exception;
 	 // 수주검색
-	 public List<RequestVO> findRequestList(RequestVO vo)throws Exception;
+	 public List<RequestVO> findRequestList(RequestVO vo, Criteria cri)throws Exception;
 	 // 삭제용
 	 public List<RequestVO> getinfo(String[] code)throws Exception;
 	 // DB삭제용
 	 public int deleteRequest(String[] code)throws Exception;
+	public int getClientTotal(RequestVO vo)throws Exception;
 
 
 }

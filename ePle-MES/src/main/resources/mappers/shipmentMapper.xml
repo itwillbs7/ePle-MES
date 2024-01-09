@@ -207,8 +207,8 @@ WHERE T.Total >= 1;
 	
 	<!-- LOT 테이블에 값 넣기 -->
 	<insert id="insertLOT">
-		insert into LOT (code,lot, material,shipment)
-    	values ("test", #{lot}, (SELECT material FROM LOT WHERE lot = #{lot}), #{vo.code})
+		insert into LOT (lot, material,shipment)
+    	values ( #{lot}, (SELECT material FROM LOT WHERE lot = #{lot}), #{vo.code})
 	</insert>
 	
 	
@@ -259,7 +259,7 @@ WHERE T.Total >= 1;
 	
 	<!-- 수주정보리스트로 가져오기 -->
 	<select id="getRequestInfoList" resultType="RequestVO">
-		SELECT *, c.name clientName, m.name productName
+		SELECT r.*, c.name clientName, m.name productName, c.address startDate ,c.address2 endDate, c.tel startDead
 		from REQUEST r
 		join CLIENT c on r.client_code = c.code 
 		join STOCK s on r.product = s.mapd_code 
@@ -282,17 +282,17 @@ WHERE T.Total >= 1;
 		</foreach>
 	</update>
 	
-	<update id="updateStatusToShipment">
+	<update id="updateStatusToShipment" parameterType="map">
 		UPDATE SHIPMENT s
 		SET s.status = '출하완료'
 		WHERE s.code IN
 		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
-			#{codeNum}
+			'#{codeNum}'
 		</foreach>
 	</update>
 
-	<update id="receiptToClient">
-		UDATE REQUEST 
+	<update id="receiptToClient" >
+		UPDATE REQUEST 
 		set status = '수령'
 		WHERE code IN
 		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
