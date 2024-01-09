@@ -80,7 +80,7 @@
 	
 	<!-- 발주요청 리스트 -->
 	<select id="askOrderList" resultType="OrderVO">
-		SELECT o.code, o.material, m.name, o.amount, m.unit, o.date, o.status, m.code_id
+		SELECT o.code, o.material, m.name, o.amount, m.unit, o.date, o.status, m.group_id
     	FROM ORDERS o
 		LEFT OUTER JOIN MAPD m
         ON o.material = m.code
@@ -220,24 +220,24 @@
 	</select>
 	
 	<!-- 발주요청등록) 품목 목록 (원자재) -->
-	<select id="searchMAPD" resultType="OrderVO">
+	<select id="searchMaterial" resultType="OrderVO">
 		SELECT code, name
-		FROM MAPD  <!-- 공통코드 정해지면 수정하기 -->
-<!--    WHERE
-			<if test="searchName != null">
-				name LIKE CONCAT('%', #{searchName}, '%')
-			</if>   -->
+		FROM MAPD  
+	    WHERE group_id = 'MAT'
+		<if test="searchName != null">
+			AND name LIKE CONCAT('%', #{searchName}, '%')
+		</if>  
     	LIMIT #{cri.startPage}, #{cri.pageSize}
 	</select>	
 	
 	<!-- 발주요청등록) 품목 데이터 수 (원자재) -->
-	<select id="searchMAPDCount" resultType="int">
+	<select id="searchMaterialCount" resultType="int">
 		SELECT count(*) 
 		FROM MAPD
-<!--		WHERE 
-			<if test="searchName != null">
-				name LIKE CONCAT('%', #{searchName}, '%')
-			</if> -->
+		WHERE group_id = 'MAT'
+		<if test="searchName != null">
+			AND name LIKE CONCAT('%', #{searchName}, '%')
+		</if> 
 	</select>	
 	
 	</mapper>

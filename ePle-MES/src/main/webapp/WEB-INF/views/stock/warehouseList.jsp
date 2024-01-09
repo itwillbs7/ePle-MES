@@ -106,7 +106,6 @@
 							<th>창고명</th>
 							<th>담당자</th>
 							<th>연락처</th>
-							<th>사용여부</th>
 							<th>옵션</th>
 						</tr>
 
@@ -124,7 +123,6 @@
 							<th>${vo.wh_name }</th>
 							<th>${vo.name }</th>
 							<th>${vo.phone }</th>
-							<th>${vo.active }</th>
 							<td style="">
 
 
@@ -149,11 +147,11 @@
 				</form>
 
 				<!-------------------------------- 창고 갯수 -------------------------------->
-				<div class="row">
+				<!-- <div class="row">
 					<div class="col-sm-12 col-md-5">
 						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
 					</div>
-				</div>
+				</div> -->
 
 
 				<!--------------------------------- 페이징 ---------------------------------->

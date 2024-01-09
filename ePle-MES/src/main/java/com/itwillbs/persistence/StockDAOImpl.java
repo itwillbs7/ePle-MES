@@ -46,6 +46,12 @@ public class StockDAOImpl implements StockDAO {
 		logger.debug("D - warehouseAdd(WarehouseVO vo)");
 		return sqlSession.insert(NAMESPACE + ".warehouseAdd", vo);
 	}
+	// 최신코드 가져오기
+	@Override
+	public String whRecentCode() throws Exception {
+		logger.debug("D - whRecentCode()");
+		return sqlSession.selectOne(NAMESPACE + ".whRecentCode");
+	}
 	// 창고 상세
 	@Override
 	public WarehouseVO warehouseInfo(String code) throws Exception {

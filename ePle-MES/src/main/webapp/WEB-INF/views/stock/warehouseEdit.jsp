@@ -41,8 +41,8 @@
 
 								<div class="form-group">
 									<label>관리자 정보</label> 
-									<input class="form-control" type="hidden" id="selectA">
-									<input class="form-control" type="text" id="selectB" name="manager" readonly value="${List.name}">
+									<input class="form-control" type="hidden" id="selectA" name="manager">
+									<input class="form-control" type="text" id="selectB" readonly value="${List.name}">
 								</div>
 								<div class="form-group">
 									<input class="form-control" type="text" id="selectC" name="mng_phone" readonly value="${List.phone}">

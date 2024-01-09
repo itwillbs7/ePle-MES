@@ -16,6 +16,8 @@ import com.itwillbs.domain.WarehouseVO;
 		 public int warehouseListCount(WarehouseVO vo) throws Exception;
 		 // 창고 등록
 		 public int warehouseAdd(WarehouseVO vo) throws Exception;
+		 // 최신코드 가져오기
+		 public String whRecentCode() throws Exception;
 		 // 창고 상세
 		 public WarehouseVO warehouseInfo(String code) throws Exception;
 		 // 창고 수정

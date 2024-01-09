@@ -25,8 +25,9 @@ import com.itwillbs.service.MaterialService;
 
 /** MaterialController : 자재 컨트롤러 합치는중
 * 
-*	    입고 - http://localhost:8088/material/inList
 *	발주요청 - http://localhost:8088/material/askOrderList
+*	발주관리 - http://localhost:8088/material/orderList
+*	    입고 - http://localhost:8088/material/inList
 */
 
 @Controller
@@ -243,7 +244,9 @@ public class MaterialController {
 	  
 	  
 	  
-	  
+	  /*--------------------------------------발주관리 시작-----------------------------------------*/
+      
+	  // ======================================발주관리 - 목록
 	  @RequestMapping(value = "/orderList", method = RequestMethod.GET) 
 	  public void orderList(Model model, Criteria cri, OrderVO vo) throws Exception {
 	  
@@ -293,15 +296,15 @@ public class MaterialController {
 	  }
 	  
 	  // 발주요청등록) 품목 목록 (원자재) 
-	  @RequestMapping(value = "/searchMAPD" , method = RequestMethod.GET)
-	  public void searchMAPD(Model model, Criteria cri, OrderVO vo) throws Exception{
+	  @RequestMapping(value = "/searchMaterial" , method = RequestMethod.GET)
+	  public void searchMaterial(Model model, Criteria cri, OrderVO vo) throws Exception{
 		  
 		  vo.setCri(cri);
 		  PageVO pageVO = new PageVO();
 		  pageVO.setCri(cri);
-		  pageVO.setTotalCount(mService.searchMAPDCount(vo));
+		  pageVO.setTotalCount(mService.searchMaterialCount(vo));
 		  model.addAttribute("pageVO", pageVO);
-		  model.addAttribute("searchMAPD", mService.searchMAPD(vo)); 
+		  model.addAttribute("searchMaterial", mService.searchMaterial(vo)); 
 		  
 	  }
   	

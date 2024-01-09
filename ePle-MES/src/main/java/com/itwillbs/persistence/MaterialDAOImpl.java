@@ -151,15 +151,15 @@ public class MaterialDAOImpl implements MaterialDAO {
 	
 	// 발주요청등록) 품목 목록 (원자재) 
 	@Override
-	public List<OrderVO> searchMAPD(OrderVO vo) throws Exception {
-		logger.debug("D - searchMAPD(OrderVO vo)");
-		return sqlSession.selectList(NAMESPACE + ".searchMAPD", vo);
+	public List<OrderVO> searchMaterial(OrderVO vo) throws Exception {
+		logger.debug("D - searchMaterial(OrderVO vo)");
+		return sqlSession.selectList(NAMESPACE + ".searchMaterial", vo);
 	}
 	// 발주요청등록) 품목 데이터 수 (원자재) 
 	@Override
-	public int searchMAPDCount(OrderVO vo) throws Exception {
-		logger.debug("D - searchMAPDCount(OrderVO vo)");
-		return sqlSession.selectOne(NAMESPACE + ".searchMAPDCount", vo);
+	public int searchMaterialCount(OrderVO vo) throws Exception {
+		logger.debug("D - searchMaterialCount(OrderVO vo)");
+		return sqlSession.selectOne(NAMESPACE + ".searchMaterialCount", vo);
 	}	
 	
 

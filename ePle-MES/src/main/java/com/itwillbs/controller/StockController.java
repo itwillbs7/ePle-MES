@@ -34,8 +34,6 @@ public class StockController {
 	@Inject
 	private StockService sService;
 
-	private int warehouseCount = 1;
-	
 	  /*--------------------------------------창고관리 시작-----------------------------------------*/
     
 	  // ======================================창고 - 목록
@@ -60,12 +58,22 @@ public class StockController {
 	  
       @RequestMapping(value = "/warehouseAdd", method = RequestMethod.POST)
 	  public String warehouseAdd(WarehouseVO vo, RedirectAttributes rttr) throws Exception {
-  	
-    	  String code = "W" + String.format("%02d", warehouseCount);
-    	  vo.setCode(code);
+    	  String recentCode = sService.whRecentCode();
 
-    	  warehouseCount++; 
-    	    
+    	  String code = "W";
+
+    	  if(recentCode == null || recentCode.equals("")) {
+    		  code += "01";
+    	  }
+
+    	  else {
+    			  String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-2)) + 1);
+    			  while(fCount.length() < 2) fCount = "0" + fCount;
+    			  code += fCount;
+    	  }
+    	  
+    	  vo.setCode(code);
+    	  
     	  int result = sService.warehouseAdd(vo); 
   	
     	  if (result == 1) {

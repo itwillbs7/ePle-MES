@@ -144,15 +144,15 @@ public class MaterialServiceImpl implements MaterialService {
 	
 	// 발주요청등록) 품목 목록 (원자재)
 	@Override
-	public List<OrderVO> searchMAPD(OrderVO vo) throws Exception {
-		logger.debug("S - searchMAPD(OrderVO vo)");
-		return mdao.searchMAPD(vo);
+	public List<OrderVO> searchMaterial(OrderVO vo) throws Exception {
+		logger.debug("S - searchMaterial(OrderVO vo)");
+		return mdao.searchMaterial(vo);
 	}
 	// 발주요청등록) 품목 데이터 수 (원자재) 
 	@Override
-	public int searchMAPDCount(OrderVO vo) throws Exception {
-		logger.debug("S - searchMAPDCount(OrderVO vo)");
-		return mdao.searchMAPDCount(vo);
+	public int searchMaterialCount(OrderVO vo) throws Exception {
+		logger.debug("S - searchMaterialCount(OrderVO vo)");
+		return mdao.searchMaterialCount(vo);
 	}	
 	
 	

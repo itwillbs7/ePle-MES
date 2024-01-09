@@ -41,6 +41,12 @@ public class StockServiceImpl implements StockService {
 		logger.debug("S - warehouseAdd(WarehouseVO vo)");
 		return sdao.warehouseAdd(vo);
 	}
+	// 최신코드 가져오기
+	@Override
+	public String whRecentCode() throws Exception {
+		logger.debug("S - whRecentCode()");
+		return sdao.whRecentCode();
+	}
 	// 창고 상세
 	@Override
 	public WarehouseVO warehouseInfo(String code) throws Exception {

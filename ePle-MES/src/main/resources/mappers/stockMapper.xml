@@ -14,7 +14,7 @@
     	FROM WAREHOUSE w 
     	JOIN EMPLOYEES e 
     	ON w.manager = e.code
-		<where>
+		<where> 
 			<if test="searchCode != null or searchName != null">
 			<if test="searchCode != null">
 				w.code LIKE CONCAT('%', #{searchCode}, '%')
@@ -55,6 +55,11 @@
 		INSERT INTO WAREHOUSE (code,location,category,name,manager,mng_phone,active) 
 		VALUES (#{code},#{location},#{category},#{name},#{manager},#{mng_phone},'1')
 	</insert>	
+	
+	<!-- 최신코드 가져오기 -->
+	<select id="whRecentCode" resultType="String">
+		SELECT code FROM WAREHOUSE WHERE code LIKE 'W%' ORDER BY code DESC LIMIT 0, 1
+	</select>
 	
 	<!-- 창고 상세 -->
 	<select id="warehouseInfo" parameterType="String" resultType="WarehouseVO">

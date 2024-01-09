@@ -6,8 +6,16 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
+<style>
+  .table th,
+  .table td {
+    text-align: center;
+  }
+</style>
 <title>품목 조회</title>
+
 <!-- 원자재 품목만 출력합니다 -->
+
 <style type="text/css">
 .con:hover{
 	background-color : #e1e1e1;
@@ -56,7 +64,7 @@
 			</thead>
 			
 			<tbody>
-				<c:forEach items="${searchMAPD}" var="vo">
+				<c:forEach items="${searchMaterial}" var="vo">
 				<tr onclick="selectWork('${vo.code }','${vo.name }')">
 					<td class="con">${vo.code }</td>
 					<td class="con">${vo.name }</td>
@@ -71,16 +79,16 @@
 				<c:if test="${pageVO.totalCount > 1}">
 					<div class="btn-group">
 						<c:if test="${pageVO.prev}">
-							<a href="/material/searchMAPD?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> 
+							<a href="/material/searchMaterial?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> 
 								<i class="fa fa-angle-double-left"></i>
 							</a>
 						</c:if>
 						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i" step="1">
-							<a href="/material/searchMAPD?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}">
+							<a href="/material/searchMaterial?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}">
 								${i} </a>
 						</c:forEach>
 						<c:if test="${pageVO.next}">
-							<a href="/material/searchMAPD?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> 
+							<a href="/material/searchMaterial?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> 
 								<i class="fa fa-angle-double-right"></i>
 							</a>
 						</c:if>
@@ -105,15 +113,15 @@
 				        console.log("searchName:", query.searchName);
 				        
 				        $.ajax({
-				            url : "${pageContext.request.contextPath}/material/searchMAPD",
+				            url : "${pageContext.request.contextPath}/material/searchMaterial",
 				            type : "get",
 				            data : query,
 				            dataType : "text",
 				            success : function(data){
 				                 if (query.searchCode == "" && query.searchName == "") {
-				                    location.href = "${pageContext.request.contextPath}/material/searchMAPD";
+				                    location.href = "${pageContext.request.contextPath}/material/searchMaterial";
 				                } else {
-				                    location.href = "${pageContext.request.contextPath}/material/searchMAPD?&searchName=" + $("#mapdName").val();
+				                    location.href = "${pageContext.request.contextPath}/material/searchMaterial?&searchName=" + $("#mapdName").val();
 				                } 
 				                 
 //				                if (data) {

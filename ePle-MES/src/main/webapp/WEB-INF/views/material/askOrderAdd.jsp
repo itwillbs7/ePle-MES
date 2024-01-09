@@ -85,7 +85,7 @@
 	$(document).ready(function() {
 		// 등록 - 품목 리스트 (원자재)
 	    $("#mapdCode,#mapdName").click(function() {
-	        var url = '${pageContext.request.contextPath}/material/searchMAPD';
+	        var url = '${pageContext.request.contextPath}/material/searchMaterial';
 	        openPopup(url);
 	    });
 	 

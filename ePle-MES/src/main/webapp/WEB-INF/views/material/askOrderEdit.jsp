@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<title>발주 요청</title>
+<title>요청서 수정</title>
 </head>
 <body>
 <!-- 콘텐츠 시작 -->
@@ -13,7 +13,7 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">발주 요청</h1>
+				<h1 class="text-center text-primary">요청서 수정</h1>
 			</div>
 			<!-- 폼 -->
 			<form action="/material/askOrderEdit" method="post" id="editForm">
@@ -31,7 +31,7 @@
 								<div class="form-group">
 									<!-- <label>자재 유형</label>  -->
 								</div>
-
+									<!-- 품목은 수정X -->
 								<div class="form-group">
 									<label>품목 정보</label> 
 									<input class="form-control" type="text" id="mapdCode" name="material" placeholder="품목코드"  value="${List.material}" readonly>
@@ -74,14 +74,14 @@
 	    var popupWindow = window.open(url, '_blank', "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
 	    popupWindow.focus();
 	}
-	$(document).ready(function() {
-		// 등록 - 품목 리스트 (원자재)
-	    $("#mapdCode,#mapdName").click(function() {
-	        var url = '${pageContext.request.contextPath}/material/searchMAPD';
-	        openPopup(url);
-	    });
+//	$(document).ready(function() {
+//		// 등록 - 품목 리스트 (원자재)
+//	    $("#mapdCode,#mapdName").click(function() {
+//	        var url = '${pageContext.request.contextPath}/material/searchMaterial';
+//	        openPopup(url);
+//	    });
 	 
-	});
+//	});
 		
 	
 		

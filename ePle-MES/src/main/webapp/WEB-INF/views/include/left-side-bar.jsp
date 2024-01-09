@@ -59,7 +59,7 @@
 						class="mtext">자재 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="/material/askOrderList">발주 요청</a></li>
+						<li><a href="/material/orderList">발주 관리</a></li>
 						<li><a href="/material/inList">입출고 관리</a></li>
 						<li><a href="/stock/list">재고 관리</a></li>
 						<li><a href="/stock/warehouseList">창고 목록</a></li>
