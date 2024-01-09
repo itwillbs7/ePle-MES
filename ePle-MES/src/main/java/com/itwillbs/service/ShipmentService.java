@@ -29,9 +29,9 @@ public interface ShipmentService {
 
 	public List<RequestVO> findProduct(String product, String productName) throws Exception;
 	
-	public List<RequestVO> RequestList() throws Exception;
+	public List<RequestVO> RequestList(Criteria cri) throws Exception;
 	
-	public List<RequestVO> findRequest(String clientName, String productName)throws Exception;
+	public List<RequestVO> findRequest(String productName, String clientName, Criteria cri)throws Exception;
 	//============= add / search 용
 
 	public int updateShipment(ShipmentVO vo, String id) throws Exception;
@@ -56,5 +56,7 @@ public interface ShipmentService {
 	public int receiptToClient(String[] code)throws Exception;
 
 	public int actDoneShipment(String[] code)throws Exception;
+
+	public int getRequestTotal(String clientName, String productName);
 
 }

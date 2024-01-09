@@ -104,17 +104,23 @@ public class ShipmentServiceImpl implements ShipmentService {
 	
 
 	@Override
-	public List<RequestVO> RequestList() throws Exception {
+	public List<RequestVO> RequestList(Criteria cri) throws Exception {
 		logger.debug("RequestList() 수주목록 가져오기");
-		return sdao.getRequestList();
+		return sdao.getRequestList(cri);
 	}
+	
 
 
 	@Override
-	public List<RequestVO> findRequest(String clientName, String productName) throws Exception {
-		logger.debug("findRequest(String clientName, String productName)"+clientName+productName);
-		logger.debug("회사명, 품명으로 수주목록찾기");
-		return sdao.searchRequest(clientName, productName);
+	public int getRequestTotal(String clientName, String productName) {
+		// TODO Auto-generated method stub
+		return sdao.getRequestTotal(clientName, productName);
+	}
+
+	@Override
+	public List<RequestVO> findRequest(String productName, String clientName, Criteria cri) throws Exception {
+		// TODO Auto-generated method stub
+		return sdao.searchRequest(clientName, productName, cri);
 	}
 
 

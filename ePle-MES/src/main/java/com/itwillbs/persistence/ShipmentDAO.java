@@ -29,9 +29,9 @@ public interface ShipmentDAO {
 
 	public List<RequestVO> searchProduct(String product, String productName) throws Exception;
 	//수주 가져오기
-	public List<RequestVO> getRequestList()throws Exception;
+	public List<RequestVO> getRequestList(Criteria cri)throws Exception;
 	
-	public List<RequestVO> searchRequest(String clientName, String productName)throws Exception;
+	public List<RequestVO> searchRequest(String clientName, String productName, Criteria cri)throws Exception;
 	
 	
 	//================= ============================================
@@ -56,6 +56,8 @@ public interface ShipmentDAO {
 	public int receiptToClient(String[] code)throws Exception;
 
 	public int actDoneShipment(String[] code)throws Exception;
+
+	public int getRequestTotal(String clientName, String productName);
 
 
 

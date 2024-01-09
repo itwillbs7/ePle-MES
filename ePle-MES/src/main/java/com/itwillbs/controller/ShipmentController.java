@@ -50,16 +50,15 @@ public class ShipmentController {
 		
 	// http://localhost:8088/shipment/list
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void shipmentListGET(Model model, 
+	public void shipmentListGET(Model model, ShipmentVO vo,
 							   HttpSession session, 
-							   @ModelAttribute("result") String result, Criteria cri
+							   PageVO pageVO, Criteria cri
 							   ) throws Exception { //5-1
 		// 수주 목록 return
 		logger.debug("shipmentListGET -> DB에서 목록 가져오기(페이징 처리하기)");
 
 		List<ShipmentVO> shipmentList = sService.shipmentListpage(cri);
 		
-		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(sService.getTotal()); // 디비에서 직접 실행결과 가져오기
 		
@@ -266,22 +265,32 @@ public class ShipmentController {
 //	}
 	
 	@RequestMapping(value = "searchRequest", method = RequestMethod.GET)
-	public void searchRequestGET(Model model, HttpSession sessio)throws Exception{
+	public void searchRequestGET(Model model,PageVO pageVO, Criteria cri, HttpSession session)throws Exception{
 		logger.debug("cotroller : 수주정보 찾기");
-		
-		List<RequestVO> requestList = sService.RequestList();
+		String clientName = null;
+		String productName = null;
+		List<RequestVO> requestList = sService.RequestList(cri);
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(sService.getRequestTotal(clientName,productName));
 		logger.debug("가져온 List : "+requestList);
 		model.addAttribute("List", requestList);
+		model.addAttribute("pageVO", pageVO);
+
 
 	}
 	
 	@RequestMapping(value = "searchRequest", method = RequestMethod.POST)
-	@ResponseBody
 	public List<RequestVO> searchRequest(@RequestParam("clientName") String clientName,
-										@RequestParam("productName") String productName)throws Exception{
+										@RequestParam("productName") String productName,
+										PageVO pageVO, Criteria cri, Model model)throws Exception{
 		logger.debug("controller : 회사명, 품명으로 수주정보 찾기");
-		List<RequestVO> requestList = sService.findRequest(clientName, productName);
+		List<RequestVO> requestList = sService.findRequest(clientName, productName, cri);
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(sService.getRequestTotal(clientName,productName));
 		logger.debug("가져온 List : "+requestList);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("List", requestList);
+
 		return requestList;
 	}
 

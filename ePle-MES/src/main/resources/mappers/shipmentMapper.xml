@@ -79,6 +79,20 @@
 		LEFT join MAPD m on r.product = m.code
 		where status in ('등록','생산진행')
 		and s.amount >= r.amount
+		LIMIT #{startPage},#{pageSize}
+	</select>
+	
+	<select id="getRequestCount" resultType="int">
+		SELECT count(*)
+		FROM REQUEST r
+		LEFT JOIN CLIENT c on
+		r.client_code = c.code
+		RIGHT join STOCK s on r.product = s.mapd_code
+		LEFT join MAPD m on r.product = m.code
+		where status in ('등록','생산진행')
+		and s.amount >= r.amount
+		<if test="clientName != null and clientName!= ''">AND c.name like concat('%',#{clientName},'%')</if>
+		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
 	</select>
 
 	<select id="findRequest" resultType="RequestVO">
@@ -93,6 +107,7 @@
 		and s.amount >= r.amount
 		<if test="clientName != null and clientName!= ''">AND c.name like concat('%',#{clientName},'%')</if>
 		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
+		LIMIT #{cri.startPage},#{cri.pageSize}
 	</select>
 	<!-- ================= add/search -->
 	

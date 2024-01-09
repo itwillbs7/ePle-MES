@@ -203,19 +203,30 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	}
 	
 	@Override
-	public List<RequestVO> getRequestList() throws Exception {
+	public List<RequestVO> getRequestList(Criteria cri) throws Exception {
 		// 수주정보 가져오기 ( 수주코드, 수주일자, 품명, 수주량)
 		logger.debug("getRequestList() 수주정보 가져오기 ( 수주코드, 수주일자, 품명, 수주량)");
-		return sqlSession.selectList(NAMESPACE+".getRequestList");
+		return sqlSession.selectList(NAMESPACE+".getRequestList",cri);
 	}
 	
+	
+	
 	@Override
-	public List<RequestVO> searchRequest(String clientName, String productName) throws Exception {
-		// 검색(회사명, 품명)
-		logger.debug("searchRequest(String code, String productName) 회사명: "+clientName+", 품명 :"+productName);
-		Map<String, String> paramMap = new HashMap<String, String>();
+	public int getRequestTotal(String clientName, String productName) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("clientName", clientName);
 		paramMap.put("productName", productName);
+		return sqlSession.selectOne(NAMESPACE+".getRequestCount", paramMap);
+	}
+
+	@Override
+	public List<RequestVO> searchRequest(String clientName, String productName,Criteria cri) throws Exception {
+		// 검색(회사명, 품명)
+		logger.debug("searchRequest(String code, String productName) 회사명: "+clientName+", 품명 :"+productName);
+		Map<String,Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("clientName", clientName);
+		paramMap.put("productName", productName);
+		paramMap.put("cri",cri);
 		return sqlSession.selectList(NAMESPACE+".findRequest", paramMap);
 	}
 	

@@ -133,7 +133,8 @@
 <!-- ============================ add / search ====================== -->
 	<!-- 회사찾기 -->
 	<select id="getClientList" resultType="RequestVO">
-		select code client_code, name clientName from CLIENT where active = 1  LIMIT #{startPage},#{pageSize}
+		select code client_code, name clientName from CLIENT 
+		where active = 1  LIMIT #{startPage},#{pageSize}
 	</select>
 	
 	<select id="getClientCount" resultType="int">
