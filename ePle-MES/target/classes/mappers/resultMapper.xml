@@ -37,9 +37,9 @@
 		FROM RESULT R 
 		LEFT JOIN INSTRUCTION I 
 		ON R.inst_code = I.code 
-		WHERE 1=1
+		WHERE 1 = 1
 		<if test="date != null">
-			AND production_date = #{date}
+			 AND production_date = #{date}
 		</if>
 		<if test="line_code != null">
 			 AND line_code IN
@@ -56,7 +56,7 @@
 	<select id="getResult" resultType="com.production.domain.resultVO" resultMap="resultVOMap">
 		<![CDATA[
 			SELECT R.code AS R_code,emp_code,R.amount AS R_amount,status,R.reg_date AS R_reg_date,R.reg_emp AS R_reg_emp,R.update_date AS R_update_date,R.update_emp AS R_update_emp,inst_code,
-	  		I.code AS I_code,product,line_code,content,request,I.amount AS I_amount,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date 
+	  		I.code AS I_code,product,line_code,content,request,I.amount AS I_amount,production_date,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date 
 	  		FROM RESULT R 
 	  		LEFT JOIN INSTRUCTION I 
 	  		ON R.inst_code = I.code 
@@ -76,5 +76,21 @@
 	<select id="getLine_codeList" resultType="String">
 		SELECT DISTINCT line_code FROM RESULT R LEFT JOIN INSTRUCTION I ON R.inst_code = I.code;
 	</select>
+	<update id="productionStart">
+		UPDATE RESULT SET status = '생산중' WHERE code = #{code} AND status = '대기'
+	</update>
 	
+	<update id="productionComplete">
+		UPDATE RESULT SET status = '완료' WHERE code = #{code} AND status = '생산중'
+	</update>
+	
+	<update id="addResult">
+		<![CDATA[
+			UPDATE RESULT SET amount = amount+1,status = CASE WHEN amount = (SELECT amount FROM INSTRUCTION WHERE code = inst_code) THEN '완료' ELSE status END
+			WHERE code = #{code} AND status = '생산중' AND amount < (SELECT amount FROM INSTRUCTION WHERE code = inst_code)
+		]]>
+	</update>
+	<insert id="addFailed">
+		INSERT INTO FAILED VALUES(DEFAULT,'emp_code','group_id',null,null,'asd',1,now(),'관리자1',null,null,3)
+	</insert>
 </mapper>

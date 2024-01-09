@@ -32,7 +32,7 @@ public class resultDAOImpl implements resultDAO{
 		map.put("date", date);
 		map.put("line_code", line_code);
 		map.put("isFinish", isFinish);
-		return sqlSession.selectList(NAMESPACE + ".getResultList");
+		return sqlSession.selectList(NAMESPACE + ".getResultList",map);
 	}
 
 	@Override
@@ -55,4 +55,26 @@ public class resultDAOImpl implements resultDAO{
 		return sqlSession.selectList(NAMESPACE + ".getLine_codeList");
 	}
 
+	@Override
+	public void productionStart(String code) throws Exception {
+		sqlSession.update(NAMESPACE + ".productionStart",code);
+		
+	}
+	
+	@Override
+	public void productionComplete(String code) throws Exception {
+		sqlSession.update(NAMESPACE + ".productionComplete",code);
+		//지시량과 양품량 비교하여 양품량이 지시랑보다 적을 시 대기중 상태의 실적 생성
+	}
+
+	@Override
+	public void addResult(String code) throws Exception {
+		sqlSession.update(NAMESPACE + ".addResult",code);
+		//지시량과 양품량이 같아지면 완료로 전환
+	}
+	
+	@Override
+	public void addFailed(String code) throws Exception {
+		sqlSession.update(NAMESPACE + ".addFailed",code);
+	}
 }

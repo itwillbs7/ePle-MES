@@ -67,7 +67,7 @@
 						</div>
 						<div class="form-group">
 							<label><b>생산일</b></label>
-							<input class="form-control date-picker required" placeholder="Select Date" type="text" name="production_date"/>
+							<input class="form-control date-picker required" placeholder="Select Date" type="text" name="production_date" autocomplete='off'/>
 						</div>
 						<div class="form-group">
 							<label>지시사항</label>

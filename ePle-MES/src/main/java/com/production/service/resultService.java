@@ -18,4 +18,11 @@ public interface resultService {
 
 	public List<String> getLine_codeList() throws Exception;
 
+	public void productionStart(String code) throws Exception;
+
+	public void productionComplete(String code) throws Exception;
+
+	public void addResult(String code) throws Exception;
+
+	public void addFailed(String code) throws Exception;
 }

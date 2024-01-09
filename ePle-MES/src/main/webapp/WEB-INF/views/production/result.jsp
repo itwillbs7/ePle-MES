@@ -3,8 +3,8 @@
 <%@ page session="false"%>
 <html>
 <head>
-<link rel="stylesheet" href="result.css" />
 <%@ include file="../include/head.jsp"%>
+<link rel="stylesheet" type="text/css" href="../resources/production/asdasd.css" />
 <title>실적 관리</title>
 </head>
 <body>
@@ -83,7 +83,7 @@
 									<th>부적합량</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="resultTableBody">
 								
 							</tbody>
 						</table>
@@ -100,21 +100,12 @@
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="result" role="tabpanel">
-								<div>
-									<button type="button" class="btn btn-secondary" id="Save">저장</button>
-									<button type="button" class="btn btn-success" id="Start">시작</button>
-									<button type="button" class="btn btn-danger" id="Complete">완료</button>
-									<button type="button" class="btn btn-warning" id="CompleteCancle">완료취소</button>
-									<button type="button" class="btn btn-success" id="addResult">양품추가</button>
-									<button type="button" class="btn btn-danger" id="addFailed">불량추가</button>
-								</div>
-								<form action="" id="resultForm">
-									
-								</form>
+								
 							</div>
 							<div class="tab-pane fade" id="failed" role="tabpanel">
-								<div>
+								<div class='infoBtnGroup'>
 									<button type="button" class="btn btn-secondary" id="SaveFailed">저장</button>
+									<button type="button" class="btn btn-danger" id="addFailed">불량추가</button>
 								</div>
 								<form action="" id="failedForm">
 									
@@ -136,47 +127,55 @@
 			</div>
 		</div>
 	</div>
-	<!-- 검색 초기 설정 시작 -->
+	<!-- 초기설정 시작 -->
 	<script type="text/javascript">
-		var today = new Date();
-		var todayString = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2, '0') + "-" + today.getDate().toString().padStart(2, '0');
-		$("#searchProduction_date").val(todayString);
-		var queryString = $("#accordion-search").serialize();
-		$.ajax({
-			type : 'post',
-			url : '/production/ajaxSearch1',
-			data : queryString,
-			error: function(){
-				alert("error");
-			},
-			success : function(data){
-				//$('tbody').replaceChildren();
-				$('tbody .odd').remove();
-				$('tbody .result').remove();
-				var html = "";
-				//지시사항 상세 검색 결과가 초기 지시사항 페이지와 다르게 나온다.개선필요
-				$(data).each(function(){
-					html += "<tr class='result'>";
-					html += "<td>" + this.code + "<input type='hidden' class='hiddenCode' value='" + this.code + "'></td>";
-					html += "<td>" + this.vo.production_date + "</td>";
-					html += "<td>" + this.vo.line_code + "</td>";
-					html += "<td>" + this.status + "</td>";
-					html += "<td>제품코드</td>";
-					html += "<td>" + this.vo.product + "</td>";
-					html += "<td>" + this.vo.amount + "</td>";
-					html += "<td>" + this.amount + "</td>";
-					html += "<td>부적합량</td>";
-					html += "</tr>";
-				});
-				$("tbody").append(html);
-			}
+		$(function() {
+			var today = new Date();
+			var todayString = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2, '0') + "-" + today.getDate().toString().padStart(2, '0');
+			$("#searchProduction_date").val(todayString);
+			ajaxSearch();
 		});
 	</script>
-	<!-- 검색 초기 설정 시작 -->
+	<!-- 초기설정 끝 -->
+	<!-- 검색 시작 -->
+	<script type="text/javascript">
+		function ajaxSearch() {
+			var queryString = $("#accordion-search").serialize();
+			$.ajax({
+				type : 'post',
+				url : '/production/ajaxSearch1',
+				data : queryString,
+				error: function(){
+					alert("error");
+				},
+				success : function(data){
+					$("#resultTableBody").empty();
+					//$('#result').empty();
+					var html = "";
+					//지시사항 상세 검색 결과가 초기 지시사항 페이지와 다르게 나온다.개선필요
+					$(data).each(function(){
+						html += "<tr class='result'>";
+						html += "<td>" + this.code + "<input type='hidden' class='hiddenCode' value='" + this.code + "'></td>";
+						html += "<td>" + this.vo.production_date + "</td>";
+						html += "<td>" + this.vo.line_code + "</td>";
+						html += "<td>" + this.status + "</td>";
+						html += "<td>제품코드</td>";
+						html += "<td>" + this.vo.product + "</td>";
+						html += "<td>" + this.vo.amount + "</td>";
+						html += "<td>" + this.amount + "</td>";
+						html += "<td>부적합량</td>";
+						html += "</tr>";
+					});
+					$("#resultTableBody").append(html);
+				}
+			});
+		}
+	</script>
+	<!-- 검색 시작 -->
 	<!-- 테이블 선택 시 시작 -->
 	<script type="text/javascript">
-		$(".result").click(function(){
-			if (!$(this).hasClass('selected')) {
+		$(document).on("click",".result",function getInfo(){
+			if ($(this).hasClass('selected')) {
 				var code = $(this).find(".hiddenCode").val();
 				//실적 정보 편집 추가
 				$.ajax({
@@ -186,65 +185,188 @@
 					error : function(){
 						alert("error");
 					},
-					success : function(data) {
-						var dataFailedList = data.failedList;
-						var dataResult = data.result;
-						$('#result').empty();
-						var html = "";
-						html += "<table border='1px solid black' style='border-spacing: 10px; border-collapse: separate;'>";
-						html += "<tr>";
-						html += "<td>";
-						html += "<span class='infoDF'>실적번호</span>";
-						html += "<span class='infoAS'><input type='text' value='" + dataResult.code + "'></span>";
-						html += "</td>";
-						html += "<td>";
-						html += "<span class='infoDF'>제품코드</span>";
-						html += "<span class='infoAS'>제품코드1</span>";
-						html += "</td>";
-						html += "<td>";
-						html += "<span class='infoDF'>제품명</span>";
-						html += "<span class='infoAS'><input type='text' value='" + dataResult.vo.product + "'></span>";
-						html += "</td>";
-						html += "<td>";
-						html += "<span class='infoDF'>상태</span>";
-						html += "<span class='infoAS'>상태1</span>";
-						html += "</td>";
-						html += "<span class='infoDF'>LOT</span>";
-						html += "<span class='infoAS'>LOT1</span>";
-						html += "</td>";
-						html += "</tr>";
-						html += "<tr>";
-						html += "<td>";
-						html += "<span class='infoDF'>라인</span>";
-						html += "<span class='infoAS'><input type='text' value='" + dataResult.vo.line_code + "'></span>";
-						html += "</td>";
-						html += "<td>";
-						html += "<span class='infoDF'>기간</span>";
-						html += "<span class='infoAS'>기간1</span>";
-						html += "</td>";
-						html += "<td>";
-						html += "<span class='infoDF'>지시량</span>";
-						html += "<span class='infoAS'><input type='text' value='" + dataResult.vo.amount + "'></span>";
-						html += "</td>";
-						html += "<td>";
-						html += "<span class='infoDF'>양품량</span>";
-						html += "<span class='infoAS'><input type='text' value='" + dataResult.amount + "'></span>";
-						html += "</td>";
-						html += "<td>";
-						html += "<span class='infoDF'>부적합량</span>";
-						html += "<span class='infoAS'>부적합량1</span>";
-						html += "</td>";
-						html += "</tr>";
-						html += "</table>";
-						$('#result').append(html);
+					success : function(data){
+						setInfo(data);
 					}
 				});
 	        }else{
 	        	$('#result').empty();
 	        }
 		});
-		
 	</script>
 	<!-- 테이블 선택 시 끝 -->
+	<!-- 시작 버튼 시작 -->
+	<script type="text/javascript">
+		$(document).on("click",".infoBtn",function(){
+			var code = $("#codeInfo").val();
+			var id = $(this).attr("id");
+			$.ajax({
+				url : "/production/"+id,
+				method : "POST",
+				data : {code : code},
+				error : function(){
+					alert("error");
+				},
+				success : function(data){
+					setInfo(data);
+				}
+			}); 
+		});
+		/*$(document).on("click",".infoBtn",function(){
+			var code = $("#codeInfo").val();
+			var id = $(this)attr("id");
+			//실적 정보 편집 추가
+			$.ajax({
+				url : "/production/"+id,
+				method : "POST",
+				data : {code : code},
+				error : function(){
+					alert("error");
+				},
+				success : function(data) {
+					//기본정보 리로드
+					alert(data);
+				}
+			});
+		}); */
+	</script>
+	<!-- 시작 버튼 끝 -->
+	<!-- setInfo 시작 -->
+	<script type="text/javascript">
+		function setInfo(data) {
+			var dataResult = data.result;
+			var failedList = data.failedList;
+			$('#result').empty();
+			var html = "";
+			html += "<div class='infoBtnGroup'>";
+			html += "<button type='button' class='btn btn-success infoBtn' id='Start'>시작</button>";
+			html += "<button type='button' class='btn btn-danger infoBtn' id='Complete'>완료</button>";
+			html += "<button type='button' class='btn btn-success infoBtn' id='addResult'>양품추가</button>";
+			html += "</div>";
+			html += "<form action='' id='resultForm'>";
+			html += "<table class='table table-bordered' id='resultTable'>";
+			html += "<thead>";
+			html += "<tr>";
+			html += "<th>";
+			html += "<div class='input-container'>";
+			html += "<label for='codeInfo'>실적번호:</label>";
+			html += "<input type='text' id='codeInfo' name='codeInfo' readonly value='"+ dataResult.code + "'>";
+			html += "</div>";
+			html += "</th>";
+			html += "<th>";
+			html += "<div class='input-container'>";
+			html += "<label for='dateInfo'>생산일:</label>";
+			html += "<input type='text' id='dateInfo' name='dateInfo' readonly value='"+ dataResult.vo.production_date + "'>";
+			html += "</div>";
+			html += "</th>";
+			html += "<th>";
+			html += "<div class='input-container'>";
+			html += "<label for='lineInfo'>라인번호:</label>";
+			html += "<input type='text' id='lineInfo' name='lineInfo' readonly value='"+ dataResult.vo.line_code + "'>";
+			html += "</div>";
+			html += "</th>";
+			html += "<th>";
+			html += "<div class='input-container'>";
+			html += "<label for='statusInfo'>상태:</label>";
+			html += "<input type='text' id='statusInfo' name='statusInfo' readonly value='"+ dataResult.status + "'>";
+			html += "</div>";
+			html += "</th>";
+			html += "<th>";
+			html += "<div class='input-container'>";
+			html += "<label for='pcodeInfo'>제품코드:</label>";
+			html += "<input type='text' id='pcodeInfo' name='pcodeInfo' readonly value=''>";
+			html += "</div>";
+			html += "</th>";
+			html += "<th>";
+			html += "<div class='input-container'>";
+			html += "<label for='pnameInfo'>제품명:</label>";
+			html += "<input type='text' id='pnameInfo' name='pnameInfo' readonly value='"+ dataResult.vo.product + "'>";
+			html += "</div>";
+			html += "</th>";
+			
+			html += "</tr>";
+			html += "</thead>";
+			html += "<tbody>";
+			html += "<tr>";
+			html += "<th>";
+			html += "<div class='input-container'>";
+			html += "<label for='instAmoInfo'>지시량:</label>";
+			html += "<input type='text' id='instAmoInfo' name='instAmoInfo' readonly value='"+ dataResult.vo.amount + "'>";
+			html += "</div>";
+			html += "</th>";
+			html += "<th>";
+			html += "<div class='input-container'>";
+			html += "<label for='amoInfo'>양품량:</label>";
+			html += "<input type='text' id='amoInfo' name='amoInfo' readonly value='"+ dataResult.amount + "'>";
+			html += "</div>";
+			html += "</th>";
+			html += "<th>";
+			html += "<div class='input-container'>";
+			html += "<label for='failInfo'>부적합량:</label>";
+			html += "<input type='text' id='failInfo' name='failInfo' readonly value='" + failedList.length + "'>";
+			html += "</div>";
+			html += "</th>";
+			html += "<th colspan='2'>";
+			html += "<div class='input-container'>";
+			html += "<label for='LOTInfo'>수주번호:</label>";
+			html += "<input type='text' id='LOTInfo' name='LOTInfo' readonly value='"+ dataResult.vo.request + "'>";
+			html += "</div>";
+			html += "</th>";
+			html += "<th>";
+			html += "<div class='input-container'>";
+			html += "<label for='LOTInfo'>작업지시 번호:</label>";
+			html += "<input type='text' id='LOTInfo' name='LOTInfo' readonly value='"+ dataResult.vo.code + "'>";
+			html += "</div>";
+			html += "</th>";
+			html += "</tr>";
+			html += "<tr>";
+			html += "<th colspan='6'>";
+			html += "<div class='form-group'>";
+			html += "<label><b>지시사항</b></label>";
+			html += "<textarea class='form-control' readonly>"+ dataResult.vo.content + "</textarea>";
+			html += "</div>";
+			html += "</th>";
+			html += "</tr>";
+			html += "</tbody>";
+			html += "</table>";
+			html += "</form>";
+			$('#result').append(html);
+			//css변경
+			if (dataResult.status == '대기') {
+				$("#statusInfo").css({
+					"background-color":"yellow",
+					"color":"black"
+				});
+			}
+			if (dataResult.status == '생산중') {
+				$("#statusInfo").css({
+					"background-color":"red",
+					"color":"white"
+				});
+			}
+			if (dataResult.status == '완료') {
+				$("#statusInfo").css({
+					"background-color":"green",
+					"color":"white"
+				});
+			}
+			//resultTable변경
+			$(".selected").children().eq(3).text(dataResult.status);
+			$(".selected").children().eq(7).text(dataResult.amount);
+			var content  = $("#content");
+			var text  = content.val();
+			if (text.length > 10) {
+				$("#content").parent("div").attr("data-toggle","tooltip");
+				$("#content").parent("div").attr("data-placement","bottom");
+				$("#content").parent("div").attr("title",text);
+			}
+		}
+	</script>
+	<!-- setInfo 끝 -->
+	<!-- 긴 문자열 생략 시작 -->
+	<script type="text/javascript">
+		
+	</script>
+	<!-- 긴 문자열 생략 시작 -->
 </body>
 </html>

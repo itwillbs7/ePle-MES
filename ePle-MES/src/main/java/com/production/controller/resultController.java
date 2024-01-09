@@ -1,9 +1,5 @@
 package com.production.controller;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +43,7 @@ public class resultController {
 	@ResponseBody
 	public List<resultVO> resultPOST(String searchProduction_date, String[] searchLine_code, Boolean isFinished) throws Exception {
 		logger.debug("Controller : ajaxSearch() 호출");
+		logger.debug("searchProduction_date : " + searchProduction_date);
 		logger.debug("line_code : " + searchLine_code);
 		logger.debug("isFinished : " + isFinished);
 		return rsService.getResultList(searchProduction_date, searchLine_code, isFinished);
@@ -54,16 +51,63 @@ public class resultController {
 	//실적페이지ajax POST
 	@RequestMapping(value = "/ajaxResult", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> ajaxResult(@RequestParam("code") String code,Model model) throws Exception {
+	public Map<String, Object> ajaxResult(@RequestParam(value = "code") String code) throws Exception {
 		logger.debug("Controller : ajaxResult(String code) 호출");
 		logger.debug("code : " + code);
-		Map<String, Object> resultMap = new HashMap<>();
+		
+		return getInfo(code);
+	}
+	
+	//시작
+	@RequestMapping(value = "/Start", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> Start(String code) throws Exception {
+		logger.debug("Controller : Start() 호출");
+		//실적 상태 대기중 -> 생산중 으로 전환
+		rsService.productionStart(code);
+		return getInfo(code);
+	}
+	
+	//완료
+	@RequestMapping(value = "/Complete", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> Complete(String code) throws Exception {
+		logger.debug("Controller : Complete() 호출");
+		//실적 상태 생산중 -> 완료 으로 전환
+		//지시량과 양품량 비교하여 양품량이 지시랑보다 적을 시 대기중 상태의 실적 생성
+		rsService.productionComplete(code);
+		return getInfo(code);
+	}
+	
+	//양품+
+	@RequestMapping(value = "/addResult", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addResult(String code) throws Exception {
+		logger.debug("Controller : addResult() 호출");
+		//양품량 +1
+		//상태가 생산중일때만 동작
+		//지시량과 양품량이 같아지면 완료로 전환
+		rsService.addResult(code);
+		return getInfo(code);
+	}
+	
+	
+	//불량+
+	@RequestMapping(value = "/addFailed", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addFailed(String code) throws Exception {
+		logger.debug("Controller : addFailed() 호출");
+		//부적합량 +1
+		//상태가 생산중일때만 동작
+		rsService.addFailed(code);
+		return getInfo(code);
+	}
+	
+	public Map<String, Object> getInfo(String code) throws Exception {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		//기본정보 저장
 		resultMap.put("result", rsService.getResult(code));
 		//불량정보 저장
-		List<failedVO> list = rsService.getFailedList(code);
-		
-		logger.debug("code : " + list.get(0).getCode());
 		resultMap.put("failedList", rsService.getFailedList(code));
 		//투입정보 저장
 		//resultMap.put("BOM", rsService.getBOM(code));

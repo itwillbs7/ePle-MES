@@ -5,6 +5,7 @@
 <head>
 <%@ include file="../include/head.jsp"%>
 <title>작업지시 관리</title>
+<link rel="stylesheet" type="text/css" href="../resources/production/instruction.css" />
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -93,9 +94,6 @@
 						<button type="button" class="btn btn-warning" id="update">
 							<b>수정</b>
 						</button>
-						<button type="button" class="btn btn-danger" id="delete">
-							<b>삭제</b>
-						</button>
 					</div>
 				</div>
 				<div class="pb-20">
@@ -142,13 +140,13 @@
 								<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(${instructionVOList.size() }) 중 (${instructionVOList.size() }) 개</div>
 							</div>
 						</div>
-						<div class="btn-toolbar justify-content-center mb-15">
+						<!-- <div class="btn-toolbar justify-content-center mb-15">
 							<div class="btn-group">
 								<a href="#" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
 								</a> <a href="#" class="btn btn-outline-primary">1</a> <a href="#" class="btn btn-outline-primary">2</a> <span class="btn btn-primary current">3</span> <a href="#" class="btn btn-outline-primary">4</a> <a href="#" class="btn btn-outline-primary">5</a> <a href="#" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
 								</a>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -269,6 +267,7 @@
 						html += "</tr>";
 					});
 					$("table").append(html);
+					subContent();
 				}
 			});
 		}
@@ -282,5 +281,27 @@
 		});
 	</script>
 	<!-- 수주정보 받기 끝 -->
+	<!-- 긴 문자열 생략 시작 -->
+	<script type="text/javascript">
+		function subContent() {
+			$(".instructionVO ").each(function() {
+				var content  = $(this).children().eq(5);
+				var text  = content.text();
+				if (text.length > 20) {
+					var subText = text.substring(0, 20) + "...";
+					content.text(subText);
+					content.attr("data-toggle","tooltip");
+					content.attr("data-placement","bottom");
+					content.attr("title",text);
+				}
+			});
+		}
+	</script>
+	<!-- 긴 문자열 생략 시작 -->
+	<!-- 초기설정 시작 -->
+	<script type="text/javascript">
+		subContent();
+	</script>
+	<!-- 초기설정 끝 -->
 </body>
 </html>

@@ -47,4 +47,26 @@ public class resultServiceImlp implements resultService{
 		return rsDAO.getLine_codeList();
 	}
 
+	@Override
+	public void productionStart(String code) throws Exception {
+		rsDAO.productionStart(code);
+		
+	}
+	
+	@Override
+	public void productionComplete(String code) throws Exception {
+		rsDAO.productionComplete(code);
+		
+	}
+	@Override
+	public void addResult(String code) throws Exception {
+		rsDAO.addResult(code);
+		
+	}
+
+	@Override
+	public void addFailed(String code) throws Exception {
+		rsDAO.addFailed(code);
+		
+	}
 }
