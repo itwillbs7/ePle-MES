@@ -34,7 +34,7 @@
 						</div>
 						<div class="form-group">
 							<label>업태</label> 
-							<input class="form-control" type="text" name="condition" value="${cvo.condition_}">
+							<input class="form-control" type="text" name="conditions" value="${cvo.conditions}">
 						</div>
 						<div class="form-group">
 							<label>종목</label> 
@@ -53,7 +53,7 @@
 							<input class="form-control" type="text" name="address" value="${cvo.address}">
 						</div>
 						<div class="form-group">
-							<label>상세 주소</label> 
+							<label>상세주소</label> 
 							<input class="form-control" type="text" name="address2" value="${cvo.address2}">
 						</div>
 						<div class="form-group">

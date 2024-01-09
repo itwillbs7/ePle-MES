@@ -23,7 +23,6 @@ public class OrderVO {
 	private Timestamp update_date; 	// 변경일
 	private String update_emp; 		// 변경자코드
 	private String status; 			// 발주상태 O
-
 	
 	private String group_name; 		// 공코 O
 	private String code_name; 		// 공코 O
@@ -31,4 +30,5 @@ public class OrderVO {
 	private String reg_name;		// 등록자이름
 	private String update_name;		// 변경자이름
 	
+	private String material;        // 재료품번
 }

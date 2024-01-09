@@ -31,22 +31,22 @@
                             <label>거래처 구분</label> <input class="form-control" type="text" name="type" placeholder="거래처 구분 입력">
                         </div>
                         <div class="form-group">
-                            <label>업태</label> <input class="form-control" type="text" name="condition" placeholder="업태 입력">
+                            <label>업태</label> <input class="form-control" type="text" name="conditions" placeholder="업태 입력">
                         </div>
                         <div class="form-group">
-                            <label>종목</label> <input class="form-control" type="text" name="items" placeholder="업태 입력">
+                            <label>종목</label> <input class="form-control" type="text" name="items" placeholder="종목 입력">
                         </div>
                         <div class="form-group">
-                            <label>대표자</label> <input class="form-control" type="text" name="ceo" placeholder="업태 입력">
+                            <label>대표자</label> <input class="form-control" type="text" name="ceo" placeholder="대표자 입력">
                         </div>
                         <div class="form-group">
-                            <label>담당자</label> <input class="form-control" type="text" name="manager" placeholder="업태 입력">
+                            <label>담당자</label> <input class="form-control" type="text" name="manager" placeholder="담당자 입력">
                         </div>
                         <div class="form-group">
-                            <label>주소</label> <input class="form-control" type="text" name="address">
+                            <label>주소</label> <input class="form-control" type="text" name="address" placeholder="주소 입력">
                         </div>
                         <div class="form-group">
-                            <label>상세 주소</label> <input class="form-control" type="text" name="address2">
+                            <label>상세주소</label> <input class="form-control" type="text" name="address2" placeholder="상세주소 입력">
                         </div>
                         <div class="form-group">
 						    <label>전화번호</label> 
@@ -66,7 +66,7 @@
 						</div>
                         <div class="form-group">
 						    <label>비고</label>
-						    <textarea class="form-control" name="note" rows="4"></textarea>
+						    <textarea class="form-control" name="note" rows="2"></textarea>
 						</div>
                         <div class="form-group">
 						    <label>사용 여부</label>

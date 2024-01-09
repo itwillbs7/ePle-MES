@@ -16,18 +16,18 @@
         <result property="active" column="active"/>
     </resultMap>
 
-    <!-- 품목 리스트 전체 조회 -->
+    <!-- 라인 리스트 전체 조회 -->
     <select id="selectLineList" resultType="LineVO">
         SELECT * FROM LINE
     </select>
 
-    <!-- 품목 등록 -->
+    <!-- 라인 등록 -->
     <insert id="insertLine">
         INSERT INTO LINE (code,name,process,place,status,note,active) 
         VALUES (#{code},#{name},#{process},#{place},#{status},#{note},#{active})
     </insert>
 
-    <!-- 품목 수정 -->
+    <!-- 라인 수정 -->
     <update id="updateLine">
         UPDATE LINE SET code = #{code}, name = #{name}, process = #{process}, place = #{place}, status = #{status}, note = #{note}, active = #{active} 
         where code = #{code}
@@ -39,7 +39,7 @@
   		where code = #{code} 	
   	</select>
 
-    <!-- 품목 삭제 -->
+    <!-- 라인 삭제 -->
 	<delete id="deleteLines" parameterType="string">
 	    DELETE FROM LINE WHERE code IN
 	    <foreach collection="array" item="code" open="(" separator="," close=")">
@@ -61,6 +61,6 @@
   ]]>
 	</select>
 	
-	<!-- 품목 검색 -->
+	<!-- 라인 검색 -->
 
 </mapper>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
-<title>거래처 관리</title>
+<title>소요량 관리</title>
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -16,7 +16,7 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>거래처 관리</h1>
+				<h1>소요량 관리</h1>
 			</div>
 			<div class="min-height-200px">
 				<!-- 아코디언 시작 -->
@@ -40,8 +40,8 @@
 																선택 <span class="caret"></span>
 															</button>
 															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" href="javascript:buttonCategory('거래처 코드');">거래처 코드</a> 
-																<a class="dropdown-item" href="javascript:buttonCategory('거래처명');">거래처명</a>
+																<a class="dropdown-item" href="javascript:buttonCategory('품번');">품번</a> 
+																<a class="dropdown-item" href="javascript:buttonCategory('품명');">품명</a>
 															</div>
 														</div>
 														<input type="hidden" id="searchCategory" name="searchCategory"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
@@ -90,40 +90,39 @@
 												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 											</div>
 										</td>
-										<th>거래처 코드</th>
-										<th>거래처명</th>
-										<th>업태</th>
-										<th>종목</th>
-										<th>담당자</th>
-										<th>전화번호</th>
-										<th>이메일</th>
-										<th>비고</th>
-										<th>사용 여부</th>
+										<th>완제품 품번</th>
+										<th>완제품 품명</th>
+										<th>재료 품번</th>
+										<th>소요량</th>
+										<th>등록자</th>
+										<th>등록일</th>
+										<th>변경자</th>
+										<th>변경일</th>
+										<th>사용여부</th>
 									</tr>
-									<c:forEach var="client" items="${clientList}" varStatus="loop">
+									<c:forEach var="requirement" items="${requirementList}" varStatus="loop">
 									    <tr>
-											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
-											<td>
+									        <!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									        <td>
 									            <div class="custom-control custom-checkbox mb-5">
 									                <!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-									                <input type="checkbox" class="custom-control-input" id="checkTable${loop.index + 1}" name="tableCheck" value="${client.code}"> 
+									                <input type="checkbox" class="custom-control-input" id="checkTable${loop.index + 1}" name="tableCheck" value="${requirement.code}"> 
 									                <label class="custom-control-label" for="checkTable${loop.index + 1}"></label>
 									            </div>
-									        </td>
-									        <td>${client.code}</td>
-									        <td>${client.name}</td>
-									        <td>${client.conditions}</td>
-									        <td>${client.items}</td>
-									        <td>${client.manager}</td>
-									        <td>${client.tel}</td>
-									        <td>${client.email}</td>
-									        <td>${client.note}</td>
-									        <td>${client.active}</td>
+									        </td>        
+									        <td>${requirement.group_id}</td>
+									        <td>${requirement.name}</td>
+									        <td>${requirement.material}</td>
+									        <td>${requirement.requirement}</td>
+									        <td>${requirement.reg_emp}</td>
+									        <td>${requirement.reg_date}</td>
+									        <td>${requirement.update_emp}</td>
+									        <td>${requirement.update_date}</td>
+									        <td>${requirement.active}</td>
 									    </tr>
 									</c:forEach>
 								</table>
 							</form>
-							
 							<div class="row">
 							    <div class="col-sm-12 col-md-5">
 							        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(전체 수) 중 (검색 결과) 개</div>
@@ -132,17 +131,16 @@
 							<div class="btn-toolbar justify-content-center mb-15">
 								<div class="btn-group">
 									<c:if test="${pageVO.prev}">
-										<a href="/client/clientAll?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+										<a href="/requirement/requirementAll?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
 									</c:if>
 									<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-										<a href="/client/clientAll?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+										<a href="/requirement/requirementAll?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
 									</c:forEach>
 									<c:if test="${pageVO.next}">
-										<a href="/client/clientAll?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+										<a href="/requirement/requirementAll?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
 									</c:if>
 								</div>
 							</div>
-							
 						</div>
 					</div>
 				</div>
@@ -190,7 +188,7 @@
 		    // 추가
 		    $("#add").click(function() {
 		        // 가로, 세로 설정
-		        openPage("/client/add", 400, 700);
+		        openPage("/requirement/add", 400, 700);
 		    });
 
 			// 수정
@@ -210,7 +208,7 @@
 
 		            // 선택된 체크박스의 개수가 1인 경우에만 가로, 세로 설정 및 URL에 코드 추가하여 팝업 열기
 		            if (selectedCodes.length === 1) {
-		                openPage("/client/update?code=" + selectedCodes[0], 400, 700);
+		                openPage("/requirement/update?code=" + selectedCodes[0], 400, 700);
 		            } else {
 		                // 선택된 체크박스가 1개가 아니면 경고 메시지 출력 또는 원하는 동작 수행
 		                alert("수정할 항목을 1개만 선택해주세요.");
@@ -237,7 +235,7 @@
 		            });
 
 		            // Here, you can call openPage or perform any other actions before deletion
-		            openPage("/client/delete?code=" + selectedCodes.join(","), 400, 300);
+		            openPage("/requirement/delete?code=" + selectedCodes.join(","), 400, 300);
 		            
 		            // Note: Use window.location.replace() for a more reliable redirect after confirmation
 		            // window.location.replace(deleteUrl);

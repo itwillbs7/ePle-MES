@@ -95,7 +95,6 @@
 										<th>규격</th>
 										<th>단위</th>
 										<th>입고 단가 (원)</th>
-<!-- 										<th>이미지</th> -->
 										<th>사용여부</th>
 									</tr>
 									<c:forEach var="product" items="${productList}" varStatus="loop">
@@ -104,7 +103,7 @@
 									        <td>
 									            <div class="custom-control custom-checkbox mb-5">
 									                <!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-									                <input type="checkbox" class="custom-control-input" id="checkTable${loop.index + 1}" name="tableCheck" value="${line.code}"> 
+									                <input type="checkbox" class="custom-control-input" id="checkTable${loop.index + 1}" name="tableCheck" value="${product.code}"> 
 									                <label class="custom-control-label" for="checkTable${loop.index + 1}"></label>
 									            </div>
 									        </td>        
@@ -113,7 +112,6 @@
 									        <td>${product.size}</td>
 									        <td>${product.unit}</td>
 									        <td>${product.inprice} 원</td>
-<%-- 									        <td>${product.image}</td> --%>
 									        <td>${product.active}</td>
 									    </tr>
 									</c:forEach>

@@ -17,11 +17,8 @@
             </div>
             <!-- 폼 -->
             <form action="/line/update" method="post">
-            
-                <!-- 품번 -->
-                <input type="hidden" name="code" value="${lvo.code}">
                 
-                <!-- 카테고리 -->
+                <!-- 라인 코드 -->
                 <div class="row">
                     <div class="col-sm-12 mb-3">
                         <div class="form-group">
@@ -42,14 +39,20 @@
                 </div>
                 
                 <!-- 공정 -->
-                <div class="row">
-                    <div class="col-sm-12 mb-3">
-                        <div class="form-group">
-                            <label>공정</label>
-                            <input class="form-control" type="text" name="process" value="${lvo.process}">
-                        </div>
-                    </div>
-                </div>
+				<div class="row">
+				  <div class="col-sm-12 mb-3">
+				    <div class="form-group">
+				      <label>공정</label>
+				      <select class="form-control" name="process" required>
+				        <option value="" disabled>작업장 선택</option>
+				        <option value="1공정" ${lvo.process == '1공정' ? 'selected' : ''}>1공정</option>
+				        <option value="2공정" ${lvo.process == '2공정' ? 'selected' : ''}>2공정</option>
+				        <option value="3공정" ${lvo.process == '3공정' ? 'selected' : ''}>3공정</option>
+				        <option value="4공정" ${lvo.process == '4공정' ? 'selected' : ''}>4공정</option>
+				        </select>
+				    </div>
+				  </div>
+				</div>
                 
                 <!-- 작업장 -->
 				<div class="row">
@@ -58,10 +61,10 @@
 				      <label>작업장</label>
 				      <select class="form-control" name="place" required>
 				        <option value="" disabled>작업장 선택</option>
-				        <option value="firstPlace" ${lvo.place == '1작업장' ? 'selected' : ''}>1작업장</option>
-				        <option value="SecondPlace" ${lvo.place == '2작업장' ? 'selected' : ''}>2작업장</option>
-				        <option value="thirdPlace" ${lvo.place == '3작업장' ? 'selected' : ''}>3작업장</option>
-				        <option value="fourthPlace" ${lvo.place == '4작업장' ? 'selected' : ''}>4작업장</option>
+				        <option value="1작업장" ${lvo.place == '1작업장' ? 'selected' : ''}>1작업장</option>
+				        <option value="2작업장" ${lvo.place == '2작업장' ? 'selected' : ''}>2작업장</option>
+				        <option value="3작업장" ${lvo.place == '3작업장' ? 'selected' : ''}>3작업장</option>
+				        <option value="4작업장" ${lvo.place == '4작업장' ? 'selected' : ''}>4작업장</option>
 				        </select>
 				    </div>
 				  </div>
@@ -82,15 +85,15 @@
 				</div>
 				
 				<!-- 비고 -->
-                <div class="row">
-                    <div class="col-sm-12 mb-3">
-                        <div class="form-group">
-                            <label>비고</label>
-                            <input class="form-control" type="text" name="note" value="${lvo.note}">
-                        </div>
-                    </div>
-                </div>
-
+				<div class="row">
+				    <div class="col-sm-12 mb-3">
+				        <div class="form-group">
+				            <label>비고</label>
+				            <textarea class="form-control" name="note" rows="2">${lvo.note}</textarea>
+				        </div>
+				    </div>
+				</div>
+				
 				<!-- 사용 여부 -->
 				<div class="row">
 				  <div class="col-sm-12 mb-3">

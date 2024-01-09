@@ -21,7 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 /** 라인 관리 컨트롤러 **/
 
 @Controller
-@RequestMapping(value = "/line")
+@RequestMapping("/line")
 public class LineController {
 
     private static final Logger logger = LoggerFactory.getLogger(LineController.class);
@@ -31,7 +31,7 @@ public class LineController {
 
     // http://localhost:8088/line/lineAll
       
-    // 품목 리스트 - GET
+    // 라인 리스트 - GET
     @RequestMapping(value = "/lineAll", method = RequestMethod.GET)
     public String listAllGET(Model model,
                              @ModelAttribute("result") String result,
@@ -43,24 +43,24 @@ public class LineController {
         return "/line/lineAll";
     }
 
-    // 품목 수정 - GET
+    // 라인 수정 - GET
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public void updateGET(@RequestParam("code") String code, Model model) throws Exception {
-        System.out.println("code: " + code); // 코드 값 확인용
-        LineVO lvo = lService.getLine(code);
-        System.out.println(lvo);
+    	System.out.println("code: " + code); // 코드 값 확인용
+    	LineVO lvo = lService.getLine(code);
+    	System.out.println(lvo);
         model.addAttribute("lvo", lvo);
-        
     }
 
-    // 품목 수정 - POST
+    // 라인 수정 - POST
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updatePOST(LineVO lvo, RedirectAttributes rttr) throws Exception {
-    	lService.lineUpdate(lvo);
+        int a = lService.lineUpdate(lvo);
+        System.out.println(a);
         return "redirect:/line/lineAll"; // 수정 후 목록 페이지로 이동
     }
 
-    // 품목 삭제 - GET, POST
+    // 라인 삭제 - GET, POST
     @GetMapping("/delete")
     public String lineDeleteGET(@RequestParam("code") String codes, Model model) throws Exception {
         // 품목 삭제 폼
@@ -77,7 +77,7 @@ public class LineController {
 
     @PostMapping("/delete")
     public String lineDeletePOST(@RequestParam("code") String codes, RedirectAttributes rttr, Model model) throws Exception {
-        // 품목 삭제 액션
+        // 라인 삭제 액션
         String[] codeArr = codes.split(",");
         int result = lService.deleteLines(codeArr);
 
@@ -142,5 +142,5 @@ public class LineController {
         return lService.totalLineCount();
     }
     
-    // 품목 검색 - GET
+    // 라인 검색 - GET
 }

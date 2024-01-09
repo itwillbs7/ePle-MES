@@ -3,7 +3,8 @@ package com.itwillbs.controller;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.domain.PageVO;
-import com.itwillbs.service.ProductService;
+import com.itwillbs.service.RequirementService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,65 +18,65 @@ import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
 
-/** 품목 관리 컨트롤러 **/
+/** 소요량 관리 컨트롤러 **/
 
 @Controller
-@RequestMapping("/product")
-public class ProductController {
-
-    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+@RequestMapping("/requirement")
+public class RequirementController {
+    
+	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
 
     @Inject
-    private ProductService pService;
+    private RequirementService rService;
 
-    // http://localhost:8088/product/productAll
+    // http://localhost:8088/requirement/requirementAll
     
-    // 품목 리스트 - GET
-    @RequestMapping(value = "/productAll", method = RequestMethod.GET)
+    // 소요량 리스트 - GET
+    @RequestMapping(value = "/requirementAll", method = RequestMethod.GET)
     public String listAllGET(Model model,
                              @ModelAttribute("result") String result,
                              HttpSession session) throws Exception {
         session.setAttribute("viewcntCheck", true);
-        List<MAPDVO> productList = pService.productListAll();
-        System.out.println(productList);
-        model.addAttribute("productList", productList);
-        return "/product/productAll";
+        List<MAPDVO> requirementList = rService.requirementListAll();
+        System.out.println(requirementList);
+        model.addAttribute("requirementList", requirementList);
+        return "/requirement/requirementAll";
     }
 
-    // 품목 수정 - GET
+    // 소요량 수정 - GET
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public void updateGET(@RequestParam("code") String code, Model model) throws Exception {
-        MAPDVO mvo = pService.getProduct(code);
+        MAPDVO mvo = rService.getRequirement(code);
         model.addAttribute("mvo", mvo);
     }
 
-    // 품목 수정 - POST
+    // 소요량 수정 - POST
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updatePOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
-    	pService.productUpdate(mvo);
-        return "redirect:/product/productAll"; // 수정 후 목록 페이지로 이동
+    	rService.requirementUpdate(mvo);
+        return "redirect:/requirement/requirementAll"; // 수정 후 목록 페이지로 이동
     }
 
-    // 품목 삭제 - GET, POST
+    // 소요량 삭제 - GET, POST
     @GetMapping("/delete")
-    public String productDeleteGET(@RequestParam("code") String codes, Model model) throws Exception {
+    public String requirementDeleteGET(@RequestParam("code") String codes, Model model) throws Exception {
         // 품목 삭제 폼
         String[] codeArr = codes.split(",");
-        List<MAPDVO> mvo = pService.getInfo(codeArr);
+        List<MAPDVO> mvo = rService.getInfo(codeArr);
         model.addAttribute("mvo", mvo);
 
         // JavaScript 변수 설정
         model.addAttribute("delCheckedCount", codeArr.length);
         model.addAttribute("array", Arrays.asList(codeArr));
 
-        return "product/delete"; // 적절한 뷰 페이지로 이동
+        return "requirement/delete"; // 적절한 뷰 페이지로 이동
     }
 
     @PostMapping("/delete")
-    public String productDeletePOST(@RequestParam("code") String codes, RedirectAttributes rttr, Model model) throws Exception {
-        // 품목 삭제 액션
+    public String requirementDeletePOST(@RequestParam("code") String codes, RedirectAttributes rttr, Model model) throws Exception {
+        // 소요량 삭제 액션
         String[] codeArr = codes.split(",");
-        int result = pService.deleteProducts(codeArr);
+        int result = rService.deleteRequirements(codeArr);
 
         String link = "";
         if (result >= 1) {
@@ -100,44 +101,44 @@ public class ProductController {
 
 
     // 페이징 처리 - 게시판 리스트 - GET
-    @RequestMapping(value = "/productPage", method = RequestMethod.GET)
+    @RequestMapping(value = "/requirementPage", method = RequestMethod.GET)
     public String listPageGET(Model model,
                               @ModelAttribute("result") String result,
                               HttpSession session,
                               Criteria cri) throws Exception {
         session.setAttribute("viewcntCheck", true);
 
-        List<MAPDVO> productList = pService.productListPage(cri);
+        List<MAPDVO> requirementList = rService.requirementListPage(cri);
 
         PageVO pageVO = new PageVO();
         pageVO.setCri(cri);
-        pageVO.setTotalCount(pService.totalProductCount());
+        pageVO.setTotalCount(rService.totalRequirementCount());
         model.addAttribute("pageVO", pageVO);
-        model.addAttribute("productList", productList);
-        return "/product/productAll";
+        model.addAttribute("requirementList", requirementList);
+        return "/requirement/requirementAll";
     }
 
-    // 품목 추가 - GET, POST
+    // 소요량 추가 - GET, POST
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public void productInsertGET() throws Exception { 
+	public void requirementInsertGET() throws Exception { 
 		
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String productInsertPOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
+	public String requirementInsertPOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
 
 		// 서비스 - DB에 글쓰기(insert) 동작 호출
-		pService.InsertProduct(mvo);	
-		return "redirect:/product/productAll";
+		rService.InsertRequirement(mvo);	
+		return "redirect:/requirement/requirementAll";
 	}
 
     // 전체 목록의 수를 가져오는 메서드
-    @RequestMapping(value = "/totalProductCount", method = RequestMethod.GET)
+    @RequestMapping(value = "/totalRequirementCount", method = RequestMethod.GET)
     @ResponseBody
-    public int getTotalProductCount() throws Exception {
-        return pService.totalProductCount();
+    public int getTotalRequirementCount() throws Exception {
+        return rService.totalRequirementCount();
     }
     
-    // 품목 검색 - GET
+    // 소요량 검색 - GET
  
 }
