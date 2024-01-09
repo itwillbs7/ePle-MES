@@ -135,12 +135,20 @@
 	<select id="getClientList" resultType="RequestVO">
 		select code client_code, name clientName from CLIENT where active = 1  LIMIT #{startPage},#{pageSize}
 	</select>
+	
+	<select id="getClientCount" resultType="int">
+	<![CDATA[
+		select count(*) from CLIENT where active = 1 
+		  ]]>
+		<if test="client_code != null"> AND code like concat('%',#{client_code},'%') </if>
+		<if test="clientName != null"> AND name like concat('%',#{clientName},'%') </if>
+	</select>
 
 	<select id="findCompany" resultType="RequestVO">
 		select code client_code, name clientName from CLIENT where active = 1
 		<if test="client_code!= null"> AND code like concat('%',#{client_code},'%') </if>
 		<if test="clientName != null"> AND name like concat('%',#{clientName},'%') </if>
-		LIMIT #{startPage},#{pageSize}
+		LIMIT #{cri.startPage},#{cri.pageSize}
 	</select>
 
 	<select id="getManagerList" resultType="RequestVO">
@@ -149,6 +157,14 @@
 		where dep_id = '영업부'
 		LIMIT #{startPage},#{pageSize}
 	</select>
+	
+	<select id="getManagerCount" resultType="int">
+	<![CDATA[
+		select count(*) from EMPLOYEES where dep_id = '영업부'
+		]]>
+		<if test="manager != null"> AND code like concat('%',#{manager},'%')</if>
+		<if test="managerName != null">AND name like concat('%',#{managerName},'%')</if>
+	</select>
 
 	<select id="findManager" resultType="RequestVO">
 		select code manager, name managerName
@@ -156,7 +172,7 @@
 		where dep_id = '영업부'
 		<if test="manager != null"> AND code like concat('%',#{manager},'%')</if>
 		<if test="managerName != null">AND name like concat('%',#{managerName},'%')</if>
-		LIMIT #{startPage},#{pageSize}
+		LIMIT #{cri.startPage},#{cri.pageSize}
 	</select>
 
 	<select id="getProductList" resultType="RequestVO">
@@ -165,6 +181,15 @@
 		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 1
 		LIMIT #{startPage},#{pageSize}
 	</select>
+	
+	<select id="getProductCount" resultType="int">
+	<![CDATA[
+		select count(*) 
+		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 1
+		]]>
+		<if test="product != null and product != ''">AND m.code like concat('%',#{product},'%')</if>
+		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
+	</select>
 
 	<select id="findProduct" resultType="RequestVO">
 		select m.code product, m.name productName, m.unit, m.outprice
@@ -172,7 +197,7 @@
 		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 1
 		<if test="product != null and product != ''">AND m.code like concat('%',#{product},'%')</if>
 		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
-		LIMIT #{startPage},#{pageSize}
+		LIMIT #{cri.startPage},#{cri.pageSize}
 	</select>
 	
 <!-- ============================ add / search ====================== -->

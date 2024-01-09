@@ -29,7 +29,6 @@ public class RequestServiceImpl implements RequestService {
 		return rdao.getRequestListPage(vo, cri);
 	}
 	
-	
 
 	@Override
 	public int getTotal(RequestVO vo) throws Exception {
@@ -67,11 +66,12 @@ public class RequestServiceImpl implements RequestService {
 		
 	}
 
+	//======================================== add/ search
 	@Override
-	public List<RequestVO> findClient(String client_code, String clientName) throws Exception {
+	public List<RequestVO> findClient(String client_code, String clientName,Criteria cri) throws Exception {
 		logger.debug("Service : findClient(String client_code, String clientName) : "+client_code+clientName);
 
-		return rdao.searchClient(client_code,clientName);
+		return rdao.searchClient(client_code,clientName,cri);
 	}
 
 	@Override
@@ -82,30 +82,67 @@ public class RequestServiceImpl implements RequestService {
 	}
 
 	@Override
-	public List<RequestVO> ManagerList() throws Exception {
+	public List<RequestVO> ManagerList(Criteria cri) throws Exception {
 		logger.debug("Service : ManagerList() 사원리스트 뽑기");
-		return rdao.getManagerList();
+		return rdao.getManagerList(cri);
 	}
 
 	@Override
-	public List<RequestVO> findManager(String manager, String managerName) throws Exception {
+	public List<RequestVO> findManager(String manager, String managerName,Criteria cri) throws Exception {
 		logger.debug("Service : ffindManager(String manager, String managerName) : "+manager+managerName);
 
-		return rdao.searchManager(manager,managerName);
+		return rdao.searchManager(manager,managerName,cri);
 	}
 
 	@Override
-	public List<RequestVO> ProductList() throws Exception {
+	public List<RequestVO> ProductList(Criteria cri) throws Exception {
 		logger.debug("Service : ProductList() 품목리스트 뽑기");
-		return rdao.getProductList();
+		return rdao.getProductList(cri);
 	}
 
 	@Override
-	public List<RequestVO> findProduct(String product, String productName) throws Exception {
+	public List<RequestVO> findProduct(String product, String productName,Criteria cri) throws Exception {
 		logger.debug("Service : ffindProduct(String product, String productName) : "+product+productName);
 
-		return rdao.searchProduct(product,productName);
+		return rdao.searchProduct(product,productName,cri);
 	}
+	
+	@Override
+	public int getClientTotal() throws Exception {
+		
+		return rdao.getClientTotal();
+	}
+
+	@Override
+	public int getClientTotal(String client_code, String clientName) throws Exception {
+		// TODO Auto-generated method stub
+		return rdao.getClientTotal(client_code, clientName);
+	}
+
+	@Override
+	public int getManagerTotal() throws Exception {
+		// TODO Auto-generated method stub
+		return rdao.getManagerTotal();
+	}
+
+	@Override
+	public int getManagerTotal(String manager, String managerName) throws Exception {
+		// TODO Auto-generated method stub
+		return rdao.getManagerTotal(manager, managerName);
+	}
+
+	@Override
+	public int getProductTotal() throws Exception {
+		// TODO Auto-generated method stub
+		return rdao.getProductTotal();
+	}
+
+	@Override
+	public int getProductTotal(String product, String productName) throws Exception {
+		// TODO Auto-generated method stub
+		return rdao.etProductTotal(product, productName);
+	}
+	//======================================== add/ search
 
 
 
@@ -141,8 +178,7 @@ public class RequestServiceImpl implements RequestService {
 		return rdao.deleteRequest(code);
 	}
 
-	
-	
+
 	
 	
 }

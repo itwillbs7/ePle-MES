@@ -143,33 +143,37 @@ public class RequestController {
 	// -------- 수주등록 데이터 찾기 ---------
 	
 	@RequestMapping(value = "searchClient", method=RequestMethod.GET)
-	public void searchClientGET(RequestVO vo, Model model, PageVO pageVO, Criteria cri, HttpSession session)throws Exception{
+	public void searchClientGET(Model model, PageVO pageVO, Criteria cri, HttpSession session)throws Exception{
 		logger.debug("controller : 거래사 정보 찾기");
 		logger.debug("searchClientGET    실행");
 
 		// 거래사 리스트 출력하기
 		List<RequestVO> clientList = rService.ClientList(cri);
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(rService.getClientTotal(vo)); // 디비에서 직접 실행결과 가져오기
+		pageVO.setTotalCount(rService.getClientTotal()); // 디비에서 직접 실행결과 가져오기
 		logger.debug("clientList : "+clientList);
 		model.addAttribute("List", clientList);
+		model.addAttribute("pageVO", pageVO);
+
 
 	}
 	
 	@RequestMapping(value = "searchClient", method=RequestMethod.POST)
-	public List<RequestVO> searchClientPOST(@RequestParam("client_code") String client_code,
+	public void searchClientPOST(@RequestParam("client_code") String client_code,
 											@RequestParam("clientName") String clientName,
 											PageVO pageVO, Criteria cri,Model model)throws Exception{
 		logger.debug("controller : 거래사 정보 DB 검색결과 가져오기");
 		logger.debug("searchClientPOST    실행");
 
-		List<RequestVO> clientList = rService.findClient(client_code,clientName);
+		List<RequestVO> clientList = rService.findClient(client_code,clientName,cri);
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(rService.getClientTotal(vo));
+		pageVO.setTotalCount(rService.getClientTotal(client_code,clientName));
 //		model.addAttribute("List", clientList);
 		logger.debug("가져온 List"+clientList);
+		model.addAttribute("List", clientList);
+		model.addAttribute("pageVO", pageVO);
+
 		
-		return clientList;
 	}
 	
 	@RequestMapping(value = "searchManager" ,method = RequestMethod.GET)
@@ -177,24 +181,32 @@ public class RequestController {
 		logger.debug("controller : 담당자 정보 찾기");
 		logger.debug("searchManagerGET    실행");
 		
-		List<RequestVO> managerList = rService.ManagerList();
+		List<RequestVO> managerList = rService.ManagerList(cri);
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(rService.getManagerTotal());
 		model.addAttribute("List", managerList);
+		model.addAttribute("pageVO", pageVO);
+
 
 	}
 	
 	@RequestMapping(value = "searchManager" ,method = RequestMethod.POST)
-	@ResponseBody
-	public List<RequestVO> searchManagerPOST(@RequestParam("manager") String manager,
+	public void searchManagerPOST(@RequestParam("manager") String manager,
 								  @RequestParam("managerName") String managerName,PageVO pageVO, Criteria cri, Model model)throws Exception{
 		
 		logger.debug("controller : 담당자 정보 DB 검색결과 가져오기");
 		logger.debug("searchManagerPOST    실행");
 		
-		List<RequestVO> managerList = rService.findManager(manager,managerName);
+		List<RequestVO> managerList = rService.findManager(manager,managerName,cri);
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(rService.getManagerTotal(manager,managerName));
 //		model.addAttribute("List", managerList);
 		logger.debug("가져온 List"+managerList);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("List", managerList);
+
+
 		
-		return managerList;
 		
 	}
 	
@@ -203,22 +215,29 @@ public class RequestController {
 		logger.debug("controller : 상품 정보 찾기");
 		logger.debug("searchProductGET   실행");
 		
-		List<RequestVO> productList = rService.ProductList();
+		List<RequestVO> productList = rService.ProductList(cri);
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(rService.getProductTotal());
 		model.addAttribute("List", productList);
+		model.addAttribute("pageVO", pageVO);
+
 	}
 	
 	@RequestMapping(value = "searchProduct",method = RequestMethod.POST)
-	@ResponseBody
-	public List<RequestVO> searchProductPOST(@RequestParam("product") String product,
+	public void searchProductPOST(@RequestParam("product") String product,
 								  @RequestParam("productName") String productName,PageVO pageVO, Criteria cri, Model model)throws Exception{
 		// 찾아와야하는것 : 품번, 품명, 재고, 단위, 단가
 		logger.debug("controller : 상품 정보 DB 검색결과 가져오기 ");
 		logger.debug("searchProductPOST   실행");
 		
-		List<RequestVO> productList = rService.findProduct(product,productName); 
+		List<RequestVO> productList = rService.findProduct(product,productName,cri); 
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(rService.getProductTotal(product,productName));
 //		model.addAttribute("List", productList);
 		logger.debug("가져온 List"+productList);
-		return productList;
+		model.addAttribute("List", productList);
+		model.addAttribute("pageVO", pageVO);
+
 	}
 
 	// -------- 수주등록 데이터 찾기 끝---------
