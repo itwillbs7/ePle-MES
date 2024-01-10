@@ -227,9 +227,7 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>5.0.6.RELEASE</version>
 		</dependency>
-	</dependencies>
 		<!-- json -->
-		<dependency>
 		<!-- json -->
 		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
