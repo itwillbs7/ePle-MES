@@ -159,14 +159,11 @@
 
 	<select id="getLOTList" resultType="ReturnsVO">
 		select l.lot lot
-		from SHIPMENT
-		s
+		from SHIPMENT s
 		join REQUEST r on s.reqs_code = r.code
-		join INSTRUCTION i on i.request
-		= r.code
+		join INSTRUCTION i on i.request = r.code
 		join RESULT rs on i.code = rs.inst_code
-		join LOT l on rs.code =
-		l.lot
+		join LOT l on rs.code = l.lot
 		where l.shipment = #{ship_code}
 		and i.request = #{request_code}
 	</select>

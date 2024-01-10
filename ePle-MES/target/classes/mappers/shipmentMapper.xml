@@ -333,7 +333,7 @@ WHERE r.status IN ('등록', '생산진행') AND s.total >= r.amount
 		SET s.status = '출하완료'
 		WHERE s.code IN
 		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
-			'#{codeNum}'
+			#{codeNum}
 		</foreach>
 	</update>
 
