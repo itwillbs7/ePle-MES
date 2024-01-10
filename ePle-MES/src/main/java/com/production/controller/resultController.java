@@ -1,6 +1,7 @@
 package com.production.controller;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,47 +33,99 @@ public class resultController {
 	//http://localhost:8088/production/result
 	//실적페이지 GET
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
-	public void resultGET(@RequestParam(value = "date",required = false) Timestamp date,@RequestParam(value = "line_code",required = false) String line_code,@RequestParam(value = "isFinish",required = false) Boolean isFinish,Model model) throws Exception {
+	public void resultGET(String date, String[] list_code, Boolean isFinished,Model model) throws Exception {
 		logger.debug("Controller : resultGET() 호출");
-		//검색 조건 입력
-		//검색조건 초기값 : 오늘 라인전체 완료미포함
-		if (date == null) {
-			date = new Timestamp(System.currentTimeMillis());
-		}
-		if (line_code == null) {
-			line_code = "*";
-		}
-		if (isFinish == null) {
-			isFinish = false;
-		}
 		logger.debug("date : " + date);
-		logger.debug("line_code : " + line_code);
-		logger.debug("isFinish : " + isFinish);
-		//실적 목록 가져오기
-		List<resultVO> rsList = rsService.getResultList(date,line_code,isFinish);
+		logger.debug("list_code : " + list_code);
+		logger.debug("isFinished : " + isFinished);
+		model.addAttribute("list_code", list_code);
+		if (isFinished != null) {
+			model.addAttribute("isFinished", "checked");
+		}
+		//검색 라인코드 목록
+		List<String> line_codeList = rsService.getLine_codeList();
+		logger.debug("line_codeList : " + line_codeList);
+		model.addAttribute("line_codeList", line_codeList);
+		//오늘 날짜
+		LocalDate today = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String todayStr = today.format(formatter);
+		logger.debug("today : " + todayStr);
+		model.addAttribute("date", date!=null?date:todayStr);
+		//실적 리스트
+		List<resultVO> rsList = rsService.getResultList(date!=null?date:todayStr, list_code, isFinished);
 		logger.debug("rsList : " + rsList);
 		model.addAttribute("rsList", rsList);
-		
 	}
 	
-	//실적페이지 POST
-	@RequestMapping(value = "/result", method = RequestMethod.POST)
-	public void resultPOST() throws Exception {
-		logger.debug("Controller : resultPOST() 호출");
-	}
 	//실적페이지ajax POST
 	@RequestMapping(value = "/ajaxResult", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> ajaxResult(@RequestParam("code") String code,Model model) throws Exception {
+	public Map<String, Object> ajaxResult(@RequestParam(value = "code") String code) throws Exception {
 		logger.debug("Controller : ajaxResult(String code) 호출");
 		logger.debug("code : " + code);
-		Map<String, Object> resultMap = new HashMap<>();
+		
+		return getInfo(code);
+	}
+	
+	//시작
+	@RequestMapping(value = "/Start", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> Start(String code) throws Exception {
+		logger.debug("Controller : Start() 호출");
+		//실적 상태 대기중 -> 생산중 으로 전환
+		rsService.productionStart(code);
+		return getInfo(code);
+	}
+	
+	//완료
+	@RequestMapping(value = "/Complete", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> Complete(String code) throws Exception {
+		logger.debug("Controller : Complete() 호출");
+		//실적 상태 생산중 -> 완료 으로 전환
+		//지시량과 양품량 비교하여 양품량이 지시랑보다 적을 시 대기중 상태의 실적 생성
+		rsService.productionComplete(code);
+		return getInfo(code);
+	}
+	
+	//양품+
+	@RequestMapping(value = "/addResult", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addResult(String code) throws Exception {
+		logger.debug("Controller : addResult() 호출");
+		//양품량 +1
+		//상태가 생산중일때만 동작
+		//지시량과 양품량이 같아지면 완료로 전환
+		rsService.addResult(code);
+		return getInfo(code);
+	}
+	
+	
+	//불량+
+	@RequestMapping(value = "/insertFailed", method = RequestMethod.GET)
+	public void insertFailed(String code,String product,Model model) throws Exception {
+		logger.debug("Controller : insertFailed() 호출");
+		model.addAttribute("code", code);
+		model.addAttribute("product", product);
+		String[] code_idList = {"code1","code2","code3"};
+		model.addAttribute("code_idList", code_idList);
+	}
+	
+	//불량+
+	@RequestMapping(value = "/insertFailed", method = RequestMethod.POST)
+	public void insertFailed(failedVO vo) throws Exception {
+		logger.debug("Controller : insertFailed(failedVO vo) 호출");
+		//부적합량 +1
+		//상태가 생산중일때만 동작
+		rsService.insertFailed(vo);
+	}
+	
+	public Map<String, Object> getInfo(String code) throws Exception {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		//기본정보 저장
 		resultMap.put("result", rsService.getResult(code));
 		//불량정보 저장
-		List<failedVO> list = rsService.getFailedList(code);
-		
-		logger.debug("code : " + list.get(0).getCode());
 		resultMap.put("failedList", rsService.getFailedList(code));
 		//투입정보 저장
 		//resultMap.put("BOM", rsService.getBOM(code));

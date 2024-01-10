@@ -6,7 +6,9 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <title>작업지시 추가</title>
-
+<link rel="stylesheet" href="../resources/src/plugins/air-datepicker/dist/css/datepicker.css">
+<script src="../resources/src/plugins/air-datepicker/dist/js/datepicker.js"></script>
+<script src="../resources/src/plugins/air-datepicker/dist/js/i18n/datepicker.ko.js"></script>
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="../resources/src/plugins/ion-rangeslider/css/ion.rangeSlider.css" />
 </head>
@@ -88,7 +90,8 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label><b>생산일</b></label> <input class="form-control date-picker required" placeholder="Select Date" type="text" name="production_date" id="" />
+							<label><b>생산일</b></label>
+							<input class="form-control date-picker required" placeholder="Select Date" type="text" name="production_date" autocomplete='off'/>
 						</div>
 						<div class="form-group">
 							<label>지시사항</label>
@@ -179,16 +182,15 @@
 	<!-- 슬라이더바 인풋 연동 끝 -->
 	<!-- 필수입력 체크 시작-->
 	<script type="text/javascript">
-		//필수입력 클래스 요소 변경시 
-		$('.required').on("change", function() {
-			//등록버튼 활성화
-			$('#submit').attr("disabled", false);
-			//필수입력 클래스 요소 중 빈 값이 있을 시 다시 등록버튼 비활성화
-			$('.required').each(function() {
-				if (this.value == "") {
-					$('#submit').attr("disabled", true);
-				}
-			});
+	//필수입력 클래스 요소 변경시 
+	$('.required').on("change",function () {
+		//등록버튼 활성화
+		$('#submit').attr("disabled",false);
+		//필수입력 클래스 요소 중 빈 값이 있을 시 다시 등록버튼 비활성화
+		$('.required').each(function () {
+			if(this.value == ""){
+				$('#submit').attr("disabled",true);
+			}
 		});
 	</script>
 	<!-- 필수입력 체크 끝-->

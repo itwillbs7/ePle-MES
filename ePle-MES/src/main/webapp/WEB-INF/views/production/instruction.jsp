@@ -5,6 +5,7 @@
 <head>
 <%@ include file="../include/head.jsp"%>
 <title>작업지시 관리</title>
+<link rel="stylesheet" type="text/css" href="../resources/production/instruction.css" />
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -62,7 +63,7 @@
 												</div>
 												<div class="col-md-2 col-sm-12">
 													<div class="form-group">
-														<label>기간</label> <input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="datetime">
+														<label>기간</label> <input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="dateRange">
 													</div>
 												</div>
 											</div>
@@ -93,8 +94,8 @@
 						<button type="button" class="btn btn-warning" id="update">
 							<b>수정</b>
 						</button>
-						<button type="button" class="btn btn-danger" id="delete">
-							<b>삭제</b>
+						<button type="button" class="btn btn-danger" id="disable">
+							<b>비활성</b>
 						</button>
 					</div>
 				</div>
@@ -108,13 +109,13 @@
 											<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 										</div>
 									</td>
-									<th>#</th>
-									<th>품번</th>
+									<th>code.</th>
+									<th>수주번호</th>
+									<th>품명</th>
 									<th>수량</th>
 									<th>라인코드</th>
-									<th>지시사항</th>
-									<th>수주번호</th>
 									<th>생산일</th>
+									<th>지시사항</th>
 								</tr>
 								<c:forEach items="${instructionVOList }" var="vo">
 									<tr class="instructionVO">
@@ -127,12 +128,12 @@
 										</td>
 										<th>${vo.code }</th>
 										<!-- 상세 정보 이동! -->
-										<th><a href="#"><b class="text-blue" id="tableTitle1">${vo.product }</b></a></th>
+										<th>${vo.request }</th>
+										<th>${vo.product }</th>
 										<th>${vo.amount }</th>
 										<th>${vo.line_code }</th>
-										<th>${vo.content }</th>
-										<th>${vo.request }</th>
 										<th>${vo.production_date }</th>
+										<th>${vo.content }</th>
 									</tr>
 								</c:forEach>
 							</table>
@@ -142,13 +143,13 @@
 								<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(${instructionVOList.size() }) 중 (${instructionVOList.size() }) 개</div>
 							</div>
 						</div>
-						<div class="btn-toolbar justify-content-center mb-15">
+						<!-- <div class="btn-toolbar justify-content-center mb-15">
 							<div class="btn-group">
 								<a href="#" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
 								</a> <a href="#" class="btn btn-outline-primary">1</a> <a href="#" class="btn btn-outline-primary">2</a> <span class="btn btn-primary current">3</span> <a href="#" class="btn btn-outline-primary">4</a> <a href="#" class="btn btn-outline-primary">5</a> <a href="#" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
 								</a>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -208,9 +209,9 @@
 			});
 
 			// 삭제
-			$("#delete").click(function() {
+			$("#disable").click(function() {
 				var codes = getCode_Arr();
-				location.href="/production/deleteInstruction?codes=" + codes;
+				location.href="/production/disableInstruction?codes=" + codes;
 			});
 		});
 	</script>
@@ -265,13 +266,11 @@
 						html += "<th>" + this.line_code +"</th>";
 						html += "<th>" + this.content +"</th>";
 						html += "<th>" + this.request +"</th>";
-						html += "<th>" + this.reg_emp +"</th>";
-						html += "<th>" + this.reg_date +"</th>";
-						html += "<th>" + (this.update_emp!=null?this.update_emp:" ") +"</th>";
-						html += "<th>" + (this.update_date!=null?this.update_date:" ") +"</th>";
+						html += "<th>" + this.production_date +"</th>";
 						html += "</tr>";
 					});
 					$("table").append(html);
+					subContent();
 				}
 			});
 		}
@@ -285,5 +284,27 @@
 		});
 	</script>
 	<!-- 수주정보 받기 끝 -->
+	<!-- 긴 문자열 생략 시작 -->
+	<script type="text/javascript">
+		function subContent() {
+			$(".instructionVO ").each(function() {
+				var content  = $(this).children().eq(7);
+				var text  = content.text();
+				if (text.length > 20) {
+					var subText = text.substring(0, 20) + "...";
+					content.text(subText);
+					content.attr("data-toggle","tooltip");
+					content.attr("data-placement","bottom");
+					content.attr("title",text);
+				}
+			});
+		}
+	</script>
+	<!-- 긴 문자열 생략 시작 -->
+	<!-- 초기설정 시작 -->
+	<script type="text/javascript">
+		subContent();
+	</script>
+	<!-- 초기설정 끝 -->
 </body>
 </html>

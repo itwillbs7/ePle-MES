@@ -45,11 +45,12 @@ public class productionDAOImpl implements productionDAO {
 	}
 
 	@Override
-	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request) throws Exception {
+	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request, String[] dateRange) throws Exception {
 		Map<String,String[]>map = new HashMap<String,String[]>();
 		map.put("product", product);
 		map.put("line_code", line_code);
 		map.put("request", request);
+		map.put("dateRange", dateRange);
 		return sqlSession.selectList(NAMESPACE + ".ajaxSearch",map);
 	}
 
@@ -77,6 +78,7 @@ public class productionDAOImpl implements productionDAO {
 	public void insertInstruction(instructionVO instVO) throws Exception {
 		logger.debug("DAO : insertInstruction(instructionVO instVO) 호출");
 		sqlSession.insert(NAMESPACE + ".insertInstruction", instVO);
+		sqlSession.insert(NAMESPACE + ".insertResult", instVO);
 	}
 
 	@Override
@@ -91,11 +93,11 @@ public class productionDAOImpl implements productionDAO {
 	}
 
 	@Override
-	public void deleteInstruction(String[] code_arr) throws Exception {
-		logger.debug("DAO : deleteInstruction(int[] code_arr) 호출");
+	public void disableInstruction(String[] code_arr) throws Exception {
+		logger.debug("DAO : disableInstruction(int[] code_arr) 호출");
 		Map<String,String[]>map = new HashMap<String,String[]>();
 		map.put("code_arr", code_arr);
-		sqlSession.delete(NAMESPACE + ".deleteInstruction", map);
+		sqlSession.delete(NAMESPACE + ".disableInstruction", map);
 	}
 
 	@Override

@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+.input-container>input{
+	border-width: 0 0 2px;
+}
+.infoBtnGroup{
+	margin: 10px;
+}
+.infoBtnGroup>button{
+	margin: 5px;
+}
+#resultTable{
+	border: none;
+}
+.input-container>label{
+	width: 30%;
+}
+.input-container>input{
+	width: 70%;
+	height: 100%;
+}
+th[colspan='5']>.input-container>label{
+	width: 10%;
+}
+th[colspan='5']>.input-container>textarea{
+	width: 90%;
+	height: 100%;
+}
+#resultTable>th{
+	padding: 12px;
+}

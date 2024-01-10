@@ -14,7 +14,7 @@ public interface productionDAO {
 
 	public List<String> getRequest() throws Exception;
 
-	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request) throws Exception;
+	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request, String[] dateRange) throws Exception;
 
 	public List<requestVO> getRequestList() throws Exception;
 
@@ -30,7 +30,7 @@ public interface productionDAO {
 
 	public void updateInstruction(instructionVO instVO) throws Exception;
 
-	public void deleteInstruction(String[] code_arr) throws Exception;
+	public void disableInstruction(String[] code_arr) throws Exception;
 
 	public requestVO getRequest(String code) throws Exception;
 }

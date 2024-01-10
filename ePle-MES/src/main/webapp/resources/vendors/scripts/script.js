@@ -182,9 +182,12 @@ jQuery(document).ready(function () {
 
 	// date picker
 	$(".date-picker").datepicker({
-		language: "ko",
+		language: "en",
 		autoClose: true,
 		dateFormat: "yyyy-mm-dd",
+		onSelect: function() {
+			$(".form-control.date-picker.required").change();
+	    },
 	});
 	$(".datetimepicker").datepicker({
 		timepicker: true,
@@ -193,11 +196,11 @@ jQuery(document).ready(function () {
 		dateFormat: "yyyy-mm-dd",
 	});
 	$(".datetimepicker-range").datepicker({
-		language: "ko",
+		language: "en",
 		range: true,
 		multipleDates: true,
-		multipleDatesSeparator: " ~ ",
 		dateFormat: "yyyy-mm-dd",
+		multipleDatesSeparator: " - ",
 	});
 	$(".month-picker").datepicker({
 		language: "ko",

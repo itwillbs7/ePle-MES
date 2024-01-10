@@ -6,19 +6,19 @@
 <!-- productionMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.productionMapper">
 	<select id="getInstruction" resultType="com.production.domain.instructionVO">
-		SELECT * FROM INSTRUCTION
+		SELECT * FROM INSTRUCTION WHERE status != '비활성'
 	</select>
 	<select id="getProduct" resultType="String">
-		SELECT DISTINCT product FROM INSTRUCTION
+		SELECT DISTINCT product FROM INSTRUCTION WHERE status != '비활성'
 	</select>
 	<select id="getLine_code" resultType="String">
-		SELECT DISTINCT line_code FROM INSTRUCTION
+		SELECT DISTINCT line_code FROM INSTRUCTION WHERE status != '비활성'
 	</select>
 	<select id="getRequest" resultType="String">
-		SELECT DISTINCT request FROM INSTRUCTION
+		SELECT DISTINCT request FROM INSTRUCTION WHERE status != '비활성'
 	</select>
 	<select id="ajaxSearch" parameterType="hashmap" resultType="com.production.domain.instructionVO">
-		SELECT * FROM INSTRUCTION WHERE 1 = 1 
+		SELECT * FROM INSTRUCTION WHERE 1 = 1  AND status != '비활성'
 		<if test="product != null">
 			AND product IN
 			<foreach collection="product" item="arr" open="(" close=")" separator=",">
@@ -37,6 +37,20 @@
 				#{arr}
 			</foreach>
 		</if>
+		<if test="dateRange != null">
+			<if test="dateRange.length > 1">
+				 AND production_date BETWEEN 
+				<foreach collection="dateRange" item="arr" open="" close="" separator=" and ">
+					#{arr}
+				</foreach>
+			</if>
+			<if test="dateRange.length == 1">
+				 AND production_date =
+				<foreach collection="dateRange" item="arr" open="" close="" separator=" and ">
+					#{arr}
+				</foreach>
+			</if>
+		</if>
 	</select>
 	<select id="getRequestList" resultType="com.production.domain.requestVO">
 		SELECT * FROM REQUEST WHERE status = '등록'
@@ -48,7 +62,10 @@
 		SELECT product FROM REQUEST WHERE status = '등록' AND code = #{request}
 	</select>
 	<insert id="insertInstruction">
-		INSERT INTO INSTRUCTION VALUES(DEFAULT,#{product},#{line_code},#{content},#{request},#{amount},#{production_date},#{reg_emp},now(),null,null)
+		INSERT INTO INSTRUCTION VALUES(DEFAULT,#{product},#{line_code},#{content},#{request},#{amount},#{production_date},#{reg_emp},now(),null,null,DEFAULT);
+	</insert>
+	<insert id="insertResult">
+		INSERT INTO RESULT VALUES(DEFAULT,null,DEFAULT,DEFAULT,now(),#{reg_emp},null,null,LAST_INSERT_ID());
 	</insert>
 	<select id="getInstructionUpdate" resultType="com.production.domain.instructionVO">
 		SELECT * FROM INSTRUCTION WHERE code = #{code}
@@ -56,12 +73,12 @@
 	<update id="updateInstruction">
 		UPDATE INSTRUCTION SET product = #{product},line_code = #{line_code},content = #{content},request = #{request},amount = #{amount},production_date = #{production_date},update_emp = #{update_emp},update_date = now() WHERE code = #{code}
 	</update>
-	<delete id="deleteInstruction" parameterType="hashmap">
-		DELETE FROM INSTRUCTION WHERE code IN
+	<update id="disableInstruction" parameterType="hashmap">
+		UPDATE INSTRUCTION SET status = '비활성' WHERE code IN
 		<foreach collection="code_arr" item="item" open="(" close=")" separator=",">
 			#{item}
 		</foreach>
-	</delete>
+	</update>
 	<select id="getRequestAll" resultType="com.production.domain.requestVO">
 		SELECT * FROM REQUEST WHERE code = #{code}
 	</select>

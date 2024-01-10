@@ -42,8 +42,8 @@ public class productionServiceImpl implements productionService {
 	}
 
 	@Override
-	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request) throws Exception {
-		return pdDAO.ajaxSearch(product,line_code,request);
+	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request, String[] dateRange) throws Exception {
+		return pdDAO.ajaxSearch(product,line_code,request,dateRange);
 	}
 
 	@Override
@@ -82,8 +82,8 @@ public class productionServiceImpl implements productionService {
 	}
 
 	@Override
-	public void deleteInstruction(String[] code_arr) throws Exception {
-		pdDAO.deleteInstruction(code_arr);
+	public void disableInstruction(String[] code_arr) throws Exception {
+		pdDAO.disableInstruction(code_arr);
 	}
 
 	@Override
