@@ -9,11 +9,12 @@
 	<!-- 페이징처리 + 리스트 가져오기 -->
 	<select id="listPage" resultType="ShipmentVO">
 		select sp.*, c.name clientName,
-		s.total stock , r.deadline reqsdate, r.product product , r.amount reqsamount
+		SUM(s.total) stock , r.deadline reqsdate, r.product product , r.amount reqsamount
 		from SHIPMENT sp
 		join REQUEST r on r.code = sp.reqs_code
 		inner join CLIENT c on c.code = r.client_code
-		inner join STOCK_VIEW  s on s.code = r.product
+		inner join STOCK_VIEW s on s.code = r.product
+		GROUP BY sp.code, c.name, r.deadline, r.product, r.amount
 		order by sp.reg_date DESC
 		limit #{cri.startPage}, #{cri.pageSize}
 	</select>
@@ -21,18 +22,27 @@
 	<!-- 전체 글 개수 조회 -->
 	<select id="countShipment" resultType="int">
         <![CDATA[
-        select count(*) from SHIPMENT where 1=1
+        select count(*) 
+        from (
+        SELECT sp.code
+        FROM SHIPMENT sp
+        JOIN REQUEST r on r.code = sp.reqs_code
+        INNER JOIN CLIENT c on c.code = r.client_code
+        INNER JOIN STOCK_VIEW s on s.code = r.product
+        GROUP BY sp.code, c.name, r.deadline, r.product, r.amount
+        ) AS subquery
         ]]>
     </select>
 	<!-- 전체 글 개수 조회 -->
 	<select id="countSearch" resultType="int">
         <![CDATA[
-        select count(*)
-		from SHIPMENT sp
-		join REQUEST r on r.code = sp.reqs_code
-		inner join CLIENT c on c.code = r.client_code
-		inner join STOCK_VIEW  s on s.code = r.product
-		where 1 = 1
+       select count(*) 
+        from (
+        SELECT sp.code
+        FROM SHIPMENT sp
+        JOIN REQUEST r on r.code = sp.reqs_code
+        INNER JOIN CLIENT c on c.code = r.client_code
+        INNER JOIN STOCK_VIEW s on s.code = r.product 
         ]]>
         <if test="vo.clientName != null and vo.clientName.toString() != '' ">
          AND c.name = #{vo.clientName} </if>
@@ -52,6 +62,11 @@
 				#{status}
 			</foreach>
 		</if>
+		  <![CDATA[
+		GROUP BY sp.code, c.name, r.deadline, r.product, r.amount
+        ) AS subquery
+          ]]>
+        
     </select>
 
 	<!-- 출하번호의 정보 가져오기 -->
@@ -65,8 +80,8 @@
 
 	<!-- 출하정보 검색하기 -->
 	<select id="research" resultType="ShipmentVO">
-		select sp.*, c.name clientName, s.total stock , r.deadline reqsdate,
-		r.product product, r.amount reqsamount
+		select sp.*, c.name clientName,
+		SUM(s.total) stock , r.deadline reqsdate, r.product product , r.amount reqsamount
 		from SHIPMENT sp
 		join REQUEST r on r.code = sp.reqs_code
 		inner join CLIENT c on c.code = r.client_code
@@ -88,7 +103,8 @@
 				#{status}
 			</foreach>
 		</if>
-		order by r.reg_date DESC
+		GROUP BY sp.code, c.name, r.deadline, r.product, r.amount
+		order by sp.reg_date DESC
 		LIMIT #{cri.startPage},#{cri.pageSize}
 	</select>
 
@@ -97,15 +113,15 @@
 
 	<!-- 수주정보 찾기 -->
 	<select id="getRequestList" resultType="RequestVO">
-		SELECT r.*, c.name clientName, m.name productName, s.total stock , s.warehouse ware_code ,
-		r.unit unit
-		FROM REQUEST r
-		LEFT JOIN CLIENT c on
-		r.client_code = c.code
-		RIGHT join STOCK_VIEW s on r.product = s.code
-		LEFT join MAPD m on r.product = m.code
-		where status in ('등록','생산진행')
-		and s.total >= r.amount
+		SELECT r.*, c.name clientName, m.name productName, s.total stock, s.warehouse ware_code, r.unit unit
+FROM REQUEST r
+LEFT JOIN CLIENT c ON r.client_code = c.code
+RIGHT JOIN (
+    SELECT s.*, ROW_NUMBER() OVER(PARTITION BY s.code ORDER BY s.total DESC) rn
+    FROM STOCK_VIEW s
+) s ON r.product = s.code AND s.rn = 1
+LEFT JOIN MAPD m ON r.product = m.code
+WHERE r.status IN ('등록', '생산진행') AND s.total >= r.amount
 		LIMIT #{startPage},#{pageSize}
 	</select>
 	
@@ -212,56 +228,36 @@
 
 	<!-- LOT 번호 얻기(전체) -->
 	<select id="getLOT" resultType="java.util.HashMap">
-		SELECT * FROM (
-			SELECT inWH.lot, inWH.inAmount - IFNULL(outWH.outAmount, 0) AS Total
-		FROM (SELECT wh.order_num AS lot, SUM(wh.amount) AS inAmount
+	SELECT * FROM (
+	SELECT inWH.lot, inWH.inAmount - IFNULL(outWH.outAmount, 0) AS Total
+	FROM (SELECT wh.order_num AS lot, SUM(wh.amount) AS inAmount
    		FROM WAREHOUSE_HISTORY wh 
-   		JOIN STOCK_VIEW s ON wh.mapd_code = s.code
-  		WHERE wh.code LIKE concat('IN','%') AND wh.mapd_code = #{vo.product}
+  		WHERE wh.code LIKE concat('IN','%') AND wh.mapd_code = 'pp1'
   		GROUP BY wh.order_num) AS inWH
-		LEFT JOIN 
-   			 (SELECT wh.order_num AS lot, SUM(wh.amount) AS outAmount
-   		 FROM WAREHOUSE_HISTORY wh 
-   		 JOIN STOCK_VIEW s ON wh.mapd_code = s.code
-   		 WHERE wh.code LIKE concat('OT','%') AND wh.mapd_code = #{vo.product}
-  		  GROUP BY wh.order_num) AS outWH
-		ON inWH.lot = outWH.lot) AS T
-		WHERE T.Total >= 1;
+	LEFT JOIN 
+   		(SELECT wh.order_num AS lot, SUM(wh.amount) AS outAmount
+   		FROM WAREHOUSE_HISTORY wh 
+   		WHERE wh.code LIKE concat('OT','%') AND wh.mapd_code = 'pp1'
+  		GROUP BY wh.order_num) AS outWH
+	ON inWH.lot = outWH.lot) AS T
+	WHERE T.Total >= 1;
+
 	</select>
 	
 	<!-- 창고입출고내역에 코드 넣기 -->
 	<insert id="insertHistory">
 		insert into WAREHOUSE_HISTORY 
 		values (#{vo.wareHistory_code},#{order_num},#{vo.ware_code}, 
-		'out','완제품',#{total},#{vo.product},#{vo.id},#{vo.date})
+		'OUT','완제품',#{total},#{vo.product},#{vo.reg_emp},#{vo.date})
 	</insert>
 	
-	<!-- STOCK 재고 출하량만큼 빼기 -->
-<!-- 	<update id="updateStockForInsert"> -->
-<!-- 		update STOCK s -->
-<!-- 		inner join SHIPMENT sp on sp.stock_code = s.code -->
-<!-- 		set s.amount=(s.amount - #{total}) -->
-<!-- 		where s.mapd_code = #{vo.product} -->
-<!-- 	</update> -->
-	
+
 	<!-- LOT 테이블에 값 넣기 -->
 	<insert id="insertLOT">
 		insert into LOT (lot, material,shipment)
     	values ( #{lot}, (SELECT material FROM LOT WHERE lot = #{lot}), #{vo.code})
 	</insert>
 	
-	
-	
-	<!-- 출하량만큼 다시 채우기  -->
-<!-- 	<update id="updateStockForUpdate"> -->
-<!--     	<foreach item="item" index="index" collection="shipment" open="" separator=";" close=""> -->
-<!--         update STOCK s -->
-<!--             inner join SHIPMENT sp on sp.stock_code = s.code -->
-<!--             inner join REQUEST r on r.product = s.mapd_code  -->
-<!--         set s.amount=(s.amount + #{item.amount}) -->
-<!--         where sp.code=#{item.code} -->
-<!--    		 </foreach> -->
-<!-- 	</update> -->
 
 	
 	<!-- LOT 테이블에서 데이터 지우기 -->
@@ -283,7 +279,7 @@
 	</delete>
 
 	
-	<!-- 출하정보리스트로 가져오기 -->
+	<!-- 출하정보리스트로 가져오기(큐알코드용)  -->
 	<select id="getShipmentInfoList" resultType="ShipmentVO">
 		SELECT sp.* , c.name clientName, r.product product, r.unit unit, r.amount reqsamount
 		from SHIPMENT sp 
@@ -294,9 +290,10 @@
 		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
 			#{codeNum}
 		</foreach>
+		GROUP BY sp.code, c.name, r.product, r.unit, r.amount
 	</select>
 	
-	<!-- 수주정보리스트로 가져오기 -->
+	<!-- 수주정보리스트로 가져오기(큐알코드용) -->
 	<select id="getRequestInfoList" resultType="RequestVO">
 		SELECT r.*, c.name clientName, m.name productName, 
 		c.address startDate ,c.address2 endDate, c.tel startDead
