@@ -27,12 +27,12 @@ public class resultDAOImpl implements resultDAO{
 	private static final String NAMESPACE = "com.itwillbs.mapper.resultMapper";
 
 	@Override
-	public List<resultVO> getResultList(Timestamp date, String line_code, Boolean isFinish) throws Exception {
+	public List<resultVO> getResultList(String date, String[] line_code, Boolean isFinish) throws Exception {
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("date", date);
 		map.put("line_code", line_code);
 		map.put("isFinish", isFinish);
-		return sqlSession.selectList(NAMESPACE + ".getResultList");
+		return sqlSession.selectList(NAMESPACE + ".getResultList",map);
 	}
 
 	@Override
@@ -50,4 +50,31 @@ public class resultDAOImpl implements resultDAO{
 		return sqlSession.selectOne(NAMESPACE + ".getBOM",code);
 	}
 
+	@Override
+	public List<String> getLine_codeList() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getLine_codeList");
+	}
+
+	@Override
+	public void productionStart(String code) throws Exception {
+		sqlSession.update(NAMESPACE + ".productionStart",code);
+		
+	}
+	
+	@Override
+	public void productionComplete(String code) throws Exception {
+		sqlSession.update(NAMESPACE + ".productionComplete",code);
+		//지시량과 양품량 비교하여 양품량이 지시랑보다 적을 시 대기중 상태의 실적 생성
+	}
+
+	@Override
+	public void addResult(String code) throws Exception {
+		sqlSession.update(NAMESPACE + ".addResult",code);
+		//지시량과 양품량이 같아지면 완료로 전환
+	}
+	
+	@Override
+	public void insertFailed(failedVO vo) throws Exception {
+		sqlSession.insert(NAMESPACE + ".insertFailed",vo);
+	}
 }

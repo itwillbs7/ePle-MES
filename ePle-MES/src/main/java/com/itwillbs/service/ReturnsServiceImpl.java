@@ -24,16 +24,16 @@ public class ReturnsServiceImpl implements ReturnsService {
 	private ReturnsDAO rtdao;
 
 	@Override
-	public List<ReturnsVO> returnsListpage(Criteria cri)throws Exception {
+	public List<ReturnsVO> returnsListpage(ReturnsVO vo,Criteria cri)throws Exception {
 		logger.debug("페이징처리하기 "+cri);
 
-		return rtdao.getReturnsListPage(cri);
+		return rtdao.getReturnsListPage(vo,cri);
 	}
 
 	@Override
-	public int getTotal() throws Exception {
+	public int getTotal(ReturnsVO vo) throws Exception {
 		logger.debug("servide : getTotal()");
-		return rtdao.getReturnsCount();
+		return rtdao.getReturnsCount(vo);
 	}
 
 	@Override
@@ -52,17 +52,38 @@ public class ReturnsServiceImpl implements ReturnsService {
 	}
 	
 	
+	
 	@Override
 	public ShipmentVO getShipmentList(String code) throws Exception {
 		logger.debug("출하정보에서 반품정보로 넘어감");
 		
 		return rtdao.getShipmentList(code);
 	}
+	
+	
 
 	@Override
-	public List<ShipmentVO> findShipment(String clientName, String productName) throws Exception {
+	public List<ShipmentVO> findShipment(Criteria cri) throws Exception {
+		// TODO Auto-generated method stub
+		return rtdao.findShipment(cri);
+	}
+
+	@Override
+	public List<ShipmentVO> findShipment(String clientName, String productName, Criteria cri) throws Exception {
 		logger.debug("회사명, 상품명 검색해서 출하정보 가져오기!");
-		return rtdao.findShipment(clientName, productName);
+		return rtdao.findShipment(clientName, productName,cri);
+	}
+
+	@Override
+	public int getShipmentTotal() throws Exception {
+		// TODO Auto-generated method stub
+		return rtdao.getShipmentTotal();
+	}
+
+	@Override
+	public int getShipmentTotal(String clientName, String productName) throws Exception {
+		logger.debug("검색결과토탈가져오기 검색결과토탈가져오기 검색결과토탈가져오기");
+		return rtdao.getShipmentTotal(clientName, productName);
 	}
 	
 	
@@ -80,17 +101,24 @@ public class ReturnsServiceImpl implements ReturnsService {
 		logger.debug("service findReturnsList(ReturnsVO vo) : "+vo);
 		return rtdao.searchReturnsAll(vo);
 	}
-
+	
+	@Override
+	public String getRecentCode(String vocode) throws Exception {
+		logger.debug("반품번호 찾기");
+		return rtdao.getRecentCode(vocode);
+	}
 
 	@Override
 	public int dataInsertReturns(ReturnsVO vo) throws Exception {
-		logger.debug("반품추가 dataInsertReturns(RequestVO vo)"+vo);
+		logger.debug("반품등록하기 dataInsertReturns(RequestVO vo)"+vo);
+		
 		return rtdao.insertReturns(vo);
+		
 	}
 
 	@Override
 	public int updateReturns(ReturnsVO vo, String id) throws Exception {
-		logger.debug("수정내용 updateReturns(RequestVO vo, String id)");
+		logger.debug("수정하기 updateReturns(RequestVO vo, String id)");
 		return rtdao.returnsUpdate(vo, id);
 	}
 

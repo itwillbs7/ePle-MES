@@ -1,5 +1,6 @@
 package com.itwillbs.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.CommonVO;
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.UserVO;
 
 @Repository
@@ -60,10 +62,10 @@ public class SystemDAOImpl implements SystemDAO {
 	}
 
 	@Override
-	public void userTest() {
-		logger.debug("deleteCommon 실행");
-		sqlSession.selectOne(NAMESPACE+".test");
-		
+	public int registUser(UserVO uvo) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("registUser 실행");
+		return sqlSession.insert(NAMESPACE+".insertUser", uvo);
 	}
 
 	@Override
@@ -94,6 +96,54 @@ public class SystemDAOImpl implements SystemDAO {
 	public int deleteUser(Map<String, Object> codeMap) throws Exception {
 		logger.debug("deleteUser 실행");
 		return sqlSession.delete(NAMESPACE+".deleteUser", codeMap);
+	}
+
+	@Override
+	public List<CommonVO> getKeyWordCommons(Map<String, Object> categoryAndKeyword) throws Exception {
+		logger.debug("getKeyWordCommons 실행");
+		logger.debug(categoryAndKeyword.toString());
+		return sqlSession.selectList(NAMESPACE+".selectKeyWordCommon", categoryAndKeyword);
+	}
+
+	@Override
+	public List<UserVO> getKeyWordUsersPage(Map<String, Object> searchDataMap) throws Exception {
+		logger.debug("getKeyWordUsers 실행");
+		return sqlSession.selectList(NAMESPACE+".selectKeyWordUser", searchDataMap);
+	}
+
+	@Override
+	public List<UserVO> getUserListPage(Criteria cri) throws Exception {
+		logger.debug("getUserListPage 실행");
+		logger.debug("cri : " + cri.toString());
+		return sqlSession.selectList(NAMESPACE+".selectUserListPage", cri);
+	}
+
+	@Override
+	public int getUserTotalCount() throws Exception {
+		logger.debug("getUserTotalCount 실행");
+		return sqlSession.selectOne(NAMESPACE+".selectUserTotalCount");
+	}
+
+	@Override
+	public int getUserSearchCount(Map<String, Object> categoryAndKeyword) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("getUserSearchCount 실행");
+		logger.debug("검색어 : " + categoryAndKeyword.get("category").toString());
+		return sqlSession.selectOne(NAMESPACE+".selectUserSearchCount", categoryAndKeyword);
+	}
+
+	@Override
+	public List<CommonVO> getDepCommonVO() throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("getDepCodenames 실행");
+		return sqlSession.selectList(NAMESPACE+".selectDepCodenames");
+	}
+
+	@Override
+	public List<CommonVO> getPosCommonVO() throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("getPosCodenames 실행");
+		return sqlSession.selectList(NAMESPACE+".selectPosCodenames");
 	}
 	
 	

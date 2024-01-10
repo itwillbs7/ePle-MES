@@ -20,6 +20,6 @@ public class UserVO {
 	private String email;
 	private String address;
 	private Integer active;
-	private String auth;
+	private Integer auth;
 	
 }

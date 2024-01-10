@@ -9,17 +9,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.RequestSearchVO;
+import com.itwillbs.domain.RequestVO;
 import com.itwillbs.domain.ReturnsVO;
 import com.itwillbs.domain.ShipmentVO;
+import com.itwillbs.service.RequestService;
 import com.itwillbs.service.ReturnsService;
 
 /** ReturnsController : 반품 컨트롤러
@@ -41,36 +49,19 @@ public class ReturnsController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void returnsListGET(Model model, 
 							   HttpSession session, 
-							   @ModelAttribute("result") String result, Criteria cri
+							   ReturnsVO vo , Criteria cri,PageVO pageVO
 							   ) throws Exception { //5-1
 		// 수주 목록 return
 		logger.debug("returnsListGET -> DB에서 목록 가져오기(페이징 처리하기)");
 
-		List<ReturnsVO> returnsList = rtService.returnsListpage(cri);
+		List<ReturnsVO> returnsList = rtService.returnsListpage(vo,cri);
 		
-		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(rtService.getTotal()); // 디비에서 직접 실행결과 가져오기
+		pageVO.setTotalCount(rtService.getTotal(vo)); // 디비에서 직접 실행결과 가져오기
 		
 		model.addAttribute("List", returnsList);
 		model.addAttribute("pageVO", pageVO);
 		
-
-	}
-	
-	// http://localhost:8088/request/info
-	@RequestMapping(value = "/info", method = RequestMethod.GET)
-	public void returnsInfo(@RequestParam(value = "code") String code,Model model) throws Exception {// 반품개별정보 5-2
-		logger.debug("returnsInfo -> DB에서 반품번호가 일치하는 데이터 열 가져오기");
-		logger.debug("Controller - code "+code);
-		
-		ReturnsVO vo = rtService.getinfo(code);
-		logger.debug("Controller - vo "+vo);
-		
-
-		
-		model.addAttribute("vo",vo);
-
 	}
 	
 	// http://localhost:8088/request/search
@@ -93,6 +84,22 @@ public class ReturnsController {
 	
 	
 	
+	// http://localhost:8088/request/info
+	@RequestMapping(value = "/info", method = RequestMethod.GET)
+	public void returnsInfo(@RequestParam(value = "code") String code,Model model) throws Exception {// 반품개별정보 5-2
+		logger.debug("returnsInfo -> DB에서 반품번호가 일치하는 데이터 열 가져오기");
+		logger.debug("Controller - code "+code);
+		
+		ReturnsVO vo = rtService.getinfo(code);
+		logger.debug("Controller - vo "+vo);
+
+		model.addAttribute("List",vo);
+
+	}
+	
+
+	
+	
 
 	// http://localhost:8088/request/add
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -110,6 +117,32 @@ public class ReturnsController {
 	public String returnsInsertPOST(ReturnsVO vo, RedirectAttributes rttr) throws Exception {
 		// 반품 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
+		
+		String vocode=vo.getCode();
+		// ex) 23ODMG1207 여기까지 검색해서 가장 최근 등록된 코드
+		String recentCode = rtService.getRecentCode(vocode);
+						
+				// ex ) 기존 코드 23ODMG1207BB1
+				String code = vo.getCode();
+				// ex) BB1 지금 상품코드
+				String lastThreeCharacters = code.substring(code.length()-3);
+
+				if(recentCode == null || recentCode.equals("")) {
+					// 등록된 코드가 없는 경우
+					// 코드 새로 생성
+					code += "001";
+				}else {
+					// 마지막 3자리 숫자 추출
+				    String lastFourNums = recentCode.substring(recentCode.length()-3);
+				    // 숫자로 변환 후 1 증가
+				    int increasedNum = Integer.parseInt(lastFourNums) + 1;
+				    // 다시 문자열로 변환
+				    String newLastFourNums = String.format("%03d", increasedNum);
+				    // 마지막 3자리 숫자를 증가시킨 숫자로 대체
+				    code = recentCode.substring(0, recentCode.length()-3) + newLastFourNums;
+					}
+					
+				vo.setCode(code);
 		
 		int result= rtService.dataInsertReturns(vo);
 		
@@ -129,22 +162,42 @@ public class ReturnsController {
 	// -------- 반품등록 데이터 찾기 ---------
 	
 	@RequestMapping(value ="/searchShipment" , method = RequestMethod.GET)
-	public void getShipmentList(Model model)throws Exception{
+	public void getShipmentList(HttpSession session,
+								PageVO pageVO, Criteria cri,
+								Model model)throws Exception{
 		logger.debug("출하정보 리스트로 가져오기");
-			List<ShipmentVO> List = rtService.getShipmentList();
 			
+			String clientName = null;
+			String productName = null;
+			
+			List<ShipmentVO> List = rtService.findShipment(cri);
+			
+			pageVO.setCri(cri);
+			pageVO.setTotalCount(rtService.getShipmentTotal(clientName,productName)); // 디비에서 직접 실행결과 가져오기
+			
+			logger.debug("가져온 List : "+List);
+
 			model.addAttribute("List", List);
+			model.addAttribute("pageVO", pageVO);
 			
-		
 	}
 	
 	
 	@RequestMapping(value = "/searchShipment", method = RequestMethod.POST)
-	public List<ShipmentVO> searchShipment(@RequestParam("clientName")String clientName,
-									 @RequestParam("productName") String productName)throws Exception {
-		logger.debug("출하번호 및 출하정보 찾기");
-		List<ShipmentVO> List = rtService.findShipment(clientName,productName);
+	public List<ShipmentVO> searchShipment(@RequestParam("clientName")String clientName,PageVO pageVO, Model model,
+			Criteria cri, @RequestParam("productName") String productName)throws Exception {
+		logger.debug("출하번호 및 출하정보 찾기 (검색내용)");
+		logger.debug("productName"+productName+"clientName"+clientName);
+		List<ShipmentVO> List = rtService.findShipment(clientName,productName,cri);
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(rtService.getShipmentTotal(clientName,productName));
 		
+		logger.debug("가져온 List : "+List);
+		model.addAttribute("List", List);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("clientName", clientName);
+		model.addAttribute("productName", productName);
+
 		return List;
 	}
 	
@@ -181,6 +234,7 @@ public class ReturnsController {
 		// 일단 임시 아이디값(실제로는 세션에서 값을 받아와야함)
 		String id = "id";
 		int result= rtService.updateReturns(vo, id);
+		
 		String link = "";
 		if (result >= 1) {
 			link = "redirect:/confirm";
@@ -218,11 +272,11 @@ public class ReturnsController {
 		String link = "";
 		if (result >= 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "출하상태 변경 결과");
-			rttr.addFlashAttribute("result", "출하완료 되었습니다.");
+			rttr.addFlashAttribute("title", "반품 삭제 결과");
+			rttr.addFlashAttribute("result", "반품 내용이 삭제 되었습니다.");
 		} else {
 			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "출하상태 변경 결과");
+			rttr.addFlashAttribute("title", "반품 삭제  결과");
 			rttr.addFlashAttribute("result", "오류가 발생했습니다");
 		}
 		return link;

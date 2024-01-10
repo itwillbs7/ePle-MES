@@ -29,118 +29,31 @@
 							</div>
 							<div id="faq1" class="collapse" data-parent="#accordion" style="">
 								<div class="card-body">
-									<form id="accordion-search" method="GET" action="#">
-										<div class="col-md-12">
-											<div class="form-group">
-												<div class="row">
-													<h4 class="text-blue h4">기본 검색</h4>
-													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
-														<div class="btn-group dropdown">
-															<button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-																카테고리 <span class="caret"></span>
-															</button>
-															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" href="javascript:buttonCategory();">선택</a> <a class="dropdown-item" href="javascript:buttonCategory('A');">A</a> <a class="dropdown-item" href="javascript:buttonCategory('B');">B</a> <a class="dropdown-item" href="javascript:buttonCategory('C');">C</a>
-															</div>
-														</div>
-														<input type="hidden" id="searchCategory" name="searchCategory"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
-													</div>
-												</div>
-												<hr>
-												<div class="row">
-													<h4 class="text-blue h4">상세 검색</h4>
-												</div>
-												<div class="row">
-													<div class="col-md-1 col-sm-12">
-														<label class="weight-600">체크 박스</label>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheckAll"> <label class="custom-control-label" for="formCheckAll"><b>전체</b></label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck1" name="formCheck"> <label class="custom-control-label" for="formCheck1">A</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck2" name="formCheck"> <label class="custom-control-label" for="formCheck2">B</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck3" name="formCheck"> <label class="custom-control-label" for="formCheck3">C</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck4" name="formCheck"> <label class="custom-control-label" for="formCheck4">D</label>
-														</div>
-													</div>
-													<div class="col-md-1 col-sm-12" style="margin-top: auto;">
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck5" name="formCheck"> <label class="custom-control-label" for="formCheck5">E</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck6" name="formCheck"> <label class="custom-control-label" for="formCheck6">F</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck7" name="formCheck"> <label class="custom-control-label" for="formCheck7">G</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck8" name="formCheck"> <label class="custom-control-label" for="formCheck8">H</label>
-														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<label class="weight-600">라디오</label>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio1">가</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio2">나</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio3">다</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio4" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio4">라</label>
-														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<div class="form-group">
-															<label>기간</label> <input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="datetime">
-														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<div class="form-group">
-															<label>물품 종류</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="category">
-																<optgroup label="Alaskan/Hawaiian Time Zone">
-																	<option value="AK">Alaska</option>
-																	<option value="HI">Hawaii</option>
-																</optgroup>
-																<optgroup label="Pacific Time Zone">
-																	<option value="CA">California</option>
-																	<option value="NV">Nevada</option>
-																	<option value="OR">Oregon</option>
-																	<option value="WA">Washington</option>
-																</optgroup>
-																<optgroup label="Mountain Time Zone">
-																	<option value="AZ">Arizona</option>
-																	<option value="CO">Colorado</option>
-																	<option value="ID">Idaho</option>
-																	<option value="MT">Montana</option>
-																	<option value="NE">Nebraska</option>
-																	<option value="NM">New Mexico</option>
-																	<option value="ND">North Dakota</option>
-																	<option value="UT">Utah</option>
-																	<option value="WY">Wyoming</option>
-																</optgroup>
-															</select>
-														</div>
-													</div>
+								
+									<form id="accordion-search" method="post" action="/system/user/main">
+											<div class="form-group row">
+												<div class="col-sm-5 col-md-10">
+													<select class="custom-select col-2" name="category">
+														<option selected="null">카테고리</option>
+														<option value="code">사원코드</option>
+														<option value="name">이름</option>
+														<option value="auth">권한</option>
+														<option value="id">아이디</option>
+														<option value="dep_group">부서</option>
+														<option value="pos_group">직책</option>
+														<option value="phone">휴대전화번호</option>
+													</select>
+													<input class="form-group" type="text" placeholder="검색어" name="keyword">
+													<lable class="btn-group pull-right">
+													<button type="submit" class="btn btn-primary" id="search">
+														<b>검색</b>
+													</button>
+													<button type="reset" class="btn btn-secondary" id="reset">
+														<b>초기화</b>
+													</button>
+													</lable>
 												</div>
 											</div>
-										</div>
-										<div class="btn-group pull-right" style="margin-bottom: 10px">
-											<button type="submit" class="btn btn-primary" id="search">
-												<b>검색</b>
-											</button>
-											<button type="reset" class="btn btn-secondary" id="reset">
-												<b>초기화</b>
-											</button>
-										</div>
 									</form>
 								</div>
 							</div>
@@ -195,12 +108,16 @@
 																						<!-- 상세 정보 이동! -->
 											<td><a href="#" onclick="openPage('/system/user/detail?index=${vo.code}', 400, 700);"><b class="text-blue" id="tableTitle1">${vo.code }</b></a></td>
 											<td>${vo.name }</td>
-											<td>${vo.auth }</td>
+											<td>
+												<c:if test="${vo.auth ==1}">사원</c:if>
+												<c:if test="${vo.auth ==2}">매니저</c:if>
+												<c:if test="${vo.auth ==3}">관리자</c:if>
+											</td>
 											<td>${vo.id }</td>
 											<td>${vo.dep_group }</td>
 											<td>${vo.pos_group }</td>
 											<td>${vo.phone }</td>
-											<td>${vo.active }</td>
+											<td><c:if test="${vo.active==1 }">Y</c:if><c:if test="${vo.active==0 }">N</c:if></td>
 											<td style="">
 											<!-- 옵션 -->
 												<div class="dropdown">
@@ -209,11 +126,11 @@
 													<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 														<!-- 링크 설정 -->
 														<!-- 상세 보기 -->
-														<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
+														<a class="dropdown-item" href="javascript:openPage('/system/user/detail?index=${vo.code}', 400, 700);"><i class="dw dw-eye"></i> 상세 보기</a>
 														<!-- 수정 -->
-														<a class="dropdown-item" href="javascript:openPage('/system/common/update?index=${cvo.group_id }_${cvo.code_id }', 400, 700)"><i class="dw dw-edit2"></i> 수정</a>
+														<a class="dropdown-item" href="javascript:openPage('/system/user/update?index=${vo.code}', 400, 700)"><i class="dw dw-edit2"></i> 수정</a>
 														<!-- 삭제 -->
-														<a class="dropdown-item" href="javascript:openPage('/system/common/delete?index=${cvo.group_id }_${cvo.code_id }', 400, 700)"><i class="dw dw-delete-3"></i> 삭제</a>
+														<a class="dropdown-item" href="javascript:openPage('/system/user/delete?indexes=${vo.code }&codeList=${vo.code }', 400, 700)"><i class="dw dw-delete-3"></i> 삭제</a>
 													</div>
 												</div>
 											</td>
@@ -223,14 +140,57 @@
 							</form>
 							<div class="row">
 								<div class="col-sm-12 col-md-5">
-									<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(전체 수) 중 (검색 결과) 개</div>
+									<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;총 갯수 : ${pageVO.totalCount }개 / ${pageVO.totalPageCount }페이지 중  ${pageVO.cri.page }페이지</div>
 								</div>
 							</div>
-							<div class="btn-toolbar justify-content-center mb-15">
-								<div class="btn-group">
-									<a href="#" class="btn btn-outline-primary prev"><i class="fa fa-angle-double-left"></i></a> <a href="#" class="btn btn-outline-primary">1</a> <a href="#" class="btn btn-outline-primary">2</a> <span class="btn btn-primary current">3</span> <a href="#" class="btn btn-outline-primary">4</a> <a href="#" class="btn btn-outline-primary">5</a> <a href="#" class="btn btn-outline-primary next"><i class="fa fa-angle-double-right"></i></a>
-								</div>
-							</div>
+									<div class="btn-toolbar justify-content-center mb-15">
+										<!-- 검색하지않았을때 페이징 처리 -->
+										<c:if test="${empty categoryAndKeyword }">
+											<c:if test="${pageVO.totalCount > 0}">
+												<div class="btn-group">
+													<c:if test="${pageVO.prev}">
+														<a href="/system/user/main?pageNum=${pageVO.startPage-pageVO.cri.pageSize }" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+														</a>
+													</c:if>
+													<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+														<c:if test="${pageVO.cri.page == i}">
+															<span class="btn btn-primary current">${i}</span>
+														</c:if>
+														<c:if test="${pageVO.cri.page != i}">
+															<a href="/system/user/main?pageNum=${i }" class="btn btn-outline-primary">${i}</a>
+														</c:if>
+													</c:forEach>
+													<c:if test="${pageVO.next}">
+														<a href="/system/user/main?pageNum=${pageVO.startPage+pageVO.cri.pageSize }" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+														</a>
+													</c:if>
+												</div>
+											</c:if>
+										</c:if>	
+										<!-- 검색했을때의 페이징 처리 -->
+										<c:if test="${!empty categoryAndKeyword }">
+											<c:if test="${pageVO.totalCount > 0}">
+												<div class="btn-group">
+													<c:if test="${pageVO.prev}">
+														<a href="#" onclick="postPage(${pageVO.startPage-pageVO.cri.pageSize},'${categoryAndKeyword.category }','${categoryAndKeyword.keyword }');" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+														</a>
+													</c:if>
+													<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+														<c:if test="${pageVO.cri.page == i}">
+															<span class="btn btn-primary current">${i}</span>
+														</c:if>
+														<c:if test="${pageVO.cri.page != i}">
+															<a href="#" onclick="postPage(${i},'${categoryAndKeyword.category }','${categoryAndKeyword.keyword }');" class="btn btn-outline-primary">${i}</a>
+														</c:if>
+													</c:forEach>
+													<c:if test="${pageVO.next}">
+														<a href="#" onclick="postPage(${pageVO.startPage+pageVO.cri.pageSize},'${categoryAndKeyword.category }','${categoryAndKeyword.keyword }');" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+														</a>
+													</c:if>
+												</div>
+											</c:if>
+										</c:if>
+									</div>
 						</div>
 					</div>
 				</div>
@@ -246,7 +206,19 @@
 	</div>
 
 	<script type="text/javascript">
-
+	
+	// 페이지 이동 (POST)
+	function postPage(i,category,keyword) {
+		console.log('함수실행');
+	    // 폼 생성
+	    var form = document.createElement('form');
+	    form.method = 'post';
+		// 실제로 데이터를 전송할 서버의 URL로 변경
+	    form.action = '/system/user/main?pageNum='+i+'&category='+category+'&keyword=' + keyword;
+	    // 폼을 body에 추가하고 전송
+	    document.body.appendChild(form);
+	    form.submit();
+	}
 	
 	
 	<!-- 추가, 수정, 삭제 -->
@@ -297,7 +269,7 @@
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
-				openPage("/system/common/add", 500, 600);
+				openPage("/system/user/add", 500, 600);
 			});
 
 			// 수정

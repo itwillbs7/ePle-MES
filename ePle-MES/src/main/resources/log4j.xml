@@ -23,6 +23,18 @@
 	<logger name="com.itwillbs.service">
 		<level value="debug" />
 	</logger>
+	<logger name="com.production.controller">
+		<level value="debug" />
+	</logger>
+	<logger name="com.production.domain">
+		<level value="debug" />
+	</logger>
+	<logger name="com.production.persistence">
+		<level value="debug" />
+	</logger>
+	<logger name="com.production.service">
+		<level value="debug" />
+	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
@@ -38,12 +50,12 @@
 	</logger>
 
 	<logger name="org.springframework.web">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="debug" />
+		<priority value="warn" />
 		<appender-ref ref="console" />
 	</root>
 	

@@ -30,6 +30,7 @@ public class ShipmentVO {
 	private String unit;
 	private String product;
 	private String clientName;
+	private String wareHistory_code;
 	
 	private List<String> statusList;
 	

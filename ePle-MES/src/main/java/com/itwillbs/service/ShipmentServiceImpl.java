@@ -23,17 +23,17 @@ public class ShipmentServiceImpl implements ShipmentService {
 	private ShipmentDAO sdao;
 
 	@Override
-	public List<ShipmentVO> shipmentListpage(Criteria cri) throws Exception {
+	public List<ShipmentVO> shipmentListpage(ShipmentVO vo,Criteria cri) throws Exception {
 		logger.debug("페이징처리하기 "+cri);
 
-		return sdao.getShipmentListPage(cri);
+		return sdao.getShipmentListPage(vo, cri);
 	}
 	
 
 	@Override
-	public int getTotal() throws Exception {
+	public int getTotal(ShipmentVO vo) throws Exception {
 		logger.debug("servide : getTotal()");
-		return sdao.getShipmentCount();
+		return sdao.getShipmentCount(vo);
 	}
 
 
@@ -50,6 +50,20 @@ public class ShipmentServiceImpl implements ShipmentService {
 		return sdao.getShipmentDetail(code);
 	}
 	
+	
+
+	@Override
+	public String getRecentCode(String vocode) throws Exception {
+		
+		return sdao.getRecentCode(vocode);
+	}
+	
+	@Override
+	public String getRecentHistory(String vocode) throws Exception {
+		logger.debug("입출고테이블에서 출고 데이터 찾기~~~~~~~");
+		return sdao.getRecentHistory(vocode);
+	}
+
 
 	@Override
 	public int dataInsertShipment(ShipmentVO vo) throws Exception {
@@ -59,48 +73,28 @@ public class ShipmentServiceImpl implements ShipmentService {
 	}
 
 	//========================================= add /search 용
-	@Override
-	public List<RequestVO> findClient(String client_code, String clientName) throws Exception {
-		logger.debug("Service : findClient(String client_code, String clientName) : "+client_code+clientName);
-
-		return sdao.searchClient(client_code,clientName);
-	}
-
-	@Override
-	public List<RequestVO> ClientList() throws Exception {
-		logger.debug("Service : ClientList() 회사리스트 뽑기  ");
-
-		return sdao.getClientList();
-	}
-
-
-	@Override
-	public List<RequestVO> ProductList() throws Exception {
-		logger.debug("Service : ProductList() 품목리스트 뽑기");
-		return sdao.getProductList();
-	}
-
-	@Override
-	public List<RequestVO> findProduct(String product, String productName) throws Exception {
-		logger.debug("Service : ffindProduct(String product, String productName) : "+product+productName);
-
-		return sdao.searchProduct(product,productName);
-	}
+	
 
 	
 
 	@Override
-	public List<RequestVO> RequestList() throws Exception {
+	public List<RequestVO> RequestList(Criteria cri) throws Exception {
 		logger.debug("RequestList() 수주목록 가져오기");
-		return sdao.getRequestList();
+		return sdao.getRequestList(cri);
 	}
+	
 
 
 	@Override
-	public List<RequestVO> findRequest(String clientName, String productName) throws Exception {
-		logger.debug("findRequest(String clientName, String productName)"+clientName+productName);
-		logger.debug("회사명, 품명으로 수주목록찾기");
-		return sdao.searchRequest(clientName, productName);
+	public int getRequestTotal(String clientName, String productName) {
+		// TODO Auto-generated method stub
+		return sdao.getRequestTotal(clientName, productName);
+	}
+
+	@Override
+	public List<RequestVO> findRequest(String clientName, String productName, Criteria cri) throws Exception {
+		// TODO Auto-generated method stub
+		return sdao.searchRequest(clientName, productName, cri);
 	}
 
 
@@ -138,12 +132,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 	}
 
 
-	@Override
-	public void insertIntoLOT(String code, String request) throws Exception {
-		logger.debug("LOT 테이블에 출하번호 넣기 : "+code);
-		
-		sdao.updateLOTvaluseShipment(code,request);
-	}
+	
 
 
 	@Override
@@ -151,6 +140,38 @@ public class ShipmentServiceImpl implements ShipmentService {
 		logger.debug("출하상태 수주상태 변경하기");
 		return sdao.updateStatusToDone(code);
 	}
+
+
+	@Override
+	public List<ShipmentVO> getinfoList(String[] codeArr) throws Exception {
+		logger.debug("프린트하기~~~ 출하정보 가져오기!");
+		return sdao.getinfoList(codeArr);
+	}
+
+
+	@Override
+	public List<RequestVO> getinfoRequest(List<String> reqsArr) throws Exception {
+		logger.debug("프린트하기~~~ 수주정보 가져오기!");
+		return sdao.getinfoRequest( reqsArr);
+	}
+
+
+	@Override
+	public int receiptToClient(String[] code) throws Exception {
+		logger.debug("고객님이 큐알을 찍으셨다네~~~~ 이건 수주번호~~"+code);
+		return sdao.receiptToClient(code);
+	}
+
+
+	@Override
+	public int actDoneShipment(String[] code) throws Exception {
+		logger.debug("출하완료~~~~ 이건 출하번호~~"+code);
+		
+		return sdao.actDoneShipment(code);
+	}
+
+
+
 	
 	
 	

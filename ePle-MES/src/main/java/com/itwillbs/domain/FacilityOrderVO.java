@@ -9,10 +9,9 @@ import lombok.Data;
 @Data
 public class FacilityOrderVO {
 	private String code;		// 코드 작성방식은 다음주에 논의
-	private String group_id;
-	private String code_id;
 	private String group_name;
 	private String code_name;
+	private String material;
 	private Date date;			// 접수 일자
 	private String client_code;	// 회사 코드
 	private String client_name; // 회사 이름
@@ -24,4 +23,6 @@ public class FacilityOrderVO {
 	private String update_emp;		// 수정자
 	private String update_name;		// 수정자 이름
 	private String status;			// 상태
+	
+	private MAPDVO mapd; 
 }

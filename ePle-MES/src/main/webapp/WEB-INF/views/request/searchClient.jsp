@@ -17,24 +17,46 @@
 			</div>
 			<!-- 폼 -->
 			<div class="search_area">
-			<form method="post" id="searchClient" action="">
+			<form method="post" id="accordion-search" action="/request/searchClient">
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						<div class="form-group">
 							<label>업체코드</label> 
-							<input class="form-control" type="text" placeholder="업체코드를 입력하세요" name="client_code" id="client_code">
+							<input class="form-control" type="text" placeholder="업체코드를 입력하세요" 
+							name="client_code" id="client_code" >
 						</div>
 						<div class="form-group">
 							<label>업체명</label> 
-							<input class="form-control" type="text" placeholder="업체이름을 입력하세요" name="clientName" id="clientName">
+							<input class="form-control" type="text" placeholder="업체이름을 입력하세요" 
+							name="clientName" id="clientName" >
 						</div>
+<!-- 정렬, asc, desc -->
+										<input type="hidden" name="activeSortCategory" id="sortCategory" value="${pageVO.search.activeSortCategory}"> 
+										<input type="hidden" name="sortValue" id="sortValue" value="${pageVO.search.sortValue}">
 
+										<c:choose>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" id="page" name="page" value="1">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" id="page" name="page" value="${pageVO.cri.page}">
+											</c:when>
+										</c:choose>
+
+										<c:choose>
+											<c:when test="${empty pageVO.cri.pageSize}">
+												<input type="hidden" id="pageSize" name="pageSize" value="10">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.pageSize}">
+												<input type="hidden" id="pageSize" name="pageSize" value="${pageVO.cri.pageSize}">
+											</c:when>
+										</c:choose>
 				<!-- 버튼 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-						<button type="button" class="btn btn-success" onclick="submitForm();" >
+						<button type="submit" class="btn btn-success" >
 							<b>검색</b>
 						</button>
 					</div>
@@ -63,7 +85,30 @@
 				</c:forEach>
 			</tbody>
 			</table>
-			
+			<div class="btn-toolbar justify-content-center mb-15">
+							<c:if test="${pageVO.totalCount > 1}">
+									<div class="btn-group">
+										<c:if test="${pageVO.prev}">
+											<a href="javascript:pageMove(${pageVO.startPage - 1})" class="btn btn-outline-primary prev"> 
+											<i class="fa fa-angle-double-left"></i>
+											</a>
+										</c:if>
+										<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+											<c:if test="${pageVO.cri.page == i}">
+												<span class="btn btn-primary current">${i}</span>
+											</c:if>
+											<c:if test="${pageVO.cri.page != i}">
+												<a href="javascript:pageMove(${i})" class="btn btn-outline-primary">${i}</a>
+											</c:if>
+										</c:forEach>
+										<c:if test="${pageVO.next}">
+											<a href="javascript:pageMove(${pageVO.endPage + 1})" class="btn btn-outline-primary next"> 
+											<i class="fa fa-angle-double-right"></i>
+											</a>
+										</c:if>
+									</div>
+								</c:if>
+							</div>
 			
 		</div>
 	</div>
@@ -71,32 +116,7 @@
 	<%@ include file="../include/footer.jsp"%>
 	
 	 <script type="text/javascript">
-		function submitForm(){
 			
-		$.ajax({
-		    url: '/request/searchClient',
-		    type: 'POST',
-		    data: { 
-		        client_code: $('#client_code').val(),
-		        clientName: $('#clientName').val() 
-		    },
-		    success: function(data) {
-		    	// 서버로부터 받은 데이터를 사용하여 테이블 업데이트
-	            var table = '';
-	            $.each(data, function(index, item) {
-	     			console.log(item.client_code);
-	                table += '<tr onclick="selectWork(\'' + item.client_code + '\',\'' + item.clientName + '\')">';
-	                table += '<th>' + item.client_code + '</th>';
-	                table += '<th>' + item.clientName + '</th>';
-	                table += '</tr>';
-	            });
-	            // 기존 테이블 헤더를 유지하면서 테이블 바디 내용을 업데이트
-	            $('#tableId tbody').html(table);  
-		    }
-		});
-		}
-		
-		
 	//부모창으로 데이터 넘기기
     function selectWork(a,b){ // 부모창으로 값 넘기기
 		  

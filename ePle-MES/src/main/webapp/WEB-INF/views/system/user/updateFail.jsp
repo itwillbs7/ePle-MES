@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../../include/head.jsp"%>
-<title>수정완료</title>
+<title>수정실패</title>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->

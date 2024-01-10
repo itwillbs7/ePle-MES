@@ -90,8 +90,8 @@
 					<label class="custom-control-label" for="sidebariconlist-6"><i
 						class="dw dw-next"></i></label>
 				</div>
-			</div>
 
+			</div>
 			<div class="reset-options pt-30 text-center">
 				<button class="btn btn-danger" id="reset-settings">설정 초기화</button>
 			</div>

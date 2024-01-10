@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.itwillbs.domain.CommonVO;
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.UserVO;
 
 public interface SystemDAO {
@@ -13,10 +14,17 @@ public interface SystemDAO {
 	public CommonVO getOneCommon(CommonVO cvo) throws Exception;
 	public void updateCommon(Map<String, Object> newCommon) throws Exception;
 	public void deleteCommon(CommonVO cvo) throws Exception;
-	public void userTest();
+	public List<CommonVO> getKeyWordCommons(Map<String, Object> categoryAndKeyword) throws Exception;
+	public int registUser(UserVO uvo) throws Exception;
 	public List<UserVO> getAllUsers() throws Exception;
 	public List<UserVO> getSomeUsers(Map<String, Object> index) throws Exception;
 	public UserVO getOneUser(UserVO uvo) throws Exception;
 	public int updateOneUser(UserVO uvo) throws Exception;
 	public int deleteUser(Map<String, Object> codeMap) throws Exception;
+	public List<UserVO> getKeyWordUsersPage(Map<String, Object> searchDataMap) throws Exception;
+	public List<UserVO> getUserListPage(Criteria cri) throws Exception;
+	public int getUserTotalCount() throws Exception;
+	public int getUserSearchCount(Map<String, Object> categoryAndKeyword) throws Exception;
+	public List<CommonVO> getPosCommonVO() throws Exception;
+	public List<CommonVO> getDepCommonVO() throws Exception;
 }

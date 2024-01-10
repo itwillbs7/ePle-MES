@@ -9,133 +9,158 @@
 	<!-- 페이징처리 + 리스트 가져오기 -->
 	<select id="listPage" resultType="ShipmentVO">
 		select sp.*, c.name clientName,
-		s.amount stock , r.deadline reqsdate, r.product product , r.amount
-		reqsamount
+		SUM(s.total) stock , r.deadline reqsdate, r.product product , r.amount reqsamount
 		from SHIPMENT sp
 		join REQUEST r on r.code = sp.reqs_code
 		inner join CLIENT c on c.code = r.client_code
-		inner join STOCK s on
-		s.mapd_code = r.product
+		inner join STOCK_VIEW s on s.code = r.product
+		GROUP BY sp.code, c.name, r.deadline, r.product, r.amount
 		order by sp.reg_date DESC
-		limit #{startPage},
-		#{pageSize}
+		limit #{cri.startPage}, #{cri.pageSize}
 	</select>
 
 	<!-- 전체 글 개수 조회 -->
 	<select id="countShipment" resultType="int">
-  <![CDATA[
-  	select count(*) from SHIPMENT where 1=1
-  ]]>
-	</select>
+        <![CDATA[
+        select count(*) 
+        from (
+        SELECT sp.code
+        FROM SHIPMENT sp
+        JOIN REQUEST r on r.code = sp.reqs_code
+        INNER JOIN CLIENT c on c.code = r.client_code
+        INNER JOIN STOCK_VIEW s on s.code = r.product
+        GROUP BY sp.code, c.name, r.deadline, r.product, r.amount
+        ) AS subquery
+        ]]>
+    </select>
+	<!-- 전체 글 개수 조회 -->
+	<select id="countSearch" resultType="int">
+        <![CDATA[
+       select count(*) 
+        from (
+        SELECT sp.code
+        FROM SHIPMENT sp
+        JOIN REQUEST r on r.code = sp.reqs_code
+        INNER JOIN CLIENT c on c.code = r.client_code
+        INNER JOIN STOCK_VIEW s on s.code = r.product 
+        ]]>
+        <if test="vo.clientName != null and vo.clientName.toString() != '' ">
+         AND c.name = #{vo.clientName} </if>
+		<if test="vo.product != null and vo.product.toString() != ''">
+		 AND s.mapd_code = #{vo.product} </if>
+		<if test="vo.date != null and vo.date.toString() != '' ">
+			<choose>
+				<when test="vo.endDate != null and vo.endDate.toString() != '' ">
+				AND r.date between #{vo.startDate} and #{vo.endDate}
+				</when>
+				<otherwise>AND r.date = #{vo.startDate} </otherwise>
+			</choose>
+		</if>
+		<if test="vo.statusList != null and vo.statusList.size() > 0">
+			AND sp.status in
+			<foreach collection="vo.statusList" item="status" open="(" close=")" separator=",">
+				#{status}
+			</foreach>
+		</if>
+		  <![CDATA[
+		GROUP BY sp.code, c.name, r.deadline, r.product, r.amount
+        ) AS subquery
+          ]]>
+        
+    </select>
 
 	<!-- 출하번호의 정보 가져오기 -->
 	<select id="getShipmentInfo" resultType="ShipmentVO">
-		SELECT sp.*, s.amount
-		stock
+		SELECT sp.*, s.total stock
 		from SHIPMENT sp
 		join REQUEST r on r.code = sp.reqs_code
-		join STOCK
-		s on sp.stock_code = s.code
+		join STOCK_VIEW  s on r.product = s.code
 		where sp.code = #{code}
-
 	</select>
 
 	<!-- 출하정보 검색하기 -->
 	<select id="research" resultType="ShipmentVO">
-		select sp.*, c.name clientName, s.amount stock , r.deadline reqsdate,
-		r.product product, r.amount reqsamount
+		select sp.*, c.name clientName,
+		SUM(s.total) stock , r.deadline reqsdate, r.product product , r.amount reqsamount
 		from SHIPMENT sp
-		join REQUEST r
-		on r.code = sp.reqs_code
+		join REQUEST r on r.code = sp.reqs_code
 		inner join CLIENT c on c.code = r.client_code
-		inner join STOCK s on s.mapd_code = r.product
+		inner join STOCK_VIEW s on s.code = r.product
 		where 1 = 1
-		<if test="clientName neq null and clientName.toString() neq '' "> AND r.client_code = #{client_code} </if>
-		<if test="product neq null and product.toString() neq ''"> AND s.mapd_code = #{product} </if>
-		<if test="date neq null and date.toString() neq '' ">
+		<if test="vo.clientName != null and vo.clientName.toString() != '' "> AND c.name = #{vo.clientName} </if>
+		<if test="vo.product != null and vo.product.toString() != ''"> AND s.code = #{vo.product} </if>
+		<if test="vo.date != null and vo.date.toString() != '' ">
 			<choose>
-				<when test="endDate neq null and endDate.toString() neq '' ">AND r.date between #{startDate} and #{endDate}
+				<when test="vo.endDate != null and vo.endDate.toString() != '' ">
+				AND r.date between #{vo.startDate} and #{vo.endDate}
 				</when>
-				<otherwise>ND r.date = #{startDate} </otherwise>
+				<otherwise>AND r.date = #{vo.startDate} </otherwise>
 			</choose>
 		</if>
-		<if test="statusList != null and statusList.size() > 0">
+		<if test="vo.statusList != null and vo.statusList.size() > 0">
 			AND sp.status in
-			<foreach collection="statusList" item="status" open="("
-				close=")" separator=",">
+			<foreach collection="vo.statusList" item="status" open="(" close=")" separator=",">
 				#{status}
 			</foreach>
 		</if>
-		order by r.reg_date DESC
+		GROUP BY sp.code, c.name, r.deadline, r.product, r.amount
+		order by sp.reg_date DESC
+		LIMIT #{cri.startPage},#{cri.pageSize}
 	</select>
 
 	<!-- ================= add/search -->
-	<!-- 회사찾기 -->
-	<select id="getClientList" resultType="RequestVO">
-		select code client_code,
-		name clientName from CLIENT where active = 0;
-	</select>
-
-	<select id="findCompany" resultType="RequestVO">
-		select code client_code, name clientName from CLIENT where active = 0
-		<if test="client_code!= null"> AND code like concat('%',#{client_code},'%') </if>
-		<if test="clientName != null"> AND name like concat('%',#{clientName},'%') </if>
-	</select>
-
-	<!-- 물품찾기 -->
-	<select id="getProductList" resultType="RequestVO">
-		select m.code product,
-		m.name productName, m.unit, s.amount stock
-		from MAPD m join STOCK s on
-		m.code = s.mapd_code where m.active = 0
-	</select>
-
-	<select id="findProduct" resultType="RequestVO">
-		select m.code product, m.name productName, s.amount stock, s.code
-		ware_code
-		from MAPD m join STOCK s on m.code = s.mapd_code where
-		m.active = 0
-		<if test="product != null and product != ''">AND m.code like concat('%',#{product},'%')</if>
-		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
-	</select>
+	
 
 	<!-- 수주정보 찾기 -->
 	<select id="getRequestList" resultType="RequestVO">
-		SELECT r.code code,
-		r.date date, r.product product, c.name clientName,
-		r.amount amount,
-		m.name productName, s.amount stock , s.warehouse_code ware_code ,
-		r.unit
-		unit, s.code stock_code
+		SELECT r.*, c.name clientName, m.name productName, s.total stock, s.warehouse ware_code, r.unit unit
+FROM REQUEST r
+LEFT JOIN CLIENT c ON r.client_code = c.code
+RIGHT JOIN (
+    SELECT s.*, ROW_NUMBER() OVER(PARTITION BY s.code ORDER BY s.total DESC) rn
+    FROM STOCK_VIEW s
+) s ON r.product = s.code AND s.rn = 1
+LEFT JOIN MAPD m ON r.product = m.code
+WHERE r.status IN ('등록', '생산진행') AND s.total >= r.amount
+		LIMIT #{startPage},#{pageSize}
+	</select>
+	
+	<select id="getRequestCount" resultType="int">
+		SELECT count(*)
 		FROM REQUEST r
 		LEFT JOIN CLIENT c on
 		r.client_code = c.code
-		RIGHT join STOCK s on r.product = s.mapd_code
+		RIGHT join STOCK_VIEW  s on r.product = s.code
 		LEFT join MAPD m on r.product = m.code
 		where status in ('등록','생산진행')
-		and s.amount >= r.amount
-	</select>
-
-	<select id="findRequest" resultType="RequestVO">
-		SELECT r.code code, r.date date, r.product product, c.name clientName,
-		r.amount amount,
-		m.name productName, s.amount stock , s.warehouse_code
-		ware_code , r.unit
-		unit, s.code stock_code
-		FROM REQUEST r
-		LEFT JOIN
-		CLIENT c on r.client_code = c.code
-		RIGHT join STOCK s on r.product =
-		s.mapd_code
-		LEFT join MAPD m on r.product = m.code
-		where status in
-		('등록','생산진행')
-		and s.amount >= r.amount
+		and s.total >= r.amount
 		<if test="clientName != null and clientName!= ''">AND c.name like concat('%',#{clientName},'%')</if>
 		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
 	</select>
-	<!-- ================= add/search -->
 
+	<select id="findRequest" resultType="RequestVO">
+		SELECT r.*, c.name clientName, m.name productName, s.total stock , s.warehouse ware_code ,
+		r.unit unit
+		FROM REQUEST r
+		LEFT JOIN CLIENT c on r.client_code = c.code
+		RIGHT join STOCK_VIEW  s on r.product = s.code
+		LEFT join MAPD m on r.product = m.code
+		where status in ('등록','생산진행')
+		and s.total >= r.amount
+		<if test="clientName != null and clientName!= ''">AND c.name like concat('%',#{clientName},'%')</if>
+		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
+		LIMIT #{cri.startPage},#{cri.pageSize}
+	</select>
+	<!-- ========================================================= add/search -->
+	
+	<!-- 수주번호 가져오기 -->
+	<select id="getRecentCode" resultType="String">
+		SELECT code FROM SHIPMENT WHERE code LIKE concat(#{result},'%') ORDER BY reg_date DESC LIMIT 0, 1
+	</select>
+	<!-- 수주번호 가져오기 -->
+	<select id="getRecentHistory" resultType="String">
+		SELECT code FROM WAREHOUSE_HISTORY WHERE code LIKE concat(#{vocode},'%') ORDER BY date DESC LIMIT 0, 1
+	</select>
 
 
 	<!-- 출하정보 등록하기 -->
@@ -143,66 +168,52 @@
 		insert into SHIPMENT
 		values
 		(#{code},#{reqs_code},#{date},#{ware_code},#{amount},
-		"출하대기",now(),"test",now(),"test",#{stock_code});
+		"출하대기",now(),"test",now(),"test");
 	</insert>
 
 	<update id="updateRequestStatus">
 		update REQUEST
 		set status = '출하대기'
-		where code =
-		#{request}
+		where code = #{request}
 	</update>
 
 	<!-- 출하정보 수정하기 -->
 	<update id="updateShipmentInfo">
 		update SHIPMENT set reqs_code=#{vo.reqs_code},
-		date=#{vo.date},
-		ware_code=#{vo.ware_code}, amount=#{vo.amount},
-		status=#{vo.status},
-		update_date=now(), update_emp=#{userid}
-		where code
-		= #{vo.code}
+		date=#{vo.date}, ware_code=#{vo.ware_code}, amount=#{vo.amount},
+		status=#{vo.status}, update_date=now(), update_emp=#{userid}
+		where code = #{vo.code}
 	</update>
 
 	<update id="updateBeforeUpdate">
 		update REQUEST
 		set status = '등록'
-		where code =
-		#{request}
+		where code = #{request}
 	</update>
 	
 	<update id="updateBeforeUpdate2">
 		update REQUEST
 		set status = '출하대기'
-		where code =
-		#{request}
+		where code = #{request}
 	</update>
 
 	<!-- 출하정보 삭제하기 -->
 	<select id="getDeleteInfo" resultType="ShipmentVO">
 		SELECT sp.*, c.name clientName, m.name product
 		from SHIPMENT sp
+		join REQUEST r on r.code = sp.reqs_code
+		inner join CLIENT c on c.code = r.client_code
+		inner join MAPD m on m.code = r.product
+		where sp.code in
 		join
 		REQUEST r on r.code = sp.reqs_code
 		inner join CLIENT c on c.code =
 		r.client_code
-		inner join MAPD m on m.code = r.product
-		where sp.code in
-		<foreach collection="code" item="codeNum" open="(" close=")"
-			separator=",">
-			#{codeNum}
-		</foreach>
-	</select>
-
-	<update id="updateStatusBeforeDelete">
 		update REQUEST r
 		inner join SHIPMENT s on r.code= s.reqs_code
-		set
-		r.status = '등록'
-		where s.code
-		in
-		<foreach collection="code" item="codeNum" open="(" close=")"
-			separator=",">
+		set r.status = '등록'
+		where s.code in
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
 			#{codeNum}
 		</foreach>
 	</update>
@@ -210,65 +221,120 @@
 	<delete id="deleteShipmentData">
 		delete from SHIPMENT
 		where code in
-		<foreach collection="code" item="codeNum" open="(" close=")"
-			separator=",">
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
 			#{codeNum}
 		</foreach>
 	</delete>
 
-	<!-- LOT 테이블 넣기 -->
-	<update id="updateLOT">
-		update LOT l
-		INNER JOIN RESULT r on r.code
-		= l.lot
-		INNER JOIN INSTRUCTION i on i.code = r.inst_code
-		INNER JOIN
-		REQUEST rq
-		on rq.code = i.request
-		set l.shipment = #{shipment}
-		where
-		i.request =
-		#{request}
-	</update>
+	<!-- LOT 번호 얻기(전체) -->
+	<select id="getLOT" resultType="java.util.HashMap">
+	SELECT * FROM (
+	SELECT inWH.lot, inWH.inAmount - IFNULL(outWH.outAmount, 0) AS Total
+	FROM (SELECT wh.order_num AS lot, SUM(wh.amount) AS inAmount
+   		FROM WAREHOUSE_HISTORY wh 
+  		WHERE wh.code LIKE concat('IN','%') AND wh.mapd_code = 'pp1'
+  		GROUP BY wh.order_num) AS inWH
+	LEFT JOIN 
+   		(SELECT wh.order_num AS lot, SUM(wh.amount) AS outAmount
+   		FROM WAREHOUSE_HISTORY wh 
+   		WHERE wh.code LIKE concat('OT','%') AND wh.mapd_code = 'pp1'
+  		GROUP BY wh.order_num) AS outWH
+	ON inWH.lot = outWH.lot) AS T
+	WHERE T.Total >= 1;
 
-	<!-- STOCK 재고 업데이트 -->
-	<update id="updateStock">
-		update STOCK s
-		inner join SHIPMENT sp on sp.stock_code = s.code
-		set
-		s.amount=(s.amount - #{amount})
+	</select>
+	
+	<!-- 창고입출고내역에 코드 넣기 -->
+	<insert id="insertHistory">
+		insert into WAREHOUSE_HISTORY 
+		values (#{vo.wareHistory_code},#{order_num},#{vo.ware_code}, 
+		'OUT','완제품',#{total},#{vo.product},#{vo.reg_emp},#{vo.date})
+	</insert>
+	
+
+	<!-- LOT 테이블에 값 넣기 -->
+	<insert id="insertLOT">
+		insert into LOT (lot, material,shipment)
+    	values ( #{lot}, (SELECT material FROM LOT WHERE lot = #{lot}), #{vo.code})
+	</insert>
+	
+
+	
+	<!-- LOT 테이블에서 데이터 지우기 -->
+	<delete id="deleteLOTUpdate"> 
+            delete from LOT 
+            where shipment in 
+            <foreach item="item" index="index" collection="shipment" open="(" separator="," close=")">
+                #{item.code}
+            </foreach> 
+	</delete>
+
+	<!-- 입출고 테이블에서 데이터 지우기 -->
+	<delete id="deleteHistoryUpdate">
+            delete from WAREHOUSE_HISTORY 
+            where 
+            <foreach item="item" index="index" collection="shipment" separator=" or " close="">
+                order_num LIKE concat('%',#{item.code})
+            </foreach>
+	</delete>
+
+	
+	<!-- 출하정보리스트로 가져오기(큐알코드용)  -->
+	<select id="getShipmentInfoList" resultType="ShipmentVO">
+		SELECT sp.* , c.name clientName, r.product product, r.unit unit, r.amount reqsamount
+		from SHIPMENT sp 
+		join REQUEST r on r.code = sp.reqs_code 
+		join STOCK_VIEW s on sp.ware_code = s.warehouse 
+		join CLIENT c on r.client_code = c.code 
 		where sp.code in
-		<foreach collection="code" item="codeNum" open="(" close=")"
-			separator=",">
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
 			#{codeNum}
 		</foreach>
-	</update>
+		GROUP BY sp.code, c.name, r.product, r.unit, r.amount
+	</select>
+	
+	<!-- 수주정보리스트로 가져오기(큐알코드용) -->
+	<select id="getRequestInfoList" resultType="RequestVO">
+		SELECT r.*, c.name clientName, m.name productName, 
+		c.address startDate ,c.address2 endDate, c.tel startDead
+		from REQUEST r
+		join CLIENT c on r.client_code = c.code 
+		join STOCK_VIEW s on r.product = s.code 
+		join MAPD m on r.product = m.code 
+		where r.code in
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
+			#{codeNum}
+		</foreach>
+	</select>
 
-	<!-- 창고입출고내역에 코드 넣기 -->
 
 	<!-- 출하완료 처리 -->
 	<update id="updateStatusToRequest">
 		UPDATE REQUEST r
 		INNER JOIN SHIPMENT s ON r.code= s.reqs_code
-		SET
-		r.status = '출하완료'
+		SET r.status = '출하완료'
 		WHERE s.code IN
-		<foreach collection="code" item="codeNum" open="(" close=")"
-			separator=",">
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
 			#{codeNum}
 		</foreach>
-
 	</update>
 	
-	<update id="updateStatusToShipment">
+	<update id="updateStatusToShipment" parameterType="map">
 		UPDATE SHIPMENT s
 		SET s.status = '출하완료'
 		WHERE s.code IN
-		<foreach collection="code" item="codeNum" open="(" close=")"
-			separator=",">
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
+			'#{codeNum}'
+		</foreach>
+	</update>
+
+	<update id="receiptToClient" >
+		UPDATE REQUEST 
+		set status = '수령'
+		WHERE code IN
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
 			#{codeNum}
 		</foreach>
-
 	</update>
 
 </mapper>

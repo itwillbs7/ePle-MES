@@ -2,37 +2,172 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="com.itwillbs.mapper.LineOffMapper">
 	<resultMap type="com.itwillbs.domain.LineOffVO" id="off">
-		<result property="index" column="index"/>
-		<result property="start_time" column="start_time"/>
-		<result property="end_time" column="end_time"/>
-		<result property="line_code" column="line_code"/>
+		<result property="code" column="code" />
+		<result property="start_time" column="start_time" />
+		<result property="end_time" column="end_time" />
 		<result property="group_id" column="group_id" />
-		<result property="group_name" column="group_name"/>
-		<result property="code_id" column="code_id"/>
-		<result property="code_name" column="code_name"/>
+		<result property="group_name" column="group_name" />
+		<result property="code_id" column="code_id" />
+		<result property="code_name" column="code_name" />
 	</resultMap>
-	
-	<insert id="insert">
-		INSERT INTO LINE_OFF VALUES 
-		(#{index}, STR_TO_DATE(#{start_time}, '%Y-%m-%d %h:%i'), STR_TO_DATE(#{end_time}, '%Y-%m-%d %h:%i'),
-		#{line_code}, #{group_id}, #{code_id})
-	</insert>
-	
-	<select id="getList" resultMap="off" resultType="com.itwillbs.domain.LineOffVO">
-		SELECT * FROM LINE_OFF WHERE start_date BETWEEN DATE_SUB(NOW(), INTERVAL 6 MONTH) AND DATE_ADD(NOW(), INTERVAL 6 MONTH)
+
+	<resultMap type="com.itwillbs.domain.LineVO" id="line">
+		<result property="code" column="code" />
+		<result property="name" column="name" />
+		<result property="process" column="process" />
+		<result property="place" column="place" />
+		<result property="status" column="status" />
+		<result property="note" column="note" />
+		<result property="active" column="active" />
+		<collection property="off" resultMap="off">
+			<result property="start_time" column="start_time" />
+			<result property="end_time" column="end_time" />
+			<result property="group_id" column="group_id" />
+			<result property="group_name" column="group_name" />
+			<result property="code_id" column="code_id" />
+			<result property="code_name" column="code_name" />
+		</collection>
+	</resultMap>
+
+	<select id="getDetail" resultMap="line">
+		SELECT * FROM LINE WHERE code =
+		#{code}
 	</select>
-	
-	<update id="">
+
+	<select id="getDetailList" resultMap="off">
+		SELECT l.*, c.group_name,
+		c.code_name FROM LINE_OFF l
+		LEFT OUTER JOIN COMMON_CODE c ON l.group_id = c.group_id AND l.code_id =
+		c.code_id
+		WHERE line_code = #{code}
+		ORDER BY code DESC LIMIT 0, 20
+	</select>
+
+	<!-- 라인 종료 이력 입력(정지 처리만) -->
+	<insert id="insert">
+		INSERT INTO LINE_OFF (code, start_time, group_id, 
+		code_id) 
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(#{item.code}, now(), #{item.group_id}, #{item.code_id})
+		</foreach>
+	</insert>
+	<!-- 라인 종료 이력 입력(정지 처리만) -->
+
+	<!-- 라인 종료 예약 -->
+	<insert id="reservation">
+		INSERT INTO LINE_OFF 
+		VALUES 
+		<foreach collection="list" item="item" separator=",">
+			(#{item.code}, #{item.start_time}, #{item.end_time}, #{item.group_id}, #{item.code_id})
+		</foreach>
+	</insert>
+	<!-- 라인 종료 예약 -->
+
+	<!-- 라인 종료 이력의 최근 코드 -->
+	<select id="getRecentCode" resultType="String">
+		SELECT code FROM LINE_OFF 
+		ORDER BY code DESC LIMIT 0, 1
+	</select>
+	<!-- 라인 종료 이력의 최근 코드 -->
+
+	<update id="updateEndTime">
 		UPDATE LINE_OFF 
 		<set>
-			start_time = STR_TO_DATE(#{start_time}, '%Y-%m-%d %h:%i'), end_time = STR_TO_DATE(#{end_time}, '%Y-%m-%d %h:%i'),
-			line_code = #{line_code} 
+			end_time = now()
 		</set>
 		<where>
-			index = #{index}
+			line_code IN 
+			<foreach collection="array" item="code" open="(" close=")"
+				separator="">
+				#{code}
+			</foreach>
 		</where>
 	</update>
+
+	<update id="setLineOn">
+		UPDATE LINE 
+		<set>
+			active = TRUE 
+		</set>
+		<where>
+			code IN 
+			<foreach collection="array" item="code" open="(" close=")"
+				separator="">
+				#{code}
+			</foreach>
+		</where>
+	</update>
+
+	<update id="setLineOff">
+		UPDATE LINE 
+		<set>
+			active = FALSE 
+		</set>
+		<where>
+			code IN 
+			<foreach collection="array" item="code" open="(" close=")"
+				separator=", ">
+				#{code}
+			</foreach>
+		</where>
+	</update>
+	<!-- 라인 off -->
+
+	<!-- 현재 라인 stop/start 하는 리스트 목록 return -->
+	<select id="getRenewList" parameterType="String"
+		resultType="String">
+		SELECT o.line_code FROM LINE_OFF o 
+		LEFT OUTER JOIN LINE l ON o.line_code = l.code 
+		<where>
+			<choose>
+				<when test="column.toString() eq 'start_time'">
+					<![CDATA[l.active = TRUE AND start_time <= now()]]>
+				</when>
+				<when test="column.toString() eq 'end_time'">
+					<![CDATA[l.active = FALSE AND end_time <= now()]]>
+				</when>
+			</choose>
+		</where>
+	</select>
+	<!-- 현재 라인 stop/start 하는 리스트 목록 return -->
+
+	<!-- 라인 리스트 -->
+	<select id="getLineList" resultMap="line">
+		SELECT l.code,
+		l.name,
+		l.process, l.place, l.status, l.active,
+		o.start_time, o.end_time,
+		c.code_name 
+		FROM LINE l 
+		LEFT OUTER JOIN 
+		(SELECT 
+		o.line_code, o.start_time,
+		end_time, rn, group_id, code_id FROM 
+		(SELECT line_code, start_time,
+		end_time, group_id, code_id,
+		row_number() OVER(PARTITION BY line_code 
+		ORDER BY start_time DESC) AS 
+		rn FROM LINE_OFF)
+		as o where o.rn = 1)
+		as o 
+		ON l.code = o.line_code 
+		LEFT 
+		OUTER JOIN COMMON_CODE c ON o.group_id =
+		c.group_id AND o.code_id =
+		c.code_id
+		ORDER BY l.code 
+	</select>
+	<!-- 라인 리스트 -->
+
+	<!-- 공통 코드 전달 -->
+	<select id="getCommonCode">
+		SELECT group_id, group_name, code_id, code_name FROM 
+		COMMON_CODE 
+		WHERE group_id = #{group_id}
+	</select>
+	<!-- 공통 코드 전달 -->
 </mapper>

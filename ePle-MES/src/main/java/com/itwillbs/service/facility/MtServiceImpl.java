@@ -37,6 +37,11 @@ public class MtServiceImpl implements MtService {
 	}
 	
 	@Override
+	public FacMtVO getOrder(String code) throws Exception {
+		return dao.getOrder(code);
+	}
+	
+	@Override
 	public List<FacMtVO> getMtList(String code) throws Exception {
 		return dao.getMtList(code);
 	}
@@ -100,5 +105,15 @@ public class MtServiceImpl implements MtService {
 	@Override
 	public int deleteProblem(String code) throws Exception {
 		return dao.deleteProblem(code);
+	}
+	
+	@Override
+	public int getHistoryCount(PageVO page) throws Exception {
+		return dao.getHistoryCount(page);
+	}
+	
+	@Override
+	public List<FacMtVO> getHistoryList(PageVO page) throws Exception {
+		return dao.getHistoryList(page);
 	}
 }

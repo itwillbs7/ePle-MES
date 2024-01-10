@@ -1,5 +1,8 @@
 package com.production.controller;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -8,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,9 +52,20 @@ public class productionController {
 	//지시사항 검색(ajax)
 	@RequestMapping(value = "/ajaxSearch", method = RequestMethod.POST)
 	@ResponseBody
-	public List<instructionVO> ajaxSearch(@RequestParam(value = "product", required = false) String[] product,@RequestParam(value = "line_code", required = false) String[] line_code,@RequestParam(value = "request", required = false) String[] request,Model model) throws Exception {
+	public List<instructionVO> ajaxSearch(@RequestParam(value = "product", required = false) String[] product,@RequestParam(value = "line_code", required = false) String[] line_code,@RequestParam(value = "request", required = false) String[] request,@RequestParam(value = "dateRange", required = false) String dateRange,Model model) throws Exception {
 		logger.debug("Controller : ajaxSearch() 호출");
-		List<instructionVO> instructionVOList = pdService.ajaxSearch(product,line_code,request);
+		String[] dateArr = null;
+		if (dateRange != "") {
+			logger.debug("dateRange : " + dateRange);
+			dateArr = dateRange.split(" - ");
+			for (String string : dateArr) {
+				logger.debug("dateArr11 : " + string);
+			}
+			logger.debug("dateLength : " + dateArr.length);
+			logger.debug("Not null");
+		}
+		logger.debug("dateArr : " + dateArr);
+		List<instructionVO> instructionVOList = pdService.ajaxSearch(product,line_code,request,dateArr);
 		logger.debug("instructionVOList : " + instructionVOList);
 		return instructionVOList;
 	}
@@ -70,9 +83,10 @@ public class productionController {
 	
 	//지시사항 추가 POST
 	@RequestMapping(value = "/insertInstruction", method = RequestMethod.POST)
-	public void insertInstructionPOST(instructionVO instVO) throws Exception {
+	public void insertInstructionPOST(instructionVO instVO/* ,String date */) throws Exception {
 		logger.debug("Controller : insertInstructionPOST(instructionVO instVO) 호출");
 		logger.debug("instVO : " + instVO);
+		
 		pdService.insertInstruction(instVO);
 	}
 	
@@ -98,12 +112,12 @@ public class productionController {
 		pdService.updateInstruction(instVO);
 	}
 	//지시사항 삭제 GET
-	@RequestMapping(value = "/deleteInstruction", method = RequestMethod.GET)
-	public String deleteInstructionGET(@RequestParam("codes") String codes) throws Exception {
-		logger.debug("Controller : deleteInstructionGET(String codes) 호출");
+	@RequestMapping(value = "/disableInstruction", method = RequestMethod.GET)
+	public String disableInstructionGET(@RequestParam("codes") String codes) throws Exception {
+		logger.debug("Controller : disableInstructionGET(String codes) 호출");
 		logger.debug("codes : " + codes);
 		String[] code_arr = codes.split(",");
-		pdService.deleteInstruction(code_arr);
+		pdService.disableInstruction(code_arr);
 		return "redirect:/production/instruction";
 	}
 	//수주정보 선택 GET

@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class LineVO {
-
 	private String code;
 	private String name;
 	private String process;
@@ -13,4 +12,5 @@ public class LineVO {
 	private String note;
 	private boolean active;
 	
+	private LineOffVO off;
 }

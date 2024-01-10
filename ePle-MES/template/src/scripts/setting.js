@@ -181,16 +181,16 @@ jQuery(document).ready(function () {
 	});
 
 	// date picker
+	$.datepicker.setDefaults($.datepicker.regional['ko']);  // 언어 설정을 한국어로 변경
+
 	$(".date-picker").datepicker({
-		language: "en",
 		autoClose: true,
-		dateFormat: "dd MM yyyy",
+		dateFormat: "yy-mm-dd",
 	});
 	$(".datetimepicker").datepicker({
 		timepicker: true,
-		language: "en",
 		autoClose: true,
-		dateFormat: "dd MM yyyy",
+		dateFormat: "yy-mm-dd",
 	});
 	$(".datetimepicker-range").datepicker({
 		language: "en",
