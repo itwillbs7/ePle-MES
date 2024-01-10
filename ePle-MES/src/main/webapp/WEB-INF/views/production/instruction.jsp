@@ -94,6 +94,9 @@
 						<button type="button" class="btn btn-warning" id="update">
 							<b>수정</b>
 						</button>
+						<button type="button" class="btn btn-danger" id="disable">
+							<b>비활성</b>
+						</button>
 					</div>
 				</div>
 				<div class="pb-20">
@@ -106,13 +109,13 @@
 											<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 										</div>
 									</td>
-									<th>#</th>
-									<th>품번</th>
+									<th>code.</th>
+									<th>수주번호</th>
+									<th>품명</th>
 									<th>수량</th>
 									<th>라인코드</th>
-									<th>지시사항</th>
-									<th>수주번호</th>
 									<th>생산일</th>
+									<th>지시사항</th>
 								</tr>
 								<c:forEach items="${instructionVOList }" var="vo">
 									<tr class="instructionVO">
@@ -125,12 +128,12 @@
 										</td>
 										<th>${vo.code }</th>
 										<!-- 상세 정보 이동! -->
-										<th><a href="#"><b class="text-blue" id="tableTitle1">${vo.product }</b></a></th>
+										<th>${vo.request }</th>
+										<th>${vo.product }</th>
 										<th>${vo.amount }</th>
 										<th>${vo.line_code }</th>
-										<th>${vo.content }</th>
-										<th>${vo.request }</th>
 										<th>${vo.production_date }</th>
+										<th>${vo.content }</th>
 									</tr>
 								</c:forEach>
 							</table>
@@ -206,9 +209,9 @@
 			});
 
 			// 삭제
-			$("#delete").click(function() {
+			$("#disable").click(function() {
 				var codes = getCode_Arr();
-				location.href="/production/deleteInstruction?codes=" + codes;
+				location.href="/production/disableInstruction?codes=" + codes;
 			});
 		});
 	</script>
@@ -285,7 +288,7 @@
 	<script type="text/javascript">
 		function subContent() {
 			$(".instructionVO ").each(function() {
-				var content  = $(this).children().eq(5);
+				var content  = $(this).children().eq(7);
 				var text  = content.text();
 				if (text.length > 20) {
 					var subText = text.substring(0, 20) + "...";

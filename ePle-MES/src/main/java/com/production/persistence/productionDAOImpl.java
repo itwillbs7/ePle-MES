@@ -93,11 +93,11 @@ public class productionDAOImpl implements productionDAO {
 	}
 
 	@Override
-	public void deleteInstruction(String[] code_arr) throws Exception {
-		logger.debug("DAO : deleteInstruction(int[] code_arr) 호출");
+	public void disableInstruction(String[] code_arr) throws Exception {
+		logger.debug("DAO : disableInstruction(int[] code_arr) 호출");
 		Map<String,String[]>map = new HashMap<String,String[]>();
 		map.put("code_arr", code_arr);
-		sqlSession.delete(NAMESPACE + ".deleteInstruction", map);
+		sqlSession.delete(NAMESPACE + ".disableInstruction", map);
 	}
 
 	@Override

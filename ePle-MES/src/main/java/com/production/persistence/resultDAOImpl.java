@@ -74,7 +74,7 @@ public class resultDAOImpl implements resultDAO{
 	}
 	
 	@Override
-	public void addFailed(String code) throws Exception {
-		sqlSession.update(NAMESPACE + ".addFailed",code);
+	public void insertFailed(failedVO vo) throws Exception {
+		sqlSession.insert(NAMESPACE + ".insertFailed",vo);
 	}
 }

@@ -19,17 +19,10 @@
 	width: 70%;
 	height: 100%;
 }
-th[colspan='2']>.input-container>label{
-	width: 20%;
-}
-th[colspan='2']>.input-container>input{
-	width: 80%;
-	height: 100%;
-}
-th[colspan='6']>.input-container>label{
+th[colspan='5']>.input-container>label{
 	width: 10%;
 }
-th[colspan='6']>.input-container>textarea{
+th[colspan='5']>.input-container>textarea{
 	width: 90%;
 	height: 100%;
 }

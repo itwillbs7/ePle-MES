@@ -30,27 +30,26 @@
 										<div class="row">
 											<div class="col-md-2 col-sm-12">
 												<div class="form-group">
-													<label>생산일</label>
-													<input class="form-control date-picker" placeholder="Select Date" type="text" id="searchProduction_date" name="searchProduction_date"/>
+													<label>생산일</label> <input class="form-control date-picker" placeholder="Select Date" type="text" id="searchProduction_date" name="date" value="${date }" />
 												</div>
 											</div>
 											<div class="col-md-2 col-sm-12">
 												<div class="form-group">
-													<label>라인코드</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="searchLine_code">
-														<c:forEach items="${line_codeList }" var="line_code">
-															<option value="${line_code }">${line_code }</option>
+													<label>라인코드</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="line_code">
+														<c:forEach items="${line_codeList }" var="line_codes">
+															<option value="${line_codes }">${line_codes }</option>
 														</c:forEach>
 													</select>
 												</div>
 											</div>
 											<div class="col-md-2 col-sm-12">
 												<div class="custom-control custom-checkbox mb-5" style="position: absolute; top: 50%; margin-top: -8px;">
-													<input type="checkbox" class="custom-control-input" id="isFinished" name="isFinished"/> <label class="custom-control-label" for="isFinished">완료포함</label>
+													<input type="checkbox" class="custom-control-input" id="isFinished" name="isFinished" ${isFinished } /> <label class="custom-control-label" for="isFinished">완료포함</label>
 												</div>
 											</div>
 											<div class="col-md-2 col-sm-12">
 												<div class="btn-group pull-right" style="margin-bottom: 10px; position: absolute; top: 50%; margin-top: -22px;">
-													<button class="btn btn-primary" type="button" onclick="ajaxSearch()">
+													<button class="btn btn-primary" type="submit">
 														<b>검색</b>
 													</button>
 													<button type="reset" class="btn btn-secondary" id="reset">
@@ -76,7 +75,6 @@
 									<th>생산일</th>
 									<th>라인</th>
 									<th>상태</th>
-									<th>제품코드</th>
 									<th>제품명</th>
 									<th>지시량</th>
 									<th>양품량</th>
@@ -84,7 +82,18 @@
 								</tr>
 							</thead>
 							<tbody id="resultTableBody">
-								
+								<c:forEach items="${rsList }" var="result">
+									<tr class="result">
+										<td>${result.code }<input type="hidden" value="${result.code }" class="hiddenCode"></td>
+										<td>${result.vo.production_date }</td>
+										<td>${result.vo.line_code }</td>
+										<td>${result.status }</td>
+										<td>${result.vo.product }</td>
+										<td>${result.vo.amount }</td>
+										<td>${result.amount }</td>
+										<td>${result.failedCount }</td>
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
@@ -100,16 +109,120 @@
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="result" role="tabpanel">
-								
+								<div class='infoBtnGroup'>
+									<button type='button' class='btn btn-success infoBtn' id='Start' disabled>시작</button>
+									<button type='button' class='btn btn-danger infoBtn' id='Complete' disabled>완료</button>
+									<button type='button' class='btn btn-secondary infoBtn' id='addResult' disabled>양품추가</button>
+									<button type="button" class="btn btn-dark infoBtn" id="addFailed" disabled>불량추가</button>
+								</div>
+								<i class="icon-copy fa fa-info-circle toggleIcon" aria-hidden="true" style="font-size: 30px; width: 100%; text-align: center; ertical-align: middle; line-height: 100px;">&nbsp;실적을 선택해 주세요</i>
+								<table class='table table-bordered toggleTable' id='infoTable' style="display: none;">
+									<thead>
+										<tr>
+											<th>
+												<div class='input-container'>
+													<label for='codeInfo'>실적번호:</label>
+													<input type='text' id='codeInfo' name='codeInfo' readonly value=''>
+												</div>
+											</th>
+											<th>
+												<div class='input-container'>
+													<label for='dateInfo'>생산일:</label>
+													<input type='text' id='dateInfo' name='dateInfo' readonly value=''>
+												</div>
+											</th>
+											<th>
+												<div class='input-container'>
+													<label for='lineInfo'>라인번호:</label>
+													<input type='text' id='lineInfo' name='lineInfo' readonly value='"'>
+												</div>
+											</th>
+											<th>
+												<div class='input-container'>
+													<label for='statusInfo'>상태:</label>
+													<input type='text' id='statusInfo' name='statusInfo' readonly value='"'>
+												</div>
+											</th>
+											<th>
+												<div class='input-container'>
+													<label for='pnameInfo'>제품명:</label>
+													<input type='text' id='pnameInfo' name='pnameInfo' readonly value='"'>
+												</div>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th>
+												<div class='input-container'>
+													<label for='instAmoInfo'>지시량:</label>
+													<input type='text' id='instAmoInfo' name='instAmoInfo' readonly value='"'>
+												</div>
+											</th>
+											<th>
+												<div class='input-container'>
+													<label for='amoInfo'>양품량:</label>
+													<input type='text' id='amoInfo' name='amoInfo' readonly value='"'>
+												</div>
+											</th>
+											<th>
+												<div class='input-container'>
+													<label for='failInfo'>부적합량:</label>
+													<input type='text' id='failInfo' name='failInfo' readonly value=''>
+												</div>
+											</th>
+											<th colspan='1'>
+												<div class='input-container'>
+													<label for='requestInfo'>수주번호:</label>
+													<input type='text' id='requestInfo' name='requestInfo' readonly value='"'>
+												</div>
+											</th>
+											<th>
+												<div class='input-container'>
+													<label for='inst_codeInfo'>작업지시 번호:</label>
+													<input type='text' id='inst_codeInfo' name='inst_codeInfo' readonly value='"'>
+												</div>
+											</th>
+										</tr>
+										<tr>
+											<th colspan='5'>
+												<div class='form-group'>
+													<label><b>지시사항</b></label>
+													<textarea class='form-control' id='contentInfo' readonly></textarea>
+												</div>
+											</th>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 							<div class="tab-pane fade" id="failed" role="tabpanel">
-								<div class='infoBtnGroup'>
-									<button type="button" class="btn btn-secondary" id="SaveFailed">저장</button>
-									<button type="button" class="btn btn-danger" id="addFailed">불량추가</button>
-								</div>
-								<form action="" id="failedForm">
-									
-								</form>
+								<i class="icon-copy fa fa-info-circle toggleIcon" aria-hidden="true" style="font-size: 30px; width: 100%; text-align: center; ertical-align: middle; line-height: 100px;">&nbsp;실적을 선택해 주세요</i>
+									<table class='table table-bordered toggleTable' id='failedTable' style="display: none; margin-top: 20px;">
+										<thead>
+											<tr>
+												<th>불량번호</th>
+												<th>생산자</th>
+												<th>오류분류</th>
+												<th>상세내용</th>
+												<th>처치사항</th>
+												<th>수량</th>
+												<th>등록일자</th>
+											</tr>
+										</thead>
+										<tbody>
+											<%-- <c:forEach items="failedList" var="failed">
+												<tr>
+													<td>${failed.code }</td>
+													<td>${failed.emp_code }</td>
+													<td>${failed.code_id }</td>
+													<td>${failed.content }</td>
+													<td>${failed.action }</td>
+													<td>${failed.amount }</td>
+													<td>${failed.emp_date }</td>
+												</tr>
+											</c:forEach> --%>
+										</tbody>
+									</table>
 							</div>
 							<div class="tab-pane fade" id="input" role="tabpanel">
 								<div class="pd-20">input</div>
@@ -127,108 +240,55 @@
 			</div>
 		</div>
 	</div>
-	<!-- 초기설정 시작 -->
-	<script type="text/javascript">
-		$(function() {
-			var today = new Date();
-			var todayString = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2, '0') + "-" + today.getDate().toString().padStart(2, '0');
-			$("#searchProduction_date").val(todayString);
-			ajaxSearch();
-		});
-	</script>
-	<!-- 초기설정 끝 -->
-	<!-- 검색 시작 -->
-	<script type="text/javascript">
-		function ajaxSearch() {
-			var queryString = $("#accordion-search").serialize();
-			$.ajax({
-				type : 'post',
-				url : '/production/ajaxSearch1',
-				data : queryString,
-				error: function(){
-					alert("error");
-				},
-				success : function(data){
-					$("#resultTableBody").empty();
-					//$('#result').empty();
-					var html = "";
-					//지시사항 상세 검색 결과가 초기 지시사항 페이지와 다르게 나온다.개선필요
-					$(data).each(function(){
-						html += "<tr class='result'>";
-						html += "<td>" + this.code + "<input type='hidden' class='hiddenCode' value='" + this.code + "'></td>";
-						html += "<td>" + this.vo.production_date + "</td>";
-						html += "<td>" + this.vo.line_code + "</td>";
-						html += "<td>" + this.status + "</td>";
-						html += "<td>제품코드</td>";
-						html += "<td>" + this.vo.product + "</td>";
-						html += "<td>" + this.vo.amount + "</td>";
-						html += "<td>" + this.amount + "</td>";
-						html += "<td>부적합량</td>";
-						html += "</tr>";
-					});
-					$("#resultTableBody").append(html);
-				}
-			});
-		}
-	</script>
-	<!-- 검색 시작 -->
 	<!-- 테이블 선택 시 시작 -->
 	<script type="text/javascript">
-		$(document).on("click",".result",function getInfo(){
-			if ($(this).hasClass('selected')) {
+		$(".result").on("click", function getInfo() {
+			if (!$(this).hasClass('selected')) {
+				$(".toggleTable").show();
+				$(".toggleIcon").hide();
+				$(".infoBtn").removeAttr("disabled");
 				var code = $(this).find(".hiddenCode").val();
 				//실적 정보 편집 추가
 				$.ajax({
 					url : "/production/ajaxResult",
 					method : "POST",
-					data : {code : code},
-					error : function(){
+					data : {
+						code : code
+					},
+					error : function() {
 						alert("error");
 					},
-					success : function(data){
+					success : function(data) {
 						setInfo(data);
 					}
 				});
-	        }else{
-	        	$('#result').empty();
-	        }
+			}else{
+				$(".toggleTable").hide();
+				$(".toggleIcon").show();
+				$(".infoBtn").attr("disabled","disabled");
+			}
 		});
 	</script>
 	<!-- 테이블 선택 시 끝 -->
 	<!-- 시작 버튼 시작 -->
 	<script type="text/javascript">
-		$(document).on("click",".infoBtn",function(){
+		$(document).on("click", ".infoBtn", function() {
 			var code = $("#codeInfo").val();
 			var id = $(this).attr("id");
 			$.ajax({
-				url : "/production/"+id,
+				url : "/production/" + id,
 				method : "POST",
-				data : {code : code},
-				error : function(){
-					alert("error");
+				data : {
+					code : code
 				},
-				success : function(data){
-					setInfo(data);
-				}
-			}); 
-		});
-		/*$(document).on("click",".infoBtn",function(){
-			var code = $("#codeInfo").val();
-			var id = $(this)attr("id");
-			//실적 정보 편집 추가
-			$.ajax({
-				url : "/production/"+id,
-				method : "POST",
-				data : {code : code},
-				error : function(){
-					alert("error");
+				error : function() {
+					
 				},
 				success : function(data) {
-					//기본정보 리로드
-					alert(data);
+					setInfo(data);
 				}
 			});
-		}); */
+		});
 	</script>
 	<!-- 시작 버튼 끝 -->
 	<!-- setInfo 시작 -->
@@ -236,130 +296,56 @@
 		function setInfo(data) {
 			var dataResult = data.result;
 			var failedList = data.failedList;
-			$('#result').empty();
+			$("#codeInfo").val(dataResult.code);
+			$("#dateInfo").val(dataResult.vo.production_date);
+			$("#lineInfo").val(dataResult.vo.line_code);
+			$("#statusInfo").val(dataResult.status);
+			$("#pnameInfo").val(dataResult.vo.product);
+			$("#instAmoInfo").val(dataResult.vo.amount);
+			$("#amoInfo").val(dataResult.amount);
+			$("#failInfo").val(dataResult.failedCount);
+			$("#requestInfo").val(dataResult.vo.request);
+			$("#inst_codeInfo").val(dataResult.inst_code);
+			$("#contentInfo").text(dataResult.vo.content);
 			var html = "";
-			html += "<div class='infoBtnGroup'>";
-			html += "<button type='button' class='btn btn-success infoBtn' id='Start'>시작</button>";
-			html += "<button type='button' class='btn btn-danger infoBtn' id='Complete'>완료</button>";
-			html += "<button type='button' class='btn btn-success infoBtn' id='addResult'>양품추가</button>";
-			html += "</div>";
-			html += "<form action='' id='resultForm'>";
-			html += "<table class='table table-bordered' id='resultTable'>";
-			html += "<thead>";
-			html += "<tr>";
-			html += "<th>";
-			html += "<div class='input-container'>";
-			html += "<label for='codeInfo'>실적번호:</label>";
-			html += "<input type='text' id='codeInfo' name='codeInfo' readonly value='"+ dataResult.code + "'>";
-			html += "</div>";
-			html += "</th>";
-			html += "<th>";
-			html += "<div class='input-container'>";
-			html += "<label for='dateInfo'>생산일:</label>";
-			html += "<input type='text' id='dateInfo' name='dateInfo' readonly value='"+ dataResult.vo.production_date + "'>";
-			html += "</div>";
-			html += "</th>";
-			html += "<th>";
-			html += "<div class='input-container'>";
-			html += "<label for='lineInfo'>라인번호:</label>";
-			html += "<input type='text' id='lineInfo' name='lineInfo' readonly value='"+ dataResult.vo.line_code + "'>";
-			html += "</div>";
-			html += "</th>";
-			html += "<th>";
-			html += "<div class='input-container'>";
-			html += "<label for='statusInfo'>상태:</label>";
-			html += "<input type='text' id='statusInfo' name='statusInfo' readonly value='"+ dataResult.status + "'>";
-			html += "</div>";
-			html += "</th>";
-			html += "<th>";
-			html += "<div class='input-container'>";
-			html += "<label for='pcodeInfo'>제품코드:</label>";
-			html += "<input type='text' id='pcodeInfo' name='pcodeInfo' readonly value=''>";
-			html += "</div>";
-			html += "</th>";
-			html += "<th>";
-			html += "<div class='input-container'>";
-			html += "<label for='pnameInfo'>제품명:</label>";
-			html += "<input type='text' id='pnameInfo' name='pnameInfo' readonly value='"+ dataResult.vo.product + "'>";
-			html += "</div>";
-			html += "</th>";
-			
-			html += "</tr>";
-			html += "</thead>";
-			html += "<tbody>";
-			html += "<tr>";
-			html += "<th>";
-			html += "<div class='input-container'>";
-			html += "<label for='instAmoInfo'>지시량:</label>";
-			html += "<input type='text' id='instAmoInfo' name='instAmoInfo' readonly value='"+ dataResult.vo.amount + "'>";
-			html += "</div>";
-			html += "</th>";
-			html += "<th>";
-			html += "<div class='input-container'>";
-			html += "<label for='amoInfo'>양품량:</label>";
-			html += "<input type='text' id='amoInfo' name='amoInfo' readonly value='"+ dataResult.amount + "'>";
-			html += "</div>";
-			html += "</th>";
-			html += "<th>";
-			html += "<div class='input-container'>";
-			html += "<label for='failInfo'>부적합량:</label>";
-			html += "<input type='text' id='failInfo' name='failInfo' readonly value='" + failedList.length + "'>";
-			html += "</div>";
-			html += "</th>";
-			html += "<th colspan='2'>";
-			html += "<div class='input-container'>";
-			html += "<label for='LOTInfo'>수주번호:</label>";
-			html += "<input type='text' id='LOTInfo' name='LOTInfo' readonly value='"+ dataResult.vo.request + "'>";
-			html += "</div>";
-			html += "</th>";
-			html += "<th>";
-			html += "<div class='input-container'>";
-			html += "<label for='LOTInfo'>작업지시 번호:</label>";
-			html += "<input type='text' id='LOTInfo' name='LOTInfo' readonly value='"+ dataResult.vo.code + "'>";
-			html += "</div>";
-			html += "</th>";
-			html += "</tr>";
-			html += "<tr>";
-			html += "<th colspan='6'>";
-			html += "<div class='form-group'>";
-			html += "<label><b>지시사항</b></label>";
-			html += "<textarea class='form-control' readonly>"+ dataResult.vo.content + "</textarea>";
-			html += "</div>";
-			html += "</th>";
-			html += "</tr>";
-			html += "</tbody>";
-			html += "</table>";
-			html += "</form>";
-			$('#result').append(html);
+			$('#failedTable>tbody>tr').remove();
+			for (var i = 0; i < failedList.length; i++) {
+				html = "";
+				html += "<tr>";
+				html += "<th>"+ failedList[i].code +"</th>";
+				html += "<th>" + failedList[i].reg_emp + "</th>";
+				html += "<th>" + failedList[i].code_id + "</th>";
+				html += "<th>" + failedList[i].content + "</th>";
+				html += "<th>" + failedList[i].action + "</th>";
+				html += "<th>" + failedList[i].amount + "</th>";
+				html += "<th>" + failedList[i].reg_date + "</th>";
+				html += "</tr>";
+				$('#failedTable>tbody').append(html);
+			}
+
 			//css변경
 			if (dataResult.status == '대기') {
 				$("#statusInfo").css({
-					"background-color":"yellow",
-					"color":"black"
+					"background-color" : "yellow",
+					"color" : "black"
 				});
 			}
 			if (dataResult.status == '생산중') {
 				$("#statusInfo").css({
-					"background-color":"red",
-					"color":"white"
+					"background-color" : "red",
+					"color" : "white"
 				});
 			}
 			if (dataResult.status == '완료') {
 				$("#statusInfo").css({
-					"background-color":"green",
-					"color":"white"
+					"background-color" : "green",
+					"color" : "white"
 				});
 			}
 			//resultTable변경
 			$(".selected").children().eq(3).text(dataResult.status);
-			$(".selected").children().eq(7).text(dataResult.amount);
-			var content  = $("#content");
-			var text  = content.val();
-			if (text.length > 10) {
-				$("#content").parent("div").attr("data-toggle","tooltip");
-				$("#content").parent("div").attr("data-placement","bottom");
-				$("#content").parent("div").attr("title",text);
-			}
+			$(".selected").children().eq(6).text(dataResult.amount);
+			$(".selected").children().eq(7).text(dataResult.failedCount);
 		}
 	</script>
 	<!-- setInfo 끝 -->
@@ -368,5 +354,64 @@
 		
 	</script>
 	<!-- 긴 문자열 생략 시작 -->
+	<!-- 불량추가 시작 -->
+	<script type="text/javascript">
+		$(document) .on( "click", "#addFailed", function() {
+			var popupWidth, popupHeight, popupX, popupY, link;
+			var set;
+			var code = $("#codeInfo").val();
+			var product = $("#pnameInfo").val();
+			function retPopupSetting(width, height) {
+				// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
+				popupX = Math.ceil((window.screen.width - width) / 2);
+				// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
+				popupY = Math.ceil((window.screen.height - height) / 2);
+		
+				var setting = "";
+				setting += "toolbar=0,";
+				setting += "scrollbars=0,";
+				setting += "statusbar=0,";
+				setting += "menubar=0,";
+				setting += "resizeable=0,";
+				setting += "width=" + width + ",";
+				setting += "height=" + height + ",";
+				setting += "top=" + popupY + ",";
+				setting += "left=" + popupX;
+				return setting;
+			}
+		
+			function openPage(i, width, height) {
+				set = retPopupSetting(width, height);
+				return window.open(i, 'Popup_Window', set);
+			}
+		
+			openPage("/production/insertFailed?code=" + code + "&product=" + product, 500, 600);
+		});
+	</script>
+
+	<!-- 불량추가 끝 -->
+	<!-- 수주정보 받기 시작 -->
+	<script type="text/javascript">
+		window.addEventListener("message", function(event) {
+			if (event.data == "refresh"){
+				var code = $("#codeInfo").val();
+				$.ajax({
+					url : "/production/ajaxResult",
+					method : "POST",
+					data : {
+						code : code
+					},
+					error : function() {
+						
+					},
+					success : function(data) {
+						setInfo(data);
+					}
+				});
+			}
+		});
+	</script>
+	<!-- 수주정보 받기 끝 -->
+
 </body>
 </html>

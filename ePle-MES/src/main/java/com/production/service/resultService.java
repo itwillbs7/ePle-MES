@@ -24,5 +24,5 @@ public interface resultService {
 
 	public void addResult(String code) throws Exception;
 
-	public void addFailed(String code) throws Exception;
+	public void insertFailed(failedVO vo) throws Exception;
 }

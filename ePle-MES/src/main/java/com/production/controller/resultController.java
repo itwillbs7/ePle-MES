@@ -1,5 +1,7 @@
 package com.production.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,23 +33,31 @@ public class resultController {
 	//http://localhost:8088/production/result
 	//실적페이지 GET
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
-	public void resultGET(Model model) throws Exception {
+	public void resultGET(String date, String[] list_code, Boolean isFinished,Model model) throws Exception {
 		logger.debug("Controller : resultGET() 호출");
+		logger.debug("date : " + date);
+		logger.debug("list_code : " + list_code);
+		logger.debug("isFinished : " + isFinished);
+		model.addAttribute("list_code", list_code);
+		if (isFinished != null) {
+			model.addAttribute("isFinished", "checked");
+		}
+		//검색 라인코드 목록
 		List<String> line_codeList = rsService.getLine_codeList();
 		logger.debug("line_codeList : " + line_codeList);
 		model.addAttribute("line_codeList", line_codeList);
+		//오늘 날짜
+		LocalDate today = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String todayStr = today.format(formatter);
+		logger.debug("today : " + todayStr);
+		model.addAttribute("date", date!=null?date:todayStr);
+		//실적 리스트
+		List<resultVO> rsList = rsService.getResultList(date!=null?date:todayStr, list_code, isFinished);
+		logger.debug("rsList : " + rsList);
+		model.addAttribute("rsList", rsList);
 	}
 	
-	//실적페이지 POST
-	@RequestMapping(value = "/ajaxSearch1", method = RequestMethod.POST)
-	@ResponseBody
-	public List<resultVO> resultPOST(String searchProduction_date, String[] searchLine_code, Boolean isFinished) throws Exception {
-		logger.debug("Controller : ajaxSearch() 호출");
-		logger.debug("searchProduction_date : " + searchProduction_date);
-		logger.debug("line_code : " + searchLine_code);
-		logger.debug("isFinished : " + isFinished);
-		return rsService.getResultList(searchProduction_date, searchLine_code, isFinished);
-	}
 	//실적페이지ajax POST
 	@RequestMapping(value = "/ajaxResult", method = RequestMethod.POST)
 	@ResponseBody
@@ -93,14 +103,22 @@ public class resultController {
 	
 	
 	//불량+
-	@RequestMapping(value = "/addFailed", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> addFailed(String code) throws Exception {
-		logger.debug("Controller : addFailed() 호출");
+	@RequestMapping(value = "/insertFailed", method = RequestMethod.GET)
+	public void insertFailed(String code,String product,Model model) throws Exception {
+		logger.debug("Controller : insertFailed() 호출");
+		model.addAttribute("code", code);
+		model.addAttribute("product", product);
+		String[] code_idList = {"code1","code2","code3"};
+		model.addAttribute("code_idList", code_idList);
+	}
+	
+	//불량+
+	@RequestMapping(value = "/insertFailed", method = RequestMethod.POST)
+	public void insertFailed(failedVO vo) throws Exception {
+		logger.debug("Controller : insertFailed(failedVO vo) 호출");
 		//부적합량 +1
 		//상태가 생산중일때만 동작
-		rsService.addFailed(code);
-		return getInfo(code);
+		rsService.insertFailed(vo);
 	}
 	
 	public Map<String, Object> getInfo(String code) throws Exception {

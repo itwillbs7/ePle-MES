@@ -53,7 +53,11 @@
 		// 상세검색 초기화
 		$("#reset").click(function() {
 			//buttonCategory(null);
+			var today = new Date();
+			var todayString = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2, '0') + "-" + today.getDate().toString().padStart(2, '0');
+			$("#searchProduction_date").text(todayString);
 			$(".select2-selection__choice").remove();
+			$("#isFinished").removeAttr("checked");
 		});
 
 	});
