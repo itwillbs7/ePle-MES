@@ -1,6 +1,7 @@
 package com.itwillbs.service;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import com.itwillbs.domain.CommonVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.UserVO;
 import com.itwillbs.persistence.SystemDAOImpl;
+@Service
 public class SystemServiceImpl implements SystemService {
 
 	

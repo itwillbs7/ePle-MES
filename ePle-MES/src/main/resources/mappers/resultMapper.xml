@@ -33,6 +33,8 @@
   		<result property="update_date" column="I_update_date"/>
   		<result property="status" column="I_status"/>
   	</resultMap>
+  	
+  	<select id="1234">
 		SELECT R.code AS R_code,emp_code,R.amount AS R_amount,R.status AS R_status,R.reg_date AS R_reg_date,R.reg_emp AS R_reg_emp,R.update_date AS R_update_date,R.update_emp AS R_update_emp,inst_code,(SELECT sum(amount) FROM FAILED WHERE result_code = R.code) AS failed_count,
 		I.code AS I_code,product,line_code,content,request,I.amount AS I_amount,production_date,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date,I.status AS I_status 
 		FROM RESULT R 
