@@ -82,7 +82,7 @@
 				<tbody>
 					<c:forEach items="${List}" var="item">
 						<tr
-							onclick="selectWork('${item.code}','${item.product}','${item.clientName}','${item.date}','${item.amount}','${item.stock_code}','${item.stock}','${item.unit }')">
+							onclick="selectWork('${item.code}','${item.product}','${item.clientName}','${item.date}','${item.amount}','${item.ware_code}','${item.stock}','${item.unit }')">
 							<th>${item.code }</th>
 							<th>${item.productName }</th>
 							<th>${item.date }</th>

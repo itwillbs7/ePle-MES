@@ -1,5 +1,6 @@
 package com.itwillbs.persistence;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -116,6 +117,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		// 여기 아이디도 추가해야함(등록자 아이디)
 		int result = sqlSession.insert(NAMESPACE+".insertShipment", vo);
 		
+		
 		// 추가했을 때 수주상태를 변경해야함!
 		String request = vo.getReqs_code();	// 수주번호
 		String shipment = vo.getCode(); // 출하번호
@@ -143,8 +145,9 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 			    	// 사용가능한 LOT 번호, 지금 수량을 얻을 수 잇음
 			    	
 					HashMap<String, Object> lot = lotGetList.get(lotIndex);
-			             int total = (int)lot.get("Total");
-			             String lotNumber = (String)lot.get("lot");
+					BigDecimal totalBigDecimal = (BigDecimal) lot.get("Total");
+					int total = totalBigDecimal.intValue();
+					String lotNumber = (String)lot.get("lot");
 
 			             if (total <= shipmentAmount) { // 출하량이 수량보다 많을 때
 			                 //1. 입출고 기록에서 출고기록 남기기(lot / 출하번호)
@@ -154,8 +157,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 			            	 
 			            	 sqlSession.insert(NAMESPACE+".insertHistory", params);
 			            	 
-			            	 //2. 재고테이블에 amount total만큼 빼기
-			            	 sqlSession.update(NAMESPACE+".updateStockForInsert", params);
+			            	 // 등록하기 전에 lot , material 들고오기
 			       
 			            	 //3. lot 테이블에 insert 하기
 			            	 params.put("lot",lotNumber);
@@ -171,7 +173,6 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 			            	 params.put("total",shipmentAmount);
 			            	 
 			            	 sqlSession.insert(NAMESPACE+".insertHistory", params);
-			            	 sqlSession.update(NAMESPACE+".updateStockForInsert", params);
 			            	 params.put("lot",lotNumber);
 			            	 sqlSession.insert(NAMESPACE+".insertLOT", params);
 			            	 
