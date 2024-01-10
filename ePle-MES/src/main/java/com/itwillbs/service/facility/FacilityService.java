@@ -6,7 +6,6 @@ import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.HistoryVO;
 import com.itwillbs.domain.LineVO;
 import com.itwillbs.domain.PageVO;
-import com.itwillbs.domain.StockVO;
 import com.itwillbs.domain.StockView;
 
 public interface FacilityService {
@@ -35,10 +34,7 @@ public interface FacilityService {
 		
 	// 내역 삽입
 	public int insertHistory(HistoryVO vo) throws Exception;
-		
-	// 재고 수정
-	public int updateStock(StockVO vo) throws Exception;
-		
+
 	// 설비 수정
 	public int updateFacility(FacilityVO vo) throws Exception;
 		

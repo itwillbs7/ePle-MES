@@ -10,7 +10,6 @@ import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.HistoryVO;
 import com.itwillbs.domain.LineVO;
 import com.itwillbs.domain.PageVO;
-import com.itwillbs.domain.StockVO;
 import com.itwillbs.domain.StockView;
 import com.itwillbs.persistence.facility.FacilityDAO;
 
@@ -72,12 +71,6 @@ public class FailityServiceImpl implements FacilityService {
 	@Override
 	public int insertHistory(HistoryVO vo) throws Exception{
 		return dao.insertHistory(vo);
-	}
-
-	// 재고 수정
-	@Override
-	public int updateStock(StockVO vo) throws Exception{
-		return dao.updateStock(vo);
 	}
 
 	// 설비 수정

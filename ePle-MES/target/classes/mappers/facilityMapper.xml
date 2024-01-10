@@ -14,6 +14,12 @@
 		<result property="line_name" column="line_name" />
 		<result property="uph" column="uph" />
 		<result property="active" column="active" />
+		<collection property="mapd" resultMap="mapd">
+			<result property="mapd_code" column="mapd_code" />
+			<result property="name" column="mapd" />
+			<result property="group_id" column="group_id" />
+			<result property="code_id" column="code_id" />
+		</collection>
 		<collection property="order" resultMap="order">
 			<result property="code" column="order_code" />
 			<result property="date" column="date" />
@@ -21,12 +27,6 @@
 			<result property="code_name" column="code_name" />
 			<result property="client_code" column="client_code" />
 			<result property="client_name" column="client_name" />
-			<collection property="mapd" resultMap="mapd">
-				<result property="mapd_code" column="mapd_code" />
-				<result property="name" column="name" />
-				<result property="group_id" column="group_id" />
-				<result property="code_id" column="code_id" />
-			</collection>
 		</collection>
 		<collection property="line" resultMap="line">
 			<result property="code" column="line_code" />
@@ -69,31 +69,32 @@
 		<result property="status" column="status" />
 	</resultMap>
 	<resultMap type="com.itwillbs.domain.StockView" id="st">
-		<result property="code" column="code"/>
-		<result property="name" column="name"/>
-		<result property="warehouse" column="warehouse"/>
-		<result property="total" column="total"/>
+		<result property="code" column="code" />
+		<result property="name" column="name" />
+		<result property="warehouse" column="warehouse" />
+		<result property="total" column="total" />
 	</resultMap>
 	<!-- resultMap -->
 
 	<select id="getFacility"
 		resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
-		select f.code, 
-		f.order_code, o.date, 
-		o.client_code, c.name as client_name, 
-		o.material, 
-		m.name, m.group_id, co.group_name, m.code_id, co.code_id, m.inprice, 
-		f.line_code, l.name as line_name, l.place, 
-		uph, f.active 
-		from FAC_INFO f 
-		left outer join ORDERS o ON o.code = f.order_code 
-		left outer join MAPD 
-		m ON o.material = m.code 
-		left outer join LINE l ON l.code = f.line_code 
-		left outer join CLIENT c ON o.client_code = c.code 
-		left outer join 
-		COMMON_CODE co 
-		ON m.group_id = co.group_id and m.code_id = co.code_id 
+		select f.code,
+		f.order_code, o.date,
+		o.client_code, c.name as client_name,
+		o.material,
+		m.name, m.group_id, co.group_name, m.code_id, co.code_name,
+		m.inprice,
+		f.line_code, l.name as line_name, l.place,
+		uph, f.active
+		from FAC_INFO f
+		left outer join ORDERS o ON o.code = f.order_code
+		left outer join MAPD
+		m ON f.mapd = m.code
+		left outer join LINE l ON l.code = f.line_code
+		left outer join CLIENT c ON o.client_code = c.code
+		left outer join
+		COMMON_CODE co
+		ON m.group_id = co.group_id and m.code_id = co.code_id
 		WHERE f.code = #{code}
 	</select>
 
@@ -118,7 +119,8 @@
 				<when test="search.isnull == true">
 					<if test="search.isajax == true">
 						AND o.date BETWEEN DATE_SUB(NOW(), INTERVAL 1
-						MONTH) AND NOW()
+						MONTH) AND
+						NOW()
 					</if>
 				</when>
 				<when test="search.isnull == false">
@@ -191,40 +193,36 @@
 		</where>
 	</sql>
 	<!-- 상세 검색 -->
-	
+
 	<select id="getOrderCode" resultType="String">
-		SELECT code FROM ORDERS WHERE material = #{material} order by code limit 0, 1
+		SELECT code FROM ORDERS
+		WHERE material = #{material} and status = '완료' order by code limit 0, 1
 	</select>
-	
+
 	<select id="getRecentHistory" resultType="String">
-		SELECT code FROM WAREHOUSE_HISTORY WHERE code LIKE '%OUT%' ORDER BY code DESC 
+		SELECT code FROM
+		WAREHOUSE_HISTORY WHERE code LIKE '%OUT%' ORDER BY code DESC
 		LIMIT 0, 1
 	</select>
-	
+
 	<select id="getWarehouseOne" resultType="String">
-		SELECT warehouse FROM STOCK_VIEW 
+		SELECT warehouse FROM
+		STOCK_VIEW
 		WHERE code LIKE #{material} AND total > 0 limit 0, 1
 	</select>
-	
+
 	<insert id="insertHistory">
-		INSERT INTO WAREHOUSE_HISTORY 
-		VALUES (#{code}, #{order_num}, #{warehouse_code}, 'OUT', '설비', 1, #{mapd_code}, #{emp_code}, now())
+		INSERT INTO WAREHOUSE_HISTORY
+		VALUES (#{code}, #{order_num}, #{warehouse_code}, 'OUT', '설비', 1,
+		#{mapd_code}, #{emp_code}, now())
 	</insert>
-	
-	<update id="updateStock">
-		UPDATE STOCK 
-		<set>
-			amount = amount - 1
-		</set>
-		<where>
-			warehouse_code = #{warehouse_code}, mapd_code = #{mapd_code}
-		</where>
-	</update>
 
 	<!-- 추가 -->
 	<insert id="insertFacility">
-		INSERT INTO FAC_INFO (code, order_code, line_code, uph) 
-		VALUES (#{code}, #{order_code}, #{line_code}, ${uph})
+		INSERT INTO FAC_INFO (code, order_code, model, mapd,
+		line_code, uph)
+		VALUES (#{code}, #{order_code}, #{model}, #{mapd_code}, #{line_code},
+		${uph})
 	</insert>
 	<!-- 추가 -->
 
@@ -281,13 +279,13 @@
 		<![CDATA[
 			select f.code, 
 			f.order_code, o.date, 
-			o.client_code, c.name as client_name, 
-			o.material, m.name, m.group_id, co.group_name, m.code_id, co.code_id, m.inprice, 
+			o.client_code, c.name as client_name, f.model,
+			o.material, m.name, m.group_id, co.group_name, m.code_id, co.code_name, m.inprice, 
 			f.line_code, l.name as line_name, l.place, 
 			uph, f.active 
 			from FAC_INFO f 
 			left outer join ORDERS o ON o.code = f.order_code 
-			left outer join MAPD m ON o.material = m.code 
+			left outer join MAPD m ON f.mapd = m.code 
 			left outer join LINE l ON l.code = f.line_code 
 			left outer join CLIENT c ON o.client_code = c.code 
 			left outer join COMMON_CODE co 
@@ -311,12 +309,12 @@
 			select f.code, 
 			f.order_code, o.date, 
 			o.client_code, c.name as client_name, 
-			o.material, m.name, m.group_id, co.group_name, m.code_id, co.code_id, m.inprice, 
+			o.material, m.name, m.group_id, co.group_name, m.code_id, co.code_name, m.inprice, 
 			f.line_code, l.name as line_name, l.place, 
 			uph, f.active 
 			from FAC_INFO f 
 			left outer join ORDERS o ON o.code = f.order_code 
-			left outer join MAPD m ON o.material = m.code 
+			left outer join MAPD m ON f.mapd = m.code 
 			left outer join LINE l ON l.code = f.line_code 
 			left outer join CLIENT c ON o.client_code = c.code 
 			left outer join COMMON_CODE co 
@@ -327,14 +325,18 @@
 	</select>
 
 	<select id="getLineList" resultMap="line">
-		SELECT code, name FROM LINE
+		SELECT code, name, place FROM
+		LINE
 	</select>
 
 	<select id="getStockList" resultMap="st">
-		SELECT s.code, s.name, s.total
+		SELECT s.code, s.name,
+		s.total
 		FROM STOCK_VIEW s
 		LEFT OUTER JOIN MAPD m ON s.code = m.code
-		LEFT OUTER JOIN COMMON_CODE c ON m.group_id = c.group_id AND m.code_id = c.code_id 
+		LEFT
+		OUTER JOIN COMMON_CODE c ON m.group_id = c.group_id AND m.code_id =
+		c.code_id
 		WHERE m.group_id = #{group_id}
 	</select>
 
@@ -342,10 +344,11 @@
 		resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
 		SELECT f.code,
 		co.group_name, m.name, l.name as line_name FROM FAC_INFO
-		left outer join ORDERS o ON o.code = f.order_code 
-		left outer join MAPD m ON o.material = m.code 
-		left outer join LINE l ON l.code = f.line_code 
-		left outer join COMMON_CODE co 
+		left outer
+		join ORDERS o ON o.code = f.order_code
+		left outer join MAPD m ON f.mapd = m.code
+		left outer join LINE l ON l.code = f.line_code
+		left outer join COMMON_CODE co
 		ON m.group_id = co.group_id and m.code_id = co.code_id
 	</select>
 </mapper>

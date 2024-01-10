@@ -3,10 +3,7 @@ package com.itwillbs.controller.facility;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -26,7 +23,6 @@ import com.itwillbs.domain.FacilitySearchVO;
 import com.itwillbs.domain.FacilityVO;
 import com.itwillbs.domain.HistoryVO;
 import com.itwillbs.domain.PageVO;
-import com.itwillbs.domain.StockVO;
 import com.itwillbs.service.facility.FacilityService;
 import com.itwillbs.service.facility.MtService;
 import org.slf4j.Logger;
@@ -96,27 +92,37 @@ public class FacilityInfoController {
 	}
 	
 	@PostMapping(value = "/insert")
-	public String facilityInsertPOST(FacilityVO vo, String mapd, RedirectAttributes rttr, MultipartFile file) throws Exception {
+	public String facilityInsertPOST(FacilityVO vo,RedirectAttributes rttr, MultipartFile file) throws Exception {
 		// 설비 추가 액션
 		// FAC 20231229 001
-		vo.setCode(makeInsertCode("FAC", fService.findLastFacility()));
-		vo.setOrder_code(fService.getOrderCode(mapd));
 		String link = "redirect:/error";
 		rttr.addFlashAttribute("title", "설비 등록 결과");
 		rttr.addFlashAttribute("result", "오류가 발생했습니다!");
-		logger.debug("vo : " + vo);
-		if(fService.insertFacility(vo) > 0) {
-			HistoryVO his = new HistoryVO();
-			his.setCode(makeInsertCode("OUT", fService.getRecentHistory()));
-			his.setOrder_num(vo.getCode());
-			his.setWarehouse_code(fService.getWarehouseOne(mapd));
-			his.setMapd_code(mapd);
-			his.setEmp_code("test");
-			if(fService.insertHistory(his) > 0) {
-				StockVO stock = new StockVO();
-				stock.setWarehouse_code(his.getWarehouse_code());
-				stock.setMapd_code(his.getMapd_code());
-				if(fService.updateStock(stock) > 0) {
+		
+		vo.setCode(makeInsertCode("FAC", fService.findLastFacility()));
+		String order = fService.getOrderCode(vo.getMapd_code());
+		
+		if(order == null || order.equals("")) {
+			// 주문에 없음!
+			// 입고에서 차감하고 등록하지 않고 일반 등록 처리
+			logger.debug("vo : " + vo);
+			if(fService.insertFacility(vo) > 0) {
+				rttr.addFlashAttribute("title", "설비 등록 결과");
+				rttr.addFlashAttribute("result", "설비 등록이 완료되었습니다.");
+				link = "redirect:/confirm";
+			}
+		}
+		else {
+			vo.setOrder_code(order);
+			logger.debug("vo : " + vo);
+			if(fService.insertFacility(vo) > 0) {
+				HistoryVO his = new HistoryVO();
+				his.setCode(makeInsertCode("OUT", fService.getRecentHistory()));
+				his.setOrder_num(vo.getCode());
+				his.setWarehouse_code(fService.getWarehouseOne(vo.getMapd_code()));
+				his.setMapd_code(vo.getMapd_code());
+				his.setEmp_code("test");
+				if(fService.insertHistory(his) > 0) {
 					rttr.addFlashAttribute("title", "설비 등록 결과");
 					rttr.addFlashAttribute("result", "설비 등록이 완료되었습니다.");
 					link = "redirect:/confirm";
@@ -168,7 +174,7 @@ public class FacilityInfoController {
 	}
 	
 	@PostMapping(value = "/delete")
-	public String facilityDeletePOST(String[] codeList ,RedirectAttributes rttr) throws Exception {
+	public String facilityDeletePOST(String[] codeList, RedirectAttributes rttr) throws Exception {
 		// 설비 삭제 액션
 		String link = "";
 		int result = fService.deleteFacility(codeList);

@@ -240,11 +240,10 @@
 													<input type="checkbox" class="custom-control-input" id="checkTable${i.code}" name="tableCheck" value="${i.code}"> <label class="custom-control-label" for="checkTable${i.code}"></label>
 												</div></td>
 											<th><a href="javascript:openPage('/facility/info/detail?code=${i.code}', 500, 600)"><b class="text-blue" id="tableTitle1">${i.code}</b></a></th>
-											<th>${i.group_name}</th>
-											<th>${i.code_name}</th>
-											<th id="tableinfo${i.code}">${i.model}</th>
+											<th>${i.order.group_name}</th>
+											<th>${i.order.code_name}</th>
 											<!-- 상세 정보 이동! -->
-											<th id="tableTitle${i.code}">${i.name}</th>
+											<th id="tableTitle${i.code}">${i.mapd.name}</th>
 											<th>${i.line_name}</th>
 											<td style="">
 												<!-- 옵션 -->
@@ -358,7 +357,7 @@
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
-				openPage("/facility/info/insert", 500, 600);
+				openPage("/facility/info/insert", 500, 700);
 			});
 
 			// 삭제

@@ -11,4 +11,6 @@ public class LineVO {
 	private String status;
 	private String note;
 	private boolean active;
+	
+	private LineOffVO off;
 }
