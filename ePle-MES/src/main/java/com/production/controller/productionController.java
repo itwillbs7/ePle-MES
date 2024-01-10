@@ -21,8 +21,9 @@ import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.service.RequestService;
 import com.production.domain.instructionVO;
-import com.production.domain.requestVO;
+import com.production.domain.prodRequestVO;
 import com.production.service.productionService;
+import com.production.service.productionServiceImpl;
 
 @Controller
 @RequestMapping(value = "/production/*")
@@ -31,7 +32,7 @@ public class productionController {
 	private static final Logger logger = LoggerFactory.getLogger(productionController.class);
 	
 	@Inject
-	private productionService pdService;
+	private productionServiceImpl pdService;
 	
 	@Inject
 	private RequestService rService;
@@ -138,7 +139,7 @@ public class productionController {
 	//수주정보 선택(ajax)
 	@RequestMapping(value = "/ajaxRequest", method = RequestMethod.POST)
 	@ResponseBody
-	public requestVO ajaxRequest(String code) throws Exception {
+	public prodRequestVO ajaxRequest(String code) throws Exception {
 		logger.debug("Controller : ajaxRequest() 호출");
 		logger.debug("code : " + code);
 		return pdService.getRequest(code);

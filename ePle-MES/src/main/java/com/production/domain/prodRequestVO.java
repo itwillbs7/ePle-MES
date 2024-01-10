@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 @Data
-public class requestVO {
+public class prodRequestVO {
 	private String code;
 	private String client_code;
 	private Date deadline;

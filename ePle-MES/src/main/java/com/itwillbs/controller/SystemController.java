@@ -28,7 +28,6 @@ import com.itwillbs.service.SystemServiceImpl;
 @Controller
 @RequestMapping (value = "/system/*")
 public class SystemController {
-
 	
 	private static final Logger logger = LoggerFactory.getLogger(SystemController.class);
 	@Inject

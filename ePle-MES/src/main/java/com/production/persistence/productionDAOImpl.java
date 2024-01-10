@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.production.domain.instructionVO;
-import com.production.domain.requestVO;
+import com.production.domain.prodRequestVO;
 
 @Repository
 public class productionDAOImpl implements productionDAO {
@@ -55,7 +55,7 @@ public class productionDAOImpl implements productionDAO {
 	}
 
 	@Override
-	public List<requestVO> getRequestList() throws Exception {
+	public List<prodRequestVO> getRequestList() throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getRequestList");
 	}
 
@@ -101,7 +101,7 @@ public class productionDAOImpl implements productionDAO {
 	}
 
 	@Override
-	public requestVO getRequest(String code) throws Exception {
+	public prodRequestVO getRequest(String code) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".getRequestAll", code);
 	}
 
