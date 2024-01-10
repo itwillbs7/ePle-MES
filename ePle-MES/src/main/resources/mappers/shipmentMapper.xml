@@ -71,11 +71,12 @@
 
 	<!-- 출하번호의 정보 가져오기 -->
 	<select id="getShipmentInfo" resultType="ShipmentVO">
-		SELECT sp.*, s.total stock
+		SELECT sp.*, SUM(s.total) stock
 		from SHIPMENT sp
 		join REQUEST r on r.code = sp.reqs_code
 		join STOCK_VIEW  s on r.product = s.code
 		where sp.code = #{code}
+		GROUP BY sp.code
 	</select>
 
 	<!-- 출하정보 검색하기 -->
@@ -253,11 +254,17 @@ WHERE r.status IN ('등록', '생산진행') AND s.total >= r.amount
 		'OUT','완제품',#{total},#{vo.product},#{vo.reg_emp},#{vo.date})
 	</insert>
 	
+	<select id="getMaterial" resultType="String">
+		select distinct material
+		from LOT
+		where lot = #{lotNumber}
+	</select>
+	
 
 	<!-- LOT 테이블에 값 넣기 -->
 	<insert id="insertLOT">
 		insert into LOT (lot, material,shipment)
-    	values ( #{lot}, (SELECT material FROM LOT WHERE lot = #{lot}), #{vo.code})
+    	values (#{lot},#{material},#{vo.code})
 	</insert>
 	
 
@@ -265,9 +272,9 @@ WHERE r.status IN ('등록', '생산진행') AND s.total >= r.amount
 	<!-- LOT 테이블에서 데이터 지우기 -->
 	<delete id="deleteLOTUpdate"> 
             delete from LOT 
-            where shipment in 
-            <foreach item="item" index="index" collection="shipment" open="(" separator="," close=")">
-                #{item.code}
+            where SHIPMENT in 
+            <foreach item="item" index="index" collection="code" open="(" separator="," close=")">
+                #{item}
             </foreach> 
 	</delete>
 
@@ -275,8 +282,8 @@ WHERE r.status IN ('등록', '생산진행') AND s.total >= r.amount
 	<delete id="deleteHistoryUpdate">
             delete from WAREHOUSE_HISTORY 
             where 
-            <foreach item="item" index="index" collection="shipment" separator=" or " close="">
-                order_num LIKE concat('%',#{item.code})
+            <foreach item="item" index="index" collection="code" separator=" or " close="">
+                order_num LIKE concat('%',#{item})
             </foreach>
 	</delete>
 
