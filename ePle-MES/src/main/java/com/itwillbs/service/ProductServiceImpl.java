@@ -49,20 +49,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
 	@Override
-	public void InsertProduct(MAPDVO mvo) throws Exception {
-		pdao.insertProduct(mvo);
+	public int InsertProduct(MAPDVO mvo) throws Exception {
+		return pdao.insertProduct(mvo);
 	}
 
 	// 품목 검색 팝업 
 	@Override
 	public List<MAPDVO> SearchProduct(Criteria cri, String mapdCode, String mapdName) throws Exception {
-		return pdao.SearchMAPD(cri, mapdCode, mapdName);
+		return pdao.SearchProduct(cri, mapdCode, mapdName);
 	}
 	
 	// 모든 품목 수
 	@Override
-	public int mapdListCount(String mapdCode, String mapdName) throws Exception {
-		return pdao.getMAPDCount(mapdCode, mapdName);
+	public int productListCount(String mapdCode, String mapdName) throws Exception {
+		return pdao.getProductCount(mapdCode, mapdName);
 	}
 	
 	

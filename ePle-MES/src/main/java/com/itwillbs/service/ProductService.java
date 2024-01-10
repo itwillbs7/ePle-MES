@@ -17,7 +17,7 @@ public interface ProductService {
 	
 	public List<MAPDVO> getInfo(String[] codes) throws Exception;
 	
-	public void InsertProduct(MAPDVO mvo) throws Exception;
+	public int InsertProduct(MAPDVO mvo) throws Exception;
 	
 	// 품목 검색 팝업 
 	public List<MAPDVO> SearchProduct(Criteria cri, String mapdCode, String mapdName) throws Exception;

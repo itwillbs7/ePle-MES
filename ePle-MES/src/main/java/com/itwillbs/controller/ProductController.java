@@ -52,8 +52,14 @@ public class ProductController {
     // 품목 수정 - POST
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updatePOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
-    	pService.productUpdate(mvo);
-        return "redirect:/product/productAll"; // 수정 후 목록 페이지로 이동
+    	
+    	int result = pService.productUpdate(mvo);
+    	
+		if(result == 1) {
+			return "product/resultSuccess";
+		}else {
+			return "product/resultFailed";
+		}
     }
 
     // 품목 삭제 - GET, POST
@@ -77,25 +83,22 @@ public class ProductController {
         String[] codeArr = codes.split(",");
         int result = pService.deleteProducts(codeArr);
 
-        String link = "";
         if (result >= 1) {
-          link = "redirect:/confirm";
-          rttr.addFlashAttribute("title", "품목 삭제 결과");
-          rttr.addFlashAttribute("result", "품목이 삭제 되었습니다.");
+            rttr.addFlashAttribute("title", "품목 삭제 결과");
+            rttr.addFlashAttribute("result", "품목이 삭제 되었습니다.");
+
+            // JavaScript 변수 설정
+            model.addAttribute("delCheckedCount", codeArr.length);
+            model.addAttribute("array", Arrays.asList(codeArr));
+
+            return "product/resultSuccess";
+            
         } else {
-          link = "redirect:/error";
-          rttr.addFlashAttribute("title", "품목 삭제 결과");
-          rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+            rttr.addFlashAttribute("title", "품목 삭제 결과");
+            rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+
+            return "product/resultFailed";
         }
-
-        // JavaScript 변수 설정
-        model.addAttribute("delCheckedCount", codeArr.length);
-        model.addAttribute("array", Arrays.asList(codeArr));
-
-        // 자동 새로고침을 위해 부모 페이지 URL에 파라미터 추가
-        link += "?refresh=true";
-
-        return link;
     }
 
 	  // 품목 (출력/페이징/검색)
@@ -127,8 +130,13 @@ public class ProductController {
 	public String productInsertPOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
 
 		// 서비스 - DB에 글쓰기(insert) 동작 호출
-		pService.InsertProduct(mvo);	
-		return "redirect:/product/productAll";
+		int result = pService.InsertProduct(mvo);	
+
+		if(result == 1) {
+			return "product/resultSuccess";
+		}else {
+			return "product/resultFailed";
+		}
 	}
  
 }

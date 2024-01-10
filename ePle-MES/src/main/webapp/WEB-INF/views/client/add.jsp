@@ -2,9 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<%@ include file="../include/head.jsp"%>
-<title>거래처 등록</title>
+    <meta charset="UTF-8">
+    <title>거래처 등록</title>
+    <!-- Kakao 지도 API 스크립트 추가 -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_MAPS_API_KEY"></script>
+    <!-- 다음 우편번호 서비스 스크립트 추가 -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <%@ include file="../include/head.jsp"%>
 </head>
 <body>
     <!-- 콘텐츠 시작 -->
@@ -42,12 +46,22 @@
                         <div class="form-group">
                             <label>담당자</label> <input class="form-control" type="text" name="manager" placeholder="담당자 입력">
                         </div>
+                        
+                        <!-- 우편번호 검색 버튼 및 결과 표시 -->
                         <div class="form-group">
-                            <label>주소</label> <input class="form-control" type="text" name="address" placeholder="주소 입력">
+                            <label>우편번호</label>
+                            <input type="text" id="sample6_postcode" name="postcode" class="form-control" placeholder="우편번호" readonly>
+                            <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="btn btn-primary">
                         </div>
                         <div class="form-group">
-                            <label>상세주소</label> <input class="form-control" type="text" name="address2" placeholder="상세주소 입력">
+                            <label>주소</label>
+                            <input type="text" id="sample6_address" name="address" class="form-control" placeholder="주소" readonly>
                         </div>
+                        <div class="form-group">
+                            <label>상세주소</label>
+                            <input type="text" id="sample6_detailAddress" name="address2" class="form-control" placeholder="상세주소">
+                        </div>
+                        
                         <div class="form-group">
 						    <label>전화번호</label> 
 						    <input class="form-control" type="tel" name="tel" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" placeholder="예: 02-1234-5678">
@@ -101,14 +115,27 @@
 
     <%@ include file="../include/footer.jsp"%>
     
+    <!-- 다음 우편번호 서비스 스크립트 추가 -->
     <script>
-      function onSubmitForm() {
-          // 폼을 서버로 제출한 후 팝업 창 닫기
+        function sample6_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    var addr = data.address;
+                    var extraAddr = '';
 
-          // 팝업 창 닫기
-          window.close();
-          return false; // 폼 제출 막기
-      }
+                    if(data.userSelectedType === 'R'){
+                        if(data.buildingName !== ''){
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        addr += extraAddr !== '' ? ' (' + extraAddr + ')' : '';
+                    }
+
+                    document.getElementById('sample6_postcode').value = data.zonecode;
+                    document.getElementById('sample6_address').value = addr;
+                    document.getElementById('sample6_detailAddress').focus();
+                }
+            }).open();
+        }
     </script>
     
 </body>
