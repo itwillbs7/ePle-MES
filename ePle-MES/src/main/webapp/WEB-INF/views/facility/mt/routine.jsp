@@ -11,12 +11,7 @@
 </head>
 <body>
 	<!-- 직원의 경우 사후보전만 실시 -->
-
-	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
-		<div class="login-box bg-white box-shadow border-radius-10">
-			<button type="button" class="close" onclick="closePopup();">×</button>
-			<!-- 타이틀 -->
 			<div class="login-title">
 				<h1 class="text-center text-primary">일상 보전 등록</h1>
 			</div>

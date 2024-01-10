@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.ClientVO;
 import com.itwillbs.domain.Criteria;
-import com.itwillbs.domain.MAPDVO;
 
 @Repository
 public class ClientDAOImpl implements ClientDAO {
@@ -25,22 +24,23 @@ public class ClientDAOImpl implements ClientDAO {
 
 	@Override
 	public List<ClientVO> getClientListAll() throws Exception {
-		return null;
+		return sqlSession.selectList(NAMESPACE + ".selectClientList");
 	}
 
 	@Override
 	public ClientVO getClient(String code) throws Exception {
-		return null;
+		return sqlSession.selectOne(NAMESPACE + ".getClient",code);
 	}
 
 	@Override
 	public int updateClient(ClientVO cvo) throws Exception {
-		return 0;
+		return sqlSession.update(NAMESPACE +".updateClient", cvo);
 	}
 
 	@Override
-	public void deleteClient(String code) throws Exception {		
-	}
+    public int deleteClients(String[] codes) {
+        return sqlSession.delete(NAMESPACE + ".deleteClients", codes);
+    }
 
 	@Override
 	public List<ClientVO> getClientListPage(Criteria cri) throws Exception {
@@ -51,5 +51,16 @@ public class ClientDAOImpl implements ClientDAO {
 	public int getClientCount() throws Exception {
 		return 0;
 	}
+
+	@Override
+	public void insertClient(ClientVO cvo) throws Exception {
+		sqlSession.insert(NAMESPACE+".insertClient", cvo);
+	}
+
+
+    @Override
+    public List<ClientVO> getInfo(String[] codes) throws Exception {
+        return sqlSession.selectList(NAMESPACE + ".getInfo", codes);
+    }
 
 }

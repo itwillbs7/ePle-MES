@@ -84,15 +84,10 @@
 															id="formCheck1" name="statusList" value="반품"
 															<c:if test="${paramMap.statusList.contains('반품등록')}">checked</c:if>> <label
 															class="custom-control-label" for="formCheck1">반품등록</label>
-													</div>
-													<div class="custom-control custom-checkbox mb-5">
-														<input type="checkbox" class="custom-control-input"
 															id="formCheck2" name="statusList" value="폐기"
 															<c:if test="${paramMap.statusList.contains('폐기')}">checked</c:if>> <label
-															class="custom-control-label" for="formCheck2">폐기</label>
+															id="formCheck2" name="statusList" value="폐기"> <label
 													</div>
-												</div>
-											</div>
 											<div class="col-md-2 col-sm-12"></div>
 										</div>
 									</div>
@@ -349,17 +344,14 @@ $('#reset').click(function(){
 					// 제품검색
 					$("#searchProduct").click(function() {
 						openPage("/request/searchProduct", 400, 700);
+						openPage("/shipment/searchProduct", 400, 700);
 					});
-
-					// 담당자 검색
-					$("#searchManager").click(function() {
 						openPage("/request/searchManager", 400, 700);
 					});
 
 				});
 	</script>
 	<!-- 검색은 ajax -->
-
 
 </body>
 </html>

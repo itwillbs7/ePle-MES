@@ -100,19 +100,19 @@
 										<th>비고</th>
 										<th>사용 여부</th>
 									</tr>
-									<c:forEach var="client" items="${ClientVO}">
+									<c:forEach var="client" items="${clientList}" varStatus="loop">
 									    <tr>
-										<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
-										<td>
-											<div class="custom-control custom-checkbox mb-5">
-												<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-												<input type="checkbox" class="custom-control-input" id="checkTable1" name="tableCheck" value="1"> 
-												<label class="custom-control-label" for="checkTable1"></label>
-									        </div>
+											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+											<td>
+									            <div class="custom-control custom-checkbox mb-5">
+									                <!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+									                <input type="checkbox" class="custom-control-input" id="checkTable${loop.index + 1}" name="tableCheck" value="${client.code}"> 
+									                <label class="custom-control-label" for="checkTable${loop.index + 1}"></label>
+									            </div>
 									        </td>
 									        <td>${client.code}</td>
 									        <td>${client.name}</td>
-									        <td>${client.condition}</td>
+									        <td>${client.conditions}</td>
 									        <td>${client.items}</td>
 									        <td>${client.manager}</td>
 									        <td>${client.tel}</td>
@@ -130,21 +130,17 @@
 							    </div>
 							</div>
 							<div class="btn-toolbar justify-content-center mb-15">
-							    <div class="btn-group">
-							        <c:if test="${pageVO.prev }">
-							            <a href="/line/linePage?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"><i class="fa fa-angle-double-left"></i></a>
-							        </c:if>
-							
-							        <c:forEach var="i" begin="${pageVO.startPage + 1}" end="${pageVO.endPage}" step="1">
-							            <a href="/line/linePage?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}">
-							                ${i}
-							            </a>
-							        </c:forEach>
-							
-							        <c:if test="${pageVO.next }">
-							            <a href="/line/linePage?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"><i class="fa fa-angle-double-right"></i></a>
-							        </c:if>
-							    </div>
+								<div class="btn-group">
+									<c:if test="${pageVO.prev}">
+										<a href="/client/clientAll?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+									</c:if>
+									<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+										<a href="/client/clientAll?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+									</c:forEach>
+									<c:if test="${pageVO.next}">
+										<a href="/client/clientAll?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+									</c:if>
+								</div>
 							</div>
 							
 						</div>
@@ -194,39 +190,63 @@
 		    // 추가
 		    $("#add").click(function() {
 		        // 가로, 세로 설정
-		        openPage("/client/add", 500, 600);
+		        openPage("/client/add", 400, 700);
 		    });
 
-		    // 수정
+			// 수정
 		    $("#update").click(function() {
+		        // 체크된 체크박스의 값을 저장할 배열
+		        var selectedCodes = [];
+
 		        // 체크된 체크박스의 개수를 확인
 		        var checkedCount = $("input[name='tableCheck']:checked").length;
 
-		        // 체크된 체크박스가 하나 이상인 경우에만 팝업 열기
+		        // 체크된 체크박스가 하나 이상인 경우에만 처리
 		        if (checkedCount > 0) {
-		            // 가로, 세로 설정
-		            openPage("/client/update", 400, 700);
+		            // 체크된 체크박스의 값을 읽어와서 배열에 저장
+		            $("input[name='tableCheck']:checked").each(function() {
+		                selectedCodes.push($(this).val());
+		            });
+
+		            // 선택된 체크박스의 개수가 1인 경우에만 가로, 세로 설정 및 URL에 코드 추가하여 팝업 열기
+		            if (selectedCodes.length === 1) {
+		                openPage("/client/update?code=" + selectedCodes[0], 400, 700);
+		            } else {
+		                // 선택된 체크박스가 1개가 아니면 경고 메시지 출력 또는 원하는 동작 수행
+		                alert("수정할 항목을 1개만 선택해주세요.");
+		            }
 		        } else {
 		            // 체크박스를 선택하지 않았을 때 경고 메시지 출력 또는 원하는 동작 수행
 		            alert("수정할 항목을 선택해주세요.");
 		        }
 		    });
 
-		    // 삭제
+		 	// 삭제
 		    $("#delete").click(function() {
+		        // 체크된 체크박스의 값을 저장할 배열
+		        var selectedCodes = [];
+
 		        // 체크된 체크박스의 개수를 확인
 		        var checkedCount = $("input[name='tableCheck']:checked").length;
 
-		        // 체크된 체크박스가 하나 이상인 경우에만 삭제 팝업 열기
+		        // 체크된 체크박스가 하나 이상인 경우에만 처리
 		        if (checkedCount > 0) {
-		            // 가로, 세로 설정
-		            openPage("/client/delete", 400, 297);
+		            // 체크된 체크박스의 값을 읽어와서 배열에 저장
+		            $("input[name='tableCheck']:checked").each(function() {
+		                selectedCodes.push($(this).val());
+		            });
+
+		            // Here, you can call openPage or perform any other actions before deletion
+		            openPage("/client/delete?code=" + selectedCodes.join(","), 400, 300);
+		            
+		            // Note: Use window.location.replace() for a more reliable redirect after confirmation
+		            // window.location.replace(deleteUrl);
 		        } else {
-		            // 체크박스를 선택하지 않았을 때 아무 동작도 수행하지 않음
-		            // 또는 원하는 동작을 수행할 수 있습니다.
-		        	alert("삭제할 항목을 선택해주세요.");
+		            // 체크박스를 선택하지 않았을 때 경고 메시지 출력 또는 원하는 동작 수행
+		            alert("삭제할 항목을 선택해주세요.");
 		        }
 		    });
+		 	
 		});
 
 	</script>

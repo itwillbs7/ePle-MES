@@ -19,7 +19,6 @@ import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.StockVO;
 import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.service.StockService;
-
 /** StockController : 창고 + 재고 컨트롤러 합치는중
 * 
 *	창고 - http://localhost:8088/stock/warehouseList 
@@ -30,9 +29,7 @@ import com.itwillbs.service.StockService;
 public class StockController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(StockController.class);
-	
-	@Inject
-	private StockService sService;
+
 
 	  /*--------------------------------------창고관리 시작-----------------------------------------*/
     

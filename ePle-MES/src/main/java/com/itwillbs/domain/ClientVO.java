@@ -8,7 +8,7 @@ public class ClientVO {
 	private String code;
 	private String name;
 	private String type;
-	private String condition;
+	private String conditions;
 	private String items;
 	private String ceo;
 	private String manager;

@@ -1,5 +1,6 @@
 package com.itwillbs.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,47 +44,69 @@ public class ClientController {
                              HttpSession session) throws Exception {
         session.setAttribute("viewcntCheck", true);
         List<ClientVO> clientList = cService.clientListAll();
+        System.out.println(clientList);
         model.addAttribute("clientList", clientList);
         return "/client/clientAll";
     }
 
     // 거래처 수정 - GET
     @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String updateGET(@RequestParam(value = "code", defaultValue = "") String code, 
-                            @RequestParam(value = "checked", defaultValue = "false") boolean checked,
-                            RedirectAttributes rttr) throws Exception {
-        if (checked) {
-            // 체크박스가 선택된 경우
-            ClientVO resultVO = cService.getClient(code);
-            return "client/update";
-        } else {
-            // 체크박스가 선택되지 않은 경우
-            rttr.addFlashAttribute("result", "체크박스를 선택해주세요.");
-            // 수정할 항목이 선택되지 않았으므로 직접 productAll 페이지로 리다이렉트
-            return "redirect:/client/clientAll";
-        }
+    public void updateGET(@RequestParam("code") String code, Model model) throws Exception {
+        System.out.println("code: " + code); // 코드 값 확인용
+        ClientVO cvo = cService.getClient(code);
+        System.out.println(cvo);
+        model.addAttribute("cvo", cvo);
     }
 
     // 거래처 수정 - POST
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updatePOST(@ModelAttribute ClientVO cvo) throws Exception {
-        cService.clientModify(cvo);
+    public String updatePOST(ClientVO cvo, RedirectAttributes rttr) throws Exception {
+    	cService.clientUpdate(cvo);
         return "redirect:/client/clientAll"; // 수정 후 목록 페이지로 이동
     }
 
-    // 거래처 삭제 - GET
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String removeGET(@RequestParam("code") String code, RedirectAttributes rttr) throws Exception {
-        cService.clientRemove(code);
-        return "redirect:/client/clientAll"; // 삭제 후 목록 페이지로 이동
+    // 거래처 삭제 - GET, POST
+    @GetMapping("/delete")
+    public String clientDeleteGET(@RequestParam("code") String codes, Model model) throws Exception {
+        // 품목 삭제 폼
+        String[] codeArr = codes.split(",");
+        List<ClientVO> cvo = cService.getInfo(codeArr);
+        model.addAttribute("cvo", cvo);
+
+        // JavaScript 변수 설정
+        model.addAttribute("delCheckedCount", codeArr.length);
+        model.addAttribute("array", Arrays.asList(codeArr));
+
+        return "client/delete"; // 적절한 뷰 페이지로 이동
     }
 
-    // 거래처 삭제 - POST
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String removePOST(@ModelAttribute("code") String code, RedirectAttributes rttr) throws Exception {
-        cService.clientRemove(code);
-        return "redirect:/client/clientAll"; // 삭제 후 목록 페이지로 이동
+    @PostMapping("/delete")
+    public String clientDeletePOST(@RequestParam("code") String codes, RedirectAttributes rttr, Model model) throws Exception {
+        // 품목 삭제 액션
+        String[] codeArr = codes.split(",");
+        int result = cService.deleteClients(codeArr);
+
+        String link = "";
+        if (result >= 1) {
+          link = "redirect:/confirm";
+          rttr.addFlashAttribute("title", "품목 삭제 결과");
+          rttr.addFlashAttribute("result", "품목이 삭제 되었습니다.");
+        } else {
+          link = "redirect:/error";
+          rttr.addFlashAttribute("title", "품목 삭제 결과");
+          rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+        }
+
+        // JavaScript 변수 설정
+        model.addAttribute("delCheckedCount", codeArr.length);
+        model.addAttribute("array", Arrays.asList(codeArr));
+
+        // 자동 새로고침을 위해 부모 페이지 URL에 파라미터 추가
+        link += "?refresh=true";
+
+        return link;
     }
+
 
     // 페이징 처리 - 거래처 리스트 - GET
     @RequestMapping(value = "/clientPage", method = RequestMethod.GET)
@@ -101,18 +126,19 @@ public class ClientController {
         return "/client/clientAll";
     }
 
-    // 추가 - GET
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String addGET() {
-        return "client/add";
-    }
+    // 거래처 추가 - GET, POST
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public void clientInsertGET() throws Exception { 
+		
+	}
+	
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public String clientInsertPOST(ClientVO cvo, RedirectAttributes rttr) throws Exception {
 
-    // 추가 - POST
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addPOST(@ModelAttribute ClientVO cvo, RedirectAttributes rttr) throws Exception {
-        cService.clientWrite(cvo);
-        return "redirect:/client/clientAll"; // 추가 후 목록 페이지로 이동
-    }
+		// 서비스 - DB에 글쓰기(insert) 동작 호출
+		cService.InsertClient(cvo);	
+		return "redirect:/client/clientAll";
+	}
 
     // 전체 목록의 수를 가져오는 메서드
     @RequestMapping(value = "/totalClientCount", method = RequestMethod.GET)
@@ -120,4 +146,6 @@ public class ClientController {
     public int getTotalClientCount() throws Exception {
         return cService.totalClientCount();
     }
+    
+    // 거래처 검색 - GET
 }

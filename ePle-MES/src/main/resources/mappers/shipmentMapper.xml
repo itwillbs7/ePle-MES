@@ -189,12 +189,10 @@
 		inner join CLIENT c on c.code = r.client_code
 		inner join MAPD m on m.code = r.product
 		where sp.code in
-		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
-			#{codeNum}
-		</foreach>
-	</select>
-
-	<update id="updateStatusBeforeDelete">
+		join
+		REQUEST r on r.code = sp.reqs_code
+		inner join CLIENT c on c.code =
+		r.client_code
 		update REQUEST r
 		inner join SHIPMENT s on r.code= s.reqs_code
 		set r.status = '등록'

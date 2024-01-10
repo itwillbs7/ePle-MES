@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.CommonVO;
 import com.itwillbs.domain.Criteria;
-import com.itwillbs.domain.UserVO;
 import com.itwillbs.persistence.SystemDAOImpl;
-
-@Service
 public class SystemServiceImpl implements SystemService {
 
 	

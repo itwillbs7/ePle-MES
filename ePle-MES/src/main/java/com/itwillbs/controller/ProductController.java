@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+
+import java.util.Arrays;
 import java.util.List;
 
 /** 품목 관리 컨트롤러 **/
@@ -24,7 +26,7 @@ public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @Inject
-    private ProductService sService;
+    private ProductService pService;
 
     // http://localhost:8088/product/productAll
     
@@ -34,7 +36,7 @@ public class ProductController {
                              @ModelAttribute("result") String result,
                              HttpSession session) throws Exception {
         session.setAttribute("viewcntCheck", true);
-        List<MAPDVO> productList = sService.productListAll();
+        List<MAPDVO> productList = pService.productListAll();
         System.out.println(productList);
         model.addAttribute("productList", productList);
         return "/product/productAll";
@@ -42,77 +44,99 @@ public class ProductController {
 
     // 품목 수정 - GET
     @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String updateGET(@RequestParam(value = "code", defaultValue = "") String code, 
-                            @RequestParam(value = "checked", defaultValue = "false") boolean checked,
-                            RedirectAttributes rttr) throws Exception {
-        if (checked) {
-            // 체크박스가 선택된 경우
-            MAPDVO resultVO = sService.getProduct(code);
-            return "product/update";
-        } else {
-            // 체크박스가 선택되지 않은 경우
-            rttr.addFlashAttribute("result", "체크박스를 선택해주세요.");
-            // 수정할 항목이 선택되지 않았으므로 직접 productAll 페이지로 리다이렉트
-            return "redirect:/product/productAll";
-        }
+    public void updateGET(@RequestParam("code") String code, Model model) throws Exception {
+        MAPDVO mvo = pService.getProduct(code);
+        model.addAttribute("mvo", mvo);
     }
 
     // 품목 수정 - POST
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updatePOST(@ModelAttribute MAPDVO mvo) throws Exception {
-        sService.productModify(mvo);
-        return "redirect:/product/productAll"; // 수정 후 목록 페이지로 이동
+    public String updatePOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
+    	
+    	int result = pService.productUpdate(mvo);
+    	
+		if(result == 1) {
+			return "product/resultSuccess";
+		}else {
+			return "product/resultFailed";
+		}
     }
 
-    // 품목 삭제 - GET
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String removeGET(@RequestParam("code") String code, RedirectAttributes rttr) throws Exception {
-        sService.productRemove(code);
-        return "redirect:/product/productAll"; // 삭제 후 목록 페이지로 이동
+    // 품목 삭제 - GET, POST
+    @GetMapping("/delete")
+    public String productDeleteGET(@RequestParam("code") String codes, Model model) throws Exception {
+        // 품목 삭제 폼
+        String[] codeArr = codes.split(",");
+        List<MAPDVO> mvo = pService.getInfo(codeArr);
+        model.addAttribute("mvo", mvo);
+
+        // JavaScript 변수 설정
+        model.addAttribute("delCheckedCount", codeArr.length);
+        model.addAttribute("array", Arrays.asList(codeArr));
+
+        return "product/delete"; // 적절한 뷰 페이지로 이동
     }
 
-    // 품목 삭제 - POST
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String removePOST(@ModelAttribute("code") String code, RedirectAttributes rttr) throws Exception {
-        sService.productRemove(code);
-        return "redirect:/product/productAll"; // 삭제 후 목록 페이지로 이동
+    @PostMapping("/delete")
+    public String productDeletePOST(@RequestParam("code") String codes, RedirectAttributes rttr, Model model) throws Exception {
+        // 품목 삭제 액션
+        String[] codeArr = codes.split(",");
+        int result = pService.deleteProducts(codeArr);
+
+        if (result >= 1) {
+            rttr.addFlashAttribute("title", "품목 삭제 결과");
+            rttr.addFlashAttribute("result", "품목이 삭제 되었습니다.");
+
+            // JavaScript 변수 설정
+            model.addAttribute("delCheckedCount", codeArr.length);
+            model.addAttribute("array", Arrays.asList(codeArr));
+
+            return "product/resultSuccess";
+            
+        } else {
+            rttr.addFlashAttribute("title", "품목 삭제 결과");
+            rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+
+            return "product/resultFailed";
+        }
     }
 
-    // 페이징 처리 - 게시판 리스트 - GET
-    @RequestMapping(value = "/productPage", method = RequestMethod.GET)
-    public String listPageGET(Model model,
-                              @ModelAttribute("result") String result,
-                              HttpSession session,
-                              Criteria cri) throws Exception {
-        session.setAttribute("viewcntCheck", true);
+	  // 품목 (출력/페이징/검색)
+	  @RequestMapping(value = "/searchProduct" , method = RequestMethod.GET)
+	  public void SearchMAPD(Model model, Criteria cri,
+								  @RequestParam(value = "mapdCode",required = false) String mapdCode,
+								  @RequestParam(value = "mapdName",required = false) String mapdName) throws Exception {
+			
+	  List<MAPDVO> mapdList = pService.SearchProduct(cri,mapdCode,mapdName);
+			
+	  PageVO pageVO = new PageVO(); 
+			  
+	  pageVO.setCri(cri);
+	  pageVO.setTotalCount(pService.productListCount(mapdCode,mapdName));
+	  
+			  
+	  model.addAttribute("pageVO", pageVO);
+	  model.addAttribute("mapdList", mapdList);
+			
+	  }
 
-        List<MAPDVO> productList = sService.productListPage(cri);
+    // 품목 추가 - GET, POST
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public void productInsertGET() throws Exception { 
+		
+	}
+	
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public String productInsertPOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
 
-        PageVO pageVO = new PageVO();
-        pageVO.setCri(cri);
-        pageVO.setTotalCount(sService.totalProductCount());
-        model.addAttribute("pageVO", pageVO);
-        model.addAttribute("productList", productList);
-        return "/product/productAll";
-    }
+		// 서비스 - DB에 글쓰기(insert) 동작 호출
+		int result = pService.InsertProduct(mvo);	
 
-    // 추가 - GET
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String addGET() {
-        return "product/add";
-    }
-
-    // 추가 - POST
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addPOST(@ModelAttribute MAPDVO mvo, RedirectAttributes rttr) throws Exception {
-        sService.productWrite(mvo);
-        return "redirect:/product/productAll"; // 추가 후 목록 페이지로 이동
-    }
-
-    // 전체 목록의 수를 가져오는 메서드
-    @RequestMapping(value = "/totalProductCount", method = RequestMethod.GET)
-    @ResponseBody
-    public int getTotalProductCount() throws Exception {
-        return sService.totalProductCount();
-    }
+		if(result == 1) {
+			return "product/resultSuccess";
+		}else {
+			return "product/resultFailed";
+		}
+	}
+ 
 }

@@ -82,13 +82,11 @@
 													<label>출하 일자</label> 
 													<input class="form-control date-picker" type="text" name="startDate"
 														autocomplete="off" id="deadline" readonly value="${paramMap.startDate }"> 
-													<span style="padding:0px 10px;'"> &nbsp&nbsp ~ &nbsp&nbsp</span>
 													<input class="form-control date-picker" type="text" name="endDate" 
 													autocomplete="off" id="deadline2" readonly value="${paramMap.endDate }">
-												</div>
-											</div>
-										</div>
-									</div>
+													<label>출하 일자</label> <input class="form-control "
+														placeholder="Select Month" type="date" name="startDate"
+														autocomplete="off" id="deadline"> ~ <input
 									
 										<!-- 정렬, asc, desc -->
 										<input type="hidden" name="activeSortCategory" id="sortCategory" value="${pageVO.search.activeSortCategory}"> 
@@ -166,11 +164,6 @@
 										<th>납품예정일</th>
 										<th>품번</th>
 										<th>수주수량</th>
-										<th>재고량</th>
-										<th>출하량</th>
-										<th>출하일자</th>
-										<th>출하상태</th>
-									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${List}" var="List" varStatus="status">

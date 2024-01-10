@@ -22,7 +22,7 @@
 				<!-- 폼 -->
 				<form method="post">
 					<!-- hidden -->
-					<input type="hidden" name="emp_code" value="123123123123">
+					<input type="hidden" name="emp_code" value="${emp_code}">
 					<!-- hidden -->
 					<div class="row">
 						<div class="col-sm-12 mb-3">

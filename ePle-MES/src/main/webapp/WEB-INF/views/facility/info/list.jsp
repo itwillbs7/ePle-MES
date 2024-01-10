@@ -85,41 +85,15 @@
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<label class="weight-600">상태</label>
-														<c:choose>
-															<c:when test="${pageVO.search.formRadio eq 'all'}">
-																<div class="custom-control custom-radio mb-5">
-																	<input type="radio" id="formRadio1" name="formRadio" checked class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
-																</div>
-																<div class="custom-control custom-radio mb-5">
-																	<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" value="true"> <label class="custom-control-label" for="formRadio2">활성화</label>
-																</div>
-																<div class="custom-control custom-radio mb-5">
-																	<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
-																</div>
-															</c:when>
-															<c:when test='${pageVO.search.formRadio eq trueText}'>
-																<div class="custom-control custom-radio mb-5">
-																	<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
-																</div>
-																<div class="custom-control custom-radio mb-5">
-																	<input type="radio" id="formRadio2" name="formRadio" checked class="custom-control-input" value="true"> <label class="custom-control-label" for="formRadio2">활성화</label>
-																</div>
-																<div class="custom-control custom-radio mb-5">
-																	<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
-																</div>
-															</c:when>
-															<c:when test="${pageVO.search.formRadio eq falseText}">
-																<div class="custom-control custom-radio mb-5">
-																	<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
-																</div>
-																<div class="custom-control custom-radio mb-5">
-																	<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" value="true"> <label class="custom-control-label" for="formRadio2">활성화</label>
-																</div>
-																<div class="custom-control custom-radio mb-5">
-																	<input type="radio" id="formRadio3" name="formRadio" checked class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
-																</div>
-															</c:when>
-														</c:choose>
+														<div class="custom-control custom-radio mb-5">
+															<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
+														</div>
+														<div class="custom-control custom-radio mb-5">
+															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" value="true" checked> <label class="custom-control-label" for="formRadio2">활성화</label>
+														</div>
+														<div class="custom-control custom-radio mb-5">
+															<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
+														</div>
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">

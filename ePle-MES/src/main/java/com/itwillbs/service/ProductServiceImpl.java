@@ -33,33 +33,39 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int productModify(MAPDVO mvo) throws Exception {
-		logger.debug(" S : productModify(MAPDVO mvo) ");
+	public int productUpdate(MAPDVO mvo) throws Exception {
+		logger.debug(" S : productUpdate(MAPDVO mvo) ");
 		return pdao.updateProduct(mvo);
 	}
 
-	@Override
-	public void productRemove(String code) throws Exception {
-		logger.debug(" S : productRemove(String code) ");
-		pdao.deleteProduct(code);
-	}
+    @Override
+    public int deleteProducts(String[] codes) throws Exception {
+        return pdao.deleteProducts(codes);
+    }
+	
+    @Override
+    public List<MAPDVO> getInfo(String[] codes) throws Exception {
+        return pdao.getInfo(codes);
+    }
 
 	@Override
-	public List<MAPDVO> productListPage(Criteria cri) throws Exception {
-		logger.debug(" S : productListPage(Criteria cri) ");
-		return pdao.getProductListPage(cri);
+	public int InsertProduct(MAPDVO mvo) throws Exception {
+		return pdao.insertProduct(mvo);
 	}
 
+	// 품목 검색 팝업 
 	@Override
-	public int totalProductCount() throws Exception {
-		logger.debug(" S : totalProductCount() ");
-		return pdao.getProductCount();
+	public List<MAPDVO> SearchProduct(Criteria cri, String mapdCode, String mapdName) throws Exception {
+		return pdao.SearchProduct(cri, mapdCode, mapdName);
 	}
-
+	
+	// 모든 품목 수
 	@Override
-	public void productWrite(MAPDVO mvo) throws Exception {
-		logger.debug(" S : productWrite(MAPDVO mvo) ");
+	public int productListCount(String mapdCode, String mapdName) throws Exception {
+		return pdao.getProductCount(mapdCode, mapdName);
 	}
+	
+	
 	
 	
 }

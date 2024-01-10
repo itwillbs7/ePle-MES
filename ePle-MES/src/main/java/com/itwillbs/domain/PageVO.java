@@ -39,10 +39,9 @@ public class PageVO {
 
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
-		// 페이징 처리에 필요한 정보를 모두 계산
 		calcData();
 	}
-	
+
 	private void calcData() {
 		// 페이징처리 정보를 모두 계산
 		
@@ -84,32 +83,16 @@ public class PageVO {
 		return startPage;
 	}
 
-	public void setStartPage(int startPage) {
-		this.startPage = startPage;
-	}
-
 	public int getEndPage() {
 		return endPage;
-	}
-
-	public void setEndPage(int endPage) {
-		this.endPage = endPage;
 	}
 
 	public boolean isPrev() {
 		return prev;
 	}
 
-	public void setPrev(boolean prev) {
-		this.prev = prev;
-	}
-
 	public boolean isNext() {
 		return next;
-	}
-
-	public void setNext(boolean next) {
-		this.next = next;
 	}
 
 	public int getDisplayPageNum() {
