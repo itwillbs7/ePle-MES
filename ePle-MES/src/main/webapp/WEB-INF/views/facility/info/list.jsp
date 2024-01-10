@@ -85,15 +85,41 @@
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<label class="weight-600">상태</label>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" value="true" checked> <label class="custom-control-label" for="formRadio2">활성화</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
-														</div>
+														<c:choose>
+															<c:when test="${pageVO.search.formRadio eq 'all'}">
+																<div class="custom-control custom-radio mb-5">
+																	<input type="radio" id="formRadio1" name="formRadio" checked class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
+																</div>
+																<div class="custom-control custom-radio mb-5">
+																	<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" value="true"> <label class="custom-control-label" for="formRadio2">활성화</label>
+																</div>
+																<div class="custom-control custom-radio mb-5">
+																	<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
+																</div>
+															</c:when>
+															<c:when test='${pageVO.search.formRadio eq trueText}'>
+																<div class="custom-control custom-radio mb-5">
+																	<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
+																</div>
+																<div class="custom-control custom-radio mb-5">
+																	<input type="radio" id="formRadio2" name="formRadio" checked class="custom-control-input" value="true"> <label class="custom-control-label" for="formRadio2">활성화</label>
+																</div>
+																<div class="custom-control custom-radio mb-5">
+																	<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
+																</div>
+															</c:when>
+															<c:when test="${pageVO.search.formRadio eq falseText}">
+																<div class="custom-control custom-radio mb-5">
+																	<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
+																</div>
+																<div class="custom-control custom-radio mb-5">
+																	<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" value="true"> <label class="custom-control-label" for="formRadio2">활성화</label>
+																</div>
+																<div class="custom-control custom-radio mb-5">
+																	<input type="radio" id="formRadio3" name="formRadio" checked class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
+																</div>
+															</c:when>
+														</c:choose>
 													</div>
 													<div class="col-md-2 col-sm-12">
 														<div class="form-group">
@@ -185,7 +211,7 @@
 											<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 										</div>
 									</td>
-									<c:forEach begin="0" end="5" var="i">
+									<c:forEach begin="0" end="4" var="i">
 										<th class="btn-light" onclick="javascript:orderList(${i})"><c:if test="${i eq pageVO.search.activeSortCategory}">
 												<c:choose>
 													<c:when test="${pageVO.search.sortValue eq 'asc'}">
@@ -214,11 +240,10 @@
 													<input type="checkbox" class="custom-control-input" id="checkTable${i.code}" name="tableCheck" value="${i.code}"> <label class="custom-control-label" for="checkTable${i.code}"></label>
 												</div></td>
 											<th><a href="javascript:openPage('/facility/info/detail?code=${i.code}', 500, 600)"><b class="text-blue" id="tableTitle1">${i.code}</b></a></th>
-											<th>${i.group_name}</th>
-											<th>${i.code_name}</th>
-											<th id="tableinfo${i.code}">${i.model}</th>
+											<th>${i.order.group_name}</th>
+											<th>${i.order.code_name}</th>
 											<!-- 상세 정보 이동! -->
-											<th id="tableTitle${i.code}">${i.name}</th>
+											<th id="tableTitle${i.code}">${i.mapd.name}</th>
 											<th>${i.line_name}</th>
 											<td style="">
 												<!-- 옵션 -->
@@ -332,7 +357,7 @@
 			// 추가
 			$("#add").click(function() {
 				// 가로, 세로 설정
-				openPage("/facility/info/insert", 500, 600);
+				openPage("/facility/info/insert", 500, 700);
 			});
 
 			// 삭제

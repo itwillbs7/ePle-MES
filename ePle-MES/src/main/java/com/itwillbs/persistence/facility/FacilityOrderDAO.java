@@ -3,6 +3,7 @@ package com.itwillbs.persistence.facility;
 import java.util.List;
 
 import com.itwillbs.domain.FacilityOrderVO;
+import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.domain.PageVO;
 
 public interface FacilityOrderDAO {
@@ -18,7 +19,7 @@ public interface FacilityOrderDAO {
 	
 	public int deleteFacilityOrder(String[] codeList) throws Exception;
 	
-	public List<FacilityOrderVO> getCommonList(String group_id) throws Exception;
+	public List<MAPDVO> getMapdList(String group_id) throws Exception;
 	
 	public String getRecentCode() throws Exception;
 	

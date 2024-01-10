@@ -124,8 +124,8 @@
 											</th>
 											<th>${i.date}</th>
 											<th>${i.group_name}</th>
-											<th id ="tableTitle${i.code}">${i.code_name}</th>
-											<th>${i.client_code}</th>
+											<th id ="tableTitle${i.code}">${i.mapd.name}</th>
+											<th>${i.reg_emp}</th>
 											<th id="tableinfo${i.code}">${i.amount}</th>
 											<td style="">
 												<!-- 옵션 -->

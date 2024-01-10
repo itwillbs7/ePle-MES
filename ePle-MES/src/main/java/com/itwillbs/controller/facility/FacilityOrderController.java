@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,13 +43,14 @@ public class FacilityOrderController {
 	@GetMapping("/insert")
 	public void insertGET(Model model) throws Exception{
 		// 설비 발주 등록 폼
-		model.addAttribute("proList",oService.getCommonList("FACPRO"));
-		model.addAttribute("nprList",oService.getCommonList("FACNPR"));
-		model.addAttribute("etcList",oService.getCommonList("FACETC"));
+		model.addAttribute("proList",oService.getMapdList("FACPRO"));
+		model.addAttribute("nprList",oService.getMapdList("FACNPR"));
+		model.addAttribute("etcList",oService.getMapdList("FACETC"));
 	}
 	
 	@PostMapping("/insert")
-	public String insertPOST(FacilityOrderVO vo, RedirectAttributes rttr) throws Exception{
+	public String insertPOST(HttpSession session, FacilityOrderVO vo, RedirectAttributes rttr) throws Exception{
+		vo.setReg_emp("test");
 		String link = "";
 		String recentCode = oService.getRecentCode();
 		
@@ -96,16 +98,17 @@ public class FacilityOrderController {
 		// 설비 발주 수정 폼
 		model.addAttribute("info", oService.getDetail(code));
 		
-		model.addAttribute("proList",oService.getCommonList("FACPRO"));
-		model.addAttribute("nprList",oService.getCommonList("FACNPR"));
-		model.addAttribute("etcList",oService.getCommonList("FACETC"));
+		model.addAttribute("proList",oService.getMapdList("FACPRO"));
+		model.addAttribute("nprList",oService.getMapdList("FACNPR"));
+		model.addAttribute("etcList",oService.getMapdList("FACETC"));
 		
 		
 	}
 	
 	@PostMapping("/update")
-	public String updatePOST(FacilityOrderVO vo, RedirectAttributes rttr) throws Exception{
+	public String updatePOST(HttpSession session, FacilityOrderVO vo, RedirectAttributes rttr) throws Exception{
 		String link = "";
+		vo.setUpdate_emp("test");
 		int result = oService.updateOrder(vo);
 		if(result >= 1) {
 			link = "redirect:/confirm";

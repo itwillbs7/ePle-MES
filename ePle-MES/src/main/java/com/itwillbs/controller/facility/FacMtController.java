@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.FacMtVO;
+import com.itwillbs.domain.MtSearchVO;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.facility.FacilityService;
 import com.itwillbs.service.facility.MtService;
 
@@ -64,12 +67,13 @@ public class FacMtController {
 	@GetMapping("/routine")
 	public void routine(Model model, String code) throws Exception{
 		// 일상 보전, 예방 보전 등록 폼
-		model.addAttribute("info", fService.getFacility(code));
+		model.addAttribute("code", code);
 	}
 	
 	@PostMapping("/routine")
-	public String routine(FacMtVO vo, RedirectAttributes rttr) throws Exception{
+	public String routine(FacMtVO vo, RedirectAttributes rttr, HttpSession session) throws Exception{
 		// 일상 보전, 예방 보전 등록
+		vo.setEmp_code("123121231233");
 		String recentCode = mService.getRecentCode(vo.getCode());
 		String code = vo.getCode();
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
@@ -107,12 +111,13 @@ public class FacMtController {
 	@GetMapping("/result")
 	public void result(Model model, String code) throws Exception{
 		// 보전 결과 등록(사후 보전이 있을 때)
-		model.addAttribute("info", fService.getFacility(code));
+		model.addAttribute("info", mService.getOrder(code));
 	}
 	
 	@PostMapping("/result")
-	public String result(FacMtVO vo, RedirectAttributes rttr) throws Exception{
+	public String result(FacMtVO vo, HttpSession session,RedirectAttributes rttr) throws Exception{
 		// 보전 결과 등록 처리
+		vo.setManager("123123123");
 		if(mService.setResult(vo) == 1) {
 			rttr.addFlashAttribute("title", "보전 등록 결과");
 			rttr.addFlashAttribute("result", "보전 등록이 완료되었습니다.");
@@ -131,14 +136,14 @@ public class FacMtController {
 	public void list(HttpSession session, Model model) throws Exception{
 		// 자신이 등록한 보전 리스트 출력, 매니저 정보 표시
 		// 보전 완료 및 미완료 표시!
-		String emp_code = "test4";
+		String emp_code = "123123123123";
 		model.addAttribute("list", mService.getInsertedList(emp_code));
 	}
 	
 	@GetMapping("/insert")
 	public void insert(Model model) throws Exception{
 		// 보전 추가(사후보전) 폼
-		model.addAttribute("list", fService.getFacManager());
+		model.addAttribute("list", fService.getFacListManager());
 	}
 	
 	@PostMapping("/insert")
@@ -155,7 +160,7 @@ public class FacMtController {
 		}
 		else {
 			// 날짜가 오늘일 경우엔 + 1 해주기
-			String fDate = recentCode.substring(3, recentCode.length()-3);
+			String fDate = recentCode.substring(2, recentCode.length()-3);
 			if(now.equals(fDate)) {				
 				String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
 				while(fCount.length() < 3) fCount = "0" + fCount;
@@ -165,6 +170,7 @@ public class FacMtController {
 				code += now + "001";
 			}
 		}
+		logger.debug("code : " + code);
 		vo.setCode(code);
 		if(mService.insertProblem(vo) == 1) {
 			rttr.addFlashAttribute("title", "보전 등록 결과");
@@ -202,7 +208,7 @@ public class FacMtController {
 	@GetMapping("/delete")
 	public void delete(String code, Model model) throws Exception{
 		// 자신이 등록한 보전 삭제 폼
-		model.addAttribute("info", "");
+		model.addAttribute("code", code);
 	}
 	
 	@PostMapping("/delete")
@@ -218,6 +224,15 @@ public class FacMtController {
 			rttr.addFlashAttribute("result", "오류가 발생했습니다!");
 			return "redirect:/error";
 		}
+	}
+	
+	@GetMapping("/history")
+	public void history(PageVO vo, MtSearchVO search, Criteria cri, Model model) throws Exception{
+		vo.setCri(cri);
+		vo.setSearch(search);
+		vo.setTotalCount(mService.getHistoryCount(vo));
+		model.addAttribute("list", mService.getHistoryList(vo));
+		model.addAttribute("pageVO", vo);
 	}
 	// 직원
 }

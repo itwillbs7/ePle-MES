@@ -27,7 +27,7 @@
 							<th>모델</th>
 							<td>${info.model}</td>
 							<th>이름</th>
-							<td>${info.name}</td>
+							<td>${info.mapd.name}</td>
 						</tr>
 						<tr>
 							<th>카테고리</th>
@@ -44,15 +44,15 @@
 						</tr>
 						<tr>
 							<th>구매 일자</th>
-							<td><fmt:formatDate value="${info.purchase_date}" dateStyle="full"/></td>
+							<td><fmt:formatDate value="${info.order.date}" dateStyle="full"/></td>
 							<th>구매 금액</th>
-							<td><fmt:formatNumber value="${info.inprice}" type="currency"/></td>
+							<td><fmt:formatNumber value="${info.order.inprice}" type="currency"/></td>
 						</tr>
 						<tr>
-							<th>라인 코드</th>
-							<td>${info.line_code}</td>
+							<th>라인</th>
+							<td>${info.line_name}</td>
 							<th>제조사</th>
-							<td>${info.client_code}</td>
+							<td>${info.client_name}</td>
 						</tr>
 					</table>
 				</div>

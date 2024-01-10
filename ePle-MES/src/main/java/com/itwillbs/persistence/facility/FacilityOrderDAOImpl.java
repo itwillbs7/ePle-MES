@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.FacilityOrderVO;
+import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.domain.PageVO;
 
 @Repository
@@ -44,8 +45,8 @@ public class FacilityOrderDAOImpl implements FacilityOrderDAO{
 	}
 	
 	@Override
-	public List<FacilityOrderVO> getCommonList(String group_id) throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".getCommonList", group_id);
+	public List<MAPDVO> getMapdList(String group_id) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getMapdList", group_id);
 	}
 	
 	@Override

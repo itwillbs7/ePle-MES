@@ -22,13 +22,13 @@
 				<!-- 폼 -->
 				<form method="post">
 					<!-- hidden -->
-					<input type="hidden" name="emp_code" value="${emp_code}">
+					<input type="hidden" name="emp_code" value="123123123123">
 					<!-- hidden -->
 					<div class="row">
 						<div class="col-sm-12 mb-3">
 							<div class="form-group">
-								<label><b>설비 목록</b></label> <select class="custom-select2 form-control" name="fac_code" style="width: 100%; height: 38px">
-									<option value="None">선택</option>
+								<label><b>설비 목록</b></label> <select class="custom-select2 form-control" name="fac_code" style="width: 100%; height: 38px" required>
+									<option value="" selected>선택</option>
 									<c:if test="${!empty list}">
 										<c:forEach items="${list}" var="i">
 											<option value="${i.code}">${i.name}(${i.model})</option>

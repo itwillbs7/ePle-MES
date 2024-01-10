@@ -79,7 +79,9 @@
 						<li><a href="/system/common/main">공통코드 관리</a></li>
 						<li><a href="/system/user/main">사용자 관리</a></li>
 					</ul></li>
-
+				
+				<li><a href="/line/status" class="dropdown-toggle no-arrow"> <span class="micon bi bi-command"></span> <span class="mtext">라인 관리</span>
+				</a></li>
 			</ul>
 		</div>
 	</div>

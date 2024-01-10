@@ -11,6 +11,8 @@
 </head>
 <body>
 	<!-- 직원의 경우 사후보전만 실시 -->
+
+	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 			<div class="login-title">
 				<h1 class="text-center text-primary">일상 보전 등록</h1>
