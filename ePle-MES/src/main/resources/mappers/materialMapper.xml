@@ -40,8 +40,8 @@
 	
 	<!-- 입고 등록 -->
 	<insert id="InAdd">
-		INSERT INTO WAREHOUSE_HISTORY (code,order_num,warehouse_code,io,amount,mapd_code,emp_code,date) 
-		VALUES (#{code},#{order_num},#{warehouse_code},'IN',#{amount},'#{mapd_code}','#{emp_code}',now())
+		INSERT INTO WAREHOUSE_HISTORY (code,order_num,warehouse_code,io,category,amount,mapd_code,emp_code,date) 
+		VALUES (#{code},#{order_num},#{warehouse_code},'IN',#{category},#{amount},#{mapd_code},#{emp_code},now())
 	</insert>
 
 	<!-- 최신코드 가져오기 -->
@@ -145,16 +145,23 @@
 	
 	
 	
+	<!-- 발주등록 update -->
+	<update id="orderAdd">
+		UPDATE ORDERS 
+		SET client_code=#{client_code}, price=#{price}, order_date=#{order_date}, reg_date=now(), reg_emp=#{reg_emp}, update_date=now(), update_emp=#{reg_emp}, status='완료'
+		WHERE code = #{code} AND status = '신청'
+	</update>
 	
-	
-	
-	
-	<!-- 입고등록) 발주 목록 -->
+	<!-- 발주관리메인 + 입고등록) 발주 목록 -->
 	<select id="SearchOrder" resultType="OrderVO">
-		SELECT o.code, o.material, m.name, o.amount
+		SELECT o.code, o.material, m.name, o.amount, cl.code, cl.name client_name, m.unit, o.price, o.order_date, o.status, e.name reg_name
 		FROM ORDERS o
 		LEFT OUTER JOIN MAPD m
 		ON o.material = m.code
+		LEFT OUTER JOIN CLIENT cl
+		ON o.client_code = cl.code
+		LEFT OUTER JOIN EMPLOYEES e
+		ON e.code = o.reg_emp
 		WHERE complete = 0 AND status = '완료' 
 			<if test="searchCode != null or searchName != null">
 			<if test="searchCode != null">
@@ -184,13 +191,13 @@
 			</if>
 	</select>
 	
-	<!-- 입고등록) 창고 목록 (원자재) -->
+	<!-- 입고등록) 창고 목록 (원 -->
 	<select id="orderWarehouse" resultType="WarehouseVO">
-		SELECT w.code, w.name wh_name, w.manager, e.name
+		SELECT w.code, w.name wh_name, w.manager, e.name, w.category
 		FROM WAREHOUSE w
 		LEFT OUTER JOIN EMPLOYEES e
 		ON w.manager = e.code
-		WHERE w.active = 1 AND w.category = '원자재' 
+		WHERE w.active = 1
 			<if test="searchCode != null or searchName != null">
 			<if test="searchCode != null">
 				AND w.code LIKE CONCAT('%', #{searchCode}, '%')
@@ -208,7 +215,7 @@
 		FROM WAREHOUSE w
 		LEFT OUTER JOIN EMPLOYEES e
 		ON w.manager = e.code
-		WHERE w.active = 1 AND w.category = '원자재' 
+		WHERE w.active = 1  
 			<if test="searchCode != null or searchName != null" >
 			<if test="searchCode != null">
 				AND w.code LIKE CONCAT('%', #{searchCode}, '%')
@@ -239,5 +246,32 @@
 			AND name LIKE CONCAT('%', #{searchName}, '%')
 		</if> 
 	</select>	
+	
+	<!-- 발주등록) 거래처 목록 -->
+	<select id="searchClient" resultType="OrderVO">
+		SELECT code, name
+		FROM CLIENT
+		WHERE active = 1 
+			<if test="searchName != null">
+				AND name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>	
+	
+	<!-- 발주등록) 거래처 데이터 수 -->
+	<select id="searchClientCount" resultType="int">
+		SELECT count(*) 
+		FROM CLIENT
+		WHERE active = 1 
+			<if test="searchName != null">
+				AND name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+	</select>
+	
+	
+	
+	
+	
+	
 	
 	</mapper>

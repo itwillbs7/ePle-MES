@@ -8,7 +8,9 @@
 <%@ include file="../include/head.jsp"%>
 
 <title>발주 조회</title>
+
 <!-- 발주완료 & 입고전인 발주서만 출력합니다 -->
+
 <style type="text/css">
 .con:hover{
 	background-color : #e1e1e1;

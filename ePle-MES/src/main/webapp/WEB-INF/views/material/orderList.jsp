@@ -42,7 +42,7 @@
 	<br>
 				
 				
-	<!------------------------------ 창고 검색 시작 ----------------------------->
+	<!------------------------------ 발주 검색 시작 ----------------------------->
 	<div class="faq-wrap">
 		<div id="accordion">
 			<div class="card">
@@ -85,7 +85,7 @@
 	<div class="card-box mb-30">
 		<div class="pd-20">
 			<div class="btn-group pull-right" style="margin-bottom: 10px">
-				<button type="button" class="btn btn-success" id="add"><b>추가</b></button>
+				<button type="button" class="btn btn-success" id="add"><b>요청서 불러오기</b></button>
 				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
 				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
 			</div>
@@ -93,29 +93,32 @@
 
 
 
-	<!----------------------------- 창고 리스트 출력 ---------------------------->
+	<!----------------------------- 발주 리스트 출력 ---------------------------->
 		<div class="pb-20">
 			<div class="col-sm-30">
 				<form class="table" id="table">
 					<table class="table table-striped">
-					<!--- 체크박스 / 창고코드 / 주소지 / 창고유형(원자재.완제품) / 창고명 / 담당자 / 연락처 / 사용여부 --->
-						<tr>
+					<!-- 체크박스 / 발주코드 / 거래처명 / 품목코드 / 품명 / 발주량+단위 / 발주금액 / 납기일 / 담당자 / 발주상태 -->
+						<tr> <!-- 등록일 수정일 --> 
 							<td style="width: 100px;">
 								<div class="custom-control custom-checkbox mb-5">
 									<input type="checkbox" class="custom-control-input" id="tableCheckAll"> 
 									<label class="custom-control-label" for="tableCheckAll"></label>
 								</div>
 							</td>
-							<th>창고코드</th>
-							<th>위치</th>
-							<th>구분</th>
-							<th>창고명</th>
+							<th>발주코드</th>
+							<th>거래처</th>
+							<th>품목코드</th>
+							<th>품명</th>
+							<th>발주량</th>
+							<th>발주금액</th>
+							<th>납기일</th>
 							<th>담당자</th>
-							<th>연락처</th>
+							<th>발주상태</th>
 							<th>옵션</th>
 						</tr>
 
-						<c:forEach items="${warehouseList }" var="vo">
+						<c:forEach items="${searchOrder }" var="vo">
 						<tr>
 							<td>
 								<div class="custom-control custom-checkbox mb-5">
@@ -124,11 +127,14 @@
 								</div>
 							</td>
 							<th class="inInfo${vo.code}" style="color: #FF1493; cursor:pointer;">${vo.code }</th>
-							<th>${vo.location }</th>
-							<th>${vo.category }</th>
-							<th>${vo.wh_name }</th>
+							<th>${vo.client_name }</th>
+							<th>${vo.material }</th>
 							<th>${vo.name }</th>
-							<th>${vo.phone }</th>
+							<th>${vo.amount } ${vo.unit }</th>
+							<th>${vo.price }</th>
+							<th>${vo.order_date }</th>
+							<th>${vo.reg_name }</th>
+							<th>${vo.status }</th>
 							<td style="">
 
 
@@ -152,7 +158,7 @@
 					</table>
 				</form>
 
-				<!-------------------------------- 창고 갯수 -------------------------------->
+				<!-------------------------------- 발주 갯수 -------------------------------->
 				<!-- <div class="row">
 					<div class="col-sm-12 col-md-5">
 						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
@@ -164,13 +170,13 @@
 				<div class="btn-toolbar justify-content-center mb-15">
 					<div class="btn-group">
 						<c:if test="${pageVO.prev}">
-							<a href="/stock/warehouseList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+							<a href="/material/orderList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
 						</c:if>
 						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/stock/warehouseList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+							<a href="/material/orderList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
 						</c:forEach>
 						<c:if test="${pageVO.next}">
-							<a href="/stock/warehouseList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+							<a href="/material/orderList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
 						</c:if>
 					</div>
 				</div>
@@ -258,7 +264,7 @@
 		$(document).ready(function() {
 			// 추가 O
 			$("#add").click(function() {
-				openPage("/material/orderAdd", 400, 700);
+				openPage("/material/orderBeforeAdd", 400, 700);
 			});
 
 		 	// 수정 O
@@ -268,14 +274,14 @@
 			        alert("수정할 항목을 하나만 선택하세요!");
 			    } else {
 			        var code = check.val();
-			        openPage("/stock/warehouseEdit?code=" + code, 400, 700);
+			        openPage("/material/orderEdit?code=" + code, 400, 700);
 			    }
 			});
 		 	
 		 	// 상세보기 O
 			$('body').on('click', '[class^="inInfo"]', function(){
         		var code = $(this).text().trim();
-      		  openPage("${pageContext.request.contextPath}/stock/warehouseInfo?code=" + code, 400, 700); });
+      		  openPage("${pageContext.request.contextPath}/material/orderInfo?code=" + code, 400, 700); });
 			
 			
 			// 검색 

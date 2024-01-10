@@ -42,7 +42,7 @@ input[readonly] {
     									<select class="form-control" name="category" required>
         									<option value="" disabled selected hidden>창고를 선택하세요</option>
         									<option value="원자재">원자재</option>
-        									<option value="완제품">완제품</option>
+        									<option value="설비품">설비품</option>
     									</select>
 									</div>
 									
@@ -55,7 +55,7 @@ input[readonly] {
 										<input class="form-control" type="hidden" id="mapdCode" name="mapd_code" placeholder="자재코드" readonly>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="text" id="orderAmount" name="amount" placeholder="수량" readonly>
+										<input class="form-control" type="number" id="orderAmount" name="amount" placeholder="수량" readonly>
 									</div>
 
 									<div class="form-group">
@@ -68,10 +68,6 @@ input[readonly] {
 									</div>
 
 
-<!-- 						수기?	<div class="form-group">
-										<label>수량</label> <input class="form-control" type="number" name="amount" required min="1" max="100"  oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
-									</div> -->
-									
 								</div>
 							</div>
 							<!-- 버튼 -->

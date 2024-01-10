@@ -7,7 +7,8 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <title>창고 조회</title>
-<!-- 원자재 창고만 출력합니다 -->
+<!-- active = 1 인 모든 창고 출력 페이지 -->
+<!--  /material/inAdd 에서 참조중 -->
 <style type="text/css">
 .con:hover{
 	background-color : #e1e1e1;

@@ -54,4 +54,17 @@ public interface MaterialService {
 	 // 발주요청등록) 품목 데이터 수 (원자재) 
 	 public int searchMaterialCount(OrderVO vo) throws Exception;
 	 
+	 // 발주등록) 
+	 public int orderAdd(OrderVO vo)throws Exception;
+	 
+	 // 발주등록) 거래처 목록 
+	 public List<OrderVO> searchClient(OrderVO vo) throws Exception;
+	 // 발주등록) 거래처 데이터 수  
+	 public int searchClientCount(OrderVO vo) throws Exception;
+	 
+	 
+	 
+	 
+	 
+	 
 }

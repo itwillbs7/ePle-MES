@@ -21,7 +21,6 @@ public interface MaterialDAO {
 	// 입고 수정
 	public int inEdit(Warehouse_HistoryVO vo)throws Exception;
 	
-	
 	// 입고등록) 발주 목록 
 	public List<OrderVO> searchOrder(OrderVO vo) throws Exception;
 	// 입고등록) 발주 목록 데이터 수
@@ -32,7 +31,6 @@ public interface MaterialDAO {
 	public List<WarehouseVO> orderWarehouse(WarehouseVO vo) throws Exception;
 	// 입고등록) 창고 데이터 수 (원자재)
 	public int warehouseListCount(WarehouseVO vo) throws Exception;	
-	
 	
 	// 발주요청 리스트 (페이징)
 	public List<OrderVO> askOrderList(OrderVO vo) throws Exception;
@@ -55,5 +53,14 @@ public interface MaterialDAO {
 	// 발주요청등록) 품목 데이터 수 (원자재) 
 	public int searchMaterialCount(OrderVO vo) throws Exception;	
 
-
+	// 발주등록) 
+	public int orderAdd(OrderVO vo)throws Exception;
+	 
+	// 발주등록) 거래처 목록 
+	public List<OrderVO> searchClient(OrderVO vo) throws Exception;
+	// 발주등록) 거래처 데이터 수  
+	public int searchClientCount(OrderVO vo) throws Exception;	 
+	 
+	
+	
 }

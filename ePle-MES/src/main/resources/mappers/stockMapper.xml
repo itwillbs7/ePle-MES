@@ -103,7 +103,7 @@
 	<select id="searchEmployees" resultType="WarehouseVO">
 		SELECT code, name, phone
 		FROM EMPLOYEES
-		WHERE dep_id = '자재부'	
+		WHERE active = 1	
 			<if test="searchCode != null or searchName != null">
 			<if test="searchCode != null">
 				AND code LIKE CONCAT('%', #{searchCode}, '%')
@@ -122,7 +122,7 @@
 	<select id="searchEmployeesCount" resultType="int">
 		SELECT count(*) 
 		FROM EMPLOYEES
-		WHERE dep_id = '자재부'	
+		WHERE active = 1
 			<if test="searchCode != null or searchName != null">
 			<if test="searchCode != null">
 				AND code LIKE CONCAT('%', #{searchCode}, '%')

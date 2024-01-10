@@ -1,137 +1,103 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<%@ page session="false"%>
+<!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<style>
-input[readonly] {
-  background-color: white;
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<title>발주서 등록</title>
+<style type="text/css">
+.back {
+  background-color: white !important;
 }
 </style>
-<title>발주 등록</title>
 </head>
 <body>
-
+<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
-		<button type="button" class="close" onclick="window.close();">×</button>
-
+			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">발주 등록</h1>
+				<h1 class="text-center text-primary">발주서 등록</h1>
 			</div>
-			
-			<div class="tab">
-				<ul class="nav nav-pills" role="tablist">
-					<li class="nav-item"><a class="nav-link text-blue active" data-toggle="tab" href="#ord-Warehousing" role="tab" aria-selected="true">발주</a></li>
-					<li class="nav-item"><a class="nav-link text-blue" data-toggle="tab" href="#pro-Warehousing" role="tab" aria-selected="false">생산</a></li>
-				</ul>
-				
-				<div class="tab-content">
-					<!------------------------------ 첫번째 폼 ------------------------------>
-					<div class="tab-pane fade active show" id="ord-Warehousing" role="tabpanel">
-						<form method="post" id="pro-form">
-							<div class="pd-20">
-								<div class="col-sm-12 mb-3">
+			<!-- 폼 -->
+			<form action="/material/orderAdd" method="post" id="editForm">
+				<!-- 비입력 구간 -->
+				<!-- 입력 구간 -->
+				<div class="row">
+					<div class="col-sm-12 mb-3">
+						<!-- 필수입력내역 -->
+						
+									<label>발주 코드</label> 
+								<div class="form-group">
+								<input class="form-control" type="text" name="code" id="code" value="${List.code }" readonly>
+								</div>
 								
-									<div class="form-group">
-    									<label>자재 유형</label>
-    									<select class="form-control" name="category" required>
-        									<option value="" disabled selected hidden>창고를 선택하세요</option>
-        									<option value="원자재">원자재</option>
-        									<option value="완제품">완제품</option>
-    									</select>
-									</div>
-									
-									<div class="form-group">
-										<label>발주 정보</label> 
-										<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="발주코드" readonly>
-									</div>
-									<div class="form-group">
-										<input class="form-control" type="text" id="mapdName" placeholder="품명" readonly>
-										<input class="form-control" type="hidden" id="mapdCode" name="mapd_code" placeholder="자재코드" readonly>
-									</div>
-									<div class="form-group">
-										<input class="form-control" type="text" id="orderAmount" name="amount" placeholder="수량" readonly>
-									</div>
-
-									<div class="form-group">
-										<label>창고 정보</label> 
-										<input class="form-control" type="text" id="warehouseCode" name="warehouse_code" placeholder="창고코드" readonly>
-									</div>
-									<div class="form-group">
-										<input class="form-control" type="text" id="empName" placeholder="담당자" readonly>
-										<input class="form-control" type="hidden" id="empCode" name="emp_code" placeholder="담당자" readonly>
-									</div>
-
-
-<!-- 						수기?	<div class="form-group">
-										<label>수량</label> <input class="form-control" type="number" name="amount" required min="1" max="100"  oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
-									</div> -->
-									
+								<div class="form-group">
+									<!-- <label>자재 유형</label>  -->
 								</div>
-							</div>
-							<!-- 버튼 -->
-							<div class="row">
-								<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-									<button type="button" class="btn btn-secondary" onclick="window.close();">
-										<b>취소</b>
-									</button>
-									<button type="submit" class="btn btn-success">
-										<b>등록</b>
-									</button>
+									
+									<label>거래처 정보</label> 
+								<div class="form-group">
+									<input class="form-control back" type="text" id="selectD" name="client_code" readonly>
 								</div>
-							</div>
-							<!-- 버튼 -->
-						</form>
+								<div class="form-group">
+									<input class="form-control back" type="text" id="selectE" readonly>
+								</div>
+								
+									<label>품목 정보</label> 
+								<div class="form-group">
+									<input class="form-control" type="text" id="mapdCode" name="material" value="${List.material}" readonly>
+								</div>
+								<div class="form-group">
+									<input class="form-control" type="text" id="mapdName" value="${List.name }" readonly>
+								</div>
+								
+									<label>요청량</label> 
+								<div class="form-group">
+									<input class="form-control" type="number" name="amount" required min="1" max="100" value="${List.amount }" readonly oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
+								</div>
+
+									<label>발주금액</label> 
+								<div class="form-group">
+									<input class="form-control back" type="text" name="price" required min="1" max="100" oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
+								</div>
+
+									<label>납기 일자</label> 
+								<div class="form-group">
+									<!-- 달력???? -->
+									<input class="form-control back" type="date" id="datepicker" name="order_date" placeholder="">
+								</div>
+
+									<label>담당자</label> 
+								<div class="form-group">
+									<input class="form-control back" type="text" id="selectA" name="reg_emp" placeholder="" readonly>
+								</div>
+								<div class="form-group">
+									<input class="form-control back" type="text" id="selectB" placeholder="" readonly>
+									<input class="form-control" type="hidden" id="selectC" placeholder="">
+								</div>
+								
+
+				<!-- 버튼 -->
+				<div class="row">
+					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
+						<button type="button" class="btn btn-secondary" onclick="window.close();"><b>취소</b></button>
+						<input type="submit" class="btn btn-success" value="등록" id="update">
 					</div>
-					
-					<!------------------------------ 두번째 폼 ------------------------------>
-					<div class="tab-pane fade" id="pro-Warehousing" role="tabpanel">
-						<form method="post" id="nonpro-form">
-							<div class="pd-20">
-								<div class="col-sm-12 mb-3">
-									<!-- <input type="hidden" name="group_id" value="FACNPR"> -->
-									<div class="form-group">
-										<label>자재 유형</label> <input class="form-control" readonly type="text" name="category" value="'완제품'">
-									</div>
-									
-
-
-
-
-
-
-								</div>
-							</div>
-							<!------------------------------ 버튼 시작 ------------------------------>
-							<div class="row">
-								<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-									<button type="button" class="btn btn-secondary" onclick="closePopup();">
-										<b>취소</b>
-									</button>
-									<button type="submit" class="btn btn-success">
-										<b>등록</b>
-									</button>
-								</div>
-							</div>
-
-						</form>
-					</div>
-					
 				</div>
-				<!------------------------------ 콘텐츠 끝 ------------------------------>
-			</div>
+					</div>
+				</div>
+				<!-- 버튼 -->
+			</form>
+			<!-- 폼 -->
 		</div>
 	</div>
-
-	<%@ include file="../include/footer.jsp"%>
+	<!-- 콘텐츠 끝> -->
 	<script type="text/javascript">
-	window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
-	
+
 	
 	
 	function openPopup(url) {
@@ -142,24 +108,29 @@ input[readonly] {
 	    var popupWindow = window.open(url, '_blank', "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
 	    popupWindow.focus();
 	}
+
 	$(document).ready(function() {
-		// 등록 - 발주 리스트 (발주완료, 입고X)
-	    $("#orderCode,#mapdName,#orderAmount").click(function() {
-	        var url = '${pageContext.request.contextPath}/material/searchOrder';
+		// 등록 - 거래처 리스트 
+	    $("#selectD,#selectE").click(function() {
+	        var url = '${pageContext.request.contextPath}/material/searchClient';
 	        openPopup(url);
 	    });
-	 
-	 	// 등록 - 창고 리스트
-	    $("#warehouseCode, #empName").click(function() {
-	        var url = '${pageContext.request.contextPath}/material/searchOrderWarehouse';
+		
+	 // 등록 - 사원 리스트 
+	    $("#selectA,#selectB").click(function() {
+	        var url = '${pageContext.request.contextPath}/stock/searchEmployees';
 	        openPopup(url);
 	    });
+		
 	});
 		
+	$('#datePicker').datepicker({
+		format: "yyyy-mm-dd",	
+		startDate: '-10d',	
+		    
+		})
 		
-	
-	
-	
 	</script>
+	<%@ include file="../include/footer.jsp"%>
 </body>
 </html>

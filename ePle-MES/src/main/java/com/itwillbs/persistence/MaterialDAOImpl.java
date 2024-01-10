@@ -95,7 +95,6 @@ public class MaterialDAOImpl implements MaterialDAO {
 	}	
 	
 	
-	
 	// 발주요청 리스트 (페이징)
 	@Override
 	public List<OrderVO> askOrderList(OrderVO vo) throws Exception {
@@ -148,7 +147,6 @@ public class MaterialDAOImpl implements MaterialDAO {
 	}		
 	
 	
-	
 	// 발주요청등록) 품목 목록 (원자재) 
 	@Override
 	public List<OrderVO> searchMaterial(OrderVO vo) throws Exception {
@@ -162,7 +160,27 @@ public class MaterialDAOImpl implements MaterialDAO {
 		return sqlSession.selectOne(NAMESPACE + ".searchMaterialCount", vo);
 	}	
 	
-
+	// 발주등록)
+	@Override
+	public int orderAdd(OrderVO vo) throws Exception {
+		logger.debug("D - orderAdd(OrderVO vo)");
+		return sqlSession.update(NAMESPACE+".orderAdd", vo);
+	}
+	
+	// 발주등록) 거래처 목록 
+	@Override
+	public List<OrderVO> searchClient(OrderVO vo) throws Exception {
+		logger.debug("D - searchClient(OrderVO vo)");
+		return sqlSession.selectList(NAMESPACE + ".searchClient", vo);
+	}
+	// 발주등록) 거래처 데이터 수 
+	@Override
+	public int searchClientCount(OrderVO vo) throws Exception {
+		logger.debug("D - searchClientCount(OrderVO vo)");
+		return sqlSession.selectOne(NAMESPACE + ".searchClientCount", vo);
+	}	
+	
+	
 	
 	
 }
