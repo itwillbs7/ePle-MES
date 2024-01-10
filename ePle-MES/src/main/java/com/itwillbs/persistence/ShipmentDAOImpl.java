@@ -190,44 +190,6 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	//----- add 용 검색 ----
 
 	@Override
-	public List<RequestVO> getClientList() throws Exception {
-		logger.debug("DAO 회사리스트뽑기 getClientList() ");
-		return sqlSession.selectList(NAMESPACE+".getClientList");
-	}
-
-	@Override
-	public List<RequestVO> searchClient(String client_code, String clientName) throws Exception {
-		logger.debug("DAO 회사검색하기 searchClient(String client_code, String clientName) : "+client_code + clientName);
-
-		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("client_code", client_code);
-		paramMap.put("clientName", clientName);
-		
-		return sqlSession.selectList(NAMESPACE+".findCompany", paramMap);
-	}
-
-
-	@Override
-	public List<RequestVO> getProductList() throws Exception {
-		logger.debug("DAO 물품리스트 가져오기 getProductList()");
-		
-		return sqlSession.selectList(NAMESPACE+".getProductList");
-	}
-
-
-
-	@Override
-	public List<RequestVO> searchProduct(String product, String productName) throws Exception {
-		logger.debug("DAO 품목검색하기 searchProduct(RequestVO vo) : "+product+productName);
-		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("product", product);
-		paramMap.put("productName", productName);
-		
-		return sqlSession.selectList(NAMESPACE+".findProduct", paramMap);
-
-	}
-	
-	@Override
 	public List<RequestVO> getRequestList(Criteria cri) throws Exception {
 		// 수주정보 가져오기 ( 수주코드, 수주일자, 품명, 수주량)
 		logger.debug("getRequestList() 수주정보 가져오기 ( 수주코드, 수주일자, 품명, 수주량)");

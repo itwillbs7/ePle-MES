@@ -116,7 +116,7 @@
 										<button type="submit" class="btn btn-primary" id="search">
 											<b>검색</b>
 										</button>
-										<button type="reset" class="btn btn-secondary" id="reset">
+										<button type="button" class="btn btn-secondary" id="reset">
 											<b>초기화</b>
 										</button>
 									</div>

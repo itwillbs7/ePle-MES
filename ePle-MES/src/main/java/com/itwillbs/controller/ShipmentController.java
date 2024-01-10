@@ -225,57 +225,8 @@ public class ShipmentController {
 		return link;
 	}
 	
-	// -------- 수주등록 데이터 찾기 ---------
-//	
-//	@RequestMapping(value = "searchClient", method=RequestMethod.GET)
-//	public void searchClientGET(RequestVO vo, Model model, HttpSession session)throws Exception{
-//		logger.debug("controller : 거래사 정보 찾기");
-//		logger.debug("searchClientGET    실행");
-//
-//		// 거래사 리스트 출력하기
-//		List<RequestVO> clientList = rService.ClientList();
-//		logger.debug("clientList : "+clientList);
-//		model.addAttribute("List", clientList);
-//
-//	}
-//	
-//	@RequestMapping(value = "searchClient", method=RequestMethod.POST)
-//	public List<RequestVO> searchClientPOST(@RequestParam("client_code") String client_code,
-//											@RequestParam("clientName") String clientName,Model model)throws Exception{
-//		logger.debug("controller : 거래사 정보 DB 검색결과 가져오기");
-//		logger.debug("searchClientPOST    실행");
-//
-//		List<RequestVO> clientList = rService.findClient(client_code,clientName);
-////		model.addAttribute("List", clientList);
-//		logger.debug("가져온 List"+clientList);
-//		
-//		return clientList;
-//	}
-//	
-//	
-//	@RequestMapping(value = "searchProduct",method = RequestMethod.GET)
-//	public void searchProductGET(Model model, HttpSession session)throws Exception{
-//		logger.debug("controller : 상품 정보 찾기");
-//		logger.debug("searchProductGET   실행");
-//		
-//		List<RequestVO> productList = rService.ProductList();
-//		model.addAttribute("List", productList);
-//	}
-//	
-//	@RequestMapping(value = "searchProduct",method = RequestMethod.POST)
-//	@ResponseBody
-//	public List<RequestVO> searchProductPOST(@RequestParam("product") String product,
-//								             @RequestParam("productName") String productName, Model model)throws Exception{
-//		// 찾아와야하는것 : 품번, 품명, 재고, 단위, 단가
-//		logger.debug("controller : 상품 정보 DB 검색결과 가져오기 ");
-//		logger.debug("searchProductPOST   실행");
-//		
-//		List<RequestVO> productList = rService.findProduct(product,productName); 
-////		model.addAttribute("List", productList);
-//		logger.debug("가져온 List"+productList);
-//		return productList;
-//	}
-	
+	// ------------------------------------------- 수주등록 데이터 찾기 ---------
+
 	@RequestMapping(value = "searchRequest", method = RequestMethod.GET)
 	public void searchRequestGET(Model model,PageVO pageVO, Criteria cri, HttpSession session)throws Exception{
 		logger.debug("cotroller : 수주정보 찾기");
@@ -296,17 +247,20 @@ public class ShipmentController {
 										@RequestParam("productName") String productName,
 										PageVO pageVO, Criteria cri, Model model)throws Exception{
 		logger.debug("controller : 회사명, 품명으로 수주정보 찾기");
+		logger.debug("productName"+productName+"clientName"+clientName);
 		List<RequestVO> requestList = sService.findRequest(clientName, productName, cri);
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(sService.getRequestTotal(clientName,productName));
 		logger.debug("가져온 List : "+requestList);
-		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("List", requestList);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("clientName", clientName);
+		model.addAttribute("productName", productName);
 
 		return requestList;
 	}
 
-	// -------- 수주등록 데이터 찾기 끝---------
+	// ---------------------------------------- 수주등록 데이터 찾기 끝---------
 	
 	
 	// http://localhost:8088/request/update

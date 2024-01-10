@@ -21,7 +21,7 @@
 			</div>
 			<!-- 폼 -->
 			<div class="search_area">
-				<form action="" method="post" id="searchManager">
+				<form action="" method="post" id="accordion-search">
 					<!-- 입력 구간 -->
 					<div class="row">
 						<div class="col-sm-12 mb-3">

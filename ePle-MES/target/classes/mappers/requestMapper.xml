@@ -11,7 +11,7 @@
 		<result property="clientName" column="c.name"/>
 		<result property="product" column="r.product"/>
 		<result property="productName" column="m.name"/>
-		<result property="stock" column="s.amount"/>
+		<result property="stock" column="s.total"/>
 		<result property="status" column="r.status"/>
 		<result property="amount" column="r.amount"/>
 	</resultMap>
@@ -21,7 +21,7 @@
 		SELECT r.*, c.name clientName, m.name productName
 		FROM REQUEST r 
 		join CLIENT c on r.client_code = c.code 
-		join STOCK s on r.product = s.mapd_code 
+		join STOCK_VIEW s on r.product = s.code 
 		join MAPD m on r.product = m.code 
 		order by r.reg_date DESC 
 		LIMIT #{cri.startPage},#{cri.pageSize}
@@ -40,11 +40,13 @@
 		SELECT r.*, c.name clientName, m.name productName
 		FROM REQUEST r
 		LEFT JOIN CLIENT c on r.client_code = c.code
-		RIGHT join STOCK s on r.product = s.mapd_code
+		RIGHT join STOCK_VIEW s on r.product = s.code
 		LEFT join MAPD m on r.product = m.code
 		where 1 = 1
-		<if test="vo.clientName neq null and vo.clientName.toString() neq '' "> AND c.name = #{vo.clientName} </if>
-		<if test="vo.productName neq null and vo.productName.toString() neq ''"> AND m.name = #{vo.productName} </if>
+		<if test="vo.clientName neq null and vo.clientName.toString() neq '' ">
+		 AND c.name = #{vo.clientName} </if>
+		<if test="vo.productName neq null and vo.productName.toString() neq ''">
+		 AND m.name = #{vo.productName} </if>
 		<if test="vo.date neq null and vo.date.toString() neq '' "> 
 		<choose>
 			<when test="vo.endDate neq null and vo.endDate.toString() neq '' and vo.startDate neq null and vo.startDate.toString() neq ''">
@@ -83,7 +85,7 @@
   	select count(*) 
   	from REQUEST r 
   	LEFT JOIN CLIENT c on r.client_code = c.code
-	RIGHT join STOCK s on r.product = s.mapd_code
+	RIGHT join STOCK_VIEW s on r.product = s.code
 	LEFT join MAPD m on r.product = m.code
   	where 1=1
   ]]>
@@ -155,13 +157,13 @@
 	<select id="getManagerList" resultType="RequestVO">
 		select code manager, name managerName
 		from EMPLOYEES
-		where dep_id = '영업부'
+		where dep_group = '영업'
 		LIMIT #{startPage},#{pageSize}
 	</select>
 	
 	<select id="getManagerCount" resultType="int">
 	<![CDATA[
-		select count(*) from EMPLOYEES where dep_id = '영업부'
+		select count(*) from EMPLOYEES where dep_group  = '영업'
 		]]>
 		<if test="manager != null"> AND code like concat('%',#{manager},'%')</if>
 		<if test="managerName != null">AND name like concat('%',#{managerName},'%')</if>
@@ -178,15 +180,17 @@
 
 	<select id="getProductList" resultType="RequestVO">
 		select m.code product, m.name productName, m.unit, m.outprice currency,
-		s.amount stock
-		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 1
+		s.total stock
+		from MAPD m join STOCK_VIEW s on m.code = s.code where m.active = 1
+		and m.code_id = '003' and m.group_id ='PROD'
 		LIMIT #{startPage},#{pageSize}
 	</select>
 	
 	<select id="getProductCount" resultType="int">
 	<![CDATA[
 		select count(*) 
-		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 1
+		from MAPD m join STOCK_VIEW s on m.code = s.code where m.active = 1
+		and m.code_id = '003' and m.group_id ='PROD'
 		]]>
 		<if test="product != null and product != ''">AND m.code like concat('%',#{product},'%')</if>
 		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
@@ -194,8 +198,10 @@
 
 	<select id="findProduct" resultType="RequestVO">
 		select m.code product, m.name productName, m.unit, m.outprice
-		currency, s.amount stock
-		from MAPD m join STOCK s on m.code = s.mapd_code where m.active = 1
+		currency, s.total stock
+		from MAPD m join STOCK_VIEW s on m.code = s.code 
+		join WAREHOUSE_HISTORY wh on m.code = wh.mapd_code
+		where m.active = 1 and wh.category = '완제품'
 		<if test="product != null and product != ''">AND m.code like concat('%',#{product},'%')</if>
 		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
 		LIMIT #{cri.startPage},#{cri.pageSize}

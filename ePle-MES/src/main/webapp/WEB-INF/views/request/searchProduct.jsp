@@ -21,18 +21,19 @@
 			</div>
 			<!-- 폼 -->
 			<div class="search_area">
-				<form action="/request/searchProduct" method="post" id="searchClient">
+				<form action="/request/searchProduct" method="post" id="accordion-search">
 					<!-- 입력 구간 -->
 					<div class="row">
 						<div class="col-sm-12 mb-3">
 							<!-- 필수입력내역 -->
 							<div class="form-group">
 								<label>품번</label> <input class="form-control" type="text"
-									placeholder="업체코드를 입력하세요" name="product" id="product">
+									placeholder="업체코드를 입력하세요" name="product" id="product" value="${product }">
 							</div>
 							<div class="form-group">
 								<label>품명</label> <input class="form-control" type="text"
-									placeholder="업체이름을 입력하세요" name="productName" id="productName">
+									placeholder="업체이름을 입력하세요" name="productName" id="productName" 
+									value="${productName }">
 							</div>
 							<c:choose>
 								<c:when test="${!empty pageVO.cri.page}">

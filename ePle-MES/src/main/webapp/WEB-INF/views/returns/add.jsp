@@ -99,9 +99,7 @@
 									onclick="window.close();">
 									<b>취소</b>
 								</button>
-								<!-- 						<input type="button" class="btn btn-success" value="등록" onclick="finished()" id="sa-custom-position"> -->
-								<input type="submit" class="btn btn-success" value="등록"
-									id="sa-custom-position">
+								<input type="submit" class="btn btn-success" value="등록" id="sa-custom-position">
 							</div>
 						</div>
 					</div>
@@ -170,34 +168,6 @@
 					$("#ship_code").click(function() {
 						window.open("/returns/searchShipment","Shipment Search","width=500,height=600");
 						});
-					
-					
-					$("#ship_code").on("input",function(){
-						$.ajax({
-							type : "GET",
-							url : "/returns/searchLOT",
-							data : {
-								request_code : $("#request_code").val(),
-								ship_code : $("#ship_code").val()
-							},
-							success : function(data){
-								 // 먼저 기존의 option을 모두 제거합니다.
-						        $('#lot').empty();
-
-						        // AJAX로 받아온 데이터를 각각 처리합니다.
-						        $.each(data, function(index, item) {
-						            // item을 이용하여 option 요소를 만들고 select 요소에 추가합니다.
-						            $('#lot').append('<option value="' + item.lot + '">' + item.lot + '</option>');
-						        });
-							},
-							error : function(data){
-								alert('다시시도');
-							}
-						});
-						
-					});
-					
-
 
 	});//끝
 	</script>

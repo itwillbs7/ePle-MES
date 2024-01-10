@@ -17,7 +17,7 @@
 			</div>
 			<!-- 폼 -->
 			<div class="search_area">
-			<form method="post" id="searchClient" action="/request/searchClient">
+			<form method="post" id="accordion-search" action="/request/searchClient">
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">

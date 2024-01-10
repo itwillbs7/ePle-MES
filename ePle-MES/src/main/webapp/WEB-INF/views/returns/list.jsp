@@ -37,7 +37,7 @@
 						<div id="faq1" class="collapse show" data-parent="#accordion" style="">
 							<div class="card-body">
 								<form id="accordion-search" method="get"
-									action="/returns/search">
+									action="/returns/list">
 									<div class="col-md-12">
 										<div class="form-group">
 											<div class="row">
@@ -48,22 +48,23 @@
 														<input type="text"
 														name="clientName" class="form-control" id="searchCompany"
 														style="width: 100%;" placeholder="업체명 찾아보기"
-														autocomplete="off" readonly>
+														autocomplete="off" readonly value="${clientName }">
 												</div>
 												<div class="col-md-5 col-sm-12 btn-group ml-auto">
 													<label>품명</label> <input type="hidden" name="product"
 														id="product"> <input type="text"
 														name="productName" class="form-control" id="searchProduct"
 														style="width: 100%;" placeholder="품명 찾아보기"
-														autocomplete="off" readonly>
+														autocomplete="off" readonly value="${productName }">
 												</div>
 												<div class="form-group">
 													<label>반품 일자</label> <input class="form-control date-picker"
-														type="text" name="startDate" autocomplete="off" id="startDate"> 
-														~ 
+														type="text" name="startDate" autocomplete="off" id="startDate"
+														value="${startDate }"> 
+															<span style="padding:0px 10px;"> &nbsp&nbsp ~ &nbsp&nbsp</span> 
 														<input class="form-control date-picker" 
 														type="text" name="endDate" autocomplete="off"
-														id="endDate">
+														id="endDate" value="${endDate }">
 												</div>
 											</div>
 											<div class="row">
@@ -72,7 +73,7 @@
 														id="manager"> <input type="text"
 														name="managerName" class="form-control" id="searchManager"
 														style="width: 100%;" placeholder="" autocomplete="off"
-														readonly>
+														readonly value="${managerName }">
 												</div>
 												<div class="col-md-1 col-sm-12">
 													<label class="weight-600">출하 상태</label>
@@ -80,12 +81,14 @@
 												<div class="col-md-1 col-sm-12" style="margin-top: auto;">
 													<div class="custom-control custom-checkbox mb-5">
 														<input type="checkbox" class="custom-control-input"
-															id="formCheck1" name="statusList" value="반품"> <label
+															id="formCheck1" name="statusList" value="반품"
+															<c:if test="${paramMap.statusList.contains('반품등록')}">checked</c:if>> <label
 															class="custom-control-label" for="formCheck1">반품등록</label>
 													</div>
 													<div class="custom-control custom-checkbox mb-5">
 														<input type="checkbox" class="custom-control-input"
-															id="formCheck2" name="statusList" value="폐기"> <label
+															id="formCheck2" name="statusList" value="폐기"
+															<c:if test="${paramMap.statusList.contains('폐기')}">checked</c:if>> <label
 															class="custom-control-label" for="formCheck2">폐기</label>
 													</div>
 												</div>
@@ -93,11 +96,34 @@
 											<div class="col-md-2 col-sm-12"></div>
 										</div>
 									</div>
+									
+									<!-- 정렬, asc, desc -->
+										<input type="hidden" name="activeSortCategory" id="sortCategory" value="${pageVO.search.activeSortCategory}"> 
+										<input type="hidden" name="sortValue" id="sortValue" value="${pageVO.search.sortValue}">
+
+										<c:choose>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" id="page" name="page" value="1">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" id="page" name="page" value="${pageVO.cri.page}">
+											</c:when>
+										</c:choose>
+
+										<c:choose>
+											<c:when test="${empty pageVO.cri.pageSize}">
+												<input type="hidden" id="pageSize" name="pageSize" value="10">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.pageSize}">
+												<input type="hidden" id="pageSize" name="pageSize" value="${pageVO.cri.pageSize}">
+											</c:when>
+										</c:choose>
+									
 									<div class="btn-group pull-right" style="margin-bottom: 10px">
 										<button type="submit" class="btn btn-primary" id="search">
 											<b>검색</b>
 										</button>
-										<button type="reset" class="btn btn-secondary" id="reset">
+										<button type="button" class="btn btn-secondary" id="reset">
 											<b>초기화</b>
 										</button>
 									</div>
@@ -190,30 +216,28 @@
 						</div>
 						<div class="btn-toolbar justify-content-center mb-15">
 							<c:if test="${pageVO.totalCount > 1}">
-								<div class="btn-group">
-									<c:if test="${pageVo.prev }">
-										<a href="/request/list?page=${pageVO.startPage - 1 }"
-											class="btn btn-outline-primary prev"><i
-											class="fa fa-angle-double-left"></i></a>
-									</c:if>
-									<c:forEach begin="${pageVO.startPage }"
-										end="${pageVO.endPage }" step="1" var="i">
-										<c:if test="${pageVO.cri.page == i }">
-											<span class="btn btn-primary current">${i }</span>
+									<div class="btn-group">
+										<c:if test="${pageVO.prev}">
+											<a href="javascript:pageMove(${pageVO.startPage - 1})" class="btn btn-outline-primary prev"> 
+											<i class="fa fa-angle-double-left"></i>
+											</a>
 										</c:if>
-										<c:if test="${pageVO.cri.page != i}">
-											<a href="/shipment/list?page=${i}"
-												class="btn btn-outline-primary">${i}</a>
+										<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+											<c:if test="${pageVO.cri.page == i}">
+												<span class="btn btn-primary current">${i}</span>
+											</c:if>
+											<c:if test="${pageVO.cri.page != i}">
+												<a href="javascript:pageMove(${i})" class="btn btn-outline-primary">${i}</a>
+											</c:if>
+										</c:forEach>
+										<c:if test="${pageVO.next}">
+											<a href="javascript:pageMove(${pageVO.endPage + 1})" class="btn btn-outline-primary next"> 
+											<i class="fa fa-angle-double-right"></i>
+											</a>
 										</c:if>
-									</c:forEach>
-									<c:if test="${pageVO.next }">
-										<a href="/request/list?page=${pageVO.endPage + 1 }"
-											class="btn btn-outline-primary next"><i
-											class="fa fa-angle-double-right"></i></a>
-									</c:if>
-								</div>
-							</c:if>
-						</div>
+									</div>
+								</c:if>
+							</div>
 					</div>
 				</div>
 			</div>
@@ -230,7 +254,13 @@
 	</div>
 
 	<!-- list 내 처리 -->
-
+<script type="text/javascript">
+$('#reset').click(function(){
+	  $('input[type="text"]').val('');
+	  $('input[type="checkbox"]').prop("checked",false);
+	  document.getElementById('accordion-search').submit();
+	});
+</script>
 	<!-- 추가, 수정, 삭제, 상세보기 -->
 	<script type="text/javascript">
 		var popupWidth, popupHeight, popupX, popupY, link;
@@ -314,12 +344,12 @@
 					// 각각의 검색창
 					// 업체검색
 					$("#searchCompany").click(function() {
-						openPage("/shipment/searchClient", 400, 700);
+						openPage("/request/searchClient", 400, 700);
 					});
 
 					// 제품검색
 					$("#searchProduct").click(function() {
-						openPage("/shipment/searchProduct", 400, 700);
+						openPage("/request/searchProduct", 400, 700);
 					});
 
 					// 담당자 검색
@@ -331,55 +361,6 @@
 	</script>
 	<!-- 검색은 ajax -->
 
-	<script type="text/javascript">
-// 		$('#accordion-search').on('submit',function(e) {
-// 							alert('ajax 시작 전');
-// 							e.preventDefault();
-// 							let statusList = [];
-// 							$('input[name="statusList"]:checked').each(function() {
-// 										statusList.push($(this).val());
-// 									});
 
-// 							let statusListJson = JSON.stringify(statusList);
-
-// 							$.ajax({
-// 								url : $(this).attr('action'),
-// 								type : $(this).attr('method'),
-// 								data : $(this).serialize(),
-// 								success : function(data) {
-// 									if (data == null || data == '') {
-// 										alert('검색결과가 없습니다');
-// 										return;
-// 									}
-// 								var table = '';
-// 									$.each(data,function(index,item) {
-// 											table += '<tr>';
-// 											if(item.status === '등록') {
-// 											table += '<td><div class="custom-control custom-checkbox mb-5">';
-// 											table += '<input type="checkbox" class="custom-control-input" id="checkTable'+index+'" name="tableCheck" value="'+item.code+'"></label>';
-// 											table += '<label class="custom-control-label" for="checkTable'+index+'"></label></div></td>';
-// 											}else{
-// 							                	 table += '<td></td>';
-// 							                }
-// 											table += '<th class="info'+index+'" style="color: blue; text-decoration: underline;">'+ item.code+ '</th> ';
-// 											table += '<th>'+ item.request_code+ '</th>';
-// 											table += '<th>'+ item.ship_code+ '</th>';
-// 											table += '<th>'+ item.lot+ '</th>';
-// 											table += '<th>'+ item.amount+ '</th>';
-// 											table += '<th>'+ item.reason+ '</th>';
-// 											table += '<th>'+ item.status+ '</th>';
-// 											table += '</tr>';
-// 															});
-
-// 											$('#table tbody').html(table);
-
-// 										},
-// 										error : function(jqXHR, textStatus,
-// 												errorThrown) {
-// 											alert('관리자에게 문의하세요');
-// 										}
-// 									});
-// 						});
-	</script>
 </body>
 </html>

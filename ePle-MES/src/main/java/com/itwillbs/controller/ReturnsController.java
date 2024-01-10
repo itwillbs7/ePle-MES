@@ -52,38 +52,19 @@ public class ReturnsController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void returnsListGET(Model model, 
 							   HttpSession session, 
-							   @ModelAttribute("result") String result, Criteria cri
+							   ReturnsVO vo , Criteria cri,PageVO pageVO
 							   ) throws Exception { //5-1
 		// 반품 목록 return
 		logger.debug("returnsListGET -> DB에서 목록 가져오기(페이징 처리하기)");
-		logger.debug("\r\n▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄\r\n" + 
-				"█░░░░░░░░▀█▄▀▄▀██████░▀█▄▀▄▀██████░\r\n" + 
-				"░░░░░░░░░░░▀█▄█▄███▀░░░ ▀██▄█▄███▀░\r\n" + 
-				"");
 
-		List<ReturnsVO> returnsList = rtService.returnsListpage(cri);
+		List<ReturnsVO> returnsList = rtService.returnsListpage(vo,cri);
 		
-		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(rtService.getTotal()); // 디비에서 직접 실행결과 가져오기
+		pageVO.setTotalCount(rtService.getTotal(vo)); // 디비에서 직접 실행결과 가져오기
 		
 		model.addAttribute("List", returnsList);
 		model.addAttribute("pageVO", pageVO);
 		
-
-	}
-	
-	// http://localhost:8088/request/info
-	@RequestMapping(value = "/info", method = RequestMethod.GET)
-	public void returnsInfo(@RequestParam(value = "code") String code,Model model) throws Exception {// 반품개별정보 5-2
-		logger.debug("returnsInfo -> DB에서 반품번호가 일치하는 데이터 열 가져오기");
-		logger.debug("Controller - code "+code);
-		
-		ReturnsVO vo = rtService.getinfo(code);
-		logger.debug("Controller - vo "+vo);
-
-		model.addAttribute("List",vo);
-
 	}
 	
 	// http://localhost:8088/request/search
@@ -104,6 +85,22 @@ public class ReturnsController {
 		return ReturnsList;
 	}
 	
+	
+	
+	// http://localhost:8088/request/info
+	@RequestMapping(value = "/info", method = RequestMethod.GET)
+	public void returnsInfo(@RequestParam(value = "code") String code,Model model) throws Exception {// 반품개별정보 5-2
+		logger.debug("returnsInfo -> DB에서 반품번호가 일치하는 데이터 열 가져오기");
+		logger.debug("Controller - code "+code);
+		
+		ReturnsVO vo = rtService.getinfo(code);
+		logger.debug("Controller - vo "+vo);
+
+		model.addAttribute("List",vo);
+
+	}
+	
+
 	
 	
 
@@ -168,22 +165,42 @@ public class ReturnsController {
 	// -------- 반품등록 데이터 찾기 ---------
 	
 	@RequestMapping(value ="/searchShipment" , method = RequestMethod.GET)
-	public void getShipmentList(Model model)throws Exception{
+	public void getShipmentList(HttpSession session,
+								PageVO pageVO, Criteria cri,
+								Model model)throws Exception{
 		logger.debug("출하정보 리스트로 가져오기");
-			List<ShipmentVO> List = rtService.getShipmentList();
 			
+			String clientName = null;
+			String productName = null;
+			
+			List<ShipmentVO> List = rtService.findShipment(cri);
+			
+			pageVO.setCri(cri);
+			pageVO.setTotalCount(rtService.getShipmentTotal(clientName,productName)); // 디비에서 직접 실행결과 가져오기
+			
+			logger.debug("가져온 List : "+List);
+
 			model.addAttribute("List", List);
+			model.addAttribute("pageVO", pageVO);
 			
-		
 	}
 	
 	
 	@RequestMapping(value = "/searchShipment", method = RequestMethod.POST)
-	public List<ShipmentVO> searchShipment(@RequestParam("clientName")String clientName,
-									 @RequestParam("productName") String productName)throws Exception {
-		logger.debug("출하번호 및 출하정보 찾기");
-		List<ShipmentVO> List = rtService.findShipment(clientName,productName);
+	public List<ShipmentVO> searchShipment(@RequestParam("clientName")String clientName,PageVO pageVO, Model model,
+			Criteria cri, @RequestParam("productName") String productName)throws Exception {
+		logger.debug("출하번호 및 출하정보 찾기 (검색내용)");
+		logger.debug("productName"+productName+"clientName"+clientName);
+		List<ShipmentVO> List = rtService.findShipment(clientName,productName,cri);
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(rtService.getShipmentTotal(clientName,productName));
 		
+		logger.debug("가져온 List : "+List);
+		model.addAttribute("List", List);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("clientName", clientName);
+		model.addAttribute("productName", productName);
+
 		return List;
 	}
 	

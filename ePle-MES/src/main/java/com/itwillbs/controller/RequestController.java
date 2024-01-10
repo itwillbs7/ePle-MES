@@ -237,6 +237,9 @@ public class RequestController {
 		logger.debug("가져온 List"+productList);
 		model.addAttribute("List", productList);
 		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("product", product);
+		model.addAttribute("productName", productName);
+		
 
 	}
 

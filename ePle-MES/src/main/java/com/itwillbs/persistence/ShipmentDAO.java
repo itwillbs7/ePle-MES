@@ -20,13 +20,7 @@ public interface ShipmentDAO {
 	public int insertShipment(ShipmentVO vo) throws Exception;
 
 	// ================ add / search 용 ========================
-	public List<RequestVO> getClientList() throws Exception;
-
-	public List<RequestVO> searchClient(String client_code, String clientName) throws Exception;
-
-	public List<RequestVO> getProductList() throws Exception;
-
-	public List<RequestVO> searchProduct(String product, String productName) throws Exception;
+	
 	//수주 가져오기
 	public List<RequestVO> getRequestList(Criteria cri)throws Exception;
 	

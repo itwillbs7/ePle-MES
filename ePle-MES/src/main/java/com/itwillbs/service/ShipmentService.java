@@ -21,17 +21,10 @@ public interface ShipmentService {
 	public ShipmentVO getinfo(String code) throws Exception;
 
 	//============= add / search 용
-	public List<RequestVO> findClient(String client_code, String clientName) throws Exception;
-
-	public List<RequestVO> ClientList() throws Exception;
-
-	public List<RequestVO> ProductList() throws Exception;
-
-	public List<RequestVO> findProduct(String product, String productName) throws Exception;
 	
 	public List<RequestVO> RequestList(Criteria cri) throws Exception;
 	
-	public List<RequestVO> findRequest(String productName, String clientName, Criteria cri)throws Exception;
+	public List<RequestVO> findRequest(String clientName, String productName, Criteria cri)throws Exception;
 	//============= add / search 용
 
 	public int updateShipment(ShipmentVO vo, String id) throws Exception;
