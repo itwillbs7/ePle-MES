@@ -65,7 +65,7 @@ public class PageVO {
 		
 		// 이전페이지 링크
 		prev = startPage != 1;
-//		prev = startPage == 1?false:true; // 위아 같은 의미(1이 아닐 때 true)
+//		prev = startPage == 1?false:true; // 위와 같은 의미(1이 아닐 때 true)
 		
 		
 		// 다음페이지 링크
@@ -128,6 +128,9 @@ public class PageVO {
 		return cri;
 	}
 
+	public int getTotalPageCount() {
+		return (int)(Math.ceil((double)totalCount / cri.getPageSize()));
+	}
 
 	@Override
 	public String toString() {

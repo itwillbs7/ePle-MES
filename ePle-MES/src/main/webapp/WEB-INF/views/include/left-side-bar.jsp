@@ -69,12 +69,22 @@
 					</ul></li>
 
 				<!-- 드롭다운 -->
+				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-briefcase"></span><span class="mtext">기준정보 관리</span>
+				</a>
+				
+					<ul class="submenu">
+						<li><a href="/product/productAll">품목 정보 관리</a></li>
+						<li><a href="/requirement/requirementAll">소요량 관리</a></li>
+						<li><a href="/line/lineAll">라인 정보 관리</a></li>
+						<li><a href="/client/clientAll">거래처 정보 관리</a></li>
+					</ul></li>
+					
+				<!-- 드롭다운 -->
 				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-server"></span><span class="mtext">시스템 관리</span>
 				</a>
 					<ul class="submenu">
 						<li><a href="/system/common/main">공통코드 관리</a></li>
 						<li><a href="/system/user/main">사용자 관리</a></li>
-						<li><a href="/system/authority/main">권한 관리</a></li>
 					</ul></li>
 
 			</ul>

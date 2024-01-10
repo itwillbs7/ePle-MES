@@ -42,6 +42,12 @@
  <select id="selectCommons" resultType="CommonVO">
  	select * from COMMON_CODE order by group_id, sortorder
  </select>
+ <select id="selectDepCodenames" resultType="CommonVO">
+ 	select DISTINCT code_name, code_id from COMMON_CODE where group_id = 'DEP' 
+ </select>
+ <select id="selectPosCodenames" resultType="CommonVO">
+ 	select DISTINCT code_name, code_id from COMMON_CODE where group_id = 'POS' 
+ </select>
  <select id="selectOneCommon" resultType="CommonVO">
  	select * from COMMON_CODE where group_id = #{group_id} and code_id = #{code_id}
  </select>
@@ -53,8 +59,22 @@
  <delete id="deleteCommon">
  	delete from COMMON_CODE where group_id = #{group_id} and code_id = #{code_id}
  </delete>
+ <insert id="insertUser">
+ 	insert into EMPLOYEES (code,id,dep_group,pos_group,dep_id,pos_id,pw,name,hiredate,phone,email,address,active,auth)
+ 	values (#{code},#{id},#{dep_group},#{pos_group},#{dep_id},#{pos_id}, 
+ 	#{pw},#{name},#{hiredate},#{phone},#{email},#{address},#{active},#{auth})
+ </insert>
  <select id="selectAllUsers" resultType="UserVO">
  	select * from EMPLOYEES order by code asc
+ </select>
+ <select id="selectUserListPage" resultType="UserVO" resultMap="UserVO">
+ 	select * from EMPLOYEES 
+ 	limit #{startPage}, #{pageSize} 
+ </select>
+ <select id="countUsers" resultType="int">
+  	  <![CDATA[
+	  	  select count(*) from EMPLOYEES 
+   	  ]]> 
  </select>
  <select id="selectSomeUsers" parameterType="java.util.Map" resultType="UserVO">
 	select * from EMPLOYEES where code IN 
@@ -66,7 +86,7 @@
  	select * from EMPLOYEES where code = #{code}
  </select>
  <update id="updateOneUser">
- 	update EMPLOYEES set id=#{id},dep_group=#{dep_group},pos_group=#{pos_group},dep_id=#{dep_id},pos_id=#{pos_id}, 
+ 	update EMPLOYEES set id=#{id},dep_group=#{dep_group},pos_group=#{pos_group}, 
  	pw=#{pw},name=#{name},hiredate=#{hiredate},phone=#{phone},email=#{email},address=#{address},active=#{active},auth=#{auth} 
  	where code=#{code}
  </update>
@@ -76,4 +96,79 @@
 	#{code}
 	</foreach> 
  </delete>
+ <select id="selectKeyWordCommon" parameterType="java.util.Map" resultType="CommonVO">
+ 	select * from COMMON_CODE 
+ 	<where>
+ 		<if test="category == 'group_id' ">
+ 			group_id like #{keyword}
+ 		</if>
+ 		<if test="category =='group_name' ">
+ 			group_name like #{keyword}
+ 		</if>
+ 		<if test="category == 'code_id' ">
+ 			code_id like #{keyword}
+ 		</if>
+ 		<if test="category == 'code_name' ">
+ 			code_name like #{keyword}
+ 		</if>
+ 	</where> 
+ </select>
+ <select id="selectKeyWordUser" parameterType="java.util.Map" resultType="UserVO">
+ 	select * from EMPLOYEES
+ 	<where>
+ 		<if test="categoryAndKeyword.category == 'code' ">
+ 			code like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category =='name' ">
+ 			name like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'auth' ">
+ 			auth like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'id' ">
+ 			id like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'dep_group' ">
+ 			dep_group like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'pos_group' ">
+ 			pos_group like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'phone' ">
+ 			phone like #{categoryAndKeyword.keyword}
+ 		</if>
+ 	</where> 
+ 	limit #{cri.startPage},#{cri.pageSize}
+ </select>
+ <select id="selectUserTotalCount" resultType="int">
+ 	select count(*) from EMPLOYEES
+ </select>
+ <select id="selectUserSearchCount" resultType="int">
+ 	select count(*) from EMPLOYEES 
+	<if test="categoryAndKeyWord != null or categoryAndKeyword != ''">
+		<where>
+	 		<if test="category == 'code' ">
+	 			code like #{keyword}
+	 		</if>
+	 		<if test="category =='name' ">
+	 			name like #{keyword}
+	 		</if>
+	 		<if test="category == 'auth' ">
+	 			auth like #{keyword}
+	 		</if>
+	 		<if test="category == 'id' ">
+	 			id like #{keyword}
+	 		</if>
+	 		<if test="category == 'dep_group' ">
+	 			dep_group like #{keyword}
+	 		</if>
+	 		<if test="category == 'pos_group' ">
+	 			pos_group like #{keyword}
+	 		</if>
+	 		<if test="category == 'phone' ">
+	 			phone like #{keyword}
+	 		</if>
+		</where>
+	</if> 	
+ </select>
 </mapper>

@@ -29,118 +29,28 @@
 							</div>
 							<div id="faq1" class="collapse" data-parent="#accordion" style="">
 								<div class="card-body">
-									<form id="accordion-search" method="GET" action="#">
-										<div class="col-md-12">
-											<div class="form-group">
-												<div class="row">
-													<h4 class="text-blue h4">기본 검색</h4>
-													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
-														<div class="btn-group dropdown">
-															<button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-																카테고리 <span class="caret"></span>
-															</button>
-															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" href="javascript:buttonCategory();">선택</a> <a class="dropdown-item" href="javascript:buttonCategory('A');">A</a> <a class="dropdown-item" href="javascript:buttonCategory('B');">B</a> <a class="dropdown-item" href="javascript:buttonCategory('C');">C</a>
-															</div>
-														</div>
-														<input type="hidden" id="searchCategory" name="searchCategory"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
-													</div>
-												</div>
-												<hr>
-												<div class="row">
-													<h4 class="text-blue h4">상세 검색</h4>
-												</div>
-												<div class="row">
-													<div class="col-md-1 col-sm-12">
-														<label class="weight-600">체크 박스</label>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheckAll"> <label class="custom-control-label" for="formCheckAll"><b>전체</b></label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck1" name="formCheck"> <label class="custom-control-label" for="formCheck1">A</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck2" name="formCheck"> <label class="custom-control-label" for="formCheck2">B</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck3" name="formCheck"> <label class="custom-control-label" for="formCheck3">C</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck4" name="formCheck"> <label class="custom-control-label" for="formCheck4">D</label>
-														</div>
-													</div>
-													<div class="col-md-1 col-sm-12" style="margin-top: auto;">
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck5" name="formCheck"> <label class="custom-control-label" for="formCheck5">E</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck6" name="formCheck"> <label class="custom-control-label" for="formCheck6">F</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck7" name="formCheck"> <label class="custom-control-label" for="formCheck7">G</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck8" name="formCheck"> <label class="custom-control-label" for="formCheck8">H</label>
-														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<label class="weight-600">라디오</label>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio1">가</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio2">나</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio3">다</label>
-														</div>
-														<div class="custom-control custom-radio mb-5">
-															<input type="radio" id="formRadio4" name="formRadio" class="custom-control-input"> <label class="custom-control-label" for="formRadio4">라</label>
-														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<div class="form-group">
-															<label>기간</label> <input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="datetime">
-														</div>
-													</div>
-													<div class="col-md-2 col-sm-12">
-														<div class="form-group">
-															<label>물품 종류</label> <select class="custom-select2 form-control" multiple="multiple" style="width: 100%" name="category">
-																<optgroup label="Alaskan/Hawaiian Time Zone">
-																	<option value="AK">Alaska</option>
-																	<option value="HI">Hawaii</option>
-																</optgroup>
-																<optgroup label="Pacific Time Zone">
-																	<option value="CA">California</option>
-																	<option value="NV">Nevada</option>
-																	<option value="OR">Oregon</option>
-																	<option value="WA">Washington</option>
-																</optgroup>
-																<optgroup label="Mountain Time Zone">
-																	<option value="AZ">Arizona</option>
-																	<option value="CO">Colorado</option>
-																	<option value="ID">Idaho</option>
-																	<option value="MT">Montana</option>
-																	<option value="NE">Nebraska</option>
-																	<option value="NM">New Mexico</option>
-																	<option value="ND">North Dakota</option>
-																	<option value="UT">Utah</option>
-																	<option value="WY">Wyoming</option>
-																</optgroup>
-															</select>
-														</div>
-													</div>
+								
+									<form id="accordion-search" method="post" action="/system/common/main">
+											<div class="form-group row">
+												<div class="col-sm-5 col-md-10">
+													<select class="custom-select col-2" name="category">
+														<option selected="null">카테고리</option>
+														<option value="group_id">그룹ID</option>
+														<option value="group_name">그룹명</option>
+														<option value="code_id">코드ID</option>
+														<option value="code_name">코드명</option>
+													</select>
+													<input class="form-group" type="text" placeholder="검색어" name="keyword">
+													<lable class="btn-group pull-right">
+													<button type="submit" class="btn btn-primary" id="search">
+														<b>검색</b>
+													</button>
+													<button type="reset" class="btn btn-secondary" id="reset">
+														<b>초기화</b>
+													</button>
+													</lable>
 												</div>
 											</div>
-										</div>
-										<div class="btn-group pull-right" style="margin-bottom: 10px">
-											<button type="submit" class="btn btn-primary" id="search">
-												<b>검색</b>
-											</button>
-											<button type="reset" class="btn btn-secondary" id="reset">
-												<b>초기화</b>
-											</button>
-										</div>
 									</form>
 								</div>
 							</div>
@@ -204,8 +114,6 @@
 													</a>
 													<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 														<!-- 링크 설정 -->
-														<!-- 상세 보기 -->
-														<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> 상세 보기</a>
 														<!-- 수정 -->
 														<a class="dropdown-item" href="javascript:openPage('/system/common/update?index=${cvo.group_id }_${cvo.code_id }', 400, 700)"><i class="dw dw-edit2"></i> 수정</a>
 														<!-- 삭제 -->
@@ -224,7 +132,28 @@
 							</div>
 							<div class="btn-toolbar justify-content-center mb-15">
 								<div class="btn-group">
-									<a href="#" class="btn btn-outline-primary prev"><i class="fa fa-angle-double-left"></i></a> <a href="#" class="btn btn-outline-primary">1</a> <a href="#" class="btn btn-outline-primary">2</a> <span class="btn btn-primary current">3</span> <a href="#" class="btn btn-outline-primary">4</a> <a href="#" class="btn btn-outline-primary">5</a> <a href="#" class="btn btn-outline-primary next"><i class="fa fa-angle-double-right"></i></a>
+									<div class="btn-toolbar justify-content-center mb-15">
+										<c:if test="${pageVO.totalCount > 1}">
+											<div class="btn-group">
+												<c:if test="${pageVO.prev}">
+													<a href="javascript:pageMove(${pageVO.startPage - 1})" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+													</a>
+												</c:if>
+												<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+													<c:if test="${pageVO.cri.page == i}">
+														<span class="btn btn-primary current">${i}</span>
+													</c:if>
+													<c:if test="${pageVO.cri.page != i}">
+														<a href="javascript:pageMove(${i})" class="btn btn-outline-primary">${i}</a>
+													</c:if>
+												</c:forEach>
+												<c:if test="${pageVO.next}">
+													<a href="javascript:pageMove(${pageVO.endPage + 1})" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+													</a>
+												</c:if>
+											</div>
+										</c:if>
+									</div>
 								</div>
 							</div>
 						</div>
