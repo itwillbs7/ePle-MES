@@ -4,7 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -57,16 +59,46 @@ public class ShipmentController {
 		// 수주 목록 return
 		logger.debug("shipmentListGET -> DB에서 목록 가져오기(페이징 처리하기)");
 
-		List<ShipmentVO> shipmentList = sService.shipmentListpage(cri);
+		logger.debug("▰▱▰▱▰▱▰▱▰▱▰▱▰▱check▰▱▰▱▰▱▰▱▰▱▰▱▰▱"+vo);
+		List<ShipmentVO> shipmentList = sService.shipmentListpage(vo,cri);
 		
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(sService.getTotal()); // 디비에서 직접 실행결과 가져오기
+		pageVO.setTotalCount(sService.getTotal(vo)); // 디비에서 직접 실행결과 가져오기
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		logger.debug("test"+vo.getClientName());
+		paramMap.put("clientName", vo.getClientName());
+		paramMap.put("productName", vo.getReqsdate()); // 이거 품명임
+		paramMap.put("statusList", vo.getStatusList());
+		paramMap.put("startDate", vo.getStartDate());
+		paramMap.put("endDate", vo.getEndDate());
 		
 		model.addAttribute("List",shipmentList);
 		model.addAttribute("pageVO", pageVO);
-		
+		model.addAttribute("paramMap", paramMap);
 
 	}
+	
+	// http://localhost:8088/request/search
+		@RequestMapping(value = "/search", method = RequestMethod.GET)
+		@ResponseBody
+		public List<ShipmentVO> searchShipmentGET(RedirectAttributes rttr,
+												@ModelAttribute("result") String result, 
+												ShipmentVO vo) throws Exception { // 수주검색 5-3
+			logger.debug("searchShipmentGET() -> 정보 받아서 DB에 조회하기");
+			logger.debug("Controller - vo "+vo);
+			// 전달받을 정보(업체명, 품명, 출하일자, 출하상태)
+			String startDate = vo.getStartDate() != null ? vo.getStartDate() : "";
+			String endDate = vo.getEndDate() != null ? vo.getEndDate() : "";
+			vo.setDate(startDate+endDate);
+			
+			
+			List<ShipmentVO> shipmentList= sService.findShipmentList(vo);
+			logger.debug("검색정보 : "+shipmentList);
+			
+			rttr.addFlashAttribute("searchList",shipmentList);
+			
+			return shipmentList;
+		}
 	
 	// http://localhost:8088/request/info
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
@@ -88,27 +120,7 @@ public class ShipmentController {
 
 	}
 	
-	// http://localhost:8088/request/search
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	@ResponseBody
-	public List<ShipmentVO> searchShipmentGET(RedirectAttributes rttr,
-											@ModelAttribute("result") String result, 
-											ShipmentVO vo) throws Exception { // 수주검색 5-3
-		logger.debug("searchShipmentGET() -> 정보 받아서 DB에 조회하기");
-		logger.debug("Controller - vo "+vo);
-		// 전달받을 정보(업체명, 품명, 출하일자, 출하상태)
-		String startDate = vo.getStartDate() != null ? vo.getStartDate() : "";
-		String endDate = vo.getEndDate() != null ? vo.getEndDate() : "";
-		vo.setDate(startDate+endDate);
-		
-		
-		List<ShipmentVO> shipmentList= sService.findShipmentList(vo);
-		logger.debug("검색정보 : "+shipmentList);
-		
-		rttr.addFlashAttribute("searchList",shipmentList);
-		
-		return shipmentList;
-	}
+	
 	
 	
 	

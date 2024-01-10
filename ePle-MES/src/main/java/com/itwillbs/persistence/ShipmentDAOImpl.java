@@ -26,29 +26,54 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public List<ShipmentVO> getShipmentListPage(Criteria cri) throws Exception {
+	public List<ShipmentVO> getShipmentListPage(ShipmentVO vo,Criteria cri) throws Exception {
 		logger.debug("DAO 페이징 처리 getRequestListPage(Criteria cri) + "+ cri);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("cri", cri);
+		paramMap.put("vo", vo);
 
-		return sqlSession.selectList(NAMESPACE+".listPage", cri);
-	}
-	
-	@Override
-	public List<ShipmentVO> getShipmentListPage(int page) throws Exception {
-		// 페이징 처리 계산
-		// page 1 => 1 ~ 10   => limit 0, 10 이라고 해야함
-		// page 2 => 11 ~ 20  => limit 10, 10
-		// page 3 => 21 ~ 30  => limit 20, 10		return null;
+		List<ShipmentVO> list = new ArrayList<ShipmentVO>();
 		
-		page = (page-1)*10;
-		return sqlSession.selectList(NAMESPACE+".listPage",page);
+		if(vo == null) {
+			list = sqlSession.selectList(NAMESPACE+".listPage", paramMap);
+		}else {
+			list = sqlSession.selectList(NAMESPACE+".research", paramMap);
+			
+		}
+
+		return list;
+	}
+		
+	@Override
+	public int getShipmentCount(ShipmentVO vo) throws Exception {
+		logger.debug("DAO getShipmentCount()");
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("vo", vo);
+		int result = 0;
+		
+		if (paramMap.get("vo") == null) {
+			result = sqlSession.selectOne(NAMESPACE+".countShipment");
+		} else {
+			result = sqlSession.selectOne(NAMESPACE+".countSearch",paramMap);
+		}
+		
+		return result;
+
 	}
 	
 	@Override
-	public int getShipmentCount() throws Exception {
-		logger.debug("DAO getShipmentCount()");
-		return sqlSession.selectOne(NAMESPACE+".countShipment");
-
+	public List<ShipmentVO> searchShipmentAll(ShipmentVO vo) throws Exception {
+		// 출하 검색
+		logger.debug("DAO searchShipmentAll(ShipmentVO vo)"+vo);
+		// 여기에 페이지 Criteria 추가해야함
+		
+		List list = sqlSession.selectList(NAMESPACE+".research", vo);
+		logger.debug("list : "+list);
+		return list;
 	}
+
+
+
 
 
 
@@ -315,20 +340,6 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		paramMap.put("vo", vo);
 		return sqlSession.update(NAMESPACE+".updateShipmentInfo", paramMap);
 	}
-
-
-
-	@Override
-	public List<ShipmentVO> searchShipmentAll(ShipmentVO vo) throws Exception {
-		// 출하 검색
-		logger.debug("DAO searchShipmentAll(ShipmentVO vo)"+vo);
-		// 여기에 페이지 Criteria 추가해야함
-		
-		List list = sqlSession.selectList(NAMESPACE+".research", vo);
-		logger.debug("list : "+list);
-		return list;
-	}
-
 
 
 	@Override

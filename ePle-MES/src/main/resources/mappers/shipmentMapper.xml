@@ -15,7 +15,7 @@
 		inner join CLIENT c on c.code = r.client_code
 		inner join STOCK s on s.mapd_code = r.product
 		order by sp.reg_date DESC
-		limit #{startPage}, #{pageSize}
+		limit #{cri.startPage}, #{cri.pageSize}
 	</select>
 
 	<!-- 전체 글 개수 조회 -->
@@ -23,6 +23,35 @@
         <![CDATA[
         select count(*) from SHIPMENT where 1=1
         ]]>
+    </select>
+	<!-- 전체 글 개수 조회 -->
+	<select id="countSearch" resultType="int">
+        <![CDATA[
+        select count(*)
+		from SHIPMENT sp
+		join REQUEST r on r.code = sp.reqs_code
+		inner join CLIENT c on c.code = r.client_code
+		inner join STOCK s on s.mapd_code = r.product
+		where 1 = 1
+        ]]>
+        <if test="vo.clientName != null and vo.clientName.toString() != '' ">
+         AND c.name = #{vo.clientName} </if>
+		<if test="vo.product != null and vo.product.toString() != ''">
+		 AND s.mapd_code = #{vo.product} </if>
+		<if test="vo.date != null and vo.date.toString() != '' ">
+			<choose>
+				<when test="vo.endDate != null and vo.endDate.toString() != '' ">
+				AND r.date between #{vo.startDate} and #{vo.endDate}
+				</when>
+				<otherwise>AND r.date = #{vo.startDate} </otherwise>
+			</choose>
+		</if>
+		<if test="vo.statusList != null and vo.statusList.size() > 0">
+			AND sp.status in
+			<foreach collection="vo.statusList" item="status" open="(" close=")" separator=",">
+				#{status}
+			</foreach>
+		</if>
     </select>
 
 	<!-- 출하번호의 정보 가져오기 -->
@@ -43,23 +72,24 @@
 		inner join CLIENT c on c.code = r.client_code
 		inner join STOCK s on s.mapd_code = r.product
 		where 1 = 1
-		<if test="clientName neq null and clientName.toString() neq '' "> AND c.name = #{clientName} </if>
-		<if test="product neq null and product.toString() neq ''"> AND s.mapd_code = #{product} </if>
-		<if test="date neq null and date.toString() neq '' ">
+		<if test="vo.clientName != null and vo.clientName.toString() != '' "> AND c.name = #{vo.clientName} </if>
+		<if test="vo.product != null and vo.product.toString() != ''"> AND s.mapd_code = #{vo.product} </if>
+		<if test="vo.date != null and vo.date.toString() != '' ">
 			<choose>
-				<when test="endDate neq null and endDate.toString() neq '' ">
-				AND r.date between #{startDate} and #{endDate}
+				<when test="vo.endDate != null and vo.endDate.toString() != '' ">
+				AND r.date between #{vo.startDate} and #{vo.endDate}
 				</when>
-				<otherwise>AND r.date = #{startDate} </otherwise>
+				<otherwise>AND r.date = #{vo.startDate} </otherwise>
 			</choose>
 		</if>
-		<if test="statusList != null and statusList.size() > 0">
+		<if test="vo.statusList != null and vo.statusList.size() > 0">
 			AND sp.status in
-			<foreach collection="statusList" item="status" open="(" close=")" separator=",">
+			<foreach collection="vo.statusList" item="status" open="(" close=")" separator=",">
 				#{status}
 			</foreach>
 		</if>
 		order by r.reg_date DESC
+		LIMIT #{cri.startPage},#{cri.pageSize}
 	</select>
 
 	<!-- ================= add/search -->

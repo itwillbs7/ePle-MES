@@ -10,9 +10,9 @@ import com.itwillbs.domain.ShipmentVO;
 
 public interface ShipmentService {
 	// 출하 목록 출력
-	public List<ShipmentVO> shipmentListpage(Criteria cri)throws Exception;
+	public List<ShipmentVO> shipmentListpage(ShipmentVO vo, Criteria cri)throws Exception;
 
-	public int getTotal() throws Exception;
+	public int getTotal(ShipmentVO vo) throws Exception;
 
 	public List<ShipmentVO> shipmentList() throws Exception;
 

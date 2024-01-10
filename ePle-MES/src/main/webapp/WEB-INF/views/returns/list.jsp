@@ -332,54 +332,54 @@
 	<!-- 검색은 ajax -->
 
 	<script type="text/javascript">
-		$('#accordion-search').on('submit',function(e) {
-							alert('ajax 시작 전');
-							e.preventDefault();
-							let statusList = [];
-							$('input[name="statusList"]:checked').each(function() {
-										statusList.push($(this).val());
-									});
+// 		$('#accordion-search').on('submit',function(e) {
+// 							alert('ajax 시작 전');
+// 							e.preventDefault();
+// 							let statusList = [];
+// 							$('input[name="statusList"]:checked').each(function() {
+// 										statusList.push($(this).val());
+// 									});
 
-							let statusListJson = JSON.stringify(statusList);
+// 							let statusListJson = JSON.stringify(statusList);
 
-							$.ajax({
-								url : $(this).attr('action'),
-								type : $(this).attr('method'),
-								data : $(this).serialize(),
-								success : function(data) {
-									if (data == null || data == '') {
-										alert('검색결과가 없습니다');
-										return;
-									}
-								var table = '';
-									$.each(data,function(index,item) {
-											table += '<tr>';
-											if(item.status === '등록') {
-											table += '<td><div class="custom-control custom-checkbox mb-5">';
-											table += '<input type="checkbox" class="custom-control-input" id="checkTable'+index+'" name="tableCheck" value="'+item.code+'"></label>';
-											table += '<label class="custom-control-label" for="checkTable'+index+'"></label></div></td>';
-											}else{
-							                	 table += '<td></td>';
-							                }
-											table += '<th class="info'+index+'" style="color: blue; text-decoration: underline;">'+ item.code+ '</th> ';
-											table += '<th>'+ item.request_code+ '</th>';
-											table += '<th>'+ item.ship_code+ '</th>';
-											table += '<th>'+ item.lot+ '</th>';
-											table += '<th>'+ item.amount+ '</th>';
-											table += '<th>'+ item.reason+ '</th>';
-											table += '<th>'+ item.status+ '</th>';
-											table += '</tr>';
-															});
+// 							$.ajax({
+// 								url : $(this).attr('action'),
+// 								type : $(this).attr('method'),
+// 								data : $(this).serialize(),
+// 								success : function(data) {
+// 									if (data == null || data == '') {
+// 										alert('검색결과가 없습니다');
+// 										return;
+// 									}
+// 								var table = '';
+// 									$.each(data,function(index,item) {
+// 											table += '<tr>';
+// 											if(item.status === '등록') {
+// 											table += '<td><div class="custom-control custom-checkbox mb-5">';
+// 											table += '<input type="checkbox" class="custom-control-input" id="checkTable'+index+'" name="tableCheck" value="'+item.code+'"></label>';
+// 											table += '<label class="custom-control-label" for="checkTable'+index+'"></label></div></td>';
+// 											}else{
+// 							                	 table += '<td></td>';
+// 							                }
+// 											table += '<th class="info'+index+'" style="color: blue; text-decoration: underline;">'+ item.code+ '</th> ';
+// 											table += '<th>'+ item.request_code+ '</th>';
+// 											table += '<th>'+ item.ship_code+ '</th>';
+// 											table += '<th>'+ item.lot+ '</th>';
+// 											table += '<th>'+ item.amount+ '</th>';
+// 											table += '<th>'+ item.reason+ '</th>';
+// 											table += '<th>'+ item.status+ '</th>';
+// 											table += '</tr>';
+// 															});
 
-											$('#table tbody').html(table);
+// 											$('#table tbody').html(table);
 
-										},
-										error : function(jqXHR, textStatus,
-												errorThrown) {
-											alert('관리자에게 문의하세요');
-										}
-									});
-						});
+// 										},
+// 										error : function(jqXHR, textStatus,
+// 												errorThrown) {
+// 											alert('관리자에게 문의하세요');
+// 										}
+// 									});
+// 						});
 	</script>
 </body>
 </html>

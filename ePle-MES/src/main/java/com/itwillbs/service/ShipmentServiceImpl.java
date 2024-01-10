@@ -23,17 +23,17 @@ public class ShipmentServiceImpl implements ShipmentService {
 	private ShipmentDAO sdao;
 
 	@Override
-	public List<ShipmentVO> shipmentListpage(Criteria cri) throws Exception {
+	public List<ShipmentVO> shipmentListpage(ShipmentVO vo,Criteria cri) throws Exception {
 		logger.debug("페이징처리하기 "+cri);
 
-		return sdao.getShipmentListPage(cri);
+		return sdao.getShipmentListPage(vo, cri);
 	}
 	
 
 	@Override
-	public int getTotal() throws Exception {
+	public int getTotal(ShipmentVO vo) throws Exception {
 		logger.debug("servide : getTotal()");
-		return sdao.getShipmentCount();
+		return sdao.getShipmentCount(vo);
 	}
 
 
