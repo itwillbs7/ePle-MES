@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../../include/head.jsp"%>
-<title>정지 예약</title>
+<title>라인 정지 예약</title>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -15,11 +15,11 @@
 		<button type="button" class="close" onclick="closePopup();">×</button>
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">라인 정지</h1>
+				<h1 class="text-center text-primary">라인 정지 예약</h1>
 			</div>
 			<!-- 폼 -->
 			<form method="post">
-				<!-- 삭제 리스트 목록 -->
+				<!-- 리스트 목록 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">
@@ -32,7 +32,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- 삭제 리스트 목록 -->
+				<!-- 리스트 목록 -->
 				
 				<!-- 버튼 -->
 				<div class="row">
@@ -42,8 +42,8 @@
 							onclick="closePopup();">
 							<b>취소</b>
 						</button>
-						<button type="submit" class="btn btn-warning">
-							<b>삭제</b>
+						<button type="submit" class="btn btn-info">
+							<b>등록</b>
 						</button>
 					</div>
 				</div>
