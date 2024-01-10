@@ -15,12 +15,14 @@ public interface ProductDAO {
 	
 	public int deleteProducts(String[] codes) throws Exception;
 	
-	public List<MAPDVO> getProductListPage(Criteria cri) throws Exception;
-	
-	public int getProductCount() throws Exception;
-	
 	public void insertProduct(MAPDVO mvo) throws Exception;
 			
 	public List<MAPDVO> getInfo(String[] codes) throws Exception;
+	
+	// 품목 검색 팝업 
+	public List<MAPDVO> SearchMAPD(Criteria cri, String mapdCode, String mapdName) throws Exception;
+	
+	// 모든 품목 수
+	public int getMAPDCount(String mapdCode, String mapdName) throws Exception;
 	
 }

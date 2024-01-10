@@ -79,8 +79,8 @@
 						    <label>사용여부</label>
 						    <select class="form-control" name="active" required>
 						        <option value="" disabled selected>사용여부 선택</option>
-						        <option value="Y">Y</option>
-						        <option value="N">N</option>
+						        <option value="true">Y</option>
+						        <option value="false">N</option>
 						    </select>
 						</div>
                         <!-- examples end -->

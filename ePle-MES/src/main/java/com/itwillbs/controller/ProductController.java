@@ -98,24 +98,24 @@ public class ProductController {
         return link;
     }
 
-
-    // 페이징 처리 - 게시판 리스트 - GET
-    @RequestMapping(value = "/productPage", method = RequestMethod.GET)
-    public String listPageGET(Model model,
-                              @ModelAttribute("result") String result,
-                              HttpSession session,
-                              Criteria cri) throws Exception {
-        session.setAttribute("viewcntCheck", true);
-
-        List<MAPDVO> productList = pService.productListPage(cri);
-
-        PageVO pageVO = new PageVO();
-        pageVO.setCri(cri);
-        pageVO.setTotalCount(pService.totalProductCount());
-        model.addAttribute("pageVO", pageVO);
-        model.addAttribute("productList", productList);
-        return "/product/productAll";
-    }
+	  // 품목 (출력/페이징/검색)
+	  @RequestMapping(value = "/searchProduct" , method = RequestMethod.GET)
+	  public void SearchMAPD(Model model, Criteria cri,
+								  @RequestParam(value = "mapdCode",required = false) String mapdCode,
+								  @RequestParam(value = "mapdName",required = false) String mapdName) throws Exception {
+			
+	  List<MAPDVO> mapdList = pService.SearchProduct(cri,mapdCode,mapdName);
+			
+	  PageVO pageVO = new PageVO(); 
+			  
+	  pageVO.setCri(cri);
+	  pageVO.setTotalCount(pService.productListCount(mapdCode,mapdName));
+	  
+			  
+	  model.addAttribute("pageVO", pageVO);
+	  model.addAttribute("mapdList", mapdList);
+			
+	  }
 
     // 품목 추가 - GET, POST
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -130,14 +130,5 @@ public class ProductController {
 		pService.InsertProduct(mvo);	
 		return "redirect:/product/productAll";
 	}
-
-    // 전체 목록의 수를 가져오는 메서드
-    @RequestMapping(value = "/totalProductCount", method = RequestMethod.GET)
-    @ResponseBody
-    public int getTotalProductCount() throws Exception {
-        return pService.totalProductCount();
-    }
-    
-    // 품목 검색 - GET
  
 }

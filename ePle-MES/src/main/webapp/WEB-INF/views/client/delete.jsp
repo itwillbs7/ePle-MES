@@ -66,13 +66,16 @@
         </div>
     </div>
     <!-- 콘텐츠 끝 -->
-    <%-- 자동 새로고침 스크립트 추가 --%>
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function () {
-            // 삭제 후 부모 페이지 자동 새로 고침
-            window.opener.location.reload();
-        });
+    
+    <script>
+       function onSubmitForm() {
+           // 폼을 서버로 제출한 후 팝업 창 닫기
+
+           // 팝업 창 닫기
+           window.close();
+           return false; // 폼 제출 막기
+       }
     </script>
-    <%@ include file="../include/footer.jsp"%>
+    
 </body>
 </html>

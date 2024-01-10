@@ -100,5 +100,16 @@
     <!-- 콘텐츠 끝 -->
 
     <%@ include file="../include/footer.jsp"%>
+    
+    <script>
+      function onSubmitForm() {
+          // 폼을 서버로 제출한 후 팝업 창 닫기
+
+          // 팝업 창 닫기
+          window.close();
+          return false; // 폼 제출 막기
+      }
+    </script>
+    
 </body>
 </html>

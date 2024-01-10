@@ -42,18 +42,6 @@ public class ProductServiceImpl implements ProductService {
     public int deleteProducts(String[] codes) throws Exception {
         return pdao.deleteProducts(codes);
     }
-
-	@Override
-	public List<MAPDVO> productListPage(Criteria cri) throws Exception {
-		logger.debug(" S : productListPage(Criteria cri) ");
-		return pdao.getProductListPage(cri);
-	}
-
-	@Override
-	public int totalProductCount() throws Exception {
-		logger.debug(" S : totalProductCount() ");
-		return pdao.getProductCount();
-	}
 	
     @Override
     public List<MAPDVO> getInfo(String[] codes) throws Exception {
@@ -63,6 +51,18 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void InsertProduct(MAPDVO mvo) throws Exception {
 		pdao.insertProduct(mvo);
+	}
+
+	// 품목 검색 팝업 
+	@Override
+	public List<MAPDVO> SearchProduct(Criteria cri, String mapdCode, String mapdName) throws Exception {
+		return pdao.SearchMAPD(cri, mapdCode, mapdName);
+	}
+	
+	// 모든 품목 수
+	@Override
+	public int mapdListCount(String mapdCode, String mapdName) throws Exception {
+		return pdao.getMAPDCount(mapdCode, mapdName);
 	}
 	
 	

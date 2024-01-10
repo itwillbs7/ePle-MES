@@ -93,23 +93,34 @@
 				</div>
 				<!-- 입력 구간 -->
 
-				<!-- 버튼 -->
-				<div class="row">
-					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-						<button type="button" class="btn btn-secondary" onclick="window.close();">
-							<b>취소</b>
-						</button>
-						<button type="submit" class="btn btn-success">
-							<b>수정</b>
-						</button>
-					</div>
-				</div>
-				<!-- 버튼 -->
+			    <!-- 버튼 -->
+			    <div class="row">
+			        <div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
+			            <button type="button" class="btn btn-secondary" onclick="window.close();">
+			                <b>취소</b>
+			            </button>
+			            <button type="submit" class="btn btn-success">
+			                <b>수정</b>
+			            </button>
+			        </div>
+			    </div>
+			    <!-- 버튼 -->
 			</form>
 			<!-- 폼 -->
 		</div>
 	</div>
 	<!-- 콘텐츠 끝> -->
 	<%@ include file="../include/footer.jsp"%>
+	
+    <script>
+       function onSubmitForm() {
+           // 폼을 서버로 제출한 후 팝업 창 닫기
+
+           // 팝업 창 닫기
+           window.close();
+           return false; // 폼 제출 막기
+       }
+    </script>
+	
 </body>
 </html>

@@ -105,8 +105,8 @@
 				      <label>사용 여부</label>
 				      <select class="form-control" name="active" required>
 				        <option value="" disabled selected>사용여부 선택</option>
-				        <option value="Y" ${mvo.active == 'true' ? 'selected' : ''}>Y</option>
-				        <option value="N" ${mvo.active == 'false' ? 'selected' : ''}>N</option>
+				        <option value="true" ${mvo.active == 'true' ? 'selected' : ''}>Y</option>
+				        <option value="false" ${mvo.active == 'false' ? 'selected' : ''}>N</option>
 				      </select>
 				    </div>
 				  </div>
