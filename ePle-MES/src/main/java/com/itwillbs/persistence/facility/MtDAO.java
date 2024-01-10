@@ -19,6 +19,9 @@ public interface MtDAO {
 		public int getMtListCount(String code) throws Exception;
 		public List<FacMtVO> getMtList(String code) throws Exception;
 		
+		// 보전 신청 정보
+		public FacMtVO getOrder(String code) throws Exception;
+		
 		// 보전 완룍 목록
 		// 일상 보전
 		public int getRoutineCount(String code) throws Exception;
@@ -39,4 +42,7 @@ public interface MtDAO {
 		public int insertProblem(FacMtVO vo) throws Exception;
 		public int updateProblem(FacMtVO vo) throws Exception;
 		public int deleteProblem(String code) throws Exception;
+		
+		public int getHistoryCount(PageVO page) throws Exception;
+		public List<FacMtVO> getHistoryList(PageVO page) throws Exception;
 }

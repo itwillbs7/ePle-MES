@@ -19,7 +19,7 @@
 				<h3 class="text-center">삭제 하시겠습니까?</h3>
 			</div>
 			<!-- 폼 -->
-			<form method="post">
+			<form action="/facility/mt/delete" method="post">
 				<input type="hidden" name="code" value="${code}">
 				<!-- 삭제 리스트 목록 -->
 				<!-- 버튼 -->
@@ -43,35 +43,13 @@
 	<!-- 콘텐츠 끝 -->
 	<%@ include file="../../include/footer.jsp"%>
 	<script type="text/javascript">
-		var listHtml = "<li class='list-group-item'>"
 		// get으로 불러온 인덱스가 있는 경우 인덱스 우선 진행
-
-		var del = "<c:out value='${info}'/>";
+		var del = "<c:out value='${code}'/>";
 		if(del == null || del == ''){
-			// 부모의 체크박스 목록 불러오기
-			var delList = opener.document.getElementsByName('tableCheck');
-			
-			// 체크박스 checked 개수
-			var delCheckedCount = 0;
-
-			for (var i = 0; i < delList.length; i++) {
-				if (delList[i].checked) { // == true
-					delCheckedCount++;
-					let title = opener.document.getElementById('tableTitle' + delList[i].value);
-					let info = opener.document.getElementById('tableinfo' + delList[i].value);
-					$(".list-group").append(listHtml + delList[i].value + "&nbsp;:&nbsp;"+title.innerText + "(" + info.innerText + ")" + "</li>");
-					$("form").append("<input type='hidden' name='codeList' value='" + delList[i].value +"'>");
-				}
-			}
-			// 닫기 진행!
-			if (delCheckedCount == 0)
-				closePopup();
-			else {
-				window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 12);
-			}
+			closePopup();
 		}
-		else{
-			window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 12);
+		else {
+				window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 12);
 		}
 	</script>
 </body>

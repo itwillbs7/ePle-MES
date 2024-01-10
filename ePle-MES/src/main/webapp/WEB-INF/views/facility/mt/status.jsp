@@ -1,10 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.Date"%>
 <%
-	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 	String today = dateFormat.format(new Date());
+	
+	pageContext.setAttribute("dateFormat", dateFormat);
+	pageContext.setAttribute("today", today);
 %>
 <html>
 <head>
@@ -25,8 +30,11 @@
 			<div class="pd-20 mb-20 card-box">
 				<div class="tab">
 					<ul class="nav nav-pills" role="tablist">
-						<li class="nav-item"><a class="nav-link text-blue active" data-toggle="tab" href="#home5" role="tab" aria-selected="true">기본</a></li>
-						<li class="nav-item"><a class="nav-link text-blue" data-toggle="tab" href="#profile5" role="tab" aria-selected="false">보전 신청 목록</a></li>
+						<li class="nav-item"><a class="nav-link text-blue active"
+							data-toggle="tab" href="#home5" role="tab" aria-selected="true">기본</a></li>
+						<li class="nav-item"><a class="nav-link text-blue"
+							data-toggle="tab" href="#profile5" role="tab"
+							aria-selected="false">보전 신청 목록(${orderCount}건)</a></li>
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane fade active show" id="home5" role="tabpanel">
@@ -44,10 +52,11 @@
 										</thead>
 										<tbody>
 											<c:choose>
-												<c:when test="${empty list}">
+												<c:when test="${empty status}">
 													<!-- 리스트가 없을 때 작동 -->
 													<tr class="table-warning">
-														<td colspan="6" class="text-center"><b>등록된 설비가 없습니다.</b></td>
+														<td colspan="6" class="text-center"><b>등록된 설비가
+																없습니다.</b></td>
 													</tr>
 												</c:when>
 												<c:otherwise>
@@ -56,98 +65,51 @@
 														사후보전이 등록되어 있을 때 danger 처리,
 														complete asc, regdate asc
 													 -->
-													 <c:forEach items="" var="i">
-													 	<c:choose>
-													 		<c:when test="">
-													 			<tr>
-													 				
-													 			</tr>
-													 		</c:when>
-													 		<c:when test="">
-													 		
-													 		</c:when>
-													 		<c:otherwise>
-													 			<tr>
-													 			
-													 			</tr>
-													 		</c:otherwise>
-													 	</c:choose>
-													 </c:forEach>
-													<tr class="table-active">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-primary">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-secondary">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-success">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-danger">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-warning">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-info">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-light">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-dark">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
+													<c:forEach items="${status}" var="i">
+														<c:choose>
+															<c:when test="${empty i.reg_date || i.reg_date == null}">
+																<tr class="table-warning">
+																	<th><a
+																		href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b
+																			class="text-blue">${i.fac_code}</b></a></th>
+																	<th>${i.facility.model}</th>
+																	<th>${i.facility.name}</th>
+																	<th>
+																		<c:choose>
+																			<c:when test="${empty i.facility.line_name}">
+																				없음
+																			</c:when>
+																			<c:otherwise>
+																				${i.facility.line_name}
+																			</c:otherwise>			
+																		</c:choose>
+																	</th>
+																	<th>보전 내역 없음!</th>
+																</tr>
+															</c:when>
+															<c:when test="${!empty i.reg_date}">
+																<tr class="table-primary">
+																	<th><a
+																		href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b
+																			class="text-blue">${i.fac_code}</b></a></th>
+																	<th>${i.facility.model}</th>
+																	<th>${i.facility.name}</th>
+																	<th><c:choose>
+																			<c:when test="${empty i.facility.line_name}">
+																				없음
+																			</c:when>
+																			<c:otherwise>
+																				${i.facility.line_name}
+																			</c:otherwise>
+																		</c:choose></th>
+																	<th><fmt:formatDate value="${i.reg_date}"
+																			type="both" /></th>
+																</tr>
+															</c:when>
+														</c:choose>
+													</c:forEach>
 												</c:otherwise>
 											</c:choose>
-
 										</tbody>
 									</table>
 								</div>
@@ -169,93 +131,37 @@
 										</thead>
 										<tbody>
 											<c:choose>
-												<c:when test="${empty list}">
+												<c:when test="${orderCount == 0}">
 													<!-- 리스트가 없을 때 작동 -->
 													<tr class="table-warning">
-														<td colspan="6" class="text-center"><b>등록된 보전 신청이 없습니다.</b></td>
+														<td colspan="6" class="text-center"><b>등록된 보전 신청이
+																없습니다.</b></td>
 													</tr>
 												</c:when>
 												<c:otherwise>
+													<c:forEach items="${order}" var="i">
+														<tr>
+															<th><a
+																href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b
+																	class="text-blue">${i.fac_code}</b></a></th>
+															<td>${i.facility.model}</td>
+															<td>${i.facility.name}</td>
+															<td><c:choose>
+																	<c:when test="${empty i.facility.line_name}">없음</c:when>
+																	<c:otherwise>${i.facility.line_name}</c:otherwise>
+																</c:choose></td>
+															<td>${i.mt_subject}</td>
+															<td><fmt:formatDate value="${i.reg_date}"
+																	type="both" /></td>
+														</tr>
+													</c:forEach>
 													<!-- 리스트가 있을 때 작동 -->
 													<!-- 등록 코드 오름차순 정렬!, complete = false -->
-													<tr class="table-active">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-primary">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-secondary">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-success">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-danger">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-warning">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-info">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-light">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<tr class="table-dark">
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
 												</c:otherwise>
 											</c:choose>
 										</tbody>
 									</table>
 								</div>
-
 							</div>
 						</div>
 					</div>

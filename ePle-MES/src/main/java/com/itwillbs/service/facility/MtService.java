@@ -3,6 +3,7 @@ package com.itwillbs.service.facility;
 import java.util.List;
 
 import com.itwillbs.domain.FacMtVO;
+import com.itwillbs.domain.PageVO;
 
 public interface MtService {
 	// 최근 코드 들고오기
@@ -17,6 +18,9 @@ public interface MtService {
 	// 보전 신청 목록
 	public int getMtListCount(String code) throws Exception;
 	public List<FacMtVO> getMtList(String code) throws Exception;
+	
+	// 보전 신청 정보
+	public FacMtVO getOrder(String code) throws Exception;
 	
 	// 보전 완룍 목록
 	// 일상 보전
@@ -38,4 +42,7 @@ public interface MtService {
 	public int insertProblem(FacMtVO vo) throws Exception;
 	public int updateProblem(FacMtVO vo) throws Exception;
 	public int deleteProblem(String code) throws Exception;
+	
+	public int getHistoryCount(PageVO page) throws Exception;
+	public List<FacMtVO> getHistoryList(PageVO page) throws Exception;
 }
