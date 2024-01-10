@@ -139,10 +139,9 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 			int lotIndex = 0;
 			
 			List<HashMap<String, Object>> lotGetList = sqlSession.selectList(NAMESPACE+".getLOT", params);
-			
-			 // 출하량이 0보다 클 동안 반복
+					
+					// 출하량이 0보다 클 동안 반복
 				while (shipmentAmount > 0 && lotIndex < lotGetList.size()) {
-			    	// 사용가능한 LOT 번호, 지금 수량을 얻을 수 잇음
 			    	
 					HashMap<String, Object> lot = lotGetList.get(lotIndex);
 					BigDecimal totalBigDecimal = (BigDecimal) lot.get("Total");
@@ -158,12 +157,33 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 			            	 sqlSession.insert(NAMESPACE+".insertHistory", params);
 			            	 
 			            	 // 등록하기 전에 lot , material 들고오기
-			       
+			            	 //2. lot, material 얻어오기
+			            	 String material = "";
+			            	 material = sqlSession.selectOne(NAMESPACE+".getMaterial", lotNumber);
+			            	 
 			            	 //3. lot 테이블에 insert 하기
 			            	 params.put("lot",lotNumber);
+			            	 params.put("material",material);
 			            	 sqlSession.insert(NAMESPACE+".insertLOT", params);
 			            	 
 			            	 // 4. 
+			            	 // 사용가능한 LOT 번호, 지금 수량을 얻을 수 잇음
+			            	 String voHistory = vo.getWareHistory_code();
+			            	 logger.debug("================== 지금 출고코드 "+voHistory);
+			            	 // ex) 23ODMG1207 여기까지 검색해서 가장 최근 등록된 코드
+			            	 
+			            	 if(voHistory.substring(voHistory.length()-3).equals("001")) {
+			            		 // 마지막 3자리 숫자 추출
+			            		 String lastFourNums = voHistory.substring(voHistory.length()-3);
+			            		 // 숫자로 변환 후 1 증가
+			            		 int increasedNum = Integer.parseInt(lastFourNums) + 1;
+			            		 // 다시 문자열로 변환
+			            		 String newLastFourNums = String.format("%03d", increasedNum);
+			            		 // 마지막 3자리 숫자를 증가시킨 숫자로 대체
+			            		 voHistory = voHistory.substring(0, voHistory.length()-3) + newLastFourNums;
+			            		 vo.setWareHistory_code(voHistory);
+			            		 params.put("vo", vo);
+			            	 }
 			                 shipmentAmount -= total;
 			             } else {
 			                 // total이 출하량보다 크면, 해당 LOT에서 출하량만큼만 사용
@@ -329,16 +349,15 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		// lot 테이블 데이터 지우기
 		sqlSession.delete(NAMESPACE+".deleteLOTUpdate", params);
 		
+		logger.debug("====== 입출고기록 지우기");
 		// 입출고기록 지우기
 		sqlSession.delete(NAMESPACE+".deleteHistoryUpdate", params);
 	    
+		logger.debug("====== 출하정보 가져오기 ");
 	    // 출하정보 가져오기
 	    List vo = sqlSession.selectList(NAMESPACE+".getShipmentInfoList", params);
 	    params.put("shipment",vo);
-	    
-	    //  + 출고량만큼 STOCK에 더해서 update하기
-	    sqlSession.update(NAMESPACE+".updateStockForUpdate", params);
-	    
+	    	    
 	    // 수주상태 변경
 	    result = sqlSession.update(NAMESPACE+".updateStatusBeforeDelete", params);
 	    

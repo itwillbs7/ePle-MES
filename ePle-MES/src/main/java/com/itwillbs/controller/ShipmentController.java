@@ -65,7 +65,6 @@ public class ShipmentController {
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(sService.getTotal(vo)); // 디비에서 직접 실행결과 가져오기
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		logger.debug("test"+vo.getClientName());
 		paramMap.put("clientName", vo.getClientName());
 		paramMap.put("productName", vo.getReqsdate()); // 이거 품명임
 		paramMap.put("statusList", vo.getStatusList());
@@ -103,15 +102,15 @@ public class ShipmentController {
 	// http://localhost:8088/request/info
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
 	public void shipmentInfo(@RequestParam(value = "code") String code,Model model) throws Exception {// 수주개별정보 5-2
-		logger.debug("shipmentInfo -> DB에서 수주번호가 일치하는 데이터 열 가져오기");
-		logger.debug("Controller - code "+code);
+		logger.debug("shipmentInfo -> DB에서 출하번호가 일치하는 데이터 열 가져오기");
+		logger.debug("@@@@@Controller - code "+code);
 		
 		ShipmentVO vo = sService.getinfo(code);
-		logger.debug("Controller - vo "+vo);
+		logger.debug("@@@@@@@@@@Controller - vo "+vo);
 		String reqscode = vo.getReqs_code();
 		
 		RequestVO rvo = rService.getinfo(reqscode);
-		logger.debug("Controller - rvo "+rvo);
+		logger.debug("@@@@@@@@@@Controller - rvo "+rvo);
 		
 
 		

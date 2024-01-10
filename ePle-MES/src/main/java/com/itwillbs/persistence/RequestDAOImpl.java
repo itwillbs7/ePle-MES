@@ -62,14 +62,15 @@ public class RequestDAOImpl implements RequestDAO {
 	}
 
 	@Override
-	public List<RequestVO> getRequestListPage(int page) throws Exception {
-		// 페이징 처리 계산
-		// page 1 => 1 ~ 10 => limit 0, 10 이라고 해야함
-		// page 2 => 11 ~ 20 => limit 10, 10
-		// page 3 => 21 ~ 30 => limit 20, 10 return null;
+	public List<RequestVO> requestListpage(Criteria cri) throws Exception {
+		
+		return sqlSession.selectList(NAMESPACE + ".listPage", cri);
+	}
 
-		page = (page - 1) * 10;
-		return sqlSession.selectList(NAMESPACE + ".listPage", page);
+	@Override
+	public int getTotal() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".countRequest");
 	}
 
 	@Override

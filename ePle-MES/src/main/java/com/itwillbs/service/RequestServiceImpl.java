@@ -178,6 +178,17 @@ public class RequestServiceImpl implements RequestService {
 		return rdao.deleteRequest(code);
 	}
 
+	@Override
+	public List<RequestVO> requestListpage(Criteria cri) throws Exception {
+		
+		return rdao.requestListpage(cri);
+	}
+
+	@Override
+	public int getTotal() throws Exception {
+		// TODO Auto-generated method stub
+		return rdao.getTotal();
+	}
 	
 	
 }
