@@ -41,8 +41,8 @@
 								value="${List.code }">
 						</div>
 						<div class="form-group">
-							<label for="deadline">반품일자</label> <input class="form-control "
-								name="date" type="date" id="date" placeholder="클릭 시 달력이 뜹니다"
+							<label for="deadline ">반품일자</label> <input class="form-control date-picker"
+								name="date" type="text" id="date" placeholder="클릭 시 달력이 뜹니다"
 								autocomplete="off" required="required">
 						</div>
 						<div class="form-group">
@@ -99,9 +99,7 @@
 									onclick="window.close();">
 									<b>취소</b>
 								</button>
-								<!-- 						<input type="button" class="btn btn-success" value="등록" onclick="finished()" id="sa-custom-position"> -->
-								<input type="submit" class="btn btn-success" value="등록"
-									id="sa-custom-position">
+								<input type="submit" class="btn btn-success" value="등록" id="sa-custom-position">
 							</div>
 						</div>
 					</div>
@@ -116,93 +114,51 @@
 
 	<script type="text/javascript" class="formDataSetting">
 		// 출하일자 min 설정
-		document.getElementById('shipdate').addEventListener(
-				'input',
-				function() {
-					document.getElementById('date').min = document
-							.getElementById('shipdate').value;
-					document.getElementById('amount').max = document
-							.getElementById('samount').value;
-				});
+		document.getElementById('shipdate').addEventListener('input',function() {
+					document.getElementById('date').min = document.getElementById('shipdate').value;
+					document.getElementById('amount').max = document.getElementById('samount').value;
+		});
+		
 
-		// 출하번호 생성 당해 YY+RT(Return)+반품일자MMDD+품목LOT번호
-		// 24OT0101a23001
-// 		let client_code;
-// 		let code;
-// 		document.querySelector('input[name="client_code"]').addEventListener(
-// 				'input', function() {
-// 					client_code = this.value;
-// 				});
-// 		document.querySelector('input[name="lot"]').addEventListener('input',
-// 				function() {
-// 					client_code = this.value;
-// 				});
+		 // 수주번호 생성
+		 let returnNumber;
+		 let lot;
+		 
+		 document.querySelector('input[name="date"]').addEventListener('input', function() {
+			 let pickedDate = new Date(this.value);
+			    returnNumber = pickedDate.getFullYear().toString().substr(-2) + "RT"
+			    + ("0" + (pickedDate.getMonth() + 1)).slice(-2) 
+			    + ("0" + pickedDate.getDate()).slice(-2);
+			});
+		 
+		 document.querySelector('select[name="lot"]').addEventListener('input', function() {
+			 lot = this.value; 
+			});
 
-// 		function createOrderNum() {
-// 			const date = new Date();
-// 			const year = date.getFullYear().toString().slice(-2); //올해연도 끝 2자리
-// 			const month = String(date.getMonth() + 1).padStart(2, "0"); //이번달
-// 			const day = String(date.getDate()).padStart(2, "0"); //오늘날짜 
-
-// 			const orderNum = year + "RT" + month + day + client_code;
-// 			return orderNum;
-// 		}
-
-// 		document
-// 				.querySelector('form')
-// 				.addEventListener(
-// 						'submit',
-// 						function(event) {
-// 							// 기본 제출 이벤트를 막음
-// 							event.preventDefault();
-
-// 							// 출하번호 생성
-// 							const orderNum = createOrderNum();
-
-// 							// 생성된 출하번호를 name="code"인 요소의 값으로 설정
-// 							document.querySelector('input[name="code"]').value = orderNum;
-
-// 							// 폼 제출
-// 							this.submit();
-// 						});
+		 function createOrderNum() {
+				
+				const orderNum = returnNumber+lot; 
+				return orderNum;
+			}
+		 document.querySelector('form').addEventListener('submit', function(event) {
+			    // 기본 제출 이벤트를 막음
+			    event.preventDefault();
+			    
+			    // 출하번호 생성
+			    const orderNum = createOrderNum();
+			    
+			    // 생성된 출하번호를 name="code"인 요소의 값으로 설정
+			    document.querySelector('input[name="code"]').value = orderNum;
+			    
+			    // 폼 제출
+			    this.submit();
+			});
+		
+		
 	</script>
 	<!-- ajax -->
 	<script type="text/javascript" id="ajaxForSubmit">
-		function finished() {
-
-			document.querySelector('#code').value = createOrderNum();
-
-			// 미입력 찾기
-			var form = document.getElementById('addForm');
-			if (!form.checkValidity()) {
-				var inputs = form.getElementsByTagName('input');
-				for (var i = 0; i < inputs.length; i++) {
-					if (!inputs[i].validity.valid) {
-						var label = form.querySelector('label[for="'
-								+ inputs[i].id + '"]');
-						if (label) {
-							label.innerHTML += '<span style="color: red; font-size: 12px;"> * 내용을 입력해주세요 </span>';
-						}
-						inputs[i].focus();
-						break;
-					}
-				}
-				return;
-			}
-
-			$.ajax({
-				type : "POST",
-				url : '/shipment/add', // 폼을 제출할 서버의 URL
-				data : $("#addForm").serialize(), // 'addForm' ID를 가진 폼의 데이터를 직렬화
-				success : function(data) {
-
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					// 폼 제출에 실패하면
-					alert('폼 제출에 실패했습니다: ' + textStatus);
-				}
-			});
-		}
+	
 	</script>
 	<!-- 팝업 -->
 	<script type="text/javascript">
@@ -212,34 +168,6 @@
 					$("#ship_code").click(function() {
 						window.open("/returns/searchShipment","Shipment Search","width=500,height=600");
 						});
-					
-					
-					$("#ship_code").on("input",function(){
-						$.ajax({
-							type : "GET",
-							url : "/returns/searchLOT",
-							data : {
-								request_code : $("#request_code").val(),
-								ship_code : $("#ship_code").val()
-							},
-							success : function(data){
-								 // 먼저 기존의 option을 모두 제거합니다.
-						        $('#lot').empty();
-
-						        // AJAX로 받아온 데이터를 각각 처리합니다.
-						        $.each(data, function(index, item) {
-						            // item을 이용하여 option 요소를 만들고 select 요소에 추가합니다.
-						            $('#lot').append('<option value="' + item.lot + '">' + item.lot + '</option>');
-						        });
-							},
-							error : function(data){
-								alert('다시시도');
-							}
-						});
-						
-					});
-					
-
 
 	});//끝
 	</script>

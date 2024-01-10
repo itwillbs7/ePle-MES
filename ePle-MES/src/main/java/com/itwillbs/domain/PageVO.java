@@ -25,6 +25,8 @@ public class PageVO {
 	private int displayPageNum = 10; // 페이지 블럭의 크기
 	
 	private Criteria cri; //page, pageSize
+	// 검색용
+	private SearchVO search;
 	
 	// => 페이지번호, 페이지 사이즈 저장
 	public void setCri(Criteria cri) {

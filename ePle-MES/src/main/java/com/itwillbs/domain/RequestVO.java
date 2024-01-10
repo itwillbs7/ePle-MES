@@ -38,6 +38,7 @@ public class RequestVO {
 	private String managerName;
 	private String ware_code;
 	private String stock_code;
+	private int total;
 	
 	private List<String> statusList;
 

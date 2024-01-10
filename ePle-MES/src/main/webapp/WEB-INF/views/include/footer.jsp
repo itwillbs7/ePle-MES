@@ -171,6 +171,18 @@
 		window.close();
 	}
 	
+	// 페이지 이동, 상세 검색 정보 유지
+	function pageMove(i) {
+		document.getElementById("page").value = i;
+		$('#accordion-search').submit();
+	}
+
+	// 페이지 이동, 상세 검색 정보 유지
+	function changePageSize(i) {
+		document.getElementById("pageSize").value = i;
+		$('#accordion-search').submit();
+	}
+	
 
 	$(document).ready(function() {
 		// 테이블 체크 박스 클릭 시 전체선택
