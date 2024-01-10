@@ -82,11 +82,13 @@
 													<label>출하 일자</label> 
 													<input class="form-control date-picker" type="text" name="startDate"
 														autocomplete="off" id="deadline" readonly value="${paramMap.startDate }"> 
+													<span style="padding:0px 10px;'"> &nbsp&nbsp ~ &nbsp&nbsp</span>
 													<input class="form-control date-picker" type="text" name="endDate" 
 													autocomplete="off" id="deadline2" readonly value="${paramMap.endDate }">
-													<label>출하 일자</label> <input class="form-control "
-														placeholder="Select Month" type="date" name="startDate"
-														autocomplete="off" id="deadline"> ~ <input
+												</div>
+											</div>
+										</div>
+									</div>
 									
 										<!-- 정렬, asc, desc -->
 										<input type="hidden" name="activeSortCategory" id="sortCategory" value="${pageVO.search.activeSortCategory}"> 

@@ -124,13 +124,14 @@ public class productionController {
 	@RequestMapping(value = "/chooseRequest", method = RequestMethod.GET)
 	public void chooseRequestGET(Model model,Criteria cri) throws Exception {
 		logger.debug("Controller : chooseRequestGET() 호출");
-		List<RequestVO> requestList = rService.requestListpage(cri);
+		//List<RequestVO> requestList = rService.requestListpage(cri);//vo값필요함
 		
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
+		//pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
+		//vo값필요함
 		
-		model.addAttribute("List",requestList);
+		//model.addAttribute("List",requestList);
 		model.addAttribute("pageVO", pageVO);
 	}
 	
