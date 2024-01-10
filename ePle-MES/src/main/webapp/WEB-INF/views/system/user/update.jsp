@@ -126,5 +126,30 @@
 	</div>
 	<!-- 콘텐츠 끝> -->
 	<%@ include file="../../include/footer.jsp"%>
+	
+	<script type="text/javascript">
+	
+	<!-- 다음 우편번호 서비스 스크립트 추가 -->
+    function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var addr = data.address;
+                var extraAddr = '';
+
+                if(data.userSelectedType === 'R'){
+                    if(data.buildingName !== ''){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    addr += extraAddr !== '' ? ' (' + extraAddr + ')' : '';
+                }
+
+                document.getElementById('sample6_postcode').value = data.zonecode;
+                document.getElementById('sample6_address').value = addr;
+                document.getElementById('sample6_detailAddress').focus();
+            }
+        }).open();
+    }
+	
+	</script>
 </body>
 </html>
