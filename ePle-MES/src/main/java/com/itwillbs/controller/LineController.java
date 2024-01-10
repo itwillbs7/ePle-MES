@@ -1,5 +1,10 @@
 package com.itwillbs.controller;
 
+import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.LineVO;
+import com.itwillbs.domain.PageVO;
+import com.itwillbs.service.LineService;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,22 +14,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.itwillbs.domain.Criteria;
-import com.itwillbs.domain.LineVO;
-import com.itwillbs.domain.PageVO;
-import com.itwillbs.service.LineService;
 
 /** 라인 관리 컨트롤러 **/
 
 @Controller
-@RequestMapping(value = "/line/*")
+@RequestMapping(value = "/line")
 public class LineController {
 
     private static final Logger logger = LoggerFactory.getLogger(LineController.class);

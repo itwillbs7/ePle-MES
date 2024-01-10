@@ -9,17 +9,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.RequestSearchVO;
+import com.itwillbs.domain.RequestVO;
 import com.itwillbs.domain.ReturnsVO;
 import com.itwillbs.domain.ShipmentVO;
+import com.itwillbs.service.RequestService;
 import com.itwillbs.service.ReturnsService;
 
 /** ReturnsController : 반품 컨트롤러

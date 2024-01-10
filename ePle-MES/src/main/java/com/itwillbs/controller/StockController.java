@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.OrderVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.StockVO;
+import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.service.StockService;
+import com.itwillbs.service.WarehouseService;
 
 /** StockController : 재고 컨트롤러 
 * 

@@ -5,7 +5,26 @@
   
  <!-- mybatis 설정파일 --> 
   <configuration>
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
   	 <typeAliases>
       	 <package name="com.itwillbs.domain"/>
       </typeAliases>
+=======
+  		<typeAliases>
+  			<package name="com.itwillbs.domain"/>
+  		</typeAliases>  
+  
+>>>>>>> origin/KHR
+=======
+  	  <typeAliases>
+  		<package name="com.itwillbs.domain"/>
+  	</typeAliases>
+>>>>>>> origin/PJH
+=======
+      <typeAliases>
+      	 <package name="com.itwillbs.domain"/>
+      </typeAliases>  
+>>>>>>> origin/gk
   </configuration>

@@ -8,11 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /** 메인 컨트롤러 **/
 
 @Controller
-@RequestMapping(value = ("/"))
 public class MainController {
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 	
