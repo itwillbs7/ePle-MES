@@ -235,10 +235,9 @@
  										<th>${item.product }</th> 
  										<th>${item.productName }</th> 
 										<th>${item.amount }</th> 
-										<th>${item.stock }</th>
+										<th>${item.stock}</th>
  										<th class="diff">${item.stock - item.amount }</th>
 										<th>${item.status }</th> 
-										
 									</tr>
 								</c:forEach>
 								</tbody>

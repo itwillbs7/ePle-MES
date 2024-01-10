@@ -18,30 +18,39 @@
 
 	<!-- 리스트 가져오기 -->
 	<select id="listPage" resultType="RequestVO" parameterType="hashMap">
-		SELECT r.*, c.name clientName, m.name productName
+		SELECT r.*, c.name clientName, m.name productName, SUM(s.total) stock
 		FROM REQUEST r 
-		join CLIENT c on r.client_code = c.code 
-		join STOCK_VIEW s on r.product = s.code 
-		join MAPD m on r.product = m.code 
-		order by r.reg_date DESC 
+		JOIN CLIENT c ON r.client_code = c.code 
+		JOIN STOCK_VIEW s ON r.product = s.code 
+		JOIN MAPD m ON r.product = m.code 
+		GROUP BY r.code, c.name, m.name
+		ORDER BY r.reg_date DESC
 		LIMIT #{cri.startPage},#{cri.pageSize}
 	</select>
 
 	<!-- 전체 글 개수 조회 -->
 	<select id="countRequest" resultType="int">
   <![CDATA[
-  	select count(*) from REQUEST where 1=1
+  	SELECT COUNT(*) 
+	FROM (
+  	SELECT r.code
+ 	 FROM REQUEST r 
+ 	 JOIN CLIENT c ON r.client_code = c.code 
+ 	 JOIN STOCK_VIEW s ON r.product = s.code 
+ 	 JOIN MAPD m ON r.product = m.code 
+ 	 GROUP BY r.code, c.name, m.name
+	) AS subquery
   ]]>
 	</select>
 
 	
 	<!-- 수주정보 검색하기 -->
 	<select id="research" resultType="RequestVO" parameterType="hashMap">
-		SELECT r.*, c.name clientName, m.name productName
-		FROM REQUEST r
-		LEFT JOIN CLIENT c on r.client_code = c.code
-		RIGHT join STOCK_VIEW s on r.product = s.code
-		LEFT join MAPD m on r.product = m.code
+		SELECT r.*, c.name clientName, m.name productName, SUM(s.total) stock
+		FROM REQUEST r 
+		JOIN CLIENT c ON r.client_code = c.code 
+		JOIN STOCK_VIEW s ON r.product = s.code 
+		JOIN MAPD m ON r.product = m.code 
 		where 1 = 1
 		<if test="vo.clientName neq null and vo.clientName.toString() neq '' ">
 		 AND c.name = #{vo.clientName} </if>
@@ -75,51 +84,59 @@
 		 #{status} 
 		 </foreach>
 		 </if>
+		 GROUP BY r.code, c.name, m.name
 		 order by r.reg_date DESC 
 		 LIMIT #{cri.startPage},#{cri.pageSize}
 	</select>
 	
 	<!-- 검색 글 개수 조회 -->
-	<select id="countSearch" resultType="int" parameterType="hashMap">
+  <select id="countSearch" resultType="int" parameterType="hashMap">
   <![CDATA[
-  	select count(*) 
-  	from REQUEST r 
-  	LEFT JOIN CLIENT c on r.client_code = c.code
-	RIGHT join STOCK_VIEW s on r.product = s.code
-	LEFT join MAPD m on r.product = m.code
-  	where 1=1
+    SELECT COUNT(*) 
+  FROM (
+    SELECT r.code, c.name clientName, m.name productName, r.date, r.deadline, r.manager, r.status
+    FROM REQUEST r 
+    JOIN CLIENT c ON r.client_code = c.code 
+    JOIN STOCK_VIEW s ON r.product = s.code 
+    JOIN MAPD m ON r.product = m.code 
+    WHERE 1=1
   ]]>
   <if test="vo.clientName != null and vo.clientName.toString() != '' "> AND c.name = #{vo.clientName} </if>
-		<if test="vo.productName != null and vo.productName.toString() != ''"> AND m.name = #{vo.productName} </if>
-		<if test="vo.date != null and vo.date.toString() != '' "> 
-		<choose>
-			<when test="vo.endDate != null and vo.endDate.toString() != '' and vo.startDate != null and vo.startDate.toString() != ''">
-			AND r.date between #{vo.startDate} and #{vo.endDate} 
-			</when>
-			<when test="vo.endDate != null and vo.endDate.toString() != '' and (vo.startDate = null or vo.startDate.toString() = '')">
-			AND r.date = #{vo.endDate} </when>
-			<otherwise>AND r.date = #{vo.startDate} </otherwise>
-		</choose>
-		</if>
-		<if test="vo.deadline != null and vo.deadline.toString() != '' ">
-		<choose>
-			<when test="vo.endDead != null and vo.endDead.toString() != '' and vo.startDead != null and vo.startDead.toString() != ''">
-			AND r.deadline between #{vo.startDead} and #{vo.endDead} 
-			</when>
-			<when test="vo.endDead != null and vo.endDead.toString() != ''  and (vo.startDead = null or vo.startDead.toString() = '')">
-			AND r.deadline = #{vo.endDead} 
-			</when>
-			<otherwise>AND r.deadline = #{vo.startDead} </otherwise>
-		</choose>
-		 </if>
-		<if test="vo.manager != null and vo.manager.toString() != '' "> AND r.manager = #{vo.manager} </if>
-		<if test="vo.statusList != null and vo.statusList.size() > 0" >
-		 AND r.status in 
-		 <foreach collection="vo.statusList" item="status" open="(" close=")" separator=",">
-		 #{status} 
-		 </foreach>
-		 </if>
-	</select>
+  <if test="vo.productName != null and vo.productName.toString() != ''"> AND m.name = #{vo.productName} </if>
+  <if test="vo.date != null and vo.date.toString() != '' "> 
+    <choose>
+      <when test="vo.endDate != null and vo.endDate.toString() != '' and vo.startDate != null and vo.startDate.toString() != ''">
+      AND r.date between #{vo.startDate} and #{vo.endDate} 
+      </when>
+      <when test="vo.endDate != null and vo.endDate.toString() != '' and (vo.startDate = null or vo.startDate.toString() = '')">
+      AND r.date = #{vo.endDate} </when>
+      <otherwise>AND r.date = #{vo.startDate} </otherwise>
+    </choose>
+  </if>
+  <if test="vo.deadline != null and vo.deadline.toString() != '' ">
+    <choose>
+      <when test="vo.endDead != null and vo.endDead.toString() != '' and vo.startDead != null and vo.startDead.toString() != ''">
+      AND r.deadline between #{vo.startDead} and #{vo.endDead} 
+      </when>
+      <when test="vo.endDead != null and vo.endDead.toString() != ''  and (vo.startDead = null or vo.startDead.toString() = '')">
+      AND r.deadline = #{vo.endDead} 
+      </when>
+      <otherwise>AND r.deadline = #{vo.startDead} </otherwise>
+    </choose>
+  </if>
+  <if test="vo.manager != null and vo.manager.toString() != '' "> AND r.manager = #{vo.manager} </if>
+  <if test="vo.statusList != null and vo.statusList.size() > 0" >
+    AND r.status in 
+    <foreach collection="vo.statusList" item="status" open="(" close=")" separator=",">
+    #{status} 
+    </foreach>
+  </if>
+  <![CDATA[
+    GROUP BY r.code, c.name, m.name
+  ) AS subquery
+  ]]>
+</select>
+
 	
 	<!-- 수주번호의 정보 가져오기 -->
 	<select id="getRequestInfo" resultType="RequestVO">
@@ -180,9 +197,10 @@
 
 	<select id="getProductList" resultType="RequestVO">
 		select m.code product, m.name productName, m.unit, m.outprice currency,
-		s.total stock
+		SUM(s.total) stock
 		from MAPD m join STOCK_VIEW s on m.code = s.code where m.active = 1
 		and m.code_id = '003' and m.group_id ='PROD'
+		GROUP BY r.code, c.name, m.name
 		LIMIT #{startPage},#{pageSize}
 	</select>
 	
