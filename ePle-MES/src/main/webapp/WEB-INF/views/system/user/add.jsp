@@ -20,7 +20,7 @@
 				<h1 class="text-center text-primary">사용자(사원) 추가</h1>
 			</div>
 			<!-- 폼 -->
-			<form role="form" method="post">
+			<form role="form" method="post" name="userForm">
 				<!-- 입력 구간 -->
 					<input type="hidden" value="1" name="active">
 					<input type="hidden" value="DEP" name="dep_group">
@@ -60,7 +60,7 @@
 							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
 						</div>
 						<div class="form-group">
-							<label>휴대전화번호</label> <input class="form-control" placeholder="휴대전화번호" name="phone">
+							<label>휴대전화번호</label> <input class="form-control" placeholder="'-'를 제외한 11자리 숫자" name="phone">
 						</div>
 						<div class="form-group">
 							<label>이메일</label> <input class="form-control" placeholder="이메일" name="email">
@@ -88,11 +88,6 @@
 								<option value="3">관리자</option>
 							</select>
 						</div>
-						<div class="form-group">
-							<button type="button" class="btn btn-secondary" onclick="window.close();">
-							<b>중복확인</b>
-							</button>
-						</div>
 				<!-- 입력 구간 -->
 		
 				<!-- 버튼 -->
@@ -113,18 +108,81 @@
 	</div>
 	
 	<script type="text/javascript">
-			
+	
+        
 		$(document).ready(function() {
 			
 			var formObj = $('form[role="form"]');
-			
+			var isOk = false; // 중복검사용
+ 	        
+ 	        // 확인(submit) 클릭 시 유효성 검사 후 submit
 	 		$(".btn-success").click(function(){
+				// 입력 값
+		        var name = document.forms["userForm"]["name"].value;
+		        var id = document.forms["userForm"]["id"].value;
+		        var pw = document.forms["userForm"]["pw"].value;
+		        var dep = document.forms["userForm"]["dep"].value;
+		        var pos = document.forms["userForm"]["pos"].value;
+		        var hiredate = document.forms["userForm"]["hiredate"].value;
+		        var phone = document.forms["userForm"]["phone"].value;
+		        var email = document.forms["userForm"]["email"].value;
+		        var postcode = document.forms["userForm"]["postcode"].value;
+		        var address1 = document.forms["userForm"]["address1"].value;
+		        var auth = document.forms["userForm"]["auth"].value;
+	 	        // 입력값이 비어있다면 false
+	 	        if (name === "" || id === "" || pw === "" || dep === "null" || pos === "null" || 
+	 	        		hiredate === "" || phone === "" || email === "" || postcode === "" || address1 === "" || auth === "null") {
+	 	            alert("모든 항목을 입력해주세요.");
+	 	            return false;
+	 	        }
+	 	        
+	 	        $.ajax({
+	 	        	
+	 	        	type : "GET", 
+	 	        	url : "/systemAjax/user", 
+	 	        	dataType : "json", 
+	 	        	data : {
+	 	        		id : id, 
+	 	        		phone : phone, 
+	 	        		email : email
+	 	        	}, 
+	 	        	contentType : "application/json; charset=UTF-8", 
+	 	        	success : function(data) {
+	 	        		console.log(data);
+	 	        		if(data.idResult > 0) {
+	 	        			alert('아이디 중복입니다');
+	 	        			return false;
+	 	        		}
+	 	        		if(data.emailResult > 0) {
+	 	        			alert('이메일 중복입니다');
+	 	        			return false;
+	 	        		}
+	 	        		if(data.phoneResult > 0) {
+	 	        			alert('휴대전화번호 중복입니다');
+	 	        			return false;
+	 	        		}
+	 	        		
+	 	        		isOk = true;
+			 			
+	 	        	}, 
+	 	        	error : function() {
+	 	        		alert('서버 오류 발생! 다시 시도해주세요');	 	        	
+	 	        	}
+	 	        	
+	 	        }); // ajax
+	 	        
+	 	        if(phone.length != 11) {
+	 	        	alert('휴대전화번호는 11자리로 입력해주세요');
+	 	        }
+	 	        
+	 	        if(isOk) {
 	 			formObj.attr("action","/system/user/add");
 	 			formObj.attr("method","POST");
 	 			formObj.submit(); 
-	 		});
+	 	        }
+	 		}); // click
 			
-		});
+		}); // jquery
 		
 	    <!-- 다음 우편번호 서비스 스크립트 추가 -->
         function sample6_execDaumPostcode() {

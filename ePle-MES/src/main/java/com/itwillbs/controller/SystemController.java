@@ -1,6 +1,5 @@
 package com.itwillbs.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.domain.CommonVO;
 import com.itwillbs.domain.Criteria;
-import com.itwillbs.domain.FacilitySearchVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.UserVO;
 import com.itwillbs.service.SystemServiceImpl;
@@ -34,28 +32,63 @@ public class SystemController {
 	private SystemServiceImpl sService;
 	
 	@GetMapping(value = "/common/main")
-	public void commonMainGET(PageVO pageVO, Criteria cri, Model model) throws Exception {
+	public void commonMainGET(PageVO page, Criteria cri, Model model, 
+			@ModelAttribute("pageNum") String pageNum) throws Exception {
 		logger.debug("commonMainGET 실행");
+		
+		// 페이징 처리
+		// 페이지 번호 없을 시 페이지번호 = 1
+		if (pageNum==null || pageNum.equals("")) {
+			cri.setPage(1);
+		} else {
+			cri.setPage(Integer.parseInt(pageNum));
+		}
+		// 한 페이지 당 출력할 데이터 수 
+		cri.setPageSize(10);
+		List<CommonVO> CommonVO = sService.getCommonListPage(cri);
+		//-------------------
+		logger.debug("CommonVO : " + CommonVO);
+		// 페이지 블럭 처리
+		page.setCri(cri);
+		page.setTotalCount(sService.getCommonTotalCount());
+		model.addAttribute("CommonVO", CommonVO);
+		model.addAttribute("pageVO", page);
+		
 		// DB로 가서 공통코드 데이터 몽땅 들고오기
-		logger.debug("공통코드 리스트 : " + sService.getCommons().toString());
-		model.addAttribute("CommonVO",sService.getCommons());
 	}
 	
 	@PostMapping(value = "/common/main")
 	public void commonMainPOST(@RequestParam("keyword") String keyword, 
-			@RequestParam("category") String category, Model model) throws Exception{
+			@RequestParam("category") String category, Model model, PageVO page, Criteria cri, 
+			@ModelAttribute("pageNum") String pageNum) throws Exception{
 		logger.debug("commonMainPOST 실행");
-		// 카테고리, 키워드 확인
-		logger.debug("category & keyword : " + category + ", " + keyword);
-		// Map에 저장
-		Map<String, Object> categoryAndKeyword = new HashMap<String, Object>();
-		categoryAndKeyword.put("category", "%"+category+"%");
-		categoryAndKeyword.put("keyword", "%"+keyword+"%");
-		// DB로 가서 키워드 공통코드 데이터 가져오기
-		logger.debug(categoryAndKeyword.toString());
-		model.addAttribute("CommonVO", sService.getKeywordCommons(categoryAndKeyword));
+		// 페이징 처리
+		if (pageNum==null || pageNum.equals("")) {
+			cri.setPage(1);
+		} else {
+			cri.setPage(Integer.parseInt(pageNum));
+		}
+		cri.setPageSize(10);
+		page.setCri(cri);
+			// 카테고리, 키워드 확인
+			logger.debug("category & keyword : " + category + ", " + keyword);
+			// Map에 저장
+			Map<String, Object> categoryAndKeyword = new HashMap<String, Object>();
+			categoryAndKeyword.put("category", category);
+			categoryAndKeyword.put("keyword", keyword);
+		page.setTotalCount(sService.getCommonSearchCount(categoryAndKeyword));
+		// 키워드 데이터 가져오기 (Map에 키워드+페이징 정보 같이 넘겨준다)
+		Map<String, Object> searchDataMap = new HashMap<String, Object>();
+		searchDataMap.put("categoryAndKeyword", categoryAndKeyword); 
+		searchDataMap.put("cri", cri); 
+		List<CommonVO> CommonVO = sService.getKeywordCommonsPage(searchDataMap);
+		
+		model.addAttribute("CommonVO", CommonVO);
+		model.addAttribute("pageVO", page);
+		model.addAttribute("categoryAndKeyword", categoryAndKeyword); 
 		
 	}
+	
 	
 	@RequestMapping(value = "/common/add", method = RequestMethod.GET)
 	public void commonAddGET() {
