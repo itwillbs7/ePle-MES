@@ -158,17 +158,9 @@
 	</select>
 
 	<select id="getLOTList" resultType="ReturnsVO">
-		select l.lot lot
-		from SHIPMENT
-		s
-		join REQUEST r on s.reqs_code = r.code
-		join INSTRUCTION i on i.request
-		= r.code
-		join RESULT rs on i.code = rs.inst_code
-		join LOT l on rs.code =
-		l.lot
-		where l.shipment = #{ship_code}
-		and i.request = #{request_code}
+	select SUBSTRING_INDEX(order_num, '/', 1) as lot, amount amount
+	from WAREHOUSE_HISTORY 
+	where order_num like concat('%',#{ship_code})
 	</select>
 
 	<!-- ================================================================= add/search -->
@@ -187,10 +179,14 @@
 	<!-- 반품정보 등록하기 -->
 	<insert id="insertReturns">
 		insert into RETURNS
-		values
-		(#{code},#{request_code},#{ship_code},#{lot},#{date},#{amount},#{unit},#{reason}
+		values (#{code},#{request_code},#{ship_code},#{lot},#{date},#{amount},#{unit},#{reason},
 		"등록",1,now(),"test",now(),"test");
 	</insert>
+	
+	<!-- 반품정보 등록 시 수주정보 상태 변경 -->
+	<update id="updateRequestStatus">
+		update REQUEST set status='반품' where code = #{request}
+	</update>
 
 	<!-- 반품정보 수정하기 -->
 	<update id="updateReturnsInfo">

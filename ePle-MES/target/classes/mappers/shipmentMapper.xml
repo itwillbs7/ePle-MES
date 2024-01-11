@@ -71,11 +71,12 @@
 
 	<!-- 출하번호의 정보 가져오기 -->
 	<select id="getShipmentInfo" resultType="ShipmentVO">
-		SELECT sp.*, s.total stock
+		SELECT sp.*, SUM(s.total) stock
 		from SHIPMENT sp
 		join REQUEST r on r.code = sp.reqs_code
 		join STOCK_VIEW  s on r.product = s.code
 		where sp.code = #{code}
+		GROUP BY sp.code, r.code 
 	</select>
 
 	<!-- 출하정보 검색하기 -->

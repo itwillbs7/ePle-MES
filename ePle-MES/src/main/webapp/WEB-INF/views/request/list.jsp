@@ -6,6 +6,11 @@
 <%@ include file="../include/head.jsp"%>
 <%-- <link href="${pageContext.requeset.contextPath }/resources/css/default.css" rel="stylesheet" type"text/css"> --%>
 <title>수주 관리</title>
+<style type="text/css">
+  .red-text {
+    color: red;
+  }
+</style>
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -40,98 +45,100 @@
 										<div class="col-md-12">
 											<div class="form-group">
 												<div class="row">
-													<h4 class="text-blue h4">기본 검색</h4>
+													<h4 class="text-blue h4">수주 검색</h4>
 												</div>
 												<div class="row">
 													<div class="col-md-4 col-sm-12 btn-group" style="margin-left: auto;">
-														<label class="col-md-2 weight-600" style="padding: 10px 0px 10px 0px; ">업체명</label> 
+														<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>업체명</b></label> 
 														<input type="hidden"  name="client_code" id="client_code" value="${paramMap.client_code }"> 
 														<input type="text" name="clientName" class="form-control"  id="searchCompany"
 														style="width: 100%;" placeholder="업체명 찾아보기" autocomplete="off" readonly
 														value = "${paramMap.clientName }">
 													</div>
 													<div class="col-md-4 col-sm-12 btn-group" style="margin-left: auto;">
-														<label class="col-md-2 weight-600" style="padding: 10px 0px 10px 0px; ">품명</label> 
+														<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>품명</b></label> 
 														<input type="hidden" name="product" id="product" value="${paramMap.product }"> 
 														<input type="text" name="productName" class="form-control" id="searchProduct" 
 														style="width: 100%;" placeholder="품명 찾아보기" autocomplete="off" readonly
 														value = "${paramMap.productName }">
 													</div>
 													<div class="col-md-4 col-sm-12 btn-group" style="margin-left: auto;">
-														<label class="col-md-2 weight-600" style="padding: 10px 0px 10px 0px; ">담당자</label> 
+														<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>담당자</b></label> 
 														<input type="hidden" name="manager" id="manager" value="${manager }"> 
 														<input type="text" name="managerName" class="form-control"  id="searchManager" 
 														style="width: 100%;" placeholder="담당자 찾아보기" autocomplete="off" readonly
 														value = "${paramMap.managerName }">
 													</div>
 												</div>
-												<div class="row-inline">
-													<div class="col-md-4 col-sm-12">
-														<label class="weight-600">수주 상태</label>
-												<div class="row col-md-5 col-sm-12">
-													<div class="col-md-5 col-sm-12" style="margin-top: auto; display : flex; justify-content:space-between;">
-														<div class="custom-control custom-checkbox mb-5">
+												<br>
+												<div class="row">
+														<label class="col-md-4 col-sm-12"><b>수주 상태</b></label>
+														<label class="col-md-4 col-sm-12"><b>수주 일자</b></label>
+														<label class="col-md-4 col-sm-12"><b>납품 예정일</b></label>
+												</div>
+												<div class="row">
+													<div class="col-md-1 col-sm-12">
+														<div class="custom-control custom-checkbox mb-3">
 															<input type="checkbox" class="custom-control-input " id="formCheck1" 
 															name="statusList" value="등록" <c:if test="${paramMap.statusList.contains('등록')}">checked</c:if>> 
-															<label class="custom-control-label col-md-4 inline" for="formCheck1">등록</label>
+															<label class="custom-control-label " for="formCheck1" >등록</label>
 														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck2" 
-															name="statusList" value="생산진행" <c:if test="${paramMap.statusList.contains('생산진행')}">checked</c:if>> 
-															<label class="custom-control-label col-md-4" for="formCheck2">생산진행</label>
-														</div>
-														<div class="custom-control custom-checkbox mb-5">
-															<input type="checkbox" class="custom-control-input" id="formCheck3" 
-															name="statusList" value="출하대기" <c:if test="${paramMap.statusList.contains('출하대기')}">checked</c:if>> 
-															<label class="custom-control-label col-md-4" for="formCheck3">출하대기</label>
-														</div>
-													</div>
-												</div>
-												<div class="row col-md-5 col-sm-12">
-													<div class="col-md-4 col-sm-12" style="margin-top: auto; display : flex; justify-content:space-between;">
 														<div class="custom-control custom-checkbox mb-5">
 															<input type="checkbox" class="custom-control-input" id="formCheck4" 
 															name="statusList" value="출하완료" <c:if test="${paramMap.statusList.contains('출하완료')}">checked</c:if>> 
-															<label class="custom-control-label" for="formCheck4" >출하완료</label>
+															<label class="custom-control-label" for="formCheck4" style=" flex-direction: column;">출하완료</label>
+														</div>
+													</div>
+												<div class="col-md-1 col-sm-12">
+														<div class="custom-control custom-checkbox mb-3">
+															<input type="checkbox" class="custom-control-input" id="formCheck2" 
+															name="statusList" value="생산진행" <c:if test="${paramMap.statusList.contains('생산진행')}">checked</c:if>> 
+															<label class="custom-control-label " for="formCheck2">생산진행</label>
 														</div>
 														<div class="custom-control custom-checkbox mb-5">
 															<input type="checkbox" class="custom-control-input" id="formCheck5" 
 															name="statusList" value="수령" <c:if test="${paramMap.statusList.contains('수령')}">checked</c:if>> 
 															<label class="custom-control-label" for="formCheck5" >수령</label>
 														</div>
+												</div>
+												<div class="col-md-2 col-sm-12">
+														<div class="custom-control custom-checkbox mb-3">
+															<input type="checkbox" class="custom-control-input" id="formCheck3" 
+															name="statusList" value="출하대기" <c:if test="${paramMap.statusList.contains('출하대기')}">checked</c:if>> 
+															<label class="custom-control-label" for="formCheck3">출하대기</label>
+														</div>
 														<div class="custom-control custom-checkbox mb-5">
 															<input type="checkbox" class="custom-control-input" id="formCheck6" 
 															name="statusList" value="반품" <c:if test="${paramMap.statusList.contains('반품')}">checked</c:if>> 
 															<label class="custom-control-label" for="formCheck6">반품</label>
 														</div>
-													</div>	
-												</div>									
-													</div>
-													<div class="col-md-8 col-sm-12">
-														<div class="form-group md-4" style="margin-top : auto;">
-															<label class="weight-600">수주일자</label> 
+												</div>
+												<div class="col-md-4 col-sm-12">
+												<div class="form-group md-4" style="margin-top : auto;">
 															<span style="display : flex; justify-content:space-between;">
 															<input class="form-control date-picker" placeholder="날짜 선택하기"
 															type="text" name="startDate" autocomplete="off" id="startDate"
 															style="width:50%;" readonly value = "${paramMap.startDate }">
-															<span style="padding:0px 10px;'"> &nbsp&nbsp ~ &nbsp&nbsp</span>
+															<span style="padding:0px 10px; padding-top:10px; text-align : center;"> ~ </span>
 															<input class="form-control date-picker" placeholder="날짜 선택하기" 
 															type="text" name="endDate" autocomplete="off" id="endDate" style="width:50%;"
 															readonly value = "${paramMap.endDate }">
 															</span>
 														</div>
-														<div class="form-group md-4">
-															<label class="weight-600">납품예정일</label> 
+												</div>
+												<div class="col-md-4 col-sm-12">
+												<div class="form-group md-4">
 															<span style="display : flex; justify-content:space-between;">
 															<input class="form-control date-picker" readonly placeholder="날짜 선택하기" 
 															style="width:50%;" type="text" name="startDead" autocomplete="off" id="startDead">
-															<span style="padding:0px 10px;"> &nbsp&nbsp ~ &nbsp&nbsp</span> 
+															<span style="padding:0px 10px;  padding-top:10px; text-align : center;"> ~ </span> 
 															<input class="form-control" readonly placeholder="날짜 선택하기" 
 															style="width:50%;" type="text" name="endDead" autocomplete="off" id="endDead">
 															</span>
 														</div>
-													</div>
 												</div>
+												
+												</div>	
 											</div>
 										</div>
 										
@@ -212,19 +219,27 @@
 								</thead>
 								<tbody>
 								<c:forEach items="${requestList}" var="item" varStatus="status">
-									<tr>
+									<tr class="${item.status eq '반품' ? 'red-text' : ''}">
 										<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 							<c:choose>
 							<c:when test="${item.status eq '등록'}">
-							<td><div class="custom-control custom-checkbox mb-5">
+							<td>
+								<div class="custom-control custom-checkbox mb-5">
 							<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 									<input type="checkbox" class="custom-control-input" id="checkTable${status.index}" 
 									name="tableCheck" value="${item.code }"> 
 									<label class="custom-control-label" for="checkTable${status.index}"></label>
-									</div></td>
+								</div>
+							</td>
 							</c:when>
 							<c:otherwise>
-							<td></td>
+							<td>
+							<div class="custom-control custom-checkbox mb-5">
+								<input type="checkbox" class="custom-control-input" id="checkTable${status.index}" 
+								name="tableCheck" value="${item.code}" style="visibility: hidden;"> 
+								<label class="custom-control-label" for="checkTable${status.index}"></label>
+							</div>
+							</td>
 							</c:otherwise>
 							</c:choose>
 										<!-- 상세 정보 이동! -->

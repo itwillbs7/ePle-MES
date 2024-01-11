@@ -36,15 +36,10 @@
 							name="reqs_code" id="reqs_code" readonly required="required">
 						</div>
 						<div class="form-group">
-							<label for="date">출하일자</label> 
-							<input class="form-control date-picker" name="date" type="text" id="date"
-							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
+							<label>업체명</label> 
+							<input class="form-control" type="text" readonly id="clientName" required="required"
+							readonly>
 						</div>
-						<div class="form-group">
-							<label for="amount">출하량</label> <input class="form-control" name="amount" id="amount"
-							type="number" placeholder="출하량을 입력해주세요" autocomplete="off" min="1" required="required">
-						</div>
-						<!-- 자동입력내역 -->
 						<div class="form-group">
 							<label >수주량</label> 
 							<input class="form-control" name="reqsamount" id="reqsamount"
@@ -56,25 +51,30 @@
 							 autocomplete="off" required="required" readonly>
 						</div>
 						<div class="form-group">
-							<label>업체명</label> 
-							<input class="form-control" type="text" readonly id="clientName" required="required"
-							readonly>
+							<label for="date">출하일자</label> 
+							<input class="form-control date-picker" name="date" type="text" id="date"
+							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
 						</div>
 						<div class="form-group">
 							<label>품번</label> 
 							<input class="form-control" name = "product" type="text" readonly id="product" required="required">
 						</div>
 						<div class="form-group">
+							<label>현재 재고량</label> 
+							<input class="form-control" name ="stock" type="text" readonly id="stock" required="required">
+						</div>
+						<div class="form-group">
 							<label>단위</label> 
 							<input class="form-control" name ="unit" type="text" readonly id="unit" required="required">
 						</div>
 						<div class="form-group">
-							<label>재고량</label> 
-							<input class="form-control" name ="stock" type="text" readonly id="stock" required="required">
-							<input class="form-control" name ="ware_code" type="hidden" readonly id="ware_code" required="required">
+							<label for="amount">출하량</label> <input class="form-control" name="amount" id="amount"
+							type="number" placeholder="출하량을 입력해주세요" autocomplete="off" min="1" required="required">
+						</div>
+						<!-- 자동입력내역 -->
 							<input class="form-control" name ="stock_code" type="hidden" readonly id="stock_code" required="required">
 							<input class="form-control" name ="wareHistory_code" type="hidden" readonly id="wareHistory_code" required="required">
-						</div>
+							<input class="form-control" name ="ware_code" type="hidden" readonly id="ware_code" required="required">
 
 
 				<!-- 버튼 -->

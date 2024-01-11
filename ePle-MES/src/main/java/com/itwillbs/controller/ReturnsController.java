@@ -152,12 +152,12 @@ public class ReturnsController {
 		String link = "";
 		if (result >= 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "출하상태 변경 결과");
-			rttr.addFlashAttribute("result", "출하완료 되었습니다.");
+			rttr.addFlashAttribute("title", "반품 등록 결과");
+			rttr.addFlashAttribute("result", "반품 등록이 완료 되었습니다.");
 		} else {
 			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "출하상태 변경 결과");
-			rttr.addFlashAttribute("result", "오류가 발생했습니다");
+			rttr.addFlashAttribute("title", "반품 등록 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다. 관리자에게 문의해주세요");
 		}
 		return link;
 	}
@@ -241,12 +241,12 @@ public class ReturnsController {
 		String link = "";
 		if (result >= 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "출하상태 변경 결과");
-			rttr.addFlashAttribute("result", "출하완료 되었습니다.");
+			rttr.addFlashAttribute("title", "반품 내용 수정 결과");
+			rttr.addFlashAttribute("result", "반품내용이 수정 되었습니다.");
 		} else {
 			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "출하상태 변경 결과");
-			rttr.addFlashAttribute("result", "오류가 발생했습니다");
+			rttr.addFlashAttribute("title", "반품 내용 수정 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다. 관리자에게 문의해주세요");
 		}
 		return link;
 
@@ -280,7 +280,7 @@ public class ReturnsController {
 		} else {
 			link = "redirect:/error";
 			rttr.addFlashAttribute("title", "반품 삭제  결과");
-			rttr.addFlashAttribute("result", "오류가 발생했습니다");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다. 관리자에게 문의해주세요");
 		}
 		return link;
 	}
@@ -311,7 +311,7 @@ public class ReturnsController {
 		} else {
 			link = "redirect:/error";
 			rttr.addFlashAttribute("title", "폐기 처리 결과");
-			rttr.addFlashAttribute("result", "오류가 발생했습니다");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다. 관리자에게 문의해주세요");
 		}
 		
 		return link;

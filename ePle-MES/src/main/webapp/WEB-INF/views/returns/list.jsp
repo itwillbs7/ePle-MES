@@ -21,7 +21,7 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>반품 관리</h1>
+				<a href="/returns/list"><h1>반품 관리</h1></a>
 			</div>
 
 			<!-- 아코디언 시작 -->
@@ -179,7 +179,7 @@
 										<tr>
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<c:choose>
-												<c:when test="${List.status eq '반품등록'}">
+												<c:when test="${List.status eq '등록'}">
 													<td><div class="custom-control custom-checkbox mb-5">
 															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 															<input type="checkbox" class="custom-control-input"

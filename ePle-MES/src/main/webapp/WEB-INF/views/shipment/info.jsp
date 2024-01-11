@@ -68,7 +68,7 @@
 							required="required" value="${rvo.unit }">
 						</div>
 						<div class="form-group">
-							<label>재고량</label> 
+							<label>현재 재고량</label> 
 							<input class="form-control" name ="stock" type="text" readonly id="stock" 
 							required="required" value="${vo.stock }">
 						</div>

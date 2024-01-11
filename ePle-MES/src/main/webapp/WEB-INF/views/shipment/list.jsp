@@ -166,7 +166,6 @@
 										<th>납품예정일</th>
 										<th>품번</th>
 										<th>수주수량</th>
-										<th>재고량</th>
 										<th>출하량</th>
 										<th>출하일자</th>
 										<th>출하상태</th>
@@ -200,7 +199,6 @@
 											<th>${List.reqsdate }</th>
 											<th>${List.product }</th>
 											<th>${List.reqsamount }</th>
-											<th>${List.stock }</th>
 											<th>${List.amount }</th>
 											<th>${List.date }</th>
 											<th>${List.status }</th>

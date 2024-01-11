@@ -238,6 +238,8 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 		Map<String, Object> params = new HashMap<>();
 		params.put("code", code);
 		List vo = sqlSession.selectList(NAMESPACE + ".getDeleteInfo", params);
+		
+		
 		logger.debug("╚═══*.·:·.☽✧   불러오기 완료     ✧☾.·:·.*═══╝");
 		return vo;
 	}
@@ -251,7 +253,7 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 		Map<String, Object> params = new HashMap<>();
 		params.put("code", code);
 		// 수주상태 변경?
-//		result = sqlSession.update(NAMESPACE + ".updateStatusBeforeDelete", params);
+		result = sqlSession.update(NAMESPACE + ".updateStatusBeforeDelete", params);
 
 //		if (result >= 1) {
 //			result = 0;
