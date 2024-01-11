@@ -1,6 +1,7 @@
 package com.itwillbs.service.facility;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -79,5 +80,30 @@ public class OffServiceImpl implements OffService{
 	@Override
 	public void setLineOffComplete() throws Exception {
 		dao.setLineOffComplete();
+	}
+	
+	@Override
+	public List<LineOffVO> getReservateList() throws Exception {
+		return dao.getReservateList();
+	}
+	
+	@Override
+	public LineOffVO getResDetail(String code) throws Exception {
+		return dao.getResDetail(code);
+	}
+	
+	@Override
+	public List<LineOffVO> getSameInfo(LineOffVO vo) throws Exception {
+		return dao.getSameInfo(vo);
+	}
+	
+	@Override
+	public int updateRes(Map<String, Object> map) throws Exception {
+		return dao.updateRes(map);
+	}
+	
+	@Override
+	public int deleteRes(String[] code) throws Exception {
+		return dao.deleteRes(code);
 	}
 }

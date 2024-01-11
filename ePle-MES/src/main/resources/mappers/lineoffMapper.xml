@@ -6,6 +6,7 @@
 <mapper namespace="com.itwillbs.mapper.LineOffMapper">
 	<resultMap type="com.itwillbs.domain.LineOffVO" id="off">
 		<result property="code" column="code" />
+		<result property="count" column="count"/>
 		<result property="line_code" column="line_code" />
 		<result property="start_time" column="start_time" />
 		<result property="end_time" column="end_time" />
@@ -15,8 +16,8 @@
 		<result property="code_name" column="code_name" />
 		<result property="complete" column="complete" />
 		<collection property="line" resultMap="line">
-			<result property="code" column="code" />
 			<result property="name" column="name" />
+			<result property="place" column="place" />
 		</collection>
 	</resultMap>
 
@@ -183,13 +184,7 @@
 	</select>
 	<!-- 라인 리스트 -->
 	
-	<select id="getReservateList" resultMap="off">
-		SELECT o.*, l.name, c.group_name, c.code_name FROM LINE_OFF o 
-		LEFT JOIN LINE l ON o.line_code = l.code 
-		LEFT JOIN 
-		COMMON_CODE c ON o.group_id = c.group_id AND o.code_id = c.code_id 
-		WHERE complete = FALSE
-	</select>
+	
 
 	<!-- 공통 코드 전달 -->
 	<select id="getCommonGroup" resultMap="off">
@@ -202,4 +197,60 @@
 		WHERE group_id = #{group_id}
 	</select>
 	<!-- 공통 코드 전달 -->
+	
+	<!-- 예약 페이지 -->
+	<select id="getReservateList" resultMap="off">
+		select row_number() over(order by start_time) as code, 
+		count(*) as count, start_time, end_time, 
+		o.group_id, c.group_name, o.code_id, c.code_name 
+		from LINE_OFF o 
+		LEFT JOIN COMMON_CODE c 
+		ON o.group_id = c.group_id AND o.code_id = c.code_id 
+		WHERE end_time is not null 
+		and complete = false 
+		group by start_time, end_time,group_id, code_id
+	</select>
+	
+	<select id="getResDetail" resultMap="off">
+		select * from (select row_number() over(order by start_time) as code, 
+		count(*) as count, start_time, end_time, 
+		o.group_id, c.group_name, o.code_id, c.code_name 
+		from LINE_OFF o 
+		LEFT JOIN COMMON_CODE c 
+		ON o.group_id = c.group_id AND o.code_id = c.code_id 
+		WHERE end_time is not null 
+		and complete = false 
+		group by start_time, end_time,group_id, code_id) as a 
+		where code = #{code};
+	</select>
+	
+	<select id="getSameInfo" resultMap="off">
+		SELECT o.code, o.line_code, l.name, l.place FROM LINE_OFF o LEFT JOIN LINE l ON o.line_code = l.code 
+		WHERE start_time = #{start_time} AND end_time = #{end_time} AND group_id = #{group_id} AND code_id = #{code_id} 
+		ORDER BY o.code
+	</select>
+	
+	<update id="updateRes">
+		UPDATE LINE_OFF 
+		<set>
+			start_time = #{start_time}, end_time = #{end_time}, group_id = #{group_id}, code_id = #{code_id} 
+		</set>
+		<where>
+			code IN
+			<foreach collection="code" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</where>
+	</update>
+	
+	<delete id="deleteRes">
+		DELETE FROM LINE_OFF 
+		<where>
+			code IN
+			<foreach collection="array" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+	<!-- 예약 페이지 -->
 </mapper>

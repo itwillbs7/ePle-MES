@@ -101,15 +101,14 @@
 														<!-- 상세정보 -->
 														<a class="dropdown-item" href="javascript:openPage('/line/manage/detail?code=${i.code}', 500, 600)"><i class="dw dw-view"></i> 상세 정보</a>
 														<!-- 정지,가동 -->
-															<c:choose>
-																<c:when test="${i.active}">
-																	<a class="dropdown-item" href="javascript:openPage('/line/manage/off?code=${i.code}', 500, 600)"><i class="dw dw-stop"></i> 정지
+														<c:choose>
+															<c:when test="${i.active}">
+																<a class="dropdown-item" href="javascript:openPage('/line/manage/off?code=${i.code}', 500, 600)"><i class="dw dw-stop"></i> 정지 </a>
 															</c:when>
-																<c:otherwise>
-																	<a class="dropdown-item" href="javascript:openPage('/line/manage/on?code=${i.code}', 500, 600)"><i class="dw dw-right-arrow-4"></i> 가동
+															<c:otherwise>
+																<a class="dropdown-item" href="javascript:openPage('/line/manage/on?code=${i.code}', 500, 600)"><i class="dw dw-right-arrow-4"></i> 가동</a>
 															</c:otherwise>
-															</c:choose>
-														</a>
+														</c:choose>
 														<!-- 예약 -->
 														<a class="dropdown-item" href="javascript:openPage('/line/manage/reservation?code=${i.code}', 500, 600)"><i class="dw dw-wall-clock"></i> 예약</a>
 													</div>
@@ -121,90 +120,53 @@
 							</table>
 						</div>
 						<div class="tab-pane fade" id="profile5" role="tabpanel">
-							<div class="btn-group pull-right" style="margin-bottom: 10px">
-								<button type="button" class="btn btn-warning" id="set">
-									<b>가동/정지</b>
-								</button>
-								<button type="button" class="btn btn-info" id="reservation">
-									<b>예약</b>
-								</button>
-							</div>
-							<table class="table table-striped">
-								<tr>
-									<td style="width: 100px;">
-										<div class="custom-control custom-checkbox mb-5">
-											<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
-										</div>
-									</td>
-									<th>#</th>
-									<th>이름</th>
-									<th>사유</th>
-									<th>라인명</th>
-									<th>시작일자</th>
-									<th>종료일자</th>
-									<th>옵션</th>
-								</tr>
-								<c:if test="${empty reservation}">
+							<br>
+							<table id="res" class="table table-striped">
+								<thead>
 									<tr>
-										<th colspan="7" style="text-align: center;">데이터가 없습니다.</th>
+										<th>#</th>
+										<th>예약 개수</th>
+										<th>사유</th>
+										<th>시작일자</th>
+										<th>종료일자</th>
+										<th>옵션</th>
 									</tr>
-								</c:if>
-								<c:if test="${!empty reservation}">
-									<c:forEach items="${reservation}" var="i">
-										<tr <c:choose>
-											<c:when test="${i.active}">
-												class="table-success"
-											</c:when>
-											<c:otherwise>
-												class="table-danger"
-											</c:otherwise>
-										</c:choose>>
-											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
-											<td><div class="custom-control custom-checkbox mb-5">
-													<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-													<input type="checkbox" class="custom-control-input" id="checkTable${i.code}" name="tableCheck" value="${i.code}"> <label class="custom-control-label" for="checkTable${i.code}"></label>
-												</div></td>
-											<td><a href="javascript:openPage('/line/manage/detail?code=${i.code}', 500, 634)"> <b class="text-blue tableTitle${i.code}">${i.code}</b>
-											</a></td>
-											<td id="tableTitle${i.code}">${i.name}</td>
-											<td>${i.process}</td>
-											<td id="tableinfo${i.code}">${i.place}</td>
-											<td>${i.status}</td>
-											<td><c:choose>
-													<c:when test="${i.active}">
-														<span class="badge badge-success" id="tableActive${i.code}">가동 중</span>
-													</c:when>
-													<c:otherwise>
-														<span class="badge badge-danger" id="tableActive${i.code}">정지</span>
-													</c:otherwise>
-												</c:choose></td>
-											<td style="">
-												<!-- 옵션 -->
-												<div class="dropdown">
-													<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
-													</a>
-													<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-														<!-- 링크 설정 -->
-														<!-- 상세정보 -->
-														<a class="dropdown-item" href="javascript:openPage('/line/manage/detail?code=${i.code}', 500, 600)"><i class="dw dw-view"></i> 상세 정보</a>
-														<!-- 정지,가동 -->
-														<a class="dropdown-item" href="javascript:openPage('/line/manage/set?code=${i.code}', 500, 600)"> <c:choose>
-																<c:when test="${i.active}">
-																	<i class="dw dw-stop"></i> 정지
-															</c:when>
-																<c:otherwise>
-																	<i class="dw dw-right-arrow-4"></i> 가동
-															</c:otherwise>
-															</c:choose>
-														</a>
-														<!-- 예약 -->
-														<a class="dropdown-item" href="javascript:openPage('/line/manage/reservation?code=${i.code}', 500, 600)"><i class="dw dw-wall-clock"></i> 예약</a>
-													</div>
-												</div>
-											</td>
+								</thead>
+								<tbody>
+									<c:if test="${empty reservation}">
+										<tr>
+											<th colspan="7" style="text-align: center;">데이터가 없습니다.</th>
 										</tr>
-									</c:forEach>
-								</c:if>
+									</c:if>
+									<c:if test="${!empty reservation}">
+										<c:forEach items="${reservation}" var="i">
+											<tr onmouseenter="$(this).addClass('table-info');" onmouseleave="$(this).removeClass('table-info')" onclick="openPage('/line/manage/reservation-detail?code=${i.code}', 500, 634)">
+												<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+												<td><b class="text-blue tableTitle${i.code}">${i.code}</b></td>
+												<td>${i.count}개</td>
+												<td id="tableinfo${i.code}">${i.code_name}</td>
+												<td><fmt:formatDate value="${i.start_time}" type="both" /></td>
+												<td><fmt:formatDate value="${i.end_time}" type="both" /></td>
+												<td style="">
+													<!-- 옵션 -->
+													<div class="dropdown">
+														<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i>
+														</a>
+														<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+															<!-- 링크 설정 -->
+															<!-- 상세정보 -->
+															<a class="dropdown-item" href="javascript:openPage('/line/manage/reservation-detail?code=${i.code}', 500, 700)"><i class="dw dw-view"></i> 상세 정보</a>
+															<!-- 수정 -->
+															<a class="dropdown-item" href="javascript:openPage('/line/manage/update?code=${i.code}', 500, 700)"><i class="dw dw-edit2"></i>수정</a>
+															<!-- 삭제 -->
+															<a class="dropdown-item" href="javascript:openPage('/line/manage/delete?code=${i.code}', 500, 700)"><i class="dw dw-delete3"></i>삭제</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+										</c:forEach>
+									</c:if>
+								</tbody>
 							</table>
 						</div>
 					</div>

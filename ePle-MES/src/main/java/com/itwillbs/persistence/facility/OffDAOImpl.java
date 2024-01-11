@@ -86,4 +86,29 @@ public class OffDAOImpl implements OffDAO{
 	public void setLineOffComplete() throws Exception {
 		sqlSession.update(NAMESPACE + ".setLineOffComplete");
 	}
+	
+	@Override
+	public List<LineOffVO> getReservateList() throws Exception{
+		return sqlSession.selectList(NAMESPACE + ".getReservateList");
+	}
+	
+	@Override
+	public LineOffVO getResDetail(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getResDetail", code);
+	}
+	
+	@Override
+	public List<LineOffVO> getSameInfo(LineOffVO vo) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getSameInfo", vo);
+	}
+	
+	@Override
+	public int updateRes(Map<String, Object> map) throws Exception {
+		return sqlSession.update(NAMESPACE + ".updateRes", map);
+	}
+	
+	@Override
+	public int deleteRes(String[] code) throws Exception {
+		return sqlSession.delete(NAMESPACE + ".deleteRes", code);
+	}
 }

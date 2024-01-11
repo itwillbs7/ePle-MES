@@ -78,7 +78,7 @@
 						<li><a href="index3.html">Dashboard style 3</a></li>
 					</ul></li>
 				
-				<li><a href="/line/status" class="dropdown-toggle no-arrow"> <span class="micon bi bi-command"></span> <span class="mtext">라인 관리</span>
+				<li><a href="/line/manage/status" class="dropdown-toggle no-arrow"> <span class="micon bi bi-command"></span> <span class="mtext">라인 현황</span>
 				</a></li>
 			</ul>
 		</div>

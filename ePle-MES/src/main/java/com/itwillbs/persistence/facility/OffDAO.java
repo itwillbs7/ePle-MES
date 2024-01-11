@@ -31,4 +31,14 @@ public interface OffDAO {
 	public List<LineOffVO> getCommonCode(String group_id) throws Exception;
 	
 	public void setLineOffComplete() throws Exception;
+	
+	public List<LineOffVO> getReservateList() throws Exception;
+
+	public LineOffVO getResDetail(String code) throws Exception;
+	
+	public List<LineOffVO> getSameInfo(LineOffVO vo) throws Exception;
+	
+	public int updateRes(Map<String, Object> map) throws Exception;
+	
+	public int deleteRes(String[] code) throws Exception;
 }
