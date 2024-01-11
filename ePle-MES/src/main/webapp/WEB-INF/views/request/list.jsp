@@ -25,7 +25,7 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>수주 관리</h1>
+				<h1><a href="/request/list" style="color:#202342;">수주 관리</a></h1>
 			</div>
 			<div class="min-height-200px">
 				<br>
@@ -130,10 +130,12 @@
 												<div class="form-group md-4">
 															<span style="display : flex; justify-content:space-between;">
 															<input class="form-control date-picker" readonly placeholder="날짜 선택하기" 
-															style="width:50%;" type="text" name="startDead" autocomplete="off" id="startDead">
+															style="width:50%;" type="text" name="startDead" autocomplete="off" id="startDead"
+															value="${paramMap.startDead }">
 															<span style="padding:0px 10px;  padding-top:10px; text-align : center;"> ~ </span> 
 															<input class="form-control" readonly placeholder="날짜 선택하기" 
-															style="width:50%;" type="text" name="endDead" autocomplete="off" id="endDead">
+															style="width:50%;" type="text" name="endDead" autocomplete="off" id="endDead"
+															value="${paramMap.endDead }">
 															</span>
 														</div>
 												</div>
@@ -237,7 +239,7 @@
 							<div class="custom-control custom-checkbox mb-5">
 								<input type="checkbox" class="custom-control-input" id="checkTable${status.index}" 
 								name="tableCheck" value="${item.code}" style="visibility: hidden;"> 
-								<label class="custom-control-label" for="checkTable${status.index}"></label>
+								<label class="custom-control-label" for="checkTable${status.index}" style="visibility: hidden;"></label>
 							</div>
 							</td>
 							</c:otherwise>
