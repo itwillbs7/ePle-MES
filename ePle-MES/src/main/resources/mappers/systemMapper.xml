@@ -32,6 +32,23 @@
 	<result property="auth" column="auth"/>
 </resultMap>
 
+<!-- ajax -->
+
+<select id="duplicateIDCheck" parameterType="java.util.Map" resultType="int">
+	SELECT COUNT(*) FROM EMPLOYEES 
+	WHERE id = #{id}
+</select>
+<select id="duplicateEmailCheck" parameterType="java.util.Map" resultType="int">
+	SELECT COUNT(*) FROM EMPLOYEES 
+	WHERE email = #{email}
+</select>
+<select id="duplicatePhoneCheck" parameterType="java.util.Map" resultType="int">
+	SELECT COUNT(*) FROM EMPLOYEES 
+	WHERE phone = #{phone}
+</select>
+
+<!-- ajax -->
+
  <select id="test" resultType="String">
  	select now()
  </select>
@@ -67,14 +84,13 @@
  <select id="selectAllUsers" resultType="UserVO">
  	select * from EMPLOYEES order by code asc
  </select>
+ <select id="selectCommonListPage" resultType="CommonVO" resultMap="CommonVO">
+ 	select * from COMMON_CODE 
+ 	limit #{startPage}, #{pageSize} 
+ </select>
  <select id="selectUserListPage" resultType="UserVO" resultMap="UserVO">
  	select * from EMPLOYEES 
  	limit #{startPage}, #{pageSize} 
- </select>
- <select id="countUsers" resultType="int">
-  	  <![CDATA[
-	  	  select count(*) from EMPLOYEES 
-   	  ]]> 
  </select>
  <select id="selectSomeUsers" parameterType="java.util.Map" resultType="UserVO">
 	select * from EMPLOYEES where code IN 
@@ -113,7 +129,25 @@
  		</if>
  	</where> 
  </select>
- <select id="selectKeyWordUser" parameterType="java.util.Map" resultType="UserVO">
+ <select id="selectKeyWordCommonPage" parameterType="java.util.Map" resultType="CommonVO">
+ 	select * from COMMON_CODE
+ 	<where>
+ 		<if test="categoryAndKeyword.category == 'group_id' ">
+ 			group_id like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category =='group_name' ">
+ 			group_name like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'code_id' ">
+ 			code_id like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'code_name' ">
+ 			code_name like #{categoryAndKeyword.keyword}
+ 		</if>
+ 	</where> 
+ 	limit #{cri.startPage},#{cri.pageSize}
+ </select>
+ <select id="selectKeyWordUserPage" parameterType="java.util.Map" resultType="UserVO">
  	select * from EMPLOYEES
  	<where>
  		<if test="categoryAndKeyword.category == 'code' ">
@@ -143,6 +177,9 @@
  <select id="selectUserTotalCount" resultType="int">
  	select count(*) from EMPLOYEES
  </select>
+ <select id="selectCommonTotalCount" resultType="int">
+ 	select count(*) from COMMON_CODE
+ </select>
  <select id="selectUserSearchCount" resultType="int">
  	select count(*) from EMPLOYEES 
 	<if test="categoryAndKeyWord != null or categoryAndKeyword != ''">
@@ -167,6 +204,25 @@
 	 		</if>
 	 		<if test="category == 'phone' ">
 	 			phone like #{keyword}
+	 		</if>
+		</where>
+	</if> 	
+ </select>
+ <select id="selectCommonSearchCount" resultType="int" parameterType="java.util.Map">
+ 	select count(*) from COMMON_CODE 
+	<if test="categoryAndKeyWord != null or categoryAndKeyword != ''">
+		<where>
+	 		<if test="category == 'group_id' ">
+ 				group_id like #{keyword}
+	 		</if>
+	 		<if test="category =='group_name' ">
+	 			group_name like #{keyword}
+	 		</if>
+	 		<if test="category == 'code_id' ">
+	 			code_id like #{keyword}
+	 		</if>
+	 		<if test="category == 'code_name' ">
+	 			code_name like #keyword}
 	 		</if>
 		</where>
 	</if> 	

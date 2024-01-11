@@ -86,7 +86,7 @@
 															class="custom-control-label" for="formCheck1">반품등록</label>
 															id="formCheck2" name="statusList" value="폐기"
 															<c:if test="${paramMap.statusList.contains('폐기')}">checked</c:if>> <label
-															id="formCheck2" name="statusList" value="폐기"> <label
+															id="formCheck2" name="statusList" value="폐기"></label>
 													</div>
 											<div class="col-md-2 col-sm-12"></div>
 										</div>

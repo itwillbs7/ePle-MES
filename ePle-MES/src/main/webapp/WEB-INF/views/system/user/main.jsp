@@ -149,7 +149,7 @@
 											<c:if test="${pageVO.totalCount > 0}">
 												<div class="btn-group">
 													<c:if test="${pageVO.prev}">
-														<a href="/system/user/main?pageNum=${pageVO.startPage-pageVO.cri.pageSize }" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+														<a href="/system/user/main?pageNum=${pageVO.startPage-pageVO.displayPageNum }" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
 														</a>
 													</c:if>
 													<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
@@ -161,7 +161,7 @@
 														</c:if>
 													</c:forEach>
 													<c:if test="${pageVO.next}">
-														<a href="/system/user/main?pageNum=${pageVO.startPage+pageVO.cri.pageSize }" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+														<a href="/system/user/main?pageNum=${pageVO.startPage+pageVO.displayPageNum }" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
 														</a>
 													</c:if>
 												</div>
@@ -172,7 +172,7 @@
 											<c:if test="${pageVO.totalCount > 0}">
 												<div class="btn-group">
 													<c:if test="${pageVO.prev}">
-														<a href="#" onclick="postPage(${pageVO.startPage-pageVO.cri.pageSize},'${categoryAndKeyword.category }','${categoryAndKeyword.keyword }');" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+														<a href="" onclick="postPage(${pageVO.startPage-pageVO.cri.pageSize},'${categoryAndKeyword.category }','${categoryAndKeyword.keyword }');" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
 														</a>
 													</c:if>
 													<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">

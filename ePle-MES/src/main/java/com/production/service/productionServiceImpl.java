@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.production.domain.instructionVO;
-import com.production.domain.requestVO;
+import com.production.domain.prodRequestVO;
 import com.production.persistence.productionDAO;
 
 @Service
@@ -47,7 +47,7 @@ public class productionServiceImpl implements productionService {
 	}
 
 	@Override
-	public List<requestVO> getRequestList() throws Exception {
+	public List<prodRequestVO> getRequestList() throws Exception {
 		return pdDAO.getRequestList();
 	}
 
@@ -87,7 +87,7 @@ public class productionServiceImpl implements productionService {
 	}
 
 	@Override
-	public requestVO getRequest(String code) throws Exception {
+	public prodRequestVO getRequest(String code) throws Exception {
 		return pdDAO.getRequest(code);
 	}
 

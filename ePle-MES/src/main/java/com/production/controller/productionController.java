@@ -21,8 +21,9 @@ import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.service.RequestService;
 import com.production.domain.instructionVO;
-import com.production.domain.requestVO;
+import com.production.domain.prodRequestVO;
 import com.production.service.productionService;
+import com.production.service.productionServiceImpl;
 
 @Controller
 @RequestMapping(value = "/production/*")
@@ -31,7 +32,7 @@ public class productionController {
 	private static final Logger logger = LoggerFactory.getLogger(productionController.class);
 	
 	@Inject
-	private productionService pdService;
+	private productionServiceImpl pdService;
 	
 	@Inject
 	private RequestService rService;
@@ -124,20 +125,21 @@ public class productionController {
 	@RequestMapping(value = "/chooseRequest", method = RequestMethod.GET)
 	public void chooseRequestGET(Model model,Criteria cri) throws Exception {
 		logger.debug("Controller : chooseRequestGET() 호출");
-		List<RequestVO> requestList = rService.requestListpage(cri);
+		//List<RequestVO> requestList = rService.requestListpage(cri);//vo값필요함
 		
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
+		//pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
+		//vo값필요함
 		
-		model.addAttribute("List",requestList);
+		//model.addAttribute("List",requestList);
 		model.addAttribute("pageVO", pageVO);
 	}
 	
 	//수주정보 선택(ajax)
 	@RequestMapping(value = "/ajaxRequest", method = RequestMethod.POST)
 	@ResponseBody
-	public requestVO ajaxRequest(String code) throws Exception {
+	public prodRequestVO ajaxRequest(String code) throws Exception {
 		logger.debug("Controller : ajaxRequest() 호출");
 		logger.debug("code : " + code);
 		return pdService.getRequest(code);

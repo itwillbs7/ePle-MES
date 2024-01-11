@@ -52,7 +52,7 @@
 			</if>
 		</if>
 	</select>
-	<select id="getRequestList" resultType="com.production.domain.requestVO">
+	<select id="getRequestList" resultType="com.production.domain.prodRequestVO">
 		SELECT * FROM REQUEST WHERE status = '등록'
 	</select>
 	<select id="getLine_codeList" resultType="String">
@@ -79,7 +79,7 @@
 			#{item}
 		</foreach>
 	</update>
-	<select id="getRequestAll" resultType="com.production.domain.requestVO">
+	<select id="getRequestAll" resultType="com.production.domain.prodRequestVO">
 		SELECT * FROM REQUEST WHERE code = #{code}
 	</select>
 

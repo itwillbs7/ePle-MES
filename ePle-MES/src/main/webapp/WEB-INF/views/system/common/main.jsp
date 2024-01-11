@@ -87,7 +87,6 @@
 										<th>그룹명</th>
 										<th>코드ID</th>
 										<th>코드명</th>
-										<th>정렬순서</th>
 										<th>사용여부</th>
 										<th>옵션</th>
 									</tr>
@@ -101,12 +100,10 @@
 												</div>
 											</td>
 											<th>${cvo.group_id }</th>
-											<!-- 상세 정보 이동! -->
-											<th><a href="#"><b class="text-blue" id="tableTitle1">${cvo.group_name }</b></a></th>
+											<th><b>${cvo.group_name }</b></th>
 											<th>${cvo.code_id }</th>
 											<th>${cvo.code_name }</th>
-											<th>${cvo.sortorder }</th>
-											<th>${cvo.active }</th>
+											<td><c:if test="${cvo.active==1 }"><b>Y</b></c:if><c:if test="${cvo.active==0 }"><b>N</b></c:if></td>
 											<td style="">
 											<!-- 옵션 -->
 												<div class="dropdown">
@@ -127,34 +124,56 @@
 							</form>
 							<div class="row">
 								<div class="col-sm-12 col-md-5">
-									<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(전체 수) 중 (검색 결과) 개</div>
+									<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;총 갯수 : ${pageVO.totalCount }개 / ${pageVO.totalPageCount }페이지 중  ${pageVO.cri.page }페이지</div>
 								</div>
 							</div>
 							<div class="btn-toolbar justify-content-center mb-15">
-								<div class="btn-group">
-									<div class="btn-toolbar justify-content-center mb-15">
-										<c:if test="${pageVO.totalCount > 1}">
-											<div class="btn-group">
-												<c:if test="${pageVO.prev}">
-													<a href="javascript:pageMove(${pageVO.startPage - 1})" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
-													</a>
+								<!-- 검색하지않았을때 페이징 처리 -->
+								<c:if test="${empty categoryAndKeyword }">
+									<c:if test="${pageVO.totalCount > 0}">
+										<div class="btn-group">
+											<c:if test="${pageVO.prev}">
+												<a href="/system/common/main?pageNum=${pageVO.startPage-pageVO.displayPageNum }" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+												</a>
+											</c:if>
+											<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+												<c:if test="${pageVO.cri.page == i}">
+													<span class="btn btn-primary current">${i}</span>
 												</c:if>
-												<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-													<c:if test="${pageVO.cri.page == i}">
-														<span class="btn btn-primary current">${i}</span>
-													</c:if>
-													<c:if test="${pageVO.cri.page != i}">
-														<a href="javascript:pageMove(${i})" class="btn btn-outline-primary">${i}</a>
-													</c:if>
-												</c:forEach>
-												<c:if test="${pageVO.next}">
-													<a href="javascript:pageMove(${pageVO.endPage + 1})" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
-													</a>
+												<c:if test="${pageVO.cri.page != i}">
+													<a href="/system/common/main?pageNum=${i }" class="btn btn-outline-primary">${i}</a>
 												</c:if>
-											</div>
-										</c:if>
-									</div>
-								</div>
+											</c:forEach>
+											<c:if test="${pageVO.next}">
+												<a href="/system/common/main?pageNum=${pageVO.startPage+pageVO.displayPageNum }" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+												</a>
+											</c:if>
+										</div>
+									</c:if>
+								</c:if>	
+								<!-- 검색했을때의 페이징 처리 -->
+								<c:if test="${!empty categoryAndKeyword }">
+									<c:if test="${pageVO.totalCount > 0}">
+										<div class="btn-group">
+											<c:if test="${pageVO.prev}">
+												<a href="" onclick="postPage(${pageVO.startPage-pageVO.cri.pageSize},'${categoryAndKeyword.category }','${categoryAndKeyword.keyword }');" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+												</a>
+											</c:if>
+											<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+												<c:if test="${pageVO.cri.page == i}">
+													<span class="btn btn-primary current">${i}</span>
+												</c:if>
+												<c:if test="${pageVO.cri.page != i}">
+													<a href="#" onclick="postPage(${i},'${categoryAndKeyword.category }','${categoryAndKeyword.keyword }');" class="btn btn-outline-primary">${i}</a>
+												</c:if>
+											</c:forEach>
+											<c:if test="${pageVO.next}">
+												<a href="#" onclick="postPage(${pageVO.startPage+pageVO.cri.pageSize},'${categoryAndKeyword.category }','${categoryAndKeyword.keyword }');" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+												</a>
+											</c:if>
+										</div>
+									</c:if>
+								</c:if>
 							</div>
 						</div>
 					</div>
@@ -172,7 +191,18 @@
 
 	<script type="text/javascript">
 
-	
+	// 페이지 이동 (POST)
+	function postPage(i,category,keyword) {
+		console.log('함수실행');
+	    // 폼 생성
+	    var form = document.createElement('form');
+	    form.method = 'post';
+		// 실제로 데이터를 전송할 서버의 URL로 변경
+	    form.action = '/system/common/main?pageNum='+i+'&category='+category+'&keyword=' + keyword;
+	    // 폼을 body에 추가하고 전송
+	    document.body.appendChild(form);
+	    form.submit();
+	}
 	
 	<!-- 추가, 수정, 삭제 -->
 		var popupWidth, popupHeight, popupX, popupY, link;
