@@ -73,7 +73,7 @@
 																		href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b
 																			class="text-blue">${i.fac_code}</b></a></th>
 																	<th>${i.facility.model}</th>
-																	<th>${i.facility.name}</th>
+																	<th>${i.facility.mapd.name}</th>
 																	<th>
 																		<c:choose>
 																			<c:when test="${empty i.facility.line_name}">
@@ -93,7 +93,7 @@
 																		href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b
 																			class="text-blue">${i.fac_code}</b></a></th>
 																	<th>${i.facility.model}</th>
-																	<th>${i.facility.name}</th>
+																	<th>${i.facility.mapd.name}</th>
 																	<th><c:choose>
 																			<c:when test="${empty i.facility.line_name}">
 																				없음
@@ -145,7 +145,7 @@
 																href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b
 																	class="text-blue">${i.fac_code}</b></a></th>
 															<td>${i.facility.model}</td>
-															<td>${i.facility.name}</td>
+															<td>${i.facility.mapd.name}</td>
 															<td><c:choose>
 																	<c:when test="${empty i.facility.line_name}">없음</c:when>
 																	<c:otherwise>${i.facility.line_name}</c:otherwise>

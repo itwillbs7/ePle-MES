@@ -255,7 +255,7 @@
 											<th>${i.order.code_name}</th>
 											<!-- 상세 정보 이동! -->
 											<th id="tableTitle${i.code}">${i.mapd.name}</th>
-											<th>${i.line_name}</th>
+											<th id="tableinfo${i.code}">${i.line_name}</th>
 											<td style="">
 												<!-- 옵션 -->
 												<div class="dropdown">

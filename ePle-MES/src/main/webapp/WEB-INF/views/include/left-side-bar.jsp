@@ -66,6 +66,7 @@
 					<ul class="submenu">
 						<li><a href="/facility/info/list">설비 정보</a></li>
 						<li><a href="/facility/mt/main">보전</a></li>
+						<li><a href="/facility/mt/status">설비 모니터링</a></li>
 						<li><a href="/facility/order/list">발주 신청</a></li>
 					</ul></li>
 

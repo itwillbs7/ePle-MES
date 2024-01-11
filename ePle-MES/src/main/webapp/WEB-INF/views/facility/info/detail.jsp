@@ -43,16 +43,16 @@
 								</c:choose></td>
 						</tr>
 						<tr>
-							<th>구매 일자</th>
-							<td><fmt:formatDate value="${info.order.date}" dateStyle="full"/></td>
-							<th>구매 금액</th>
-							<td><fmt:formatNumber value="${info.order.inprice}" type="currency"/></td>
+							<th>등록일자</th>
+							<td><fmt:formatDate value="${info.date}" type="both" /></td>
+							<th>가격</th>
+							<td> <fmt:setLocale value="ko_KR"/><fmt:formatNumber type="currency" value="${info.mapd.inprice}" /></td>
 						</tr>
 						<tr>
 							<th>라인</th>
 							<td>${info.line_name}</td>
-							<th>제조사</th>
-							<td>${info.client_name}</td>
+							<th>위치</th>
+							<td>${info.line.place}</td>
 						</tr>
 					</table>
 				</div>

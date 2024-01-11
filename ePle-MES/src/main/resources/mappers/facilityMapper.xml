@@ -10,6 +10,10 @@
 	<resultMap type="com.itwillbs.domain.FacilityVO"
 		id="facility">
 		<result property="code" column="code" />
+		<result property="date" column="date"/>
+		<result property="model" column="model"/>
+		<result property="group_name" column="group_name"/>
+		<result property="code_name" column="code_name"/>
 		<result property="line_code" column="line_code" />
 		<result property="line_name" column="line_name" />
 		<result property="uph" column="uph" />
@@ -19,6 +23,7 @@
 			<result property="name" column="mapd" />
 			<result property="group_id" column="group_id" />
 			<result property="code_id" column="code_id" />
+			<result property="inprice" column="inprice" />
 		</collection>
 		<collection property="order" resultMap="order">
 			<result property="code" column="order_code" />
@@ -44,6 +49,7 @@
 		<result property="name" column="name" />
 		<result property="size" column="size" />
 		<result property="unit" column="unit" />
+		<result property="inprice" column="inprice" />
 	</resultMap>
 	<resultMap type="com.itwillbs.domain.FacilityOrderVO"
 		id="order">
@@ -76,25 +82,13 @@
 	</resultMap>
 	<!-- resultMap -->
 
-	<select id="getFacility"
-		resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
-		select f.code,
-		f.order_code, o.date,
-		o.client_code, c.name as client_name,
-		o.material,
-		m.name, m.group_id, co.group_name, m.code_id, co.code_name,
-		m.inprice,
-		f.line_code, l.name as line_name, l.place,
-		uph, f.active
-		from FAC_INFO f
-		left outer join ORDERS o ON o.code = f.order_code
-		left outer join MAPD
-		m ON f.mapd = m.code
-		left outer join LINE l ON l.code = f.line_code
-		left outer join CLIENT c ON o.client_code = c.code
-		left outer join
-		COMMON_CODE co
-		ON m.group_id = co.group_id and m.code_id = co.code_id
+	<select id="getFacility" resultMap="facility">
+		SELECT f.code, f.mapd, f.date, f.model, m.name, m.group_id, c.group_name, m.code_id, c.code_name, 
+		m.inprice, f.line_code, l.name as line_name, l.place, uph, f.active 
+		FROM FAC_INFO f 
+		LEFT OUTER JOIN MAPD m ON f.mapd = m.code 
+		LEFT OUTER JOIN LINE l ON f.line_code = l.code 
+		LEFT OUTER JOIN COMMON_CODE c ON m.group_id = c.group_id AND m.code_id = c.code_id 
 		WHERE f.code = #{code}
 	</select>
 
@@ -118,7 +112,7 @@
 			<choose>
 				<when test="search.isnull == true">
 					<if test="search.isajax == true">
-						AND o.date BETWEEN DATE_SUB(NOW(), INTERVAL 1
+						AND f.date BETWEEN DATE_SUB(NOW(), INTERVAL 1
 						MONTH) AND
 						NOW()
 					</if>
@@ -157,7 +151,7 @@
 						<when
 							test="search.date neq null and search.date.toString() neq ''">
 							<![CDATA[
-								AND o.date = #{search.date}
+								AND f.date = #{search.date}
 							]]>
 						</when>
 						<otherwise>
@@ -166,7 +160,7 @@
 								<when
 									test="search.betweenDateLeft neq null and search.betweenDateLeft.toString() neq '' and search.betweenDateRight neq null and search.betweenDateRight.toString() neq ''">
 											<![CDATA[
-												AND o.date BETWEEN 
+												AND f.date BETWEEN 
 												#{search.betweenDateLeft} AND 
 												#{search.betweenDateRight} 
 											]]>
@@ -174,13 +168,13 @@
 								<when
 									test="search.betweenDateLeft neq null and search.betweenDateLeft.toString() neq ''">
 											<![CDATA[
-												AND o.date >= #{search.betweenDateLeft}
+												AND f.date >= #{search.betweenDateLeft}
 											]]>
 								</when>
 								<when
 									test="search.betweenDateRight neq null and search.betweenDateRight.toString() neq ''">
 											<![CDATA[
-												AND o.date <= #{search.betweenDateRight}
+												AND f.date <= #{search.betweenDateRight}
 											]]>
 								</when>
 							</choose>
@@ -266,9 +260,8 @@
 			left outer join ORDERS o ON o.code = f.order_code 
 			left outer join MAPD m ON o.material = m.code 
 			left outer join LINE l ON l.code = f.line_code 
-			left outer join CLIENT c ON o.client_code = c.code 
-			left outer join COMMON_CODE co 
-			ON m.group_id = co.group_id and m.code_id = co.code_id
+			left outer join COMMON_CODE c  
+			ON m.group_id = c.group_id and m.code_id = c.code_id
 		]]>
 		<include refid="facilitySearch" />
 	</select>
@@ -277,19 +270,12 @@
 	<select id="getFacilityList"
 		resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
 		<![CDATA[
-			select f.code, 
-			f.order_code, o.date, 
-			o.client_code, c.name as client_name, f.model,
-			o.material, m.name, m.group_id, co.group_name, m.code_id, co.code_name, m.inprice, 
-			f.line_code, l.name as line_name, l.place, 
-			uph, f.active 
-			from FAC_INFO f 
-			left outer join ORDERS o ON o.code = f.order_code 
-			left outer join MAPD m ON f.mapd = m.code 
-			left outer join LINE l ON l.code = f.line_code 
-			left outer join CLIENT c ON o.client_code = c.code 
-			left outer join COMMON_CODE co 
-			ON m.group_id = co.group_id and m.code_id = co.code_id 
+			SELECT f.code, f.mapd, f.date, f.model, m.name, m.group_id, c.group_name, m.code_id, c.code_name, 
+			m.inprice, f.line_code, l.name as line_name, l.place, uph, f.active 
+			FROM FAC_INFO f 
+			LEFT OUTER JOIN MAPD m ON f.mapd = m.code 
+			LEFT OUTER JOIN LINE l ON f.line_code = l.code 
+			LEFT OUTER JOIN COMMON_CODE c ON m.group_id = c.group_id AND m.code_id = c.code_id 
 		]]>
 		<include refid="facilitySearch" />
 		<![CDATA[
@@ -306,19 +292,12 @@
 	<select id="getExportList"
 		resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
 		<![CDATA[
-			select f.code, 
-			f.order_code, o.date, 
-			o.client_code, c.name as client_name, 
-			o.material, m.name, m.group_id, co.group_name, m.code_id, co.code_name, m.inprice, 
-			f.line_code, l.name as line_name, l.place, 
-			uph, f.active 
-			from FAC_INFO f 
-			left outer join ORDERS o ON o.code = f.order_code 
-			left outer join MAPD m ON f.mapd = m.code 
-			left outer join LINE l ON l.code = f.line_code 
-			left outer join CLIENT c ON o.client_code = c.code 
-			left outer join COMMON_CODE co 
-			ON m.group_id = co.group_id and m.code_id = co.code_id
+			SELECT f.code, f.mapd, f.date, f.model, m.name, m.group_id, c.group_name, m.code_id, c.code_name, 
+			m.inprice, f.line_code, l.name as line_name, l.place, uph, f.active 
+			FROM FAC_INFO f 
+			LEFT OUTER JOIN MAPD m ON f.mapd = m.code 
+			LEFT OUTER JOIN LINE l ON f.line_code = l.code 
+			LEFT OUTER JOIN COMMON_CODE c ON m.group_id = c.group_id AND m.code_id = c.code_id 
 		]]>
 		<include refid="facilitySearch" />
 		<![CDATA[ ORDER BY code]]>
@@ -342,13 +321,13 @@
 
 	<select id="getFacListManager"
 		resultType="com.itwillbs.domain.FacilityVO" resultMap="facility">
-		SELECT f.code,
-		co.group_name, m.name, l.name as line_name FROM FAC_INFO
+		SELECT f.code, f.model, 
+		c.group_name, m.name, l.name as line_name FROM FAC_INFO f 
 		left outer
 		join ORDERS o ON o.code = f.order_code
 		left outer join MAPD m ON f.mapd = m.code
 		left outer join LINE l ON l.code = f.line_code
-		left outer join COMMON_CODE co
-		ON m.group_id = co.group_id and m.code_id = co.code_id
+		left outer join COMMON_CODE c
+		ON m.group_id = c.group_id and m.code_id = c.code_id
 	</select>
 </mapper>

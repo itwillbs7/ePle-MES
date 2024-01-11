@@ -85,7 +85,7 @@ public class FacMtController {
 		}
 		else {
 			// 날짜가 오늘일 경우엔 + 1 해주기
-			String fDate = recentCode.substring(3, recentCode.length()-3);
+			String fDate = recentCode.substring(2, recentCode.length()-3);
 			if(now.equals(fDate)) {				
 				String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
 				while(fCount.length() < 3) fCount = "0" + fCount;

@@ -31,7 +31,7 @@
 									<option value="" selected>선택</option>
 									<c:if test="${!empty list}">
 										<c:forEach items="${list}" var="i">
-											<option value="${i.code}">${i.name}(${i.model})</option>
+											<option value="${i.code}">${i.mapd.name}(${i.line_name})</option>
 										</c:forEach>
 									</c:if>
 								</select>
