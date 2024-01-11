@@ -52,21 +52,21 @@
 														<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>업체명</b></label> 
 														<input type="hidden"  name="client_code" id="client_code" value="${paramMap.client_code }"> 
 														<input type="text" name="clientName" class="form-control"  id="searchCompany"
-														style="width: 100%;" placeholder="업체명 찾아보기" autocomplete="off" readonly
+														style="width: 100%;" autocomplete="off" readonly
 														value = "${paramMap.clientName }">
 													</div>
 													<div class="col-md-4 col-sm-12 btn-group" style="margin-left: auto;">
 														<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>품명</b></label> 
 														<input type="hidden" name="product" id="product" value="${paramMap.product }"> 
 														<input type="text" name="productName" class="form-control" id="searchProduct" 
-														style="width: 100%;" placeholder="품명 찾아보기" autocomplete="off" readonly
+														style="width: 100%;" autocomplete="off" readonly
 														value = "${paramMap.productName }">
 													</div>
 													<div class="col-md-4 col-sm-12 btn-group" style="margin-left: auto;">
 														<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>담당자</b></label> 
 														<input type="hidden" name="manager" id="manager" value="${manager }"> 
 														<input type="text" name="managerName" class="form-control"  id="searchManager" 
-														style="width: 100%;" placeholder="담당자 찾아보기" autocomplete="off" readonly
+														style="width: 100%;" autocomplete="off" readonly
 														value = "${paramMap.managerName }">
 													</div>
 												</div>
@@ -116,11 +116,11 @@
 												<div class="col-md-4 col-sm-12">
 												<div class="form-group md-4" style="margin-top : auto;">
 															<span style="display : flex; justify-content:space-between;">
-															<input class="form-control date-picker" placeholder="날짜 선택하기"
+															<input class="form-control date-picker" 
 															type="text" name="startDate" autocomplete="off" id="startDate"
 															style="width:50%;" readonly value = "${paramMap.startDate }">
 															<span style="padding:0px 10px; padding-top:10px; text-align : center;"> ~ </span>
-															<input class="form-control date-picker" placeholder="날짜 선택하기" 
+															<input class="form-control date-picker" 
 															type="text" name="endDate" autocomplete="off" id="endDate" style="width:50%;"
 															readonly value = "${paramMap.endDate }">
 															</span>
@@ -129,11 +129,11 @@
 												<div class="col-md-4 col-sm-12">
 												<div class="form-group md-4">
 															<span style="display : flex; justify-content:space-between;">
-															<input class="form-control date-picker" readonly placeholder="날짜 선택하기" 
+															<input class="form-control date-picker" readonly 
 															style="width:50%;" type="text" name="startDead" autocomplete="off" id="startDead"
 															value="${paramMap.startDead }">
 															<span style="padding:0px 10px;  padding-top:10px; text-align : center;"> ~ </span> 
-															<input class="form-control" readonly placeholder="날짜 선택하기" 
+															<input class="form-control" readonly 
 															style="width:50%;" type="text" name="endDead" autocomplete="off" id="endDead"
 															value="${paramMap.endDead }">
 															</span>
@@ -198,7 +198,7 @@
 					<div class="pb-20">
 						<div class="col-sm-30">
 							<form class="table" id="table" action="">
-								<table class="table table-striped">
+								<table class="table table-striped" style="text-align : center">
 								<thead>
 									<tr>
 										<td style="width: 100px;">
@@ -365,7 +365,7 @@ $('#reset').click(function(){
 			        deleteList.push($(this).val());
 			    });
 			    if (deleteList.length > 0) {
-			        openPage("/request/delete?code="+deleteList.join(','), 400, 700);
+			        openPage("/request/delete?code="+deleteList.join(','), 600, 500);
 			    } else {
 			    	alert('삭제 실패');
 			    }

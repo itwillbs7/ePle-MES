@@ -33,7 +33,9 @@ public class ReturnsVO {
 	private String clientName;
 	private String client_code;
 	private String product;
+	private String productName;
 	private String manager;
+	private String managerName;
 	
 	private List<String> statusList;
 

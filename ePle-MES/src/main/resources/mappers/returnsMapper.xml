@@ -52,11 +52,11 @@
 	<select id="research" resultType="ReturnsVO">
 		select rt.*, c.name clientName
 		from RETURNS rt
-		join REQUEST r on
-		rt.request_code = r.code
+		join REQUEST r on rt.request_code = r.code
 		join CLIENT c on c.code = r.client_code
-		join
-		SHIPMENT s on s.code = rt.ship_code
+		join SHIPMENT s on s.code = rt.ship_code
+		join EMPLOYEES e on e.code = r.manager
+		join MAPD m on m.code = r.product
 		where 1 = 1
 		<if test="vo.clientName neq null and vo.clientName.toString() neq '' "> AND c.name = #{vo.clientName} </if>
 		<if test="vo.product neq null and vo.product.toString() neq ''"> AND r.product = #{vo.product} </if>

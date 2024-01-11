@@ -52,7 +52,7 @@
 													<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>업체명</b></label> 
 													<input type="hidden" id="client_code" > 
 													<input type="text" name="clientName" class="form-control" 
-													id="searchCompany" style="width: 50%;" placeholder="업체명 찾아보기"
+													id="searchCompany" style="width: 50%;" 
 													autocomplete="off" readonly value="${paramMap.clientName }">
 												</div>
 												<div class="col-md-6 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
@@ -60,7 +60,7 @@
 													<input type="hidden" name="product" id="product" value="${paramMap.product }"> 
 														<input type="text" name="reqsdate" 
 														class="form-control" id="searchProduct"
-														style="width: 50%;" placeholder="품명 찾아보기"
+														style="width: 50%;" 
 														autocomplete="off" readonly value="${paramMap.reqsdate }">
 												</div>
 											</div>
@@ -89,11 +89,11 @@
 												<div class="col-md-4 col-sm-12">
 													<div class="form-group md-4" style="margin-top : auto;">
 															<span style="display : flex; justify-content:space-between;">
-															<input class="form-control date-picker" placeholder="날짜 선택하기"
+															<input class="form-control date-picker" 
 															type="text" name="startDate" autocomplete="off" id="startDate"
 															style="width:50%;" readonly value = "${paramMap.startDate }">
 															<span style="padding:0px 10px; padding-top:10px; text-align : center;"> ~ </span>
-															<input class="form-control date-picker" placeholder="날짜 선택하기" 
+															<input class="form-control date-picker"
 															type="text" name="endDate" autocomplete="off" id="endDate" style="width:50%;"
 															readonly value = "${paramMap.endDate }">
 															</span>
@@ -167,7 +167,7 @@
 				<div class="pb-20">
 					<div class="col-sm-30">
 						<form class="table" id="table">
-							<table class="table table-striped">
+							<table class="table table-striped" style="text-align : center">
 								<thead>
 									<tr>
 										<td style="width: 100px;">
@@ -366,7 +366,7 @@ $('#reset').click(function(){
 											deleteList.push($(this).val());
 										});
 								if (deleteList.length > 0) {
-									openPage("/shipment/delete?code="+ deleteList.join(','), 400, 700);
+									openPage("/shipment/delete?code="+ deleteList.join(','), 600, 500);
 								} else {
 									alert('관리자에게 문의하세요');
 								}
@@ -408,7 +408,7 @@ $('#reset').click(function(){
 					    }
 
 					    if (stautsList.length > 0) {
-					        openPage("/shipment/print?code="+ stautsList.join(','), 400, 700);
+					        openPage("/shipment/print?code="+ stautsList.join(','), 1000, 700);
 					    } 
 					    else {
 					        alert('관리자에게 문의하세요');

@@ -1,6 +1,8 @@
 package com.itwillbs.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -56,15 +58,25 @@ public class ReturnsController {
 							   ) throws Exception { //5-1
 		// 반품 목록 return
 		logger.debug("returnsListGET -> DB에서 목록 가져오기(페이징 처리하기)");
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("clientName", vo.getClientName());
+		paramMap.put("productName", vo.getProductName()); // 이거 품명임
+		paramMap.put("managerName", vo.getManagerName()); // 이거 품명임
+		paramMap.put("statusList", vo.getStatusList());
+		paramMap.put("startDate", vo.getStartDate());
+		paramMap.put("endDate", vo.getEndDate());
 
 		List<ReturnsVO> returnsList = rtService.returnsListpage(vo,cri);
 		
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(rtService.getTotal(vo)); // 디비에서 직접 실행결과 가져오기
 		
+		
+		
 		model.addAttribute("List", returnsList);
 		model.addAttribute("pageVO", pageVO);
-		
+		model.addAttribute("paramMap", paramMap);
+
 	}
 	
 	// http://localhost:8088/request/search

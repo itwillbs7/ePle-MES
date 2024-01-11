@@ -64,6 +64,7 @@ public class ShipmentController {
 		
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(sService.getTotal(vo)); // 디비에서 직접 실행결과 가져오기
+		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("clientName", vo.getClientName());
 		paramMap.put("productName", vo.getReqsdate()); // 이거 품명임
@@ -373,6 +374,7 @@ public class ShipmentController {
 			String reqsCode = shipment.getReqs_code();
 			reqsArr.add(reqsCode);
 		}
+		
 		
 		// request 정보 가져오기
 		List<RequestVO> requestList = sService.getinfoRequest(reqsArr); // 가져온 출하번호의 수주정보 전부 저장!

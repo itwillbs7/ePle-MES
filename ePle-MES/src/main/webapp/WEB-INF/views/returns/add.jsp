@@ -53,15 +53,15 @@
 								value="${List.reqs_code }">
 						</div>
 						<div class="form-group">
-							<label for="date">출하일자</label> <input class="form-control "
-								name="shipdate" type="date" id="shipdate" autocomplete="off"
+							<label for="date">출하일자</label> <input class="form-control"
+								name="shipdate" type="text" id="shipdate" autocomplete="off"
 								required="required" readonly value="${List.date }">
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="returndate">
 							<label for="deadline ">반품일자</label> <input
 								class="form-control date-picker" name="date" type="text"
 								id="date" placeholder="클릭 시 달력이 뜹니다" autocomplete="off"
-								required="required">
+								required="required" readonly>
 						</div>
 						<div class="form-group">
 							<label for="amount">출하량</label> <input class="form-control"
@@ -114,13 +114,7 @@
 	<%@ include file="../include/footer.jsp"%>
 
 	<script type="text/javascript" class="formDataSetting">
-		// 출하일자 min 설정
-		document.getElementById('shipdate').addEventListener(
-				'input',
-				function() {
-					document.getElementById('date').min = document
-							.getElementById('shipdate').value;
-				});
+	
 
 		// 수주번호 생성
 		let returnNumber;
@@ -132,7 +126,8 @@
 			const month = String(date.getMonth() + 1).padStart(2, "0"); //이번달
 			const day = String(date.getDate()).padStart(2, "0"); //오늘날짜 
 
-		lot = $('#lot option:selected').val();
+			lot = $('#lot option:selected').val();
+			lot = lot.substr(0,3);
 			
 			const orderNum = year + "RT" + month + day + lot;
 			return orderNum;
@@ -142,6 +137,16 @@
 		document.querySelector('form').addEventListener('submit',function(event) {
 							// 기본 제출 이벤트를 막음
 							event.preventDefault();
+							
+							var date = new Date(document.getElementById('date').value);
+							var shipdate = new Date(document.getElementById('shipdate').value);
+							
+							// 반품일자는 출하일자 이전날짜를 선택할 수 없다
+							if(date<shipdate){
+							$('#returndate').append('<span style="color : red; font-size : 12px"> * 반품일자는 출하일자 이후여야 합니다 </span>');
+							document.getElementById('date').focus();
+								return;
+							}
 
 							// 출하번호 생성
 							const orderNum = createOrderNum();
@@ -155,35 +160,35 @@
 	</script>
 	<!-- ajax -->
 	<script type="text/javascript" id="ajaxForSubmit">
-		
+	function ajax() {
+		$.ajax({
+			type : "GET",
+			url : "/returns/searchLOT",
+			data : {
+				request_code : $("#request_code").val(),
+				ship_code : $("#ship_code").val()
+					},
+			success : function(data) {
+					$('#lot').empty();
+
+					$.each(data,function(index,item) {
+						// item을 이용하여 option 요소를 만들고 select 요소에 추가합니다.
+						$('#lot').append('<option value="' + item.lot + '" data-amount="' + item.amount + '">'+ item.lot+ '( 수량 : '+ item.amount+ ' ) </option>');
+									});
+						document.getElementById('amount').max = $('#lot option:selected').data('amount');
+					},
+			error : function(data) {
+					alert('다시시도');
+									}
+					});
+				};
 	</script>
 	<!-- 팝업 -->
 	<script type="text/javascript">
 		$(document).ready(function() {
 
 		// lot , lot 수량 가져오기
-		function ajax() {
-			$.ajax({
-				type : "GET",
-				url : "/returns/searchLOT",
-				data : {
-					request_code : $("#request_code").val(),
-					ship_code : $("#ship_code").val()
-						},
-				success : function(data) {
-						$('#lot').empty();
-
-						$.each(data,function(index,item) {
-							// item을 이용하여 option 요소를 만들고 select 요소에 추가합니다.
-							$('#lot').append('<option value="' + item.lot + '" data-amount="' + item.amount + '">'+ item.lot+ '( 수량 : '+ item.amount+ ' ) </option>');
-										});
-							document.getElementById('amount').max = $('#lot option:selected').data('amount');
-						},
-				error : function(data) {
-						alert('다시시도');
-										}
-						});
-					};
+		
 					
 			if ($("#ship_code").val() != null) {ajax();}
 
@@ -194,7 +199,7 @@
 
 			// 출하번호 찾기	
 			$("#ship_code").click(function() {
-				window.open("/returns/searchShipment","Shipment Search","width=500,height=600");
+				window.open("/returns/searchShipment","Shipment Search","width=500,height=600,left=200,top=200");
 									});
 
 			// 출하코드 입력 시

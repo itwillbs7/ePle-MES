@@ -42,7 +42,6 @@ public interface ShipmentService {
 
 	public List<ShipmentVO> getinfoList(String[] codeArr)throws Exception;
 
-	public List<RequestVO> getinfoRequest(List<String> reqsArr)throws Exception;
 
 	public String getRecentHistory(String vocode)throws Exception;
 
@@ -51,5 +50,7 @@ public interface ShipmentService {
 	public int actDoneShipment(String[] code)throws Exception;
 
 	public int getRequestTotal(String clientName, String productName);
+
+	public List<RequestVO> getinfoRequest(List<String> reqsArr)throws Exception;
 
 }
