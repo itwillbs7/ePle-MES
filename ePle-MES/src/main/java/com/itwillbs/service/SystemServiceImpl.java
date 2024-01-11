@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.CommonVO;
 import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.UserVO;
 import com.itwillbs.persistence.SystemDAOImpl;
+
+@Service
 public class SystemServiceImpl implements SystemService {
 
-	
 	private static final Logger logger = LoggerFactory.getLogger(SystemServiceImpl.class);
 	
 	@Inject
@@ -60,7 +62,6 @@ public class SystemServiceImpl implements SystemService {
 
 	@Override
 	public int registUser(UserVO uvo) throws Exception {
-		// TODO Auto-generated method stub
 		logger.debug("registUser 실행");
 		return sdao.registUser(uvo);
 	}

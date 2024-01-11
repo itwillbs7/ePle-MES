@@ -46,6 +46,33 @@
 									</div>
 								</div>
 								<input type="number" id="amount_input" class="form-control required" min="0"/>
+								<br>
+								<div class="table-responsive">
+									<table id="materials" class="table table-striped">
+										<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th>재료명</th>
+												<th>소요량</th>
+												<th>총합</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td scope="row">1</td>
+												<td>aa</td>
+												<td>1</td>
+												<td>1</td>
+											</tr>
+											<tr>
+												<td scope="row">2</td>
+												<td>bb</td>
+												<td>2</td>
+												<td>1</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 							<!-- 슬라이드바 -->
 						</div>
@@ -246,7 +273,7 @@
 					var requestVO = data;
 					$("#request").val(requestVO.code);
 					$("#product").val(requestVO.product).change();
-					sliderUpdate(amount,requestVO.amount);
+					sliderUpdate(amount,requestVO.amount + Number(amount));
 				}
 			});
 		}

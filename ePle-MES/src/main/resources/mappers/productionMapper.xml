@@ -80,7 +80,7 @@
 		</foreach>
 	</update>
 	<select id="getRequestAll" resultType="com.production.domain.requestVO">
-		SELECT * FROM REQUEST WHERE code = #{code}
+		SELECT code, product, IFNULL(amount-(SELECT SUM(amount) FROM INSTRUCTION WHERE request = #{code} AND status != '비활성'),amount) AS amount FROM REQUEST WHERE code = #{code}
 	</select>
 
 </mapper>

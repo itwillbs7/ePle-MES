@@ -105,7 +105,6 @@
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item"><a class="nav-link active text-blue" data-toggle="tab" href="#result" role="tab" aria-selected="true">기본 정보</a></li>
 							<li class="nav-item"><a class="nav-link text-blue" data-toggle="tab" href="#failed" role="tab" aria-selected="false">부적합 정보</a></li>
-							<li class="nav-item"><a class="nav-link text-blue" data-toggle="tab" href="#input" role="tab" aria-selected="false">투입 내역</a></li>
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="result" role="tabpanel">
@@ -114,6 +113,7 @@
 									<button type='button' class='btn btn-danger infoBtn' id='Complete' disabled>완료</button>
 									<button type='button' class='btn btn-secondary infoBtn' id='addResult' disabled>양품추가</button>
 									<button type="button" class="btn btn-dark infoBtn" id="addFailed" disabled>불량추가</button>
+									<button type="button" class="btn btn-dark infoBtn" id="inAdd" disabled>입고등록</button>
 								</div>
 								<i class="icon-copy fa fa-info-circle toggleIcon" aria-hidden="true" style="font-size: 30px; width: 100%; text-align: center; ertical-align: middle; line-height: 100px;">&nbsp;실적을 선택해 주세요</i>
 								<table class='table table-bordered toggleTable' id='infoTable' style="display: none;">
@@ -390,6 +390,42 @@
 	</script>
 
 	<!-- 불량추가 끝 -->
+	<!-- 입고등록 시작 -->
+	<script type="text/javascript">
+		$(document) .on( "click", "#addFailed", function() {
+			var popupWidth, popupHeight, popupX, popupY, link;
+			var set;
+			var code = $("#codeInfo").val();
+			var product = $("#pnameInfo").val();
+			function retPopupSetting(width, height) {
+				// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
+				popupX = Math.ceil((window.screen.width - width) / 2);
+				// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
+				popupY = Math.ceil((window.screen.height - height) / 2);
+		
+				var setting = "";
+				setting += "toolbar=0,";
+				setting += "scrollbars=0,";
+				setting += "statusbar=0,";
+				setting += "menubar=0,";
+				setting += "resizeable=0,";
+				setting += "width=" + width + ",";
+				setting += "height=" + height + ",";
+				setting += "top=" + popupY + ",";
+				setting += "left=" + popupX;
+				return setting;
+			}
+		
+			function openPage(i, width, height) {
+				set = retPopupSetting(width, height);
+				return window.open(i, 'Popup_Window', set);
+			}
+		
+			openPage("/production/insertFailed?code=" + code + "&product=" + product, 500, 600);
+		});
+	</script>
+
+	<!-- 입고등록 끝 -->
 	<!-- 수주정보 받기 시작 -->
 	<script type="text/javascript">
 		window.addEventListener("message", function(event) {

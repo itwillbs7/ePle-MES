@@ -44,7 +44,7 @@
 										<input id="amount" class="required" name="amount" />
 									</div>
 								</div>
-								<input type="number" id="amount_input" class="form-control required" min="0" max="100" />
+								<input type="number" id="amount_input" class="form-control required" min="1" max="100" />
 								<br>
 								<div class="table-responsive">
 									<table id="materials" class="table table-striped">
@@ -192,6 +192,7 @@
 				$('#submit').attr("disabled",true);
 			}
 		});
+	});
 	</script>
 	<!-- 필수입력 체크 끝-->
 	<!-- 수주정보 조회 시작 -->
@@ -252,6 +253,18 @@
 						$("#request").val(requestVO.code).change();
 						$("#product").val(requestVO.product).change();
 						sliderUpdate(data.amount);
+						if (data.amount == 0) {
+							alert("이미 모든 수주량이 등록되었습니다.");
+							$("#amount_input").attr("disabled","disabled");
+							$("select.required").attr("disabled","disabled");
+							$(".required[name='production_date']").attr("disabled","disabled");
+							$("textarea[name='content']").attr("disabled","disabled");
+						}else{
+							$("#amount_input").removeAttr("disabled");
+							$("select.required").removeAttr("disabled");
+							$(".required[name='production_date']").removeAttr("disabled");
+							$("textarea[name='content']").removeAttr("disabled");
+						}
 					}
 				});
 			}

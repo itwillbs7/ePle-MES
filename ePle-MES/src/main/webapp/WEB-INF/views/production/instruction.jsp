@@ -261,12 +261,12 @@
 						html += "</div>";
 						html += "</td>";
 						html += "<th>" + this.code +"</th>";
-						html += "<th><a href='#'><b class='text-blue' id='tableTitle1'>" + this.product +"</b></a></th>";
+						html += "<th>" + this.request +"</th>";
+						html += "<th>" + this.product +"</th>";
 						html += "<th>" + this.amount +"</th>";
 						html += "<th>" + this.line_code +"</th>";
-						html += "<th>" + this.content +"</th>";
-						html += "<th>" + this.request +"</th>";
 						html += "<th>" + this.production_date +"</th>";
+						html += "<th>" + this.content +"</th>";
 						html += "</tr>";
 					});
 					$("table").append(html);

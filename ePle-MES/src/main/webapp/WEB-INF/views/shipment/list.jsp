@@ -86,8 +86,7 @@
 													autocomplete="off" id="deadline2" readonly value="${paramMap.endDate }">
 													<label>출하 일자</label> <input class="form-control "
 														placeholder="Select Month" type="date" name="startDate"
-														autocomplete="off" id="deadline"> ~ <input
-									
+														autocomplete="off" id="deadline">
 										<!-- 정렬, asc, desc -->
 										<input type="hidden" name="activeSortCategory" id="sortCategory" value="${pageVO.search.activeSortCategory}"> 
 										<input type="hidden" name="sortValue" id="sortValue" value="${pageVO.search.sortValue}">
