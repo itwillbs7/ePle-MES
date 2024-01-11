@@ -48,23 +48,23 @@
 												<h4 class="text-blue h4">반품 검색</h4>
 											</div>
 											<div class="row">
-											<div class="col-md-4 col-sm-12 btn-group ml-auto">
-												<label>업체명</label> 
+											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
+												<label class="col-md-2" style="padding: 10px 0px 10px 0px; ">업체명</label> 
 												<input type="hidden" name="client_code" id="client_code"> 
 												<input type="text"
 												name="clientName" class="form-control" id="searchCompany"
 												style="width: 100%;" placeholder="업체명 찾아보기"
 												autocomplete="off" readonly value="${clientName }">
 											</div>
-											<div class="col-md-4 col-sm-12 btn-group ml-auto">
-												<label>품명</label> 
+											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
+												<label class="col-md-2" style="padding: 10px 0px 10px 0px; ">품명</label> 
 												<input type="hidden" name="product" id="product">
 												<input type="text" name="productName" class="form-control" 
 												id="searchProduct" style="width: 100%;" placeholder="품명 찾아보기"
 												autocomplete="off" readonly value="${productName }">
 											</div>
-											<div class="col-md-4 col-sm-12 btn-group ml-auto">
-												<label>담당자</label> 
+											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
+												<label class="col-md-2" style="padding: 10px 0px 10px 0px; ">담당자</label> 
 												<input type="hidden" name="manager" id="manager"> 
 												<input type="text" name="managerName" class="form-control" 
 												id="searchManager" style="width: 100%;" placeholder="" autocomplete="off"
