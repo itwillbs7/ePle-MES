@@ -6,16 +6,21 @@
     <meta charset="UTF-8">
     <%@ include file="../include/head.jsp"%>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<style>
+.login-box {
+width: 120% !important;
+}
+</style>
     <title>발주 요청 취소</title>
 </head>
 <body>
     <!-- 콘텐츠 시작 -->
     <div class="modal-content">
-        <div class="login-box bg-white box-shadow border-radius-10">
+        <div class="container-fluid login-box bg-white box-shadow border-radius-10">
             <button type="button" class="close" onclick="window.close();">×</button>
             <!-- 타이틀 -->
             <div class="login-title">
-                <h1 class="text-center text-primary">발주 요청 취소</h1>
+                <h2 class="text-center" style="color: #FF8C00;">발주 요청 취소</h2>
             </div>
             <!-- 폼 -->
             <form id="deleteForm" method="post">
@@ -42,7 +47,11 @@
                         </div>
                     </div>
                 </div>
-                <h6 class="text-center text-primary">요청을 취소???</h6>
+                <hr>
+                <br>
+                <h6 class="text-center">해당 요청을 취소하시겠습니까?</h6>
+                <br>
+                
                 <!-- 삭제 리스트 목록 -->
 
                 <!-- 버튼 -->

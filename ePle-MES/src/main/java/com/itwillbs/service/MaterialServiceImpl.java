@@ -160,7 +160,6 @@ public class MaterialServiceImpl implements MaterialService {
 		return mdao.orderAdd(vo);
 	}
 	
-	
 	// 발주등록) 거래처 목록
 	@Override
 	public List<OrderVO> searchClient(OrderVO vo) throws Exception {
@@ -173,6 +172,28 @@ public class MaterialServiceImpl implements MaterialService {
 		logger.debug("S - searchClientCount(OrderVO vo)");
 		return mdao.searchClientCount(vo);
 	}	
+	
+	
+	
+	
+	// 출고 리스트 (페이징)
+	@Override
+	public List<Warehouse_HistoryVO> outList(Warehouse_HistoryVO vo) throws Exception {
+		logger.debug("S - outList(Warehouse_HistoryVO vo)");
+		return mdao.outList(vo);
+	}
+	// 전체 출고 데이터 수
+	@Override
+	public int outListCount(Warehouse_HistoryVO vo) throws Exception {
+		logger.debug("S - outListCount(Warehouse_HistoryVO vo)");
+		return mdao.outListCount(vo);
+	}
+	// 출고 상세
+	@Override
+	public Warehouse_HistoryVO outInfo(String code) throws Exception {
+		logger.debug("S - outInfo(String code)"+code);
+		return mdao.outInfo(code);
+	}
 	
 	
 	

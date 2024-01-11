@@ -182,5 +182,27 @@ public class MaterialDAOImpl implements MaterialDAO {
 	
 	
 	
+	// 출고 리스트 (페이징)
+	@Override
+	public List<Warehouse_HistoryVO> outList(Warehouse_HistoryVO vo) throws Exception {
+		logger.debug("D - outList(Warehouse_HistoryVO vo)");
+		return sqlSession.selectList(NAMESPACE + ".outList", vo);
+	}
+	// 전체 출고 데이터 수
+	@Override
+	public int outListCount(Warehouse_HistoryVO vo) throws Exception {
+		logger.debug("D - outListCount(Warehouse_HistoryVO vo)");
+		return sqlSession.selectOne(NAMESPACE + ".outListCount", vo);
+	}
+	// 출고 상세
+	@Override
+	public Warehouse_HistoryVO outInfo(String code) throws Exception {
+		logger.debug("D - outInfo(String code)");
+		return sqlSession.selectOne(NAMESPACE + ".outInfo", code); // 코드!
+	}	
+	
+	
+	
+	
 	
 }

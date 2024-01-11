@@ -12,6 +12,9 @@
 .back {
   background-color: white !important;
 }
+label {
+font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -20,7 +23,7 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">발주서 등록</h1>
+				<h1 class="text-center" style="color: #7CB342;">발주서 등록</h1>
 			</div>
 			<!-- 폼 -->
 			<form action="/material/orderAdd" method="post" id="editForm">
@@ -32,7 +35,7 @@
 						
 									<label>발주 코드</label> 
 								<div class="form-group">
-								<input class="form-control" type="text" name="code" id="code" value="${List.code }" readonly>
+									<input class="form-control" type="text" name="code" id="code" value="${List.code }" readonly>
 								</div>
 								
 								<div class="form-group">
@@ -41,18 +44,18 @@
 									
 									<label>거래처 정보</label> 
 								<div class="form-group">
-									<input class="form-control back" type="text" id="selectD" name="client_code" readonly>
+									<input class="form-control back" type="text" id="selectD" name="client_code" placeholder="거래처 코드" required readonly>
 								</div>
 								<div class="form-group">
-									<input class="form-control back" type="text" id="selectE" readonly>
+									<input class="form-control back" type="text" id="selectE" placeholder="거래처 이름" required readonly>
 								</div>
 								
 									<label>품목 정보</label> 
 								<div class="form-group">
-									<input class="form-control" type="text" id="mapdCode" name="material" value="${List.material}" readonly>
+									<input class="form-control" type="text" id="mapdCode" name="material" value="${List.material}" required readonly>
 								</div>
 								<div class="form-group">
-									<input class="form-control" type="text" id="mapdName" value="${List.name }" readonly>
+									<input class="form-control" type="text" id="mapdName" value="${List.name }" required readonly>
 								</div>
 								
 									<label>요청량</label> 
@@ -62,23 +65,23 @@
 
 									<label>발주금액</label> 
 								<div class="form-group">
-									<input class="form-control back" type="text" name="price" required min="1" max="100" oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
+									<input class="form-control back" type="text" name="price" required placeholder="0 ~ 9,000,000" maxlength="9000000" onkeyup="inputNumberFormat(this);">
 								</div>
 
 									<label>납기 일자</label> 
 								<div class="form-group">
 									<!-- 달력???? -->
-									<input class="form-control back" type="date" id="datepicker" name="order_date" placeholder="">
+									<input class="form-control back" type="date" id="datepicker" name="order_date" required placeholder="달력을 클릭해 주세요">
 								</div>
 
 									<label>담당자</label> 
 								<div class="form-group">
-									<input class="form-control back" type="text" id="selectA" name="reg_emp" placeholder="" readonly>
+									<input class="form-control back" type="text" id="selectA" placeholder="담당자 코드" name="reg_emp" required placeholder="" readonly>
 								</div>
 								<div class="form-group">
-									<input class="form-control back" type="text" id="selectB" placeholder="" readonly>
-									<input class="form-control" type="hidden" id="selectC" placeholder="">
+									<input class="form-control back" type="text" id="selectB" placeholder="담당자 이름" required readonly>
 								</div>
+									<input class="form-control" type="hidden" id="selectC" placeholder="">
 								
 
 				<!-- 버튼 -->
@@ -124,12 +127,43 @@
 		
 	});
 		
-	$('#datePicker').datepicker({
-		format: "yyyy-mm-dd",	
-		startDate: '-10d',	
-		    
-		})
+	
+   $(document).ready(function() {
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+   $('#datePicker').datepicker({
+      format: "yyyy-mm-dd",
+      startDate: tomorrow,
+    });
+  });	
 		
+   
+	function comma(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    }
+
+    function uncomma(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
+    } 
+    
+    function inputNumberFormat(obj) {
+        obj.value = comma(uncomma(obj.value));
+    }
+    
+    function inputOnlyNumberFormat(obj) {
+        obj.value = onlynumber(uncomma(obj.value));
+    }
+    
+    function onlynumber(str) {
+	    str = String(str);
+	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
+	}
+    
+    
+    
 	</script>
 	<%@ include file="../include/footer.jsp"%>
 </body>

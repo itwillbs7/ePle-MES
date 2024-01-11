@@ -97,7 +97,12 @@
 	</delete>	
 	
 	
-	<!-- id mapdcode whcode category mapdname unit expiryd amount -->
+	
+	
+	
+	
+	
+	
 	
 	<!-- 창고등록) 사원 검색 팝업 -->
 	<select id="searchEmployees" resultType="WarehouseVO">

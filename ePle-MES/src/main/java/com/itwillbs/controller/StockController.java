@@ -20,7 +20,7 @@ import com.itwillbs.domain.StockVO;
 import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.service.StockService;
 
-/** StockController : 창고 + 재고 컨트롤러 합치는중
+/** StockController : 창고 + 재고 컨트롤러 
 * 
 *	창고 - http://localhost:8088/stock/warehouseList 
 */

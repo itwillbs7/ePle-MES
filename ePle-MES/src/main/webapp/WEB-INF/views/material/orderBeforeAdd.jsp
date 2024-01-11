@@ -34,8 +34,8 @@
 				<tr>
 					<th>발주코드</th>
 					<th>품명</th>
-					<th>요청량</th>
-					<th>신청일</th>
+					<th>발주량</th>
+					<th>요청일</th>
 				</tr>
 			</thead>
 			
@@ -43,9 +43,9 @@
 				<c:forEach items="${askOrderList}" var="vo">
 				<tr>
 					<td class="inInfo${vo.code} con">${vo.code }</td>
-					<td class="con">${vo.name }</td>
-					<td class="con">${vo.amount } ${vo.unit }</td>
-					<td><fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></td>
+					<td class="inInfo${vo.code} con">${vo.name }</td>
+					<td class="inInfo${vo.code} con">${vo.amount } ${vo.unit }</td>
+					<td class="inInfo${vo.code} con"><fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></td>
 				</tr>
 				</c:forEach>
 			</tbody>
@@ -82,7 +82,6 @@
 
 	<%@ include file="../include/footer.jsp"%>
 	<script type="text/javascript">
-	window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
 	
 	function retPopupSetting(width, height){
 		// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
@@ -111,7 +110,7 @@
 	// 
 	$('body').on('click', '[class^="inInfo"]', function(){
 		var code = $(this).text().trim();
-		  openPage("${pageContext.request.contextPath}/material/orderAdd?code=" + code, 400, 700); });
+		  openPage("${pageContext.request.contextPath}/material/orderAdd?code=" + code, 800, 1000); });
 			
 	
 	

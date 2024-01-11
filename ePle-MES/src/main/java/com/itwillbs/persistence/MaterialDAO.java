@@ -62,5 +62,17 @@ public interface MaterialDAO {
 	public int searchClientCount(OrderVO vo) throws Exception;	 
 	 
 	
-	
+	// 출고 리스트 (페이징)
+	public List<Warehouse_HistoryVO> outList(Warehouse_HistoryVO vo) throws Exception;
+	// 전체 출고 데이터 수
+	public int outListCount(Warehouse_HistoryVO vo) throws Exception;
+	// 출고 상세
+	public Warehouse_HistoryVO outInfo(String code) throws Exception;	 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
 }

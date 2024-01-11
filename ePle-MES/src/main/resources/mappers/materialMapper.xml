@@ -80,10 +80,12 @@
 	
 	<!-- 발주요청 리스트 -->
 	<select id="askOrderList" resultType="OrderVO">
-		SELECT o.code, o.material, m.name, o.amount, m.unit, o.date, o.status, m.group_id
+		SELECT o.code, o.material, m.name, o.amount, m.unit, o.date, o.status, m.group_id, o.ask_emp, e.name empName
     	FROM ORDERS o
 		LEFT OUTER JOIN MAPD m
         ON o.material = m.code
+        LEFT OUTER JOIN EMPLOYEES e
+        ON e.code = o.ask_emp
 		WHERE o.complete = 0 AND o.status = '신청'
 		ORDER BY o.code desc
 		LIMIT #{cri.startPage}, #{cri.pageSize}
@@ -98,8 +100,8 @@
 	
 	<!-- 발주요청 등록 -->
 	<insert id="askOrderAdd">
-		INSERT INTO ORDERS (code,material,date,amount,complete,status) 
-		VALUES (#{code},#{material},now(),#{amount},'0','신청')
+		INSERT INTO ORDERS (code,material,date,amount,complete,status,ask_emp) 
+		VALUES (#{code},#{material},now(),#{amount},'0','신청',#{ask_emp})
 	</insert>
 
 	<!-- 발주 최신코드 가져오기 -->
@@ -109,17 +111,19 @@
 	
 	<!-- 발주요청 상세 -->
 	<select id="askOrderInfo" parameterType="String" resultType="OrderVO">
-		SELECT o.code, o.material, m.code_id, m.name, o.amount, m.unit, o.date, o.status
+		SELECT o.code, o.material, m.code_id, m.name, o.amount, m.unit, o.date, o.status, e.name empName
     	FROM ORDERS o
 		LEFT OUTER JOIN MAPD m
         ON o.material = m.code
+        LEFT OUTER JOIN EMPLOYEES e
+        ON o.ask_emp = e.code
         WHERE o.status = '신청' AND o.code = #{code}
 	</select>
 	
 	<!-- 발주요청 수정 -->
 	<update id="askOrderEdit">
 		UPDATE ORDERS 
-		SET amount = #{amount}, material = #{material}
+		SET amount = #{amount}, material = #{material}, ask_emp=#{ask_emp}
 		WHERE code = #{code} AND status = '신청'
 	</update>
 	
@@ -269,7 +273,48 @@
 	</select>
 	
 	
+	<!-- 출고 리스트 -->
+	<select id="outList" resultType="Warehouse_HistoryVO">
+		SELECT wh.*, m.name mapdName, m.unit, e.name empName
+		FROM WAREHOUSE_HISTORY wh
+		JOIN MAPD m
+		ON wh.mapd_code = m.code
+		LEFT OUTER JOIN WAREHOUSE w
+        ON wh.warehouse_code = w.code
+        LEFT OUTER JOIN EMPLOYEES e
+        ON w.manager = e.code
+        WHERE wh.io = 'OUT'
+        <if test="searchCode != null or searchName != null" >
+		<if test="searchCode != null">
+			AND wh.warehouse_code LIKE CONCAT('%', #{searchCode}, '%')
+		</if>
+		<if test="searchName != null">
+			AND m.name LIKE CONCAT('%', #{searchName}, '%')
+		</if>
+		</if>
+		ORDER BY wh.code DESC
+		LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>
 	
+	<!-- 전체 출고 데이터 수 -->
+	<select id="outListCount" resultType="int">
+		SELECT count(*)
+		FROM WAREHOUSE_HISTORY
+		WHERE io = 'OUT' 
+	</select>
+	
+	<!-- 출고 상세 -->
+	<select id="outInfo" parameterType="String" resultType="Warehouse_HistoryVO">
+		SELECT wh.*, m.name mapdName, m.unit, e.name empName, m.unit
+		FROM WAREHOUSE_HISTORY wh
+		JOIN MAPD m
+		ON wh.mapd_code = m.code
+		LEFT OUTER JOIN WAREHOUSE w
+        ON wh.warehouse_code = w.code
+        LEFT OUTER JOIN EMPLOYEES e
+        ON w.manager = e.code
+        WHERE wh.io = 'OUT' AND wh.code = #{code}
+	</select>
 	
 	
 	

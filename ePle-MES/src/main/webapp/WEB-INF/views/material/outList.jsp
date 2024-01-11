@@ -12,13 +12,8 @@
   .table td {
     text-align: center;
   }
-  .form-inline{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  }
 </style>
-<title>발주 관리</title>
+<title>출고 관리</title>
 </head>
 <body>
 	<!----------------- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 ----------------->
@@ -30,25 +25,25 @@
 	<div class="main-container">
 	<div class="pd-ltr-20 xs-pd-20-10">
 	<div class="title" style="margin-bottom: 10px;">
-		<a href="${pageContext.request.contextPath}/material/orderList"><h1>발주 관리</h1></a>
+		<a href="${pageContext.request.contextPath}/material/outList"><h1>출고 관리</h1></a>
 	</div>
 		<div class="min-height-200px">
-		
-		<ul class="nav nav-pills">
-			<li class="nav-item"><a class="nav-link text-blue active" href="/material/orderList">발주 관리</a></li>
-			<li class="nav-item"><a class="nav-link text-pink" href="/material/askOrderList">발주 요청 목록</a></li>
+			
+	    <ul class="nav nav-pills">
+			<li class="nav-item"><a class="nav-link text-blue" href="/material/inList">입고 현황</a></li>
+			<li class="nav-item"><a class="nav-link text-blue active" href="/material/outList">출고 현황</a></li>
 		</ul> 
 		
 	<br>
 				
 				
-	<!------------------------------ 발주 검색 시작 ----------------------------->
+	<!------------------------------ 출고 검색 시작 ----------------------------->
 	<div class="faq-wrap">
 		<div id="accordion">
 			<div class="card">
 						
 				<div class="card-header">
-					<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false"><b>창고 검색</b></button>
+					<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false"><b>출고 검색</b></button>
 				</div>
 							
 				<div id="faq1" class="collapse" data-parent="#accordion" style="">
@@ -57,13 +52,12 @@
 							<div class="col-md-12">
 								<div class="form-inline">
 									<div class="row">
-										<div class="col-md-20 col-sm-12 btn-group" >
-											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="창고코드" autocomplete="off" >
+											<div class="col-md-12 col-sm-12 btn-group" >
+											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="입고코드" autocomplete="off" >
 											<label>관리자</label> 
-											<input type="text" name="searchName" id="selectA" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
-											<input type="text" id="selectB" class="form-control" placeholder="관리자이름" autocomplete="off" readonly>
-											<input type="hidden" id="selectC" class="form-control" autocomplete="off" readonly>
-										</div>
+											<input type="text" name="searchName" id="manager" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
+											<input type="text" id="managerName" class="form-control" placeholder="관리자이름" autocomplete="off" readonly>
+											</div>
 									</div>
 								</div>
 							</div>
@@ -85,40 +79,37 @@
 	<div class="card-box mb-30">
 		<div class="pd-20">
 			<div class="btn-group pull-right" style="margin-bottom: 10px">
-				<button type="button" class="btn btn-success" id="add"><b>요청서 불러오기</b></button>
 				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
-				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
 			</div>
 		</div>
 
 
 
-	<!----------------------------- 발주 리스트 출력 ---------------------------->
+	<!----------------------------- 출고 리스트 출력 ---------------------------->
 		<div class="pb-20">
 			<div class="col-sm-30">
 				<form class="table" id="table">
 					<table class="table table-striped">
-					<!-- 체크박스 / 발주코드 / 거래처명 / 품목코드 / 품명 / 발주량+단위 / 발주금액 / 납기일 / 담당자 / 발주상태 -->
-						<tr> <!-- 등록일 수정일 --> 
+					<!-- 체크박스 / 출고코드 / 출하코드 / 창고코드 / 구분 / 품명 / 수량+단위 / 담당자 / 출고일자 -->
+						<tr>
 							<td style="width: 100px;">
 								<div class="custom-control custom-checkbox mb-5">
 									<input type="checkbox" class="custom-control-input" id="tableCheckAll"> 
 									<label class="custom-control-label" for="tableCheckAll"></label>
 								</div>
 							</td>
-							<th>발주코드</th>
-							<th>거래처</th>
-							<th>품목코드</th>
+							<th>출고코드</th>
+							<th>출하코드</th>
+							<th>창고</th>
+							<th>구분</th>
 							<th>품명</th>
-							<th>발주량</th>
-							<th>발주금액</th>
-							<th>납기일</th>
+							<th>수량</th>
 							<th>담당자</th>
-							<th>발주상태</th>
+							<th>출고일자</th>
 							<th>옵션</th>
 						</tr>
 
-						<c:forEach items="${searchOrder }" var="vo">
+						<c:forEach items="${outList }" var="vo">
 						<tr>
 							<td>
 								<div class="custom-control custom-checkbox mb-5">
@@ -127,14 +118,13 @@
 								</div>
 							</td>
 							<th class="inInfo${vo.code}" style="color: #FF1493; cursor:pointer;">${vo.code }</th>
-							<th>${vo.client_name }</th>
-							<th>${vo.material }</th>
-							<th>${vo.name }</th>
+							<th>${vo.order_num }</th>
+							<th>${vo.warehouse_code }</th>
+							<th>${vo.category }</th>
+							<th>${vo.mapdName }</th>
 							<th>${vo.amount } ${vo.unit }</th>
-							<th>${vo.price }</th>
-							<th>${vo.order_date }</th>
-							<th>${vo.reg_name }</th>
-							<th>${vo.status }</th>
+							<th>${vo.empName }</th>
+							<th><fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></th>
 							<td style="">
 
 
@@ -144,9 +134,9 @@
 								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i> </a>
 									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 										<!-- 상세 보기 -->
-										<a class="dropdown-item" href="javascript:openPage('/stock/warehouseInfo?code=${vo.code }', 400, 700"><i class="dw dw-eye"></i>상세 보기</a>
+										<a class="dropdown-item" href="javascript:openPage('/material/inInfo?code=${vo.code }', 400, 700"><i class="dw dw-eye"></i>상세 보기</a>
 										<!-- 수정 -->
-										<a class="dropdown-item" href="javascript:openPage('/stock/warehouseEdit?code=${vo.code }', 400, 700"><i class="dw dw-edit2"></i> 수정</a>
+										<a class="dropdown-item" href="javascript:openPage('/material/inEdit?code=${vo.code }', 400, 700"><i class="dw dw-edit2"></i> 수정</a>
 									</div>
 							</div>
 								
@@ -158,25 +148,25 @@
 					</table>
 				</form>
 
-				<!-------------------------------- 발주 갯수 -------------------------------->
-				<!-- <div class="row">
+				<!-------------------------------- 출고 갯수 -------------------------------->
+				<div class="row">
 					<div class="col-sm-12 col-md-5">
 						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
 					</div>
-				</div> -->
+				</div>
 
 
 				<!--------------------------------- 페이징 ---------------------------------->
 				<div class="btn-toolbar justify-content-center mb-15">
 					<div class="btn-group">
 						<c:if test="${pageVO.prev}">
-							<a href="/material/orderList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+							<a href="/material/outList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
 						</c:if>
 						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/material/orderList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+							<a href="/material/outList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
 						</c:forEach>
 						<c:if test="${pageVO.next}">
-							<a href="/material/orderList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+							<a href="/material/outList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
 						</c:if>
 					</div>
 				</div>
@@ -258,14 +248,8 @@
 
 		function openPage(i, width, height) {
 			set = retPopupSetting(width, height);
-			return window.open(i, 'Popup_Window', set); 
+			return window.open(i, 'Popup_Window', set);
 		}
-
-		$(document).ready(function() {
-			// 추가 O
-			$("#add").click(function() {
-				openPage("/material/orderBeforeAdd", 500, 700);
-			});
 
 		 	// 수정 O
 			$("#update").click(function() {
@@ -274,37 +258,22 @@
 			        alert("수정할 항목을 하나만 선택하세요!");
 			    } else {
 			        var code = check.val();
-			        openPage("/material/orderEdit?code=" + code, 400, 700);
+			        openPage("/material/inEdit?code=" + code, 400, 700);
 			    }
 			});
-		 	
+
+
 		 	// 상세보기 O
 			$('body').on('click', '[class^="inInfo"]', function(){
         		var code = $(this).text().trim();
-      		  openPage("${pageContext.request.contextPath}/material/orderInfo?code=" + code, 400, 700); });
+      		  openPage("${pageContext.request.contextPath}/material/outInfo?code=" + code, 400, 700); });
 			
 			
-			// 검색 
-			$("#selectA,#selectB").click(function() {
+			// 검색 - 사원 리스트 
+			$("#manager,#managerName").click(function() {
 				// 가로, 세로 설정
-				openPage("/stock/searchEmployees", 400,700);
+				openPage("/warehouse/searchEmployees", 400,700);
 			});
-
-			
-			// 삭제 O
-			$("#delete,#optDelete").click(function() {
-				var codes = [];
-			    $("input:checkbox[name=tableCheck]:checked").each(function() {
-			    	codes.push($(this).val());
-			    });
-			    
-			    if (codes.length > 0) { 
-			        openPage("/stock/warehouseDel?codes=" + codes.join(','), 400, 600);
-			    } else {
-			        $('#warning-modal').modal('show'); 
-			    }
-			});
-
 
 			
 			
@@ -314,28 +283,28 @@
 
  		// 검색하기
   		function doSearch() {
-		        var query = {"searchCode" : $("#whCode").val(), "searchName" : $("#selectA").val()};
+		        var query = {"searchCode" : $("#whCode").val(), "searchName" : $("#manager").val()};
 		        
 		        console.log("searchCode:", query.searchCode);
 		        console.log("searchName:", query.searchName);
 		        
 		        $.ajax({
-		            url : "${pageContext.request.contextPath}/stock/warehouseList",
+		            url : "${pageContext.request.contextPath}/warehouse/list",
 		            type : "get",
 		            data : query,
 		            dataType : "text",
 		            success : function(data){
 		                 if (query.searchCode == "" && query.searchName == "") {
-		                    location.href = "${pageContext.request.contextPath}/stock/warehouseList";
+		                    location.href = "${pageContext.request.contextPath}/warehouse/list";
 		                } else {
-		                    location.href = "${pageContext.request.contextPath}/stock/warehouseList?searchCode=" + $("#whCode").val() + "&searchName=" + $("#selectA").val();
+		                    location.href = "${pageContext.request.contextPath}/warehouse/list?searchCode=" + $("#whCode").val() + "&searchName=" + $("#manager").val();
 		                } 
 		                 
-		              /*   if (data) {
+		                if (data) {
 		                    alert("완료");
 		                } else {
 		                    alert("전송된 값 없음");
-		                } */
+		                }
 		                
 		            },
 		            
@@ -347,18 +316,13 @@
 		} 
 		
 
-	 	// 검색 초기화 , placeholder 재지정 
+		// 검색 초기화 , placeholder 재지정 
 		function resetSearch() {
-			$("#whCode").val("");
-			$("#selectA").val("");
-			$("#selectB").val("");
-		    $("#whCode").attr("placeholder", "창고코드");
-		    $("#selectA").attr("placeholder", "관리자코드");
-		    $("#selectB").attr("placeholder", "관리자이름");
-		} 
-		
-		
-
+			$("#manager").val("");
+			$("#managerName").val("");
+		    $("#manager").attr("placeholder", "관리자코드");
+		    $("#managerName").attr("placeholder", "관리자이름");
+		}
 
 		
 	</script>

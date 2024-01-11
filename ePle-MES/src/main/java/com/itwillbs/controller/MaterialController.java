@@ -28,6 +28,7 @@ import com.itwillbs.service.MaterialService;
 *	발주요청 - http://localhost:8088/material/askOrderList
 *	발주관리 - http://localhost:8088/material/orderList
 *	    입고 - http://localhost:8088/material/inList
+*	    출고 - http://localhost:8088/material/outList
 */
 
 @Controller
@@ -280,6 +281,45 @@ public class MaterialController {
 			  return "/material/resultFailed"; 
 		  } 
 	  }
+	  
+	  /*--------------------------------------발주관리  끝 -----------------------------------------*/
+	  
+	  
+	  
+	  
+	  /*----------------------------------------출고 시작-------------------------------------------*/
+		
+	  // ======================================출고 - 목록
+	  @RequestMapping(value = "/outList", method = RequestMethod.GET) 
+	  public void outList(Model model, Criteria cri, Warehouse_HistoryVO vo) throws Exception {
+	  
+		  vo.setCri(cri);
+		  
+		  PageVO pageVO = new PageVO(); 
+		  pageVO.setCri(cri);
+		  pageVO.setTotalCount(mService.outListCount(vo));
+	  
+		  model.addAttribute("pageVO", pageVO);
+		  model.addAttribute("outList", mService.outList(vo));
+
+	  }
+	
+      // ======================================출고 - 상세
+      @RequestMapping(value = "/outInfo", method = RequestMethod.GET)
+  	  public void outInfo(@RequestParam(value = "code") String code,Model model) throws Exception {
+  		
+    	Warehouse_HistoryVO outInfo = mService.outInfo(code);
+  		model.addAttribute("outInfo", outInfo);
+
+  	  }
+      
+	  /*-----------------------------------------출고 끝--------------------------------------------*/
+	 
+	  
+	  
+	  
+	  
+	  
 	  
 	  
 	  
