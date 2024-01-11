@@ -26,5 +26,8 @@ public interface OffService {
 	
 	public int setLineOff(String[] code) throws Exception;
 
+	public List<LineOffVO> getCommonGroup() throws Exception;
 	public List<LineOffVO> getCommonCode(String group_id) throws Exception;
+	
+	public void setLineOffComplete() throws Exception;
 }

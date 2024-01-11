@@ -57,6 +57,11 @@ public class OffServiceImpl implements OffService{
 	}
 	
 	@Override
+	public List<LineOffVO> getCommonGroup() throws Exception {
+		return dao.getCommonGroup();
+	}
+	
+	@Override
 	public List<LineOffVO> getCommonCode(String group_id) throws Exception {
 		return dao.getCommonCode(group_id);
 	}
@@ -69,5 +74,10 @@ public class OffServiceImpl implements OffService{
 	@Override
 	public List<LineOffVO> getDetailList(String code) throws Exception {
 		return dao.getDetailList(code);
+	}
+	
+	@Override
+	public void setLineOffComplete() throws Exception {
+		dao.setLineOffComplete();
 	}
 }

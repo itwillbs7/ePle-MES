@@ -63,6 +63,11 @@ public class OffDAOImpl implements OffDAO{
 	}
 	
 	@Override
+	public List<LineOffVO> getCommonGroup() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getCommonGroup");
+	}
+	
+	@Override
 	public List<LineOffVO> getCommonCode(String group_id) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getCommonCode", group_id);
 	}
@@ -75,5 +80,10 @@ public class OffDAOImpl implements OffDAO{
 	@Override
 	public List<LineOffVO> getDetailList(String code) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getDetailList", code);
+	}
+	
+	@Override
+	public void setLineOffComplete() throws Exception {
+		sqlSession.update(NAMESPACE + ".setLineOffComplete");
 	}
 }

@@ -14,6 +14,7 @@ public class LineOffVO {
 	private String code_id;
 	private String code_name;
 	private String line_code;
+	private boolean complete;
 	
 	private LineVO line;
 }

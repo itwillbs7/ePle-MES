@@ -6,12 +6,18 @@
 <mapper namespace="com.itwillbs.mapper.LineOffMapper">
 	<resultMap type="com.itwillbs.domain.LineOffVO" id="off">
 		<result property="code" column="code" />
+		<result property="line_code" column="line_code" />
 		<result property="start_time" column="start_time" />
 		<result property="end_time" column="end_time" />
 		<result property="group_id" column="group_id" />
 		<result property="group_name" column="group_name" />
 		<result property="code_id" column="code_id" />
 		<result property="code_name" column="code_name" />
+		<result property="complete" column="complete" />
+		<collection property="line" resultMap="line">
+			<result property="code" column="code" />
+			<result property="name" column="name" />
+		</collection>
 	</resultMap>
 
 	<resultMap type="com.itwillbs.domain.LineVO" id="line">
@@ -33,8 +39,7 @@
 	</resultMap>
 
 	<select id="getDetail" resultMap="line">
-		SELECT * FROM LINE WHERE code =
-		#{code}
+		SELECT * FROM LINE WHERE code = #{code}
 	</select>
 
 	<select id="getDetailList" resultMap="off">
@@ -42,17 +47,17 @@
 		c.code_name FROM LINE_OFF l
 		LEFT OUTER JOIN COMMON_CODE c ON l.group_id = c.group_id AND l.code_id =
 		c.code_id
-		WHERE line_code = #{code}
+		WHERE line_code = #{code} AND complete = true 
 		ORDER BY code DESC LIMIT 0, 20
 	</select>
 
 	<!-- 라인 종료 이력 입력(정지 처리만) -->
 	<insert id="insert">
-		INSERT INTO LINE_OFF (code, start_time, group_id, 
+		INSERT INTO LINE_OFF (code, start_time, line_code, group_id, 
 		code_id) 
 		VALUES
 		<foreach collection="list" item="item" separator=",">
-			(#{item.code}, now(), #{item.group_id}, #{item.code_id})
+			(#{item.code}, now(), #{item.line_code}, #{item.group_id}, #{item.code_id})
 		</foreach>
 	</insert>
 	<!-- 라인 종료 이력 입력(정지 처리만) -->
@@ -62,7 +67,7 @@
 		INSERT INTO LINE_OFF 
 		VALUES 
 		<foreach collection="list" item="item" separator=",">
-			(#{item.code}, #{item.start_time}, #{item.end_time}, #{item.group_id}, #{item.code_id})
+			(#{item.code}, #{item.start_time}, #{item.end_time}, #{item.line_code}, #{item.group_id}, #{item.code_id}, false)
 		</foreach>
 	</insert>
 	<!-- 라인 종료 예약 -->
@@ -80,9 +85,11 @@
 			end_time = now()
 		</set>
 		<where>
-			line_code IN 
+			<![CDATA[
+				end_time <=> null AND complete = FALSE AND line_code IN 
+			]]>
 			<foreach collection="array" item="code" open="(" close=")"
-				separator="">
+				separator=",">
 				#{code}
 			</foreach>
 		</where>
@@ -96,7 +103,7 @@
 		<where>
 			code IN 
 			<foreach collection="array" item="code" open="(" close=")"
-				separator="">
+				separator=",">
 				#{code}
 			</foreach>
 		</where>
@@ -115,20 +122,33 @@
 			</foreach>
 		</where>
 	</update>
+	
+	<update id="setLineOffComplete">
+		UPDATE LINE_OFF
+		<set>
+			complete = TRUE
+		</set>
+		<where>
+			<![CDATA[ start_time < now() AND end_time <= now() AND complete = FALSE ]]>
+		</where>
+	</update>
 	<!-- 라인 off -->
 
 	<!-- 현재 라인 stop/start 하는 리스트 목록 return -->
 	<select id="getRenewList" parameterType="String"
 		resultType="String">
-		SELECT o.line_code FROM LINE_OFF o 
-		LEFT OUTER JOIN LINE l ON o.line_code = l.code 
+		SELECT distinct o.line_code FROM LINE_OFF o 
+		LEFT JOIN LINE l ON o.line_code = l.code 
 		<where>
 			<choose>
 				<when test="column.toString() eq 'start_time'">
-					<![CDATA[l.active = TRUE AND start_time <= now()]]>
+					<![CDATA[l.active = TRUE AND complete = FALSE AND (start_time is not null AND start_time <= 0 AND end_time is not null) ]]>
 				</when>
 				<when test="column.toString() eq 'end_time'">
-					<![CDATA[l.active = FALSE AND end_time <= now()]]>
+					<![CDATA[l.active = FALSE AND complete = FALSE AND start_time is not null AND end_time is not null AND
+        						((start_time <= now() AND end_time <= now())
+        							OR 
+        						(start_time > now()))]]>
 				</when>
 			</choose>
 		</where>
@@ -162,10 +182,22 @@
 		ORDER BY l.code 
 	</select>
 	<!-- 라인 리스트 -->
+	
+	<select id="getReservateList" resultMap="off">
+		SELECT o.*, l.name, c.group_name, c.code_name FROM LINE_OFF o 
+		LEFT JOIN LINE l ON o.line_code = l.code 
+		LEFT JOIN 
+		COMMON_CODE c ON o.group_id = c.group_id AND o.code_id = c.code_id 
+		WHERE complete = FALSE
+	</select>
 
 	<!-- 공통 코드 전달 -->
-	<select id="getCommonCode">
-		SELECT group_id, group_name, code_id, code_name FROM 
+	<select id="getCommonGroup" resultMap="off">
+		SELECT distinct group_id, group_name FROM COMMON_CODE WHERE group_id LIKE '%LOFF%';
+	</select>
+	
+	<select id="getCommonCode" resultMap="off">
+		SELECT code_id, code_name FROM 
 		COMMON_CODE 
 		WHERE group_id = #{group_id}
 	</select>

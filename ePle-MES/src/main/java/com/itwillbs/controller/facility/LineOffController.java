@@ -1,5 +1,6 @@
 package com.itwillbs.controller.facility;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,6 +46,7 @@ public class LineOffController {
 				oService.setLineOn(code);
 			}
 		}
+		oService.setLineOffComplete();
 		model.addAttribute("list", oService.getLineList());
 	}
 
@@ -67,6 +69,7 @@ public class LineOffController {
 	@PostMapping("/on")
 	public String onPOST(String[] code, RedirectAttributes rttr) throws Exception {
 		if(oService.setLineOn(code) > 0) {
+			oService.updateEndTime(code);
 			rttr.addFlashAttribute("title", "라인 가동 결과");
 			rttr.addFlashAttribute("result", "라인 가동이 완료되었습니다.");
 			return "redirect:/confirm";
@@ -80,6 +83,7 @@ public class LineOffController {
 	
 	@GetMapping("/off")
 	public void offGET(String code, Model model) throws Exception {
+		model.addAttribute("clist", oService.getCommonGroup());
 		for(int i = 0; i<= 4; i++) {
 			String name = "LOFF" + i;
 			model.addAttribute(name, oService.getCommonCode(name));
@@ -107,6 +111,7 @@ public class LineOffController {
 				vo.setCode(newCode + (i + 1));
 				vo.setGroup_id(group_id);
 				vo.setCode_id(code_id);
+				vo.setLine_code(code[i]);
 				list.add(vo);
 			}
 		}
@@ -158,6 +163,7 @@ public class LineOffController {
 
 	@GetMapping("/reservation")
 	public void reservation(String code, Model model) throws Exception {
+		model.addAttribute("clist", oService.getCommonGroup());
 		for(int i = 0; i<= 4; i++) {
 			String name = "LOFF" + i;
 			model.addAttribute(name, oService.getCommonCode(name));
@@ -170,15 +176,50 @@ public class LineOffController {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@PostMapping("/reservation")
-	public String reservation(String[] code, String start, String end, String group_id, String code_id, RedirectAttributes rttr)
+	public String reservation(String[] code, String dateRange, String startTime, String endTime, String group_id, String code_id, RedirectAttributes rttr)
 			throws Exception {
 		String get = oService.getRecentCode();
 		String newCode = "LOFF";
 		List<LineOffVO> list = new LinkedList<LineOffVO>();
 		
 		//date time 설정
+		// 2024-01-04 ~ 2024-01-05
+		Timestamp start = null;
+		Timestamp end = null;
 		
+		// 오전 오후
+		// 오후 3시 05분
+		String ampmStart = startTime.substring(0, 2);
+		String ampmEnd = endTime.substring(0, 2);
+		
+		int minuteStart = Integer.parseInt(startTime.substring(startTime.length()-3, startTime.length()-1));
+		int minuteEnd = Integer.parseInt(endTime.substring(endTime.length()-3, endTime.length()-1));
+		
+		int hourStart = Integer.parseInt(startTime.substring(3).split("시")[0]);
+		int hourEnd = Integer.parseInt(endTime.substring(3).split("시")[0]);
+		
+		hourStart += ampmStart.equals("오전")? 0: 12;
+		hourEnd += ampmEnd.equals("오전")? 0: 12;
+		
+		if(dateRange.length() > 11) {
+			String[] sp = dateRange.split(" ~ ");
+			String[] startTexts = sp[0].split("-");
+			String[] endTexts = sp[1].split("-");
+			start = new Timestamp(Integer.parseInt(startTexts[0]) - 1900, 
+					Integer.parseInt(startTexts[1]) - 1, Integer.parseInt(startTexts[2]), hourStart, minuteStart, 0, 0);
+			end = new Timestamp(Integer.parseInt(endTexts[0]) - 1900, 
+					Integer.parseInt(endTexts[1]) - 1, Integer.parseInt(endTexts[2]), hourEnd, minuteEnd, 0, 0);
+		}
+		else {
+			String[] sp = dateRange.split("-");
+			start = new Timestamp(Integer.parseInt(sp[0]) - 1900, 
+					Integer.parseInt(sp[1]) - 1, Integer.parseInt(sp[2]), hourStart, minuteStart, 0, 0);
+			end = new Timestamp(Integer.parseInt(sp[0]) - 1900, 
+					Integer.parseInt(sp[1]) - 1, Integer.parseInt(sp[2]), hourEnd, minuteEnd, 0, 0);
+
+		}
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
 		String now = dateformat.format(new Date());
 		if(get == null || get.equals("")) {
@@ -186,23 +227,30 @@ public class LineOffController {
 			newCode += now;
 			for(int i = 0; i<code.length; i++) {
 				LineOffVO vo = new LineOffVO();
-				vo.setCode(newCode + (i + 1));
+				String fCount = "" + (i + 1);
+				while(fCount.length() < 3) fCount = "0" + fCount;
+				vo.setCode(newCode + fCount);
 				vo.setGroup_id(group_id);
 				vo.setCode_id(code_id);
+				vo.setStart_time(start);
+				vo.setEnd_time(end);
+				vo.setLine_code(code[i]);
 				list.add(vo);
 			}
 		}
 		else {
 			String fDate = get.substring(newCode.length(), get.length()-3);
 			if(now.equals(fDate)) {
+				newCode += now;
 				for(int i = 0; i<code.length; i++) {
 					LineOffVO vo = new LineOffVO();
 					String fCount = "" + (Integer.parseInt(get.substring(get.length()-3)) + (i + 1));
 					while(fCount.length() < 3) fCount = "0" + fCount;
-					newCode += fDate + fCount;
-					vo.setCode(newCode);
+					vo.setCode(newCode + fCount);
 					vo.setGroup_id(group_id);
 					vo.setCode_id(code_id);
+					vo.setStart_time(start);
+					vo.setEnd_time(end);
 					vo.setLine_code(code[i]);
 					list.add(vo);
 				}
@@ -211,9 +259,13 @@ public class LineOffController {
 				newCode += now;
 				for(int i = 0; i<code.length; i++) {
 					LineOffVO vo = new LineOffVO();
-					vo.setCode(newCode + (i + 1));
+					String fCount = "" + (i + 1);
+					while(fCount.length() < 3) fCount = "0" + fCount;
+					vo.setCode(newCode + fCount);
 					vo.setGroup_id(group_id);
 					vo.setCode_id(code_id);
+					vo.setStart_time(start);
+					vo.setEnd_time(end);
 					vo.setLine_code(code[i]);
 					list.add(vo);
 				}
