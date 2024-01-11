@@ -19,8 +19,10 @@ public interface LineDAO {
 	
 	public int getLineCount() throws Exception;
 	
-	public void insertLine(LineVO lvo) throws Exception;
+	public int insertLine(LineVO lvo) throws Exception;
 			
 	public List<LineVO> getInfo(String[] codes) throws Exception;
 	
+	// 라인 상세
+	public LineVO infoLine(String code) throws Exception;
 }

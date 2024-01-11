@@ -61,8 +61,16 @@ public class RequirementServiceImpl implements RequirementService {
     }
 
 	@Override
-	public void InsertRequirement(MAPDVO mvo) throws Exception {
-		rdao.insertRequirement(mvo);
+	public int InsertRequirement(MAPDVO mvo) throws Exception {
+		return rdao.insertRequirement(mvo);
 	}
+
+	@Override
+	public MAPDVO infoRequirement(String code) throws Exception {
+		return rdao.infoRequirement(code);
+
+	}
+	
+	
 	
 }

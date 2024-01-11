@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.ClientVO;
 import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.ClientService;
 
@@ -61,8 +62,15 @@ public class ClientController {
     // 거래처 수정 - POST
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updatePOST(ClientVO cvo, RedirectAttributes rttr) throws Exception {
-    	cService.clientUpdate(cvo);
-        return "redirect:/client/clientAll"; // 수정 후 목록 페이지로 이동
+    	
+    	int result = cService.clientUpdate(cvo);
+    	
+		if(result == 1) {
+			return "client/resultSuccess";
+		}else {
+			return "client/resultFailed";
+		}
+		
     }
 
     // 거래처 삭제 - GET, POST
@@ -82,29 +90,26 @@ public class ClientController {
 
     @PostMapping("/delete")
     public String clientDeletePOST(@RequestParam("code") String codes, RedirectAttributes rttr, Model model) throws Exception {
-        // 품목 삭제 액션
+        // 거래처 삭제 액션
         String[] codeArr = codes.split(",");
         int result = cService.deleteClients(codeArr);
 
-        String link = "";
         if (result >= 1) {
-          link = "redirect:/confirm";
-          rttr.addFlashAttribute("title", "품목 삭제 결과");
-          rttr.addFlashAttribute("result", "품목이 삭제 되었습니다.");
+            rttr.addFlashAttribute("title", "거래처 삭제 결과");
+            rttr.addFlashAttribute("result", "거래처 항목이 삭제 되었습니다.");
+
+            // JavaScript 변수 설정
+            model.addAttribute("delCheckedCount", codeArr.length);
+            model.addAttribute("array", Arrays.asList(codeArr));
+
+            return "client/resultSuccess";
+            
         } else {
-          link = "redirect:/error";
-          rttr.addFlashAttribute("title", "품목 삭제 결과");
-          rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+            rttr.addFlashAttribute("title", "거래처 삭제 결과");
+            rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+
+            return "client/resultFailed";
         }
-
-        // JavaScript 변수 설정
-        model.addAttribute("delCheckedCount", codeArr.length);
-        model.addAttribute("array", Arrays.asList(codeArr));
-
-        // 자동 새로고침을 위해 부모 페이지 URL에 파라미터 추가
-        link += "?refresh=true";
-
-        return link;
     }
 
 
@@ -136,8 +141,13 @@ public class ClientController {
 	public String clientInsertPOST(ClientVO cvo, RedirectAttributes rttr) throws Exception {
 
 		// 서비스 - DB에 글쓰기(insert) 동작 호출
-		cService.InsertClient(cvo);	
-		return "redirect:/client/clientAll";
+		int result = cService.InsertClient(cvo);	
+		
+		if(result == 1) {
+			return "client/resultSuccess";
+		}else {
+			return "client/resultFailed";
+		}
 	}
 
     // 전체 목록의 수를 가져오는 메서드
@@ -148,4 +158,11 @@ public class ClientController {
     }
     
     // 거래처 검색 - GET
+    
+	// 거래처 상세 - GET, POST
+	@RequestMapping(value = "/clientInfo", method = RequestMethod.GET)
+	public void clientInfoGET(@RequestParam("code") String code, Model model) throws Exception {
+		ClientVO infoClient = cService.infoClient(code);
+		model.addAttribute("infoClient", infoClient);
+	}
 }

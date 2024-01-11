@@ -2,6 +2,7 @@ package com.itwillbs.service;
 
 import java.util.List;
 
+import com.itwillbs.domain.ClientVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.LineVO;
 
@@ -21,6 +22,8 @@ public interface LineService {
 	
 	public List<LineVO> getInfo(String[] codes) throws Exception;
 	
-	public void InsertLine(LineVO lvo) throws Exception;
+	public int InsertLine(LineVO lvo) throws Exception;
 
+	// 라인 상세
+	public LineVO infoLine(String code) throws Exception;
 }

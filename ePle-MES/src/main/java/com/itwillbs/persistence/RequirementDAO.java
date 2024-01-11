@@ -20,8 +20,10 @@ public interface RequirementDAO {
 	
 	public int getRequirementCount() throws Exception;
 	
-	public void insertRequirement(MAPDVO mvo) throws Exception;
+	public int insertRequirement(MAPDVO mvo) throws Exception;
 			
 	public List<MAPDVO> getInfo(String[] codes) throws Exception;
 	
+	// 소요량 상세
+	public MAPDVO infoRequirement(String code) throws Exception;
 }

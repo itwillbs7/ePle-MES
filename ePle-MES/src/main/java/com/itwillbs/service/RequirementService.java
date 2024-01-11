@@ -22,6 +22,9 @@ public interface RequirementService {
 	
 	public List<MAPDVO> getInfo(String[] codes) throws Exception;
 	
-	public void InsertRequirement(MAPDVO mvo) throws Exception;
+	public int InsertRequirement(MAPDVO mvo) throws Exception;
+	
+	// 소요량 상세
+	public MAPDVO infoRequirement(String code) throws Exception;
 
 }

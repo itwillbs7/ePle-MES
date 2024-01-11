@@ -90,12 +90,14 @@
 												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 											</div>
 										</td>
+										
 										<th>품번</th>
 										<th>품명</th>
 										<th>규격</th>
 										<th>단위</th>
 										<th>입고 단가 (원)</th>
 										<th>사용여부</th>
+										<th>상세보기</th>
 									</tr>
 									<c:forEach var="product" items="${productList}" varStatus="loop">
 									    <tr>
@@ -113,6 +115,11 @@
 									        <td>${product.unit}</td>
 									        <td>${product.inprice} 원</td>
 									        <td>${product.active}</td>
+						                    <td>
+												<button type="button" class="btn btn-info btn-sm" id="productInfo">
+													<b>상세보기</b>
+												</button>
+											</td>
 									    </tr>
 									</c:forEach>
 								</table>
@@ -236,6 +243,18 @@
 		        } else {
 		            // 체크박스를 선택하지 않았을 때 경고 메시지 출력 또는 원하는 동작 수행
 		            alert("삭제할 항목을 선택해주세요.");
+		        }
+		    });
+		 	
+			// 상세보기
+		    $(".btn-info").click(function() {
+		        // 현재 클릭된 버튼이 속한 행에서 코드 값을 읽어와서 상세보기 페이지로 이동
+		        var code = $(this).closest("tr").find("input[name='tableCheck']").val();
+
+		        if (code) {
+		            openPage("/product/productInfo?code=" + code, 400, 700);
+		        } else {
+		            alert("코드를 찾을 수 없습니다.");
 		        }
 		    });
 		 	

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.itwillbs.domain.ClientVO;
 import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.MAPDVO;
 
 public interface ClientService {
 	
@@ -21,6 +22,8 @@ public interface ClientService {
 	
 	public List<ClientVO> getInfo(String[] codes) throws Exception;
 	
-	public void InsertClient(ClientVO cvo) throws Exception;
+	public int InsertClient(ClientVO cvo) throws Exception;
 
+	// 거래처 상세
+	public ClientVO infoClient(String code) throws Exception;
 }

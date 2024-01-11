@@ -74,6 +74,11 @@ public class ProductDAOImpl implements ProductDAO {
 		data.put("mapdName", mapdName);
 		return sqlSession.selectOne(NAMESPACE + ".countProduct",data);
 	}
+
+	@Override
+	public MAPDVO infoProduct(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".infoProduct", code);
+	}
     
     
 }

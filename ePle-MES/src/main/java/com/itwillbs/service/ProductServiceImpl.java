@@ -64,6 +64,11 @@ public class ProductServiceImpl implements ProductService {
 	public int productListCount(String mapdCode, String mapdName) throws Exception {
 		return pdao.getProductCount(mapdCode, mapdName);
 	}
+
+	@Override
+	public MAPDVO infoProduct(String code) throws Exception {
+		return pdao.infoProduct(code);
+	}
 	
 	
 	

@@ -74,5 +74,12 @@
 	</select>
 	
 	<!-- 소요량 검색 -->
+	
+	<!-- 소요량 상세 -->
+	<select id="infoProduct" resultType="MAPDVO">
+        SELECT code,group_id,code_id,name,size,unit,inprice,outprice,reg_emp,reg_date,update_emp,update_date,active 
+        FROM MAPD 
+        where code = #{code}
+    </select>
 
 </mapper>

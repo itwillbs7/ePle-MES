@@ -53,8 +53,8 @@ public class LineDAOImpl implements LineDAO {
 	}
 
 	@Override
-	public void insertLine(LineVO lvo) throws Exception {
-		sqlSession.insert(NAMESPACE+".insertLine", lvo);
+	public int insertLine(LineVO lvo) throws Exception {
+		return sqlSession.insert(NAMESPACE+".insertLine", lvo);
 	}
 
 
@@ -62,5 +62,12 @@ public class LineDAOImpl implements LineDAO {
     public List<LineVO> getInfo(String[] codes) throws Exception {
         return sqlSession.selectList(NAMESPACE + ".getInfo", codes);
     }
+
+	@Override
+	public LineVO infoLine(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".infoLine", code);
+	}
+    
+    
 
 }

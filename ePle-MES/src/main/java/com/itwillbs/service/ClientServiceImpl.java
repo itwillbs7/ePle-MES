@@ -61,8 +61,15 @@ public class ClientServiceImpl implements ClientService {
     }
 
 	@Override
-	public void InsertClient(ClientVO cvo) throws Exception {
-		cdao.insertClient(cvo);
+	public int InsertClient(ClientVO cvo) throws Exception {
+		return cdao.insertClient(cvo);
 	}
+
+	@Override
+	public ClientVO infoClient(String code) throws Exception {
+		return cdao.infoClient(code);
+	}
+	
+	
 	
 }

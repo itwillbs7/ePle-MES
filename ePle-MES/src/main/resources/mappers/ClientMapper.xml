@@ -70,5 +70,12 @@
 	</select>
 	
 	<!-- 거래처 검색 -->
+	
+	<!-- 거래처 상세 -->
+	<select id="infoClient" resultType="ClientVO">
+        SELECT code,name,type,conditions,items,ceo,manager,address,address2,tel,phone,fax,email,note,active 
+        FROM CLIENT 
+        where code = #{code}
+    </select>
 
 </mapper>

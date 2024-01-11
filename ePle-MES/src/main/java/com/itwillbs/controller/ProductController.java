@@ -138,5 +138,12 @@ public class ProductController {
 			return "product/resultFailed";
 		}
 	}
- 
+	
+	// 품목 상세 - GET, POST
+	@RequestMapping(value = "/productInfo", method = RequestMethod.GET)
+	public void productInfoGET(@RequestParam("code") String code, Model model) throws Exception {
+		MAPDVO infoProduct = pService.infoProduct(code);
+		model.addAttribute("infoProduct", infoProduct);
+	}
+	
 }

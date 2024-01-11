@@ -53,8 +53,8 @@ public class ClientDAOImpl implements ClientDAO {
 	}
 
 	@Override
-	public void insertClient(ClientVO cvo) throws Exception {
-		sqlSession.insert(NAMESPACE+".insertClient", cvo);
+	public int insertClient(ClientVO cvo) throws Exception {
+		return sqlSession.insert(NAMESPACE+".insertClient", cvo);
 	}
 
 
@@ -62,5 +62,12 @@ public class ClientDAOImpl implements ClientDAO {
     public List<ClientVO> getInfo(String[] codes) throws Exception {
         return sqlSession.selectList(NAMESPACE + ".getInfo", codes);
     }
+
+	@Override
+	public ClientVO infoClient(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".infoClient", code);
+	}
+    
+    
 
 }

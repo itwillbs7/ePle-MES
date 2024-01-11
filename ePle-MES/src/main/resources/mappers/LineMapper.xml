@@ -62,5 +62,12 @@
 	</select>
 	
 	<!-- 라인 검색 -->
+	
+	<!-- 라인 상세 -->
+	<select id="infoLine" resultType="LineVO">
+        SELECT code,name,process,place,status,note,active 
+        FROM LINE 
+        where code = #{code}
+    </select>
 
 </mapper>

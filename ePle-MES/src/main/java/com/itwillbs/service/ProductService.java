@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
+import com.itwillbs.domain.Warehouse_HistoryVO;
 
 public interface ProductService {
 	
@@ -25,5 +26,6 @@ public interface ProductService {
 	// 모든 품목 수
 	public int productListCount(String mapdCode, String mapdName) throws Exception;
 	
-	
+	// 품목 상세
+	public MAPDVO infoProduct(String code) throws Exception;
 }

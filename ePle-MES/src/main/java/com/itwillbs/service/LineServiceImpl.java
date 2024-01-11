@@ -61,7 +61,14 @@ public class LineServiceImpl implements LineService {
     }
 
 	@Override
-	public void InsertLine(LineVO lvo) throws Exception {
-		ldao.insertLine(lvo);
+	public int InsertLine(LineVO lvo) throws Exception {
+		return ldao.insertLine(lvo);
 	}
+
+	@Override
+	public LineVO infoLine(String code) throws Exception {
+		return ldao.infoLine(code);
+	}
+	
+	
 }

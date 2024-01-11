@@ -53,8 +53,14 @@ public class RequirementController {
     // 소요량 수정 - POST
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updatePOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
-    	rService.requirementUpdate(mvo);
-        return "redirect:/requirement/requirementAll"; // 수정 후 목록 페이지로 이동
+    	
+    	int result = rService.requirementUpdate(mvo);
+    	
+		if(result == 1) {
+			return "requirement/resultSuccess";
+		}else {
+			return "requirement/resultFailed";
+		}
     }
 
     // 소요량 삭제 - GET, POST
@@ -78,27 +84,24 @@ public class RequirementController {
         String[] codeArr = codes.split(",");
         int result = rService.deleteRequirements(codeArr);
 
-        String link = "";
         if (result >= 1) {
-          link = "redirect:/confirm";
           rttr.addFlashAttribute("title", "품목 삭제 결과");
           rttr.addFlashAttribute("result", "품목이 삭제 되었습니다.");
+        
+          // JavaScript 변수 설정
+          model.addAttribute("delCheckedCount", codeArr.length);
+          model.addAttribute("array", Arrays.asList(codeArr));
+          
+          return "product/resultSuccess";
+          
         } else {
-          link = "redirect:/error";
+
           rttr.addFlashAttribute("title", "품목 삭제 결과");
           rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+          
+          return "product/resultFailed";
         }
-
-        // JavaScript 변수 설정
-        model.addAttribute("delCheckedCount", codeArr.length);
-        model.addAttribute("array", Arrays.asList(codeArr));
-
-        // 자동 새로고침을 위해 부모 페이지 URL에 파라미터 추가
-        link += "?refresh=true";
-
-        return link;
     }
-
 
     // 페이징 처리 - 게시판 리스트 - GET
     @RequestMapping(value = "/requirementPage", method = RequestMethod.GET)
@@ -128,8 +131,13 @@ public class RequirementController {
 	public String requirementInsertPOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
 
 		// 서비스 - DB에 글쓰기(insert) 동작 호출
-		rService.InsertRequirement(mvo);	
-		return "redirect:/requirement/requirementAll";
+		int result = rService.InsertRequirement(mvo);	
+		
+		if(result == 1) {
+			return "product/resultSuccess";
+		}else {
+			return "product/resultFailed";
+		}
 	}
 
     // 전체 목록의 수를 가져오는 메서드
@@ -140,5 +148,12 @@ public class RequirementController {
     }
     
     // 소요량 검색 - GET
+    
+	// 소요량 상세 - GET, POST
+	@RequestMapping(value = "/requirementInfo", method = RequestMethod.GET)
+	public void requirementInfoGET(@RequestParam("code") String code, Model model) throws Exception {
+		MAPDVO infoRequirement = rService.infoRequirement(code);
+		model.addAttribute("infoRequirement", infoRequirement);
+	}
  
 }
