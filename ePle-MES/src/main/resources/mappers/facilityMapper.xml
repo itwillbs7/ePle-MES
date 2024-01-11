@@ -157,7 +157,7 @@
 						<when
 							test="search.date neq null and search.date.toString() neq ''">
 							<![CDATA[
-								AND f.purchase_date = #{search.date}
+								AND o.date = #{search.date}
 							]]>
 						</when>
 						<otherwise>

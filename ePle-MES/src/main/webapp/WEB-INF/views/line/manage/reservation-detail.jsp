@@ -21,48 +21,30 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-12 mb-3">
-					<h2 class="text-center mb-10">${info.code}</h2>
-					<h5 class="text-center mb-10">
-						<c:choose>
-							<c:when test="${info.active}">
-								<span class="badge badge-success">가동 중</span>
-							</c:when>
-							<c:otherwise>
-								<span class="badge badge-danger">정지</span>
-							</c:otherwise>
-						</c:choose>
-					</h5>
-
 					<table class="table table-striped">
 						<tr>
-							<th>이름</th>
-							<td>${info.name}</td>
-							<th>공정</th>
-							<td>${info.process}</td>
+							<th>사유</th>
+							<td>${info.group_name}</td>
+							<th>상세</th>
+							<td>${info.code_name}</td>
 						</tr>
 						<tr>
-							<th>위치</th>
-							<td>${info.place}</td>
-							<th>상태</th>
-							<td>${info.status}</td>
-						</tr>
-						<tr>
-							<th colspan="4" style="text-align: center;">메모</th>
-						</tr>
-						<tr>
-							<td colspan="4" style="text-align: center;">${info.note}</td>
+							<th>시작 시간</th>
+							<td><fmt:formatDate value="${info.start_time}" type="both" /></td>
+							<th>종료 시간</th>
+							<td><fmt:formatDate value="${info.end_time}" type="both" /></td>
 						</tr>
 					</table>
 				</div>
 			</div>
-
+			
 			<div class="faq-wrap">
 				<div id="accordion">
 					<!-- foreach -->
 					<div class="card">
 						<div class="card-header">
 							<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false">
-								<h4>정지 내역</h4>
+								<h4>예약 라인 목록</h4>
 							</button>
 						</div>
 						<div id="faq1" class="collapse" data-parent="#accordion" style="">
@@ -78,7 +60,7 @@
 														</c:when>
 														<c:otherwise>
 															<c:forEach items="${list}" var="i">
-																<li class="list-group-item"><b>시작 시간</b><br><fmt:formatDate value="${i.start_time}" type="both" /><br><b>종료 시간</b><br><fmt:formatDate value="${i.end_time}" type="both" /><br><br>${i.code_name}</li>
+																<li class="list-group-item">예약번호(${i.code})<br><b>${i.line_code}</b><br>${i.line.name}(${i.line.place})</li>
 															</c:forEach>
 														</c:otherwise>
 													</c:choose>
@@ -96,21 +78,11 @@
 			<!-- 버튼 -->
 			<div class="row">
 				<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-					<c:choose>
-						<c:when test="${info.active}">
-							<button type="button" class="btn btn-danger" onclick="javascript:openPage('/facility/info/delete?code=${info.code}', 500, 600)">
-								<b>정지</b>
-							</button>
-						</c:when>
-						<c:otherwise>
-							<button type="button" class="btn btn-success" onclick="javascript:openPage('/facility/info/delete?code=${info.code}', 500, 600)">
-								<b>가동</b>
-							</button>
-						</c:otherwise>
-					</c:choose>
-
-					<button type="button" class="btn btn-info" onclick="javascript:openPage('/facility/info/delete?code=${info.code}', 500, 600)">
-						<b>예약</b>
+					<button type="button" class="btn btn-warning" onclick="javascript:openPage('/line/manage/update?code=${info.code}', 500, 600)">
+						<b>수정</b>
+					</button>
+					<button type="button" class="btn btn-danger" onclick="javascript:openPage('/line/manage/delete?code=${info.code}', 500, 600)">
+						<b>삭제</b>
 					</button>
 				</div>
 				<div class="col-sm-12 mb-3 justify-content-center btn-toolbar">
