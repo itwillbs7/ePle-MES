@@ -161,6 +161,7 @@
 	select SUBSTRING_INDEX(order_num, '/', 1) as lot, amount amount
 	from WAREHOUSE_HISTORY 
 	where order_num like concat('%',#{ship_code})
+
 	</select>
 
 	<!-- ================================================================= add/search -->

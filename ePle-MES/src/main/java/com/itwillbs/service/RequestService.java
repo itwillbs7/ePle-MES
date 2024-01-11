@@ -10,6 +10,9 @@ public interface RequestService {
 	public List<RequestVO> requestListpage(RequestVO vo, Criteria cri) throws Exception;
 
 	public int getTotal(RequestVO vo) throws Exception;
+	// 이거 생산용
+	public int getTotal() throws Exception;
+	public List<RequestVO> requestListpage(Criteria cri) throws Exception;
 
 	// 수주리스트
 	public List<RequestVO> requestList() throws Exception;
@@ -64,5 +67,6 @@ public interface RequestService {
 	public int getProductTotal() throws Exception;
 
 	public int getProductTotal(String product, String productName) throws Exception;
+
 
 }
