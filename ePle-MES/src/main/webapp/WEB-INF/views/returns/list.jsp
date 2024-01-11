@@ -21,8 +21,10 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>반품 관리</h1>
+				<h1><a href="/returns/list" style="color:#202342;">반품 관리</a></h1>
 			</div>
+					<div class="min-height-200px">
+				<br>
 
 			<!-- 아코디언 시작 -->
 			<div class="faq-wrap">
@@ -40,45 +42,42 @@
 									action="/returns/list">
 									<div class="col-md-12">
 										<div class="form-group">
+										
+										
 											<div class="row">
-												<h4 class="text-blue h4">기본 검색</h4>
-												<div class="col-md-5 col-sm-12 btn-group ml-auto">
-													<label>업체명</label> 
-													<input type="hidden" name="client_code" id="client_code"> 
-														<input type="text"
-														name="clientName" class="form-control" id="searchCompany"
-														style="width: 100%;" placeholder="업체명 찾아보기"
-														autocomplete="off" readonly value="${clientName }">
-												</div>
-												<div class="col-md-5 col-sm-12 btn-group ml-auto">
-													<label>품명</label> <input type="hidden" name="product"
-														id="product"> <input type="text"
-														name="productName" class="form-control" id="searchProduct"
-														style="width: 100%;" placeholder="품명 찾아보기"
-														autocomplete="off" readonly value="${productName }">
-												</div>
-												<div class="form-group">
-													<label>반품 일자</label> <input class="form-control date-picker"
-														type="text" name="startDate" autocomplete="off" id="startDate"
-														value="${startDate }"> 
-															<span style="padding:0px 10px;"> &nbsp&nbsp ~ &nbsp&nbsp</span> 
-														<input class="form-control date-picker" 
-														type="text" name="endDate" autocomplete="off"
-														id="endDate" value="${endDate }">
+												<h4 class="text-blue h4">반품 검색</h4>
+											</div>
+											<div class="row">
+											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
+												<label class="col-md-2" style="padding: 10px 0px 10px 0px; ">업체명</label> 
+												<input type="hidden" name="client_code" id="client_code"> 
+												<input type="text"
+												name="clientName" class="form-control" id="searchCompany"
+												style="width: 100%;" placeholder="업체명 찾아보기"
+												autocomplete="off" readonly value="${clientName }">
+											</div>
+											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
+												<label class="col-md-2" style="padding: 10px 0px 10px 0px; ">품명</label> 
+												<input type="hidden" name="product" id="product">
+												<input type="text" name="productName" class="form-control" 
+												id="searchProduct" style="width: 100%;" placeholder="품명 찾아보기"
+												autocomplete="off" readonly value="${productName }">
+											</div>
+											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
+												<label class="col-md-2" style="padding: 10px 0px 10px 0px; ">담당자</label> 
+												<input type="hidden" name="manager" id="manager"> 
+												<input type="text" name="managerName" class="form-control" 
+												id="searchManager" style="width: 100%;" placeholder="" autocomplete="off"
+												readonly value="${managerName }">
 												</div>
 											</div>
 											<div class="row">
-												<div class="col-md-5 col-sm-12 btn-group ml-auto">
-													<label>담당자</label> <input type="hidden" name="manager"
-														id="manager"> <input type="text"
-														name="managerName" class="form-control" id="searchManager"
-														style="width: 100%;" placeholder="" autocomplete="off"
-														readonly value="${managerName }">
-												</div>
-												<div class="col-md-1 col-sm-12">
-													<label class="weight-600">출하 상태</label>
-												</div>
-												<div class="col-md-1 col-sm-12" style="margin-top: auto;">
+												<label class="col-md-4 col-sm-12"><b>반품 상태</b></label>
+												<label class="col-md-4 col-sm-12"><b>반품 일자</b></label>
+												<label class="col-md-4 col-sm-12"><b>납품 예정일</b></label>
+											</div>
+											<div class="row">
+											<div class="col-md-4 col-sm-12" style="margin-top: auto;">
 													<div class="custom-control custom-checkbox mb-5">
 														<input type="checkbox" class="custom-control-input"
 															id="formCheck1" name="statusList" value="반품"
@@ -88,7 +87,38 @@
 															<c:if test="${paramMap.statusList.contains('폐기')}">checked</c:if>> <label
 															id="formCheck2" name="statusList" value="폐기"></label>
 													</div>
+												</div>
+											<div class="col-md-4 col-sm-12" style="margin-top: auto;">
+												<div class="form-group">
+													<label>반품 일자</label> 
+													<input class="form-control date-picker"
+														type="text" name="startDate" autocomplete="off" id="startDate"
+														value="${startDate }"> 
+													<span style="padding:0px 10px;"> ~ </span> 
+													<input class="form-control date-picker" 
+														type="text" name="endDate" autocomplete="off"
+														id="endDate" value="${endDate }">
+												</div>
+												</div>
+											<div class="col-md-4 col-sm-12" style="margin-top: auto;">
+												<div class="form-group">
+													<label>반품 일자</label> 
+													<input class="form-control date-picker"
+														type="text" name="startDate" autocomplete="off" id="startDate"
+														value="${startDate }"> 
+													<span style="padding:0px 10px;"> ~ </span> 
+														<input class="form-control date-picker" 
+														type="text" name="endDate" autocomplete="off"
+														id="endDate" value="${endDate }">
+												</div>
+											</div>
+												
+												
+											</div>
 											<div class="col-md-2 col-sm-12"></div>
+											
+											
+											
 										</div>
 									</div>
 									
@@ -127,6 +157,7 @@
 						</div>
 					</div>
 				</div>
+			</div>
 			</div>
 
 
@@ -174,18 +205,29 @@
 										<tr>
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<c:choose>
-												<c:when test="${List.status eq '반품등록'}">
-													<td><div class="custom-control custom-checkbox mb-5">
+												<c:when test="${List.status eq '등록'}">
+													<td>
+													<div class="custom-control custom-checkbox mb-5">
 															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 															<input type="checkbox" class="custom-control-input"
 																id="checkTable${status.index}" name="tableCheck"
 																value="${List.code }"> <label
 																class="custom-control-label"
 																for="checkTable${status.index}"></label>
-														</div></td>
+														</div>
+														</td>
 												</c:when>
 												<c:otherwise>
-													<td></td>
+													<td>
+													<div class="custom-control custom-checkbox mb-5">
+															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+														<input type="checkbox" class="custom-control-input"
+															id="checkTable${status.index}" name="tableCheck"
+															value="${List.code }" style="visibility: hidden;"> 
+														<label class="custom-control-label" style="visibility: hidden;"
+															for="checkTable${status.index}"></label>
+													</div>
+													</td>
 												</c:otherwise>
 											</c:choose>
 											<!-- 상세 정보 이동! -->

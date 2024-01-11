@@ -157,9 +157,11 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 			            	 sqlSession.insert(NAMESPACE+".insertHistory", params);
 			            	 
 			            	 // 등록하기 전에 lot , material 들고오기
+
 			            	 //2. lot, material 얻어오기
 			            	 String material = "";
 			            	 material = sqlSession.selectOne(NAMESPACE+".getMaterial", lotNumber);
+
 			            	 
 			            	 //3. lot 테이블에 insert 하기
 			            	 params.put("lot",lotNumber);
