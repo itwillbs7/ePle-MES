@@ -111,6 +111,7 @@
 									</td>
 									<th>code.</th>
 									<th>수주번호</th>
+									<th>품번</th>
 									<th>품명</th>
 									<th>수량</th>
 									<th>라인코드</th>
@@ -130,6 +131,7 @@
 										<!-- 상세 정보 이동! -->
 										<th>${vo.request }</th>
 										<th>${vo.product }</th>
+										<th>${vo.product_name }</th>
 										<th>${vo.amount }</th>
 										<th>${vo.line_code }</th>
 										<th>${vo.production_date }</th>
@@ -261,12 +263,13 @@
 						html += "</div>";
 						html += "</td>";
 						html += "<th>" + this.code +"</th>";
-						html += "<th><a href='#'><b class='text-blue' id='tableTitle1'>" + this.product +"</b></a></th>";
+						html += "<th>" + this.request +"</th>";
+						html += "<th>" + this.product +"</th>";
+						html += "<th>" + this.product_name +"</th>";
 						html += "<th>" + this.amount +"</th>";
 						html += "<th>" + this.line_code +"</th>";
-						html += "<th>" + this.content +"</th>";
-						html += "<th>" + this.request +"</th>";
 						html += "<th>" + this.production_date +"</th>";
+						html += "<th>" + this.content +"</th>";
 						html += "</tr>";
 					});
 					$("table").append(html);

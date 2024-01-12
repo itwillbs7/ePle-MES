@@ -22,6 +22,7 @@
   	<resultMap type="com.production.domain.instructionVO" id="instructionVOMap">
   		<result property="code" column="I_code"/>
   		<result property="product" column="product"/>
+  		<result property="product_name" column="product_name"/>
   		<result property="line_code" column="line_code"/>
   		<result property="content" column="content"/>
   		<result property="request" column="request"/>
@@ -36,40 +37,38 @@
 	<select id="getResultList" parameterType="hashmap" resultType="com.production.domain.resultVO" resultMap="resultVOMap">
 		<![CDATA[
 			SELECT R.code AS R_code,emp_code,R.amount AS R_amount,R.status AS R_status,R.reg_date AS R_reg_date,R.reg_emp AS R_reg_emp,R.update_date AS R_update_date,R.update_emp AS R_update_emp,inst_code,(SELECT sum(amount) FROM FAILED WHERE result_code = R.code) AS failed_count,
-			I.code AS I_code,product,line_code,content,request,I.amount AS I_amount,production_date,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date,I.status AS I_status 
+			I.code AS I_code,product,M.name AS product_name,line_code,content,request,I.amount AS I_amount,production_date,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date,I.status AS I_status 
 			FROM RESULT R 
-			LEFT JOIN INSTRUCTION I 
-			ON R.inst_code = I.code 
+			LEFT JOIN INSTRUCTION I ON R.inst_code = I.code 
+			LEFT JOIN MAPD M ON I.product = M.code 
 			WHERE 1 = 1 AND I.status != '비활성' 
-			<if test="date != null">
-				 AND production_date = #{date}
-			</if>
-			<if test="line_code != null">
-				 AND line_code IN
-				<foreach collection="line_code" item="arr" open="(" close=")" separator=",">
-					#{arr}
-				</foreach>
-			</if>
-			<if test="isFinish != null">
-				<if test="!isFinish">
-					 AND R_status != '완료'
-				</if>
-			</if>
 		]]>
+		<if test="date != null">
+			 AND production_date = #{date}
+		</if>
+		<if test="line_code != null">
+			 AND line_code IN
+			<foreach collection="line_code" item="arr" open="(" close=")" separator=",">
+				#{arr}
+			</foreach>
+		</if>
+		<if test="isFinish == null">
+			 AND R.status != '완료'
+		</if>
 	</select>
 	<select id="getResult" resultType="com.production.domain.resultVO" resultMap="resultVOMap">
 		<![CDATA[
 			SELECT R.code AS R_code,emp_code,R.amount AS R_amount,R.status AS R_status,R.reg_date AS R_reg_date,R.reg_emp AS R_reg_emp,R.update_date AS R_update_date,R.update_emp AS R_update_emp,inst_code,(SELECT sum(amount) FROM FAILED WHERE result_code = R.code) AS failed_count,
-			I.code AS I_code,product,line_code,content,request,I.amount AS I_amount,production_date,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date,I.status AS I_status 
+			I.code AS I_code,product,M.name AS product_name,line_code,content,request,I.amount AS I_amount,production_date,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date,I.status AS I_status 
 			FROM RESULT R 
-			LEFT JOIN INSTRUCTION I 
-			ON R.inst_code = I.code 
+			LEFT JOIN INSTRUCTION I ON R.inst_code = I.code 
+			LEFT JOIN MAPD M ON I.product = M.code 
 	  		WHERE R.code = #{code} AND I.status != '비활성' 
 		]]>
 	</select>
 	<select id="getFailedList" resultType="com.production.domain.failedVO">
 		<![CDATA[
-			SELECT * FROM FAILED WHERE result_code = #{code}
+			SELECT F.*,C.code_name AS code_name FROM FAILED F LEFT JOIN COMMON_CODE C ON F.group_id = C.group_id AND F.code_id = C.code_id WHERE result_code = #{code}
 		]]>
 	</select>
 	<select id="getBOM" resultType="com.production.domain.BOMVO">
@@ -95,6 +94,9 @@
 		]]>
 	</update>
 	<insert id="insertFailed">
-		INSERT INTO FAILED VALUES(DEFAULT,'emp_code','group_id',#{code_id},#{content},#{action},#{amount},now(),#{reg_emp},null,null,#{result_code})
+		INSERT INTO FAILED VALUES(DEFAULT,'emp_code',#{group_id},#{code_id},#{content},#{action},#{amount},now(),#{reg_emp},null,null,#{result_code})
 	</insert>
+	<select id="getCode_id" resultType="com.itwillbs.domain.CommonVO">
+		SELECT * FROM COMMON_CODE WHERE group_id = 'DEF';
+	</select>
 </mapper>

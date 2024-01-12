@@ -1,8 +1,5 @@
 package com.production.controller;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,9 +17,9 @@ import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.service.RequestService;
+import com.production.domain.BOMVO;
 import com.production.domain.instructionVO;
 import com.production.domain.prodRequestVO;
-import com.production.service.productionService;
 import com.production.service.productionServiceImpl;
 
 @Controller
@@ -77,9 +74,6 @@ public class productionController {
 		logger.debug("Controller : insertInstructionGET(Model model) 호출");
 		//라인목록 불러오기
 		model.addAttribute("line_codeList", pdService.getLine_codeList());
-		//등록자 불러오기
-		
-		
 	}
 	
 	//지시사항 추가 POST
@@ -101,9 +95,6 @@ public class productionController {
 		model.addAttribute("instruction", vo);
 		//라인코드 불러오기
 		model.addAttribute("line_codeList", pdService.getLine_codeList());
-		//등록자 불러오기
-		
-		
 	}
 	//지시사항 수정 POST
 	@RequestMapping(value = "/updateInstruction", method = RequestMethod.POST)
@@ -125,14 +116,14 @@ public class productionController {
 	@RequestMapping(value = "/chooseRequest", method = RequestMethod.GET)
 	public void chooseRequestGET(Model model,Criteria cri) throws Exception {
 		logger.debug("Controller : chooseRequestGET() 호출");
-		//List<RequestVO> requestList = rService.requestListpage(cri);//vo값필요함
+		List<RequestVO> requestList = rService.requestListpage(cri);//vo값필요함
 		
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-		//pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
+		pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
 		//vo값필요함
 		
-		//model.addAttribute("List",requestList);
+		model.addAttribute("List",requestList);
 		model.addAttribute("pageVO", pageVO);
 	}
 	
@@ -142,6 +133,16 @@ public class productionController {
 	public prodRequestVO ajaxRequest(String code) throws Exception {
 		logger.debug("Controller : ajaxRequest() 호출");
 		logger.debug("code : " + code);
+		logger.debug("asdasd"+pdService.getRequest(code));
 		return pdService.getRequest(code);
+	}
+	
+	//getBOM
+	@RequestMapping(value = "/getBOM", method = RequestMethod.POST)
+	@ResponseBody
+	public List<BOMVO> getBOM(String mapd_code) throws Exception {
+		logger.debug("Controller : getBOM() 호출");
+		logger.debug("mapd_code : " + mapd_code);
+		return pdService.getBOM(mapd_code);
 	}
 }

@@ -48,7 +48,7 @@
 							<select class="custom-select2 form-control required" name="code_id" style="width: 100%; height: 38px">
 								<!-- 공통 코드로 받아오기 -->
 								<c:forEach items="${code_idList }" var="code_id">
-									<option value="${code_id }">${code_id }</option>
+									<option value="${code_id.group_id}_${code_id.code_id }">${code_id.code_name }</option>
 								</c:forEach>
 							</select>
 						</div>

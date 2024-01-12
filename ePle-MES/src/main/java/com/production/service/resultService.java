@@ -2,6 +2,7 @@ package com.production.service;
 
 import java.util.List;
 
+import com.itwillbs.domain.CommonVO;
 import com.production.domain.BOMVO;
 import com.production.domain.failedVO;
 import com.production.domain.resultVO;
@@ -25,4 +26,6 @@ public interface resultService {
 	public void addResult(String code) throws Exception;
 
 	public void insertFailed(failedVO vo) throws Exception;
+
+	public List<CommonVO> getCode_id() throws Exception;
 }

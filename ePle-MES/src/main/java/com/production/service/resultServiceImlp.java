@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.itwillbs.domain.CommonVO;
 import com.production.domain.BOMVO;
 import com.production.domain.failedVO;
 import com.production.domain.resultVO;
@@ -67,6 +68,10 @@ public class resultServiceImlp implements resultService{
 	@Override
 	public void insertFailed(failedVO vo) throws Exception {
 		rsDAO.insertFailed(vo);
-		
+	}
+
+	@Override
+	public List<CommonVO> getCode_id() throws Exception {
+		return rsDAO.getCode_id();
 	}
 }

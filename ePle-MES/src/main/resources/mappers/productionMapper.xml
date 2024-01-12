@@ -6,7 +6,7 @@
 <!-- productionMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.productionMapper">
 	<select id="getInstruction" resultType="com.production.domain.instructionVO">
-		SELECT * FROM INSTRUCTION WHERE status != '비활성'
+		SELECT I.*,M.name AS product_name FROM INSTRUCTION I LEFT JOIN MAPD M ON I.product = M.code WHERE status != '비활성'
 	</select>
 	<select id="getProduct" resultType="String">
 		SELECT DISTINCT product FROM INSTRUCTION WHERE status != '비활성'
@@ -18,7 +18,7 @@
 		SELECT DISTINCT request FROM INSTRUCTION WHERE status != '비활성'
 	</select>
 	<select id="ajaxSearch" parameterType="hashmap" resultType="com.production.domain.instructionVO">
-		SELECT * FROM INSTRUCTION WHERE 1 = 1  AND status != '비활성'
+		SELECT I.*,M.name AS product_name FROM INSTRUCTION I LEFT JOIN MAPD M ON I.product = M.code WHERE 1 = 1  AND status != '비활성'
 		<if test="product != null">
 			AND product IN
 			<foreach collection="product" item="arr" open="(" close=")" separator=",">
@@ -80,7 +80,10 @@
 		</foreach>
 	</update>
 	<select id="getRequestAll" resultType="com.production.domain.prodRequestVO">
-		SELECT * FROM REQUEST WHERE code = #{code}
+		SELECT R.code, R.product, M.name AS product_name, IFNULL(amount - (SELECT SUM(amount) FROM INSTRUCTION I WHERE request = #{code} AND status != '비활성') + (SELECT SUM(I.amount-(SELECT SUM(amount) FROM RESULT WHERE inst_code = I.code)) FROM INSTRUCTION I WHERE request = #{code} AND status != '비활성'),amount) AS amount FROM REQUEST R LEFT JOIN MAPD M ON R.product = M.code WHERE R.code = #{code}
+	</select>
+	<select id="getBOM" resultType="com.production.domain.BOMVO">
+		SELECT * FROM BOM WHERE mapd_code = #{mapd_code}
 	</select>
 
 </mapper>
