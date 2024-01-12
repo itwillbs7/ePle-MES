@@ -27,30 +27,27 @@ input[readonly] {
 				
 				<div class="tab-content">
 					<!------------------------------ 첫번째 폼 ------------------------------>
-					<div class="tab-pane fade active show" id="ord-Warehousing" role="tabpanel">
-						<form method="post" id="pro-form">
+						<form method="post" action="/material/inAdd">
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
 								
 									<div class="form-group">
     									<label>자재 유형</label>
-    									<select class="form-control" name="category" required>
-        									<option value="" disabled selected hidden>창고를 선택하세요</option>
-        									<option value="원자재">원자재</option>
-        									<option value="설비품">설비품</option>
-    									</select>
+										<input class="form-control" type="text" name="category" placeholder="자재 유형" value="완재품" readonly>
 									</div>
 									
 									<div class="form-group">
 										<label>발주 정보</label> 
-										<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="발주코드" readonly>
+										<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="발주코드" value="${result.vo.request }" readonly>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="text" id="mapdName" placeholder="품명" readonly>
-										<input class="form-control" type="hidden" id="mapdCode" name="mapd_code" placeholder="자재코드" readonly>
+										<label>품목</label> 
+										<input class="form-control" type="text" id="mapdName" placeholder="품명"  value="${result.vo.product }" readonly>
+										<input class="form-control" type="hidden" id="mapdCode" name="mapd_code" placeholder="자재코드" value="${result.vo.product }" readonly>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="number" id="orderAmount" name="amount" placeholder="수량" readonly>
+										<label>수량</label>
+										<input class="form-control" type="number" id="orderAmount" name="amount" value="${result.amount }" placeholder="수량" readonly>
 									</div>
 
 									<div class="form-group">
@@ -61,8 +58,6 @@ input[readonly] {
 										<input class="form-control" type="text" id="empName" placeholder="담당자" readonly>
 										<input class="form-control" type="hidden" id="empCode" name="emp_code" placeholder="담당자" readonly>
 									</div>
-
-
 								</div>
 							</div>
 							<!-- 버튼 -->
@@ -78,11 +73,30 @@ input[readonly] {
 							</div>
 							<!-- 버튼 -->
 						</form>
-					</div>
 				</div>
 				<!------------------------------ 콘텐츠 끝 ------------------------------>
 		</div>
 	</div>
 	<%@ include file="../include/footer.jsp"%>
+	<script type="text/javascript">
+		window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
+		
+		function openPopup(url) {
+		    var width = 550;
+		    var height = 550;
+		    var left = (screen.width - width) / 2;
+		    var top = (screen.height - height) / 2;
+		    var popupWindow = window.open(url, '_blank', "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
+		    popupWindow.focus();
+		}
+		
+		$(document).ready(function() {
+		 	// 등록 - 창고 리스트
+		    $("#warehouseCode, #empName").click(function() {
+		        var url = '${pageContext.request.contextPath}/material/searchOrderWarehouse';
+		        openPopup(url);
+		    });
+		});
+	</script>
 </body>
 </html>

@@ -36,6 +36,9 @@
 							<input class="form-control required" type="text" placeholder="제품" readonly name="product" id="product">
 						</div>
 						<div class="form-group">
+							<label><b>제품명</b></label> <input class="form-control required" type="text" placeholder="제품명" readonly name="product_name" id="product_name">
+						</div>
+						<div class="form-group">
 							<label>수량</label>
 							<!-- 슬라이드바 -->
 							<div class="pd-20 card-box mb-30">
@@ -102,7 +105,7 @@
 						<!-- 세션에서 받아오기 -->
 						<div class="form-group">
 							<label>수정자</label>
-							<input class="form-control required" type="text" placeholder="수정자 정보가 없습니다" readonly value="${instruction.reg_emp }" name="update_emp">
+							<input class="form-control required" type="text" placeholder="수정자 정보가 없습니다" readonly value="${session.code }" name="update_emp">
 						</div>
 						<!-- 세션에서 받아오기 -->
 						<!-- examples end -->
@@ -174,6 +177,11 @@
 		//슬라이더바 변경 시 input 연동
 		$('#amount').change(function() {
 			$('#amount_input').val($('#amount').val());
+			var tr = $("table tr");
+			for(i = 1; i<tr.length; i++){
+				var td = tr.eq(i).children("td");
+				td.eq(3).text(td.eq(2).text() * $('#amount_input').val());
+			}
 		});
 		//input 변경 시 슬라이더바 연동
 		$('#amount_input').change(function() {
@@ -271,14 +279,47 @@
 				},
 				success : function(data) {
 					var requestVO = data;
-					$("#request").val(requestVO.code);
+					$("#request").val(requestVO.code).change();
 					$("#product").val(requestVO.product).change();
+					$("#product_name").val(requestVO.product_name).change();
 					sliderUpdate(amount,requestVO.amount + Number(amount));
+					getBOM(data.product);
 				}
 			});
 		}
 	</script>
 	<!-- ajaxRequest 끝 -->
+	<!-- BOM업데이트 시작 -->
+	<script type="text/javascript">
+		function getBOM(product) {
+			$("#materials>tbody").empty();
+			$.ajax({
+				url : "/production/getBOM",
+				type : "POST",
+				data : {
+					mapd_code : product
+				},
+				error : function() {
+					alert("error");
+				},
+				success : function(data) {
+					console.log(data);
+					var html = "";
+					for (var i = 0; i < data.length; i++) {
+						html = "";
+						html += "<tr>";
+						html += "<td>" + data[i].bno + "</td>";
+						html += "<td>" + data[i].material + "</td>";
+						html += "<td>" + data[i].amount + "</td>";
+						html += "<td>" + data[i].amount + "</td>";
+						html += "</tr>";
+						$("#materials>tbody").append(html);
+					}
+				}
+			});
+		}
+	</script>
+	<!-- BOM업데이트 끝 -->
 	<!-- submit시 시작 -->
 	<script type="text/javascript">
 		$("#updateForm").submit(function(e) {

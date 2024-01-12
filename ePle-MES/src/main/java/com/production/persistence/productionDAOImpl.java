@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.production.domain.BOMVO;
 import com.production.domain.instructionVO;
 import com.production.domain.requestVO;
 
@@ -103,6 +104,11 @@ public class productionDAOImpl implements productionDAO {
 	@Override
 	public requestVO getRequest(String code) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".getRequestAll", code);
+	}
+
+	@Override
+	public List<BOMVO> getBOM(String mapd_code) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getBOM", mapd_code);
 	}
 
 }

@@ -32,7 +32,10 @@
 							</button>
 						</div>
 						<div class="form-group">
-							<label><b>제품</b></label> <input class="form-control required" type="text" placeholder="제품" readonly name="product" id="product">
+							<label><b>제품번호</b></label> <input class="form-control required" type="text" placeholder="제품번호" readonly name="product" id="product">
+						</div>
+						<div class="form-group">
+							<label><b>제품명</b></label> <input class="form-control required" type="text" placeholder="제품명" readonly name="product_name" id="product_name">
 						</div>
 						<div class="form-group">
 							<label>수량</label>
@@ -57,18 +60,6 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td scope="row">1</td>
-												<td>aa</td>
-												<td>1</td>
-												<td>1</td>
-											</tr>
-											<tr>
-												<td scope="row">2</td>
-												<td>bb</td>
-												<td>2</td>
-												<td>1</td>
-											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -99,7 +90,7 @@
 						</div>
 						<!-- 세션에서 받아오기 -->
 						<div class="form-group">
-							<label>등록자</label> <input class="form-control required" type="text" placeholder="등록자 정보가 없습니다" readonly value="관리자1" name="reg_emp">
+							<label>등록자</label> <input class="form-control required" type="text" placeholder="등록자 정보가 없습니다" readonly value="1<%-- ${session.code } --%>" name="reg_emp">
 						</div>
 						<!-- 세션에서 받아오기 -->
 						<!-- examples end -->
@@ -252,7 +243,9 @@
 						var requestVO = data;
 						$("#request").val(requestVO.code).change();
 						$("#product").val(requestVO.product).change();
+						$("#product_name").val(requestVO.product_name).change();
 						sliderUpdate(data.amount);
+						getBOM(data.product);
 						if (data.amount == 0) {
 							alert("이미 모든 수주량이 등록되었습니다.");
 							$("#amount_input").attr("disabled","disabled");
@@ -270,6 +263,38 @@
 			}
 		});
 	</script>
+	<!-- 수주정보 받기 끝 -->
+	<!-- BOM업데이트 시작 -->
+	<script type="text/javascript">
+		function getBOM(product) {
+			$("#materials>tbody").empty();
+			$.ajax({
+				url : "/production/getBOM",
+				type : "POST",
+				data : {
+					mapd_code : product
+				},
+				error : function() {
+					alert("error");
+				},
+				success : function(data) {
+					console.log(data);
+					var html = "";
+					for (var i = 0; i < data.length; i++) {
+						html = "";
+						html += "<tr>";
+						html += "<td>" + data[i].bno + "</td>";
+						html += "<td>" + data[i].material + "</td>";
+						html += "<td>" + data[i].amount + "</td>";
+						html += "<td>" + data[i].amount + "</td>";
+						html += "</tr>";
+						$("#materials>tbody").append(html);
+					}
+				}
+			});
+		}
+	</script>
+	<!-- BOM업데이트 끝 -->
 	<!-- 수주정보 받기 끝 -->
 	<!-- submit시 시작 -->
 	<script type="text/javascript">

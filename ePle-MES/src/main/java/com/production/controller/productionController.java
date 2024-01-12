@@ -17,6 +17,7 @@ import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.service.RequestService;
+import com.production.domain.BOMVO;
 import com.production.domain.instructionVO;
 import com.production.domain.requestVO;
 import com.production.service.productionService;
@@ -73,9 +74,6 @@ public class productionController {
 		logger.debug("Controller : insertInstructionGET(Model model) 호출");
 		//라인목록 불러오기
 		model.addAttribute("line_codeList", pdService.getLine_codeList());
-		//등록자 불러오기
-		
-		
 	}
 	
 	//지시사항 추가 POST
@@ -97,9 +95,6 @@ public class productionController {
 		model.addAttribute("instruction", vo);
 		//라인코드 불러오기
 		model.addAttribute("line_codeList", pdService.getLine_codeList());
-		//등록자 불러오기
-		
-		
 	}
 	//지시사항 수정 POST
 	@RequestMapping(value = "/updateInstruction", method = RequestMethod.POST)
@@ -140,5 +135,14 @@ public class productionController {
 		logger.debug("code : " + code);
 		logger.debug("asdasd"+pdService.getRequest(code));
 		return pdService.getRequest(code);
+	}
+	
+	//getBOM
+	@RequestMapping(value = "/getBOM", method = RequestMethod.POST)
+	@ResponseBody
+	public List<BOMVO> getBOM(String mapd_code) throws Exception {
+		logger.debug("Controller : getBOM() 호출");
+		logger.debug("mapd_code : " + mapd_code);
+		return pdService.getBOM(mapd_code);
 	}
 }

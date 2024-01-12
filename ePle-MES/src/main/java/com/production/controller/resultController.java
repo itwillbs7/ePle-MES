@@ -84,8 +84,7 @@ public class resultController {
 	@ResponseBody
 	public Map<String, Object> Complete(String code) throws Exception {
 		logger.debug("Controller : Complete() 호출");
-		//실적 상태 생산중 -> 완료 으로 전환
-		//지시량과 양품량 비교하여 양품량이 지시랑보다 적을 시 대기중 상태의 실적 생성
+		//실적 상태 생산중 -> 중지으로 전환
 		rsService.productionComplete(code);
 		return getInfo(code);
 	}
