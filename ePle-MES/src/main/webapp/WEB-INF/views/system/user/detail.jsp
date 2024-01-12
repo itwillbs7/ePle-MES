@@ -65,7 +65,13 @@
 							<label>주소</label> <input class="form-control" name="address" value="${vo.address }" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<label>사용여부</label> <input class="form-control" name="active" value="${vo.active }" type="text" readonly>
+							<label>사용여부</label>
+							<c:if test="${vo.active==1 }">
+								<input type="checkbox" checked="checked" class="switch-btn" data-color="#26bf36" data-size="large" name="activeCheckbox" disabled="disabled">
+							</c:if>
+							<c:if test="${vo.active==0 }">
+								<input type="checkbox" class="switch-btn" data-color="#26bf36" data-size="large" name="activeCheckbox" disabled="disabled">
+							</c:if>
 						</div>
 					</div>
 				</div>
