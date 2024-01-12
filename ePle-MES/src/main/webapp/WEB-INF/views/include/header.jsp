@@ -6,11 +6,9 @@
 <div class="header">
 	<!-- 헤더 왼쪽 구간, 검색 -->
 	<div class="header-left">
-	
 		<!-- 메뉴 펼치기 아이콘 -->
 		<div class="menu-icon bi bi-list"></div>
 	</div>
-	
 	<!-- 헤더 오른쪽 구간, 프로필&알림 등 -->
 	<div class="header-right">
 		<div class="dashboard-setting user-notification">
