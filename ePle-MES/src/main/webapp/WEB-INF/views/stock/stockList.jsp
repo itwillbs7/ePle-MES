@@ -12,6 +12,17 @@
   .table td {
     text-align: center;
   }
+    .back {
+  background-color: white !important;
+}
+#whCode{
+margin-left:100px;
+margin-right:50px;
+}
+#manager{
+margin-left:20px;
+margin-right:20px;
+}
 </style>
 <title>재고 관리</title>
 </head>
@@ -38,24 +49,20 @@
 			<div class="card">
 						
 				<div class="card-header">
-					<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false"><b>출고 검색</b></button>
+					<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false"><b>재고 검색</b></button>
 				</div>
 							
 				<div id="faq1" class="collapse" data-parent="#accordion" style="">
 					<div class="card-body">
 								
-							<div class="col-md-12">
 								<div class="form-inline">
-									<div class="row">
 											<div class="col-md-12 col-sm-12 btn-group" >
 											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="입고코드" autocomplete="off" >
 											<label>관리자</label> 
-											<input type="text" name="searchName" id="manager" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
-											<input type="text" id="managerName" class="form-control" placeholder="관리자이름" autocomplete="off" readonly>
+											<input type="text" name="searchName" id="manager" class="form-control back" placeholder="관리자코드" autocomplete="off" readonly>
+											<input type="text" id="managerName" class="form-control back" placeholder="관리자이름" autocomplete="off" readonly>
 											</div>
-									</div>
 								</div>
-							</div>
 										
 							<div class="btn-group pull-right" style="margin-bottom: 10px">
 								<button type="submit" class="btn btn-primary" id="search" onclick="doSearch()"> <b>검색</b> </button>
@@ -74,13 +81,11 @@
 	<div class="card-box mb-30">
 		<div class="pd-20">
 			<div class="btn-group pull-right" style="margin-bottom: 10px">
-				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
+				<!-- <button type="button" class="btn btn-warning" id="update"><b>수정</b></button> -->
 			</div>
 		</div>
 
 
-	<!-- code품번 name품명 wh창고코드 total -->
-	<!-- id category mapdname unit expiryd -->
 	<!----------------------------- 재고 리스트 출력 ---------------------------->
 		<div class="pb-20">
 			<div class="col-sm-30">
@@ -94,18 +99,13 @@
 									<label class="custom-control-label" for="tableCheckAll"></label>
 								</div>
 							</td>
-							<th>출고코드</th>
-							<th>출하코드</th>
-							<th>창고</th>
-							<th>구분</th>
+							<th>품목코드</th>
 							<th>품명</th>
-							<th>수량</th>
-							<th>담당자</th>
-							<th>출고일자</th>
-							<th>옵션</th>
+							<th>창고</th>
+							<th>현재고</th>
 						</tr>
 
-						<c:forEach items="${outList }" var="vo">
+						<c:forEach items="${stockList }" var="vo">
 						<tr>
 							<td>
 								<div class="custom-control custom-checkbox mb-5">
@@ -114,30 +114,11 @@
 								</div>
 							</td>
 							<th class="inInfo${vo.code}" style="color: #FF1493; cursor:pointer;">${vo.code }</th>
-							<th>${vo.order_num }</th>
-							<th>${vo.warehouse_code }</th>
-							<th>${vo.category }</th>
-							<th>${vo.mapdName }</th>
-							<th>${vo.amount } ${vo.unit }</th>
-							<th>${vo.empName }</th>
-							<th><fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></th>
-							<td style="">
+							<th>${vo.name }</th>
+							<th>${vo.warehouse }</th>
+							<th id="inventoryText">${vo.total }</th>
 
 
-
-							<!-------------------------------- 옵션 선택 -------------------------------->
-							<div class="dropdown">
-								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i> </a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-										<!-- 상세 보기 -->
-										<a class="dropdown-item" href="javascript:openPage('/material/inInfo?code=${vo.code }', 400, 700"><i class="dw dw-eye"></i>상세 보기</a>
-										<!-- 수정 -->
-										<a class="dropdown-item" href="javascript:openPage('/material/inEdit?code=${vo.code }', 400, 700"><i class="dw dw-edit2"></i> 수정</a>
-									</div>
-							</div>
-								
-								
-							</td>
 						</tr>
 						</c:forEach>
 							
@@ -145,24 +126,24 @@
 				</form>
 
 				<!-------------------------------- 출고 갯수 -------------------------------->
-				<div class="row">
+				<!-- <div class="row">
 					<div class="col-sm-12 col-md-5">
 						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
 					</div>
-				</div>
+				</div> -->
 
 
 				<!--------------------------------- 페이징 ---------------------------------->
 				<div class="btn-toolbar justify-content-center mb-15">
 					<div class="btn-group">
 						<c:if test="${pageVO.prev}">
-							<a href="/material/outList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+							<a href="/stock/stockList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
 						</c:if>
 						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/material/outList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+							<a href="/stock/stockList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
 						</c:forEach>
 						<c:if test="${pageVO.next}">
-							<a href="/material/outList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+							<a href="/stock/stockList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
 						</c:if>
 					</div>
 				</div>
@@ -271,7 +252,6 @@
 			});
 
 			
-			
 		});
 		
 
@@ -319,7 +299,17 @@
 		    $("#managerName").attr("placeholder", "관리자이름");
 		}
 
-		
+
+
+		    window.onload = function() {
+		        var inventory = parseInt(document.getElementById("inventoryText").innerText);
+
+		        if (inventory <= 10) {
+		            document.getElementById("inventoryText").style.color = "red";
+		        }
+		    };
+
+		    
 	</script>
 </body>
 </html>

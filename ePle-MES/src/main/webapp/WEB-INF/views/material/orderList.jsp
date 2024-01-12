@@ -20,6 +20,14 @@
   .back {
   background-color: white !important;
 }
+#whCode{
+margin-left:100px;
+margin-right:50px;
+}
+#selectA{
+margin-left:20px;
+margin-right:20px;
+}
 </style>
 <title>발주 관리</title>
 </head>
@@ -57,19 +65,15 @@
 				<div id="faq1" class="collapse" data-parent="#accordion" style="">
 					<div class="card-body">
 								
-							<div class="col-md-12">
 								<div class="form-inline">
-									<div class="row">
 										<div class="col-md-20 col-sm-12 btn-group" >
 											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="발주코드" autocomplete="off" >
 											<label>관리자</label> 
 											<input type="text" name="searchName" id="selectA" class="form-control back" placeholder="담당자코드" autocomplete="off" readonly>
-											<input type="text" id="selectB" class="form-control back" placeholder="담당자이름" autocomplete="off" readonly>
+											<input type="text" 	 id="selectB" class="form-control back" placeholder="담당자이름" autocomplete="off" readonly>
 											<input type="hidden" id="selectC" class="form-control" autocomplete="off" readonly>
 										</div>
-									</div>
 								</div>
-							</div>
 										
 							<div class="btn-group pull-right" style="margin-bottom: 10px">
 								<button type="submit" class="btn btn-primary" id="search" onclick="doSearch()"> <b>검색</b> </button>

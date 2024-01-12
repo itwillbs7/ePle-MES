@@ -138,6 +138,7 @@
 	<select id="stockList" resultType="WarehouseVO">
     	SELECT code, name, warehouse, total
     	FROM STOCK_VIEW
+    	WHERE total != 0
     	LIMIT #{cri.startPage}, #{cri.pageSize}
 	</select>
 
