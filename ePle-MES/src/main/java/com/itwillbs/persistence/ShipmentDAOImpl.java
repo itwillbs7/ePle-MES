@@ -35,12 +35,10 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 		List<ShipmentVO> list = new ArrayList<ShipmentVO>();
 		
-		if(vo == null) {
-			list = sqlSession.selectList(NAMESPACE+".listPage", paramMap);
-		}else {
+		
 			list = sqlSession.selectList(NAMESPACE+".research", paramMap);
 			
-		}
+		
 
 		return list;
 	}
@@ -348,8 +346,8 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 	@Override
 	public int actDoneShipment(String[] code) throws Exception {
-		Map<String, Object> params = new HashMap<>();
-		params.put("code", code);
+		logger.debug(" 큐알코드 처리하기!!!!!!!!!!!!!!!! 출하번호!!!!!!!!!"+code);
+		
 		return sqlSession.update(NAMESPACE+".updateStatusToShipment",code);
 	}
 

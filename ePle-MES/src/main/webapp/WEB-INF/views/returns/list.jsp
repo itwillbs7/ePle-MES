@@ -81,7 +81,7 @@
 											<div class="col-md-2 col-sm-12" style="margin-top: 10px;">
 													<div class="custom-control custom-checkbox mb-5">
 														<input type="checkbox" class="custom-control-input"
-															id="formCheck1" name="statusList" value="반품"
+															id="formCheck1" name="statusList" value="반품등록"
 															<c:if test="${paramMap.statusList.contains('반품등록')}">checked</c:if>> <label
 															class="custom-control-label" for="formCheck1">반품등록</label>
 													</div>
@@ -186,6 +186,7 @@
 										<th>수주업체</th>
 										<th>출하번호</th>
 										<th>LOT</th>
+										<th>반품일자</th>
 										<th>반품수량</th>
 										<th>반품사유</th>
 										<th>반품상태</th>
@@ -196,7 +197,7 @@
 										<tr>
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<c:choose>
-												<c:when test="${List.status eq '등록'}">
+												<c:when test="${List.status eq '반품등록'}">
 													<td>
 													<div class="custom-control custom-checkbox mb-5">
 															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
@@ -227,6 +228,7 @@
 											<th>${List.request_code }</th>
 											<th>${List.ship_code }</th>
 											<th>${List.lot }</th>
+											<th>${List.date }</th>
 											<th>${List.amount }</th>
 											<th>${List.reason }</th>
 											<th>${List.status }</th>
@@ -341,7 +343,7 @@ $('#reset').click(function(){
 										});
 								if (deleteList.length > 0) {
 									openPage("/returns/delete?code="
-											+ deleteList.join(','), 400, 700);
+											+ deleteList.join(','), 600, 700);
 								} else {
 									alert('삭제 실패');
 								}

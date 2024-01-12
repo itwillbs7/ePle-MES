@@ -439,8 +439,8 @@ public class ShipmentController {
 		String link = "";
 		if (result >= 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "수령 완료");
-			rttr.addFlashAttribute("result", "주문해주셔서 감사합니다!");
+			rttr.addFlashAttribute("title", "출하 완료");
+			rttr.addFlashAttribute("result", "출하를 완료하였습니다");
 		} else {
 			link = "redirect:/error";
 			rttr.addFlashAttribute("title", "오류 발생");

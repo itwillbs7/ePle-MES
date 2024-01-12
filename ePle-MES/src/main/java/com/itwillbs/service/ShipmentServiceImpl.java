@@ -80,7 +80,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 		
 		result = sdao.updateRequestStatus(request);
 		
-		if(result == 2) {
+		if(result >= 1) {
 			int shipmentAmount = vo.getAmount();
 				
 				Map<String, Object> params = new HashMap<String, Object>();
@@ -98,15 +98,17 @@ public class ShipmentServiceImpl implements ShipmentService {
 						int total = totalBigDecimal.intValue();
 						String lotNumber = (String)lot.get("lot");
 
-				             if (total <= shipmentAmount) { // 출하량이 특정 lot의 수량보다 많을 때
+				             if ((total <= shipmentAmount) && shipmentAmount != 0) { // 출하량이 특정 lot의 수량보다 많을 때
 				                 //1. 입출고 기록에서 출고기록 남기기(lot / 출하번호)
 				            	 logger.debug("LOTNUMBER"+lotNumber);
 				            	 orderNum = lotNumber+"/"+shipment;
 				            	 params.put("order_num", orderNum);
 				            	 params.put("total",total);
 				            	 
+				            	 // 입출고 기록 넣기
 				            	int success = sdao.insertHistory(params);
 
+				            	// material 정보 가져오기
 				            	String material = sdao.getMaterail(lotNumber);
 				            			 
 				            	logger.debug("######materrial"+material);
@@ -122,7 +124,6 @@ public class ShipmentServiceImpl implements ShipmentService {
 				            	 // 사용가능한 LOT 번호, 지금 수량을 얻을 수 잇음
 				            	 String voHistory = vo.getWareHistory_code();
 				            	 logger.debug("================== 지금 출고코드 "+voHistory);
-				            	 // ex) 23ODMG1207 여기까지 검색해서 가장 최근 등록된 코드
 				            	 // 마지막 3자리 숫자 추출
 				            		 String lastFourNums = voHistory.substring(voHistory.length()-3);
 				            		 // 숫자로 변환 후 1 증가
@@ -135,7 +136,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 				            		 params.put("vo", vo);
 				            	 
 				                 shipmentAmount -= total;
-				             } else {
+				             } else if(shipmentAmount != 0) {
 				                 // total이 출하량보다 크면, 해당 LOT에서 출하량만큼만 사용
 				                 
 				            	 orderNum = lotNumber+"/"+shipment;

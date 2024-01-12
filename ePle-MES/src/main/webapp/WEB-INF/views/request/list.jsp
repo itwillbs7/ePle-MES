@@ -133,7 +133,7 @@
 															style="width:50%;" type="text" name="startDead" autocomplete="off" id="startDead"
 															value="${paramMap.startDead }">
 															<span style="padding:0px 10px;  padding-top:10px; text-align : center;"> ~ </span> 
-															<input class="form-control" readonly 
+															<input class="form-control date-picker" readonly 
 															style="width:50%;" type="text" name="endDead" autocomplete="off" id="endDead"
 															value="${paramMap.endDead }">
 															</span>

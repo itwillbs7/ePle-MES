@@ -18,7 +18,7 @@
 			<!-- 타이틀 -->
 			<div class="login-title">
 				<h1 class="text-center text-primary">출하명령 삭제</h1>
-				<h3 class="text-center text-primary">삭제 리스트</h3>
+				<h3 class="text-center text-primary" style="margin-top : 10px;">삭제 리스트</h3>
 			</div>
 			<!-- 폼 -->
 			<form method="post" id="deleteForm">

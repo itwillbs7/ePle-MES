@@ -20,6 +20,7 @@
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
+					
 						<!-- 필수입력내역 -->
 						<div class="form-group">
 							<label for="client_code">출하번호</label> 
@@ -76,24 +77,27 @@
 							<input class="form-control" name="amount" id="amount" readonly 
 							type="number" readonly autocomplete="off" min="1" required="required" value="${vo.amount }">
 						</div>
+						<div class="form-group">
 							<label>출하상태</label> 
 							<input class="form-control" name ="status" type="text" readonly id="status" 
 							required="required" value="${vo.status }">
 						</div>
 
-
 				<!-- 버튼 -->
-				<div class="row">
-					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-						<button type="button" class="btn btn-secondary" onclick="window.close();">
-							<b>취소</b>
-						</button>
-						<input type="submit" class="btn btn-success" value="수정"  id="update">
-						<input type="button" class="btn btn-danger" value="반품등록"  id="returns">
-					</div>
-				</div>
-					</div>
-				</div>
+						<div class="row">
+							<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
+								<button type="button" class="btn btn-secondary" onclick="window.close();">
+									<b>취소</b>
+								</button>
+								<input type="submit" class="btn btn-success" value="수정"  id="update">
+								<input type="button" class="btn btn-danger" value="반품등록"  id="returns">
+							</div>
+						</div>
+						
+							</div>
+						</div>
+
+
 				<!-- 버튼 -->
 			</form>
 			<!-- 폼 -->

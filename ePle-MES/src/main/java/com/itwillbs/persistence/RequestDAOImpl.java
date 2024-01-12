@@ -29,6 +29,7 @@ public class RequestDAOImpl implements RequestDAO {
 	@Override
 	public List<RequestVO> getRequestListPage(RequestVO vo, Criteria cri) throws Exception {
 		logger.debug("DAO 페이징 처리 getRequestListPage(Criteria cri) + " + cri);
+		logger.debug(" ++++++++++ vo " + vo);
 
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("cri", cri);
@@ -36,12 +37,9 @@ public class RequestDAOImpl implements RequestDAO {
 
 		List<RequestVO> list = new ArrayList<RequestVO>();
 
-		if (vo == null) {
-			list = sqlSession.selectList(NAMESPACE + ".listPage", paramMap);
-		} else {
-			list = sqlSession.selectList(NAMESPACE + ".research", paramMap);
-		}
-
+		
+		list = sqlSession.selectList(NAMESPACE + ".research", paramMap);
+		
 		return list;
 
 	}

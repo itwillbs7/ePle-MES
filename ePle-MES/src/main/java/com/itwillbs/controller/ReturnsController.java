@@ -304,7 +304,7 @@ public class ReturnsController {
 		
 		String[] code = codes.split(",");
 		List<ReturnsVO> vo = rtService.getinfo(code);
-		logger.debug("찾아온 폐기 정보 vo"+vo);
+		logger.debug("@@@@@@@찾아온 폐기 정보 vo"+vo);
 		model.addAttribute("List", vo);
 	}
 	

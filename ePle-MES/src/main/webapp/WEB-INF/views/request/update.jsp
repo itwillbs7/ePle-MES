@@ -49,12 +49,12 @@
 							<label>수주일자</label> <input class="form-control date-picker"
 								name="date" type="text" value="${List.date }"
 								placeholder="클릭 시 달력이 뜹니다" id="date" autocomplete="off"
-								required="required">
+								required="required" id="date">
 						</div>
 						<div class="form-group" id="returndate">
-							<label>납품일자</label> <input class="form-control" name="deadline"
-								type="date" value="${List.deadline }" placeholder="클릭 시 달력이 뜹니다"
-								autocomplete="off" required="required">
+							<label>납품일자</label> <input class="form-control date-picker" name="deadline"
+								type="text" value="${List.deadline }" placeholder="클릭 시 달력이 뜹니다"
+								autocomplete="off" required="required" id="deadline">
 						</div>
 						<div class="form-group">
 							<label>품번</label> <input class="form-control" name="product"

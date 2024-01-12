@@ -85,13 +85,13 @@
 							<label for="amount">반품량</label> 
 							<input class="form-control"
 								name="amount" id="amount" type="number"
-								readonly autocomplete="off" min="1"
+								 autocomplete="off" min="1"
 								required="required" value=${List.amount }>
 						</div>
 						<div class="form-group">
 							<label for="amount">반품사유</label>
 							<textarea class="form-control" placeholder="반품사유를 입력하세요"
-								name="reason" readonly>${List.reason}</textarea>
+								name="reason" >${List.reason}</textarea>
 						</div>
 						
 						<!-- 자동입력내역 -->
@@ -99,7 +99,7 @@
 							<label for="status">수주상태</label>
 								<select name="status" id="status" class="custom-select col-12"  required="required">
 									<option value="반품등록" <c:if test="${List.status eq '반품등록'}">selected</c:if>>반품등록</option>
-									<option value="폐기완료" <c:if test="${List.status eq '폐기완료'}">selected</c:if>>폐기완료</option>		
+									<option value="폐기" <c:if test="${List.status eq '폐기'}">selected</c:if>>폐기</option>		
 								</select>
 						</div>
 						<!-- 버튼 -->
@@ -129,9 +129,10 @@
 		// 기본 제출 이벤트를 막음
 		event.preventDefault();
 		
-		var date = new Date(document.getElementById('date').value);
-		  var shipdate = new Date(document.getElementById('shipdate').value);
-		if(date<shipdate){
+		var date = new Date(document.getElementById('date').value); // 반품일자
+		var reqsdate = new Date(document.getElementById('reqsdate').value); // 출하일자
+		// 반품일자는 출하일자 이후여야 한다
+		if(date<reqsdate){
 		$('#returndate').append('<span style="color : red; font-size : 12px"> * 반품일자는 출하일자 이후여야 합니다 </span>');
 		document.getElementById('date').focus();
 			return;
@@ -140,34 +141,36 @@
 		// 폼 제출
 		this.submit();
 	});
+	
+	function ajax() {
+		$.ajax({
+			type : "GET",
+			url : "/returns/searchLOT",
+			data : {
+				request_code : $("#request_code").val(),
+				ship_code : $("#ship_code").val()
+					},
+			success : function(data) {
+					$('#lot').empty();
+
+					$.each(data,function(index,item) {
+						// item을 이용하여 option 요소를 만들고 select 요소에 추가합니다.
+						$('#lot').append('<option value="' + item.lot + '" data-amount="' + item.amount + '">'+ item.lot+ '( 수량 : '+ item.amount+ ' ) </option>');
+									});
+						document.getElementById('amount').max = $('#lot option:selected').data('amount');
+					},
+			error : function(data) {
+					alert('다시시도');
+									}
+					});
+				};
 	</script>
 	
 	<!-- 팝업 -->
 	<script type="text/javascript">
 	$(document).ready(function() {
 		// lot , lot 수량 가져오기
-		function ajax() {
-			$.ajax({
-				type : "GET",
-				url : "/returns/searchLOT",
-				data : {
-					request_code : $("#request_code").val(),
-					ship_code : $("#ship_code").val()
-						},
-				success : function(data) {
-						$('#lot').empty();
 
-						$.each(data,function(index,item) {
-							// item을 이용하여 option 요소를 만들고 select 요소에 추가합니다.
-							$('#lot').append('<option value="' + item.lot + '" data-amount="' + item.amount + '">'+ item.lot+ '( 수량 : '+ item.amount+ ' ) </option>');
-										});
-							document.getElementById('amount').max = $('#lot option:selected').data('amount');
-						},
-				error : function(data) {
-						alert('다시시도');
-										}
-						});
-					};
 					
 			if ($("#ship_code").val() != null) {ajax();}
 

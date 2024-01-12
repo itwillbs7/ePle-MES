@@ -23,7 +23,7 @@
 				<h1 class="text-center text-primary">출하명령 등록</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="" method="post" id="addForm" >
+			<form action="/shipment/add" method="post" id="addForm" >
 				<!-- 비입력 구간 -->
 				<input class="form-control" type="hidden" placeholder="출하번호" name="code" id="code" >
 				<!-- 입력 구간 -->
@@ -61,14 +61,15 @@
 						</div>
 						<div class="form-group">
 							<label>현재 재고량</label> 
-							<input class="form-control" name ="stock" type="text" readonly id="stock" required="required">
+							<input class="form-control" name ="stock" type="number" readonly id="stock" required="required">
 						</div>
 						<div class="form-group">
 							<label>단위</label> 
 							<input class="form-control" name ="unit" type="text" readonly id="unit" required="required">
 						</div>
 						<div class="form-group" id="shipamount">
-							<label for="amount">출하량</label> <input class="form-control" name="amount" id="amount"
+							<label for="shipamount">출하량</label> 
+							<input class="form-control" name="amount" id="amount"
 							type="number" placeholder="출하량을 입력해주세요" autocomplete="off" min="1" required="required">
 						</div>
 						<!-- 자동입력내역 -->
@@ -159,11 +160,11 @@
 				return;
 			}
 			
-			var stock = (document.getElementById('stock').value);
-			var shipAmount = (document.getElementById('amount').value);
+			var stock = Number(document.getElementById('stock').value);
+			var shipAmount = Number(document.getElementById('amount').value);
 			
 			if( stock < shipAmount){
-				$('#amount').append('<span style="color : red; font-size : 12px"> * 출하량이 재고량보다 많습니다 </span>');
+				$('#shipamount').append('<span style="color : red; font-size : 12px"> * 출하량이 재고량보다 많습니다 </span>');
 				return;
 			}
 		    
