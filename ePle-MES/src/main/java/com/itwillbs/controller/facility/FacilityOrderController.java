@@ -50,7 +50,7 @@ public class FacilityOrderController {
 	
 	@PostMapping("/insert")
 	public String insertPOST(HttpSession session, FacilityOrderVO vo, RedirectAttributes rttr) throws Exception{
-		vo.setReg_emp("test");
+		vo.setAsk_emp("test");
 		String link = "";
 		String recentCode = oService.getRecentCode();
 		
@@ -76,9 +76,8 @@ public class FacilityOrderController {
 			}
 		}
 		vo.setCode(code);
-		vo.setClient_code("1");
 		vo.setStatus("신청");
-		vo.setReg_emp("test");
+		vo.setAsk_emp("test");
 		int result = oService.insertOrder(vo);
 		if(result == 1) {
 			link = "redirect:/confirm";
@@ -108,7 +107,6 @@ public class FacilityOrderController {
 	@PostMapping("/update")
 	public String updatePOST(HttpSession session, FacilityOrderVO vo, RedirectAttributes rttr) throws Exception{
 		String link = "";
-		vo.setUpdate_emp("test");
 		int result = oService.updateOrder(vo);
 		if(result >= 1) {
 			link = "redirect:/confirm";
