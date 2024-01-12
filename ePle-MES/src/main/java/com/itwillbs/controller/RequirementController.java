@@ -4,7 +4,9 @@ import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.RequirementService;
+import com.production.domain.BOMVO;
 
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,13 +17,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /** 소요량 관리 컨트롤러 **/
 
 @Controller
-@RequestMapping("/requirement")
+@RequestMapping("/requirement/*")
 public class RequirementController {
     
 	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
@@ -32,7 +35,6 @@ public class RequirementController {
     // http://localhost:8088/requirement/requirementAll
     
     // 소요량 리스트 - GET
-    @RequestMapping(value = "/requirementAll", method = RequestMethod.GET)
     public String listAllGET(Model model,
                              @ModelAttribute("result") String result,
                              HttpSession session) throws Exception {
@@ -46,7 +48,7 @@ public class RequirementController {
     // 소요량 수정 - GET
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public void updateGET(@RequestParam("code") String code, Model model) throws Exception {
-        MAPDVO mvo = rService.getRequirement(code);
+        BOMVO mvo = rService.getRequirement(code);
         model.addAttribute("mvo", mvo);
     }
 
@@ -100,22 +102,22 @@ public class RequirementController {
     }
 
 
-    // 페이징 처리 - 게시판 리스트 - GET
-    @RequestMapping(value = "/requirementPage", method = RequestMethod.GET)
-    public String listPageGET(Model model,
+    // 페이징 처리 - 게시판 리스트 - GET 
+    // http://localhost:8088/requirement/requirementAll
+    @RequestMapping(value = "/requirementAll", method = RequestMethod.GET)
+    public void listPageGET(Model model,
                               @ModelAttribute("result") String result,
                               HttpSession session,
                               Criteria cri) throws Exception {
         session.setAttribute("viewcntCheck", true);
 
-        List<MAPDVO> requirementList = rService.requirementListPage(cri);
+        List<BOMVO> requirementList = rService.requirementListPage(cri);
 
         PageVO pageVO = new PageVO();
         pageVO.setCri(cri);
         pageVO.setTotalCount(rService.totalRequirementCount());
         model.addAttribute("pageVO", pageVO);
         model.addAttribute("requirementList", requirementList);
-        return "/requirement/requirementAll";
     }
 
     // 소요량 추가 - GET, POST
@@ -125,11 +127,21 @@ public class RequirementController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String requirementInsertPOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
-
+	public String requirementInsertPOST(BOMVO mvo, RedirectAttributes rttr) throws Exception {
+		
 		// 서비스 - DB에 글쓰기(insert) 동작 호출
-		rService.InsertRequirement(mvo);	
-		return "redirect:/requirement/requirementAll";
+		int result = rService.InsertRequirement(mvo);	
+		 String link = "";
+	        if (result >= 1) {
+	          link = "redirect:/confirm";
+	          rttr.addFlashAttribute("title", "소요량 등록 결과");
+	          rttr.addFlashAttribute("result", "소요량 등록 되었습니다.");
+	        } else {
+	          link = "redirect:/error";
+	          rttr.addFlashAttribute("title", "소요량 등록 결과");
+	          rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+	        }
+		return link;
 	}
 
     // 전체 목록의 수를 가져오는 메서드
@@ -137,6 +149,46 @@ public class RequirementController {
     @ResponseBody
     public int getTotalRequirementCount() throws Exception {
         return rService.totalRequirementCount();
+    }
+    
+    // MAPD 완제품 찾기
+    @RequestMapping(value = "/searchMAPD", method = RequestMethod.GET)
+    public void getMAPDListGET(Model model)throws Exception{
+    	logger.debug("팝업창 열면 리스트 가져오기");
+    	List<MAPDVO> list = new ArrayList<MAPDVO>();
+    	list = rService.getMAPDListGET();
+    	model.addAttribute("list", list);
+    }
+    
+    // MAPD 완제품 찾기(검색)
+    @RequestMapping(value = "/searchMAPD", method = RequestMethod.POST)
+    public void getMAPDListPOST(@RequestParam("mapdName") String mapdName,
+    							Model model)throws Exception{
+    	logger.debug("팝업창 열면 리스트 가져오기");
+    	// 이름으로 검색
+    	List<MAPDVO> list = new ArrayList<MAPDVO>();
+    	list = rService.getMAPDListGET(mapdName);
+    	model.addAttribute("list", list);
+    }
+    
+    // material 찾기
+    @RequestMapping(value = "/searchMaterial", method = RequestMethod.GET)
+    public void getMaterialListGET(Model model)throws Exception{
+    	logger.debug("팝업창 열면 리스트 가져오기");
+    	List<MAPDVO> list = new ArrayList<MAPDVO>();
+    	list = rService.getMaterailListGET();
+    	model.addAttribute("list", list);
+    }
+    
+    // material 찾기(검색)
+    @RequestMapping(value = "/searchMaterial", method = RequestMethod.POST)
+    public void getMaterialPOST(@RequestParam("materialName") String materialName,
+    		Model model)throws Exception{
+    	logger.debug("팝업창 열면 리스트 가져오기");
+    	// 이름으로 검색
+    	List<MAPDVO> list = new ArrayList<MAPDVO>();
+    	list = rService.getMaterailListGET(materialName);
+    	model.addAttribute("list", list);
     }
     
     // 소요량 검색 - GET

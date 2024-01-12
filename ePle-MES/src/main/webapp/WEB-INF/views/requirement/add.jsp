@@ -15,46 +15,38 @@
                 <h1 class="text-center text-primary">소요량 등록</h1>
             </div>
             <!-- 폼 -->
-            <form action="/product/add" method="post">
+            <form action="/requirement/add" method="post">
 
                 <!-- 입력 구간 -->
                 <div class="row">
                     <div class="col-sm-12 mb-3">
                         <!-- examples -->
                         <div class="form-group">
-                            <label>완제품 품번</label> <input class="form-control" type="text" name="group_id" placeholder="완제품 품번 입력" required>
+                            <label>완제품 품번</label> 
+                            <input class="form-control" type="text" name="mapd_code" id="mapd_code"
+                             placeholder="완제품 품번 입력" required readonly>
                         </div>
                         <div class="form-group">
-                            <label>완제품 품명</label> <input class="form-control" type="text" name="name" placeholder="완제품 품명 입력" required>
+                            <label>완제품 품명</label> 
+                            <input class="form-control" type="text" id="mapdName" name="mapdName"
+                             placeholder="완제품 품명 입력" required readonly>
                         </div>
                         <div class="form-group">
-                            <label>재료 품번</label> <input class="form-control" type="text" name="material" placeholder="재료 품번 입력" required>
+                            <label>재료 품번</label> 
+                            <input class="form-control" type="text" id="material"
+                            name="material" placeholder="재료 품번 입력" required readonly>
                         </div>
                         <div class="form-group">
-                            <label>소요량</label> <input class="form-control" type="text" name="requirement" placeholder="소요량 입력" required>
-                        </div>
-						<div class="form-group">
-                            <label>등록자</label> <input class="form-control" type="text" name="reg_emp" placeholder="등록자 입력" required>
-                        </div>
-                        <div class="form-group">
-                            <label>등록일</label>
-                            <input class="form-control" type="text" name="reg_date" placeholder="등록일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()) %>" readonly>
+                            <label>메모</label> 
+                            <input class="form-control" type="text" id="content"
+                            name="content" placeholder="재료 품번 입력" required >
                         </div>
                         <div class="form-group">
-                            <label>변경자</label> <input class="form-control" type="text" name="update_emp" placeholder="변경자 입력" required>
+                            <label>소요량</label> 
+                            <input class="form-control" type="number" 
+                            name="requirement" placeholder="소요량 입력" required>
                         </div>
-                        <div class="form-group">
-                            <label>변경일</label>
-                            <input class="form-control" type="text" name="update_date" placeholder="변경일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()) %>" readonly>
-                        </div>
-						<div class="form-group">
-						    <label>사용 여부</label>
-						    <select class="form-control" name="active" required>
-						        <option value="" disabled selected>사용여부 선택</option>
-						        <option value="true">Y</option>
-						        <option value="false">N</option>
-						    </select>
-						</div>
+						
                         <!-- examples end -->
                     </div>
                 </div>
@@ -79,5 +71,15 @@
 	<!-- 콘텐츠 끝> -->
 
 	<%@ include file="../include/footer.jsp"%>
+	<script type="text/javascript">
+		// 추가
+		$("#mapd_code").click(function() {
+			window.open("/requirement/searchMAPD","search","width=500,height=600");
+		});
+		$("#material").click(function() {
+			window.open("/requirement/searchMaterial","search","width=500,height=600");
+		});
+
+	</script>
 </body>
 </html>

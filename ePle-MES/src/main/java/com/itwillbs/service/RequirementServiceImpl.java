@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.production.domain.BOMVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.persistence.RequirementDAO;
@@ -27,7 +28,7 @@ public class RequirementServiceImpl implements RequirementService {
 	}
 
 	@Override
-	public MAPDVO getRequirement(String code) throws Exception {
+	public BOMVO getRequirement(String code) throws Exception {
 		logger.debug(" S : getRequirement(String code) ");
 		return rdao.getRequirement(code);
 	}
@@ -44,9 +45,36 @@ public class RequirementServiceImpl implements RequirementService {
     }
 
 	@Override
-	public List<MAPDVO> requirementListPage(Criteria cri) throws Exception {
+	public List<BOMVO> requirementListPage(Criteria cri) throws Exception {
 		logger.debug(" S : requirementListPage(Criteria cri) ");
 		return rdao.getRequirementListPage(cri);
+	}
+	
+	
+
+	@Override
+	public List<MAPDVO> getMAPDListGET() throws Exception {
+		
+		return rdao.getMAPDListGET();
+	}
+	
+
+	@Override
+	public List<MAPDVO> getMAPDListGET(String mapdName) throws Exception {
+		// TODO Auto-generated method stub
+		return rdao.getMAPDListGET(mapdName);
+	}
+	
+	@Override
+	public List<MAPDVO> getMaterailListGET() throws Exception {
+		// TODO Auto-generated method stub
+		return rdao.getMaterailListGET();
+	}
+
+	@Override
+	public List<MAPDVO> getMaterailListGET(String materialName) throws Exception {
+		// TODO Auto-generated method stub
+		return rdao.getMaterailListGET(materialName);
 	}
 
 	@Override
@@ -56,13 +84,13 @@ public class RequirementServiceImpl implements RequirementService {
 	}
 	
     @Override
-    public List<MAPDVO> getInfo(String[] codes) throws Exception {
+    public List<BOMVO> getInfo(String[] codes) throws Exception {
         return rdao.getInfo(codes);
     }
 
 	@Override
-	public void InsertRequirement(MAPDVO mvo) throws Exception {
-		rdao.insertRequirement(mvo);
+	public int InsertRequirement(BOMVO mvo) throws Exception {
+		return rdao.insertRequirement(mvo);
 	}
 	
 }

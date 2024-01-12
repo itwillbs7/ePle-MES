@@ -90,36 +90,39 @@
 												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 											</div>
 										</td>
-										<th>완제품 품번</th>
-										<th>완제품 품명</th>
+										<th>품번</th>
+										<th>품명</th>
 										<th>재료 품번</th>
+										<th>재료 품명</th>
 										<th>소요량</th>
-										<th>등록자</th>
-										<th>등록일</th>
-										<th>변경자</th>
-										<th>변경일</th>
-										<th>사용여부</th>
 									</tr>
+									<c:set var="prevMapdCode" value="${null}" />
 									<c:forEach var="requirement" items="${requirementList}" varStatus="loop">
 									    <tr>
 									        <!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 									        <td>
 									            <div class="custom-control custom-checkbox mb-5">
 									                <!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-									                <input type="checkbox" class="custom-control-input" id="checkTable${loop.index + 1}" name="tableCheck" value="${requirement.code}"> 
+									                <input type="checkbox" class="custom-control-input" id="checkTable${loop.index + 1}" name="tableCheck" value="${requirement.material}"> 
 									                <label class="custom-control-label" for="checkTable${loop.index + 1}"></label>
 									            </div>
-									        </td>        
-									        <td>${requirement.group_id}</td>
-									        <td>${requirement.name}</td>
+									        </td>
+									        <td>
+      <c:choose>
+        <c:when test="${prevMapdCode ne requirement.mapd_code}">
+          ${requirement.mapd_code}
+        </c:when>
+        <c:otherwise>
+          <!-- 이전 코드와 동일한 경우 아무 것도 출력하지 않음 -->
+        </c:otherwise>
+      </c:choose>
+    </td>
+									        <td>${requirement.mapdName}</td>
 									        <td>${requirement.material}</td>
-									        <td>${requirement.requirement}</td>
-									        <td>${requirement.reg_emp}</td>
-									        <td>${requirement.reg_date}</td>
-									        <td>${requirement.update_emp}</td>
-									        <td>${requirement.update_date}</td>
-									        <td>${requirement.active}</td>
+									        <td>${requirement.materialName}</td>
+									        <td>${requirement.amount}</td>
 									    </tr>
+									<c:set var="prevMapdCode" value="${requirement.mapd_code}" />
 									</c:forEach>
 								</table>
 							</form>
