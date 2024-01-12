@@ -45,7 +45,29 @@ public class ClientServiceImpl implements ClientService {
         return cdao.deleteClients(codes);
     }
 
+<<<<<<< HEAD
+=======
+    
+	@Override
+	public List<ClientVO> clientListPage(Criteria cri) throws Exception {
+		logger.debug(" S : clientListPage(Criteria cri) ");
+		return cdao.getClientListPage(cri);
+	}
+
+	@Override
+	public int totalClientCount() throws Exception {
+		logger.debug(" S : totalClientCount() ");
+		return cdao.getClientCount();
+	}
+
+>>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
     @Override
+	public List<ClientVO> clientListByCategory(String searchCategory, String searchKeyword, Criteria cri)
+			throws Exception {
+    	return cdao.clientListByCategory(searchCategory, searchKeyword, cri);
+	}
+    
+	@Override
     public List<ClientVO> getInfo(String[] codes) throws Exception {
         return cdao.getInfo(codes);
     }

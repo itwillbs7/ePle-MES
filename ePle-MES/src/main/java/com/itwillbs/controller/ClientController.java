@@ -100,6 +100,38 @@ public class ClientController {
         }
     }
 
+<<<<<<< HEAD
+=======
+
+    // 페이징 처리 - 거래처 리스트 - GET
+    @RequestMapping(value = "/clientPage", method = RequestMethod.GET)
+    public String listPageGET(Model model,
+                               @ModelAttribute("result") String result,
+                               HttpSession session,
+                               Criteria cri,
+                               @RequestParam(required = false) String searchCategory,
+                               @RequestParam(required = false) String searchKeyword) throws Exception {
+        session.setAttribute("viewcntCheck", true);
+
+        List<ClientVO> clientList;
+
+        if (searchCategory != null && searchKeyword != null) {
+            // 거래처명을 기준으로 필터링된 데이터 가져오기
+            clientList = cService.clientListByCategory(searchCategory, searchKeyword, cri);
+        } else {
+            // 전체 데이터 가져오기
+            clientList = cService.clientListPage(cri);
+        }
+
+        PageVO pageVO = new PageVO();
+        pageVO.setCri(cri);
+        pageVO.setTotalCount(cService.totalClientCount());
+        model.addAttribute("pageVO", pageVO);
+        model.addAttribute("clientList", clientList);
+        return "/client/clientAll";
+    }
+
+>>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
     // 거래처 추가 - GET, POST
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public void clientInsertGET() throws Exception { 

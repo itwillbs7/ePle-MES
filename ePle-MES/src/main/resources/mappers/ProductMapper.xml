@@ -3,6 +3,7 @@
 
 <!-- ProductMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.ProductMapper">
+<<<<<<< HEAD
 
    <!-- 디비 컬럼과 도메인 객체 매핑 -->
    <!-- 프로퍼티명과 컬럼명 동일 시 생략가능  -->
@@ -21,6 +22,13 @@
     	<result property="update_date" column="update_date"/>
     	<result property="active" column="active"/>
     </resultMap>
+=======
+    
+    <!-- 품목 리스트 전체 조회 -->
+    <select id="selectProductList" resultType="MAPDVO">
+        SELECT * FROM MAPD
+    </select>
+>>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
 
     <!-- 품목 등록 -->
     <insert id="insertProduct">
