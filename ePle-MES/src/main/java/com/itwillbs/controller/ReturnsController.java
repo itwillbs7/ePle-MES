@@ -129,9 +129,13 @@ public class ReturnsController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String returnsInsertPOST(ReturnsVO vo, RedirectAttributes rttr) throws Exception {
+	public String returnsInsertPOST(HttpSession session, ReturnsVO vo, RedirectAttributes rttr) throws Exception {
 		// 반품 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
+		
+		// 사번 수집
+		String id = (String) session.getAttribute("code");
+		vo.setReg_emp(id);
 		
 		String vocode=vo.getCode();
 		// ex) 23ODMG1207 여기까지 검색해서 가장 최근 등록된 코드
@@ -241,13 +245,15 @@ public class ReturnsController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String returnsUpdatePOST(ReturnsVO vo, RedirectAttributes rttr) throws Exception{
+	public String returnsUpdatePOST(HttpSession session,ReturnsVO vo, RedirectAttributes rttr) throws Exception{
 		// 반품 수정 액션
 		logger.debug("returnsUpdatePOST() 전달받은 정보 DB 저장하기");
 		logger.debug("vo "+vo);
 		
-		// 일단 임시 아이디값(실제로는 세션에서 값을 받아와야함)
-		String id = "id";
+		// 사번 수집
+		String id = (String) session.getAttribute("code");
+
+//		String id = "id";
 		int result= rtService.updateReturns(vo, id);
 		
 		String link = "";

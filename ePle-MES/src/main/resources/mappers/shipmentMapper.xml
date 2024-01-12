@@ -217,7 +217,7 @@
 		insert into SHIPMENT
 		values
 		(#{code},#{reqs_code},#{date},#{ware_code},#{amount},
-		"출하대기",now(),"test",now(),"test");
+		"출하대기",now(),#{reg_emp},now(),#{reg_emp);
 	</insert>
 
 	<update id="updateRequestStatus">

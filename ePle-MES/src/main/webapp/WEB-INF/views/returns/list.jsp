@@ -60,7 +60,7 @@
 												<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>품명</b></label> 
 												<input type="hidden" name="product" id="product">
 												<input type="text" name="productName" class="form-control" 
-												id="searchProduct" style="width: 100%;"\
+												id="searchProduct" style="width: 100%;"
 												autocomplete="off" readonly value="${paramMap.productName}">
 											</div>
 											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
