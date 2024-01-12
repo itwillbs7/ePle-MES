@@ -81,6 +81,12 @@ public class RequestDAOImpl implements RequestDAO {
 	public RequestVO getRequestDetail(String code) throws Exception {
 		logger.debug("DAO 수주정보 자세히보기 getRequestDetail(String code) " + code);
 		RequestVO vo = sqlSession.selectOne(NAMESPACE + ".getRequestInfo", code);
+		
+		String manager = vo.getManager();
+		
+		vo.setManagerName(sqlSession.selectOne(NAMESPACE+".getManagerName", manager));
+		
+		logger.debug("@@@@@@@@@@@@@@"+vo.getManagerName());
 
 		logger.debug("vo : " + vo);
 		return vo;

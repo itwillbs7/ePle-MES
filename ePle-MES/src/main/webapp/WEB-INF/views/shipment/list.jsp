@@ -173,7 +173,6 @@
 										<td style="width: 100px;">
 											<div class="custom-control custom-checkbox mb-5">
 												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> 
-												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> 
 												<label class="custom-control-label" for="tableCheckAll"></label>
 											</div>
 										</td>
@@ -199,10 +198,10 @@
 															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 															<input type="checkbox" class="custom-control-input"
 																id="checkTable${status.index}" name="tableCheck"
-																value="${List.code }">
+																value="${List.code }" >
 															<input type="checkbox" class="hidden-checkbox" id="hiddenCheckTable${status.index}" 
-															data-reqs-code="${List.reqs_code }" style="display: none;">
-															<label class="custom-control-label" for="checkTable${status.index}"></label>
+															data-reqs-code="${List.reqs_code }" style="display: none;" >
+															<label class="custom-control-label" for="checkTable${status.index}" ></label>
 													</div>
 														</td>
 												</c:when>
@@ -210,12 +209,12 @@
 													<td>
 													<div class="custom-control custom-checkbox mb-5">
 															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-															<input type="checkbox" class="custom-control-input"
+															<input type="text" class="custom-control-input"
 																id="checkTable${status.index}" name="tableCheck"
-																value="${List.code }" style="visibility: hidden;">
-															<input type="checkbox" class="hidden-checkbox" id="hiddenCheckTable${status.index}" 
-															data-reqs-code="${List.reqs_code }" style="display: none;">
-															<label style="visibility: hidden;" class="custom-control-label" for="checkTable${status.index}"></label>
+																value="${List.code }" style="visibility: hidden;" disabled="disabled">
+															<input type="text" class="hidden-checkbox" id="hiddenCheckTable${status.index}" 
+															data-reqs-code="${List.reqs_code }" style="display: none;" disabled="disabled">
+															<label style="visibility: hidden;" class="custom-control-label" for="checkTable${status.index}" ></label>
 													</div>
 													
 													</td>
@@ -341,9 +340,11 @@ $('#reset').click(function(){
 
 		$(document).ready(function() {
 			
+			
 			$("#tableCheckAll").click(function() {
 			    if ($("#tableCheckAll").is(":checked")) {
 			        $("input.hidden-checkbox").prop("checked", true);
+					$(":checkbox:not(:disabled)").prop("checked", true);
 			    } else {
 			    	 $("input.hidden-checkbox").prop("checked", false);
 			    }

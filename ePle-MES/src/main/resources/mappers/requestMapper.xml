@@ -143,14 +143,18 @@
 	
 	<!-- 수주번호의 정보 가져오기 -->
 	<select id="getRequestInfo" resultType="RequestVO">
-		SELECT DISTINCT r.*, c.name clientName, m.name productName, e.name managerName, SUM(s.total) stock
+		SELECT DISTINCT r.*, c.name clientName, m.name productName, SUM(s.total) stock
 		FROM REQUEST r
 		LEFT JOIN CLIENT c on r.client_code = c.code
-		JOIN EMPLOYEES e on r.manager = e.code 
 		LEFT join MAPD m on r.product = m.code
         LEFT join STOCK_VIEW s on s.code = r.product
 		where r.code = #{code}
-		GROUP BY r.code, c.name, m.name, e.name 
+		GROUP BY r.code, c.name, m.name 
+	</select>
+	
+	<select id="getManagerName" resultType="String">
+		select name managerName from EMPLOYEES
+		where code = #{manager}
 	</select>
 
 

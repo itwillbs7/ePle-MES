@@ -237,7 +237,7 @@
 							<c:otherwise>
 							<td>
 							<div class="custom-control custom-checkbox mb-5">
-								<input type="checkbox" class="custom-control-input" id="checkTable${status.index}" 
+								<input type="text" class="custom-control-input" id="checkTable${status.index}" 
 								name="tableCheck" value="${item.code}" style="visibility: hidden;"> 
 								<label class="custom-control-label" for="checkTable${status.index}" style="visibility: hidden;"></label>
 							</div>

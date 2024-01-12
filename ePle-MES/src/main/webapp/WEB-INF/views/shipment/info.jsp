@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,7 +91,9 @@
 									<b>취소</b>
 								</button>
 								<input type="submit" class="btn btn-success" value="수정"  id="update">
+								<c:if test="${vo.status.equals('출하완료') }">
 								<input type="button" class="btn btn-danger" value="반품등록"  id="returns">
+								</c:if>
 							</div>
 						</div>
 						

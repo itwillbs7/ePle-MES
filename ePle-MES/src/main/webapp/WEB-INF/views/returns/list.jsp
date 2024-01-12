@@ -53,7 +53,7 @@
 												<input type="hidden" name="client_code" id="client_code"> 
 												<input type="text"
 												name="clientName" class="form-control" id="searchCompany"
-												style="width: 100%;" \
+												style="width: 100%;" 
 												autocomplete="off" readonly value="${paramMap.clientName }">
 											</div>
 											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
@@ -213,7 +213,7 @@
 													<td>
 													<div class="custom-control custom-checkbox mb-5">
 															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-														<input type="checkbox" class="custom-control-input"
+														<input type="text" class="custom-control-input"
 															id="checkTable${status.index}" name="tableCheck"
 															value="${List.code }" style="visibility: hidden;"> 
 														<label class="custom-control-label" style="visibility: hidden;"
