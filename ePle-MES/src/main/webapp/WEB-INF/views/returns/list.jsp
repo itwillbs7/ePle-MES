@@ -49,7 +49,7 @@
 											</div>
 											<div class="row">
 											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
-												<label class="col-md-2" style="padding: 10px 0px 10px 0px; ">업체명</label> 
+												<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>업체명</b></label> 
 												<input type="hidden" name="client_code" id="client_code"> 
 												<input type="text"
 												name="clientName" class="form-control" id="searchCompany"
@@ -57,14 +57,14 @@
 												autocomplete="off" readonly value="${paramMap.clientName }">
 											</div>
 											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
-												<label class="col-md-2" style="padding: 10px 0px 10px 0px; ">품명</label> 
+												<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>품명</b></label> 
 												<input type="hidden" name="product" id="product">
 												<input type="text" name="productName" class="form-control" 
 												id="searchProduct" style="width: 100%;"\
 												autocomplete="off" readonly value="${paramMap.productName}">
 											</div>
 											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
-												<label class="col-md-2" style="padding: 10px 0px 10px 0px; ">담당자</label> 
+												<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>담당자</b></label> 
 												<input type="hidden" name="manager" id="manager"> 
 												<input type="text" name="managerName" class="form-control" 
 												id="searchManager" style="width: 100%;" autocomplete="off"
