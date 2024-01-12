@@ -17,7 +17,7 @@
 				<h4 class="text-center">${info.name}</h4>
 			</div>
 			<!-- 폼 -->
-			<form action="/requirement/update" method="post">
+			<form action="/requirement/delete" method="post">
 				<!-- 리스트 목록 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
@@ -27,7 +27,7 @@
 								<c:forEach items="${list}" var="i">
 									<li class="list-group-item">
 										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="${i.bno}" name="code" value="${i.bno}" required> <label class="custom-control-label" for="${i.bno}"><b>${i.materialName}</b></label>
+											<input type="checkbox" class="custom-control-input" id="${i.bno}" name="code" value="${i.bno}"> <label class="custom-control-label" for="${i.bno}"><b>${i.materialName}</b></label>
 										</div>
 									</li>
 								</c:forEach>
@@ -55,5 +55,21 @@
 	<!-- 콘텐츠 끝 -->
 
 	<%@ include file="../include/footer.jsp"%>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			window.resizeTo(outerWidth - innerWidth + 500,
+					outerHeight - innerHeight
+							+ $(".login-box").outerHeight()
+							+ 12);
+			$("form").on("submit", function(){
+				if($("input:checkbox:checked").length == 0){
+					alert("선택된 데이터가 없습니다!");
+					return false;
+				}
+				else 
+					return true;
+			});
+		});
+	</script>
 </body>
 </html>

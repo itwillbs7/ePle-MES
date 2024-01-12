@@ -75,7 +75,6 @@
 		$("form").on("submit", function(){
 			if($("input:checkbox:checked").length == 0){
 				alert("선택된 데이터가 없습니다!");
-				var result = $("input:checkbox");
 				return false;
 			}
 			else{

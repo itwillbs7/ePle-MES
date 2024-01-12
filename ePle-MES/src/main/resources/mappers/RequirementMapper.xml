@@ -70,7 +70,7 @@
 		DELETE FROM BOM 
 		<where>
 			bno IN 
-			<foreach collection="" item="item" open="(" close=")" separator=",">
+			<foreach collection="array" item="item" open="(" close=")" separator=",">
 				#{item}
 			</foreach>
 		</where>
