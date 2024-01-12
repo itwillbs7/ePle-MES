@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.production.domain.BOMVO;
 import com.production.domain.instructionVO;
 import com.production.domain.prodRequestVO;
 import com.production.persistence.productionDAO;
@@ -89,6 +90,11 @@ public class productionServiceImpl implements productionService {
 	@Override
 	public prodRequestVO getRequest(String code) throws Exception {
 		return pdDAO.getRequest(code);
+	}
+
+	@Override
+	public List<BOMVO> getBOM(String mapd_code) throws Exception {
+		return pdDAO.getBOM(mapd_code);
 	}
 
 }

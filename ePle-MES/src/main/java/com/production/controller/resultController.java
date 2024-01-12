@@ -33,12 +33,12 @@ public class resultController {
 	//http://localhost:8088/production/result
 	//실적페이지 GET
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
-	public void resultGET(String date, String[] list_code, Boolean isFinished,Model model) throws Exception {
+	public void resultGET(String date, String[] line_code, Boolean isFinished,Model model) throws Exception {
 		logger.debug("Controller : resultGET() 호출");
 		logger.debug("date : " + date);
-		logger.debug("list_code : " + list_code);
+		logger.debug("list_code : " + line_code);
 		logger.debug("isFinished : " + isFinished);
-		model.addAttribute("list_code", list_code);
+		model.addAttribute("line_code", line_code);
 		if (isFinished != null) {
 			model.addAttribute("isFinished", "checked");
 		}
@@ -53,9 +53,10 @@ public class resultController {
 		logger.debug("today : " + todayStr);
 		model.addAttribute("date", date!=null?date:todayStr);
 		//실적 리스트
-		List<resultVO> rsList = rsService.getResultList(date!=null?date:todayStr, list_code, isFinished);
+		List<resultVO> rsList = rsService.getResultList(date!=null?date:todayStr, line_code, isFinished);
 		logger.debug("rsList : " + rsList);
 		model.addAttribute("rsList", rsList);
+		model.addAttribute("selectedLine_code", line_code);
 	}
 	
 	//실적페이지ajax POST
@@ -83,8 +84,7 @@ public class resultController {
 	@ResponseBody
 	public Map<String, Object> Complete(String code) throws Exception {
 		logger.debug("Controller : Complete() 호출");
-		//실적 상태 생산중 -> 완료 으로 전환
-		//지시량과 양품량 비교하여 양품량이 지시랑보다 적을 시 대기중 상태의 실적 생성
+		//실적 상태 생산중 -> 중지으로 전환
 		rsService.productionComplete(code);
 		return getInfo(code);
 	}
@@ -119,6 +119,13 @@ public class resultController {
 		//부적합량 +1
 		//상태가 생산중일때만 동작
 		rsService.insertFailed(vo);
+	}
+	
+	//입고 등록
+	@RequestMapping(value = "/inAdd", method = RequestMethod.GET)
+	public void inAdd(String code, Model model) throws Exception {
+		logger.debug("Controller : inAdd(String code) 호출");
+		model.addAttribute("result",rsService.getResult(code));
 	}
 	
 	public Map<String, Object> getInfo(String code) throws Exception {

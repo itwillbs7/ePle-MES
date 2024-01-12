@@ -12,6 +12,7 @@ public class instructionVO {
 	private int code;
 	private String request;
 	private String product;
+	private String product_name;
 	private int amount;
 	private String line_code;
 	private String content;

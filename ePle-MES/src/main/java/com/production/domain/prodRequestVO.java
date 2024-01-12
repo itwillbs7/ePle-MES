@@ -14,6 +14,7 @@ public class prodRequestVO {
 	private Date date;
 	private String manager;
 	private String product;
+	private String product_name;
 	private int amount;
 	private String unit;
 	private int stock;

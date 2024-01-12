@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  <!--stockMapper.xml -->
+  <mapper namespace="com.itwillbs.mapper.StockMapper">
+  
+	
+	<!-- 창고 목록, 창고 검색 -->
+	<select id="warehouseList" resultType="WarehouseVO">
+    	SELECT w.code, w.location, w.category, w.name wh_name, e.code, e.name, e.phone, w.active
+    	FROM WAREHOUSE w 
+    	JOIN EMPLOYEES e 
+    	ON w.manager = e.code
+		<where> 
+			<if test="searchCode != null or searchName != null">
+			<if test="searchCode != null">
+				w.code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchCode != null and searchName != null">
+				AND
+			</if>
+			<if test="searchName != null">
+				e.code LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+			</if>
+    	</where>
+    	ORDER BY CAST(SUBSTRING(w.code, 3) AS UNSIGNED) DESC	
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>
+
+	<!-- 모든 창고 수 -->
+	<select id="warehouseListCount" resultType="int">
+		SELECT count(*) 
+		FROM WAREHOUSE
+		<where>
+			<if test="searchCode != null or searchName != null">
+			<if test="searchCode != null">
+				code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchCode != null and searchName != null">
+				AND
+			</if>
+			<if test="searchName != null">
+				manager LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 창고 등록 -->
+	<insert id="warehouseAdd">
+		INSERT INTO WAREHOUSE (code,location,category,name,manager,mng_phone,active) 
+		VALUES (#{code},#{location},#{category},#{name},#{manager},#{mng_phone},'1')
+	</insert>	
+	
+	<!-- 최신코드 가져오기 -->
+	<select id="whRecentCode" resultType="String">
+		SELECT code FROM WAREHOUSE WHERE code LIKE 'W%' ORDER BY code DESC LIMIT 0, 1
+	</select>
+	
+	<!-- 창고 상세 -->
+	<select id="warehouseInfo" parameterType="String" resultType="WarehouseVO">
+		SELECT w.code, w.location, w.category, w.name wh_name, e.code, e.name, e.phone, w.active
+    	FROM WAREHOUSE w 
+    	JOIN EMPLOYEES e 
+    	ON w.manager = e.code
+        WHERE w.code = #{code}
+	</select>	
+	
+	<!-- 창고 수정 -->
+	<update id="warehouseEdit">
+		UPDATE WAREHOUSE 
+		SET manager = #{manager}, mng_phone = #{mng_phone}
+		WHERE code = #{code}
+	</update>
+	
+	<!-- 창고 삭제 -->
+	<select id="delInfo" resultType="WarehouseVO">
+    	SELECT w.code, w.location, w.category, w.name wh_name, e.code, e.name, e.phone, w.active
+    	FROM WAREHOUSE w 
+    	JOIN EMPLOYEES e 
+    	ON w.manager = e.code
+		WHERE w.code IN
+		<foreach collection="code_arr" item="item" open="(" close=")" separator=",">
+			#{item}
+		 </foreach>
+	</select>
+	
+	<delete id="warehouseDel" parameterType="hashmap">
+		DELETE FROM WAREHOUSE WHERE code IN
+		<foreach collection="code_arr" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>	
+	
+	
+	<!-- id mapdcode whcode category mapdname unit expiryd amount -->
+	
+	<!-- 창고등록) 사원 검색 팝업 -->
+	<select id="searchEmployees" resultType="WarehouseVO">
+		SELECT code, name, phone
+		FROM EMPLOYEES
+		WHERE active = 1	
+			<if test="searchCode != null or searchName != null">
+			<if test="searchCode != null">
+				AND code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchCode != null and searchName != null">
+				AND
+			</if>
+			<if test="searchName != null">
+				name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+			</if>
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>	
+	
+	<!-- 창고등록) 모든 사원 수 -->
+	<select id="searchEmployeesCount" resultType="int">
+		SELECT count(*) 
+		FROM EMPLOYEES
+		WHERE active = 1
+			<if test="searchCode != null or searchName != null">
+			<if test="searchCode != null">
+				AND code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchCode != null and searchName != null">
+				AND
+			</if>
+			<if test="searchName != null">
+				name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+			</if>
+	</select>
+	
+		
+	
+	</mapper>

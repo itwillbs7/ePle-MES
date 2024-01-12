@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <!-- systemMapper.xml -->
+ 
+<mapper namespace="com.itwillbs.mapper.systemMapper">
+
+ <resultMap type="com.itwillbs.domain.CommonVO" id="CommonVO">
+ 	<result property="group_id" column="group_id"/>
+ 	<result property="group_name" column="group_name"/>
+ 	<result property="code_id" column="code_id"/>
+ 	<result property="code_name" column="code_name"/>
+ 	<result property="sortorder" column="sortorder"/>
+ 	<result property="active" column="active"/>
+ </resultMap>
+ 
+ <resultMap type="com.itwillbs.domain.UserVO" id="UserVO">
+	<result property="code" column="code"/>
+	<result property="id" column="id"/>
+	<result property="dep_group" column="dep_group"/>
+	<result property="dep_id" column="dep_id"/>
+	<result property="pos_id" column="pos_id"/>
+	<result property="pw" column="pw"/>
+	<result property="name" column="name"/>
+	<result property="hiredate" column="hiredate"/>
+	<result property="phone" column="phone"/>
+	<result property="email" column="email"/>
+	<result property="address" column="address"/>
+	<result property="active" column="active"/>
+	<result property="auth" column="auth"/>
+</resultMap>
+
+<!-- ajax -->
+
+<select id="duplicateIDCheck" parameterType="java.util.Map" resultType="int">
+	SELECT COUNT(*) FROM EMPLOYEES 
+	WHERE id = #{id}
+</select>
+<select id="duplicateEmailCheck" parameterType="java.util.Map" resultType="int">
+	SELECT COUNT(*) FROM EMPLOYEES 
+	WHERE email = #{email}
+</select>
+<select id="duplicatePhoneCheck" parameterType="java.util.Map" resultType="int">
+	SELECT COUNT(*) FROM EMPLOYEES 
+	WHERE phone = #{phone}
+</select>
+
+<!-- ajax -->
+
+ <select id="test" resultType="String">
+ 	select now()
+ </select>
+ <insert id="insertCommons">
+ 	insert into COMMON_CODE (group_id, group_name, code_id, code_name, sortorder, active) 
+ 	values (#{group_id}, #{group_name}, #{code_id}, #{code_name}, #{sortorder}, #{active})
+ </insert>
+ <select id="selectCommons" resultType="CommonVO">
+ 	select * from COMMON_CODE order by group_id, sortorder
+ </select>
+ <select id="selectDepCodenames" resultType="CommonVO">
+ 	select DISTINCT code_name, code_id from COMMON_CODE where group_id = 'DEP' 
+ </select>
+ <select id="selectPosCodenames" resultType="CommonVO">
+ 	select DISTINCT code_name, code_id from COMMON_CODE where group_id = 'POS' 
+ </select>
+ <select id="selectOneCommon" resultType="CommonVO">
+ 	select * from COMMON_CODE where group_id = #{group_id} and code_id = #{code_id}
+ </select>
+ <update id="updateCommon" parameterType="java.util.Map">
+ 	update COMMON_CODE set group_id = #{new_group_id}, group_name = #{new_group_name}, code_id = #{new_code_id}, 
+ 	code_name = #{new_code_name}, sortorder = #{new_sortorder}, active = #{new_active} 
+ 	where group_id = #{old_group_id} and code_id = #{old_code_id}
+ </update>
+ <delete id="deleteCommon">
+ 	delete from COMMON_CODE where group_id = #{group_id} and code_id = #{code_id}
+ </delete>
+ <insert id="insertUser">
+ 	insert into EMPLOYEES (code,id,dep_group,pos_group,dep_id,pos_id,pw,name,hiredate,phone,email,address,active,auth)
+ 	values (#{code},#{id},#{dep_group},#{pos_group},#{dep_id},#{pos_id}, 
+ 	#{pw},#{name},#{hiredate},#{phone},#{email},#{address},#{active},#{auth})
+ </insert>
+ <select id="selectAllUsers" resultType="UserVO">
+ 	select * from EMPLOYEES order by code asc
+ </select>
+ <select id="selectCommonListPage" resultType="CommonVO" resultMap="CommonVO">
+ 	select * from COMMON_CODE 
+ 	limit #{startPage}, #{pageSize} 
+ </select>
+ <select id="selectUserListPage" resultType="UserVO" resultMap="UserVO">
+ 	select * from EMPLOYEES 
+ 	limit #{startPage}, #{pageSize} 
+ </select>
+ <select id="selectSomeUsers" parameterType="java.util.Map" resultType="UserVO">
+	select * from EMPLOYEES where code IN 
+	<foreach collection="indexArray" item="code" open="(" separator="," close=")">
+	#{code}
+	</foreach> 
+ </select>
+ <select id="selectOneUser" resultType="UserVO">
+ 	select * from EMPLOYEES where code = #{code}
+ </select>
+ <update id="updateOneUser">
+ 	update EMPLOYEES set id=#{id},dep_group=#{dep_group},pos_group=#{pos_group}, 
+ 	pw=#{pw},name=#{name},hiredate=#{hiredate},phone=#{phone},email=#{email},address=#{address},active=#{active},auth=#{auth} 
+ 	where code=#{code}
+ </update>
+ <delete id="deleteUser" parameterType="java.util.Map">
+	delete from EMPLOYEES where code in 
+	<foreach collection="codeList" item="code" open="(" separator="," close=")">
+	#{code}
+	</foreach> 
+ </delete>
+ <select id="selectKeyWordCommon" parameterType="java.util.Map" resultType="CommonVO">
+ 	select * from COMMON_CODE 
+ 	<where>
+ 		<if test="category == 'group_id' ">
+ 			group_id like #{keyword}
+ 		</if>
+ 		<if test="category =='group_name' ">
+ 			group_name like #{keyword}
+ 		</if>
+ 		<if test="category == 'code_id' ">
+ 			code_id like #{keyword}
+ 		</if>
+ 		<if test="category == 'code_name' ">
+ 			code_name like #{keyword}
+ 		</if>
+ 	</where> 
+ </select>
+ <select id="selectKeyWordCommonPage" parameterType="java.util.Map" resultType="CommonVO">
+ 	select * from COMMON_CODE
+ 	<where>
+ 		<if test="categoryAndKeyword.category == 'group_id' ">
+ 			group_id like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category =='group_name' ">
+ 			group_name like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'code_id' ">
+ 			code_id like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'code_name' ">
+ 			code_name like #{categoryAndKeyword.keyword}
+ 		</if>
+ 	</where> 
+ 	limit #{cri.startPage},#{cri.pageSize}
+ </select>
+ <select id="selectKeyWordUserPage" parameterType="java.util.Map" resultType="UserVO">
+ 	select * from EMPLOYEES
+ 	<where>
+ 		<if test="categoryAndKeyword.category == 'code' ">
+ 			code like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category =='name' ">
+ 			name like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'auth' ">
+ 			auth like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'id' ">
+ 			id like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'dep_group' ">
+ 			dep_group like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'pos_group' ">
+ 			pos_group like #{categoryAndKeyword.keyword}
+ 		</if>
+ 		<if test="categoryAndKeyword.category == 'phone' ">
+ 			phone like #{categoryAndKeyword.keyword}
+ 		</if>
+ 	</where> 
+ 	limit #{cri.startPage},#{cri.pageSize}
+ </select>
+ <select id="selectUserTotalCount" resultType="int">
+ 	select count(*) from EMPLOYEES
+ </select>
+ <select id="selectCommonTotalCount" resultType="int">
+ 	select count(*) from COMMON_CODE
+ </select>
+ <select id="selectUserSearchCount" resultType="int">
+ 	select count(*) from EMPLOYEES 
+	<if test="categoryAndKeyWord != null or categoryAndKeyword != ''">
+		<where>
+	 		<if test="category == 'code' ">
+	 			code like #{keyword}
+	 		</if>
+	 		<if test="category =='name' ">
+	 			name like #{keyword}
+	 		</if>
+	 		<if test="category == 'auth' ">
+	 			auth like #{keyword}
+	 		</if>
+	 		<if test="category == 'id' ">
+	 			id like #{keyword}
+	 		</if>
+	 		<if test="category == 'dep_group' ">
+	 			dep_group like #{keyword}
+	 		</if>
+	 		<if test="category == 'pos_group' ">
+	 			pos_group like #{keyword}
+	 		</if>
+	 		<if test="category == 'phone' ">
+	 			phone like #{keyword}
+	 		</if>
+		</where>
+	</if> 	
+ </select>
+ <select id="selectCommonSearchCount" resultType="int" parameterType="java.util.Map">
+ 	select count(*) from COMMON_CODE 
+	<if test="categoryAndKeyWord != null or categoryAndKeyword != ''">
+		<where>
+	 		<if test="category == 'group_id' ">
+ 				group_id like #{keyword}
+	 		</if>
+	 		<if test="category =='group_name' ">
+	 			group_name like #{keyword}
+	 		</if>
+	 		<if test="category == 'code_id' ">
+	 			code_id like #{keyword}
+	 		</if>
+	 		<if test="category == 'code_name' ">
+	 			code_name like #keyword}
+	 		</if>
+		</where>
+	</if> 	
+ </select>
+</mapper>
