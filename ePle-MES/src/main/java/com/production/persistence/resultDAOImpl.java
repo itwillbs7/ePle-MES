@@ -1,6 +1,5 @@
 package com.production.persistence;
 
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.CommonVO;
 import com.production.domain.BOMVO;
 import com.production.domain.failedVO;
 import com.production.domain.resultVO;
@@ -75,5 +75,10 @@ public class resultDAOImpl implements resultDAO{
 	@Override
 	public void insertFailed(failedVO vo) throws Exception {
 		sqlSession.insert(NAMESPACE + ".insertFailed",vo);
+	}
+
+	@Override
+	public List<CommonVO> getCode_id() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getCode_id");
 	}
 }

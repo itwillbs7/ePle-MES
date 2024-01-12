@@ -295,7 +295,6 @@
 		}
 	</script>
 	<!-- BOM업데이트 끝 -->
-	<!-- 수주정보 받기 끝 -->
 	<!-- submit시 시작 -->
 	<script type="text/javascript">
 		$("#insertForm").submit(function(e) {

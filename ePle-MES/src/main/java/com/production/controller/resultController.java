@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwillbs.domain.CommonVO;
 import com.production.domain.failedVO;
 import com.production.domain.resultVO;
 import com.production.service.resultService;
@@ -84,7 +85,8 @@ public class resultController {
 	@ResponseBody
 	public Map<String, Object> Complete(String code) throws Exception {
 		logger.debug("Controller : Complete() 호출");
-		//실적 상태 생산중 -> 중지으로 전환
+		//실적 상태 생산중 -> 완료로 전환
+		//양품량,지시량 비교
 		rsService.productionComplete(code);
 		return getInfo(code);
 	}
@@ -108,7 +110,7 @@ public class resultController {
 		logger.debug("Controller : insertFailed() 호출");
 		model.addAttribute("code", code);
 		model.addAttribute("product", product);
-		String[] code_idList = {"code1","code2","code3"};
+		List<CommonVO> code_idList = rsService.getCode_id();
 		model.addAttribute("code_idList", code_idList);
 	}
 	
@@ -118,7 +120,14 @@ public class resultController {
 		logger.debug("Controller : insertFailed(failedVO vo) 호출");
 		//부적합량 +1
 		//상태가 생산중일때만 동작
-		rsService.insertFailed(vo);
+		failedVO vo1 = vo;
+		String code_id = vo1.getCode_id();
+		logger.debug("code_id : " + code_id);
+		vo1.setGroup_id(code_id.split("_")[0]);
+		vo1.setCode_id(code_id.split("_")[1]);
+		logger.debug("code_id1 : " + vo1.getCode_id());
+		logger.debug("group_id1 : " + vo1.getGroup_id());
+		rsService.insertFailed(vo1);
 	}
 	
 	//입고 등록
@@ -134,6 +143,7 @@ public class resultController {
 		resultMap.put("result", rsService.getResult(code));
 		//불량정보 저장
 		resultMap.put("failedList", rsService.getFailedList(code));
+		logger.debug("asdasd" + rsService.getFailedList(code));
 		//투입정보 저장
 		//resultMap.put("BOM", rsService.getBOM(code));
 		

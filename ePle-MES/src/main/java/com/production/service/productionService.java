@@ -34,7 +34,7 @@ public interface productionService {
 
 	public void disableInstruction(String[] code_arr) throws Exception;
 
-	public requestVO getRequest(String code) throws Exception;
+	public prodRequestVO getRequest(String code) throws Exception;
 
 	public List<BOMVO> getBOM(String mapd_code) throws Exception;
 }

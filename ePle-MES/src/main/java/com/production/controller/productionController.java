@@ -20,7 +20,6 @@ import com.itwillbs.service.RequestService;
 import com.production.domain.BOMVO;
 import com.production.domain.instructionVO;
 import com.production.domain.prodRequestVO;
-import com.production.service.productionService;
 import com.production.service.productionServiceImpl;
 
 @Controller

@@ -79,8 +79,8 @@
 			#{item}
 		</foreach>
 	</update>
-	<select id="getRequestAll" resultType="com.production.domain.requestVO">
-		SELECT R.code, R.product, M.name AS product_name, IFNULL(amount-(SELECT SUM(amount) FROM INSTRUCTION WHERE request = #{code} AND status != '비활성'),amount) AS amount FROM REQUEST R LEFT JOIN MAPD M ON R.product = M.code WHERE R.code = #{code}
+	<select id="getRequestAll" resultType="com.production.domain.prodRequestVO">
+		SELECT R.code, R.product, M.name AS product_name, IFNULL(amount - (SELECT SUM(amount) FROM INSTRUCTION I WHERE request = #{code} AND status != '비활성') + (SELECT SUM(I.amount-(SELECT SUM(amount) FROM RESULT WHERE inst_code = I.code)) FROM INSTRUCTION I WHERE request = #{code} AND status != '비활성'),amount) AS amount FROM REQUEST R LEFT JOIN MAPD M ON R.product = M.code WHERE R.code = #{code}
 	</select>
 	<select id="getBOM" resultType="com.production.domain.BOMVO">
 		SELECT * FROM BOM WHERE mapd_code = #{mapd_code}

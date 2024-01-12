@@ -3,6 +3,7 @@ package com.production.persistence;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.itwillbs.domain.CommonVO;
 import com.production.domain.BOMVO;
 import com.production.domain.failedVO;
 import com.production.domain.resultVO;
@@ -26,4 +27,6 @@ public interface resultDAO {
 	public void addResult(String code) throws Exception;
 	
 	public void insertFailed(failedVO vo) throws Exception;
+
+	public List<CommonVO> getCode_id() throws Exception;
 }

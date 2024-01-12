@@ -342,7 +342,7 @@
 				html += "<tr>";
 				html += "<th>"+ failedList[i].code +"</th>";
 				html += "<th>" + failedList[i].reg_emp + "</th>";
-				html += "<th>" + failedList[i].code_id + "</th>";
+				html += "<th>" + failedList[i].code_name + "</th>";
 				html += "<th>" + failedList[i].content + "</th>";
 				html += "<th>" + failedList[i].action + "</th>";
 				html += "<th>" + failedList[i].amount + "</th>";

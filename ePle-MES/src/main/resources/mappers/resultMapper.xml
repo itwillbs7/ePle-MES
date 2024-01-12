@@ -68,7 +68,7 @@
 	</select>
 	<select id="getFailedList" resultType="com.production.domain.failedVO">
 		<![CDATA[
-			SELECT * FROM FAILED WHERE result_code = #{code}
+			SELECT F.*,C.code_name AS code_name FROM FAILED F LEFT JOIN COMMON_CODE C ON F.group_id = C.group_id AND F.code_id = C.code_id WHERE result_code = #{code}
 		]]>
 	</select>
 	<select id="getBOM" resultType="com.production.domain.BOMVO">
@@ -94,6 +94,9 @@
 		]]>
 	</update>
 	<insert id="insertFailed">
-		INSERT INTO FAILED VALUES(DEFAULT,'emp_code','group_id',#{code_id},#{content},#{action},#{amount},now(),#{reg_emp},null,null,#{result_code})
+		INSERT INTO FAILED VALUES(DEFAULT,'emp_code',#{group_id},#{code_id},#{content},#{action},#{amount},now(),#{reg_emp},null,null,#{result_code})
 	</insert>
+	<select id="getCode_id" resultType="com.itwillbs.domain.CommonVO">
+		SELECT * FROM COMMON_CODE WHERE group_id = 'DEF';
+	</select>
 </mapper>
