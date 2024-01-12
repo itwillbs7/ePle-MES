@@ -26,10 +26,10 @@
 						<input type="hidden" value="${instruction.code }" name="code">
 						<div class="form-group">
 							<label><b>수주정보</b></label>
-							<input class="form-control required" type="text" placeholder="수주정보" name="request" id="request" readonly>
-							<button type="button" class="btn btn-success" id="chooseRequest">
-								<b>수주정보 조회</b>
-							</button>
+							<div style="display: flex;">
+								<input class="form-control required" type="text" placeholder="수주정보" name="request" id="request" readonly style="width: 65%; box-sizing: border-box;">
+								<button type="button" class="btn btn-success" id="chooseRequest" style="width: 35%; box-sizing: border-box;"><b>수주정보 조회</b></button>
+							</div>
 						</div>
 						<div class="form-group">
 							<label><b>제품</b></label>
@@ -39,7 +39,6 @@
 							<label><b>제품명</b></label> <input class="form-control required" type="text" placeholder="제품명" readonly name="product_name" id="product_name">
 						</div>
 						<div class="form-group">
-							<label>수량</label>
 							<!-- 슬라이드바 -->
 							<div class="pd-20 card-box mb-30">
 								<h4 class="h4 pb-10">수량</h4>
