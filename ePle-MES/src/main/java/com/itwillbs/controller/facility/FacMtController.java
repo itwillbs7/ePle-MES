@@ -71,9 +71,9 @@ public class FacMtController {
 	}
 	
 	@PostMapping("/routine")
-	public String routine(FacMtVO vo, RedirectAttributes rttr, HttpSession session) throws Exception{
+	public String routine(FacMtVO vo, HttpSession session, RedirectAttributes rttr) throws Exception{
 		// 일상 보전, 예방 보전 등록
-		vo.setEmp_code("123121231233");
+		vo.setEmp_code((String)session.getAttribute("code"));
 		String recentCode = mService.getRecentCode(vo.getCode());
 		String code = vo.getCode();
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
@@ -115,9 +115,9 @@ public class FacMtController {
 	}
 	
 	@PostMapping("/result")
-	public String result(FacMtVO vo, HttpSession session,RedirectAttributes rttr) throws Exception{
+	public String result(FacMtVO vo, HttpSession session, RedirectAttributes rttr) throws Exception{
 		// 보전 결과 등록 처리
-		vo.setManager("123123123");
+		vo.setManager((String)session.getAttribute("code"));
 		if(mService.setResult(vo) == 1) {
 			rttr.addFlashAttribute("title", "보전 등록 결과");
 			rttr.addFlashAttribute("result", "보전 등록이 완료되었습니다.");
@@ -136,7 +136,7 @@ public class FacMtController {
 	public void list(HttpSession session, Model model) throws Exception{
 		// 자신이 등록한 보전 리스트 출력, 매니저 정보 표시
 		// 보전 완료 및 미완료 표시!
-		String emp_code = "123123123123";
+		String emp_code = (String)session.getAttribute("code");
 		model.addAttribute("list", mService.getInsertedList(emp_code));
 	}
 	
@@ -147,10 +147,11 @@ public class FacMtController {
 	}
 	
 	@PostMapping("/insert")
-	public String insert(FacMtVO vo, RedirectAttributes rttr) throws Exception{
+	public String insert(FacMtVO vo, HttpSession session, RedirectAttributes rttr) throws Exception{
 		// 보전 추가 진행
 		String recentCode = mService.getRecentCode(vo.getCode());
 		String code = vo.getCode();
+		vo.setEmp_code((String)session.getAttribute("code"));
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
 		String now = dateformat.format(new Date());
 		if(recentCode == null || recentCode.equals("")) {

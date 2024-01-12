@@ -77,7 +77,7 @@ public class FacilityOrderController {
 		}
 		vo.setCode(code);
 		vo.setStatus("신청");
-		vo.setAsk_emp("test");
+		vo.setAsk_emp((String)session.getAttribute("code"));
 		int result = oService.insertOrder(vo);
 		if(result == 1) {
 			link = "redirect:/confirm";
