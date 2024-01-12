@@ -114,7 +114,7 @@
 				        console.log("searchName:", query.searchName);
 				        
 				        $.ajax({
-				            url : "${pageContext.request.contextPath}/stock/searchEmployees",
+				            url : "${pageContext.request.contextPath}/material/searchClient",
 				            type : "get",
 				            data : query,
 				            dataType : "text",

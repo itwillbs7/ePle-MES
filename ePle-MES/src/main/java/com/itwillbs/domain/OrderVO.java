@@ -26,6 +26,7 @@ public class OrderVO {
 	private String client_name; 	// 거래처명 
 	private String reg_name;		// 등록자이름
 	private String update_name;		// 변경자이름
+	private String clName;		
 	
 	// Search
 	private String searchCode;

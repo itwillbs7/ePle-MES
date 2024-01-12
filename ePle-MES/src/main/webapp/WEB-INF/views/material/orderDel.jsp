@@ -7,11 +7,8 @@
     <%@ include file="../include/head.jsp"%>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <style>
-.login-box {
-width: 120% !important;
-}
 </style>
-    <title>발주 요청 취소</title>
+    <title>발주서 삭제</title>
 </head>
 <body>
     <!-- 콘텐츠 시작 -->
@@ -20,7 +17,7 @@ width: 120% !important;
             <button type="button" class="close" onclick="window.close();">×</button>
             <!-- 타이틀 -->
             <div class="login-title">
-                <h2 class="text-center" style="color: #FF8C00;">발주 요청 취소</h2>
+                <h2 class="text-center" style="color: #FF8C00;">발주서 삭제</h2>
             </div>
             <!-- 폼 -->
             <form id="deleteForm" method="post">
@@ -32,15 +29,15 @@ width: 120% !important;
                                 <tr>
                                     <th>발주코드</th>
                                     <th>품명</th>
-                                    <th>요청량</th>
-                                    <th>신청일자</th>
+                                    <th>발주량</th>
+                                    <th>발주금액</th>
                                 </tr>
                                 <c:forEach items="${List}" var="vo">
                                     <tr>
                                         <th>${vo.code}</th>
                                         <th>${vo.name }</th>
-                                        <th>${vo.amount }</th>
-                                        <th>${vo.date }</th>
+                                        <th>${vo.amount } ${vo.unit }</th>
+                                        <th>${vo.price }원</th>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -49,7 +46,7 @@ width: 120% !important;
                 </div>
                 <hr>
                 <br>
-                <h6 class="text-center">해당 요청을 삭제하시겠습니까?</h6>
+                <h6 class="text-center">해당 발주서를 삭제하시겠습니까?</h6>
                 <br>
                 
                 <!-- 삭제 리스트 목록 -->
@@ -88,7 +85,7 @@ width: 120% !important;
 
                 $.ajax({
                     type : 'POST',
-                    url : "${pageContext.request.contextPath}/material/askOrderDel",
+                    url : "${pageContext.request.contextPath}/material/orderDel",
                     data : data,
                     success : function(response) {
                     	alert("처리가 완료되었습니다.");

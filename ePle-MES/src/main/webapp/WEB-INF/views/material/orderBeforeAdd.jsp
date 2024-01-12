@@ -12,6 +12,9 @@
 	background-color : #e1e1e1;
 	cursor:pointer;
 }
+.click {
+    color: blue;
+}
 </style>
 <title>발주 요청 목록</title>
 </head>
@@ -26,6 +29,9 @@
 			</div>
 			
 			<div class="tab">
+                <br>
+                <h6 class="text-center click">발주코드를 선택해주세요!</h6>
+                <br>
 				
 				<div class="tab-content">
 			<!------------------------------- 목록 시작 ------------------------------->
@@ -40,17 +46,17 @@
 			</thead>
 			
 			<tbody>
-				<c:forEach items="${askOrderList}" var="vo">
+				<c:forEach items="${askOrderList}" var="vo" varStatus="loop">
 				<tr>
-					<td class="inInfo${vo.code} con">${vo.code }</td>
-					<td class="inInfo${vo.code} con">${vo.name }</td>
-					<td class="inInfo${vo.code} con">${vo.amount } ${vo.unit }</td>
-					<td class="inInfo${vo.code} con"><fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></td>
+					<td class="inInfo${vo.code} con"> ${vo.code }</td>
+					<td class=""> ${vo.name }</td>
+					<td class=""> ${vo.amount } ${vo.unit }</td>
+					<td class=""> <fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></td>
 				</tr>
 				</c:forEach>
+				
 			</tbody>
 			</table>
-			
 			
 		    <!------------------------------ 페이징 시작 ------------------------------>
 				<div class="btn-toolbar justify-content-center mb-15">
@@ -108,9 +114,11 @@
 	}
 		
 	// 
-	$('body').on('click', '[class^="inInfo"]', function(){
-		var code = $(this).text().trim();
-		  openPage("${pageContext.request.contextPath}/material/orderAdd?code=" + code, 800, 1000); });
+$('body').on('click', '[class^="inInfo"]', function(){
+    var code = $(this).text().trim();
+    openPage("${pageContext.request.contextPath}/material/orderAdd?code=" + code, 800, 1000);
+});
+
 			
 	
 	

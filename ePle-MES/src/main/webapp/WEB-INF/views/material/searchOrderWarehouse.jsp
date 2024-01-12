@@ -8,7 +8,8 @@
 <%@ include file="../include/head.jsp"%>
 <title>창고 조회</title>
 <!-- active = 1 인 모든 창고 출력 페이지 -->
-<!--  /material/inAdd 에서 참조중 -->
+<!--  /material/inAdd  에서 참조중 -->
+<!--  /material/inEdit 에서 참조중 -->
 <style type="text/css">
 .con:hover{
 	background-color : #e1e1e1;
@@ -138,6 +139,18 @@
 				        });
 				    
 		 		}
+		 		
+		 		
+		 		
+		  		document.addEventListener('keydown', function (event) {
+		  	        if (event.key === 'Enter') {
+		  	            doSearch();
+		  	            event.preventDefault(); 
+		  	        }
+		  	    });
+		  		
+		  		
+		  		
 			</script>
 		</div>
 	</div>

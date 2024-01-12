@@ -12,6 +12,9 @@
   .table td {
     text-align: center;
   }
+  .back {
+  background-color: white !important;
+}
 </style>
 <title>출고 관리</title>
 </head>
@@ -53,10 +56,10 @@
 								<div class="form-inline">
 									<div class="row">
 											<div class="col-md-12 col-sm-12 btn-group" >
-											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="입고코드" autocomplete="off" >
-											<label>관리자</label> 
-											<input type="text" name="searchName" id="manager" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
-											<input type="text" id="managerName" class="form-control" placeholder="관리자이름" autocomplete="off" readonly>
+											<input type="text" name="searchCode" id="whCode" class="form-control back" placeholder="출고코드" autocomplete="off" >
+											<label>품목</label> 
+											<input type="text" name="searchName" id="selectF" class="form-control back" placeholder="품목코드" autocomplete="off" readonly>
+											<input type="text" id="selectG" class="form-control back" placeholder="품명" autocomplete="off" readonly>
 											</div>
 									</div>
 								</div>
@@ -79,7 +82,7 @@
 	<div class="card-box mb-30">
 		<div class="pd-20">
 			<div class="btn-group pull-right" style="margin-bottom: 10px">
-				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
+				<!-- <button type="button" class="btn btn-warning" id="update"><b>수정</b></button> -->
 			</div>
 		</div>
 
@@ -100,13 +103,12 @@
 							</td>
 							<th>출고코드</th>
 							<th>출하코드</th>
-							<th>창고</th>
-							<th>구분</th>
 							<th>품명</th>
 							<th>수량</th>
-							<th>담당자</th>
+							<th>창고</th>
+							<th>구분</th>
 							<th>출고일자</th>
-							<th>옵션</th>
+							<th>담당자</th>
 						</tr>
 
 						<c:forEach items="${outList }" var="vo">
@@ -119,29 +121,14 @@
 							</td>
 							<th class="inInfo${vo.code}" style="color: #FF1493; cursor:pointer;">${vo.code }</th>
 							<th>${vo.order_num }</th>
+							<th>${vo.mapdName }</th>
+							<th style="color: red; text-align:left">- ${vo.amount }</th>
 							<th>${vo.warehouse_code }</th>
 							<th>${vo.category }</th>
-							<th>${vo.mapdName }</th>
-							<th>${vo.amount } ${vo.unit }</th>
-							<th>${vo.empName }</th>
 							<th><fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></th>
-							<td style="">
+							<th>${vo.empName }</th>
 
 
-
-							<!-------------------------------- 옵션 선택 -------------------------------->
-							<div class="dropdown">
-								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i> </a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-										<!-- 상세 보기 -->
-										<a class="dropdown-item" href="javascript:openPage('/material/inInfo?code=${vo.code }', 400, 700"><i class="dw dw-eye"></i>상세 보기</a>
-										<!-- 수정 -->
-										<a class="dropdown-item" href="javascript:openPage('/material/inEdit?code=${vo.code }', 400, 700"><i class="dw dw-edit2"></i> 수정</a>
-									</div>
-							</div>
-								
-								
-							</td>
 						</tr>
 						</c:forEach>
 							
@@ -149,11 +136,11 @@
 				</form>
 
 				<!-------------------------------- 출고 갯수 -------------------------------->
-				<div class="row">
+		<!-- 		<div class="row">
 					<div class="col-sm-12 col-md-5">
 						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
 					</div>
-				</div>
+				</div> -->
 
 
 				<!--------------------------------- 페이징 ---------------------------------->
@@ -270,41 +257,37 @@
 			
 			
 			// 검색 - 사원 리스트 
-			$("#manager,#managerName").click(function() {
+			$("#selectF,#selectG").click(function() {
 				// 가로, 세로 설정
-				openPage("/warehouse/searchEmployees", 400,700);
+				openPage("/material/searchMAPD", 400,700);
 			});
 
 			
-			
-		});
-		
-
 
  		// 검색하기
   		function doSearch() {
-		        var query = {"searchCode" : $("#whCode").val(), "searchName" : $("#manager").val()};
+		        var query = {"searchCode" : $("#whCode").val(), "searchName" : $("#selectF").val()};
 		        
 		        console.log("searchCode:", query.searchCode);
 		        console.log("searchName:", query.searchName);
 		        
 		        $.ajax({
-		            url : "${pageContext.request.contextPath}/warehouse/list",
+		            url : "${pageContext.request.contextPath}/material/outList",
 		            type : "get",
 		            data : query,
 		            dataType : "text",
 		            success : function(data){
 		                 if (query.searchCode == "" && query.searchName == "") {
-		                    location.href = "${pageContext.request.contextPath}/warehouse/list";
+		                    location.href = "${pageContext.request.contextPath}/material/outList";
 		                } else {
-		                    location.href = "${pageContext.request.contextPath}/warehouse/list?searchCode=" + $("#whCode").val() + "&searchName=" + $("#manager").val();
+		                    location.href = "${pageContext.request.contextPath}/material/outList?searchCode=" + $("#whCode").val() + "&searchName=" + $("#selectF").val();
 		                } 
 		                 
-		                if (data) {
+		          /*       if (data) {
 		                    alert("완료");
 		                } else {
 		                    alert("전송된 값 없음");
-		                }
+		                } */
 		                
 		            },
 		            
@@ -318,10 +301,12 @@
 
 		// 검색 초기화 , placeholder 재지정 
 		function resetSearch() {
-			$("#manager").val("");
-			$("#managerName").val("");
-		    $("#manager").attr("placeholder", "관리자코드");
-		    $("#managerName").attr("placeholder", "관리자이름");
+			$("#whCode").val("");
+			$("#selectF").val("");
+			$("#selectG").val("");
+		    $("#whCode").attr("placeholder", "입고코드");
+		    $("#selectF").attr("placeholder", "품목코드");
+		    $("#selectG").attr("placeholder", "품명");
 		}
 
 		

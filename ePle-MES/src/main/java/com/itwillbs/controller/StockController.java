@@ -23,6 +23,8 @@ import com.itwillbs.service.StockService;
 /** StockController : 창고 + 재고 컨트롤러 
 * 
 *	창고 - http://localhost:8088/stock/warehouseList 
+*	재고 - http://localhost:8088/stock/stockList
+*
 */
 
 @Controller
@@ -178,51 +180,6 @@ public class StockController {
 			  } 
 		  }
 	  /*--------------------------------------재고관리  끝 -----------------------------------------*/
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  // 품목 팝업 (출력/페이징/검색) --------------------------------------------------------
-	  @RequestMapping(value = "/searchMAPD" , method = RequestMethod.GET)
-	  public void SearchMAPD(Model model, Criteria cri,
-								  @RequestParam(value = "mapdCode",required = false) String mapdCode,
-								  @RequestParam(value = "mapdName",required = false) String mapdName) throws Exception {
-			
-	  List<StockVO> mapdList = sService.SearchMAPD(cri,mapdCode,mapdName);
-			
-	  PageVO pageVO = new PageVO(); 
-			  
-	  pageVO.setCri(cri);
-	  pageVO.setTotalCount(sService.mapdListCount(mapdCode,mapdName));
-	  
-			  
-	  model.addAttribute("pageVO", pageVO);
-	  model.addAttribute("mapdList", mapdList);
-			
-	  }
-	  
-	  // 창고 팝업 (출력/페이징/검색) --------------------------------------------------------
-	  @RequestMapping(value = "/searchWarehouse" , method = RequestMethod.GET)
-	  public void searchWarehouse(Model model, Criteria cri,
-								  @RequestParam(value = "whCode",required = false) String whCode,
-								  @RequestParam(value = "WhName",required = false) String WhName) throws Exception {
-			
-	  List<StockVO> warehouseList = sService.searchWarehouse(cri,whCode,WhName);
-			
-	  PageVO pageVO = new PageVO(); 
-			  
-	  pageVO.setCri(cri);
-	  pageVO.setTotalCount(sService.warehouseListCount(whCode,WhName));
-	  
-			  
-	  model.addAttribute("pageVO", pageVO);
-	  model.addAttribute("warehouseList", warehouseList);
-			
-	  }
 	  
 	  
 	  

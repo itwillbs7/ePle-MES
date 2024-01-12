@@ -8,8 +8,11 @@
 <head>
 <%@ include file="../include/head.jsp"%>
 <style>
-input[readonly] {
-  background-color: white;
+label {
+font-weight: bold;
+}
+.back {
+  background-color: white !important;
 }
 </style>
 <title>입고 등록</title>
@@ -21,13 +24,13 @@ input[readonly] {
 		<button type="button" class="close" onclick="window.close();">×</button>
 
 			<div class="login-title">
-				<h1 class="text-center text-primary">입고 등록</h1>
+				<h1 class="text-center" style="color: #7CB342;">입고 등록</h1>
 			</div>
 			
 			<div class="tab">
 				<ul class="nav nav-pills" role="tablist">
-					<li class="nav-item"><a class="nav-link text-blue active" data-toggle="tab" href="#ord-Warehousing" role="tab" aria-selected="true">발주</a></li>
-					<li class="nav-item"><a class="nav-link text-blue" data-toggle="tab" href="#pro-Warehousing" role="tab" aria-selected="false">생산</a></li>
+					<!-- <li class="nav-item"><a class="nav-link text-blue active" data-toggle="tab" href="#ord-Warehousing" role="tab" aria-selected="true">발주</a></li> -->
+					<!-- <li class="nav-item"><a class="nav-link text-blue" data-toggle="tab" href="#pro-Warehousing" role="tab" aria-selected="false">생산</a></li> -->
 				</ul>
 				
 				<div class="tab-content">
@@ -37,34 +40,34 @@ input[readonly] {
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
 								
-									<div class="form-group">
     									<label>자재 유형</label>
+									<div class="form-group">
     									<select class="form-control" name="category" required>
         									<option value="" disabled selected hidden>창고를 선택하세요</option>
         									<option value="원자재">원자재</option>
-        									<option value="설비품">설비품</option>
+        									<option value="설비">설비</option>
     									</select>
 									</div>
 									
-									<div class="form-group">
 										<label>발주 정보</label> 
-										<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="발주코드" readonly>
+									<div class="form-group">
+										<input class="form-control back" type="text" id="orderCode" name="order_num" placeholder="발주코드" required readonly>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="text" id="mapdName" placeholder="품명" readonly>
-										<input class="form-control" type="hidden" id="mapdCode" name="mapd_code" placeholder="자재코드" readonly>
+										<input class="form-control back" type="text" id="mapdName" placeholder="품명" readonly>
+										<input class="form-control back" type="hidden" id="mapdCode" name="mapd_code" placeholder="자재코드" required readonly>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="number" id="orderAmount" name="amount" placeholder="수량" readonly>
+										<input class="form-control back" type="number" id="orderAmount" name="amount" placeholder="수량" required readonly>
 									</div>
 
-									<div class="form-group">
 										<label>창고 정보</label> 
-										<input class="form-control" type="text" id="warehouseCode" name="warehouse_code" placeholder="창고코드" readonly>
+									<div class="form-group">
+										<input class="form-control back" type="text" id="warehouseCode" name="warehouse_code" placeholder="창고코드" required readonly>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="text" id="empName" placeholder="담당자" readonly>
-										<input class="form-control" type="hidden" id="empCode" name="emp_code" placeholder="담당자" readonly>
+										<input class="form-control back" type="text" id="empName" placeholder="담당자" required readonly>
+										<input class="form-control back" type="hidden" id="empCode" name="emp_code" placeholder="담당자" required readonly>
 									</div>
 
 

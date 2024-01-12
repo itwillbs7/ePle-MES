@@ -58,12 +58,12 @@ font-weight: bold;
 									<input class="form-control" type="text" id="mapdName" value="${List.name }" required readonly>
 								</div>
 								
-									<label>요청량</label> 
+									<label>발주량</label> 
 								<div class="form-group">
 									<input class="form-control" type="number" name="amount" required min="1" max="100" value="${List.amount }" readonly oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
 								</div>
 
-									<label>발주금액</label> 
+									<label>발주 금액</label> 
 								<div class="form-group">
 									<input class="form-control back" type="text" name="price" required placeholder="0 ~ 9,000,000" maxlength="9000000" onkeyup="inputNumberFormat(this);">
 								</div>

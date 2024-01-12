@@ -17,6 +17,9 @@
   align-items:center;
   justify-content:center;
   }
+  .back {
+  background-color: white !important;
+}
 </style>
 <title>창고 목록</title>
 </head>
@@ -53,10 +56,10 @@
 									<div class="row">
 										<div class="col-md-20 col-sm-12 btn-group" >
 											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="창고코드" autocomplete="off" >
-											<label>관리자</label> 
-											<input type="text" name="searchName" id="selectA" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
-											<input type="text" id="selectB" class="form-control" placeholder="관리자이름" autocomplete="off" readonly>
-											<input type="hidden" id="selectC" class="form-control" autocomplete="off" readonly>
+											<label>담당자</label> 
+											<input type="text" name="searchName" id="selectA" class="form-control back" placeholder="담당자코드" autocomplete="off" readonly>
+											<input type="text" id="selectB" class="form-control back" placeholder="담당자이름" autocomplete="off" readonly>
+											<input type="hidden" id="selectC" class="form-control back" autocomplete="off" readonly>
 										</div>
 									</div>
 								</div>
@@ -92,7 +95,7 @@
 			<div class="col-sm-30">
 				<form class="table" id="table">
 					<table class="table table-striped">
-					<!--- 체크박스 / 창고코드 / 주소지 / 창고유형(원자재.완제품) / 창고명 / 담당자 / 연락처 / 사용여부 --->
+					<!--- 체크박스 / 창고코드 / 위치 / 창고유형(원자재.완제품.설비) / 창고명 / 담당자 / 연락처 --->
 						<tr>
 							<td style="width: 100px;">
 								<div class="custom-control custom-checkbox mb-5">
@@ -106,7 +109,6 @@
 							<th>창고명</th>
 							<th>담당자</th>
 							<th>연락처</th>
-							<th>옵션</th>
 						</tr>
 
 						<c:forEach items="${warehouseList }" var="vo">
@@ -123,23 +125,7 @@
 							<th>${vo.wh_name }</th>
 							<th>${vo.name }</th>
 							<th>${vo.phone }</th>
-							<td style="">
 
-
-
-							<!-------------------------------- 옵션 선택 -------------------------------->
-							<div class="dropdown">
-								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i> </a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-										<!-- 상세 보기 -->
-										<a class="dropdown-item" href="javascript:openPage('/stock/warehouseInfo?code=${vo.code }', 400, 700"><i class="dw dw-eye"></i>상세 보기</a>
-										<!-- 수정 -->
-										<a class="dropdown-item" href="javascript:openPage('/stock/warehouseEdit?code=${vo.code }', 400, 700"><i class="dw dw-edit2"></i> 수정</a>
-									</div>
-							</div>
-								
-								
-							</td>
 						</tr>
 						</c:forEach>
 							

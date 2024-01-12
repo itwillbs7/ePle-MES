@@ -57,10 +57,10 @@ font-weight: bold;
 									
 										<label>요청자</label> 
 									<div class="form-group">
-										<input class="form-control back" type="text" id="selectA" name="ask_emp" placeholder="품목코드" required readonly>
+										<input class="form-control back" type="text" id="selectA" name="ask_emp" placeholder="사원코드" required readonly>
 									</div>
 									<div class="form-group">
-										<input class="form-control back" type="text" id="selectB" placeholder="품명" required readonly>
+										<input class="form-control back" type="text" id="selectB" placeholder="사원명" required readonly>
 										<input class="form-control" type="hidden" id="selectC" readonly>
 									</div>
 								</div>

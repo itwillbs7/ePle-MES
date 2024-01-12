@@ -10,7 +10,7 @@ label {
 font-weight: bold;
 }
 </style>
-<title>발주 요청서</title>
+<title>발주서 상세</title>
 </head>
 <body>
 <!-- 콘텐츠 시작 -->
@@ -18,22 +18,27 @@ font-weight: bold;
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">발주 요청서</h1>
+				<h1 class="text-center text-primary">발주서 상세</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="/material/askOrderEdit" method="get" id="editForm">
+			<form action="/material/orderEdit" method="get" id="editForm">
 				<!-- 비입력 구간 -->
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
+						
 									<label>발주 코드</label> 
 								<div class="form-group">
 								<input class="form-control" type="text" name="code" id="code" value="${List.code }" readonly>
 								</div>
-								
+
+									<label>거래처 정보</label> 
 								<div class="form-group">
-									<!-- <label>자재 유형</label>  -->
+									<input class="form-control" type="text" value="${List.client_code}" readonly>
+								</div>
+								<div class="form-group">
+									<input class="form-control" type="text" id="name" readonly value="${List.clName }">
 								</div>
 
 									<label>품목 정보</label> 
@@ -46,24 +51,32 @@ font-weight: bold;
 
 									<label>발주량</label> 
 								<div class="form-group">
-									<input class="form-control" type="text" id="orderAmount" name="amount" placeholder="요청량" value="${List.amount } ${List.unit }" readonly>
+									<input class="form-control" type="text" id="orderAmount" name="amount" value="${List.amount } ${List.unit }" readonly>
 								</div>
 
-									<label>요청자</label> 
+									<label>발주 금액</label> 
 								<div class="form-group">
-									<input class="form-control" type="text" id="" name="" placeholder="사원이름" value="${List.empName}" readonly>
+									<input class="form-control" type="text" id="" name="" value="${List.price}" readonly>
 								</div>
-
-									<label>요청 일자</label> 
+								
+									<label>납기 일자</label> 
 								<div class="form-group">
-									<input class="form-control" type="text" id="warehouseCode" name="warehouse_code" placeholder="" value="${List.date}" readonly>
+									<input class="form-control" type="text" id="" name="" value="${List.order_date}" readonly>
+								</div>
+								
+									<label>담당자</label> 
+								<div class="form-group">
+									<input class="form-control" type="text" id="" name="" value="${List.reg_emp}" readonly>
+								</div>
+								<div class="form-group">
+									<input class="form-control" type="text" id="" name="" value="${List.empName}" readonly>
 								</div>
 
 				<!-- 버튼 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-						<button type="button" class="btn btn-secondary" onclick="window.close();"><b>취소</b></button>
-						<input type="submit" class="btn btn-success" value="수정" id="update">
+						<button type="button" class="btn btn-secondary" onclick="window.close();"><b>닫기</b></button>
+						<!-- <input type="submit" class="btn btn-success" value="수정" id="update"> -->
 					</div>
 				</div>
 					</div>
