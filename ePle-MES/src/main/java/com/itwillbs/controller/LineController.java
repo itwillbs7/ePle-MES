@@ -31,18 +31,6 @@ public class LineController {
     private LineService lService;
 
     // http://localhost:8088/line/lineAll
-      
-    // 라인 리스트 - GET
-    @RequestMapping(value = "/lineAll", method = RequestMethod.GET)
-    public String listAllGET(Model model,
-                             @ModelAttribute("result") String result,
-                             HttpSession session) throws Exception {
-        session.setAttribute("viewcntCheck", true);
-        List<LineVO> lineList = lService.lineListAll();
-        System.out.println(lineList);
-        model.addAttribute("lineList", lineList);
-        return "/line/lineAll";
-    }
 
     // 라인 수정 - GET
     @RequestMapping(value = "/update", method = RequestMethod.GET)
@@ -105,25 +93,6 @@ public class LineController {
         }
     }
 
-
-    // 페이징 처리 - 게시판 리스트 - GET
-    @RequestMapping(value = "/linePage", method = RequestMethod.GET)
-    public String listPageGET(Model model,
-                              @ModelAttribute("result") String result,
-                              HttpSession session,
-                              Criteria cri) throws Exception {
-        session.setAttribute("viewcntCheck", true);
-
-        List<LineVO> lineList = lService.lineListPage(cri);
-
-        PageVO pageVO = new PageVO();
-        pageVO.setCri(cri);
-        pageVO.setTotalCount(lService.totalLineCount());
-        model.addAttribute("pageVO", pageVO);
-        model.addAttribute("lineList", lineList);
-        return "/line/lineAll";
-    }
-
     // 라인 추가 - GET, POST
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public void lineInsertGET() throws Exception { 
@@ -150,12 +119,32 @@ public class LineController {
         return lService.totalLineCount();
     }
     
-    // 라인 검색 - GET
-    
 	// 라인 상세 - GET, POST
 	@RequestMapping(value = "/lineInfo", method = RequestMethod.GET)
 	public void lineInfoGET(@RequestParam("code") String code, Model model) throws Exception {
 		LineVO infoLine = lService.infoLine(code);
 		model.addAttribute("infoLine", infoLine);
+	}
+	
+	// 라인 리스트, 페이징 처리
+	@RequestMapping(value = "/lineAll", method = RequestMethod.GET)
+	public String listPageGET(Model model, PageVO vo,
+								String result,
+								HttpSession session,
+								Criteria cri) throws Exception {
+
+		session.setAttribute("viewcntCheck", true);
+		vo.setCri(cri);
+		vo.setTotalCount(lService.totalLineCount());
+		List<LineVO> lineList = lService.lineListPage(vo);
+		
+		logger.debug(" 확인 :"+vo);
+		
+		logger.debug("PAGE + "+ vo);
+		
+		model.addAttribute("pageVO", vo);
+		model.addAttribute("lineList", lineList);
+
+		return "/line/lineAll";
 	}
 }

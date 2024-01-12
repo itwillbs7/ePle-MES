@@ -46,10 +46,10 @@
 				                </thead>
 				                <tbody>
 				                    <!-- 삭제 리스트 들어갈 공간 -->
-				                    <c:forEach var="item" items="${mvo}">
+				                    <c:forEach var="product" items="${mvo}">
 									    <tr>
-									        <td>${item.code}</td>
-									        <td>${item.name}</td>
+									        <td>${product.code}</td>
+									        <td>${product.name}</td>
 									    </tr>
 									</c:forEach>
 				                </tbody>

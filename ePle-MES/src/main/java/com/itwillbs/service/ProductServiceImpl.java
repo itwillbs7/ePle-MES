@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.persistence.ProductDAO;
 
 @Service
@@ -19,12 +20,6 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Inject
 	private ProductDAO pdao;
-
-	@Override
-	public List<MAPDVO> productListAll() throws Exception {
-		logger.debug(" S : productListAll() ");
-		return pdao.getProductListAll();
-	}
 
 	@Override
 	public MAPDVO getProduct(String code) throws Exception {
@@ -53,24 +48,19 @@ public class ProductServiceImpl implements ProductService {
 		return pdao.insertProduct(mvo);
 	}
 
-	// 품목 검색 팝업 
-	@Override
-	public List<MAPDVO> SearchProduct(Criteria cri, String mapdCode, String mapdName) throws Exception {
-		return pdao.SearchProduct(cri, mapdCode, mapdName);
-	}
-	
-	// 모든 품목 수
-	@Override
-	public int productListCount(String mapdCode, String mapdName) throws Exception {
-		return pdao.getProductCount(mapdCode, mapdName);
-	}
-
 	@Override
 	public MAPDVO infoProduct(String code) throws Exception {
 		return pdao.infoProduct(code);
 	}
-	
-	
-	
-	
+
+	@Override
+	public List<MAPDVO> productListPage(PageVO vo) throws Exception {
+		return pdao.getProductListPage(vo);
+	}
+
+	@Override
+	public int totalProductCount() throws Exception {
+		return pdao.getProductCount();
+	}
+
 }

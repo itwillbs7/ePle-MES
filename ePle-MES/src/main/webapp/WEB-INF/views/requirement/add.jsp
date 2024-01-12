@@ -38,14 +38,14 @@
                         </div>
                         <div class="form-group">
                             <label>등록일</label>
-                            <input class="form-control" type="text" name="reg_date" placeholder="등록일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()) %>" readonly>
+                            <input class="form-control" type="text" name="reg_date" placeholder="등록일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" readonly>
                         </div>
                         <div class="form-group">
                             <label>변경자</label> <input class="form-control" type="text" name="update_emp" placeholder="변경자 입력" required>
                         </div>
                         <div class="form-group">
                             <label>변경일</label>
-                            <input class="form-control" type="text" name="update_date" placeholder="변경일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()) %>" readonly>
+                            <input class="form-control" type="text" name="update_date" placeholder="변경일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" readonly>
                         </div>
 						<div class="form-group">
 						    <label>사용 여부</label>

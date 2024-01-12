@@ -1,5 +1,6 @@
 package com.itwillbs.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.ClientVO;
 import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.MAPDVO;
+import com.itwillbs.domain.PageVO;
 
 @Repository
 public class ClientDAOImpl implements ClientDAO {
@@ -43,16 +46,6 @@ public class ClientDAOImpl implements ClientDAO {
     }
 
 	@Override
-	public List<ClientVO> getClientListPage(Criteria cri) throws Exception {
-		return null;
-	}
-
-	@Override
-	public int getClientCount() throws Exception {
-		return 0;
-	}
-
-	@Override
 	public int insertClient(ClientVO cvo) throws Exception {
 		return sqlSession.insert(NAMESPACE+".insertClient", cvo);
 	}
@@ -66,6 +59,26 @@ public class ClientDAOImpl implements ClientDAO {
 	@Override
 	public ClientVO infoClient(String code) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".infoClient", code);
+	}
+	
+	@Override
+	public List<ClientVO> getClientListPage(int page) throws Exception {
+		
+		page = (page - 1) * 10;
+		
+		return sqlSession.selectList(NAMESPACE + ".listPage",page);
+	}
+
+	@Override
+	public List<ClientVO> getClientListPage(PageVO vo) throws Exception {
+		List<ClientVO> list = new ArrayList<ClientVO>();
+				list = sqlSession.selectList(NAMESPACE + ".listPage", vo);
+				return list;
+	}
+
+	@Override
+	public int getClientCount() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".countClient");
 	}
     
     

@@ -5,10 +5,10 @@ import java.util.List;
 import com.itwillbs.domain.ClientVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.LineVO;
+import com.itwillbs.domain.MAPDVO;
+import com.itwillbs.domain.PageVO;
 
 public interface LineService {
-	
-	public List<LineVO> lineListAll() throws Exception;
 	
 	public LineVO getLine(String code) throws Exception;
 	
@@ -16,14 +16,14 @@ public interface LineService {
 	
 	public int deleteLines(String[] codes) throws Exception;
 	
-	public List<LineVO> lineListPage(Criteria cri) throws Exception;
-	
-	public int totalLineCount() throws Exception;
-	
 	public List<LineVO> getInfo(String[] codes) throws Exception;
 	
 	public int InsertLine(LineVO lvo) throws Exception;
 
 	// 라인 상세
 	public LineVO infoLine(String code) throws Exception;
+	
+	public List<LineVO> lineListPage(PageVO vo) throws Exception;
+	
+	public int totalLineCount() throws Exception;
 }

@@ -38,12 +38,23 @@
 				<div class="row">
 				    <div class="col-sm-12 mb-3">
 				        <div class="form-group">
-				            <ul class="list-group">
-				                <!-- 삭제 리스트 들어갈 공간 -->
-				                <c:forEach var="title" items="${array}">
-				                    <li class="list-group-item"><c:out value="${title}" /></li>
-				                </c:forEach>
-				            </ul>
+				            <table class="table">
+				                <thead>
+				                    <tr>
+				                        <th>라인 코드</th>
+				                        <th>라인명</th>
+				                    </tr>
+				                </thead>
+				                <tbody>
+				                    <!-- 삭제 리스트 들어갈 공간 -->
+				                    <c:forEach var="line" items="${lvo}">
+									    <tr>
+									        <td>${line.code}</td>
+									        <td>${line.name}</td>
+									    </tr>
+									</c:forEach>
+				                </tbody>
+				            </table>
 				        </div>
 				    </div>
 				</div>

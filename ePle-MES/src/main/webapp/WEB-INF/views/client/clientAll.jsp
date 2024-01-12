@@ -50,6 +50,25 @@
 												<hr>
 											</div>
 										</div>
+										
+										<c:choose>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" id="page" name="page" value="1">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" id="page" name="page" value="${pageVO.cri.page}">
+											</c:when>
+										</c:choose>
+
+										<c:choose>
+											<c:when test="${empty pageVO.cri.pageSize}">
+												<input type="hidden" id="pageSize" name="pageSize" value="10">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.pageSize}">
+												<input type="hidden" id="pageSize" name="pageSize" value="${pageVO.cri.pageSize}">
+											</c:when>
+										</c:choose>
+										
 										<div class="btn-group pull-right" style="margin-bottom: 10px">
 											<button type="submit" class="btn btn-primary" id="search">
 												<b>검색</b>
@@ -122,7 +141,7 @@
 									        <td>${client.active}</td>
 									        <td>
 												<button type="button" class="btn btn-info btn-sm" id="clientInfo">
-													<b>상세보기</b>
+													<b>...</b>
 												</button>
 											</td>
 									    </tr>
@@ -130,23 +149,27 @@
 								</table>
 							</form>
 							
-							<div class="row">
-							    <div class="col-sm-12 col-md-5">
-							        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(전체 수) 중 (검색 결과) 개</div>
-							    </div>
-							</div>
 							<div class="btn-toolbar justify-content-center mb-15">
-								<div class="btn-group">
-									<c:if test="${pageVO.prev}">
-										<a href="/client/clientAll?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
-									</c:if>
-									<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-										<a href="/client/clientAll?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
-									</c:forEach>
-									<c:if test="${pageVO.next}">
-										<a href="/client/clientAll?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
-									</c:if>
-								</div>
+								<c:if test="${pageVO.totalCount > 1}">
+									<div class="btn-group">
+										<c:if test="${pageVO.prev}">
+											<a href="javascript:pageMove(${pageVO.startPage - 1})" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+											</a>
+										</c:if>
+										<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+											<c:if test="${pageVO.cri.page == i}">
+												<span class="btn btn-primary current">${i}</span>
+											</c:if>
+											<c:if test="${pageVO.cri.page != i}">
+												<a href="javascript:pageMove(${i})" class="btn btn-outline-primary">${i}</a>
+											</c:if>
+										</c:forEach>
+										<c:if test="${pageVO.next}">
+											<a href="javascript:pageMove(${pageVO.endPage + 1})" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+											</a>
+										</c:if>
+									</div>
+								</c:if>
 							</div>
 							
 						</div>

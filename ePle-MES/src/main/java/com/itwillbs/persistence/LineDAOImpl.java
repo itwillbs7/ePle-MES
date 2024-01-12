@@ -1,5 +1,6 @@
 package com.itwillbs.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.LineVO;
+import com.itwillbs.domain.MAPDVO;
+import com.itwillbs.domain.PageVO;
 
 @Repository
 public class LineDAOImpl implements LineDAO {
@@ -43,16 +46,6 @@ public class LineDAOImpl implements LineDAO {
     }
 
 	@Override
-	public List<LineVO> getLineListPage(Criteria cri) throws Exception {
-		return null;
-	}
-
-	@Override
-	public int getLineCount() throws Exception {
-		return 0;
-	}
-
-	@Override
 	public int insertLine(LineVO lvo) throws Exception {
 		return sqlSession.insert(NAMESPACE+".insertLine", lvo);
 	}
@@ -68,6 +61,24 @@ public class LineDAOImpl implements LineDAO {
 		return sqlSession.selectOne(NAMESPACE + ".infoLine", code);
 	}
     
-    
+	@Override
+	public List<LineVO> getLineListPage(int page) throws Exception {
+
+		page = (page - 1) * 10;
+		
+		return sqlSession.selectList(NAMESPACE + ".listPage",page);
+	}
+
+	@Override
+	public List<LineVO> getLineListPage(PageVO vo) throws Exception {
+		List<LineVO> list = new ArrayList<LineVO>();
+				list = sqlSession.selectList(NAMESPACE + ".listPage", vo);
+				return list;
+	}
+
+	@Override
+	public int getLineCount() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".countLine");
+	}
 
 }

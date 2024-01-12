@@ -37,18 +37,6 @@ public class ClientController {
     private ClientService cService;
 
     // http://localhost:8088/client/clientAll
-    
-    // 거래처 리스트 - GET
-    @RequestMapping(value = "/clientAll", method = RequestMethod.GET)
-    public String listAllGET(Model model,
-                             @ModelAttribute("result") String result,
-                             HttpSession session) throws Exception {
-        session.setAttribute("viewcntCheck", true);
-        List<ClientVO> clientList = cService.clientListAll();
-        System.out.println(clientList);
-        model.addAttribute("clientList", clientList);
-        return "/client/clientAll";
-    }
 
     // 거래처 수정 - GET
     @RequestMapping(value = "/update", method = RequestMethod.GET)
@@ -112,25 +100,6 @@ public class ClientController {
         }
     }
 
-
-    // 페이징 처리 - 거래처 리스트 - GET
-    @RequestMapping(value = "/clientPage", method = RequestMethod.GET)
-    public String listPageGET(Model model,
-                              @ModelAttribute("result") String result,
-                              HttpSession session,
-                              Criteria cri) throws Exception {
-        session.setAttribute("viewcntCheck", true);
-
-        List<ClientVO> clientList = cService.clientListPage(cri);
-
-        PageVO pageVO = new PageVO();
-        pageVO.setCri(cri);
-        pageVO.setTotalCount(cService.totalClientCount());
-        model.addAttribute("pageVO", pageVO);
-        model.addAttribute("clientList", clientList);
-        return "/client/clientAll";
-    }
-
     // 거래처 추가 - GET, POST
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public void clientInsertGET() throws Exception { 
@@ -164,5 +133,27 @@ public class ClientController {
 	public void clientInfoGET(@RequestParam("code") String code, Model model) throws Exception {
 		ClientVO infoClient = cService.infoClient(code);
 		model.addAttribute("infoClient", infoClient);
+	}
+	
+	// 거래처 리스트, 페이징 처리
+	@RequestMapping(value = "/clientAll", method = RequestMethod.GET)
+	public String listPageGET(Model model, PageVO vo,
+								String result,
+								HttpSession session,
+								Criteria cri) throws Exception {
+
+		session.setAttribute("viewcntCheck", true);
+		vo.setCri(cri);
+		vo.setTotalCount(cService.totalClientCount());
+		List<ClientVO> clientList = cService.clientListPage(vo);
+		
+		logger.debug(" 확인 :"+vo);
+		
+		logger.debug("PAGE + "+ vo);
+		
+		model.addAttribute("pageVO", vo);
+		model.addAttribute("clientList", clientList);
+
+		return "/client/clientAll";
 	}
 }
