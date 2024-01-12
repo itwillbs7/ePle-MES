@@ -51,10 +51,10 @@
 											</div>
 										</div>
 										<div class="btn-group pull-right" style="margin-bottom: 10px">
-											<button type="submit" class="btn btn-primary" id="search">
+											<button type="button" class="btn btn-primary" onclick="doSearch()">
 												<b>검색</b>
 											</button>
-											<button type="reset" class="btn btn-secondary" id="reset">
+											<button type="button" class="btn btn-secondary" onclick="resetSearch()">
 												<b>초기화</b>
 											</button>
 										</div>
@@ -257,6 +257,38 @@
 		            alert("코드를 찾을 수 없습니다.");
 		        }
 		    });
+			
+		  	//초기화 아이콘 누르면 초기화
+		    function reset() {
+		    location.href = "${pageContext.request.contextPath}/product/productList";
+		    }
+
+		    //검색취소버튼 입력칸 초기화 및 placeholder값 재지정
+		    function resetSearch() {
+		    	$("#productCode").val("");
+		        $("#productName").val("");
+
+		        $("#productCode").attr("placeholder", "완제품코드");
+		        $("#productName").attr("placeholder", "완제품명(클릭)");
+		    }
+			
+		  	//검색하기
+		    function doSearch() {
+		            var query = {"search" : $("#productCode").val()};
+		            $.ajax({
+		                url : "${pageContext.request.contextPath}/product/productList",
+		                type : "get",
+		                data : query,
+		                dataType : "text",
+		                success : function(data){
+		                    if (query.search == "") {
+		                        location.href = "${pageContext.request.contextPath}/product/productList";
+		                    } else {
+		                        location.href = "${pageContext.request.contextPath}/product/productList?search=" + $("#productCode").val();
+		                    }
+		                }
+		            });
+		    }
 		 	
 		});
 

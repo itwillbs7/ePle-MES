@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
+import com.itwillbs.domain.Warehouse_HistoryVO;
 import com.itwillbs.persistence.ProductDAO;
 
 @Service
@@ -58,19 +59,17 @@ public class ProductServiceImpl implements ProductService {
 	public List<MAPDVO> SearchProduct(Criteria cri, String mapdCode, String mapdName) throws Exception {
 		return pdao.SearchProduct(cri, mapdCode, mapdName);
 	}
-	
-	// 모든 품목 수
-	@Override
-	public int productListCount(String mapdCode, String mapdName) throws Exception {
-		return pdao.getProductCount(mapdCode, mapdName);
-	}
 
 	@Override
 	public MAPDVO infoProduct(String code) throws Exception {
 		return pdao.infoProduct(code);
 	}
 	
-	
+	// 전체 품목 데이터 수
+	@Override
+	public int intProductCount(MAPDVO mvo) throws Exception {
+		return pdao.getInProductCount(mvo);
+	}
 	
 	
 }

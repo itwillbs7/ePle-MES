@@ -3,24 +3,6 @@
 
 <!-- ProductMapper.xml -->
 <mapper namespace="com.itwillbs.mapper.ProductMapper">
-
-   <!-- 디비 컬럼과 도메인 객체 매핑 -->
-   <!-- 프로퍼티명과 컬럼명 동일 시 생략가능  -->
-    <resultMap type="com.itwillbs.domain.MAPDVO" id="product">
-    	<result property="code" column="code"/>
-    	<result property="group_id" column="group_id"/>
-    	<result property="code_id" column="code_id"/>
-    	<result property="name" column="name"/>
-    	<result property="size" column="size"/>
-    	<result property="unit" column="unit"/>
-    	<result property="inprice" column="inprice"/>
-    	<result property="outprice" column="outprice"/>
-    	<result property="reg_emp" column="reg_emp"/>
-    	<result property="reg_date" column="reg_date"/>
-    	<result property="update_emp" column="update_emp"/>
-    	<result property="update_date" column="update_date"/>
-    	<result property="active" column="active"/>
-    </resultMap>
     
     <!-- 품목 리스트 전체 조회 -->
     <select id="selectProductList" resultType="MAPDVO">

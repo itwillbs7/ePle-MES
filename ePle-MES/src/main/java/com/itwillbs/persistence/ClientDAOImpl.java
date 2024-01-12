@@ -1,6 +1,8 @@
 package com.itwillbs.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -42,10 +44,28 @@ public class ClientDAOImpl implements ClientDAO {
         return sqlSession.delete(NAMESPACE + ".deleteClients", codes);
     }
 
-	@Override
-	public List<ClientVO> getClientListPage(Criteria cri) throws Exception {
-		return null;
-	}
+	
+    @Override
+    public List<ClientVO> getClientListPage(Criteria cri) throws Exception {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("cri", cri);
+        return sqlSession.selectList(NAMESPACE + ".clientListPage", paramMap);
+    }
+
+    @Override
+    public int totalClientCount() throws Exception {
+        return sqlSession.selectOne(NAMESPACE + ".totalClientCount");
+    }
+    
+    @Override
+    public List<ClientVO> clientListByCategory(String searchCategory, String searchKeyword, Criteria cri) throws Exception {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("searchCategory", searchCategory);
+        paramMap.put("searchKeyword", searchKeyword);
+        paramMap.put("cri", cri);
+        return sqlSession.selectList(NAMESPACE + ".clientListByCategory", paramMap);
+    }
+	
 
 	@Override
 	public int getClientCount() throws Exception {
@@ -67,7 +87,7 @@ public class ClientDAOImpl implements ClientDAO {
 	public ClientVO infoClient(String code) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".infoClient", code);
 	}
-    
-    
+
+
 
 }

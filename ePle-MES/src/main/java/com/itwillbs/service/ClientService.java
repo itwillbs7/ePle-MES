@@ -16,9 +16,13 @@ public interface ClientService {
 	
 	public int deleteClients(String[] codes) throws Exception;
 	
+	
 	public List<ClientVO> clientListPage(Criteria cri) throws Exception;
 	
 	public int totalClientCount() throws Exception;
+	
+	public List<ClientVO> clientListByCategory(String searchCategory, String searchKeyword, Criteria cri) throws Exception;
+	
 	
 	public List<ClientVO> getInfo(String[] codes) throws Exception;
 	

@@ -116,12 +116,22 @@ public class ClientController {
     // 페이징 처리 - 거래처 리스트 - GET
     @RequestMapping(value = "/clientPage", method = RequestMethod.GET)
     public String listPageGET(Model model,
-                              @ModelAttribute("result") String result,
-                              HttpSession session,
-                              Criteria cri) throws Exception {
+                               @ModelAttribute("result") String result,
+                               HttpSession session,
+                               Criteria cri,
+                               @RequestParam(required = false) String searchCategory,
+                               @RequestParam(required = false) String searchKeyword) throws Exception {
         session.setAttribute("viewcntCheck", true);
 
-        List<ClientVO> clientList = cService.clientListPage(cri);
+        List<ClientVO> clientList;
+
+        if (searchCategory != null && searchKeyword != null) {
+            // 거래처명을 기준으로 필터링된 데이터 가져오기
+            clientList = cService.clientListByCategory(searchCategory, searchKeyword, cri);
+        } else {
+            // 전체 데이터 가져오기
+            clientList = cService.clientListPage(cri);
+        }
 
         PageVO pageVO = new PageVO();
         pageVO.setCri(cri);
