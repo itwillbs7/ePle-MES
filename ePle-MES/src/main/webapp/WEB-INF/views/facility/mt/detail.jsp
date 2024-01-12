@@ -40,7 +40,7 @@
 									<ul class="list-group">
 										<li class="list-group-item"><b>코드</b><br>${info.code}</li>
 										<li class="list-group-item"><b>모델</b><br>${info.model}</li>
-										<li class="list-group-item"><b>이름</b><br>${info.name}</li>
+										<li class="list-group-item"><b>이름</b><br>${info.mapd.name}</li>
 										<li class="list-group-item"><b>카테고리</b><br>${info.group_name}</li>
 										<li class="list-group-item"><b>상태</b><br> <c:choose>
 												<c:when test="${info.active}">
@@ -51,11 +51,10 @@
 												</c:otherwise>
 											</c:choose></li>
 										<li class="list-group-item"><b>구매 일자</b><br> <fmt:formatDate
-												value="${info.purchase_date}" dateStyle="full" /></li>
+												value="${info.date}" dateStyle="full" /></li>
 										<li class="list-group-item"><b>구매 금액</b><br> <fmt:formatNumber
-												value="${info.inprice}" type="currency" /></li>
+												value="${info.mapd.inprice}" type="currency" /></li>
 										<li class="list-group-item"><b>라인</b><br>${info.line_name}</li>
-										<li class="list-group-item"><b>제조사</b><br>${info.client_name}</li>
 									</ul>
 								</div>
 							</div>

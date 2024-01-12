@@ -194,15 +194,6 @@
 									<a class="dropdown-item" href="javascript:changePageSize(10);">10</a> <a class="dropdown-item" href="javascript:changePageSize(25);">25</a> <a class="dropdown-item" href="javascript:changePageSize(50);">50</a> <a class="dropdown-item" href="javascript:changePageSize(100);">100</a>
 								</div>
 							</div>
-							&nbsp;
-							<div class="dropdown">
-								<button type="button" id="searchCategoryButton" class="btn btn-secondary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-									내보내기 <span class="caret"></span>
-								</button>
-								<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="javascript:exportData(1);">PDF</a> <a class="dropdown-item" href="javascript:exportData(2);">CSV</a> <a class="dropdown-item" href="javascript:exportData(3);">인쇄</a>
-								</div>
-							</div>
 						</div>
 						<div class="btn-group pull-right" style="margin-bottom: 10px">
 							<button type="button" class="btn btn-success" id="add">
@@ -255,7 +246,7 @@
 											<th>${i.order.code_name}</th>
 											<!-- 상세 정보 이동! -->
 											<th id="tableTitle${i.code}">${i.mapd.name}</th>
-											<th>${i.line_name}</th>
+											<th id="tableinfo${i.code}">${i.line_name}</th>
 											<td style="">
 												<!-- 옵션 -->
 												<div class="dropdown">

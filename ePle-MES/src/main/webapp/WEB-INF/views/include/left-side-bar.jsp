@@ -4,7 +4,9 @@
 
 	<!-- 로고(메인 페이지 이동) -->
 	<div class="brand-logo">
-		<a href="/"> <!-- 로고 이미지 svg --> <img src="${pageContext.request.contextPath}/resources/vendors/images/deskapp-logo.svg" alt="" class="dark-logo" /> <img src="${pageContext.request.contextPath}/resources/vendors/images/deskapp-logo-white.svg" alt="" class="light-logo" />
+		<a href="/"> <!-- 로고 이미지 svg --> 
+			<img src="${pageContext.request.contextPath}/resources/images/dark.png" alt="" class="dark-logo" />
+			<img src="${pageContext.request.contextPath}/resources/images/white.png" alt="" class="light-logo" />
 		</a>
 
 		<!-- 메뉴 사이드바 닫기 -->
@@ -56,6 +58,7 @@
 					<ul class="submenu">
 						<li><a href="/facility/info/list">설비 정보</a></li>
 						<li><a href="/facility/mt/main">보전</a></li>
+						<li><a href="/facility/mt/status">설비 모니터링</a></li>
 						<li><a href="/facility/order/list">발주 신청</a></li>
 					</ul></li>
 

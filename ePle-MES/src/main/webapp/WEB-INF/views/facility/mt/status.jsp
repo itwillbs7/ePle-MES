@@ -73,7 +73,7 @@
 																		href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b
 																			class="text-blue">${i.fac_code}</b></a></th>
 																	<th>${i.facility.model}</th>
-																	<th>${i.facility.name}</th>
+																	<th>${i.facility.mapd.name}</th>
 																	<th>
 																		<c:choose>
 																			<c:when test="${empty i.facility.line_name}">
@@ -93,7 +93,7 @@
 																		href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b
 																			class="text-blue">${i.fac_code}</b></a></th>
 																	<th>${i.facility.model}</th>
-																	<th>${i.facility.name}</th>
+																	<th>${i.facility.mapd.name}</th>
 																	<th><c:choose>
 																			<c:when test="${empty i.facility.line_name}">
 																				없음
@@ -134,8 +134,8 @@
 												<c:when test="${orderCount == 0}">
 													<!-- 리스트가 없을 때 작동 -->
 													<tr class="table-warning">
-														<td colspan="6" class="text-center"><b>등록된 보전 신청이
-																없습니다.</b></td>
+														<th colspan="6" class="text-center"><b>등록된 보전 신청이
+																없습니다.</b></th>
 													</tr>
 												</c:when>
 												<c:otherwise>
@@ -144,15 +144,15 @@
 															<th><a
 																href="javascript:openPage('/facility/mt/detail?code=${i.fac_code}', 500, 600)"><b
 																	class="text-blue">${i.fac_code}</b></a></th>
-															<td>${i.facility.model}</td>
-															<td>${i.facility.name}</td>
-															<td><c:choose>
+															<th>${i.facility.model}</td>
+															<th>${i.facility.mapd.name}</td>
+															<th><c:choose>
 																	<c:when test="${empty i.facility.line_name}">없음</c:when>
 																	<c:otherwise>${i.facility.line_name}</c:otherwise>
-																</c:choose></td>
-															<td>${i.mt_subject}</td>
-															<td><fmt:formatDate value="${i.reg_date}"
-																	type="both" /></td>
+																</c:choose></th>
+															<th>${i.mt_subject}</th>
+															<th><fmt:formatDate value="${i.reg_date}"
+																	type="both" /></th>
 														</tr>
 													</c:forEach>
 													<!-- 리스트가 있을 때 작동 -->

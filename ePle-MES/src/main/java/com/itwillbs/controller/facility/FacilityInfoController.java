@@ -139,9 +139,12 @@ public class FacilityInfoController {
 	}
 	
 	@PostMapping(value = "/update")
-	public String facilityUpdatePOST(FacilityVO vo, String active, RedirectAttributes rttr) throws Exception {
+	public String facilityUpdatePOST(String code, String line, String active, RedirectAttributes rttr) throws Exception {
 		// 설비 수정 액션
 		String link = "";
+		FacilityVO vo = new FacilityVO();
+		vo.setCode(code);
+		vo.setLine_code(line);
 		if(active == null || active.equals("")) vo.setActive(false);
 		else vo.setActive(true);
 		if(fService.updateFacility(vo) >= 1) {

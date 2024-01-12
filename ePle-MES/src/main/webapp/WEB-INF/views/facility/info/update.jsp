@@ -32,7 +32,7 @@
 							<div class="form-group row">
 								<label class="col-sm-12 col-md-2 col-form-label">uph</label>
 								<div class="col-sm-12 col-md-10">
-									<input class="form-control" name="uph" value="1" type="number" min="1" max="100" required>
+									<input class="form-control" name="uph" value="${info.uph}" type="number" min="1" max="1000" required>
 								</div>
 							</div>
 						</c:if>

@@ -268,7 +268,7 @@
 												}
 											});
 
-							// 삭제
+							// 예약
 							$("#reservation")
 									.click(
 											function() {

@@ -20,7 +20,6 @@
 			<div class="pd-20">
 				<!-- 폼 -->
 				<form method="post" action="/facility/mt/routine">
-
 					<!-- 입력 구간 -->
 					<div class="row">
 						<div class="col-sm-12 mb-3">

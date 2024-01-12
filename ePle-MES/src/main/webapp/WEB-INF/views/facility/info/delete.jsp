@@ -25,7 +25,7 @@
 						<div class="form-group">
 							<ul class="list-group">
 								<c:if test="${!empty info}">
-									<li class="list-group-item">${info.code} : ${info.name}(${info.model})</li>
+									<li class="list-group-item">${info.code} : ${info.mapd.name}(${info.line.name})</li>
 									<input type="hidden" name="codeList" value="${info.code}">
 								</c:if>
 							</ul>
