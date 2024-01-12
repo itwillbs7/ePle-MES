@@ -112,6 +112,8 @@
         
 		$(document).ready(function() {
 			
+			window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight());
+			
 			var formObj = $('form[role="form"]');
 			var isOk = false; // 중복검사용
  	        

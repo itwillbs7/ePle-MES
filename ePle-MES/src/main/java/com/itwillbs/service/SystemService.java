@@ -13,8 +13,11 @@ public interface SystemService {
 	public void registCommons(CommonVO cvo) throws Exception;
 	public List<CommonVO> getCommons() throws Exception;
 	public CommonVO getOneCommon(CommonVO cvo) throws Exception;
+	public List<CommonVO> getSomeCommons(Map<String, Object> index) throws Exception;
+	public List<String> getDistinctCommon(String category) throws Exception; 
 	public void updateCommon(Map<String, Object> newCommon) throws Exception; 
 	public void deleteCommon(CommonVO cvo) throws Exception;
+	public int deleteSomeCommons(Map<String, Object> indexMap) throws Exception;
 	public List<CommonVO> getKeywordCommons(Map<String, Object> categoryAndKeyword) throws Exception;
 	public List<CommonVO> getDepCommonVO() throws Exception;
 	public List<CommonVO> getPosCommonVO() throws Exception;
@@ -22,6 +25,7 @@ public interface SystemService {
 	public int getCommonTotalCount() throws Exception;
 	public List<CommonVO> getKeywordCommonsPage(Map<String, Object> searchDataMap) throws Exception;
 	public int getCommonSearchCount (Map<String, Object> categoryAndKeyword) throws Exception;
+	public int duplicateCommonCheck(CommonVO cvo) throws Exception;
 	
 	
 	// 사용자(사원)

@@ -107,17 +107,17 @@
 											</td>
 																						<!-- 상세 정보 이동! -->
 											<td><a href="#" onclick="openPage('/system/user/detail?index=${vo.code}', 400, 700);"><b class="text-blue" id="tableTitle1">${vo.code }</b></a></td>
-											<td>${vo.name }</td>
+											<td><b>${vo.name }<b></b></td>
 											<td>
-												<c:if test="${vo.auth ==1}">사원</c:if>
-												<c:if test="${vo.auth ==2}">매니저</c:if>
-												<c:if test="${vo.auth ==3}">관리자</c:if>
+												<c:if test="${vo.auth ==1}"><b>사원</b></c:if>
+												<c:if test="${vo.auth ==2}"><b>매니저</b></c:if>
+												<c:if test="${vo.auth ==3}"><b>관리자</b></c:if>
 											</td>
-											<td>${vo.id }</td>
-											<td>${vo.dep_group }</td>
-											<td>${vo.pos_group }</td>
-											<td>${vo.phone }</td>
-											<td><c:if test="${vo.active==1 }">Y</c:if><c:if test="${vo.active==0 }">N</c:if></td>
+											<td><b>${vo.id }</b></td>
+											<td><b>${vo.dep_group }</b></td>
+											<td><b>${vo.pos_group }</b></td>
+											<td><b>${vo.phone }</b></td>
+											<td><c:if test="${vo.active==1 }"><b>Y</b></c:if><c:if test="${vo.active==0 }"><b>N</b></c:if></td>
 											<td style="">
 											<!-- 옵션 -->
 												<div class="dropdown">

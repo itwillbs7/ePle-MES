@@ -46,6 +46,11 @@
 	SELECT COUNT(*) FROM EMPLOYEES 
 	WHERE phone = #{phone}
 </select>
+<select id="duplicateCommonCheck" parameterType="CommonVO" resultType="int">
+	SELECT COUNT(*) FROM COMMON_CODE
+	WHERE group_id = #{group_id}
+	AND code_id = #{code_id}
+</select>
 
 <!-- ajax -->
 
@@ -68,6 +73,20 @@
  <select id="selectOneCommon" resultType="CommonVO">
  	select * from COMMON_CODE where group_id = #{group_id} and code_id = #{code_id}
  </select>
+ <select id="selectSomeCommons" resultType="CommonVO" parameterType="java.util.Map">
+    SELECT * FROM COMMON_CODE
+    WHERE GROUP_ID IN
+    <foreach collection="groupIds" item="groupId" open="(" separator="," close=")">
+        #{groupId}
+    </foreach>
+    AND CODE_ID IN
+    <foreach collection="codeIds" item="codeId" open="(" separator="," close=")">
+        #{codeId}
+    </foreach>
+ </select>
+ <select id="selectDistinctCommon" resultType="String" parameterType="String">
+ 	SELECT DISTINCT ${value} FROM COMMON_CODE
+ </select>
  <update id="updateCommon" parameterType="java.util.Map">
  	update COMMON_CODE set group_id = #{new_group_id}, group_name = #{new_group_name}, code_id = #{new_code_id}, 
  	code_name = #{new_code_name}, sortorder = #{new_sortorder}, active = #{new_active} 
@@ -75,6 +94,17 @@
  </update>
  <delete id="deleteCommon">
  	delete from COMMON_CODE where group_id = #{group_id} and code_id = #{code_id}
+ </delete>
+ <delete id="deleteSomeCommons" parameterType="java.util.Map">
+ 	DELETE FROM COMMON_CODE 
+ 	WHERE GROUP_ID IN 
+	<foreach collection="groupIds" item="groupId" open="(" separator="," close=")">
+        #{groupId} 
+    </foreach>
+    AND CODE_ID IN 
+    <foreach collection="codeIds" item="codeId" open="(" separator="," close=")">
+        #{codeId}
+    </foreach>
  </delete>
  <insert id="insertUser">
  	insert into EMPLOYEES (code,id,dep_group,pos_group,dep_id,pos_id,pw,name,hiredate,phone,email,address,active,auth)
@@ -222,7 +252,7 @@
 	 			code_id like #{keyword}
 	 		</if>
 	 		<if test="category == 'code_name' ">
-	 			code_name like #keyword}
+	 			code_name like #{keyword}
 	 		</if>
 		</where>
 	</if> 	

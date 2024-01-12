@@ -43,6 +43,20 @@ public class SystemDAOImpl implements SystemDAO {
 		logger.debug("cvo : " + sqlSession.selectOne(NAMESPACE+".selectOneCommon", cvo));
 		return sqlSession.selectOne(NAMESPACE+".selectOneCommon", cvo);
 	}
+	
+	@Override
+	public List<CommonVO> getSomeCommons(Map<String, Object> index) throws Exception {
+		logger.debug("getSomeCommons 실행");
+		return sqlSession.selectList(NAMESPACE+".selectSomeCommons", index);
+	}
+
+	@Override
+	public List<String> getDistinctCommon(String category) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("getDistinctCommon 실행");
+		logger.debug("category : " + category);
+		return sqlSession.selectList(NAMESPACE+".selectDistinctCommon", category);
+	}
 
 	@Override
 	public void updateCommon(Map<String, Object> newCommon) throws Exception {
@@ -59,6 +73,13 @@ public class SystemDAOImpl implements SystemDAO {
 		logger.debug("deleteCommon 실행");
 		logger.debug("cvo : " + cvo.toString());
 		sqlSession.delete(NAMESPACE+".deleteCommon", cvo);
+	}
+
+	@Override
+	public int deleteSomeCommons(Map<String, Object> indexMap) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("deleteSomeCommons 실행");
+		return sqlSession.delete(NAMESPACE+".deleteSomeCommons", indexMap);
 	}
 
 	@Override
@@ -192,6 +213,13 @@ public class SystemDAOImpl implements SystemDAO {
 		// TODO Auto-generated method stub
 		logger.debug("duplicatePhoneCheck 실행");
 		return sqlSession.selectOne(NAMESPACE+".duplicatePhoneCheck", phoneMap);
+	}
+
+	@Override
+	public int duplicateCommonCheck(CommonVO cvo) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("duplicateCommonCheck 실행");
+		return sqlSession.selectOne(NAMESPACE+".duplicateCommonCheck", cvo);
 	}
 	
 	

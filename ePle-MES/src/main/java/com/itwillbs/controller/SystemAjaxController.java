@@ -1,6 +1,7 @@
 package com.itwillbs.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.itwillbs.domain.CommonVO;
 import com.itwillbs.service.SystemServiceImpl;
 
 @RestController
@@ -42,6 +44,31 @@ public class SystemAjaxController {
 		resultMap.put("phoneResult", phoneResult);
 		
 		return ResponseEntity.ok(resultMap);
+	}
+	
+	@GetMapping(value = "/getDistinctCommon")
+	public ResponseEntity<List<String>> getDistinctCommon(
+			@RequestParam("category") String category) throws Exception{
+		logger.debug("getDistinctCommon 호출");
+		logger.debug("category : " + category);
+		
+		// 카테고리(공통코드 컬럼명)에 해당하는 데이터 불러오기
+		List<String> categoryList = sService.getDistinctCommon(category);
+		
+		return ResponseEntity.ok(categoryList);
+	}
+	
+	@GetMapping(value = "/checkDuplicateCommon")
+	public ResponseEntity<Integer> checkDuplicateCommon(
+			CommonVO cvo
+			) throws Exception{
+		
+		logger.debug(cvo.toString());
+		
+		// 중복확인 결과 : 존재X=0
+		int result = sService.duplicateCommonCheck(cvo);
+		
+		return ResponseEntity.ok(result);
 	}
 
 }

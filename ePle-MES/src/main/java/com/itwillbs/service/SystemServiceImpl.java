@@ -42,6 +42,20 @@ public class SystemServiceImpl implements SystemService {
 		logger.debug("getCommons 실행");
 		return sdao.getOneCommon(cvo);
 	}
+	
+	@Override
+	public List<CommonVO> getSomeCommons(Map<String, Object> index) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("getSomeCommons 실행");
+		return sdao.getSomeCommons(index);
+	}
+
+	@Override
+	public List<String> getDistinctCommon(String category) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("getDistinctCommon 실행");
+		return sdao.getDistinctCommon(category);
+	}
 
 	@Override
 	public void updateCommon(Map<String, Object> newCommon) throws Exception {
@@ -58,6 +72,13 @@ public class SystemServiceImpl implements SystemService {
 		logger.debug("cvo : " + cvo.toString());
 		sdao.deleteCommon(cvo);
 		
+	}
+
+	@Override
+	public int deleteSomeCommons(Map<String, Object> indexMap) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("deleteSomeCommons 실행");
+		return sdao.deleteSomeCommons(indexMap);
 	}
 
 	@Override
@@ -204,6 +225,13 @@ public class SystemServiceImpl implements SystemService {
 		Map<String, Object> phoneMap = new HashMap<String, Object>();
 		phoneMap.put("phone", phone);
 		return sdao.duplicatePhoneCheck(phoneMap);
+	}
+
+	@Override
+	public int duplicateCommonCheck(CommonVO cvo) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("duplicateCommonCheck 실행");
+		return sdao.duplicateCommonCheck(cvo);
 	}
 
 	

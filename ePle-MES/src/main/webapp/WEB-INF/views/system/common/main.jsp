@@ -11,6 +11,7 @@
 	<%@ include file="../../include/header.jsp"%>
 	<%@ include file="../../include/right-side-bar.jsp"%>
 	<%@ include file="../../include/left-side-bar.jsp"%>
+	<%@ include file="../../include/datatable.jsp"%>
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
@@ -33,20 +34,19 @@
 									<form id="accordion-search" method="post" action="/system/common/main">
 											<div class="form-group row">
 												<div class="col-sm-5 col-md-10">
-													<select class="custom-select col-2" name="category">
+													<select class="custom-select col-2" name="category" onchange="return onchangeCategory(this);">
 														<option selected="null">카테고리</option>
 														<option value="group_id">그룹ID</option>
 														<option value="group_name">그룹명</option>
 														<option value="code_id">코드ID</option>
 														<option value="code_name">코드명</option>
 													</select>
-													<input class="form-group" type="text" placeholder="검색어" name="keyword">
+													<select class="custom-select col-2" name="keyword">
+														<option selected="null">검색어</option>
+													</select>
 													<lable class="btn-group pull-right">
-													<button type="submit" class="btn btn-primary" id="search">
+													<button type="submit" class="btn btn-primary" id="searchBtn">
 														<b>검색</b>
-													</button>
-													<button type="reset" class="btn btn-secondary" id="reset">
-														<b>초기화</b>
 													</button>
 													</lable>
 												</div>
@@ -65,9 +65,9 @@
 							<button type="button" class="btn btn-success" id="add">
 								<b>추가</b>
 							</button>
-							<button type="button" class="btn btn-warning" id="update">
+							<!-- <button type="button" class="btn btn-warning" id="update">
 								<b>수정</b>
-							</button>
+							</button> -->
 							<button type="button" class="btn btn-danger" id="delete">
 								<b>삭제</b>
 							</button>
@@ -80,14 +80,13 @@
 									<tr>
 										<td style="width: 100px;">
 											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
+												<input type="checkbox" class="custom-control-input" id="tableCheckAll" value="xxx_xxx" > <label class="custom-control-label" for="tableCheckAll"></label>
 											</div>
 										</td>
 										<th>그룹ID</th>
 										<th>그룹명</th>
 										<th>코드ID</th>
 										<th>코드명</th>
-										<th>사용여부</th>
 										<th>옵션</th>
 									</tr>
 									<form role="form"><c:forEach var="cvo" items="${CommonVO }">
@@ -103,7 +102,6 @@
 											<th><b>${cvo.group_name }</b></th>
 											<th>${cvo.code_id }</th>
 											<th>${cvo.code_name }</th>
-											<td><c:if test="${cvo.active==1 }"><b>Y</b></c:if><c:if test="${cvo.active==0 }"><b>N</b></c:if></td>
 											<td style="">
 											<!-- 옵션 -->
 												<div class="dropdown">
@@ -112,9 +110,9 @@
 													<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 														<!-- 링크 설정 -->
 														<!-- 수정 -->
-														<a class="dropdown-item" href="javascript:openPage('/system/common/update?index=${cvo.group_id }_${cvo.code_id }', 400, 700)"><i class="dw dw-edit2"></i> 수정</a>
+														<%-- <a class="dropdown-item" href="javascript:openPage('/system/common/update?index=${cvo.group_id }_${cvo.code_id }', 400, 700)"><i class="dw dw-edit2"></i> 수정</a> --%>
 														<!-- 삭제 -->
-														<a class="dropdown-item" href="javascript:openPage('/system/common/delete?index=${cvo.group_id }_${cvo.code_id }', 400, 700)"><i class="dw dw-delete-3"></i> 삭제</a>
+														<a class="dropdown-item" href="javascript:openPage('/system/common/delete?indexes=${cvo.group_id }_${cvo.code_id }', 400, 700)"><i class="dw dw-delete-3"></i> 삭제</a>
 													</div>
 												</div>
 											</td>
@@ -183,13 +181,57 @@
 				<div class="footer-wrap pd-20 mb-20 card-box">
 					ePle MES made by <a href="https://github.com/dropways" target="_blank">아이티윌 부산 2023년 7월 프로젝트 2차 1조</a>
 				</div>
-				<%@ include file="../../include/footer.jsp"%>
-				<%@ include file="../../include/datatable.jsp"%>
+				
+				
 			</div>
 		</div>
 	</div>
 
 	<script type="text/javascript">
+	
+	// 검색 카테고리 onchange 시 실행 함수
+	function onchangeCategory(selectElement) {
+		
+		// 카테고리 선택 값
+		var categoryVal = selectElement.value;
+		var keywordSelect = document.querySelector('[name="keyword"]');
+		// 선택에 따른 조건부 실행
+		if (categoryVal === 'null') {
+			return false;			
+		}
+		
+		$.ajax({
+				type: 'GET', 
+				url: '/systemAjax/getDistinctCommon?category='+categoryVal, 
+				success: function(data) {
+					console.log(data);
+			        // 기존의 옵션 제거
+			        while (keywordSelect.options.length > 0) {
+			            keywordSelect.remove(0);
+			        }
+			        
+			        data.forEach(function(value,index) {
+			        	
+				      addOption(keywordSelect, value);
+				      
+			        });
+			        
+			        
+				}
+				
+		}); // ajax
+		
+	} // function
+	
+	// select 옵션 추가 함수
+	function addOption(selectElement, value) {
+		
+		var option = document.createElement('option');
+		option.value = value;
+        option.text = value;
+        selectElement.add(option);
+		
+	} // function
 
 	// 페이지 이동 (POST)
 	function postPage(i,category,keyword) {
@@ -244,7 +286,7 @@
 				
 				if(userConfirm) {
 					
-					openPage("/system/common/delete?index="+index,400, 700);
+					openPage("/system/common/delete?indexes="+index,400, 700);
 				}
 				
 			}
@@ -268,8 +310,8 @@
 				}
 				if (n == 0) {
 					alert('수정을 원하는 행을 선택해주세요!');
+					return;
 				}
-				alert(index);
 				
 				// 가로, 세로 설정
 				openPage("/system/common/update?index="+index, 400, 700);
@@ -278,30 +320,30 @@
 			// 삭제
 			$("#delete").click(function() {
 				
-				// 체크된 체크박스의 갯수
-				var n = $( "input[type=checkbox]:checked" ).length;
-				var index = $( "input[type=checkbox]:checked" ).val();
+				 // 체크박스 값 저장 배열
+			    var selectedIndexes = [];
+
+				 // 선택된 체크박스
+			    $("input[type=checkbox]:checked").each(function() {
+			        selectedIndexes.push($(this).val());
+			    });
 				
-				if (n > 1) {
-					alert('삭제는 한 번에 1개씩만 가능합니다!');
-					return;
-				}
-				if (n == 0) {
-					alert('n : ' + n);
-					alert('삭제를 원하는 행을 선택해주세요!');
-				}
-				alert(index);
+			    // 체크된 체크박스의 갯수 확인
+			    if (selectedIndexes.length > 0) {
+			        // 인덱스 문자열 컨트롤러로 전달
+			        var indexes = selectedIndexes.join(",");
+		            // 선택된 인덱스를 컨트롤러로 전달
+		            openPage("/system/common/delete?indexes="+indexes, 400, 700);
+			        
+			    } else {
+			        alert('삭제를 원하는 행을 선택하세요!');
+			    }			    
 				
-				var userConfirm = confirm('삭제하시겠습니까?');
-				if (userConfirm) {
-					// 가로, 세로 설정
-					openPage("/system/common/delete?index="+index, 400, 700);
-				}
-				
-			});
+			}); // delete click
 			
 			
-		});
+		}); // jquery
 	</script>
+	<%@ include file="../../include/footer.jsp"%>
 </body>
 </html>
