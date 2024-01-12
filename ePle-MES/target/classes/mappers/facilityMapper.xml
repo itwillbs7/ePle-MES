@@ -189,8 +189,9 @@
 	<!-- 상세 검색 -->
 
 	<select id="getOrderCode" resultType="String">
-		SELECT code FROM ORDERS
-		WHERE material = #{material} and status = '완료' order by code limit 0, 1
+		SELECT o.code FROM ORDERS o 
+		LEFT JOIN STOCK_VIEW s ON s.code = o.material 
+		WHERE material = #{material} and o.status = '완료' and s.total > 0 order by o.code limit 0, 1
 	</select>
 
 	<select id="getRecentHistory" resultType="String">
@@ -309,9 +310,8 @@
 	</select>
 
 	<select id="getStockList" resultMap="st">
-		SELECT s.code, s.name,
-		s.total
-		FROM STOCK_VIEW s
+		SELECT s.code, s.name, s.total 
+		from (SELECT code, name, sum(total) as total from STOCK_VIEW GROUP BY name) as s
 		LEFT OUTER JOIN MAPD m ON s.code = m.code
 		LEFT
 		OUTER JOIN COMMON_CODE c ON m.group_id = c.group_id AND m.code_id =
