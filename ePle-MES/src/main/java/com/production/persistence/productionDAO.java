@@ -3,6 +3,7 @@ package com.production.persistence;
 import java.util.List;
 
 import com.production.domain.BOMVO;
+import com.production.domain.ajaxSearchVO;
 import com.production.domain.instructionVO;
 import com.production.domain.prodRequestVO;
 
@@ -15,7 +16,7 @@ public interface productionDAO {
 
 	public List<String> getRequest() throws Exception;
 
-	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request, String[] dateRange) throws Exception;
+	public List<instructionVO> ajaxSearch(ajaxSearchVO vo) throws Exception;
 
 	public List<prodRequestVO> getRequestList() throws Exception;
 
@@ -36,4 +37,6 @@ public interface productionDAO {
 	public prodRequestVO getRequest(String code) throws Exception;
 
 	public List<BOMVO> getBOM(String mapd_code) throws Exception;
+
+	public ajaxSearchVO ajaxSearchCount(ajaxSearchVO vo) throws Exception;
 }
