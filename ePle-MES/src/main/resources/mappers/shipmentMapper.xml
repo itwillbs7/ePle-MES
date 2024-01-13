@@ -365,7 +365,7 @@
 
 	<!-- 수주정보리스트로 가져오기(큐알코드용) -->
 	<select id="getRequestInfoList" resultType="RequestVO">
-		SELECT r.*, c.name clientName, m.name productName,
+		SELECT distinct r.*, c.name clientName, m.name productName,
 		c.address startDate ,c.address2 endDate, c.tel startDead
 		from REQUEST r
 		join
