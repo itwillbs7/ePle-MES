@@ -122,7 +122,7 @@ public class RequestController {
 				vo.setCode(code);
 		
 		// vo에 세션 아이디 추가하기
-		String id = (String) session.getAttribute("code");
+		String id = (String) session.getAttribute("id");
 		vo.setReg_emp(id);
 //		String id = "test";
 //		vo.setReg_emp(id);
@@ -270,7 +270,7 @@ public class RequestController {
 		logger.debug("vo "+vo);
 		
 		// 사번 수집
-		String id = (String) session.getAttribute("code");
+		String id = (String) session.getAttribute("id");
 		vo.setUpdate_emp(id);
 //		String id = "id";
 		int result = rService.updateRequest(vo, id);

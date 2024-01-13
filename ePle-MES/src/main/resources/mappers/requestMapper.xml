@@ -16,7 +16,38 @@
 		<result property="amount" column="r.amount"/>
 	</resultMap>
 
-
+	<select id="listPage" resultType="RequestVO" >
+	  <![CDATA[
+		SELECT r.*, c.name clientName, m.name productName, SUM(s.total) stock
+FROM REQUEST r 
+JOIN CLIENT c ON r.client_code = c.code 
+JOIN STOCK_VIEW s ON r.product = s.code 
+JOIN MAPD m ON r.product = m.code 
+WHERE r.status = '등록'
+GROUP BY r.code, c.name, m.name
+HAVING SUM(s.total) < r.amount
+ORDER BY r.reg_date DESC
+		LIMIT #{startPage},#{pageSize}
+		  ]]>
+		
+	</select>
+	
+		<!-- 전체 글 개수 조회 -->
+	<select id="countRequest" resultType="int">
+  <![CDATA[
+  	SELECT COUNT(*) 
+	FROM (
+  	SELECT r.code
+ 	 FROM REQUEST r 
+ 	 JOIN CLIENT c ON r.client_code = c.code 
+ 	 JOIN STOCK_VIEW s ON r.product = s.code 
+ 	 JOIN MAPD m ON r.product = m.code 
+ 	 WHERE r.status = '등록'
+ 	 GROUP BY r.code, c.name, m.name, r.amount
+ 	 HAVING SUM(s.total) < r.amount
+	) AS subquery
+  ]]>
+	</select>
 	
 	<!-- 수주정보 검색하기 -->
 	<select id="research" resultType="RequestVO" parameterType="hashMap">
