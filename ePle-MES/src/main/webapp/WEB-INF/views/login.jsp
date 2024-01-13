@@ -11,7 +11,7 @@
 	<div class="login-header box-shadow">
 		<div class="container-fluid d-flex justify-content-between align-items-center">
 			<div class="brand-logo">
-				<a href="/"> <img src="/resources/vendors/images/deskapp-logo.svg" alt="" />
+				<a href="/"> <img src="${pageContext.request.contextPath}/resources/images/dark.png" alt="" />
 				</a>
 			</div>
 		</div>
