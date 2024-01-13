@@ -36,11 +36,6 @@ font-weight: bold;
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
 									
-										<label>자재 유형</label>
-									<div class="form-group">
-										<input class="form-control" type="text" value="'원자재'" readonly>
-									</div>
-
 										<label>품목 정보</label> 
 									<div class="form-group">
 										<input class="form-control back" type="text" id="mapdCode" name="material" placeholder="품목코드" required readonly>
@@ -51,7 +46,7 @@ font-weight: bold;
 
 										<label>발주량</label> 
 									<div class="form-group">
-										<input class="form-control" type="number" name="amount" required min="1" max="100" required oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
+										<input class="form-control" type="number" name="amount" required min="1" max="999" required oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
 									</div>
 									
 										<label>요청자</label> 
