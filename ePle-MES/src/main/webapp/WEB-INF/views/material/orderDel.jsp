@@ -6,16 +6,18 @@
     <meta charset="UTF-8">
     <%@ include file="../include/head.jsp"%>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <title>창고 삭제</title>
+<style>
+</style>
+    <title>발주서 삭제</title>
 </head>
 <body>
     <!-- 콘텐츠 시작 -->
     <div class="modal-content">
-        <div class="login-box bg-white box-shadow border-radius-10">
+        <div class="container-fluid login-box bg-white box-shadow border-radius-10">
             <button type="button" class="close" onclick="window.close();">×</button>
             <!-- 타이틀 -->
             <div class="login-title">
-                <h1 class="text-center text-primary">창고 삭제</h1>
+                <h2 class="text-center" style="color: #FF8C00;">발주서 삭제</h2>
             </div>
             <!-- 폼 -->
             <form id="deleteForm" method="post">
@@ -25,24 +27,28 @@
                         <div class="form-group">
                             <table class="table table-striped">
                                 <tr>
-                                    <th>창고코드</th>
-                                    <th>구분</th>
-                                    <th>창고명</th>
-                                    <th>담당자</th>
+                                    <th>발주코드</th>
+                                    <th>품명</th>
+                                    <th>발주량</th>
+                                    <th>발주금액</th>
                                 </tr>
-                                <c:forEach items="${delInfo}" var="vo">
+                                <c:forEach items="${List}" var="vo">
                                     <tr>
-                                        <th>${vo.wh_code}</th>
-                                        <th>${vo.group_id }</th>
-                                        <th>${vo.group_name }</th>
+                                        <th>${vo.code}</th>
                                         <th>${vo.name }</th>
+                                        <th>${vo.amount } ${vo.unit }</th>
+                                        <th>${vo.price }원</th>
                                     </tr>
                                 </c:forEach>
                             </table>
                         </div>
                     </div>
                 </div>
-                <h4 class="text-center text-primary">정말로 삭제..?</h4>
+                <hr>
+                <br>
+                <h6 class="text-center">해당 발주서를 삭제하시겠습니까?</h6>
+                <br>
+                
                 <!-- 삭제 리스트 목록 -->
 
                 <!-- 버튼 -->
@@ -79,14 +85,16 @@
 
                 $.ajax({
                     type : 'POST',
-                    url : "${pageContext.request.contextPath}/warehouse/delete",
+                    url : "${pageContext.request.contextPath}/material/orderDel",
                     data : data,
                     success : function(response) {
+                    	alert("처리가 완료되었습니다.");
                         window.opener.location.reload(); 
                         window.close(); 
                     },
                     error : function(xhr, status, error) {
-						
+                    	alert("비정상적인 접근입니다.");
+                		window.close();
                     }
                 });
             });

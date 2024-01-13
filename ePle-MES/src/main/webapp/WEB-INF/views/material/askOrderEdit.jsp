@@ -5,6 +5,14 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<style>
+label {
+font-weight: bold;
+}
+.back {
+  background-color: white !important;
+}
+</style>
 <title>요청서 수정</title>
 </head>
 <body>
@@ -13,7 +21,7 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">요청서 수정</h1>
+				<h1 class="text-center" style="color: #7CB342;">요청서 수정</h1>
 			</div>
 			<!-- 폼 -->
 			<form action="/material/askOrderEdit" method="post" id="editForm">
@@ -23,27 +31,34 @@
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						
-								<div class="form-group">
 									<label>발주 코드</label> 
+								<div class="form-group">
 								<input class="form-control" type="text" name="code" id="code" value="${List.code }" readonly>
 								</div>
 								
-								<div class="form-group">
-									<!-- <label>자재 유형</label>  -->
-								</div>
 									<!-- 품목은 수정X -->
-								<div class="form-group">
 									<label>품목 정보</label> 
+								<div class="form-group">
 									<input class="form-control" type="text" id="mapdCode" name="material" placeholder="품목코드"  value="${List.material}" readonly>
+								</div>
+								<div class="form-group">
 									<input class="form-control" type="text" id="mapdName" placeholder="품명"  value="${List.name }" readonly>
 								</div>
+
+									<label>발주량</label> 
 								<div class="form-group">
-									<label>요청량</label> 
 									<input class="form-control" type="number" name="amount" required min="1" max="100" placeholder="요청량" value="${List.amount }" oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
 								</div>
-
+								
+									<label>요청자</label> 
+									<input class="form-control back" type="hidden" id="selectA" name="ask_emp" required readonly>
 								<div class="form-group">
-									<label>신청 일자</label> 
+									<input class="form-control back" type="text" id="selectB" value="${List.empName }" required readonly>
+								</div>
+									<input class="form-control back" type="hidden" id="selectC" >
+
+									<label>요청 일자</label> 
+								<div class="form-group">
 									<input class="form-control" type="text" id="" placeholder="" value="${List.date}" readonly>
 								</div>
 
@@ -74,14 +89,16 @@
 	    var popupWindow = window.open(url, '_blank', "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
 	    popupWindow.focus();
 	}
-//	$(document).ready(function() {
-//		// 등록 - 품목 리스트 (원자재)
-//	    $("#mapdCode,#mapdName").click(function() {
-//	        var url = '${pageContext.request.contextPath}/material/searchMaterial';
-//	        openPopup(url);
-//	    });
-	 
-//	});
+	
+	$(document).ready(function() {
+
+		// 등록 - 사원 리스트 (전체)
+	    $("#selectA,#selectB").click(function() {
+	        var url = '${pageContext.request.contextPath}/stock/searchEmployees';
+	        openPopup(url);
+	    });
+		
+	});
 		
 	
 		

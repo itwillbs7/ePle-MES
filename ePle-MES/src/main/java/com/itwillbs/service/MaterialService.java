@@ -32,6 +32,12 @@ public interface MaterialService {
 	 public List<WarehouseVO> orderWarehouse(WarehouseVO vo) throws Exception;
 	 // 입고등록) 창고 데이터 수 (원자재) 
 	 public int warehouseListCount(WarehouseVO vo) throws Exception;
+	 // 입고검색) 품목 목록 (전체) 
+	 public List<OrderVO> searchMAPD(OrderVO vo) throws Exception;
+	 // 입고검색) 품목 데이터 수 (전체) 
+	 public int searchMAPDCount(OrderVO vo) throws Exception;
+	 
+	/*-------------------------------------------------------------------------*/
 	 
 	 // 발주요청 리스트 (페이징)
 	 public List<OrderVO> askOrderList(OrderVO vo) throws Exception;
@@ -54,13 +60,38 @@ public interface MaterialService {
 	 // 발주요청등록) 품목 데이터 수 (원자재) 
 	 public int searchMaterialCount(OrderVO vo) throws Exception;
 	 
-	 // 발주등록) 
+	/*-------------------------------------------------------------------------*/
+	 
+	 // 발주관리 등록 
 	 public int orderAdd(OrderVO vo)throws Exception;
+	 // 발주관리 리스트 (페이징)
+	 public List<OrderVO> orderList(OrderVO vo) throws Exception;
+	 // 전체 발주관리 데이터 수
+	 public int orderListCount2(OrderVO vo) throws Exception;
+	 // 발주관리 상세
+	 public OrderVO orderInfo(String code) throws Exception;
+	 // 발주관리 수정
+	 public int orderEdit(OrderVO vo)throws Exception;
+	 // 발주관리 삭제 
+	 public List<OrderVO> delOrderInfo(String[] code_arr)throws Exception;
+	 public void orderDel(String[] code_arr) throws Exception;
 	 
 	 // 발주등록) 거래처 목록 
 	 public List<OrderVO> searchClient(OrderVO vo) throws Exception;
 	 // 발주등록) 거래처 데이터 수  
 	 public int searchClientCount(OrderVO vo) throws Exception;
+	 
+	/*-------------------------------------------------------------------------*/
+	 
+	 // 출고 리스트 (페이징)
+	 public List<Warehouse_HistoryVO> outList(Warehouse_HistoryVO vo) throws Exception;
+	 // 전체 출고 데이터 수
+	 public int outListCount(Warehouse_HistoryVO vo) throws Exception;
+	 // 출고 상세
+	 public Warehouse_HistoryVO outInfo(String code) throws Exception;	 
+	 
+	 
+	 
 	 
 	 
 	 

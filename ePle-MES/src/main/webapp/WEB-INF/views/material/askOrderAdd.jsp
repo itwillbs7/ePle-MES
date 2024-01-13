@@ -6,6 +6,14 @@
 <%@ page session="false"%>
 <html>
 <head>
+<style>
+label {
+font-weight: bold;
+}
+.back {
+  background-color: white !important;
+}
+</style>
 <%@ include file="../include/head.jsp"%>
 <title>발주 요청</title>
 </head>
@@ -16,7 +24,7 @@
 		<button type="button" class="close" onclick="window.close();">×</button>
 
 			<div class="login-title">
-				<h1 class="text-center text-primary">발주 요청</h1>
+				<h1 class="text-center" style="color: #7CB342;">발주 요청</h1>
 			</div>
 			
 			<div class="tab">
@@ -28,22 +36,33 @@
 						<form method="post" id="pro-form">
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
-								
+									
+										<label>자재 유형</label>
 									<div class="form-group">
-										<label>자재 유형</label> <input class="form-control" type="text" value="'원자재'" readonly>
+										<input class="form-control" type="text" value="'원자재'" readonly>
 									</div>
 
-									<div class="form-group">
 										<label>품목 정보</label> 
-										<input class="form-control" type="text" id="mapdCode" name="material" placeholder="품목코드" readonly>
-										<input class="form-control" type="text" id="mapdName" placeholder="품명" readonly>
+									<div class="form-group">
+										<input class="form-control back" type="text" id="mapdCode" name="material" placeholder="품목코드" required readonly>
+									</div>
+									<div class="form-group">
+										<input class="form-control back" type="text" id="mapdName" placeholder="품명" required readonly>
 									</div>
 
+										<label>발주량</label> 
 									<div class="form-group">
-										<label>요청량</label> 
-										<input class="form-control" type="number" name="amount" required min="1" max="100"  oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
+										<input class="form-control" type="number" name="amount" required min="1" max="100" required oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
 									</div>
 									
+										<label>요청자</label> 
+									<div class="form-group">
+										<input class="form-control back" type="text" id="selectA" name="ask_emp" placeholder="사원코드" required readonly>
+									</div>
+									<div class="form-group">
+										<input class="form-control back" type="text" id="selectB" placeholder="사원명" required readonly>
+										<input class="form-control" type="hidden" id="selectC" readonly>
+									</div>
 								</div>
 							</div>
 							<!-- 버튼 -->
@@ -82,13 +101,20 @@
 	    var popupWindow = window.open(url, '_blank', "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
 	    popupWindow.focus();
 	}
+	
 	$(document).ready(function() {
 		// 등록 - 품목 리스트 (원자재)
 	    $("#mapdCode,#mapdName").click(function() {
 	        var url = '${pageContext.request.contextPath}/material/searchMaterial';
 	        openPopup(url);
 	    });
-	 
+
+		// 등록 - 사원 리스트 (전체)
+	    $("#selectA,#selectB").click(function() {
+	        var url = '${pageContext.request.contextPath}/stock/searchEmployees';
+	        openPopup(url);
+	    });
+	   
 	});
 		
 		

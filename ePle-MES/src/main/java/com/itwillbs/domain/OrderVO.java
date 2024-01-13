@@ -10,10 +10,11 @@ public class OrderVO {
 	
 	private String code; 			// 발주코드
 	private String material; 		// 품목코드
-	private Date date; 				// 신청일 O
+	private Date date; 				// 요청날짜 
+	private String ask_emp; 		// 요청자 
 	private String client_code; 	// 거래처코드 
-	private int amount; 			// 주문량 O
-	private int price;				// 발주금액
+	private int amount; 			// 주문량 
+	private String price;			// 발주금액
 	private int complete; 			// 입고확인 
 	private Date order_date; 		// 납품일자
 	private Timestamp reg_date; 	// 등록일
@@ -25,6 +26,7 @@ public class OrderVO {
 	private String client_name; 	// 거래처명 
 	private String reg_name;		// 등록자이름
 	private String update_name;		// 변경자이름
+	private String clName;		
 	
 	// Search
 	private String searchCode;
@@ -45,5 +47,8 @@ public class OrderVO {
 	private int outprice;
 	private String image;
 	private boolean active;
+	
+	private String empName;
+	
 	
 }

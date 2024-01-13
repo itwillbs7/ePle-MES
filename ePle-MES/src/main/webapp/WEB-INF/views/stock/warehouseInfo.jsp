@@ -5,6 +5,11 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<style>
+label {
+font-weight: bold;
+}
+</style>
 <title>창고 상세</title>
 </head>
 <body>
@@ -23,13 +28,13 @@
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						
-								<div class="form-group">
 									<label>창고코드</label> 
+								<div class="form-group">
 								<input class="form-control" type="text" name="code" id="code" readonly value="${List.code }">
 								</div>
 								
-								<div class="form-group">
 									<label>창고 정보</label> 
+								<div class="form-group">
 									<input class="form-control" type="text" name="category"  readonly value="${List.category}">
 								</div>
 								<div class="form-group">
@@ -39,8 +44,8 @@
 									<input class="form-control" type="text" name="location"  readonly value="${List.location}">
 								</div>
 
+									<label>담당자 정보</label> 
 								<div class="form-group">
-									<label>관리자 정보</label> 
 									<input class="form-control" type="text" name="manager"  readonly value="${List.name}">
 								</div>
 								<div class="form-group">

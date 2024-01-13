@@ -1,12 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
-<title>창고 목록</title>
+<style>
+  .table th,
+  .table td {
+    text-align: center;
+  }
+  .form-inline{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  }
+  .back {
+  background-color: white !important;
+}
+</style>
+<title>재고 관리</title>
 </head>
 <body>
 	<!----------------- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 ----------------->
@@ -18,40 +33,33 @@
 	<div class="main-container">
 	<div class="pd-ltr-20 xs-pd-20-10">
 	<div class="title" style="margin-bottom: 10px;">
-		<a href="${pageContext.request.contextPath}/warehouse/list"><h1>창고 목록</h1></a>
+		<a href="${pageContext.request.contextPath}/stock/stockList"><h1>재고 관리</h1></a>
 	</div>
 		<div class="min-height-200px">
-			
-<!-- 나중에		<ul class="nav nav-pills">
-			<li class="nav-item"><a class="nav-link text-blue active" href="/warehouse/list">보전 목록</a></li>
-			<li class="nav-item"><a class="nav-link text-blue" href="/warehouse/resultList">보전 결과</a></li>
-		</ul> -->
-		
 	<br>
 				
 				
-	<!------------------------------ 창고 검색 시작 ----------------------------->
+<!-- 	<!------------------------------ 재고 검색 시작 ----------------------------->
 	<div class="faq-wrap">
 		<div id="accordion">
 			<div class="card">
 						
 				<div class="card-header">
-					<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false"><b>창고 검색</b></button>
+					<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false"><b>재고 검색</b></button>
 				</div>
 							
 				<div id="faq1" class="collapse" data-parent="#accordion" style="">
 					<div class="card-body">
 								
 							<div class="col-md-12">
-								<div class="form-group">
+								<div class="form-inline">
 									<div class="row">
-										<div class="col-md-5 col-sm-12 btn-group" >
-											<div class="col-md-5 col-sm-12 btn-group" >
+										<div class="col-md-20 col-sm-12 btn-group" >
 											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="창고코드" autocomplete="off" >
-											<label>관리자</label> 
-											<input type="text" name="searchName" id="manager" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
-											<input type="text" id="managerName" class="form-control" placeholder="관리자이름" autocomplete="off" readonly>
-											</div>
+											<label>담당자</label> 
+											<input type="text" name="searchName" id="selectA" class="form-control back" placeholder="담당자코드" autocomplete="off" readonly>
+											<input type="text" id="selectB" class="form-control back" placeholder="담당자이름" autocomplete="off" readonly>
+											<input type="hidden" id="selectC" class="form-control back" autocomplete="off" readonly>
 										</div>
 									</div>
 								</div>
@@ -67,16 +75,13 @@
 							
 			</div>
 		</div>
-	</div>
+	</div> -->
 				
 				
 	<!------------------------- 추가 / 수정 / 삭제 버튼 ------------------------->
 	<div class="card-box mb-30">
 		<div class="pd-20">
 			<div class="btn-group pull-right" style="margin-bottom: 10px">
-				<button type="button" class="btn btn-success" id="add"><b>추가</b></button>
-				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
-				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
 			</div>
 		</div>
 
@@ -87,7 +92,7 @@
 			<div class="col-sm-30">
 				<form class="table" id="table">
 					<table class="table table-striped">
-					<!--- 체크박스 / 창고코드 / 주소지 / 창고유형(원자재.완제품) / 창고명 / 담당자 / 연락처 / 사용여부 --->
+					<!--- 체크박스 / 창고코드 / 위치 / 창고유형(원자재.완제품.설비) / 창고명 / 담당자 / 연락처 --->
 						<tr>
 							<td style="width: 100px;">
 								<div class="custom-control custom-checkbox mb-5">
@@ -95,75 +100,50 @@
 									<label class="custom-control-label" for="tableCheckAll"></label>
 								</div>
 							</td>
-							<th>창고코드</th>
-							<th>위치</th>
-							<th>구분</th>
-							<th>창고명</th>
-							<th>담당자</th>
-							<th>연락처</th>
-							<th>사용여부</th>
-							<th>옵션</th>
+							<th>품목코드</th>
+							<th>품명</th>
+							<th>창고</th>
+							<th>현재고</th>
 						</tr>
 
-						<c:forEach items="${warehouseList }" var="vo">
+						<c:forEach items="${stockList }" var="vo">
 						<tr>
 							<td>
 								<div class="custom-control custom-checkbox mb-5">
-									<input type="checkbox" class="custom-control-input checkCode" id="${vo.wh_code }" name="tableCheck" value="${vo.wh_code }"> 
-									<label class="custom-control-label" for="${vo.wh_code }"></label>
+									<input type="checkbox" class="custom-control-input checkCode" id="${vo.code }" name="tableCheck" value="${vo.code }"> 
+									<label class="custom-control-label" for="${vo.code }"></label>
 								</div>
 							</td>
-							<th>${vo.wh_code }</th>
-							<th>${vo.location }</th>
-							<th>${vo.group_id }</th>
-							<th>${vo.group_name }</th>
+							<th class="inInfo${vo.code}" style="color: #FF1493; cursor:pointer;">${vo.code }</th>
 							<th>${vo.name }</th>
-							<th>${vo.phone }</th>
-							<th>${vo.active }</th>
-							<td style="">
+							<th>${vo.warehouse }</th>
+							<th>${vo.total }</th>
 
-
-
-							<!-------------------------------- 옵션 선택 -------------------------------->
-							<div class="dropdown">
-								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i> </a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-										<!-- 상세 보기 -->
-										<a class="dropdown-item" href="#"><i class="dw dw-eye"></i>상세 보기</a>
-										<!-- 수정 -->
-										<a class="dropdown-item" href="javascript:openPage('/warehouse/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
-										<!-- 삭제 -->
-										<a class="dropdown-item" id="optDelete"><i class="dw dw-delete-3"></i> 삭제</a>
-									</div>
-							</div>
-								
-								
-							</td>
 						</tr>
 						</c:forEach>
 							
 					</table>
 				</form>
 
-				<!-------------------------------- 창고 갯수 -------------------------------->
-				<div class="row">
+				<!-------------------------------- 재고 갯수 -------------------------------->
+				<!-- <div class="row">
 					<div class="col-sm-12 col-md-5">
 						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
 					</div>
-				</div>
+				</div> -->
 
 
 				<!--------------------------------- 페이징 ---------------------------------->
 				<div class="btn-toolbar justify-content-center mb-15">
 					<div class="btn-group">
 						<c:if test="${pageVO.prev}">
-							<a href="/warehouse/list?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+							<a href="/stock/stockList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
 						</c:if>
 						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/warehouse/list?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+							<a href="/stock/stockList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
 						</c:forEach>
 						<c:if test="${pageVO.next}">
-							<a href="/warehouse/list?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+							<a href="/stock/stockList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
 						</c:if>
 					</div>
 				</div>
@@ -245,37 +225,40 @@
 
 		function openPage(i, width, height) {
 			set = retPopupSetting(width, height);
-			return window.open(i, 'Popup_Window', set); // 가운데거가 이름이 똑같으면 같은창에서 열림
+			return window.open(i, 'Popup_Window', set); 
 		}
 
 		$(document).ready(function() {
-			// 추가
+			// 추가 O
 			$("#add").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/add", 400, 700);
+				openPage("/stock/warehouseAdd", 400, 700);
 			});
 
-			// 수정
+		 	// 수정 O
 			$("#update").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/update", 400, 700);
+			    var check = $("input:checkbox[name=tableCheck]:checked");
+			    if (check.length === 0 || check.length > 1) {
+			        alert("수정할 항목을 하나만 선택하세요!");
+			    } else {
+			        var code = check.val();
+			        openPage("/stock/warehouseEdit?code=" + code, 400, 700);
+			    }
 			});
-
-			// 상세보기
-			$('body').on('click', '[class^="info"]', function(){
+		 	
+		 	// 상세보기 O
+			$('body').on('click', '[class^="inInfo"]', function(){
         		var code = $(this).text().trim();
-      		  openPage("/request/info?code=" + code, 400, 700);
-  			});
+      		  openPage("${pageContext.request.contextPath}/stock/warehouseInfo?code=" + code, 400, 700); });
 			
 			
-			// 검색 - 사원 리스트 O
-			$("#manager,#managerName").click(function() {
+			// 검색 
+			$("#selectA,#selectB").click(function() {
 				// 가로, 세로 설정
-				openPage("/warehouse/searchEmployees", 400,700);
+				openPage("/stock/searchEmployees", 400,700);
 			});
 
 			
-			// 삭제
+			// 삭제 O
 			$("#delete,#optDelete").click(function() {
 				var codes = [];
 			    $("input:checkbox[name=tableCheck]:checked").each(function() {
@@ -283,7 +266,7 @@
 			    });
 			    
 			    if (codes.length > 0) { 
-			        openPage("/warehouse/delete?codes=" + codes.join(','), 400, 600);
+			        openPage("/stock/warehouseDel?codes=" + codes.join(','), 400, 600);
 			    } else {
 			        $('#warning-modal').modal('show'); 
 			    }
@@ -298,28 +281,28 @@
 
  		// 검색하기
   		function doSearch() {
-		        var query = {"searchCode" : $("#whCode").val(), "searchName" : $("#manager").val()};
+		        var query = {"searchCode" : $("#whCode").val(), "searchName" : $("#selectA").val()};
 		        
 		        console.log("searchCode:", query.searchCode);
 		        console.log("searchName:", query.searchName);
 		        
 		        $.ajax({
-		            url : "${pageContext.request.contextPath}/warehouse/list",
+		            url : "${pageContext.request.contextPath}/stock/warehouseList",
 		            type : "get",
 		            data : query,
 		            dataType : "text",
 		            success : function(data){
 		                 if (query.searchCode == "" && query.searchName == "") {
-		                    location.href = "${pageContext.request.contextPath}/warehouse/list";
+		                    location.href = "${pageContext.request.contextPath}/stock/warehouseList";
 		                } else {
-		                    location.href = "${pageContext.request.contextPath}/warehouse/list?searchCode=" + $("#whCode").val() + "&searchName=" + $("#manager").val();
+		                    location.href = "${pageContext.request.contextPath}/stock/warehouseList?searchCode=" + $("#whCode").val() + "&searchName=" + $("#selectA").val();
 		                } 
 		                 
-		                if (data) {
+		              /*   if (data) {
 		                    alert("완료");
 		                } else {
 		                    alert("전송된 값 없음");
-		                }
+		                } */
 		                
 		            },
 		            
@@ -331,13 +314,18 @@
 		} 
 		
 
-		// 검색 초기화 , placeholder 재지정 
+	 	// 검색 초기화 , placeholder 재지정 
 		function resetSearch() {
-			$("#manager").val("");
-			$("#managerName").val("");
-		    $("#manager").attr("placeholder", "관리자코드");
-		    $("#managerName").attr("placeholder", "관리자이름");
-		}
+			$("#whCode").val("");
+			$("#selectA").val("");
+			$("#selectB").val("");
+		    $("#whCode").attr("placeholder", "창고코드");
+		    $("#selectA").attr("placeholder", "관리자코드");
+		    $("#selectB").attr("placeholder", "관리자이름");
+		} 
+		
+		
+
 
 		
 	</script>

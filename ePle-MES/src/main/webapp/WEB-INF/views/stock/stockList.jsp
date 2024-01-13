@@ -1,12 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
-<title>발주 관리</title>
+<style>
+  .table th,
+  .table td {
+    text-align: center;
+  }
+    .back {
+  background-color: white !important;
+}
+#whCode{
+margin-left:100px;
+margin-right:50px;
+}
+#manager{
+margin-left:20px;
+margin-right:20px;
+}
+</style>
+<title>재고 관리</title>
 </head>
 <body>
 	<!----------------- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 ----------------->
@@ -18,44 +36,33 @@
 	<div class="main-container">
 	<div class="pd-ltr-20 xs-pd-20-10">
 	<div class="title" style="margin-bottom: 10px;">
-		<a href="${pageContext.request.contextPath}/order/list"><h1>발주 목록</h1></a>
+		<a href="${pageContext.request.contextPath}/stock/stockList"><h1>재고 관리</h1></a>
 	</div>
 		<div class="min-height-200px">
 			
-<!-- 나중에		<ul class="nav nav-pills">
-			<li class="nav-item"><a class="nav-link text-blue active" href="/warehouse/list">보전 목록</a></li>
-			<li class="nav-item"><a class="nav-link text-blue" href="/warehouse/resultList">보전 결과</a></li>
-		</ul> -->
-		
 	<br>
 				
 				
-	<!------------------------------ 발주 검색 시작 ----------------------------->
+	<!------------------------------ 재고 검색 시작 ----------------------------->
 	<div class="faq-wrap">
 		<div id="accordion">
 			<div class="card">
 						
 				<div class="card-header">
-					<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false"><b>발주 검색</b></button>
+					<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false"><b>재고 검색</b></button>
 				</div>
 							
 				<div id="faq1" class="collapse" data-parent="#accordion" style="">
 					<div class="card-body">
 								
-							<div class="col-md-12">
-								<div class="form-group">
-									<div class="row">
-										<div class="col-md-5 col-sm-12 btn-group" >
-											<div class="col-md-5 col-sm-12 btn-group" >
-											<input type="text" id="orderCode" name="searchOrder" class="form-control" placeholder="발주코드" autocomplete="off" >
-											<label>품목</label> 
-											<input type="text" id="mapdCode" name="searchMapd" class="form-control" placeholder="품목코드" autocomplete="off" readonly>
-											<input type="text" id="mapdName" class="form-control" placeholder="품목이름" autocomplete="off" readonly>
+								<div class="form-inline">
+											<div class="col-md-12 col-sm-12 btn-group" >
+											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="입고코드" autocomplete="off" >
+											<label>관리자</label> 
+											<input type="text" name="searchName" id="manager" class="form-control back" placeholder="관리자코드" autocomplete="off" readonly>
+											<input type="text" id="managerName" class="form-control back" placeholder="관리자이름" autocomplete="off" readonly>
 											</div>
-										</div>
-									</div>
 								</div>
-							</div>
 										
 							<div class="btn-group pull-right" style="margin-bottom: 10px">
 								<button type="submit" class="btn btn-primary" id="search" onclick="doSearch()"> <b>검색</b> </button>
@@ -74,20 +81,17 @@
 	<div class="card-box mb-30">
 		<div class="pd-20">
 			<div class="btn-group pull-right" style="margin-bottom: 10px">
-				<button type="button" class="btn btn-success" id="add"><b>추가</b></button>
-				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
-				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
+				<!-- <button type="button" class="btn btn-warning" id="update"><b>수정</b></button> -->
 			</div>
 		</div>
 
 
-
-	<!----------------------------- 창고 리스트 출력 ---------------------------->
+	<!----------------------------- 재고 리스트 출력 ---------------------------->
 		<div class="pb-20">
 			<div class="col-sm-30">
 				<form class="table" id="table">
 					<table class="table table-striped">
-					<!--- 체크박스 / 창고코드 / 주소지 / 창고유형(원자재.완제품) / 창고명 / 담당자 / 연락처 / 사용여부 --->
+					<!-- 체크박스 / 제품코드 / 품명 / 창고코드 / 전체 수량+단위 / -->
 						<tr>
 							<td style="width: 100px;">
 								<div class="custom-control custom-checkbox mb-5">
@@ -95,21 +99,13 @@
 									<label class="custom-control-label" for="tableCheckAll"></label>
 								</div>
 							</td>
-							<th>발주번호</th>
-							<th>품번</th>
-							<th>접수일자</th>
-							<th>거래처</th>
-							<th>주문량</th>
-							<th>입고확인</th>
-							<th>납품일자</th>
-							<th>등록일</th>
-							<th>등록자</th>
-							<th>변경일</th>
-							<th>변경자</th>
-							<th>상태</th>
+							<th>품목코드</th>
+							<th>품명</th>
+							<th>창고</th>
+							<th>현재고</th>
 						</tr>
 
-						<c:forEach items="${orderList }" var="vo">
+						<c:forEach items="${stockList }" var="vo">
 						<tr>
 							<td>
 								<div class="custom-control custom-checkbox mb-5">
@@ -117,62 +113,37 @@
 									<label class="custom-control-label" for="${vo.code }"></label>
 								</div>
 							</td>
-							<th>${vo.code }</th>
-							<th>${vo.material }</th>
-							<th>${vo.date }</th>
-							<th>${vo.client_code }</th>
-							<th>${vo.amount }</th>
-							<th>${vo.complete }</th>
-							<th>${vo.order_date }</th>
-							<th>${vo.reg_date }</th>
-							<th>${vo.reg_emp }</th>
-							<th>${vo.update_date }</th>
-							<th>${vo.update_emp }</th>
-							<th>${vo.status }</th>
-							<td style="">
+							<th class="inInfo${vo.code}" style="color: #FF1493; cursor:pointer;">${vo.code }</th>
+							<th>${vo.name }</th>
+							<th>${vo.warehouse }</th>
+							<th id="inventoryText">${vo.total }</th>
 
 
-
-							<!-------------------------------- 옵션 선택 -------------------------------->					
-							<div class="dropdown">
-								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i> </a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-										<!-- 상세 보기 -->
-										<a class="dropdown-item" href="#"><i class="dw dw-eye"></i>상세 보기</a>
-										<!-- 수정 -->
-										<a class="dropdown-item" href="javascript:openPage('/order/update?index=1', 400, 600)"><i class="dw dw-edit2"></i> 수정</a>
-										<!-- 삭제 -->
-										<a class="dropdown-item" href="javascript:openPage('/order/delete?code=', 400, 600)"><i class="dw dw-delete-3"></i> 삭제</a>
-									</div>
-							</div>
-								
-								
-							</td>
 						</tr>
 						</c:forEach>
 							
 					</table>
 				</form>
 
-				<!-------------------------------- 창고 갯수 -------------------------------->
-				<div class="row">
+				<!-------------------------------- 출고 갯수 -------------------------------->
+				<!-- <div class="row">
 					<div class="col-sm-12 col-md-5">
 						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
 					</div>
-				</div>
+				</div> -->
 
 
 				<!--------------------------------- 페이징 ---------------------------------->
 				<div class="btn-toolbar justify-content-center mb-15">
 					<div class="btn-group">
 						<c:if test="${pageVO.prev}">
-							<a href="/order/list?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+							<a href="/stock/stockList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
 						</c:if>
 						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/order/list?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+							<a href="/stock/stockList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
 						</c:forEach>
 						<c:if test="${pageVO.next}">
-							<a href="/order/list?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+							<a href="/stock/stockList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
 						</c:if>
 					</div>
 				</div>
@@ -230,7 +201,6 @@
 		}
 	
 	
-	
 		var popupWidth, popupHeight, popupX, popupY, link;
 		var set;
 
@@ -255,52 +225,32 @@
 
 		function openPage(i, width, height) {
 			set = retPopupSetting(width, height);
-			return window.open(i, 'Popup_Window', set); // 가운데거가 이름이 똑같으면 같은창에서 열림
+			return window.open(i, 'Popup_Window', set);
 		}
 
-		$(document).ready(function() {
-			// 추가
-			$("#add").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/add", 400, 700);
-			});
-
-			// 수정
+		 	// 수정 O
 			$("#update").click(function() {
-				// 가로, 세로 설정
-				openPage("/request/update", 400, 700);
-			});
-			
-			// 상세보기
-			$('body').on('click', '[class^="info"]', function(){
-        		var code = $(this).text().trim();
-      		  openPage("/request/info?code=" + code, 400, 700);
-  			});
-			
-			
-			// 검색 - 사원 리스트 O
-			$("#mapdCode,#mapdName").click(function() {
-				// 가로, 세로 설정
-				openPage("/order/searchMAPD", 400,700);
-			});
-
-			
-			// 삭제
-			$("#delete").click(function() {
-				var codes = [];
-			    $("input:checkbox[name=tableCheck]:checked").each(function() {
-			    	codes.push($(this).val());
-			    });
-			    
-			    if (codes.length > 0) { 
-			        openPage("/order/delete?codes=" + codes.join(','), 400, 700);
+			    var check = $("input:checkbox[name=tableCheck]:checked");
+			    if (check.length === 0 || check.length > 1) {
+			        alert("수정할 항목을 하나만 선택하세요!");
 			    } else {
-			        $('#warning-modal').modal('show'); 
+			        var code = check.val();
+			        openPage("/material/inEdit?code=" + code, 400, 700);
 			    }
 			});
 
 
+		 	// 상세보기 O
+			$('body').on('click', '[class^="inInfo"]', function(){
+        		var code = $(this).text().trim();
+      		  openPage("${pageContext.request.contextPath}/material/outInfo?code=" + code, 400, 700); });
 			
+			
+			// 검색 - 사원 리스트 
+			$("#manager,#managerName").click(function() {
+				openPage("/warehouse/searchEmployees", 400,700);
+			});
+
 			
 		});
 		
@@ -308,28 +258,28 @@
 
  		// 검색하기
   		function doSearch() {
-		        var query = {"searchOrder" : $("#orderCode").val(), "searchMapd" : $("#mapdCode").val()};
+		        var query = {"searchCode" : $("#whCode").val(), "searchName" : $("#manager").val()};
 		        
-		        console.log("searchOrder:", query.searchOrder);
-		        console.log("searchMapd:", query.searchMapd);
+		        console.log("searchCode:", query.searchCode);
+		        console.log("searchName:", query.searchName);
 		        
 		        $.ajax({
-		            url : "${pageContext.request.contextPath}/order/list",
+		            url : "${pageContext.request.contextPath}/warehouse/list",
 		            type : "get",
 		            data : query,
 		            dataType : "text",
 		            success : function(data){
-		                 if (query.searchOrder == "" && query.searchMapd == "") {
-		                    location.href = "${pageContext.request.contextPath}/order/list";
+		                 if (query.searchCode == "" && query.searchName == "") {
+		                    location.href = "${pageContext.request.contextPath}/warehouse/list";
 		                } else {
-		                    location.href = "${pageContext.request.contextPath}/order/list?searchOrder=" + $("#orderCode").val() + "&searchMapd=" + $("#mapdCode").val();
+		                    location.href = "${pageContext.request.contextPath}/warehouse/list?searchCode=" + $("#whCode").val() + "&searchName=" + $("#manager").val();
 		                } 
 		                 
-/* 		                if (data) {
+		                if (data) {
 		                    alert("완료");
 		                } else {
 		                    alert("전송된 값 없음");
-		                } */
+		                }
 		                
 		            },
 		            
@@ -343,13 +293,23 @@
 
 		// 검색 초기화 , placeholder 재지정 
 		function resetSearch() {
-			$("#mapdCode").val("");
-			$("#mapdName").val("");
-		    $("#mapdCode").attr("placeholder", "품목코드");
-		    $("#mapdName").attr("placeholder", "품목명");
+			$("#manager").val("");
+			$("#managerName").val("");
+		    $("#manager").attr("placeholder", "관리자코드");
+		    $("#managerName").attr("placeholder", "관리자이름");
 		}
 
-		
+
+
+		    window.onload = function() {
+		        var inventory = parseInt(document.getElementById("inventoryText").innerText);
+
+		        if (inventory <= 10) {
+		            document.getElementById("inventoryText").style.color = "red";
+		        }
+		    };
+
+		    
 	</script>
 </body>
 </html>

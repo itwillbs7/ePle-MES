@@ -123,7 +123,7 @@ public class productionController {
 		pageVO.setTotalCount(rService.getTotal()); // 디비에서 직접 실행결과 가져오기
 		//vo값필요함
 		
-		model.addAttribute("List",requestList);
+		//model.addAttribute("List",requestList);
 		model.addAttribute("pageVO", pageVO);
 	}
 	

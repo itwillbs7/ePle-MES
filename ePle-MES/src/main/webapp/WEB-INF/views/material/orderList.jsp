@@ -17,6 +17,17 @@
   align-items:center;
   justify-content:center;
   }
+  .back {
+  background-color: white !important;
+}
+#whCode{
+margin-left:100px;
+margin-right:50px;
+}
+#selectA{
+margin-left:20px;
+margin-right:20px;
+}
 </style>
 <title>발주 관리</title>
 </head>
@@ -48,25 +59,21 @@
 			<div class="card">
 						
 				<div class="card-header">
-					<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false"><b>창고 검색</b></button>
+					<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false"><b>발주 검색</b></button>
 				</div>
 							
 				<div id="faq1" class="collapse" data-parent="#accordion" style="">
 					<div class="card-body">
 								
-							<div class="col-md-12">
 								<div class="form-inline">
-									<div class="row">
 										<div class="col-md-20 col-sm-12 btn-group" >
-											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="창고코드" autocomplete="off" >
+											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="발주코드" autocomplete="off" >
 											<label>관리자</label> 
-											<input type="text" name="searchName" id="selectA" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
-											<input type="text" id="selectB" class="form-control" placeholder="관리자이름" autocomplete="off" readonly>
+											<input type="text" name="searchName" id="selectA" class="form-control back" placeholder="담당자코드" autocomplete="off" readonly>
+											<input type="text" 	 id="selectB" class="form-control back" placeholder="담당자이름" autocomplete="off" readonly>
 											<input type="hidden" id="selectC" class="form-control" autocomplete="off" readonly>
 										</div>
-									</div>
 								</div>
-							</div>
 										
 							<div class="btn-group pull-right" style="margin-bottom: 10px">
 								<button type="submit" class="btn btn-primary" id="search" onclick="doSearch()"> <b>검색</b> </button>
@@ -84,10 +91,11 @@
 	<!------------------------- 추가 / 수정 / 삭제 버튼 ------------------------->
 	<div class="card-box mb-30">
 		<div class="pd-20">
+			<div class="btn-group pull-right" style="margin-bottom: 10px; margin-left: 10px;">
+				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
+			</div>
 			<div class="btn-group pull-right" style="margin-bottom: 10px">
 				<button type="button" class="btn btn-success" id="add"><b>요청서 불러오기</b></button>
-				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
-				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
 			</div>
 		</div>
 
@@ -115,10 +123,9 @@
 							<th>납기일</th>
 							<th>담당자</th>
 							<th>발주상태</th>
-							<th>옵션</th>
 						</tr>
 
-						<c:forEach items="${searchOrder }" var="vo">
+						<c:forEach items="${orderList }" var="vo">
 						<tr>
 							<td>
 								<div class="custom-control custom-checkbox mb-5">
@@ -134,24 +141,9 @@
 							<th>${vo.price }</th>
 							<th>${vo.order_date }</th>
 							<th>${vo.reg_name }</th>
-							<th>${vo.status }</th>
-							<td style="">
+							<th style="color: blue;">${vo.status }</th>
 
 
-
-							<!-------------------------------- 옵션 선택 -------------------------------->
-							<div class="dropdown">
-								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i> </a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-										<!-- 상세 보기 -->
-										<a class="dropdown-item" href="javascript:openPage('/stock/warehouseInfo?code=${vo.code }', 400, 700"><i class="dw dw-eye"></i>상세 보기</a>
-										<!-- 수정 -->
-										<a class="dropdown-item" href="javascript:openPage('/stock/warehouseEdit?code=${vo.code }', 400, 700"><i class="dw dw-edit2"></i> 수정</a>
-									</div>
-							</div>
-								
-								
-							</td>
 						</tr>
 						</c:forEach>
 							
@@ -264,10 +256,10 @@
 		$(document).ready(function() {
 			// 추가 O
 			$("#add").click(function() {
-				openPage("/material/orderBeforeAdd", 400, 700);
+				openPage("/material/orderBeforeAdd", 500, 700);
 			});
 
-		 	// 수정 O
+		// 수정 O
 			$("#update").click(function() {
 			    var check = $("input:checkbox[name=tableCheck]:checked");
 			    if (check.length === 0 || check.length > 1) {
@@ -299,7 +291,7 @@
 			    });
 			    
 			    if (codes.length > 0) { 
-			        openPage("/stock/warehouseDel?codes=" + codes.join(','), 400, 600);
+			        openPage("/material/orderDel?codes=" + codes.join(','), 400, 600);
 			    } else {
 			        $('#warning-modal').modal('show'); 
 			    }
@@ -316,22 +308,19 @@
   		function doSearch() {
 		        var query = {"searchCode" : $("#whCode").val(), "searchName" : $("#selectA").val()};
 		        
-		        console.log("searchCode:", query.searchCode);
-		        console.log("searchName:", query.searchName);
-		        
 		        $.ajax({
-		            url : "${pageContext.request.contextPath}/stock/warehouseList",
+		            url : "${pageContext.request.contextPath}/material/orderList",
 		            type : "get",
 		            data : query,
 		            dataType : "text",
 		            success : function(data){
 		                 if (query.searchCode == "" && query.searchName == "") {
-		                    location.href = "${pageContext.request.contextPath}/stock/warehouseList";
+		                    location.href = "${pageContext.request.contextPath}/material/orderList";
 		                } else {
-		                    location.href = "${pageContext.request.contextPath}/stock/warehouseList?searchCode=" + $("#whCode").val() + "&searchName=" + $("#selectA").val();
+		                    location.href = "${pageContext.request.contextPath}/material/orderList?searchCode=" + $("#whCode").val() + "&searchName=" + $("#selectA").val();
 		                } 
 		                 
-		              /*   if (data) {
+			              /*   if (data) {
 		                    alert("완료");
 		                } else {
 		                    alert("전송된 값 없음");
@@ -346,20 +335,26 @@
 		        });
 		} 
 		
+ 			
 
 	 	// 검색 초기화 , placeholder 재지정 
 		function resetSearch() {
 			$("#whCode").val("");
 			$("#selectA").val("");
 			$("#selectB").val("");
-		    $("#whCode").attr("placeholder", "창고코드");
-		    $("#selectA").attr("placeholder", "관리자코드");
-		    $("#selectB").attr("placeholder", "관리자이름");
+		    $("#whCode").attr("placeholder", "발주코드");
+		    $("#selectA").attr("placeholder", "담당자코드");
+		    $("#selectB").attr("placeholder", "담당자이름");
 		} 
 		
 		
 
-
+		document.addEventListener('keydown', function (event) {
+  	        if (event.key === 'Enter') {
+  	            doSearch();
+  	            event.preventDefault(); 
+  	        }
+  	    });
 		
 	</script>
 </body>

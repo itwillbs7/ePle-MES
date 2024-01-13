@@ -218,6 +218,16 @@ WHERE r.status IN ('등록', '생산진행') AND s.total >= r.amount
 			#{codeNum}
 		</foreach>
 	</select>
+		
+	<update id="updateStatusBeforeDelete">
+		update REQUEST r
+		inner join SHIPMENT s on r.code= s.reqs_code
+		set r.status = '등록'
+		where s.code in
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
+			#{codeNum}
+		</foreach>
+	</update>
 
 	<delete id="deleteShipmentData">
 		delete from SHIPMENT

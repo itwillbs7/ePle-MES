@@ -1,20 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <%@ include file="../include/head.jsp"%>
-
-<title>관리자 조회</title>
-
-<style type="text/css">
+<style>
+  .table th,
+  .table td {
+    text-align: center;
+  }
 .con:hover{
 	background-color : #e1e1e1;
 	cursor:pointer;
 }
 </style>
+<title>품목 조회</title>
+
+<!-- 전체 품목 출력합니다 -->
+<!-- /material/inList 에서 참조중 -->
 
 </head>
 <body>
@@ -22,7 +27,7 @@
 	<div class="login-box bg-white box-shadow border-radius-10">
 			
 			<div class="login-title">
-			<h2 class="text-center text-primary">관리자 조회</h2>
+			<h2 class="text-center" style="color: #FF8C00;">품목 조회</h2>
 			</div>
 			
 			<!------------------------------- 검색 시작 ------------------------------->
@@ -30,14 +35,14 @@
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						
+							<label>품목코드</label> 
 						<div class="form-group">
-							<label>사원코드</label> 
-							<input class="form-control" type="text" name="empCode" id="manager">
+							<input class="form-control" type="text" name="searchCode" id="selectF">
 						</div>
 						
+							<label>품명</label> 
 						<div class="form-group">
-							<label>사원명</label> 
-							<input class="form-control" type="text" name="empName" id="managerName">
+							<input class="form-control" type="text" name="searchName" id="selectG">
 						</div>
 
 						<div class="row">
@@ -55,15 +60,15 @@
 			<table class="table table-striped" id="tableId">
 			<thead>
 				<tr>
-					<th>사원코드</th>
-					<th>사원명</th>
+					<th>품목코드</th>
+					<th>품명</th>
 				</tr>
 			</thead>
 			
 			<tbody>
-				<c:forEach items="${employeesList}" var="vo">
-				<tr onclick="selectWork('${vo.emp_code }','${vo.name }')">
-					<td class="con">${vo.emp_code }</td>
+				<c:forEach items="${searchMAPD}" var="vo">
+				<tr onclick="selectWork('${vo.code }','${vo.name }')">
+					<td class="con">${vo.code }</td>
 					<td class="con">${vo.name }</td>
 				</tr>
 				</c:forEach>
@@ -76,16 +81,16 @@
 							<c:if test="${pageVO.totalCount > 1}">
 								<div class="btn-group">
 									<c:if test="${pageVO.prev}">
-										<a href="/warehouse/searchEmployees?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> 
+										<a href="/material/searchMAPD?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> 
 											<i class="fa fa-angle-double-left"></i>
 										</a>
 									</c:if>
 									<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i" step="1">
-										<a href="/warehouse/searchEmployees?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}">
+										<a href="/material/searchMAPD?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}">
 											${i} </a>
 									</c:forEach>
 									<c:if test="${pageVO.next}">
-										<a href="/warehouse/searchEmployees?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> 
+										<a href="/material/searchMAPD?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> 
 											<i class="fa fa-angle-double-right"></i>
 										</a>
 									</c:if>
@@ -96,8 +101,8 @@
 			<script type="text/javascript">
 				function selectWork(a, b) { // 부모창으로 값 넘기기
 
-					opener.document.getElementById("manager").value = a
-					opener.document.getElementById("managerName").value = b
+					opener.document.getElementById("selectF").value = a
+					opener.document.getElementById("selectG").value = b
 					window.close();
 				}
 				
@@ -106,21 +111,21 @@
 				
 		 		//검색하기
 		  		function doSearch() {
-				        var query = {"empCode" : $("#manager").val(), "empName" : $("#managerName").val()};
+				        var query = {"searchCode" : $("#selectF").val(), "searchName" : $("#selectG").val()};
 				        
-				        console.log("empCode:", query.empCode);
-				        console.log("empName:", query.empName);
+				        console.log("searchCode:", query.searchCode);
+				        console.log("searchName:", query.searchName);
 				        
 				        $.ajax({
-				            url : "${pageContext.request.contextPath}/warehouse/searchEmployees",
+				            url : "${pageContext.request.contextPath}/material/searchMAPD",
 				            type : "get",
 				            data : query,
 				            dataType : "text",
 				            success : function(data){
-				                 if (query.empCode == "" && query.empName == "") {
-				                    location.href = "${pageContext.request.contextPath}/warehouse/searchEmployees";
+				                 if (query.searchCode == "" && query.searchName == "") {
+				                    location.href = "${pageContext.request.contextPath}/material/searchMAPD";
 				                } else {
-				                    location.href = "${pageContext.request.contextPath}/warehouse/searchEmployees?empCode=" + $("#manager").val() + "&empName=" + $("#managerName").val();
+				                    location.href = "${pageContext.request.contextPath}/material/searchMAPD?searchCode=" + $("#selectF").val() + "&searchName=" + $("#selectG").val();
 				                } 
 				                 
 //				                if (data) {
@@ -134,7 +139,20 @@
 
 				        });
 				    
-				} 
+				}
+		 		
+		 		
+		 		
+		 		
+		  	    document.addEventListener('keydown', function (event) {
+		  	        if (event.key === 'Enter') {
+		  	            doSearch();
+		  	            event.preventDefault(); 
+		  	        }
+		  	    });
+		  	    
+		  	    
+		  	    
 			</script>
 		</div>
 	</div>

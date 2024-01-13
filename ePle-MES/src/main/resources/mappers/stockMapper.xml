@@ -96,9 +96,6 @@
 		</foreach>
 	</delete>	
 	
-	
-	<!-- id mapdcode whcode category mapdname unit expiryd amount -->
-	
 	<!-- 창고등록) 사원 검색 팝업 -->
 	<select id="searchEmployees" resultType="WarehouseVO">
 		SELECT code, name, phone
@@ -135,6 +132,26 @@
 			</if>
 			</if>
 	</select>
+	
+	
+	<!-- 재고 목록, 재고 검색 -->
+	<select id="stockList" resultType="WarehouseVO">
+    	SELECT code, name, warehouse, total
+    	FROM STOCK_VIEW
+    	WHERE total != 0
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>
+
+	<!-- 모든 창고 수 -->
+	<select id="stockListCount" resultType="int">
+		SELECT count(*) 
+		FROM WAREHOUSE
+	</select>
+	
+	
+	
+	
+	
 	
 		
 	

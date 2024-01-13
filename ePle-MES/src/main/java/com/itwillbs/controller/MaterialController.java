@@ -23,11 +23,13 @@ import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.domain.Warehouse_HistoryVO;
 import com.itwillbs.service.MaterialService;
 
-/** MaterialController : 자재 컨트롤러 합치는중
+/** MaterialController : 자재 컨트롤러 
 * 
 *	발주요청 - http://localhost:8088/material/askOrderList
 *	발주관리 - http://localhost:8088/material/orderList
 *	    입고 - http://localhost:8088/material/inList
+*	    출고 - http://localhost:8088/material/outList
+*
 */
 
 @Controller
@@ -247,17 +249,15 @@ public class MaterialController {
 	  /*--------------------------------------발주관리 시작-----------------------------------------*/
 	  
 	  // ======================================발주 목록
-	  // + 입고등록 검색)  /searchOrder
-	  // + 발주관리 메인)  /orderList
-	  @RequestMapping(value = {"/searchOrder","/orderList"} , method = RequestMethod.GET)
-	  public void searchOrder(Model model, Criteria cri, OrderVO vo) throws Exception{
+	  @RequestMapping(value = "/orderList" , method = RequestMethod.GET)
+	  public void orderList(Model model, Criteria cri, OrderVO vo) throws Exception{
 			
 		  vo.setCri(cri);
 		  PageVO pageVO = new PageVO();
 		  pageVO.setCri(cri);
-		  pageVO.setTotalCount(mService.orderListCount(vo));
+		  pageVO.setTotalCount(mService.orderListCount2(vo));
 		  model.addAttribute("pageVO", pageVO);
-		  model.addAttribute("searchOrder", mService.searchOrder(vo));
+		  model.addAttribute("orderList", mService.orderList(vo));
 			
 	  }
 	  
@@ -281,11 +281,105 @@ public class MaterialController {
 		  } 
 	  }
 	  
+      // ======================================발주 상세
+      @RequestMapping(value = "/orderInfo", method = RequestMethod.GET)
+  	  public void orderInfo(@RequestParam(value = "code") String code,Model model) throws Exception {
+  		
+    	OrderVO orderInfo = mService.orderInfo(code);
+  		model.addAttribute("List", orderInfo);
+
+  	  }
+      
+      // ======================================발주 수정
+	  @RequestMapping(value = "/orderEdit", method = RequestMethod.GET) 
+	  public void orderEdit(@RequestParam("code") String code, Model model) throws Exception {
+	 
+		OrderVO orderInfo = mService.orderInfo(code);
+	  	model.addAttribute("List", orderInfo);
+	  }
+	  
+	  @RequestMapping(value = "/orderEdit", method = RequestMethod.POST) 
+	  public String orderEdit(OrderVO vo,HttpSession session) throws Exception{
+	  
+		  int result = mService.orderEdit(vo);
+	
+		  if (result == 1) {
+			  return "material/resultSuccess"; 
+		  } else {
+			  return "material/resultFailed"; 
+		  } 
+	  }
+	  
+	  // ======================================발주 삭제
+	  @RequestMapping(value = "/orderDel", method = RequestMethod.GET)
+	  public void orderDel(@RequestParam("codes") String codes, Model model) throws Exception {
+		  String[] code_arr = codes.split(",");
+		  List<OrderVO> delOrderInfo = mService.delOrderInfo(code_arr);
+		  model.addAttribute("List", delOrderInfo);
+	  }
+
+	  @RequestMapping(value = "/orderDel", method = RequestMethod.POST)
+	  public void orderDel(@RequestParam("codes") String codes) throws Exception {
+		  String[] code_arr = codes.split(",");
+		  mService.orderDel(code_arr);
+	  }
+	  
+	  /*--------------------------------------발주관리  끝 -----------------------------------------*/
+	  
+	  
+	  
+	  
+	  /*----------------------------------------출고 시작-------------------------------------------*/
+		
+	  // ======================================출고 - 목록
+	  @RequestMapping(value = "/outList", method = RequestMethod.GET) 
+	  public void outList(Model model, Criteria cri, Warehouse_HistoryVO vo) throws Exception {
+	  
+		  vo.setCri(cri);
+		  
+		  PageVO pageVO = new PageVO(); 
+		  pageVO.setCri(cri);
+		  pageVO.setTotalCount(mService.outListCount(vo));
+	  
+		  model.addAttribute("pageVO", pageVO);
+		  model.addAttribute("outList", mService.outList(vo));
+
+	  }
+	
+      // ======================================출고 - 상세
+      @RequestMapping(value = "/outInfo", method = RequestMethod.GET)
+  	  public void outInfo(@RequestParam(value = "code") String code,Model model) throws Exception {
+  		
+    	Warehouse_HistoryVO outInfo = mService.outInfo(code);
+  		model.addAttribute("outInfo", outInfo);
+
+  	  }
+      
+	  /*-----------------------------------------출고 끝--------------------------------------------*/
+	 
+	  
+	  
+	  
+	  
+	  
+	  
 	  
 	  
   		
 	  //=====================================================================================
 	  
+	  // + 입고등록 검색)  /searchOrder
+	  @RequestMapping(value = "/searchOrder", method = RequestMethod.GET)
+	  public void searchOrder(Model model, Criteria cri, OrderVO vo) throws Exception{
+			
+		  vo.setCri(cri);
+		  PageVO pageVO = new PageVO();
+		  pageVO.setCri(cri);
+		  pageVO.setTotalCount(mService.orderListCount(vo));
+		  model.addAttribute("pageVO", pageVO);
+		  model.addAttribute("searchOrder", mService.searchOrder(vo));
+			
+	  }
 
 	  // 입고등록) 창고 목록 (원
 	  @RequestMapping(value = "/searchOrderWarehouse" , method = RequestMethod.GET)
@@ -313,7 +407,7 @@ public class MaterialController {
 		  
 	  }
 	  
-	  // 발주등록) 사원 목록 (원자재) 
+	  // 발주등록) 거래처 목록 (원자재) 
 	  @RequestMapping(value = "/searchClient" , method = RequestMethod.GET)
 	  public void searchClient(Model model, Criteria cri, OrderVO vo) throws Exception{
 		  
@@ -323,6 +417,22 @@ public class MaterialController {
 		  pageVO.setTotalCount(mService.searchClientCount(vo));
 		  model.addAttribute("pageVO", pageVO);
 		  model.addAttribute("searchClient", mService.searchClient(vo)); 
+		  
+	  }
+	  
+	  // 입고검색) 품목 목록 (전체) 
+	  @RequestMapping(value = "/searchMAPD" , method = RequestMethod.GET)
+	  public void searchMAPD(Model model, Criteria cri, OrderVO vo) throws Exception{
+		  
+		  vo.setCri(cri);
+		  PageVO pageVO = new PageVO();
+		  pageVO.setCri(cri);
+		  pageVO.setTotalCount(mService.searchMAPDCount(vo));
+		  model.addAttribute("pageVO", pageVO);
+		  model.addAttribute("searchMAPD", mService.searchMAPD(vo)); 
+		  
+		  
+		  
 		  
 	  }
   	

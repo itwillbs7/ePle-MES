@@ -41,10 +41,14 @@
 	<!------------------------- 추가 / 수정 / 삭제 버튼 ------------------------->
 	<div class="card-box mb-30">
 		<div class="pd-20">
-			<div class="btn-group pull-right" style="margin-bottom: 10px">
-				<button type="button" class="btn btn-success" id="add"><b>요청서 등록</b></button>
+			<div class="btn-group pull-right" style="margin-bottom: 10px; margin-left: 10px;">
+				<button type="button" class="btn btn-danger" id="delete"><b>요청 취소</b></button>
+			</div>
+			<div class="btn-group pull-right" style="margin-bottom: 10px; margin-left: 10px;">
 				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
-				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
+			</div>
+			<div class="btn-group pull-right" style="margin-bottom: 10px;">
+				<button type="button" class="btn btn-success" id="add"><b>요청서 작성</b></button>
 			</div>
 		</div>
 
@@ -65,10 +69,10 @@
 							<th>품목코드</th>
 							<th>구분</th>
 							<th>품명</th>
-							<th>요청량</th>
-							<th>신청일</th>
+							<th>발주량</th>
+							<th>요청날짜</th>
+							<th>요청자</th>
 							<th>발주상태</th>
-							<th>옵션</th>
 						</tr>
 
 						<c:forEach items="${askOrderList }" var="vo">
@@ -85,26 +89,8 @@
 							<th>${vo.name }</th>
 							<th>${vo.amount } ${vo.unit }</th>
 							<th><fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></th>
-							<th>${vo.status }</th>
-							<td style="">
-
-
-
-							<!-------------------------------- 옵션 선택 -------------------------------->
-							<div class="dropdown">
-								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i> </a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-										<!-- 상세 보기 -->
-										<a class="dropdown-item" href="javascript:openPage('/material/inInfo?code=${vo.code }', 400, 700"><i class="dw dw-eye"></i>상세 보기</a>
-										<!-- 수정 -->
-										<a class="dropdown-item" href="javascript:openPage('/material/inEdit?code=${vo.code }', 400, 700"><i class="dw dw-edit2"></i> 수정</a>
-										<!-- 삭제 -->
-										<a class="dropdown-item" id="optDelete"><i class="dw dw-delete-3"></i> 삭제</a>
-									</div>
-							</div>
-								
-								
-							</td>
+							<th>${vo.empName }</th>
+							<th style="color: red;">${vo.status }</th>
 						</tr>
 						</c:forEach>
 							
@@ -201,7 +187,7 @@
 			setting += "scrollbars=0,";
 			setting += "statusbar=0,";
 			setting += "menubar=0,";
-			setting += "resizeable=0,";
+			setting += "resizable=0,";
 			setting += "width=" + width + ",";
 			setting += "height=" + height + ",";
 			setting += "top=" + popupY + ",";
@@ -239,9 +225,9 @@
 			    });
 			    
 			    if (codes.length > 0) { 
-			        openPage("/material/askOrderDel?codes=" + codes.join(','), 400, 600);
+			        openPage("/material/askOrderDel?codes=" + codes.join(','), 700, 600);
 			    } else {
-			        $('#warning-modal').modal('show'); 
+			    	alert("선택된 항목이 없습니다!"); 
 			    }
 			}); 
 			
@@ -251,60 +237,10 @@
       		  openPage("${pageContext.request.contextPath}/material/askOrderInfo?code=" + code, 400, 700); });
 			
 			
-			// 검색 - 사원 리스트 
-			$("#manager,#managerName").click(function() {
-				// 가로, 세로 설정
-				openPage("/warehouse/searchEmployees", 400,700);
-			});
-
-			
-			
 		});
 		
 
 
- 		// 검색하기
-  		function doSearch() {
-		        var query = {"searchCode" : $("#whCode").val(), "searchName" : $("#manager").val()};
-		        
-		        console.log("searchCode:", query.searchCode);
-		        console.log("searchName:", query.searchName);
-		        
-		        $.ajax({
-		            url : "${pageContext.request.contextPath}/warehouse/list",
-		            type : "get",
-		            data : query,
-		            dataType : "text",
-		            success : function(data){
-		                 if (query.searchCode == "" && query.searchName == "") {
-		                    location.href = "${pageContext.request.contextPath}/warehouse/list";
-		                } else {
-		                    location.href = "${pageContext.request.contextPath}/warehouse/list?searchCode=" + $("#whCode").val() + "&searchName=" + $("#manager").val();
-		                } 
-		                 
-		                if (data) {
-		                    alert("완료");
-		                } else {
-		                    alert("전송된 값 없음");
-		                }
-		                
-		            },
-		            
-		            error: function() {
-		                alert("에러 발생");
-		            }
-
-		        });
-		} 
-		
-
-		// 검색 초기화 , placeholder 재지정 
-		function resetSearch() {
-			$("#manager").val("");
-			$("#managerName").val("");
-		    $("#manager").attr("placeholder", "관리자코드");
-		    $("#managerName").attr("placeholder", "관리자이름");
-		}
 
 		
 	</script>

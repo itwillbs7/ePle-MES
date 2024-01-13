@@ -32,5 +32,7 @@ public class WarehouseVO {
 	private String w_code;	
 	private String wh_code;	
 	private String wh_name;	
+	private String warehouse;	
+	private String total;	
 
 }

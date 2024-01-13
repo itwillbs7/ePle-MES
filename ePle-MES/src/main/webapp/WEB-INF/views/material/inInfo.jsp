@@ -5,6 +5,11 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<style>
+label {
+font-weight: bold;
+}
+</style>
 <title>입고 상세</title>
 </head>
 <body>
@@ -23,17 +28,13 @@
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						
-								<div class="form-group">
 									<label>입고코드</label> 
-								<input class="form-control" type="text" name="code" id="code" readonly value="${inInfo.code }">
+								<div class="form-group">
+									<input class="form-control" type="text" name="code" id="code" readonly value="${inInfo.code }">
 								</div>
 								
-								<div class="form-group">
-									<!-- <label>자재 유형</label>  -->
-								</div>
-
-								<div class="form-group">
 									<label>발주/수주 정보</label> 
+								<div class="form-group">
 									<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="발주/수주코드" readonly value="${inInfo.order_num}">
 								</div>
 								<div class="form-group">
@@ -44,8 +45,8 @@
 									<input class="form-control" type="text" id="orderAmount" name="amount" placeholder="수량" readonly value="${inInfo.amount } ${inInfo.unit }">
 								</div>
 
-								<div class="form-group">
 									<label>창고 정보</label> 
+								<div class="form-group">
 									<input class="form-control" type="text" id="warehouseCode" name="warehouse_code" placeholder="창고코드" readonly value="${inInfo.warehouse_code}">
 								</div>
 								<div class="form-group">
