@@ -9,6 +9,9 @@
 <title>보전 신청 목록</title>
 </head>
 <body>
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
 	<!-- 직원의 보전 신청 내역, 완료된 건 표시x -->
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
