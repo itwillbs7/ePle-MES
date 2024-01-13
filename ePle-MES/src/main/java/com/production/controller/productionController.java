@@ -21,7 +21,9 @@ import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RequestVO;
 import com.itwillbs.service.RequestService;
 import com.production.domain.BOMVO;
+import com.production.domain.ajaxSearchVO;
 import com.production.domain.instructionVO;
+import com.production.domain.proPageVO;
 import com.production.domain.prodRequestVO;
 import com.production.service.productionServiceImpl;
 
@@ -40,7 +42,7 @@ public class productionController {
 	//http://localhost:8088/production/instruction
 	//지시사항 조회
 	@RequestMapping(value = "/instruction", method = RequestMethod.GET)
-	public void instruction(String[] product, String[] line_code, String[] request, String dateRange,/* int pageNum, */Model model) throws Exception {
+	public void instruction(ajaxSearchVO vo,@RequestParam(value = "page",required = false) Integer page, Model model) throws Exception {
 		logger.debug("Controller : instruction() 호출");
 		//지시사항 테이블 요소
 		//model.addAttribute("instructionVOList", pdService.getInstruction());
@@ -49,28 +51,18 @@ public class productionController {
 		model.addAttribute("line_codeList", pdService.getLine_code());
 		model.addAttribute("requestList", pdService.getRequest());
 		
-		String[] dateArr = null;
-		logger.debug("dateRange : " + dateRange);
-		if (dateRange != "" && dateRange != null) {
-			dateArr = dateRange.split(" - ");
-		}else {
-			LocalDate today = LocalDate.now();
-	        
-	        // 이번 주의 첫날과 마지막 날 구하기
-	        LocalDate firstDayOfWeek = today.with(DayOfWeek.MONDAY);
-	        LocalDate lastDayOfWeek = today.with(DayOfWeek.SUNDAY);
-
-	        // 출력 포맷 지정
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-	        // 결과 출력
-	        String firstDayStr = firstDayOfWeek.format(formatter);
-	        String lastDayStr = lastDayOfWeek.format(formatter);
-	        dateArr = new String[]{firstDayStr,lastDayStr};
+		if (vo.getPageVO() == null) {
+			logger.debug("vo.getPageVO() == null");
+			proPageVO pageVO = new proPageVO();
+			if (page != null) {
+				pageVO.setPage(page);
+			}
+			vo.setPageVO(pageVO);
 		}
-		logger.debug("dateArr : " + dateArr);
-		List<instructionVO> instructionVOList = pdService.ajaxSearch(product,line_code,request,dateArr);
+		ajaxSearchVO vo2 = pdService.ajaxSearchCount(vo);
+		List<instructionVO> instructionVOList = pdService.ajaxSearch(vo2);
 		logger.debug("instructionVOList : " + instructionVOList);
+		model.addAttribute("ajaxSearchVO", vo2);
 		model.addAttribute("instructionVOList", instructionVOList);
 		//model.addAttribute("pageVO", "pageVO");
 	}
