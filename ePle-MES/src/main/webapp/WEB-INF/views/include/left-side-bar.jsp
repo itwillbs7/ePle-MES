@@ -68,7 +68,7 @@
 				
 					<ul class="submenu">
 						<li><a href="/product/productAll">품목 정보 관리</a></li>
-						<li><a href="/requirement/requirementAll">소요량 관리</a></li>
+						<li><a href="/requirement/list">소요량 관리</a></li>
 						<li><a href="/line/lineAll">라인 정보 관리</a></li>
 						<li><a href="/client/clientAll">거래처 정보 관리</a></li>
 					</ul></li>
