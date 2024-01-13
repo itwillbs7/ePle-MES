@@ -132,10 +132,19 @@
 		</div>
 	</div>
 	<!-- 콘텐츠 끝> -->
-	<script type="text/javascript">
-
 	
+	<script type="text/javascript">
+	    document.addEventListener("DOMContentLoaded", function () {
+	        // 등록일
+	        var regDateInput = document.getElementsByName("reg_date")[0];
+	        regDateInput.value = regDateInput.value.substring(0, 10);
+	
+	        // 수정일
+	        var updateDateInput = document.getElementsByName("update_date")[0];
+	        updateDateInput.value = updateDateInput.value.substring(0, 10);
+	    });
 	</script>
+
 	<%@ include file="../include/footer.jsp"%>
 </body>
 </html>

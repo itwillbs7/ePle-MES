@@ -23,11 +23,6 @@ public class ProductDAOImpl implements ProductDAO {
 	
 	private static final String NAMESPACE ="com.itwillbs.mapper.ProductMapper";
 
-//	@Override
-//	public List<MAPDVO> getProductListAll() throws Exception {
-//		return sqlSession.selectList(NAMESPACE + ".selectProductList");
-//	}
-
 	@Override
 	public MAPDVO getProduct(String code) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".getProduct",code);
