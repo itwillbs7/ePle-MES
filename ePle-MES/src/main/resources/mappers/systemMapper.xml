@@ -19,10 +19,11 @@
  <resultMap type="com.itwillbs.domain.UserVO" id="UserVO">
 	<result property="code" column="code"/>
 	<result property="id" column="id"/>
+	<result property="pw" column="pw"/>
 	<result property="dep_group" column="dep_group"/>
 	<result property="dep_id" column="dep_id"/>
+	<result property="pos_group" column="pos_group"/>
 	<result property="pos_id" column="pos_id"/>
-	<result property="pw" column="pw"/>
 	<result property="name" column="name"/>
 	<result property="hiredate" column="hiredate"/>
 	<result property="phone" column="phone"/>

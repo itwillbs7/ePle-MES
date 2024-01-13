@@ -24,43 +24,22 @@
 						<div class="login-title">
 							<h2 class="text-center text-primary">로그인</h2>
 						</div>
-						<form method="post">
+						<form method="post" action="/login">
 							<div class="select-role">
-								<div class="btn-group btn-group-toggle" data-toggle="buttons">
-									<label class="btn active"> <input type="radio" name="options" id="admin" />
-										<div class="icon">
-											<img src="/resources/vendors/images/briefcase.svg" class="svg" alt="" />
-										</div> <span>일반</span>로그인
-									</label> <label class="btn"> <input type="radio" name="options" id="user" />
-										<div class="icon">
-											<img src="/resources/vendors/images/person.svg" class="svg" alt="" />
-										</div> <span>바코드</span>로그인
-									</label>
-								</div>
 							</div>
 							<div class="input-group custom">
-								<input type="text" class="form-control form-control-lg" placeholder="사번" />
+								<input type="text" class="form-control form-control-lg" placeholder="아이디" name="id" required/>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
 								</div>
 							</div>
 							<div class="input-group custom">
-								<input type="password" class="form-control form-control-lg" placeholder="비밀번호" />
+								<input type="password" class="form-control form-control-lg" placeholder="비밀번호" name="pw" autocomplete="current-password" required/>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="dw dw-padlock1"></i></span>
 								</div>
 							</div>
 							<div class="row pb-30">
-								<div class="col-6">
-									<div class="custom-control custom-checkbox">
-										<input type="checkbox" class="custom-control-input" id="customCheck1" /> <label class="custom-control-label" for="customCheck1">Remember</label>
-									</div>
-								</div>
-								<div class="col-6">
-									<div class="forgot-password">
-										<a href="forgot-password.html">비밀번호 찾기</a>
-									</div>
-								</div>
 							</div>
 							<div class="row">
 								<div class="col-sm-12">

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <!-- mainMapper.xml -->
+ 
+<mapper namespace="com.itwillbs.mapper.mainMapper">
+ 
+ <resultMap type="com.itwillbs.domain.UserVO" id="UserVO">
+	<result property="code" column="code"/>
+	<result property="id" column="id"/>
+	<result property="dep_group" column="dep_group"/>
+	<result property="dep_id" column="dep_id"/>
+	<result property="pos_group" column="pos_group"/>
+	<result property="pos_id" column="pos_id"/>
+	<result property="pw" column="pw"/>
+	<result property="name" column="name"/>
+	<result property="hiredate" column="hiredate"/>
+	<result property="phone" column="phone"/>
+	<result property="email" column="email"/>
+	<result property="address" column="address"/>
+	<result property="active" column="active"/>
+	<result property="auth" column="auth"/>
+</resultMap>
+
+<select id="selectUserInfo" parameterType="UserVO" resultType="UserVO">
+	SELECT * FROM EMPLOYEES WHERE id = #{id} 
+</select>
+
+
+
+
+</mapper>

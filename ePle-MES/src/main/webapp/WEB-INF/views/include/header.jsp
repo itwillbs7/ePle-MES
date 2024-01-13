@@ -25,12 +25,12 @@
 					<span class="user-icon">
 							<img src="${pageContext.request.contextPath}/resources/images/user.png" alt="" />
 					</span> 
-					<span class="user-name">직원명(부서나 사번 표시)</span>
+					<span class="user-name">이름(사원번호)</span>
 				</a>
 				<!-- 회원 드롭다운 -->
 				<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 					<!-- 계정 로그인 되었을 때 -->	
-					<a class="dropdown-item" href="login.html">
+					<a class="dropdown-item" href="/logout">
 						<i class="dw dw-logout"></i> 로그아웃</a>
 					<!-- 계정 로그인 되었을 때 -->	
 				</div>
