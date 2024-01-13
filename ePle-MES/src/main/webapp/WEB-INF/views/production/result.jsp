@@ -104,10 +104,12 @@
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item"><a class="nav-link active text-blue" data-toggle="tab" href="#result" role="tab" aria-selected="true">기본 정보</a></li>
 							<li class="nav-item"><a class="nav-link text-blue" data-toggle="tab" href="#failed" role="tab" aria-selected="false">부적합 정보</a></li>
+							<li class="nav-item"><a class="nav-link text-blue" data-toggle="tab" href="#input" role="tab" aria-selected="false">투입 내역</a></li>
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="result" role="tabpanel">
 								<div class='infoBtnGroup'>
+									<button type='button' class='btn btn-success infoBtn' id='inputButton' disabled>재료투입</button>
 									<button type='button' class='btn btn-success infoBtn' id='Start' disabled>시작</button>
 									<button type='button' class='btn btn-warning infoBtn' id='Complete' disabled>완료</button>
 									<button type='button' class='btn btn-secondary infoBtn' id='addResult' disabled>양품추가</button>
@@ -209,22 +211,23 @@
 											</tr>
 										</thead>
 										<tbody>
-											<%-- <c:forEach items="failedList" var="failed">
-												<tr>
-													<td>${failed.code }</td>
-													<td>${failed.emp_code }</td>
-													<td>${failed.code_id }</td>
-													<td>${failed.content }</td>
-													<td>${failed.action }</td>
-													<td>${failed.amount }</td>
-													<td>${failed.emp_date }</td>
-												</tr>
-											</c:forEach> --%>
 										</tbody>
 									</table>
 							</div>
 							<div class="tab-pane fade" id="input" role="tabpanel">
-								<div class="pd-20">input</div>
+								<i class="icon-copy fa fa-info-circle toggleIcon" aria-hidden="true" style="font-size: 30px; width: 100%; text-align: center; ertical-align: middle; line-height: 100px;">&nbsp;실적을 선택해 주세요</i>
+									<table class='table table-bordered toggleTable' id='inputTable' style="display: none; margin-top: 20px;">
+										<thead>
+											<tr>
+												<th>투입코드</th>
+												<th>재료코드</th>
+												<th>재료명</th>
+												<th>갯수</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
 							</div>
 						</div>
 					</div>
@@ -323,6 +326,7 @@
 		function setInfo(data) {
 			var dataResult = data.result;
 			var failedList = data.failedList;
+			var inputList = data.inputList;
 			$("#codeInfo").val(dataResult.code);
 			$("#dateInfo").val(dataResult.vo.production_date);
 			$("#lineInfo").val(dataResult.vo.line_code);
@@ -348,6 +352,17 @@
 				html += "<th>" + failedList[i].reg_date + "</th>";
 				html += "</tr>";
 				$('#failedTable>tbody').append(html);
+			}
+			$('#inputTable>tbody>tr').remove();
+			for (var i = 0; i < inputList.length; i++) {
+				html = "";
+				html += "<tr>";
+				html += "<th>"+ inputList[i].code +"</th>";
+				html += "<th>" + inputList[i].mapd_code + "</th>";
+				html += "<th>" + inputList[i].mapd_name + "</th>";
+				html += "<th>" + inputList[i].amount + "</th>";
+				html += "</tr>";
+				$('#inputTable>tbody').append(html);
 			}
 
 			//css변경
@@ -463,6 +478,42 @@
 	</script>
 
 	<!-- 입고등록 끝 -->
+	<!-- 재료투입 시작 -->
+	<script type="text/javascript">
+		$(document) .on( "click", "#inputButton", function() {
+			var status = $("#statusInfo").val();
+				var popupWidth, popupHeight, popupX, popupY, link;
+				var set;
+				var code = $("#codeInfo").val();
+				function retPopupSetting(width, height) {
+					// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
+					popupX = Math.ceil((window.screen.width - width) / 2);
+					// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
+					popupY = Math.ceil((window.screen.height - height) / 2);
+			
+					var setting = "";
+					setting += "toolbar=0,";
+					setting += "scrollbars=0,";
+					setting += "statusbar=0,";
+					setting += "menubar=0,";
+					setting += "resizeable=0,";
+					setting += "width=" + width + ",";
+					setting += "height=" + height + ",";
+					setting += "top=" + popupY + ",";
+					setting += "left=" + popupX;
+					return setting;
+				}
+			
+				function openPage(i, width, height) {
+					set = retPopupSetting(width, height);
+					return window.open(i, 'Popup_Window', set);
+				}
+				
+				openPage("/production/input?code=" + code, 500, 600);
+		});
+	</script>
+
+	<!-- 재료투입 끝 -->
 	<!-- 수주정보 받기 시작 -->
 	<script type="text/javascript">
 		window.addEventListener("message", function(event) {
