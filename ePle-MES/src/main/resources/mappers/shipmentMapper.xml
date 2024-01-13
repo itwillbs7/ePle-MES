@@ -322,7 +322,7 @@
 	<!-- LOT 테이블에 값 넣기 -->
 	<insert id="insertLOT">
 		insert into LOT (lot, material,shipment)
-		values (#{lot},#{material},#{vo.code})
+		values (#{lot},"gkgkgk",#{vo.code})
 	</insert>
 
 
@@ -331,8 +331,7 @@
 	<delete id="deleteLOTUpdate">
 		delete from LOT
 		where SHIPMENT in
-		<foreach item="item" index="index" collection="code" open="("
-			separator="," close=")">
+		<foreach item="item" index="index" collection="code" open="(" separator="," close=")">
 			#{item}
 		</foreach>
 	</delete>
