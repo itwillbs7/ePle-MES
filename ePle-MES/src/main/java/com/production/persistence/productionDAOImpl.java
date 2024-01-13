@@ -11,8 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.PageVO;
 import com.production.domain.BOMVO;
+import com.production.domain.ajaxSearchVO;
 import com.production.domain.instructionVO;
+import com.production.domain.proPageVO;
 import com.production.domain.prodRequestVO;
 
 @Repository
@@ -46,13 +50,11 @@ public class productionDAOImpl implements productionDAO {
 	}
 
 	@Override
-	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request, String[] dateRange) throws Exception {
-		Map<String,String[]>map = new HashMap<String,String[]>();
-		map.put("product", product);
-		map.put("line_code", line_code);
-		map.put("request", request);
-		map.put("dateRange", dateRange);
-		return sqlSession.selectList(NAMESPACE + ".ajaxSearch",map);
+	public List<instructionVO> ajaxSearch(ajaxSearchVO vo) throws Exception {
+		logger.debug("page : " + vo.getPageVO().getPage());
+		logger.debug("limit : " + vo.getPageVO().getLimit());
+		logger.debug("total : " + vo.getPageVO().getTotalCount());
+		return sqlSession.selectList(NAMESPACE + ".ajaxSearch",vo);
 	}
 
 	@Override
@@ -109,6 +111,14 @@ public class productionDAOImpl implements productionDAO {
 	@Override
 	public List<BOMVO> getBOM(String mapd_code) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getBOM", mapd_code);
+	}
+
+	@Override
+	public ajaxSearchVO ajaxSearchCount(ajaxSearchVO vo) throws Exception {
+		proPageVO pagevo = vo.getPageVO();
+		pagevo.setTotalCount(sqlSession.selectOne(NAMESPACE + ".ajaxSearchCount",vo));
+		vo.setPageVO(pagevo);
+		return vo;
 	}
 
 }

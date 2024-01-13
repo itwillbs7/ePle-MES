@@ -17,8 +17,46 @@
 	<select id="getRequest" resultType="String">
 		SELECT DISTINCT request FROM INSTRUCTION WHERE status != '비활성'
 	</select>
-	<select id="ajaxSearch" parameterType="hashmap" resultType="com.production.domain.instructionVO">
+	<select id="ajaxSearch" parameterType="com.production.domain.ajaxSearchVO" resultType="com.production.domain.instructionVO">
 		SELECT I.*,M.name AS product_name FROM INSTRUCTION I LEFT JOIN MAPD M ON I.product = M.code WHERE 1 = 1  AND status != '비활성'
+		<if test="product != null">
+			AND product IN
+			<foreach collection="product" item="arr" open="(" close=")" separator=",">
+				#{arr}
+			</foreach>
+		</if>
+		<if test="line_code != null">
+			 AND line_code IN
+			<foreach collection="line_code" item="arr" open="(" close=")" separator=",">
+				#{arr}
+			</foreach>
+		</if>
+		<if test="request != null">
+			 AND request IN
+			<foreach collection="request" item="arr" open="(" close=")" separator=",">
+				#{arr}
+			</foreach>
+		</if>
+		<if test="dateRange != null">
+			<if test="dateRange.length > 1">
+				 AND production_date BETWEEN 
+				<foreach collection="dateRange" item="arr" open="" close="" separator=" and ">
+					#{arr}
+				</foreach>
+			</if>
+			<if test="dateRange.length == 1">
+				 AND production_date =
+				<foreach collection="dateRange" item="arr" open="" close="" separator=" and ">
+					#{arr}
+				</foreach>
+			</if>
+		</if>
+		<if test="pageVO != null">
+			LIMIT #{pageVO.limit} , #{pageVO.pageSize}
+		</if>
+	</select>
+	<select id="ajaxSearchCount" parameterType="com.production.domain.ajaxSearchVO" resultType="int">
+		SELECT count(*) FROM INSTRUCTION I LEFT JOIN MAPD M ON I.product = M.code WHERE 1 = 1  AND status != '비활성'
 		<if test="product != null">
 			AND product IN
 			<foreach collection="product" item="arr" open="(" close=")" separator=",">
