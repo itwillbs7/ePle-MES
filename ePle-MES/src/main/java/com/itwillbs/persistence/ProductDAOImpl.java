@@ -40,11 +40,13 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
     public int deleteProducts(String[] codes) {
+		sqlSession.delete(NAMESPACE+".deleteFromWareHouse",codes);
         return sqlSession.delete(NAMESPACE + ".deleteProducts", codes);
     }
 
 	@Override
 	public int insertProduct(MAPDVO mvo) throws Exception {
+		sqlSession.insert(NAMESPACE+".insertWareHouse",mvo);
 		return sqlSession.insert(NAMESPACE+".insertProduct", mvo);
 	}
 
