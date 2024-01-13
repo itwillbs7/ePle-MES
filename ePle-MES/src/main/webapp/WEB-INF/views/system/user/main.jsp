@@ -204,6 +204,40 @@
 			</div>
 		</div>
 	</div>
+	<!-- 모달 창 -->
+	<div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm modal-dialog-centered">
+			<div class="modal-content bg-warning">
+				<div class="modal-body text-center">
+					<h3 class="mb-15">
+						<i class="fa fa-exclamation-triangle"></i> 주의
+					</h3>
+					<p>
+						<b>선택된 데이터</b>가 없습니다!
+					</p>
+					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 모달 창 -->
+	<!-- 모달 창 -->
+	<div class="modal fade" id="warning-modal2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm modal-dialog-centered">
+			<div class="modal-content bg-warning">
+				<div class="modal-body text-center">
+					<h3 class="mb-15">
+						<i class="fa fa-exclamation-triangle"></i> 주의
+					</h3>
+					<p>
+						<b>복수의 데이터</b>를 수정할 수 없습니다.
+					</p>
+					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 모달 창 -->
 
 	<script type="text/javascript">
 	
@@ -280,11 +314,15 @@
 				var index = $( "input[type=checkbox]:checked" ).val();
 				
 				if (n > 1) {
-					alert('수정은 한 번에 1개씩만 가능합니다!');
+					$(this).attr("data-toggle", "modal");
+					$(this).attr("data-target", "#warning-modal2");
+					$($(this).data("target")).show();
 					return;
 				}
 				if (n == 0) {
-					alert('수정을 원하는 행을 선택해주세요!');
+					$(this).attr("data-toggle", "modal");
+					$(this).attr("data-target", "#warning-modal");
+					$($(this).data("target")).show();
 					return;
 				}
 				
@@ -311,7 +349,9 @@
 		            openPage("/system/user/delete?indexes=" + indexes, 400, 700);
 			        
 			    } else {
-			        alert('삭제를 원하는 행을 선택해주세요!');
+			    	$(this).attr("data-toggle", "modal");
+					$(this).attr("data-target", "#warning-modal");
+					$($(this).data("target")).show();
 			    }
 			    
 				

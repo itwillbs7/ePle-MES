@@ -59,6 +59,7 @@ public class MainController {
 				if(dbVO.getPw().equals(inputVO.getPw()) && dbVO.getActive() != 0) { // pw 일치 = 로그인
 					logger.debug(dbVO.toString());
 					logger.debug("비밀번호 일치, 세션 값 저장");
+					session.setAttribute("code", dbVO.getCode());
 					session.setAttribute("id", dbVO.getId());
 					session.setAttribute("dep_group", dbVO.getDep_group());
 					session.setAttribute("dep_id", dbVO.getDep_id());
