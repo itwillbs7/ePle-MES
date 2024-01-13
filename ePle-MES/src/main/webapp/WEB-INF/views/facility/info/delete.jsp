@@ -42,7 +42,7 @@
 							onclick="closePopup();">
 							<b>취소</b>
 						</button>
-						<button type="submit" class="btn btn-warning">
+						<button type="submit" class="btn btn-danger">
 							<b>삭제</b>
 						</button>
 					</div>
