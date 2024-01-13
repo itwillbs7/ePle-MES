@@ -26,21 +26,18 @@
                         <div class="form-group">
                             <input class="form-control" type="text" name="code" placeholder="품목 코드 입력" >
                         </div>
-						<div class="form-group">
-						    <label>품번</label>
-						    <input class="form-control" type="text" name="group_id" value="PROD" readonly required>
-						</div>
-						<div class="form-group">
-						    <label>소분류</label>
-						    <select class="form-control" id="categoryDropdown" name="code_id" required>
-						        <option value="" disabled selected>소분류 선택</option>
-						        <option value="001">원자재 / 001</option>
-						        <option value="002">반제품 / 002</option>
-						        <option value="003">완제품 / 003</option>
+						<input class="form-control" type="hidden" name="group_id" value="PROD" readonly required>	
+						<div class="selectpicker form-group">
+						    <label>분류</label>
+						    <select class="selectpicker form-control" name="code_id" data-style="btn-info" data-size="5" required>
+						    	<option value="" disabled selected hidden="hidden">소분류 선택</option>
+						        <option value="001" data-subtext='001'>원자재</option>
+						        <option value="002" data-subtext='002'>반제품</option>
+						        <option value="003" data-subtext='003'>완제품</option>
 						    </select>
 						</div>
                         <div class="form-group">
-                            <label>품명</label> <input class="form-control" type="text" name="name" placeholder="원자재 또는 완제품 품명 입력" required>
+                            <label>품명</label> <input class="form-control" type="text" name="name" placeholder="품명 입력" required>
                         </div>
                         <div class="form-group">
                             <label>규격</label> <input class="form-control" type="text" name="size" placeholder="규격 입력" required>

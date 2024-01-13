@@ -22,5 +22,9 @@ public interface ProductService {
 	
 	public List<MAPDVO> productListPage(PageVO vo) throws Exception;
 	
-	public int totalProductCount() throws Exception;
+	public int totalProductCount(PageVO vo) throws Exception;
+	
+	public List<MAPDVO> getCommonList(String group_id) throws Exception;
+	
+	public String getRecentCode() throws Exception;
 }

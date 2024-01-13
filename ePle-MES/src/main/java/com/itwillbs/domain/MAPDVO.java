@@ -9,7 +9,9 @@ public class MAPDVO {
 
 	private String code;
 	private String group_id;
+	private String group_name;
 	private String code_id;
+	private String code_name;
 	private String name;
 	private String size;
 	private String unit;

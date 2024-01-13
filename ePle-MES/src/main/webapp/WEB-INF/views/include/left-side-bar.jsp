@@ -56,6 +56,7 @@
 				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-wrench-adjustable-circle"></span><span class="mtext">설비 관리</span>
 				</a>
 					<ul class="submenu">
+						<li><a href="/facility/mapd/list">설비 정보</a></li>
 						<li><a href="/facility/info/list">설비 목록</a></li>
 						<li><a href="/facility/mt/main">보전</a></li>
 						<li><a href="/facility/mt/status">설비 모니터링</a></li>
