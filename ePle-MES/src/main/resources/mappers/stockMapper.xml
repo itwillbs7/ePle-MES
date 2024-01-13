@@ -63,7 +63,7 @@
 	
 	<!-- 창고 상세 -->
 	<select id="warehouseInfo" parameterType="String" resultType="WarehouseVO">
-		SELECT w.code, w.location, w.category, w.name wh_name, e.code, e.name, e.phone, w.active
+		SELECT w.code, w.location, w.category, w.name wh_name, e.code empCode, e.name, e.phone, w.active
     	FROM WAREHOUSE w 
     	JOIN EMPLOYEES e 
     	ON w.manager = e.code

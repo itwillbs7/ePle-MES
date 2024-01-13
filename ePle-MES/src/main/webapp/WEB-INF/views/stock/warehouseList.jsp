@@ -113,7 +113,7 @@ margin-right:20px;
 							<th>담당자</th>
 							<th>연락처</th>
 						</tr>
-
+					<c:if test="${not empty warehouseList}">
 						<c:forEach items="${warehouseList }" var="vo">
 						<tr>
 							<td>
@@ -127,11 +127,22 @@ margin-right:20px;
 							<th>${vo.category }</th>
 							<th>${vo.wh_name }</th>
 							<th>${vo.name }</th>
-							<th>${vo.phone }</th>
+							<th class="con">
+								<script>
+									var phoneNumber = "${vo.phone}";
+									var formattedPhoneNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/,'$1-$2-$3');
+										document.write(formattedPhoneNumber);
+								</script>
+							</th>
 
 						</tr>
 						</c:forEach>
-							
+					</c:if>
+					<c:if test="${empty warehouseList}">
+						<tr>
+							<td colspan="7" >검색 결과가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
+						</tr>
+					</c:if>		
 					</table>
 				</form>
 
@@ -147,13 +158,13 @@ margin-right:20px;
 				<div class="btn-toolbar justify-content-center mb-15">
 					<div class="btn-group">
 						<c:if test="${pageVO.prev}">
-							<a href="/stock/warehouseList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+							<a href="/stock/warehouseList?page=${pageVO.startPage - 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
 						</c:if>
 						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/stock/warehouseList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+							<a href="/stock/warehouseList?page=${i}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
 						</c:forEach>
 						<c:if test="${pageVO.next}">
-							<a href="/stock/warehouseList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+							<a href="/stock/warehouseList?page=${pageVO.endPage + 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
 						</c:if>
 					</div>
 				</div>
@@ -251,7 +262,7 @@ margin-right:20px;
 			        alert("수정할 항목을 하나만 선택하세요!");
 			    } else {
 			        var code = check.val();
-			        openPage("/stock/warehouseEdit?code=" + code, 400, 700);
+			        openPage("/stock/warehouseEdit?code=" + code, 600, 700);
 			    }
 			});
 		 	
@@ -330,11 +341,16 @@ margin-right:20px;
 			$("#selectA").val("");
 			$("#selectB").val("");
 		    $("#whCode").attr("placeholder", "창고코드");
-		    $("#selectA").attr("placeholder", "관리자코드");
-		    $("#selectB").attr("placeholder", "관리자이름");
+		    $("#selectA").attr("placeholder", "담당자코드");
+		    $("#selectB").attr("placeholder", "담당자이름");
 		} 
 		
-		
+		document.addEventListener('keydown', function(event) {
+			if (event.key === 'Enter') {
+				doSearch();
+				event.preventDefault();
+			}
+		});
 
 
 		
