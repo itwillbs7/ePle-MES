@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.production.domain.BOMVO;
+import com.production.domain.ProductVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
 
@@ -21,53 +23,49 @@ public class RequirementDAOImpl implements RequirementDAO {
 	private SqlSession sqlSession;
 	
 	private static final String NAMESPACE ="com.itwillbs.mapper.RequirementMapper";
-
+	
 	@Override
-	public List<MAPDVO> getRequirementListAll() throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".selectRequirementList");
+	public List<ProductVO> getProductList() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getProductList");
 	}
-
+	
 	@Override
-	public MAPDVO getRequirement(String code) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".getRequirement",code);
+	public ProductVO getProduct(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getProduct", code);
 	}
-
+	
 	@Override
-	public int updateRequirement(MAPDVO mvo) throws Exception {
-		return sqlSession.update(NAMESPACE +".updateRequirement", mvo);
+	public List<BOMVO> getBomList(String code) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getBomList", code);
 	}
-
+	
 	@Override
-    public int deleteRequirements(String[] codes) {
-        return sqlSession.delete(NAMESPACE + ".deleteRequirements", codes);
-    }
-
-	@Override
-	public List<MAPDVO> getRequirementListPage(Criteria cri) throws Exception {
-		return null;
+	public int addMaterial(BOMVO vo) throws Exception {
+		return sqlSession.insert(NAMESPACE + ".addMaterial", vo);
 	}
-
+	
 	@Override
-	public int getRequirementCount() throws Exception {
-		return 0;
+	public int updateMaterial(BOMVO vo) throws Exception {
+		return sqlSession.update(NAMESPACE + ".updateMaterial", vo);
 	}
-
+	
 	@Override
-	public int insertRequirement(MAPDVO mvo) throws Exception {
-		return sqlSession.insert(NAMESPACE+".insertRequirement", mvo);
+	public int deleteMaterial(String[] code) throws Exception {
+		return sqlSession.delete(NAMESPACE + ".deleteMaterial", code);
 	}
-
-
-    @Override
-    public List<MAPDVO> getInfo(String[] codes) throws Exception {
-        return sqlSession.selectList(NAMESPACE + ".getInfo", codes);
-    }
-
+	
 	@Override
-	public MAPDVO infoRequirement(String code) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".infoRequirement", code);
+	public List<MAPDVO> getMapdList() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getMapdList");
 	}
-    
-    
-
+	
+	@Override
+	public List<MAPDVO> getMaterialList() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getMaterialList");
+	}
+	
+	@Override
+	public int getRecentBno() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getRecentBno");
+	}
 }
