@@ -50,7 +50,7 @@ public class FacilityOrderController {
 	
 	@PostMapping("/insert")
 	public String insertPOST(HttpSession session, FacilityOrderVO vo, RedirectAttributes rttr) throws Exception{
-		vo.setAsk_emp("test");
+		vo.setAsk_emp((String)session.getAttribute("code"));
 		String link = "";
 		String recentCode = oService.getRecentCode();
 		

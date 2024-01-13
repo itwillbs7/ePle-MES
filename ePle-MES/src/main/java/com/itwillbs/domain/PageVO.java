@@ -15,16 +15,19 @@ package com.itwillbs.domain;
  */
 
 public class PageVO {
+	private int totalCount;
+	private int startPage;
+	private int endPage;
+
+	private boolean prev;
+	private boolean next;
 	
-	private int totalCount; // 총 개수
-	private int startPage;  // 페이지블럭 시작번호
-	private int endPage;    // 페이지 블럭 끝번호
-	
-	private boolean prev;   // 이전링크
-	private boolean next;   // 다음링크
-	private int displayPageNum = 10; // 페이지 블럭의 크기
-	
-	private Criteria cri; //page, pageSize
+	private String emp_code;
+
+	private int displayPageNum = 5;
+
+	// 페이지 현재 정보
+	private Criteria cri;
 	// 검색용
 	private SearchVO search;
 	
@@ -113,11 +116,19 @@ public class PageVO {
 	public int getTotalPageCount() {
 		return (int)(Math.ceil((double)totalCount / cri.getPageSize()));
 	}
+	
+	public void setEmp_code(String emp_code) {
+		this.emp_code = emp_code;
+	}
+	
+	public String getEmp_code() {
+		return emp_code;
+	}
 
 	@Override
 	public String toString() {
 		return "PageVO [totalCount=" + totalCount + ", startPage=" + startPage + ", endPage=" + endPage + ", prev="
-				+ prev + ", next=" + next + ", displayPageNum=" + displayPageNum + ", cri=" + cri + ", search=" + search
-				+ ", toString()=" + super.toString() + "]";
+				+ prev + ", next=" + next + ", emp_code=" + emp_code + ", displayPageNum=" + displayPageNum + ", cri="
+				+ cri + ", search=" + search + ", toString()=" + super.toString() + "]";
 	}
 }

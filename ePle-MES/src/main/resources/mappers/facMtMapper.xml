@@ -269,6 +269,7 @@
 		FROM FAC_MT m
 		<include refid="join" />
 		<include refid="search" />
+		AND m.emp_code = #{emp_code} 
 	</select>
 	<!-- 보전 내역 개수 -->
 	<!-- 보전 내역 목록 -->
@@ -282,6 +283,7 @@
 		FROM FAC_MT m
 		<include refid="join" />
 		<include refid="search" />
+		AND m.emp_code = #{emp_code} 
 		ORDER BY m.reg_date desc 
 		LIMIT ${cri.startPage}, ${cri.pageSize}
 	</select>

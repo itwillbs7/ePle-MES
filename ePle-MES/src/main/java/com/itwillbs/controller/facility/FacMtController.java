@@ -228,9 +228,10 @@ public class FacMtController {
 	}
 	
 	@GetMapping("/history")
-	public void history(PageVO vo, MtSearchVO search, Criteria cri, Model model) throws Exception{
+	public void history(HttpSession session, PageVO vo, MtSearchVO search, Criteria cri, Model model) throws Exception{
 		vo.setCri(cri);
 		vo.setSearch(search);
+		vo.setEmp_code((String) session.getAttribute("code"));
 		vo.setTotalCount(mService.getHistoryCount(vo));
 		model.addAttribute("list", mService.getHistoryList(vo));
 		model.addAttribute("pageVO", vo);
