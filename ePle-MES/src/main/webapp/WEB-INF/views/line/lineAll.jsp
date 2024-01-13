@@ -128,13 +128,13 @@
 									                <label class="custom-control-label" for="checkTable${loop.index + 1}"></label>
 									            </div>
 									        </td>
-									        <td>${line.code}</td>
-									        <td>${line.name}</td>
-									        <td>${line.process}</td>
-									        <td>${line.place}</td>
-									        <td>${line.status}</td>
-									        <td>${line.note}</td>
-									        <td>${line.active}</td>
+									        <th>${line.code}</th>
+									        <th>${line.name}</th>
+									        <th>${line.process}</th>
+									        <th>${line.place}</th>
+									        <th>${line.status}</th>
+									        <th>${line.note}</th>
+									        <th>${line.active}</th>
 									        <td>
 												<button type="button" class="btn btn-info btn-sm" id="lineInfo">
 													<b>...</b>

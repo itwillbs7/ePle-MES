@@ -8,13 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
-<<<<<<< HEAD
 import com.itwillbs.domain.PageVO;
-=======
-import com.itwillbs.domain.Warehouse_HistoryVO;
->>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
 import com.itwillbs.persistence.ProductDAO;
 
 @Service
@@ -52,20 +47,10 @@ public class ProductServiceImpl implements ProductService {
 		return pdao.insertProduct(mvo);
 	}
 
-<<<<<<< HEAD
-=======
-	// 품목 검색 팝업 
-	@Override
-	public List<MAPDVO> SearchProduct(Criteria cri, String mapdCode, String mapdName) throws Exception {
-		return pdao.SearchProduct(cri, mapdCode, mapdName);
-	}
-
->>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
 	@Override
 	public MAPDVO infoProduct(String code) throws Exception {
 		return pdao.infoProduct(code);
 	}
-<<<<<<< HEAD
 
 	@Override
 	public List<MAPDVO> productListPage(PageVO vo) throws Exception {
@@ -77,14 +62,4 @@ public class ProductServiceImpl implements ProductService {
 		return pdao.getProductCount();
 	}
 
-=======
-	
-	// 전체 품목 데이터 수
-	@Override
-	public int intProductCount(MAPDVO mvo) throws Exception {
-		return pdao.getInProductCount(mvo);
-	}
-	
-	
->>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
 }

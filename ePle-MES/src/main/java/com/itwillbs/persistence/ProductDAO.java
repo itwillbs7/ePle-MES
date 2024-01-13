@@ -2,14 +2,11 @@ package com.itwillbs.persistence;
 
 import java.util.List;
 
-import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.domain.PageVO;
 
 
 public interface ProductDAO {
-
-//	public List<MAPDVO> getProductListAll() throws Exception;
 	
 	public MAPDVO getProduct(String code) throws Exception;
 	
