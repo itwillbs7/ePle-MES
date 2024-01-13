@@ -63,5 +63,11 @@ public class ClientServiceImpl implements ClientService {
 		return cdao.getClientListPage(vo);
 	}
 
+	@Override
+	public int totalClientCount() throws Exception {
+		return cdao.getClientCount();
+	}
+	
+	
 	
 }

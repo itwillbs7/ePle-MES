@@ -74,4 +74,11 @@ public class ClientDAOImpl implements ClientDAO {
 				return list;
 	}
 
+	@Override
+	public int getClientCount() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".countClient");
+	}
+    
+    
+
 }

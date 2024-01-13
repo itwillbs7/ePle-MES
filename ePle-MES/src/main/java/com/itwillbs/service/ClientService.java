@@ -24,4 +24,5 @@ public interface ClientService {
 	
 	public List<ClientVO> clientListPage(PageVO vo) throws Exception;
 	
+	public int totalClientCount() throws Exception;
 }
