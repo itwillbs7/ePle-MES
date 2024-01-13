@@ -2,7 +2,6 @@ package com.itwillbs.controller;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.LineVO;
-import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.LineService;
 

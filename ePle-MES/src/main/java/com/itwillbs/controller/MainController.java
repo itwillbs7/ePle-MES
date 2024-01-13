@@ -57,6 +57,8 @@ public class MainController {
 			if(dbVO != null) { // ID 존재
 				
 				if(dbVO.getPw().equals(inputVO.getPw()) && dbVO.getActive() != 0) { // pw 일치 = 로그인
+					logger.debug(dbVO.toString());
+					logger.debug("비밀번호 일치, 세션 값 저장");
 					session.setAttribute("id", dbVO.getId());
 					session.setAttribute("dep_group", dbVO.getDep_group());
 					session.setAttribute("dep_id", dbVO.getDep_id());
@@ -64,7 +66,10 @@ public class MainController {
 					session.setAttribute("pos_id", dbVO.getPos_id());
 					session.setAttribute("name", dbVO.getName());
 					session.setAttribute("auth", dbVO.getAuth());
-					logger.debug("비밀번호 일치, 세션 값 저장");
+					logger.debug(dbVO.getId());
+					logger.debug(dbVO.getPw());
+					logger.debug(dbVO.getName());
+					logger.debug(session.getAttribute("id").toString());
 					return "redirect:/";
 					
 				} else { // 비밀번호 불일치

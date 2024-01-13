@@ -1,9 +1,7 @@
 package com.itwillbs.persistence;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -13,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.ClientVO;
-import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
 
 @Repository
@@ -46,34 +43,6 @@ public class ClientDAOImpl implements ClientDAO {
         return sqlSession.delete(NAMESPACE + ".deleteClients", codes);
     }
 
-	
-    @Override
-    public List<ClientVO> getClientListPage(Criteria cri) throws Exception {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("cri", cri);
-        return sqlSession.selectList(NAMESPACE + ".clientListPage", paramMap);
-    }
-
-    @Override
-    public int totalClientCount() throws Exception {
-        return sqlSession.selectOne(NAMESPACE + ".totalClientCount");
-    }
-    
-    @Override
-    public List<ClientVO> clientListByCategory(String searchCategory, String searchKeyword, Criteria cri) throws Exception {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("searchCategory", searchCategory);
-        paramMap.put("searchKeyword", searchKeyword);
-        paramMap.put("cri", cri);
-        return sqlSession.selectList(NAMESPACE + ".clientListByCategory", paramMap);
-    }
-	
-
-	@Override
-	public int getClientCount() throws Exception {
-		return 0;
-	}
-
 	@Override
 	public int insertClient(ClientVO cvo) throws Exception {
 		return sqlSession.insert(NAMESPACE+".insertClient", cvo);
@@ -104,6 +73,5 @@ public class ClientDAOImpl implements ClientDAO {
 				list = sqlSession.selectList(NAMESPACE + ".listPage", vo);
 				return list;
 	}
-    
 
 }

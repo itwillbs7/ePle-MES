@@ -8,10 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.domain.PageVO;
-import com.itwillbs.domain.Warehouse_HistoryVO;
 import com.itwillbs.persistence.ProductDAO;
 
 @Service
@@ -49,12 +47,6 @@ public class ProductServiceImpl implements ProductService {
 		return pdao.insertProduct(mvo);
 	}
 
-	// 품목 검색 팝업 
-	@Override
-	public List<MAPDVO> SearchProduct(Criteria cri, String mapdCode, String mapdName) throws Exception {
-		return pdao.SearchProduct(cri, mapdCode, mapdName);
-	}
-
 	@Override
 	public MAPDVO infoProduct(String code) throws Exception {
 		return pdao.infoProduct(code);
@@ -70,5 +62,4 @@ public class ProductServiceImpl implements ProductService {
 		return pdao.getProductCount();
 	}
 
-	
 }
