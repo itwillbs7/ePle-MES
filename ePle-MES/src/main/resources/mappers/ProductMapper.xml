@@ -24,8 +24,8 @@
 
 	<!-- 물품 등록할 때 창고에도 등록해서 물품찾을 수 있게 한다 -->
     <insert id="insertWareHouse">
-    insert into WAREHOUSEHISTORY 
-    values (concat('first',#{code}),#{code},'W01','IN','완제품',0,#{code},#{reg_emp},now())
+    insert into WAREHOUSE_HISTORY
+    values (concat('first',#{code}),#{code},'W03','IN','완제품',0,#{code},#{reg_emp},now())
     </insert>
     
     <!-- 물품을 삭제할 때 창고에서도 삭제한다 -->

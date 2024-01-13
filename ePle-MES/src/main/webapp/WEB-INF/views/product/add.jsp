@@ -68,14 +68,14 @@
                         </div>
                         <div class="form-group">
                             <label>등록일</label>
-                            <input class="form-control" type="text" name="reg_date" placeholder="등록일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" readonly>
+                            <input class="form-control" type="text" name="reg_date" placeholder="등록일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date()) %>" readonly>
                         </div>
                         <div class="form-group">
                             <label>수정자 사원코드</label> <input class="form-control" type="text" name="update_emp" placeholder="수정자 사원코드 입력" required>
                         </div>
-                        <div class="form-group">
+                          <div class="form-group">
                             <label>수정일</label>
-                            <input class="form-control" type="text" name="update_date" placeholder="수정일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" readonly>
+                            <input class="form-control" type="text" name="update_date" placeholder="수정일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date()) %>" readonly>
                         </div>
 						<div class="form-group">
 						    <label>사용여부</label>
