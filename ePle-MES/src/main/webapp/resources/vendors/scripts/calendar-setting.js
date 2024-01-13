@@ -63,7 +63,31 @@ jQuery(document).ready(function () {
           	events: [ // 일정 수동 기입
                 {
                 title: '라인1 비가동',
-                start: '2024-01-15'
+                start: '2024-01-15',
+                },
+                {
+                	title: '공정1 비가동',
+                	start: '2024-01-15',
+                },
+                {
+                	title: '공정2 비가동',
+                	start: '2024-01-15',
+                },
+                {
+                	title: '공정3 비가동',
+                	start: '2024-01-15',
+                },
+                {
+                	title: '라인2 비가동',
+                	start: '2024-01-16',
+                },
+                {
+                	title: '라인3 비가동',
+                	start: '2024-01-17',
+                },
+                {
+                	title: '라인4 비가동',
+                	start: '2024-01-18',
                 }
           	],
           	selectAllow: function(selectInfo) {
