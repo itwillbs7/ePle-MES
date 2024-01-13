@@ -332,7 +332,7 @@
 	<select id="searchMaterial" resultType="OrderVO">
 		SELECT code, name
 		FROM MAPD  
-	    WHERE group_id = 'MAT'
+	    WHERE group_id = 'PROD'
 		<if test="searchName != null">
 			AND name LIKE CONCAT('%', #{searchName}, '%')
 		</if>  
@@ -343,7 +343,7 @@
 	<select id="searchMaterialCount" resultType="int">
 		SELECT count(*) 
 		FROM MAPD
-		WHERE group_id = 'MAT'
+		WHERE group_id = 'PROD'
 		<if test="searchName != null">
 			AND name LIKE CONCAT('%', #{searchName}, '%')
 		</if> 

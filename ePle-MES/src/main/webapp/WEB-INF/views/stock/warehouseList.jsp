@@ -146,14 +146,6 @@ margin-right:20px;
 					</table>
 				</form>
 
-				<!-------------------------------- 창고 갯수 -------------------------------->
-				<!-- <div class="row">
-					<div class="col-sm-12 col-md-5">
-						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
-					</div>
-				</div> -->
-
-
 				<!--------------------------------- 페이징 ---------------------------------->
 				<div class="btn-toolbar justify-content-center mb-15">
 					<div class="btn-group">
@@ -269,7 +261,7 @@ margin-right:20px;
 		 	// 상세보기 O
 			$('body').on('click', '[class^="inInfo"]', function(){
         		var code = $(this).text().trim();
-      		  openPage("${pageContext.request.contextPath}/stock/warehouseInfo?code=" + code, 400, 700); });
+      		  openPage("${pageContext.request.contextPath}/stock/warehouseInfo?code=" + code, 600, 700); });
 			
 			
 			// 검색 
