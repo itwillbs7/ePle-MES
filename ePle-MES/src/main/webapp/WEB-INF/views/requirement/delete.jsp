@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,12 +38,23 @@
 				<div class="row">
 				    <div class="col-sm-12 mb-3">
 				        <div class="form-group">
-				            <ul class="list-group">
-				                <!-- 삭제 리스트 들어갈 공간 -->
-				                <c:forEach var="title" items="${array}">
-				                    <li class="list-group-item"><c:out value="${title}" /></li>
-				                </c:forEach>
-				            </ul>
+				            <table class="table">
+				                <thead>
+				                    <tr>
+				                        <th>완제품 품번</th>
+				                        <th>재료 품번</th>
+				                    </tr>
+				                </thead>
+				                <tbody>
+				                    <!-- 삭제 리스트 들어갈 공간 -->
+				                    <c:forEach var="requirement" items="${mvo}">
+									    <tr>
+									        <td>${requirement.code}</td>
+									        <td>${requirement.material}</td>
+									    </tr>
+									</c:forEach>
+				                </tbody>
+				            </table>
 				        </div>
 				    </div>
 				</div>

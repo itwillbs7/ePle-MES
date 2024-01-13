@@ -73,8 +73,8 @@
 							<input class="form-control" type="text" name="email" value="${cvo.email}">
 						</div>
 						<div class="form-group">
-							<label>비고</label> 
-							<input class="form-control" type="text" name="note" value="${cvo.note}">
+						    <label>비고</label>
+						    <textarea class="form-control" name="note" rows="2">${cvo.note}</textarea>
 						</div>
 						<div class="row">
 						  <div class="col-sm-12 mb-3">

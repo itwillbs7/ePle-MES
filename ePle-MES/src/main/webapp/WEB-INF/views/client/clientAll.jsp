@@ -35,26 +35,46 @@
 											<div class="form-group">
 												<div class="row">
 													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
-														<div class="btn-group dropdown">
-															<button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-																선택 <span class="caret"></span>
-															</button>
-															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" href="javascript:buttonCategory('거래처 코드');">거래처 코드</a> 
-																<a class="dropdown-item" href="javascript:buttonCategory('거래처명');">거래처명</a>
-															</div>
-														</div>
-														<input type="hidden" id="searchCategory" name="searchCategory"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
+													    <div class="btn-group dropdown">
+													        <button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
+													            선택 <span class="caret"></span>
+													        </button>
+													        <div class="dropdown-menu">
+													            <a class="dropdown-item" href="#">거래처 코드</a> 
+													            <a class="dropdown-item" href="#">거래처명</a>
+													        </div>
+													    </div>
+													    <input type="hidden" id="searchCategory" name="searchCategory">
+													    <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
 													</div>
 												</div>
 												<hr>
 											</div>
 										</div>
+										
+										<c:choose>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" id="page" name="page" value="1">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" id="page" name="page" value="${pageVO.cri.page}">
+											</c:when>
+										</c:choose>
+
+										<c:choose>
+											<c:when test="${empty pageVO.cri.pageSize}">
+												<input type="hidden" id="pageSize" name="pageSize" value="10">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.pageSize}">
+												<input type="hidden" id="pageSize" name="pageSize" value="${pageVO.cri.pageSize}">
+											</c:when>
+										</c:choose>
+										
 										<div class="btn-group pull-right" style="margin-bottom: 10px">
-											<button type="submit" class="btn btn-primary" id="search">
+											<button type="button" class="btn btn-primary" onclick="doSearch()">
 												<b>검색</b>
 											</button>
-											<button type="reset" class="btn btn-secondary" id="reset">
+											<button type="button" class="btn btn-secondary" onclick="resetSearch()">
 												<b>초기화</b>
 											</button>
 										</div>
@@ -98,7 +118,8 @@
 										<th>전화번호</th>
 										<th>이메일</th>
 										<th>비고</th>
-										<th>사용 여부</th>
+										<th>사용여부</th>
+										<th>상세보기</th>
 									</tr>
 									<c:forEach var="client" items="${clientList}" varStatus="loop">
 									    <tr>
@@ -119,28 +140,58 @@
 									        <td>${client.email}</td>
 									        <td>${client.note}</td>
 									        <td>${client.active}</td>
+									        <td>
+												<button type="button" class="btn btn-info btn-sm" id="clientInfo">
+													<b>...</b>
+												</button>
+											</td>
 									    </tr>
 									</c:forEach>
 								</table>
 							</form>
 							
-							<div class="row">
-							    <div class="col-sm-12 col-md-5">
-							        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(전체 수) 중 (검색 결과) 개</div>
-							    </div>
-							</div>
+<<<<<<< HEAD
 							<div class="btn-toolbar justify-content-center mb-15">
-								<div class="btn-group">
-									<c:if test="${pageVO.prev}">
-										<a href="/client/clientAll?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
-									</c:if>
-									<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-										<a href="/client/clientAll?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
-									</c:forEach>
-									<c:if test="${pageVO.next}">
-										<a href="/client/clientAll?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
-									</c:if>
-								</div>
+								<c:if test="${pageVO.totalCount > 1}">
+									<div class="btn-group">
+										<c:if test="${pageVO.prev}">
+											<a href="javascript:pageMove(${pageVO.startPage - 1})" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+											</a>
+										</c:if>
+										<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+											<c:if test="${pageVO.cri.page == i}">
+												<span class="btn btn-primary current">${i}</span>
+											</c:if>
+											<c:if test="${pageVO.cri.page != i}">
+												<a href="javascript:pageMove(${i})" class="btn btn-outline-primary">${i}</a>
+											</c:if>
+										</c:forEach>
+										<c:if test="${pageVO.next}">
+											<a href="javascript:pageMove(${pageVO.endPage + 1})" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+											</a>
+										</c:if>
+									</div>
+								</c:if>
+=======
+<!-- 							<div class="row"> -->
+<!-- 							    <div class="col-sm-12 col-md-5"> -->
+<!-- 							        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(전체 수) 중 (검색 결과) 개</div> -->
+<!-- 							    </div> -->
+<!-- 							</div> -->
+							
+							<div class="btn-toolbar justify-content-center mb-15">
+							    <div class="btn-group">
+							        <c:if test="${pageVO.prev}">
+							            <a href="/client/clientPage?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+							        </c:if>
+							        <c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+							            <a href="/client/clientPage?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+							        </c:forEach>
+							        <c:if test="${pageVO.next}">
+							            <a href="/client/clientPage?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+							        </c:if>
+							    </div>
+>>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
 							</div>
 							
 						</div>
@@ -247,6 +298,47 @@
 		        }
 		    });
 		 	
+			// 상세보기
+		    $(".btn-info").click(function() {
+		        // 현재 클릭된 버튼이 속한 행에서 코드 값을 읽어와서 상세보기 페이지로 이동
+		        var code = $(this).closest("tr").find("input[name='tableCheck']").val();
+
+		        if (code) {
+		            openPage("/client/clientInfo?code=" + code, 400, 700);
+		        } else {
+		            alert("코드를 찾을 수 없습니다.");
+		        }
+		    });
+		 	
+	 		//검색하기
+	  		function doSearch() {
+			        var query = {"searchName" : $("#mapdName").val()};
+			        
+			        console.log("searchName:", query.searchName);
+			        
+			        $.ajax({
+			            url : "${pageContext.request.contextPath}/client/searchClient",
+			            type : "get",
+			            data : query,
+			            dataType : "text",
+			            success : function(data){
+			                 if (query.searchCode == "" && query.searchName == "") {
+			                    location.href = "${pageContext.request.contextPath}/client/searchClient";
+			                } else {
+			                    location.href = "${pageContext.request.contextPath}/client/searchClient?&searchName=" + $("#mapdName").val();
+			                } 
+			                 
+//			                if (data) {
+//			                    alert("완료");
+//			                } else {
+//			                    alert("전송된 값 없음");
+//			                }
+			            },
+			            
+			        });
+			    
+	 		}
+		    
 		});
 
 	</script>

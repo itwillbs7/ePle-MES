@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.ClientVO;
 import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.ClientService;
 
@@ -36,18 +37,6 @@ public class ClientController {
     private ClientService cService;
 
     // http://localhost:8088/client/clientAll
-    
-    // 거래처 리스트 - GET
-    @RequestMapping(value = "/clientAll", method = RequestMethod.GET)
-    public String listAllGET(Model model,
-                             @ModelAttribute("result") String result,
-                             HttpSession session) throws Exception {
-        session.setAttribute("viewcntCheck", true);
-        List<ClientVO> clientList = cService.clientListAll();
-        System.out.println(clientList);
-        model.addAttribute("clientList", clientList);
-        return "/client/clientAll";
-    }
 
     // 거래처 수정 - GET
     @RequestMapping(value = "/update", method = RequestMethod.GET)
@@ -61,8 +50,15 @@ public class ClientController {
     // 거래처 수정 - POST
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updatePOST(ClientVO cvo, RedirectAttributes rttr) throws Exception {
-    	cService.clientUpdate(cvo);
-        return "redirect:/client/clientAll"; // 수정 후 목록 페이지로 이동
+    	
+    	int result = cService.clientUpdate(cvo);
+    	
+		if(result == 1) {
+			return "client/resultSuccess";
+		}else {
+			return "client/resultFailed";
+		}
+		
     }
 
     // 거래처 삭제 - GET, POST
@@ -82,41 +78,50 @@ public class ClientController {
 
     @PostMapping("/delete")
     public String clientDeletePOST(@RequestParam("code") String codes, RedirectAttributes rttr, Model model) throws Exception {
-        // 품목 삭제 액션
+        // 거래처 삭제 액션
         String[] codeArr = codes.split(",");
         int result = cService.deleteClients(codeArr);
 
-        String link = "";
         if (result >= 1) {
-          link = "redirect:/confirm";
-          rttr.addFlashAttribute("title", "품목 삭제 결과");
-          rttr.addFlashAttribute("result", "품목이 삭제 되었습니다.");
+            rttr.addFlashAttribute("title", "거래처 삭제 결과");
+            rttr.addFlashAttribute("result", "거래처 항목이 삭제 되었습니다.");
+
+            // JavaScript 변수 설정
+            model.addAttribute("delCheckedCount", codeArr.length);
+            model.addAttribute("array", Arrays.asList(codeArr));
+
+            return "client/resultSuccess";
+            
         } else {
-          link = "redirect:/error";
-          rttr.addFlashAttribute("title", "품목 삭제 결과");
-          rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+            rttr.addFlashAttribute("title", "거래처 삭제 결과");
+            rttr.addFlashAttribute("result", "오류가 발생했습니다!");
+
+            return "client/resultFailed";
         }
-
-        // JavaScript 변수 설정
-        model.addAttribute("delCheckedCount", codeArr.length);
-        model.addAttribute("array", Arrays.asList(codeArr));
-
-        // 자동 새로고침을 위해 부모 페이지 URL에 파라미터 추가
-        link += "?refresh=true";
-
-        return link;
     }
 
+<<<<<<< HEAD
+=======
 
     // 페이징 처리 - 거래처 리스트 - GET
     @RequestMapping(value = "/clientPage", method = RequestMethod.GET)
     public String listPageGET(Model model,
-                              @ModelAttribute("result") String result,
-                              HttpSession session,
-                              Criteria cri) throws Exception {
+                               @ModelAttribute("result") String result,
+                               HttpSession session,
+                               Criteria cri,
+                               @RequestParam(required = false) String searchCategory,
+                               @RequestParam(required = false) String searchKeyword) throws Exception {
         session.setAttribute("viewcntCheck", true);
 
-        List<ClientVO> clientList = cService.clientListPage(cri);
+        List<ClientVO> clientList;
+
+        if (searchCategory != null && searchKeyword != null) {
+            // 거래처명을 기준으로 필터링된 데이터 가져오기
+            clientList = cService.clientListByCategory(searchCategory, searchKeyword, cri);
+        } else {
+            // 전체 데이터 가져오기
+            clientList = cService.clientListPage(cri);
+        }
 
         PageVO pageVO = new PageVO();
         pageVO.setCri(cri);
@@ -126,6 +131,7 @@ public class ClientController {
         return "/client/clientAll";
     }
 
+>>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
     // 거래처 추가 - GET, POST
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public void clientInsertGET() throws Exception { 
@@ -136,8 +142,13 @@ public class ClientController {
 	public String clientInsertPOST(ClientVO cvo, RedirectAttributes rttr) throws Exception {
 
 		// 서비스 - DB에 글쓰기(insert) 동작 호출
-		cService.InsertClient(cvo);	
-		return "redirect:/client/clientAll";
+		int result = cService.InsertClient(cvo);	
+		
+		if(result == 1) {
+			return "client/resultSuccess";
+		}else {
+			return "client/resultFailed";
+		}
 	}
 
     // 전체 목록의 수를 가져오는 메서드
@@ -148,4 +159,33 @@ public class ClientController {
     }
     
     // 거래처 검색 - GET
+    
+	// 거래처 상세 - GET, POST
+	@RequestMapping(value = "/clientInfo", method = RequestMethod.GET)
+	public void clientInfoGET(@RequestParam("code") String code, Model model) throws Exception {
+		ClientVO infoClient = cService.infoClient(code);
+		model.addAttribute("infoClient", infoClient);
+	}
+	
+	// 거래처 리스트, 페이징 처리
+	@RequestMapping(value = "/clientAll", method = RequestMethod.GET)
+	public String listPageGET(Model model, PageVO vo,
+								String result,
+								HttpSession session,
+								Criteria cri) throws Exception {
+
+		session.setAttribute("viewcntCheck", true);
+		vo.setCri(cri);
+		vo.setTotalCount(cService.totalClientCount());
+		List<ClientVO> clientList = cService.clientListPage(vo);
+		
+		logger.debug(" 확인 :"+vo);
+		
+		logger.debug("PAGE + "+ vo);
+		
+		model.addAttribute("pageVO", vo);
+		model.addAttribute("clientList", clientList);
+
+		return "/client/clientAll";
+	}
 }

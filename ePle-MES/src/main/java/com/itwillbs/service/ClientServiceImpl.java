@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.ClientVO;
 import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.MAPDVO;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.persistence.ClientDAO;
 
 @Service
@@ -43,6 +45,9 @@ public class ClientServiceImpl implements ClientService {
         return cdao.deleteClients(codes);
     }
 
+<<<<<<< HEAD
+=======
+    
 	@Override
 	public List<ClientVO> clientListPage(Criteria cri) throws Exception {
 		logger.debug(" S : clientListPage(Criteria cri) ");
@@ -55,14 +60,38 @@ public class ClientServiceImpl implements ClientService {
 		return cdao.getClientCount();
 	}
 
+>>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
     @Override
+	public List<ClientVO> clientListByCategory(String searchCategory, String searchKeyword, Criteria cri)
+			throws Exception {
+    	return cdao.clientListByCategory(searchCategory, searchKeyword, cri);
+	}
+    
+	@Override
     public List<ClientVO> getInfo(String[] codes) throws Exception {
         return cdao.getInfo(codes);
     }
 
 	@Override
-	public void InsertClient(ClientVO cvo) throws Exception {
-		cdao.insertClient(cvo);
+	public int InsertClient(ClientVO cvo) throws Exception {
+		return cdao.insertClient(cvo);
 	}
+
+	@Override
+	public ClientVO infoClient(String code) throws Exception {
+		return cdao.infoClient(code);
+	}
+
+	@Override
+	public List<ClientVO> clientListPage(PageVO vo) throws Exception {
+		return cdao.getClientListPage(vo);
+	}
+
+	@Override
+	public int totalClientCount() throws Exception {
+		return cdao.getClientCount();
+	}
+	
+	
 	
 }

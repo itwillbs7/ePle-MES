@@ -50,14 +50,34 @@
 												<hr>
 											</div>
 										</div>
+										
+										<c:choose>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" id="page" name="page" value="1">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" id="page" name="page" value="${pageVO.cri.page}">
+											</c:when>
+										</c:choose>
+
+										<c:choose>
+											<c:when test="${empty pageVO.cri.pageSize}">
+												<input type="hidden" id="pageSize" name="pageSize" value="10">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.pageSize}">
+												<input type="hidden" id="pageSize" name="pageSize" value="${pageVO.cri.pageSize}">
+											</c:when>
+										</c:choose>
+										
 										<div class="btn-group pull-right" style="margin-bottom: 10px">
-											<button type="submit" class="btn btn-primary" id="search">
+											<button type="button" class="btn btn-primary" onclick="doSearch()">
 												<b>검색</b>
 											</button>
-											<button type="reset" class="btn btn-secondary" id="reset">
+											<button type="button" class="btn btn-secondary" onclick="resetSearch()">
 												<b>초기화</b>
 											</button>
 										</div>
+										
 									</form>
 								</div>
 							</div>
@@ -90,12 +110,14 @@
 												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 											</div>
 										</td>
+										
 										<th>품번</th>
 										<th>품명</th>
 										<th>규격</th>
 										<th>단위</th>
 										<th>입고 단가 (원)</th>
 										<th>사용여부</th>
+										<th>상세보기</th>
 									</tr>
 									<c:forEach var="product" items="${productList}" varStatus="loop">
 									    <tr>
@@ -107,34 +129,60 @@
 									                <label class="custom-control-label" for="checkTable${loop.index + 1}"></label>
 									            </div>
 									        </td>        
-									        <td>${product.code}</td>
-									        <td>${product.name}</td>
-									        <td>${product.size}</td>
-									        <td>${product.unit}</td>
-									        <td>${product.inprice} 원</td>
-									        <td>${product.active}</td>
+									        <th>${product.code}</th>
+									        <th>${product.name}</th>
+									        <th>${product.size}</th>
+									        <th>${product.unit}</th>
+											<th>
+											    <fmt:formatNumber value="${product.inprice}" type="currency" currencyCode="KRW" pattern="#,###" /> 원
+											</th>
+									        <th>
+<%-- 									        <c:if test="${vo.active==0 }">Y</c:if><c:if test="${vo.active==1 }">N</c:if> --%>
+									        
+ 										   <c:choose>
+      										<c:when test="${product.active}">
+      									      Y
+  											</c:when>
+      										<c:otherwise>
+     										    N
+									        </c:otherwise>
+									    </c:choose>
+
+									        
+									        </th>
+						                    <td>
+												<button type="button" class="btn btn-info btn-sm" id="productInfo">
+													<b>...</b>
+												</button>
+											</td>
 									    </tr>
 									</c:forEach>
 								</table>
 							</form>
-							<div class="row">
-							    <div class="col-sm-12 col-md-5">
-							        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(전체 수) 중 (검색 결과) 개</div>
-							    </div>
-							</div>
+
 							<div class="btn-toolbar justify-content-center mb-15">
-								<div class="btn-group">
-									<c:if test="${pageVO.prev}">
-										<a href="/product/productAll?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
-									</c:if>
-									<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-										<a href="/product/productAll?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
-									</c:forEach>
-									<c:if test="${pageVO.next}">
-										<a href="/product/productAll?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
-									</c:if>
-								</div>
+								<c:if test="${pageVO.totalCount > 1}">
+									<div class="btn-group">
+										<c:if test="${pageVO.prev}">
+											<a href="javascript:pageMove(${pageVO.startPage - 1})" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+											</a>
+										</c:if>
+										<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+											<c:if test="${pageVO.cri.page == i}">
+												<span class="btn btn-primary current">${i}</span>
+											</c:if>
+											<c:if test="${pageVO.cri.page != i}">
+												<a href="javascript:pageMove(${i})" class="btn btn-outline-primary">${i}</a>
+											</c:if>
+										</c:forEach>
+										<c:if test="${pageVO.next}">
+											<a href="javascript:pageMove(${pageVO.endPage + 1})" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+											</a>
+										</c:if>
+									</div>
+								</c:if>
 							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -237,7 +285,52 @@
 		            // 체크박스를 선택하지 않았을 때 경고 메시지 출력 또는 원하는 동작 수행
 		            alert("삭제할 항목을 선택해주세요.");
 		        }
+		        
 		    });
+		 	
+			// 상세보기
+		    $(".btn-info").click(function() {
+		        // 현재 클릭된 버튼이 속한 행에서 코드 값을 읽어와서 상세보기 페이지로 이동
+		        var code = $(this).closest("tr").find("input[name='tableCheck']").val();
+
+		        if (code) {
+		            openPage("/product/productInfo?code=" + code, 400, 700);
+		        } else {
+		            alert("코드를 찾을 수 없습니다.");
+		        }
+		    });
+			
+		  	//초기화 아이콘 누르면 초기화
+		    function reset() {
+		    location.href = "${pageContext.request.contextPath}/product/productList";
+		    }
+
+		    //검색취소버튼 입력칸 초기화 및 placeholder값 재지정
+		    function resetSearch() {
+		    	$("#productCode").val("");
+		        $("#productName").val("");
+
+		        $("#productCode").attr("placeholder", "완제품코드");
+		        $("#productName").attr("placeholder", "완제품명(클릭)");
+		    }
+			
+		  	//검색하기
+		    function doSearch() {
+		            var query = {"search" : $("#productCode").val()};
+		            $.ajax({
+		                url : "${pageContext.request.contextPath}/product/productList",
+		                type : "get",
+		                data : query,
+		                dataType : "text",
+		                success : function(data){
+		                    if (query.search == "") {
+		                        location.href = "${pageContext.request.contextPath}/product/productList";
+		                    } else {
+		                        location.href = "${pageContext.request.contextPath}/product/productList?search=" + $("#productCode").val();
+		                    }
+		                }
+		            });
+		    }
 		 	
 		});
 

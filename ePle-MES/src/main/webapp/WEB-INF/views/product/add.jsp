@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <title>품목 등록</title>
+
 </head>
 <body>
     <!-- 콘텐츠 시작 -->
@@ -21,8 +22,9 @@
                 <div class="row">
                     <div class="col-sm-12 mb-3">
                         <!-- examples -->
+                        <label>품목 코드</label> 
                         <div class="form-group">
-                            <label>품목 코드</label> <input class="form-control" type="text" name="code" placeholder="품목 코드 입력" required>
+                            <input class="form-control" type="text" name="code" placeholder="품목 코드 입력" >
                         </div>
                         <div class="form-group">
                             <label>원자재 or 완제품 품번</label> <input class="form-control" type="text" name="group_id" placeholder="원자재 또는 완제품 품번 입력" required>
@@ -66,14 +68,14 @@
                         </div>
                         <div class="form-group">
                             <label>등록일</label>
-                            <input class="form-control" type="text" name="reg_date" placeholder="등록일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()) %>" readonly>
+                            <input class="form-control" type="text" name="reg_date" placeholder="등록일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" readonly>
                         </div>
                         <div class="form-group">
                             <label>수정자 사원코드</label> <input class="form-control" type="text" name="update_emp" placeholder="수정자 사원코드 입력" required>
                         </div>
                         <div class="form-group">
                             <label>수정일</label>
-                            <input class="form-control" type="text" name="update_date" placeholder="수정일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()) %>" readonly>
+                            <input class="form-control" type="text" name="update_date" placeholder="수정일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" readonly>
                         </div>
 						<div class="form-group">
 						    <label>사용여부</label>
@@ -107,5 +109,6 @@
 	<!-- 콘텐츠 끝> -->
 
 	<%@ include file="../include/footer.jsp"%>
+	
 </body>
 </html>

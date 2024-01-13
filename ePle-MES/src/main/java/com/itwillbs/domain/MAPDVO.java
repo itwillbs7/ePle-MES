@@ -24,4 +24,10 @@ public class MAPDVO {
 	
 	private String material;
 
+	// Search
+	private String searchCode;
+	private String searchName;
+		
+	// Criteria 
+	private Criteria cri;	
 }

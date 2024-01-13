@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
+import com.itwillbs.domain.PageVO;
+
 
 public interface ProductDAO {
 
-	public List<MAPDVO> getProductListAll() throws Exception;
+//	public List<MAPDVO> getProductListAll() throws Exception;
 	
 	public MAPDVO getProduct(String code) throws Exception;
 	
@@ -18,11 +20,13 @@ public interface ProductDAO {
 	public int insertProduct(MAPDVO mvo) throws Exception;
 			
 	public List<MAPDVO> getInfo(String[] codes) throws Exception;
+
+	// 품목 상세
+	public MAPDVO infoProduct(String code) throws Exception;
 	
-	// 품목 검색 팝업 
-	public List<MAPDVO> SearchProduct(Criteria cri, String mapdCode, String mapdName) throws Exception;
+	public List<MAPDVO> getProductListPage(int page) throws Exception;
+	public List<MAPDVO> getProductListPage(PageVO vo) throws Exception;
 	
-	// 모든 품목 수
-	public int getProductCount(String mapdCode, String mapdName) throws Exception;
+	public int getProductCount() throws Exception;
 	
 }

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.LineVO;
+import com.itwillbs.domain.MAPDVO;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.persistence.LineDAO;
 
 @Service
@@ -19,12 +21,6 @@ public class LineServiceImpl implements LineService {
 
     @Inject
     private LineDAO ldao;
-
-	@Override
-	public List<LineVO> lineListAll() throws Exception {
-		logger.debug(" S : lineListAll() ");
-		return ldao.getLineListAll();
-	}
 
 	@Override
 	public LineVO getLine(String code) throws Exception {
@@ -43,25 +39,29 @@ public class LineServiceImpl implements LineService {
         return ldao.deleteLines(codes);
     }
 
-	@Override
-	public List<LineVO> lineListPage(Criteria cri) throws Exception {
-		logger.debug(" S : lineListPage(Criteria cri) ");
-		return ldao.getLineListPage(cri);
-	}
-
-	@Override
-	public int totalLineCount() throws Exception {
-		logger.debug(" S : totalLineCount() ");
-		return ldao.getLineCount();
-	}
-	
     @Override
     public List<LineVO> getInfo(String[] codes) throws Exception {
         return ldao.getInfo(codes);
     }
 
 	@Override
-	public void InsertLine(LineVO lvo) throws Exception {
-		ldao.insertLine(lvo);
+	public int InsertLine(LineVO lvo) throws Exception {
+		return ldao.insertLine(lvo);
 	}
+
+	@Override
+	public LineVO infoLine(String code) throws Exception {
+		return ldao.infoLine(code);
+	}
+	
+	@Override
+	public List<LineVO> lineListPage(PageVO vo) throws Exception {
+		return ldao.getLineListPage(vo);
+	}
+
+	@Override
+	public int totalLineCount() throws Exception {
+		return ldao.getLineCount();
+	}
+	
 }

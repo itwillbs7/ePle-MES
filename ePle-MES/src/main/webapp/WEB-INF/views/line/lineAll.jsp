@@ -50,6 +50,25 @@
 												<hr>
 											</div>
 										</div>
+										
+										<c:choose>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" id="page" name="page" value="1">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.page}">
+												<input type="hidden" id="page" name="page" value="${pageVO.cri.page}">
+											</c:when>
+										</c:choose>
+
+										<c:choose>
+											<c:when test="${empty pageVO.cri.pageSize}">
+												<input type="hidden" id="pageSize" name="pageSize" value="10">
+											</c:when>
+											<c:when test="${!empty pageVO.cri.pageSize}">
+												<input type="hidden" id="pageSize" name="pageSize" value="${pageVO.cri.pageSize}">
+											</c:when>
+										</c:choose>
+										
 										<div class="btn-group pull-right" style="margin-bottom: 10px">
 											<button type="submit" class="btn btn-primary" id="search">
 												<b>검색</b>
@@ -97,6 +116,7 @@
 										<th>설비상태</th>
 										<th>비고</th>
 										<th>사용여부</th>
+										<th>상세보기</th>
 									</tr>
 									<c:forEach var="line" items="${lineList}" varStatus="loop">
 									    <tr>
@@ -115,28 +135,37 @@
 									        <td>${line.status}</td>
 									        <td>${line.note}</td>
 									        <td>${line.active}</td>
+									        <td>
+												<button type="button" class="btn btn-info btn-sm" id="lineInfo">
+													<b>...</b>
+												</button>
+											</td>
 									    </tr>
 									</c:forEach>
 								</table>
 							</form>
-							
-							<div class="row">
-							    <div class="col-sm-12 col-md-5">
-							        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(전체 수) 중 (검색 결과) 개</div>
-							    </div>
-							</div>
+
 							<div class="btn-toolbar justify-content-center mb-15">
-								<div class="btn-group">
-									<c:if test="${pageVO.prev}">
-										<a href="/line/lineAll?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
-									</c:if>
-									<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-										<a href="/line/lineAll?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
-									</c:forEach>
-									<c:if test="${pageVO.next}">
-										<a href="/line/lineAll?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
-									</c:if>
-								</div>
+								<c:if test="${pageVO.totalCount > 1}">
+									<div class="btn-group">
+										<c:if test="${pageVO.prev}">
+											<a href="javascript:pageMove(${pageVO.startPage - 1})" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+											</a>
+										</c:if>
+										<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+											<c:if test="${pageVO.cri.page == i}">
+												<span class="btn btn-primary current">${i}</span>
+											</c:if>
+											<c:if test="${pageVO.cri.page != i}">
+												<a href="javascript:pageMove(${i})" class="btn btn-outline-primary">${i}</a>
+											</c:if>
+										</c:forEach>
+										<c:if test="${pageVO.next}">
+											<a href="javascript:pageMove(${pageVO.endPage + 1})" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+											</a>
+										</c:if>
+									</div>
+								</c:if>
 							</div>
 						</div>
 					</div>
@@ -239,6 +268,18 @@
 		        } else {
 		            // 체크박스를 선택하지 않았을 때 경고 메시지 출력 또는 원하는 동작 수행
 		            alert("삭제할 항목을 선택해주세요.");
+		        }
+		    });
+		 	
+			// 상세보기
+		    $(".btn-info").click(function() {
+		        // 현재 클릭된 버튼이 속한 행에서 코드 값을 읽어와서 상세보기 페이지로 이동
+		        var code = $(this).closest("tr").find("input[name='tableCheck']").val();
+
+		        if (code) {
+		            openPage("/line/lineInfo?code=" + code, 400, 700);
+		        } else {
+		            alert("코드를 찾을 수 없습니다.");
 		        }
 		    });
 		 	

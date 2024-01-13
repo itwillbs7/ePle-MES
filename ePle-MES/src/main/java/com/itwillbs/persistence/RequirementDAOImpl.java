@@ -53,8 +53,8 @@ public class RequirementDAOImpl implements RequirementDAO {
 	}
 
 	@Override
-	public void insertRequirement(MAPDVO mvo) throws Exception {
-		sqlSession.insert(NAMESPACE+".insertRequirement", mvo);
+	public int insertRequirement(MAPDVO mvo) throws Exception {
+		return sqlSession.insert(NAMESPACE+".insertRequirement", mvo);
 	}
 
 
@@ -62,5 +62,12 @@ public class RequirementDAOImpl implements RequirementDAO {
     public List<MAPDVO> getInfo(String[] codes) throws Exception {
         return sqlSession.selectList(NAMESPACE + ".getInfo", codes);
     }
+
+	@Override
+	public MAPDVO infoRequirement(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".infoRequirement", code);
+	}
+    
+    
 
 }

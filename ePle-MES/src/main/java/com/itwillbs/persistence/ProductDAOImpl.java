@@ -1,8 +1,7 @@
 package com.itwillbs.persistence;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
+import com.itwillbs.domain.PageVO;
 
 @Repository
 public class ProductDAOImpl implements ProductDAO {
@@ -24,10 +24,10 @@ public class ProductDAOImpl implements ProductDAO {
 	
 	private static final String NAMESPACE ="com.itwillbs.mapper.ProductMapper";
 
-	@Override
-	public List<MAPDVO> getProductListAll() throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".selectProductList");
-	}
+//	@Override
+//	public List<MAPDVO> getProductListAll() throws Exception {
+//		return sqlSession.selectList(NAMESPACE + ".selectProductList");
+//	}
 
 	@Override
 	public MAPDVO getProduct(String code) throws Exception {
@@ -55,25 +55,33 @@ public class ProductDAOImpl implements ProductDAO {
         return sqlSession.selectList(NAMESPACE + ".getInfo", codes);
     }
 
-	// 품목 검색 팝업 
 	@Override
-	public List<MAPDVO> SearchProduct(Criteria cri, String mapdCode, String mapdName) throws Exception {
-		Map<String,Object> data = new HashMap<String,Object>();
-		data.put("cri", cri);
-		data.put("mapdCode", mapdCode);
-		data.put("mapdName", mapdName);
-		List<MAPDVO> SearchProduct = sqlSession.selectList(NAMESPACE + ".SearchProduct",data);
-		return SearchProduct;
+	public MAPDVO infoProduct(String code) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".infoProduct", code);
 	}
 	
-	// 모든 품목 수
 	@Override
-	public int getProductCount(String mapdCode, String mapdName) throws Exception {
-		Map<String,Object> data = new HashMap<String,Object>();
-		data.put("mapdCode", mapdCode);
-		data.put("mapdName", mapdName);
-		return sqlSession.selectOne(NAMESPACE + ".countProduct",data);
+	public List<MAPDVO> getProductListPage(int page) throws Exception {
+
+		page = (page - 1) * 10;
+		
+		return sqlSession.selectList(NAMESPACE + ".listPage",page);
 	}
+
+	@Override
+	public List<MAPDVO> getProductListPage(PageVO vo) throws Exception {
+		List<MAPDVO> list = new ArrayList<MAPDVO>();
+				list = sqlSession.selectList(NAMESPACE + ".listPage", vo);
+				
+				return list;
+	}
+
+	@Override
+	public int getProductCount() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".countProduct");
+	}
+	
+	
     
     
 }
