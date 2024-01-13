@@ -34,5 +34,6 @@ public class WarehouseVO {
 	private String wh_name;	
 	private String warehouse;	
 	private String total;	
+	private String empCode;	
 
 }

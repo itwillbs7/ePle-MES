@@ -46,7 +46,7 @@ font-weight: bold;
 
 									<label>담당자 정보</label> 
 								<div class="form-group">
-									<input class="form-control" type="hidden" id="selectA" name="manager">
+									<input class="form-control" type="hidden" id="selectA" name="manager" value="${List.empCode}">
 									<input class="form-control" type="text" id="selectB" value="${List.name}">
 								</div>
 								<div class="form-group">
