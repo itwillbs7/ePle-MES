@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.ClientVO;
 import com.itwillbs.domain.Criteria;
-import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.persistence.ClientDAO;
 
@@ -44,9 +43,6 @@ public class ClientServiceImpl implements ClientService {
     public int deleteClients(String[] codes) throws Exception {
         return cdao.deleteClients(codes);
     }
-
-<<<<<<< HEAD
-=======
     
 	@Override
 	public List<ClientVO> clientListPage(Criteria cri) throws Exception {
@@ -60,7 +56,6 @@ public class ClientServiceImpl implements ClientService {
 		return cdao.getClientCount();
 	}
 
->>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
     @Override
 	public List<ClientVO> clientListByCategory(String searchCategory, String searchKeyword, Criteria cri)
 			throws Exception {
@@ -87,11 +82,5 @@ public class ClientServiceImpl implements ClientService {
 		return cdao.getClientListPage(vo);
 	}
 
-	@Override
-	public int totalClientCount() throws Exception {
-		return cdao.getClientCount();
-	}
-	
-	
 	
 }

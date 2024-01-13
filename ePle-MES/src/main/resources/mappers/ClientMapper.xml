@@ -61,9 +61,6 @@
             #{code}
         </foreach>
     </select>
-<<<<<<< HEAD
-	
-=======
     
     <!-- 전체 품목 수 조회 -->
   	<select id="countClient" resultType="int">
@@ -121,7 +118,6 @@
 	    ]]>
     </select>
     
->>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
 	<!-- 거래처 상세 -->
 	<select id="infoClient" resultType="ClientVO">
         SELECT code,name,type,conditions,items,ceo,manager,address,address2,tel,phone,fax,email,note,active 

@@ -100,8 +100,6 @@ public class ClientController {
         }
     }
 
-<<<<<<< HEAD
-=======
 
     // 페이징 처리 - 거래처 리스트 - GET
     @RequestMapping(value = "/clientPage", method = RequestMethod.GET)
@@ -131,7 +129,6 @@ public class ClientController {
         return "/client/clientAll";
     }
 
->>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
     // 거래처 추가 - GET, POST
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public void clientInsertGET() throws Exception { 

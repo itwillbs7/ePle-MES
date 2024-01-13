@@ -16,9 +16,6 @@ public interface ClientService {
 	public int clientUpdate(ClientVO cvo) throws Exception;
 	
 	public int deleteClients(String[] codes) throws Exception;
-<<<<<<< HEAD
-
-=======
 	
 	
 	public List<ClientVO> clientListPage(Criteria cri) throws Exception;
@@ -27,8 +24,6 @@ public interface ClientService {
 	
 	public List<ClientVO> clientListByCategory(String searchCategory, String searchKeyword, Criteria cri) throws Exception;
 	
-	
->>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
 	public List<ClientVO> getInfo(String[] codes) throws Exception;
 	
 	public int InsertClient(ClientVO cvo) throws Exception;
@@ -38,5 +33,4 @@ public interface ClientService {
 	
 	public List<ClientVO> clientListPage(PageVO vo) throws Exception;
 	
-	public int totalClientCount() throws Exception;
 }

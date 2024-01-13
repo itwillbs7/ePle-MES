@@ -31,8 +31,6 @@ public class ProductController {
     private ProductService pService;
 
     // http://localhost:8088/product/productAll
-<<<<<<< HEAD
-=======
     
     // 품목 리스트 - GET
     @RequestMapping(value = "/productAll", method = RequestMethod.GET)
@@ -53,7 +51,6 @@ public class ProductController {
         
         return "/product/productAll";
     }
->>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
 
     // 품목 수정 - GET
     @RequestMapping(value = "/update", method = RequestMethod.GET)
@@ -113,9 +110,6 @@ public class ProductController {
             return "product/resultFailed";
         }
     }
-<<<<<<< HEAD
-	
-=======
 
     // 품목 (출력/페이징/검색)
     @RequestMapping(value = "/searchProduct" , method = RequestMethod.GET)
@@ -135,7 +129,6 @@ public class ProductController {
 		
     }
 
->>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
     // 품목 추가 - GET, POST
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public void productInsertGET() throws Exception { 

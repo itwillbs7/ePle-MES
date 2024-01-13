@@ -15,10 +15,6 @@ public interface ClientDAO {
 	public int updateClient(ClientVO cvo) throws Exception;
 	
 	public int deleteClients(String[] codes) throws Exception;
-<<<<<<< HEAD
-			
-=======
-	
 	
 	public List<ClientVO> getClientListPage(Criteria cri) throws Exception;
 	
@@ -28,7 +24,6 @@ public interface ClientDAO {
 	
 	public int getClientCount() throws Exception;
 	
->>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
 	public int insertClient(ClientVO cvo) throws Exception;
 			
 	public List<ClientVO> getInfo(String[] codes) throws Exception;
@@ -36,13 +31,9 @@ public interface ClientDAO {
 	// 거래처 상세
 	public ClientVO infoClient(String code) throws Exception;
 	
-<<<<<<< HEAD
 	public List<ClientVO> getClientListPage(int page) throws Exception;
 	public List<ClientVO> getClientListPage(PageVO vo) throws Exception;
 	
-	public int getClientCount() throws Exception;
-=======
 	
->>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
 	
 }
