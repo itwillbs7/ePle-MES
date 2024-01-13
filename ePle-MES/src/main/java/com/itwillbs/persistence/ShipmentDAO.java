@@ -1,6 +1,8 @@
 package com.itwillbs.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RequestVO;
@@ -51,6 +53,22 @@ public interface ShipmentDAO {
 	public int actDoneShipment(String[] code)throws Exception;
 
 	public int getRequestTotal(String clientName, String productName);
+
+
+	public int updateRequestStatus(String request)throws Exception;
+
+
+	public List<HashMap<String, Object>> getLOTList(Map<String, Object> params)throws Exception;
+
+
+	public int insertHistory(Map<String, Object> params)throws Exception;
+
+
+	public String getMaterail(String lotNumber)throws Exception;
+
+
+	public int insertLOT(Map<String, Object> params)throws Exception;
+
 
 
 

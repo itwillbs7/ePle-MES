@@ -44,9 +44,40 @@
 								value="${List.ship_code }">
 						</div>
 						<div class="form-group">
+							<label>수주업체</label> <input class="form-control" type="text"
+								readonly id="clientName" name="clientName" required="required" readonly
+								value="${List.clientName }"> 
+								<input class="form-control"
+								type="hidden" readonly id="client_code" required="required"
+								readonly name="client_code">
+						</div>
+						<div class="form-group">
+							<label for="client_code">수주번호</label> <input class="form-control"
+								type="text" placeholder="클릭 시 팝업검색창이 뜹니다" name="request_code"
+								id="request_code" readonly required="required"
+								value="${List.request_code }">
+						</div>
+						<div class="form-group">
+							<label for="date">출하일자</label> 
+							<input class="form-control" type="date" id="shipdate" autocomplete="off"
+								required="required" readonly value="${List.reqsdate }"
+								name="reqsdate">
+						</div>
+						<div class="form-group">
 							<label for="deadline">반품일자</label> <input class="form-control "
 								name="date" type="date" id="date" value="${List.date }"
 								autocomplete="off" required="required" readonly>
+						</div>
+						<div class="form-group">
+							<label for="amount">출하량</label> <input class="form-control"
+								name="samount" id="samount" type="number" autocomplete="off"
+								min="1" required="required" readonly value="${List.amount }">
+							<input type="hidden" name="unit" id="unit" value="${List.unit }">
+						</div>
+						<div class="form-group">
+							<label>lot</label> 
+							<input type = "text" name="lot" class="form-control"
+							id="lot" readonly value =${List.lot }>
 						</div>
 						<div class="form-group">
 							<label for="amount">반품량</label> 
@@ -60,39 +91,8 @@
 							<textarea class="form-control" placeholder="반품사유를 입력하세요"
 								name="reason" readonly>${List.reason}</textarea>
 						</div>
-						<div class="form-group">
-							<label>lot</label> 
-							<input type = "text" name="lot" class="form-control"
-							id="lot" readonly value =${List.lot }>
-						</div>
 						
 						<!-- 자동입력내역 -->
-						<div class="form-group">
-							<label for="client_code">수주번호</label> <input class="form-control"
-								type="text" placeholder="클릭 시 팝업검색창이 뜹니다" name="request_code"
-								id="request_code" readonly required="required"
-								value="${List.request_code }">
-						</div>
-						<div class="form-group">
-							<label for="amount">출하량</label> <input class="form-control"
-								name="samount" id="samount" type="number" autocomplete="off"
-								min="1" required="required" readonly value="${List.amount }">
-							<input type="hidden" name="unit" id="unit" value="${List.unit }">
-						</div>
-						<div class="form-group">
-							<label for="date">출하일자</label> 
-							<input class="form-control" type="date" id="shipdate" autocomplete="off"
-								required="required" readonly value="${List.reqsdate }"
-								name="reqsdate">
-						</div>
-						<div class="form-group">
-							<label>수주업체</label> <input class="form-control" type="text"
-								readonly id="clientName" name="clientName" required="required" readonly
-								value="${List.clientName }"> 
-								<input class="form-control"
-								type="hidden" readonly id="client_code" required="required"
-								readonly name="client_code">
-						</div>
 						<div class="form-group">
 							<label>출하상태</label> 
 							<input class="form-control" name ="status" type="text" readonly id="status" 

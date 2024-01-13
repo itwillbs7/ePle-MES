@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +21,7 @@
 				<!-- 입력 구간 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
+					
 						<!-- 필수입력내역 -->
 						<div class="form-group">
 							<label for="client_code">출하번호</label> 
@@ -32,16 +34,10 @@
 							name="reqs_code" id="reqs_code" readonly required="required" value="${vo.reqs_code}">
 						</div>
 						<div class="form-group">
-							<label for="deadline">출하일자</label> 
-							<input class="form-control " name="date" type="date" id="date"
-							autocomplete="off" required="required" readonly value="${vo.date }">
+							<label>업체명</label> 
+							<input class="form-control" type="text" readonly id="clientName" required="required"
+							readonly value="${rvo.clientName }" name="clientName">
 						</div>
-						<div class="form-group">
-							<label for="amount">출하량</label> 
-							<input class="form-control" name="amount" id="amount" readonly 
-							type="number" readonly autocomplete="off" min="1" required="required" value="${vo.amount }">
-						</div>
-						<!-- 자동입력내역 -->
 						<div class="form-group">
 							<label for="amount">수주량</label> 
 							<input class="form-control" name="reqsamount" id="reqsamount"
@@ -53,9 +49,9 @@
 							 autocomplete="off" required="required" readonly value="${rvo.date }">
 						</div>
 						<div class="form-group">
-							<label>업체명</label> 
-							<input class="form-control" type="text" readonly id="clientName" required="required"
-							readonly value="${rvo.clientName }" name="clientName">
+							<label for="deadline">출하일자</label> 
+							<input class="form-control " name="date" type="date" id="date"
+							autocomplete="off" required="required" readonly value="${vo.date }">
 						</div>
 						<div class="form-group">
 							<label>품번</label> 
@@ -63,41 +59,48 @@
 							value="${rvo.product}" >
 						</div>
 						<div class="form-group">
+							<label>재고량</label> 
+							<input class="form-control" name ="stock" type="text" readonly id="stock" 
+							required="required" value="${vo.stock }">
+						</div>
+						<div class="form-group">
 							<label>단위</label> 
 							<input class="form-control" name ="unit" type="text" readonly id="unit" 
 							required="required" value="${rvo.unit }">
-						</div>
-						<div class="form-group">
-							<label>현재 재고량</label> 
-							<input class="form-control" name ="stock" type="text" readonly id="stock" 
-							required="required" value="${vo.stock }">
 						</div>
 						<div class="form-group">
 							<label>창고코드</label> 
 							<input class="form-control" name ="ware_code" type="text" readonly id="ware_code" 
 							required="required" value="${vo.ware_code }">
 						</div>
-							<input class="form-control" name ="stock_code" type="hidden" readonly id="stock_code" 
-							required="required" value="${vo.stock_code }">
+						<div class="form-group">
+							<label for="amount">출하량</label> 
+							<input class="form-control" name="amount" id="amount" readonly 
+							type="number" readonly autocomplete="off" min="1" required="required" value="${vo.amount }">
+						</div>
 						<div class="form-group">
 							<label>출하상태</label> 
 							<input class="form-control" name ="status" type="text" readonly id="status" 
 							required="required" value="${vo.status }">
 						</div>
 
-
 				<!-- 버튼 -->
-				<div class="row">
-					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
-						<button type="button" class="btn btn-secondary" onclick="window.close();">
-							<b>취소</b>
-						</button>
-						<input type="submit" class="btn btn-success" value="수정"  id="update">
-						<input type="button" class="btn btn-danger" value="반품등록"  id="returns">
-					</div>
-				</div>
-					</div>
-				</div>
+						<div class="row">
+							<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
+								<button type="button" class="btn btn-secondary" onclick="window.close();">
+									<b>취소</b>
+								</button>
+								<input type="submit" class="btn btn-success" value="수정"  id="update">
+								<c:if test="${vo.status.equals('출하완료') }">
+								<input type="button" class="btn btn-danger" value="반품등록"  id="returns">
+								</c:if>
+							</div>
+						</div>
+						
+							</div>
+						</div>
+
+
 				<!-- 버튼 -->
 			</form>
 			<!-- 폼 -->

@@ -64,6 +64,7 @@ public class ShipmentController {
 		
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(sService.getTotal(vo)); // 디비에서 직접 실행결과 가져오기
+		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("clientName", vo.getClientName());
 		paramMap.put("productName", vo.getReqsdate()); // 이거 품명임
@@ -133,7 +134,7 @@ public class ShipmentController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String shipmentInsertPOST(ShipmentVO vo,RedirectAttributes rttr) throws Exception {
+	public String shipmentInsertPOST(HttpSession session, ShipmentVO vo,RedirectAttributes rttr) throws Exception {
 		// 출하 추가 할 때
 		// 1. 출하명령을 추가한다
 		// 2. 수주상태를 출하대기로 변경한다
@@ -170,11 +171,11 @@ public class ShipmentController {
 				vo.setCode(code);
 		
 		// vo에 세션 아이디 추가하기
-//		String id = (String) session.getAttribute("id");
-//		vo.setReg_emp(id);
-				
-		String id = "test";
+		String id = (String) session.getAttribute("code");
 		vo.setReg_emp(id);
+				
+//		String id = "test";
+//		vo.setReg_emp(id);
 		
 		// 창고 입출고내역 코드 만드는거 하기...?(효린씨꺼 참고해야함)
 		
@@ -274,13 +275,14 @@ public class ShipmentController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String shipmentUpdatePOST(ShipmentVO vo,RedirectAttributes rttr) throws Exception{
+	public String shipmentUpdatePOST(HttpSession session, ShipmentVO vo,RedirectAttributes rttr) throws Exception{
 		// 수주 수정 액션
 		logger.debug("shipmentUpdatePOST() 전달받은 정보 DB 저장하기");
 		logger.debug("vo "+vo);
 		
-		// 일단 임시 아이디값(실제로는 세션에서 값을 받아와야함)
-		String id = "id";
+		// 사번 수집
+		String id = (String) session.getAttribute("code");
+//		String id = "id";
 		int result = sService.updateShipment(vo, id);
 		
 		String link = "";
@@ -374,6 +376,7 @@ public class ShipmentController {
 			reqsArr.add(reqsCode);
 		}
 		
+		
 		// request 정보 가져오기
 		List<RequestVO> requestList = sService.getinfoRequest(reqsArr); // 가져온 출하번호의 수주정보 전부 저장!
 		
@@ -437,8 +440,8 @@ public class ShipmentController {
 		String link = "";
 		if (result >= 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "수령 완료");
-			rttr.addFlashAttribute("result", "주문해주셔서 감사합니다!");
+			rttr.addFlashAttribute("title", "출하 완료");
+			rttr.addFlashAttribute("result", "출하를 완료하였습니다");
 		} else {
 			link = "redirect:/error";
 			rttr.addFlashAttribute("title", "오류 발생");

@@ -39,20 +39,9 @@
 							name="reqs_code" id="reqs_code" readonly required="required" value="${List.reqs_code}">
 						</div>
 						<div class="form-group">
-							<label for="deadline">출하일자</label> 
-							<input class="form-control date-picker" name="date" type="text" id="date"
-							autocomplete="off" required="required"  value="${List.date }">
-						</div>
-						<div class="form-group">
-							<label for="amount">출하량</label> 
-							<input class="form-control" name="amount" id="amount"
-							type="number" readonly autocomplete="off" min="1" required="required" value="${List.amount }">
-						</div>
-						<!-- 자동입력내역 -->
-						<div class="form-group">
-							<label for="amount">수주량</label> 
-							<input class="form-control" name="reqsamount" id="reqsamount"
-							type="number" autocomplete="off" min="1" required="required" readonly value="${List.amount }">
+							<label>업체명</label> 
+							<input class="form-control" type="text" readonly id="clientName" required="required"
+							readonly value="${List.clientName }">
 						</div>
 						<div class="form-group">
 							<label for="date">수주일자</label> 
@@ -60,9 +49,9 @@
 							 autocomplete="off" required="required" readonly value="${List.date }">
 						</div>
 						<div class="form-group">
-							<label>업체명</label> 
-							<input class="form-control" type="text" readonly id="clientName" required="required"
-							readonly value="${List.clientName }">
+							<label for="deadline">출하일자</label> 
+							<input class="form-control date-picker" name="date" type="text" id="date"
+							autocomplete="off" required="required"  value="${List.date }">
 						</div>
 						<div class="form-group">
 							<label>품번</label> 
@@ -70,9 +59,9 @@
 							value="${List.product}" >
 						</div>
 						<div class="form-group">
-							<label>단위</label> 
-							<input class="form-control" name ="unit" type="text" readonly id="unit" 
-							required="required" value="${List.unit }">
+							<label for="amount">수주량</label> 
+							<input class="form-control" name="reqsamount" id="reqsamount"
+							type="number" autocomplete="off" min="1" required="required" readonly value="${List.amount }">
 						</div>
 						<div class="form-group">
 							<label>재고량</label> 
@@ -80,15 +69,21 @@
 							required="required" value="${List.stock }">
 						</div>
 						<div class="form-group">
-							<label>창고코드</label> 
-							<input class="form-control" name ="ware_code" type="text" readonly id="ware_code" 
-							required="required" value="${List.ware_code }">
+							<label>단위</label> 
+							<input class="form-control" name ="unit" type="text" readonly id="unit" 
+							required="required" value="${List.unit }">
 						</div>
 						<div class="form-group">
-							<label>입고번호</label> 
-							<input class="form-control" name ="stock_code" type="text" readonly id="stock_code" 
-							required="required" value="${List.stock_code }">
+							<label for="amount">출하량</label> 
+							<input class="form-control" name="amount" id="amount"
+							type="number" readonly autocomplete="off" min="1" required="required" value="${List.amount }">
 						</div>
+						<div class="form-group">
+							<label>창고코드</label> 
+							<input class="form-control" name ="ware_code" type="text" readonly id="ware_code" 
+							required="required" value="${List.ware_code }" readonly>
+						</div>
+						<!-- 자동입력내역 -->
 						<div class="form-group">
 							<label for="status">수주상태</label>
 								<select name="status" id="status" class="custom-select col-12"  required="required">
