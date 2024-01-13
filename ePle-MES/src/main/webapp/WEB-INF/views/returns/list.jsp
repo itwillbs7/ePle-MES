@@ -323,8 +323,7 @@ $('#reset').click(function(){
 	</script>
 	<script>
 
-		$(document).ready(
-				function() {
+		$(document).ready(function() {
 
 					// 추가
 					$("#add").click(function() {
@@ -383,8 +382,9 @@ $('#reset').click(function(){
 					// 제품검색
 					$("#searchProduct").click(function() {
 						openPage("/request/searchProduct", 400, 700);
-						openPage("/shipment/searchProduct", 400, 700);
 					});
+					
+					$("#searchManager").click(function() {
 						openPage("/request/searchManager", 400, 700);
 					});
 

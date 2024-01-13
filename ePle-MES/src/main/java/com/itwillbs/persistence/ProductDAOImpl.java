@@ -46,7 +46,12 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public int insertProduct(MAPDVO mvo) throws Exception {
-		sqlSession.insert(NAMESPACE+".insertWareHouse",mvo);
+		
+		String code_id = mvo.getCode_id();
+		if(code_id.equals("003")) {
+			sqlSession.insert(NAMESPACE+".insertWareHouse",mvo);		
+		}
+		
 		return sqlSession.insert(NAMESPACE+".insertProduct", mvo);
 	}
 
