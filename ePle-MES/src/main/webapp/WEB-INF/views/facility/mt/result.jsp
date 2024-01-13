@@ -10,7 +10,7 @@
 <title>보전 결과</title>
 </head>
 <body>
-<c:if test="${sessionScope.id eq null or sessionScope.dep_group != '설비'}">
+<c:if test="${(sessionScope.id != 'admin' or sessionScope.id eq null) and (sessionScope.dep_group != '설비')}">
 	<c:redirect url="/" />
 </c:if>
 	<!-- 직원의 경우 사후보전만 실시 -->
