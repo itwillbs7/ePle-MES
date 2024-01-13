@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.domain.CommonVO;
 import com.production.domain.failedVO;
+import com.production.domain.inputVO;
 import com.production.domain.resultVO;
 import com.production.service.resultService;
 
@@ -136,6 +138,28 @@ public class resultController {
 		logger.debug("Controller : inAdd(String code) 호출");
 		model.addAttribute("result",rsService.getResult(code));
 	}
+	//재료 투입
+	@RequestMapping(value = "/input", method = RequestMethod.GET)
+	public void input(String code, Model model) throws Exception {
+		logger.debug("Controller : input(String code) 호출");
+		model.addAttribute("result",rsService.getResult(code));
+	}
+	//재료 투입
+	@RequestMapping(value = "/input", method = RequestMethod.POST)
+	public void input(@RequestBody inputVO[] arr, Model model) throws Exception {
+		logger.debug("Controller : input(String code) POST 호출");
+		logger.debug("arr : " + arr[0]);
+		rsService.insertInput(arr);
+	}
+	//Lot 생성
+	@RequestMapping(value = "/insertLot", method = RequestMethod.POST)
+	@ResponseBody
+	public String insertLot(@RequestParam(value = "code") String code) throws Exception {
+		logger.debug("Controller : insertLot(String code) POST 호출");
+		logger.debug("code : " + code);
+		rsService.insertLot(code);
+		return "success";
+	}
 	
 	public Map<String, Object> getInfo(String code) throws Exception {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -145,7 +169,7 @@ public class resultController {
 		resultMap.put("failedList", rsService.getFailedList(code));
 		logger.debug("asdasd" + rsService.getFailedList(code));
 		//투입정보 저장
-		//resultMap.put("BOM", rsService.getBOM(code));
+		resultMap.put("inputList", rsService.getInput(code));
 		
 		return resultMap;
 	}

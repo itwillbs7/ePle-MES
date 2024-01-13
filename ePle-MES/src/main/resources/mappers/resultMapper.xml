@@ -99,4 +99,19 @@
 	<select id="getCode_id" resultType="com.itwillbs.domain.CommonVO">
 		SELECT * FROM COMMON_CODE WHERE group_id = 'DEF';
 	</select>
+	<select id="checkDuplication" parameterType="com.production.domain.inputVO" resultType="int">
+		SELECT IF(COUNT(*) > 0, 0, 1) AS result FROM INPUT WHERE mapd_code = #{mapd_code} AND result_code = #{result_code};
+	</select>
+	<insert id="insertInput" parameterType="com.production.domain.inputVO">
+		INSERT INTO INPUT VALUES(DEFAULT,#{mapd_code},#{amount},#{result_code})
+	</insert>
+	<update id="updateInput" parameterType="com.production.domain.inputVO">
+		UPDATE INPUT SET amount = amount + #{amount} WHERE mapd_code = #{mapd_code} AND result_code = #{result_code}
+	</update>
+	<select id="getInput" resultType="com.production.domain.inputVO">
+		SELECT I.*,M.name AS mapd_name FROM INPUT I LEFT JOIN MAPD M ON I.mapd_code = M.code WHERE result_code = #{code};
+	</select>
+	<insert id="insertLot">
+		INSERT INTO LOT VALUES(DEFAULT,#{code},null,null);
+	</insert>
 </mapper>
