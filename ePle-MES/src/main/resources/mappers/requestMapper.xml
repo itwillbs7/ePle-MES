@@ -193,12 +193,12 @@ ORDER BY r.reg_date DESC
 	<!-- 회사찾기 -->
 	<select id="getClientList" resultType="RequestVO">
 		select code client_code, name clientName from CLIENT 
-		where active = 1  LIMIT #{startPage},#{pageSize}
+		where active = 1 AND type = '납품처' LIMIT #{startPage},#{pageSize}
 	</select>
 	
 	<select id="getClientCount" resultType="int">
 	<![CDATA[
-		select count(*) from CLIENT where active = 1 
+		select count(*) from CLIENT where active = 1 AND type = '납품처'
 		  ]]>
 		<if test="client_code != null"> AND code like concat('%',#{client_code},'%') </if>
 		<if test="clientName != null"> AND name like concat('%',#{clientName},'%') </if>
