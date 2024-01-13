@@ -1280,8 +1280,6 @@
         });
         var r = n(4);
         e.globalDefaults = {
-            titleRangeSeparator: " ~ ",
-            monthYearFormat: "YYYY년 MM/DD",
             dayNamesShort: ["일","월","화","수","목","금","토"],
             defaultTimedEventDuration: "02:00:00",
             defaultAllDayEventDuration: {
@@ -1318,7 +1316,7 @@
                 prevYear: "작년",
                 nextYear: "내년",
                 year: "년",
-                today: "오늘",
+                today: "현재",
                 month: "월",
                 week: "주",
                 day: "일"

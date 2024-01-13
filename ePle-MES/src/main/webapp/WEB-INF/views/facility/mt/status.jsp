@@ -17,6 +17,9 @@
 <title>설비 상태</title>
 </head>
 <body>
+<c:if test="${(sessionScope.id != 'admin' or sessionScope.id eq null) and (sessionScope.dep_group != '설비')}">
+	<c:redirect url="/" />
+</c:if>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
 	<%@ include file="../../include/header.jsp"%>
 	<%@ include file="../../include/right-side-bar.jsp"%>

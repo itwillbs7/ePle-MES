@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+<%@ page isELIgnored="false" %>
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
@@ -14,9 +14,9 @@
 	<%@ include file="../include/right-side-bar.jsp"%>
 	<%@ include file="../include/left-side-bar.jsp"%>
 	<!-- 비로그인 거름망 -->
-	<%-- <c:if test="${empty id}" > --%>
-	<%-- 	<c:redirect url="/main/login"/> --%>
-	<%-- </c:if> --%>
+	 <c:if test="${empty sessionScope.id}" > 
+	 	<c:redirect url="/login"/> 
+	 </c:if> 
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
@@ -150,6 +150,7 @@
 			<!-- Checkbox select Datatable start -->
 			<div class="card-box mb-30">
 				<div class="pd-20">
+				<c:if test="${sessionScope.pos_id.equals('005') or sessionScope.dep_group.equals('영업')}">
 					<div class="btn-group pull-right" style="margin-bottom: 10px">
 						<button type="button" class="btn btn-success" id="add">
 							<b>추가</b>
@@ -163,6 +164,7 @@
 							<b>출하완료</b>
 						</button>
 					</div>
+				</c:if>
 				</div>
 				<div class="pb-20">
 					<div class="col-sm-30">

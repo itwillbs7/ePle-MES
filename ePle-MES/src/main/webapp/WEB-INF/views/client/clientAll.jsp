@@ -35,17 +35,16 @@
 											<div class="form-group">
 												<div class="row">
 													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
-													    <div class="btn-group dropdown">
-													        <button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-													            선택 <span class="caret"></span>
-													        </button>
-													        <div class="dropdown-menu">
-													            <a class="dropdown-item" href="#">거래처 코드</a> 
-													            <a class="dropdown-item" href="#">거래처명</a>
-													        </div>
-													    </div>
-													    <input type="hidden" id="searchCategory" name="searchCategory">
-													    <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
+														<div class="btn-group dropdown">
+															<button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
+																선택 <span class="caret"></span>
+															</button>
+															<div class="dropdown-menu" style="">
+																<a class="dropdown-item" href="javascript:buttonCategory('거래처 코드');">거래처 코드</a> 
+																<a class="dropdown-item" href="javascript:buttonCategory('거래처명');">거래처명</a>
+															</div>
+														</div>
+														<input type="hidden" id="searchCategory" name="searchCategory"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
 													</div>
 												</div>
 												<hr>
@@ -71,10 +70,10 @@
 										</c:choose>
 										
 										<div class="btn-group pull-right" style="margin-bottom: 10px">
-											<button type="button" class="btn btn-primary" onclick="doSearch()">
+											<button type="submit" class="btn btn-primary" id="search">
 												<b>검색</b>
 											</button>
-											<button type="button" class="btn btn-secondary" onclick="resetSearch()">
+											<button type="reset" class="btn btn-secondary" id="reset">
 												<b>초기화</b>
 											</button>
 										</div>
@@ -131,15 +130,15 @@
 									                <label class="custom-control-label" for="checkTable${loop.index + 1}"></label>
 									            </div>
 									        </td>
-									        <td>${client.code}</td>
-									        <td>${client.name}</td>
-									        <td>${client.conditions}</td>
-									        <td>${client.items}</td>
-									        <td>${client.manager}</td>
-									        <td>${client.tel}</td>
-									        <td>${client.email}</td>
-									        <td>${client.note}</td>
-									        <td>${client.active}</td>
+									        <th>${client.code}</th>
+									        <th>${client.name}</th>
+									        <th>${client.conditions}</th>
+									        <th>${client.items}</th>
+									        <th>${client.manager}</th>
+									        <th>${client.tel}</th>
+									        <th>${client.email}</th>
+									        <th>${client.note}</th>
+									        <th>${client.active}</th>
 									        <td>
 												<button type="button" class="btn btn-info btn-sm" id="clientInfo">
 													<b>...</b>
@@ -150,7 +149,6 @@
 								</table>
 							</form>
 							
-<<<<<<< HEAD
 							<div class="btn-toolbar justify-content-center mb-15">
 								<c:if test="${pageVO.totalCount > 1}">
 									<div class="btn-group">
@@ -172,26 +170,6 @@
 										</c:if>
 									</div>
 								</c:if>
-=======
-<!-- 							<div class="row"> -->
-<!-- 							    <div class="col-sm-12 col-md-5"> -->
-<!-- 							        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(전체 수) 중 (검색 결과) 개</div> -->
-<!-- 							    </div> -->
-<!-- 							</div> -->
-							
-							<div class="btn-toolbar justify-content-center mb-15">
-							    <div class="btn-group">
-							        <c:if test="${pageVO.prev}">
-							            <a href="/client/clientPage?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
-							        </c:if>
-							        <c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							            <a href="/client/clientPage?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
-							        </c:forEach>
-							        <c:if test="${pageVO.next}">
-							            <a href="/client/clientPage?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
-							        </c:if>
-							    </div>
->>>>>>> 8e4ab98f7c7f00be4b1efbef8420cc927b90a7ec
 							</div>
 							
 						</div>
@@ -310,35 +288,6 @@
 		        }
 		    });
 		 	
-	 		//검색하기
-	  		function doSearch() {
-			        var query = {"searchName" : $("#mapdName").val()};
-			        
-			        console.log("searchName:", query.searchName);
-			        
-			        $.ajax({
-			            url : "${pageContext.request.contextPath}/client/searchClient",
-			            type : "get",
-			            data : query,
-			            dataType : "text",
-			            success : function(data){
-			                 if (query.searchCode == "" && query.searchName == "") {
-			                    location.href = "${pageContext.request.contextPath}/client/searchClient";
-			                } else {
-			                    location.href = "${pageContext.request.contextPath}/client/searchClient?&searchName=" + $("#mapdName").val();
-			                } 
-			                 
-//			                if (data) {
-//			                    alert("완료");
-//			                } else {
-//			                    alert("전송된 값 없음");
-//			                }
-			            },
-			            
-			        });
-			    
-	 		}
-		    
 		});
 
 	</script>

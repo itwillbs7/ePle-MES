@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.production.domain.BOMVO;
+import com.production.domain.ajaxSearchVO;
 import com.production.domain.instructionVO;
 import com.production.domain.prodRequestVO;
 import com.production.persistence.productionDAO;
@@ -43,8 +44,8 @@ public class productionServiceImpl implements productionService {
 	}
 
 	@Override
-	public List<instructionVO> ajaxSearch(String[] product,String[] line_code,String[] request, String[] dateRange) throws Exception {
-		return pdDAO.ajaxSearch(product,line_code,request,dateRange);
+	public List<instructionVO> ajaxSearch(ajaxSearchVO vo) throws Exception {
+		return pdDAO.ajaxSearch(vo);
 	}
 
 	@Override
@@ -95,6 +96,10 @@ public class productionServiceImpl implements productionService {
 	@Override
 	public List<BOMVO> getBOM(String mapd_code) throws Exception {
 		return pdDAO.getBOM(mapd_code);
+	}
+
+	public ajaxSearchVO ajaxSearchCount(ajaxSearchVO vo) throws Exception {
+		return pdDAO.ajaxSearchCount(vo);
 	}
 
 }

@@ -62,55 +62,6 @@
         </foreach>
     </select>
 	
-	<!-- 거래처 리스트 페이지 -->
-    <select id="clientListPage" resultType="ClientVO">
-       <![CDATA[
-       SELECT *
-       FROM (
-           SELECT ROWNUM as RNUM, C.*
-           FROM (
-               SELECT *
-               FROM CLIENT
-               ORDER BY code DESC
-           ) 
-           WHERE ROWNUM <= #{cri.pageEnd}
-       ) 
-       WHERE RNUM >= #{cri.pageStart}
-       ]]>
-    </select>
-    
-    <select id="totalClientCount" resultType="int">
-	    <![CDATA[
-	    SELECT COUNT(*)
-	    FROM CLIENT
-	    ]]>
-    </select>
-    
-    <select id="clientListByCategory" resultType="ClientVO" parameterType="map">
-	    <![CDATA[
-	    SELECT *
-	    FROM (
-	        SELECT ROWNUM as RNUM, C.*
-	        FROM (
-	            SELECT *
-	            FROM CLIENT
-	            WHERE
-	                <choose>
-	                    <when test="searchCategory == '거래처 코드'">
-	                        CODE LIKE '%' || #{searchKeyword} || '%'
-	                    </when>
-	                    <when test="searchCategory == '거래처명'">
-	                        NAME LIKE '%' || #{searchKeyword} || '%'
-	                    </when>
-	                </choose>
-	            ORDER BY name DESC
-	        ) C
-	        WHERE ROWNUM <= #{cri.pageEnd}
-	    ) 
-	    WHERE RNUM >= #{cri.pageStart}
-	    ]]>
-    </select>
-    
 	<!-- 거래처 상세 -->
 	<select id="infoClient" resultType="ClientVO">
         SELECT code,name,type,conditions,items,ceo,manager,address,address2,tel,phone,fax,email,note,active 

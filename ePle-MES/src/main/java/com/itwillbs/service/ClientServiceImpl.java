@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.ClientVO;
-import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.persistence.ClientDAO;
 
@@ -43,26 +42,8 @@ public class ClientServiceImpl implements ClientService {
     public int deleteClients(String[] codes) throws Exception {
         return cdao.deleteClients(codes);
     }
-    
-	@Override
-	public List<ClientVO> clientListPage(Criteria cri) throws Exception {
-		logger.debug(" S : clientListPage(Criteria cri) ");
-		return cdao.getClientListPage(cri);
-	}
-
-	@Override
-	public int totalClientCount() throws Exception {
-		logger.debug(" S : totalClientCount() ");
-		return cdao.getClientCount();
-	}
 
     @Override
-	public List<ClientVO> clientListByCategory(String searchCategory, String searchKeyword, Criteria cri)
-			throws Exception {
-    	return cdao.clientListByCategory(searchCategory, searchKeyword, cri);
-	}
-    
-	@Override
     public List<ClientVO> getInfo(String[] codes) throws Exception {
         return cdao.getInfo(codes);
     }
@@ -82,5 +63,11 @@ public class ClientServiceImpl implements ClientService {
 		return cdao.getClientListPage(vo);
 	}
 
+	@Override
+	public int totalClientCount() throws Exception {
+		return cdao.getClientCount();
+	}
+	
+	
 	
 }

@@ -131,7 +131,7 @@ public class ReturnsController {
 		logger.debug("(^^)/insert 예정 정보 "+vo);
 		
 		// 사번 수집
-		String id = (String) session.getAttribute("code");
+		String id = (String) session.getAttribute("id");
 		vo.setReg_emp(id);
 		
 		String vocode=vo.getCode();
@@ -248,7 +248,7 @@ public class ReturnsController {
 		logger.debug("vo "+vo);
 		
 		// 사번 수집
-		String id = (String) session.getAttribute("code");
+		String id = (String) session.getAttribute("id");
 
 //		String id = "id";
 		int result= rtService.updateReturns(vo, id);

@@ -1,12 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../../include/head.jsp"%>
-<title>일상 보전</title>
+<title>설비 보전</title>
 </head>
 <body>
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
+<c:if test="${sessionScope.dep_group eq '설비'}">
+	<c:redirect url="/facility/mt/status" />
+</c:if>
 <!-- 직원의 경우 보전 등록, 자신이 등록한 것만 보도록 함 -->
 <!-- 관리자의 경우 보전 등록 및 전체 조회 가능, 보전 작업 실시 -->
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->

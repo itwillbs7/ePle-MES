@@ -2,10 +2,7 @@ package com.itwillbs.service;
 
 import java.util.List;
 
-import com.itwillbs.domain.ClientVO;
-import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.LineVO;
-import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.domain.PageVO;
 
 public interface LineService {

@@ -8,6 +8,9 @@
 <title>보전 신청</title>
 </head>
 <body>
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
 	<!-- 직원의 경우 사후보전만 실시 -->
 
 	<!-- 콘텐츠 시작 -->

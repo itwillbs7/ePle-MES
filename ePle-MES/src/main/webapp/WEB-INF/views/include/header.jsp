@@ -25,7 +25,7 @@
 					<span class="user-icon">
 							<img src="${pageContext.request.contextPath}/resources/images/user.png" alt="" />
 					</span> 
-					<span class="user-name">이름(사원번호)</span>
+					<span class="user-name">${name}(${dep_group})</span>
 				</a>
 				<!-- 회원 드롭다운 -->
 				<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">

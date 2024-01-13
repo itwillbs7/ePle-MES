@@ -29,159 +29,75 @@ jQuery(document).ready(function () {
 		// page is ready
 		$("#calendar").fullCalendar({
 			timeZone:"KST",
+			height: '50%', 	// calendar 높이 설정
+            expandRows: true, // 화면에 맞게 높이 재설정
 			themeSystem: "bootstrap4",
 			defaultView: "month",
 			// emphasizes business hours
 			businessHours: false,
 			// event dragging & resizing
-			editable: true,
+			editable: false,
 			// header
-			selectable : true, // 달력 일자 드래그 설정가능
-			droppable : true,
+			selectable : false, // 달력 일자 드래그 설정가능
+			droppable : false,
 			nowIndicator: true, // 현재 시간 마크,
             header: {
-                left: "today",
-                center: "prev, title, next",
-                right: ""
+                left: "prev, title, next",
+                right: "today"
             },
+            titleFormat : 'YYYY년 MM월',
             // 국경일, 기념일, 공휴일 가져오기
             // 공공 데이터 포털에서 가능(API 신청 완료)
-			events: [
-				{
-					index: '1',
-					title: "정보",
-					description:
-						"내용",
-					start: "2024-01-05",
-					end: "2024-01-05",
-					className: "fc-bg-default",
-					icon: "circle",
-				},
-				{
-					index: '1',
-					title: "Flight Paris",
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
-					start: "2022-08-08T14:00:00",
-					end: "2022-08-08T20:00:00",
-					className: "fc-bg-deepskyblue",
-					icon: "cog",
-					allDay: false,
-				},
-				{
-					code: '1',
-					title: "Team Meeting",
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
-					start: "2022-07-10T13:00:00",
-					end: "2022-07-10T16:00:00",
-					className: "fc-bg-pinkred",
-					icon: "group",
-					allDay: false,
-				},
-				{
-					index: '1',
-					title: "Meeting",
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
-					start: "2022-08-12",
-					className: "fc-bg-lightgreen",
-					icon: "suitcase",
-				},
-				{
-					index: '1',
-					title: "Conference",
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
-					start: "2022-08-13",
-					end: "2022-08-15",
-					className: "fc-bg-blue",
-					icon: "calendar",
-				},
-				{
-					index: '1',
-					title: "Baby Shower",
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
-					start: "2022-07-13",
-					end: "2022-07-14",
-					className: "fc-bg-default",
-					icon: "child",
-				},
-				{
-					index: '1',
-					title: "Birthday",
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
-					start: "2022-09-13",
-					end: "2022-09-14",
-					className: "fc-bg-default",
-					icon: "birthday-cake",
-				},
-				{
-					index: '1',
-					title: "Restaurant",
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
-					start: "2022-10-15T09:30:00",
-					end: "2022-10-15T11:45:00",
-					className: "fc-bg-default",
-					icon: "glass",
-					allDay: false,
-				},
-				{
-					index: '1',
-					title: "Dinner",
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
-					start: "2022-11-15T20:00:00",
-					end: "2022-11-15T22:30:00",
-					className: "fc-bg-default",
-					icon: "cutlery",
-					allDay: false,
-				},
-				{
-					index: '1',
-					title: "Shooting",
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
-					start: "2022-08-25",
-					end: "2022-08-25",
-					className: "fc-bg-blue",
-					icon: "camera",
-				},
-				{
-					index: '1',
-					title: "Go Space :)",
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
-					start: "2022-12-27",
-					end: "2022-12-27",
-					className: "fc-bg-default",
-					icon: "rocket",
-				},
-				{
-					index: '1',
-					title: "Dentist",
-					description:
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu pellentesque nibh. In nisl nulla, convallis ac nulla eget, pellentesque pellentesque magna.",
-					start: "2022-12-29T11:30:00",
-					end: "2022-12-29T012:30:00",
-					className: "fc-bg-blue",
-					icon: "medkit",
-					allDay: false,
-				},
-			],
-			dayClick: function () {
-				jQuery("#modal-view-event-add").modal();
-			},
-			eventClick: function (event, jsEvent, view) {
-				jQuery(".event-title").html(event.title);
-				jQuery(".event-index").html(" (" + event.index + ")");
-				jQuery(".event-description").append(event.description);
-				jQuery(".eventUrl").attr("href", event.url);
-				jQuery("#modal-view-event").modal();
-			},
+            eventSources: [
+                {
+                  googleCalendarApiKey: 'AIzaSyDSkZ5Xvf5Qk5mfavVv-S5GXm1NXhCewJ4',
+                  googleCalendarId: 'klop1211@gmail.com', 
+                  className: '윤수민'
+                },
+                {
+                  googleCalendarApiKey: 'AIzaSyDSkZ5Xvf5Qk5mfavVv-S5GXm1NXhCewJ4',
+                  googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+                  className: '공휴일'
+                }
+            ], 
+          	events: [ // 일정 수동 기입
+                {
+                title: '라인1 비가동',
+                start: '2024-01-15',
+                },
+                {
+                	title: '공정1 비가동',
+                	start: '2024-01-15',
+                },
+                {
+                	title: '공정2 비가동',
+                	start: '2024-01-15',
+                },
+                {
+                	title: '공정3 비가동',
+                	start: '2024-01-15',
+                },
+                {
+                	title: '라인2 비가동',
+                	start: '2024-01-16',
+                },
+                {
+                	title: '라인3 비가동',
+                	start: '2024-01-17',
+                },
+                {
+                	title: '라인4 비가동',
+                	start: '2024-01-18',
+                }
+          	],
+          	selectAllow: function(selectInfo) {
+                return moment().diff(selectInfo.start) <= 0
+            },
+            viewRender: function(view) {
+                var title = view.title;
+                var t = title.split(" ");
+                $(".fc-left h2").html(t[3] + " " + t[4]);
+             }
 		});
 	});
 })(jQuery);
