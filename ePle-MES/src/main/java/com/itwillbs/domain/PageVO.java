@@ -12,6 +12,8 @@ public class PageVO {
 
 	private boolean prev;
 	private boolean next;
+	
+	private String emp_code;
 
 	private int displayPageNum = 5;
 
@@ -79,11 +81,19 @@ public class PageVO {
 	public SearchVO getSearch() {
 		return search;
 	}
+	
+	public void setEmp_code(String emp_code) {
+		this.emp_code = emp_code;
+	}
+	
+	public String getEmp_code() {
+		return emp_code;
+	}
 
 	@Override
 	public String toString() {
 		return "PageVO [totalCount=" + totalCount + ", startPage=" + startPage + ", endPage=" + endPage + ", prev="
-				+ prev + ", next=" + next + ", displayPageNum=" + displayPageNum + ", cri=" + cri + ", search=" + search
-				+ ", toString()=" + super.toString() + "]";
+				+ prev + ", next=" + next + ", emp_code=" + emp_code + ", displayPageNum=" + displayPageNum + ", cri="
+				+ cri + ", search=" + search + ", toString()=" + super.toString() + "]";
 	}
 }
