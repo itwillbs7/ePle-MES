@@ -5,6 +5,7 @@
 <head>
 <%@ include file="include/head.jsp"%>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/src/plugins/fullcalendar/fullcalendar.css" />
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 <title>메인</title>
 </head>
 <body>
@@ -22,6 +23,13 @@
 						</div>
 						<div class="calendar-wrap">
 							<div id="calendar"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-12 col-sm-12 mb-30 card-box">
+					<div class="pd-20">
+						<div class="calendar-wrap">
+							<h1>옆영역</h1>
 						</div>
 					</div>
 				</div>

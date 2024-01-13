@@ -64,9 +64,9 @@
 							<button type="button" class="btn btn-success" id="add">
 								<b>추가</b>
 							</button>
-							<!-- <button type="button" class="btn btn-warning" id="update">
+							<button type="button" class="btn btn-warning" id="update">
 								<b>수정</b>
-							</button> -->
+							</button>
 							<button type="button" class="btn btn-danger" id="delete">
 								<b>삭제</b>
 							</button>

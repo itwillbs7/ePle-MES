@@ -22,16 +22,16 @@
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">
-							<label>그룹ID</label><br>
+							<label>그룹명</label><br>
 							
-							<select class="custom-select col-7" name="group_id" onchange="onchangeSelect(this);">
+							<select class="custom-select col-7" name="group_name" onchange="onchangeSelect(this);">
 								<option value="null">선택하세요</option>
-								<c:forEach items="${groupIdList }" var="val">
+								<c:forEach items="${groupNameList }" var="val">
 								<option>${val }</option>
 								</c:forEach>
 							</select>
 							
-							<input class="form-control groupId-input col-7" style="display: inline-block;" placeholder="입력하세요" disabled="disabled" hidden="">
+							<input class="form-control groupName-input col-7" style="display: inline-block;" placeholder="입력하세요" disabled="disabled" hidden="">
 							
 							<button type="button" class="btn btn-success" id="aabb">
 								<b>직접 입력하기</b>
@@ -39,15 +39,15 @@
 							
 						</div>
 						<div class="form-group">
-							<label>그룹명</label> 
-							<input class="form-control" id="auto-group-name" name="group_name" readonly="readonly">
-							<input class="form-control" id="passive-group-name" hidden="" disabled="disabled" placeholder="입력하세요">
-						</div>
-						<div class="form-group">
-							<label>코드ID</label> <input class="form-control" placeholder="코드ID" name="code_id">
+							<label>그룹ID</label> 
+							<input class="form-control" id="auto-group-id" name="group_id" readonly="readonly">
+							<input class="form-control" id="passive-group-id" hidden="" disabled="disabled" placeholder="입력하세요">
 						</div>
 						<div class="form-group">
 							<label>코드명</label> <input class="form-control" placeholder="코드명" name="code_name">
+						</div>
+						<div class="form-group">
+							<label>코드ID</label> <input class="form-control" placeholder="코드ID" name="code_id">
 						</div>
 					</div>
 				</div>
@@ -74,8 +74,7 @@
 	
 	function onchangeSelect(selectElement) {
 		
-		var group_id = selectElement.value;
-		console.log(group_id);
+		var group_Name = selectElement.value;
 		
 	}
 	
@@ -96,11 +95,10 @@
 	        
 		$(".btn-for-submit").click(function(){
 			// 입력 값
-	        var group_id = document.forms["commonForm"]["group_id"].value;
 	        var group_name = document.forms["commonForm"]["group_name"].value;
+	        var group_id = document.forms["commonForm"]["group_id"].value;
 	        var code_id = document.forms["commonForm"]["code_id"].value;
 	        var code_name = document.forms["commonForm"]["code_name"].value;
-	        console.log(group_id+", "+group_name+", "+code_id+", "+code_name);
 		        // 입력값이 비어있다면 false
 		        if (group_id === "" || group_id === "null" || group_name === "" || code_id === "" || code_name === "") {
 		            alert("모든 항목을 입력해주세요.");
@@ -146,13 +144,13 @@
 	}); // jquery
 	
     // 요소에 대한 참조 가져오기
-    var selectElement = document.querySelector('select[name="group_id"]');
-    var inputElement1 = document.querySelector('.groupId-input');
-    var inputElement2 = document.querySelector('#auto-group-name');
-    var inputElement3 = document.querySelector('#passive-group-name');
+    var selectElement = document.querySelector('select[name="group_name"]');
+    var inputElement1 = document.querySelector('.groupName-input');
+    var inputElement2 = document.querySelector('#auto-group-id');
+    var inputElement3 = document.querySelector('#passive-group-id');
     var buttonElement = document.getElementById('aabb');
-    var autoGroupNameInput = document.getElementById('auto-group-name');
-    var passiveGroupNameInput = document.getElementById('passive-group-name');
+    var autoGroupIdInput = document.getElementById('auto-group-id');
+    var passiveGroupIdInput = document.getElementById('passive-group-Id');
     var groupIdArr = '${groupIdList}';
     var groupNameArr = '${groupNameList}';
     groupIdArr = groupIdArr.substring(1, groupIdArr.length-1);
@@ -167,7 +165,7 @@
 
     // 버튼에 클릭 이벤트 리스너 추가
     buttonElement.addEventListener('click', function () {
-    	var selectElement = document.querySelector('select[name="group_id"]');
+    	var selectElement = document.querySelector('select[name="group_name"]');
         // 입력 요소 표시
         inputElement1.removeAttribute('hidden');
         inputElement3.removeAttribute('hidden');
@@ -175,8 +173,8 @@
         inputElement1.removeAttribute('disabled');
         inputElement3.removeAttribute('disabled');
         // 입력 요소 name 부여
-        inputElement1.setAttribute('name', 'group_id');
-        inputElement3.setAttribute('name', 'group_name');
+        inputElement1.setAttribute('name', 'group_name');
+        inputElement3.setAttribute('name', 'group_id');
         // 선택 요소 숨김
         selectElement.setAttribute('hidden', 'hidden');
         inputElement2.setAttribute('hidden', 'hidden');
@@ -190,18 +188,18 @@
     });
         
     
-   	var selectElement = document.querySelector('select[name="group_id"]');
+   	var selectElement = document.querySelector('select[name="group_name"]');
     // 그룹ID select 요소의 변경 이벤트 리스너 추가
     selectElement.addEventListener('change', function () {
     	var selectedIndex = selectElement.selectedIndex;
     	console.log(groupNameList[selectedIndex-1]);
         if (selectedIndex !== 0) { // 선택된 값이 "선택하세요"가 아닌 경우
-        	inputElement2.value = groupNameList[selectedIndex - 1];
-            autoGroupNameInput.removeAttribute('hidden');
-            passiveGroupNameInput.setAttribute('hidden', 'hidden');
+        	inputElement2.value = groupIdList[selectedIndex - 1];
+            autoGroupIdInput.removeAttribute('hidden');
+            passiveGroupIdInput.setAttribute('hidden', 'hidden');
         } else {
-            autoGroupNameInput.setAttribute('hidden', 'hidden');
-            passiveGroupNameInput.removeAttribute('hidden');
+            autoGroupIdInput.setAttribute('hidden', 'hidden');
+            passiveGroupIdInput.removeAttribute('hidden');
         }
     });
     
