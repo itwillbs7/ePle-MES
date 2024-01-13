@@ -1,5 +1,6 @@
 package com.production.persistence;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.itwillbs.domain.CommonVO;
 import com.production.domain.BOMVO;
 import com.production.domain.failedVO;
+import com.production.domain.inputVO;
 import com.production.domain.resultVO;
 
 @Repository
@@ -80,5 +82,37 @@ public class resultDAOImpl implements resultDAO{
 	@Override
 	public List<CommonVO> getCode_id() throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getCode_id");
+	}
+
+	@Override
+	public void insertInput(inputVO[] vo) throws Exception {
+		List<inputVO> list = Arrays.asList(vo);
+		int result = -1;
+		for (inputVO inputVO : list) {
+			logger.debug("asd1");
+			result = sqlSession.selectOne(NAMESPACE + ".checkDuplication",inputVO);
+			logger.debug("result : " + result);
+			logger.debug("asd2");
+			if (result == 1) {
+				logger.debug("asd3");
+				sqlSession.insert(NAMESPACE + ".insertInput",inputVO);
+				logger.debug("asd4");
+			}
+			if (result == 0) {
+				logger.debug("asd5");
+				sqlSession.update(NAMESPACE + ".updateInput",inputVO);
+				logger.debug("asd6");
+			}
+		}
+	}
+
+	@Override
+	public List<inputVO> getInput(String code) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getInput",code);
+	}
+
+	@Override
+	public void insertLot(String code) throws Exception {
+		sqlSession.insert(NAMESPACE + ".insertLot",code);
 	}
 }

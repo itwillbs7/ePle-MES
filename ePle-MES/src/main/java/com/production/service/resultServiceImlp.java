@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.domain.CommonVO;
 import com.production.domain.BOMVO;
 import com.production.domain.failedVO;
+import com.production.domain.inputVO;
 import com.production.domain.resultVO;
 import com.production.persistence.resultDAO;
 
@@ -73,5 +74,20 @@ public class resultServiceImlp implements resultService{
 	@Override
 	public List<CommonVO> getCode_id() throws Exception {
 		return rsDAO.getCode_id();
+	}
+
+	@Override
+	public void insertInput(inputVO[] vo) throws Exception {
+		rsDAO.insertInput(vo);
+	}
+
+	@Override
+	public List<inputVO> getInput(String code) throws Exception {
+		return rsDAO.getInput(code);
+	}
+
+	@Override
+	public void insertLot(String code) throws Exception {
+		rsDAO.insertLot(code);
 	}
 }

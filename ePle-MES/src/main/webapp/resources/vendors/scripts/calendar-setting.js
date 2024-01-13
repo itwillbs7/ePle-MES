@@ -50,49 +50,30 @@ jQuery(document).ready(function () {
             // 공공 데이터 포털에서 가능(API 신청 완료)
             eventSources: [
                 {
-                  googleCalendarApiKey: 'AIzaSyDSkZ5Xvf5Qk5mfavVv-S5GXm1NXhCewJ4',
-                  googleCalendarId: 'klop1211@gmail.com', 
+                  googleCalendarApiKey: 'AIzaSyDQQE0ve8CxGNFJ6Kztq8pAW05oxkdR5eY',
+                  googleCalendarId: 'klop12111@gmail.com', 
                   className: '윤수민'
                 },
                 {
-                  googleCalendarApiKey: 'AIzaSyDSkZ5Xvf5Qk5mfavVv-S5GXm1NXhCewJ4',
+                  googleCalendarApiKey: 'AIzaSyDQQE0ve8CxGNFJ6Kztq8pAW05oxkdR5eY',
                   googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
                   className: '공휴일'
                 }
             ], 
           	events: [ // 일정 수동 기입
                 {
-                title: '라인1 비가동',
-                start: '2024-01-15',
-                },
-                {
-                	title: '공정1 비가동',
-                	start: '2024-01-15',
-                },
-                {
-                	title: '공정2 비가동',
-                	start: '2024-01-15',
-                },
-                {
-                	title: '공정3 비가동',
-                	start: '2024-01-15',
-                },
-                {
                 	title: '라인2 비가동',
                 	start: '2024-01-16',
                 },
                 {
                 	title: '라인3 비가동',
-                	start: '2024-01-17',
+                	start: '2024-01-19',
                 },
                 {
                 	title: '라인4 비가동',
-                	start: '2024-01-18',
+                	start: '2024-01-22',
                 }
           	],
-          	selectAllow: function(selectInfo) {
-                return moment().diff(selectInfo.start) <= 0
-            },
             viewRender: function(view) {
                 var title = view.title;
                 var t = title.split(" ");

@@ -26,7 +26,7 @@ input[readonly] {
 				
 				<div class="tab-content">
 					<!------------------------------ 첫번째 폼 ------------------------------>
-						<form method="post" action="/material/inAdd">
+						<form method="post" action="/material/inAdd" id="addForm">
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
 								
@@ -34,10 +34,9 @@ input[readonly] {
     									<label>자재 유형</label>
 										<input class="form-control" type="text" name="category" placeholder="자재 유형" value="완재품" readonly>
 									</div>
-									
 									<div class="form-group">
-										<label>발주 정보</label> 
-										<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="발주코드" value="${result.vo.request }" readonly>
+										<label>실적 코드</label> 
+										<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="실적코드" value="${result.code }" readonly>
 									</div>
 									<div class="form-group">
 										<label>품목</label> 
@@ -65,7 +64,7 @@ input[readonly] {
 									<button type="button" class="btn btn-secondary" onclick="window.close();">
 										<b>취소</b>
 									</button>
-									<button type="submit" class="btn btn-success">
+									<button type="button" class="btn btn-success" id="submitBtn">
 										<b>등록</b>
 									</button>
 								</div>
@@ -97,5 +96,25 @@ input[readonly] {
 		    });
 		});
 	</script>
+	<script>
+    $(document).ready(function () {
+        // 폼이 제출되기 전에 실행할 함수
+        $("#submitBtn").click(function (event) {
+            // 여기에 원하는 동작을 추가
+            var code = $("#orderCode").val();
+            $.ajax({
+				url : "/production/insertLot",
+				type : "POST",
+				data : {code : code},
+				error : function() {
+					alert("error");
+				},
+				success : function() {
+					$("#addForm").submit();
+				}
+			});
+        });
+    });
+</script>
 </body>
 </html>

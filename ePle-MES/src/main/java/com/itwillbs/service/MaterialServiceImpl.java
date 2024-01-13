@@ -230,6 +230,19 @@ public class MaterialServiceImpl implements MaterialService {
 	
 	
 	
+	// 출고 등록
+	@Override
+	public int outAdd(Warehouse_HistoryVO vo) throws Exception {
+		logger.debug("S -  outAdd(Warehouse_HistoryVO vo)");
+		return mdao.outAdd(vo);
+	}
+	// 출고 최신코드 가져오기
+	@Override
+	public String outRecentCode() throws Exception {
+		logger.debug("S - outRecentCode()");
+		return mdao.outRecentCode();
+	}
+	
 	
 	
 }

@@ -468,4 +468,23 @@
 	
 	
 	
+	
+	
+	<!-- 출고 등록 -->
+	<insert id="outAdd">
+		INSERT INTO WAREHOUSE_HISTORY
+		(code,order_num,warehouse_code,io,category,amount,mapd_code,emp_code,date)
+		VALUES
+		(#{code},#{order_num},#{warehouse_code},'OUT','원자재',#{amount},#{mapd_code},#{emp_code},now())
+	</insert>
+	
+	<!-- 최신코드 가져오기 -->
+	<select id="outRecentCode" resultType="String">
+		SELECT code FROM WAREHOUSE_HISTORY WHERE code LIKE 'OUT%' AND DATE(date) = CURDATE() ORDER BY code DESC LIMIT 0, 1
+	</select>
+	
+	
+	
+	
+	
 	</mapper>

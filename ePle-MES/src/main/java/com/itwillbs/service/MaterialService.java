@@ -90,8 +90,10 @@ public interface MaterialService {
 	 // 출고 상세
 	 public Warehouse_HistoryVO outInfo(String code) throws Exception;	 
 	 
-	 
-	 
+	// 출고 등록 
+	public int outAdd(Warehouse_HistoryVO vo)throws Exception;
+	// 출고 최신코드 가져오기
+	public String outRecentCode() throws Exception;
 	 
 	 
 	 
