@@ -4,7 +4,7 @@
 <html>
 <head>
 <%@ include file="../../include/head.jsp"%>
-<title>설비 품목 관리</title>
+<title>설비 정보 관리</title>
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -15,7 +15,7 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>설비 품목 관리</h1>
+				<h1>설비 정보 관리</h1>
 			</div>
 			<div class="min-height-200px">
 				<!-- 아코디언 시작 -->
