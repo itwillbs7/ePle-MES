@@ -61,13 +61,6 @@
             #{code}
         </foreach>
     </select>
-    
-    <!-- 전체 품목 수 조회 -->
-  	<select id="countClient" resultType="int">
-  <![CDATA[
-  	select count(*) from CLIENT where 1=1
-  ]]>
-	</select>
 	
 	<!-- 거래처 리스트 페이지 -->
     <select id="clientListPage" resultType="ClientVO">

@@ -33,24 +33,24 @@ public class ProductController {
     // http://localhost:8088/product/productAll
     
     // 품목 리스트 - GET
-    @RequestMapping(value = "/productAll", method = RequestMethod.GET)
-    public String listAllGET(Model model,@ModelAttribute("result") String result,HttpSession session,MAPDVO mvo,Criteria cri) throws Exception {
-    	
-    	mvo.setCri(cri);
-    	
-    	PageVO pageVO = new PageVO(); 
-		pageVO.setCri(cri);
-		pageVO.setTotalCount(pService.inProductCount(mvo));
-		  
-        session.setAttribute("viewcntCheck", true);
-        
-        List<MAPDVO> productList = pService.productListAll();
-        
-        model.addAttribute("productList", productList);
-        model.addAttribute("pageVO", pageVO);
-        
-        return "/product/productAll";
-    }
+//    @RequestMapping(value = "/productAll", method = RequestMethod.GET)
+//    public String listAllGET(Model model,@ModelAttribute("result") String result,HttpSession session,MAPDVO mvo,Criteria cri) throws Exception {
+//    	
+//    	mvo.setCri(cri);
+//    	
+//    	PageVO pageVO = new PageVO(); 
+//		pageVO.setCri(cri);
+//		pageVO.setTotalCount(pService.inProductCount(mvo));
+//		  
+//        session.setAttribute("viewcntCheck", true);
+//        
+//        List<MAPDVO> productList = pService.productListAll();
+//        
+//        model.addAttribute("productList", productList);
+//        model.addAttribute("pageVO", pageVO);
+//        
+//        return "/product/productAll";
+//    }
 
     // 품목 수정 - GET
     @RequestMapping(value = "/update", method = RequestMethod.GET)
@@ -112,22 +112,22 @@ public class ProductController {
     }
 
     // 품목 (출력/페이징/검색)
-    @RequestMapping(value = "/searchProduct" , method = RequestMethod.GET)
-    public void SearchMAPD(Model model, Criteria cri,
-							    @RequestParam(value = "mapdCode",required = false) String mapdCode,
-							    @RequestParam(value = "mapdName",required = false) String mapdName) throws Exception {
-		
-    List<MAPDVO> mapdList = pService.SearchProduct(cri,mapdCode,mapdName);
-		
-    PageVO pageVO = new PageVO();  
-		  
-    pageVO.setCri(cri);
-    pageVO.setTotalCount(pService.productListCount(mapdCode,mapdName)); 
-		  
-    model.addAttribute("pageVO", pageVO);
-    model.addAttribute("mapdList", mapdList);
-		
-    }
+//    @RequestMapping(value = "/searchProduct" , method = RequestMethod.GET)
+//    public void SearchMAPD(Model model, Criteria cri,
+//							    @RequestParam(value = "mapdCode",required = false) String mapdCode,
+//							    @RequestParam(value = "mapdName",required = false) String mapdName) throws Exception {
+//		
+//    List<MAPDVO> mapdList = pService.SearchProduct(cri,mapdCode,mapdName);
+//		
+//    PageVO pageVO = new PageVO();  
+//		  
+//    pageVO.setCri(cri);
+//    pageVO.setTotalCount(pService.productListCount(mapdCode,mapdName)); 
+//		  
+//    model.addAttribute("pageVO", pageVO);
+//    model.addAttribute("mapdList", mapdList);
+//		
+//    }
 
     // 품목 추가 - GET, POST
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
