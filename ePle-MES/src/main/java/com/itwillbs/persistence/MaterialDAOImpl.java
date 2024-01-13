@@ -245,6 +245,20 @@ public class MaterialDAOImpl implements MaterialDAO {
 	
 	
 	
+	// 출고 등록
+	@Override
+	public int outAdd(Warehouse_HistoryVO vo) throws Exception {
+		logger.debug("D - outAdd(Warehouse_HistoryVO vo)");
+		return sqlSession.update(NAMESPACE + ".outAdd", vo);
+	}
+	// 출고 최신코드 가져오기
+	@Override
+	public String outRecentCode() throws Exception {
+		logger.debug("D - outRecentCode()");
+		return sqlSession.selectOne(NAMESPACE + ".outRecentCode");
+	}	
+	
+	
 	
 	
 }

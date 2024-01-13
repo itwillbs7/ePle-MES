@@ -85,7 +85,7 @@ margin-right:20px;
 	<div class="card-box mb-30">
 		<div class="pd-20">
 			<div class="btn-group pull-right" style="margin-bottom: 10px">
-				<button type="button" class="btn btn-success" id="add"><b>추가</b></button>
+				<button type="button" class="btn btn-success" id="add"><b>입고등록</b></button>
 				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
 			</div>
 		</div>
@@ -260,6 +260,21 @@ margin-right:20px;
 			});
 
 
+		 	// 출고등록 O
+			$("#delete").click(function() {
+			    var check = $("input:checkbox[name=tableCheck]:checked");
+			    if (check.length === 0 || check.length > 1) {
+			        alert("출고할 항목을 하나만 선택하세요!");
+			    } else {
+			        var code = check.val();
+			        openPage("/material/outAdd?code=" + code, 400, 700);
+			    }
+			});
+		 	
+		 	
+		 	
+		 	
+		 	
 		 	// 상세보기 O
 			$('body').on('click', '[class^="inInfo"]', function(){
         		var code = $(this).text().trim();

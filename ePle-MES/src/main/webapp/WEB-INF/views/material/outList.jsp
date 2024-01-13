@@ -85,7 +85,7 @@ margin-right:20px;
 	<div class="card-box mb-30">
 		<div class="pd-20">
 			<div class="btn-group pull-right" style="margin-bottom: 10px">
-				<!-- <button type="button" class="btn btn-warning" id="update"><b>수정</b></button> -->
+				<!-- <button type="button" class="btn btn-success" id="add"><b>추가</b></button> -->
 			</div>
 		</div>
 
@@ -241,17 +241,12 @@ margin-right:20px;
 			return window.open(i, 'Popup_Window', set);
 		}
 
-		 	// 수정 O
-			$("#update").click(function() {
-			    var check = $("input:checkbox[name=tableCheck]:checked");
-			    if (check.length === 0 || check.length > 1) {
-			        alert("수정할 항목을 하나만 선택하세요!");
-			    } else {
-			        var code = check.val();
-			        openPage("/material/inEdit?code=" + code, 400, 700);
-			    }
+		
+		$(document).ready(function() {
+			// 추가 O
+			$("#add").click(function() {
+				openPage("/material/outAdd", 400, 700);
 			});
-
 
 		 	// 상세보기 O
 			$('body').on('click', '[class^="inInfo"]', function(){
@@ -265,7 +260,7 @@ margin-right:20px;
 				openPage("/material/searchMAPD", 400,700);
 			});
 
-			
+		});	
 
  		// 검색하기
   		function doSearch() {
