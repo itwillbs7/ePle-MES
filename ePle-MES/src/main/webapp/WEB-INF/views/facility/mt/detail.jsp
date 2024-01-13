@@ -10,7 +10,7 @@
 <title>설비 상태</title>
 </head>
 <body>
-<c:if test="${sessionScope.id eq null or (sessionScope.dep_group != '설비' or id != 'admin')}">
+<c:if test="${(sessionScope.id != 'admin' or sessionScope.id eq null) and (sessionScope.dep_group != '설비')}">
 	<c:redirect url="/" />
 </c:if>
 	<!-- 콘텐츠 시작 -->
