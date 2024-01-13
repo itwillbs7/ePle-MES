@@ -63,14 +63,14 @@
 												</div>
 												<div class="col-md-2 col-sm-12">
 													<div class="form-group">
-														<label>기간</label> <input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="dateRange">
+														<label>기간</label> <input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="dateRange" autocomplete='off'>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 									<div class="btn-group pull-right" style="margin-bottom: 10px">
-										<button class="btn btn-primary" type="button" onclick="ajaxSearch()">
+										<button class="btn btn-primary" type="submit">
 											<b>검색</b>
 										</button>
 										<button type="reset" class="btn btn-secondary" id="reset">
@@ -145,13 +145,32 @@
 								<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(${instructionVOList.size() }) 중 (${instructionVOList.size() }) 개</div>
 							</div>
 						</div>
-						<!-- <div class="btn-toolbar justify-content-center mb-15">
+						<%-- <div class="btn-toolbar justify-content-center mb-15">
+					<div class="btn-group">
+						<c:if test="${pageVO.prev}">
+							<a href="/material/inList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+						</c:if>
+						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+							<a href="/material/inList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+						</c:forEach>
+						<c:if test="${pageVO.next}">
+							<a href="/material/inList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+						</c:if>
+					</div>
+				</div> --%>
+						<div class="btn-toolbar justify-content-center mb-15">
 							<div class="btn-group">
-								<a href="#" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
-								</a> <a href="#" class="btn btn-outline-primary">1</a> <a href="#" class="btn btn-outline-primary">2</a> <span class="btn btn-primary current">3</span> <a href="#" class="btn btn-outline-primary">4</a> <a href="#" class="btn btn-outline-primary">5</a> <a href="#" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
-								</a>
+								<c:if test="${pageVO.prev}">
+									<a href="/production/instruction?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+								</c:if>
+								<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+									<a href="/material/inList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+								</c:forEach>
+								<c:if test="${pageVO.next}">
+									<a href="/material/inList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+								</c:if>
 							</div>
-						</div> -->
+						</div>
 					</div>
 				</div>
 			</div>
@@ -206,7 +225,7 @@
 				var code_arr = getCode_Arr('update');
 				if (code_arr != null) {
 					// 가로, 세로 설정
-					openPage("/production/updateInstruction"+"?code=" + code_arr[0], 400, 700);
+					openPage("/production/updateInstruction"+"?code=" + code_arr[0], 500, 600);
 				}
 			});
 
@@ -237,45 +256,6 @@
 				alert('지시사항을 선택해 주세요');
 				return null;
 			}
-		}
-	</script>
-	<!-- ajax검색 -->
-	<script type="text/javascript">
-		function ajaxSearch() {
-			var queryString = $('#accordion-search').serialize();
-			$.ajax({
-				type : 'post',
-				url : '/production/ajaxSearch',
-				data : queryString,
-				error: function(){
-					alert("error");
-				},
-				success : function(data){
-					$('.instructionVO').remove();
-					var html = "";
-					//지시사항 상세 검색 결과가 초기 지시사항 페이지와 다르게 나온다.개선필요
-					$(data).each(function(){
-						html += "<tr class='instructionVO'>";
-						html += "<td>";
-						html += "<div class='custom-control custom-checkbox mb-5'>";
-						html += "<input type='checkbox' class='custom-control-input checkCode' id='" + this.code +"' name='tableCheck' value='" + this.code +"'>";
-						html += "<label class='custom-control-label' for='" + this.code +"'></label>";
-						html += "</div>";
-						html += "</td>";
-						html += "<th>" + this.code +"</th>";
-						html += "<th>" + this.request +"</th>";
-						html += "<th>" + this.product +"</th>";
-						html += "<th>" + this.product_name +"</th>";
-						html += "<th>" + this.amount +"</th>";
-						html += "<th>" + this.line_code +"</th>";
-						html += "<th>" + this.production_date +"</th>";
-						html += "<th>" + this.content +"</th>";
-						html += "</tr>";
-					});
-					$("table").append(html);
-					subContent();
-				}
-			});
 		}
 	</script>
 	<!-- 수주정보 받기 시작 -->

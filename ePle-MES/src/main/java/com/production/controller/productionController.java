@@ -1,5 +1,8 @@
 package com.production.controller;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -37,36 +40,41 @@ public class productionController {
 	//http://localhost:8088/production/instruction
 	//지시사항 조회
 	@RequestMapping(value = "/instruction", method = RequestMethod.GET)
-	public void instruction(Model model) throws Exception {
+	public void instruction(String[] product, String[] line_code, String[] request, String dateRange,/* int pageNum, */Model model) throws Exception {
 		logger.debug("Controller : instruction() 호출");
 		//지시사항 테이블 요소
-		model.addAttribute("instructionVOList", pdService.getInstruction());
+		//model.addAttribute("instructionVOList", pdService.getInstruction());
 		//검색용 중복제거 목록
 		model.addAttribute("productList", pdService.getProduct());
 		model.addAttribute("line_codeList", pdService.getLine_code());
 		model.addAttribute("requestList", pdService.getRequest());
-	}
-	
-	//지시사항 검색(ajax)
-	@RequestMapping(value = "/ajaxSearch", method = RequestMethod.POST)
-	@ResponseBody
-	public List<instructionVO> ajaxSearch(@RequestParam(value = "product", required = false) String[] product,@RequestParam(value = "line_code", required = false) String[] line_code,@RequestParam(value = "request", required = false) String[] request,@RequestParam(value = "dateRange", required = false) String dateRange,Model model) throws Exception {
-		logger.debug("Controller : ajaxSearch() 호출");
+		
 		String[] dateArr = null;
-		if (dateRange != "") {
-			logger.debug("dateRange : " + dateRange);
+		logger.debug("dateRange : " + dateRange);
+		if (dateRange != "" && dateRange != null) {
 			dateArr = dateRange.split(" - ");
-			for (String string : dateArr) {
-				logger.debug("dateArr11 : " + string);
-			}
-			logger.debug("dateLength : " + dateArr.length);
-			logger.debug("Not null");
+		}else {
+			LocalDate today = LocalDate.now();
+	        
+	        // 이번 주의 첫날과 마지막 날 구하기
+	        LocalDate firstDayOfWeek = today.with(DayOfWeek.MONDAY);
+	        LocalDate lastDayOfWeek = today.with(DayOfWeek.SUNDAY);
+
+	        // 출력 포맷 지정
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+	        // 결과 출력
+	        String firstDayStr = firstDayOfWeek.format(formatter);
+	        String lastDayStr = lastDayOfWeek.format(formatter);
+	        dateArr = new String[]{firstDayStr,lastDayStr};
 		}
 		logger.debug("dateArr : " + dateArr);
 		List<instructionVO> instructionVOList = pdService.ajaxSearch(product,line_code,request,dateArr);
 		logger.debug("instructionVOList : " + instructionVOList);
-		return instructionVOList;
+		model.addAttribute("instructionVOList", instructionVOList);
+		//model.addAttribute("pageVO", "pageVO");
 	}
+	
 	
 	//지시사항 추가 GET
 	@RequestMapping(value = "/insertInstruction", method = RequestMethod.GET)
