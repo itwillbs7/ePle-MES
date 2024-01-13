@@ -332,7 +332,7 @@
 	<select id="searchMaterial" resultType="OrderVO">
 		SELECT code, name
 		FROM MAPD  
-	    WHERE group_id = 'MAT'
+	    WHERE group_id = 'PROD'
 		<if test="searchName != null">
 			AND name LIKE CONCAT('%', #{searchName}, '%')
 		</if>  
@@ -343,7 +343,7 @@
 	<select id="searchMaterialCount" resultType="int">
 		SELECT count(*) 
 		FROM MAPD
-		WHERE group_id = 'MAT'
+		WHERE group_id = 'PROD'
 		<if test="searchName != null">
 			AND name LIKE CONCAT('%', #{searchName}, '%')
 		</if> 
@@ -464,6 +464,25 @@
         ON w.manager = e.code
         WHERE wh.io = 'OUT' AND wh.code = #{code}
 	</select>
+	
+	
+	
+	
+	
+	
+	<!-- 출고 등록 -->
+	<insert id="outAdd">
+		INSERT INTO WAREHOUSE_HISTORY
+		(code,order_num,warehouse_code,io,category,amount,mapd_code,emp_code,date)
+		VALUES
+		(#{code},#{order_num},#{warehouse_code},'OUT','원자재',#{amount},#{mapd_code},#{emp_code},now())
+	</insert>
+	
+	<!-- 최신코드 가져오기 -->
+	<select id="outRecentCode" resultType="String">
+		SELECT code FROM WAREHOUSE_HISTORY WHERE code LIKE 'OUT%' AND DATE(date) = CURDATE() ORDER BY code DESC LIMIT 0, 1
+	</select>
+	
 	
 	
 	

@@ -10,6 +10,8 @@
     	<result property="code" column="code"/>
     	<result property="group_id" column="group_id"/>
     	<result property="code_id" column="code_id"/>
+    	<result property="group_name" column="group_name"/>
+    	<result property="code_name" column="code_name"/>
     	<result property="name" column="name"/>
     	<result property="size" column="size"/>
     	<result property="unit" column="unit"/>
@@ -39,12 +41,12 @@
     <!-- 품목 등록 -->
     <insert id="insertProduct">
         INSERT INTO MAPD (code,group_id,code_id,name,size,unit,inprice,outprice,reg_emp,reg_date,update_emp,update_date,active) 
-        VALUES (#{code},#{group_id},#{code_id},#{name},#{size},#{unit},#{inprice},#{outprice},#{reg_emp},#{reg_date},#{update_emp},#{update_date},#{active})
+        VALUES (#{code},#{group_id},#{code_id},#{name},#{size},#{unit},#{inprice},#{outprice},#{reg_emp},now(),#{reg_emp},now(),#{active})
     </insert>
 
     <!-- 품목 수정 -->
     <update id="updateProduct">
-        UPDATE MAPD SET code = #{code}, group_id = #{group_id}, code_id = #{code_id}, name = #{name}, size = #{size}, unit = #{unit}, inprice = #{inprice}, outprice = #{outprice}, reg_emp = #{reg_emp}, reg_date = #{reg_date}, update_emp = #{update_emp}, update_date = #{update_date}, active = #{active}  
+        UPDATE MAPD SET code = #{code}, group_id = #{group_id}, code_id = #{code_id}, name = #{name}, size = #{size}, unit = #{unit}, inprice = #{inprice}, outprice = #{outprice}, update_emp = #{update_emp}, update_date = now(), active = #{active}  
         where code = #{code}
     </update>
     
@@ -78,15 +80,24 @@
     
      <!-- 글 목록 조회(page) -->
   	<select id="listPage" resultMap="product">
-  		select * from MAPD 
+  		select * from MAPD WHERE group_id like CONCAT('%',#{mapd},'%') 
   		limit #{cri.startPage},#{cri.pageSize} 	
   	</select>
   	
   	<!-- 전체 글 개수 조회 -->
   	<select id="countProduct" resultType="int">
   	  <![CDATA[
-	  	  select count(*) from MAPD
-   	  ]]> 
+	  	  select count(*) from MAPD 
+   	  ]]>  WHERE group_id like CONCAT('%',#{mapd},'%')
   	</select>
-
+	
+	<!-- 물품 종류 가져오기 -->
+	<select id="getCommonList" resultMap="product">
+		SELECT code_id, code_name FROM COMMON_CODE WHERE group_id = #{group_id}
+	</select>
+	
+	<!-- 최근 코드 들고오기 -->
+	<select id="getRecentCode" resultType="String">
+		SELECT code FROM MAPD WHERE group_id LIKE '%FAC%' ORDER BY code DESC LIMIT 0, 1
+	</select>
 </mapper>

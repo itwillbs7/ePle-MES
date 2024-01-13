@@ -109,14 +109,14 @@ public class ShipmentServiceImpl implements ShipmentService {
 				            	int success = sdao.insertHistory(params);
 
 				            	// material 정보 가져오기
-				            	String material = sdao.getMaterail(lotNumber);
+				            	//String material = sdao.getMaterail(lotNumber);
 				            			 
-				            	logger.debug("######materrial"+material);
+				            	//logger.debug("######materrial"+material);
 
 				            	logger.debug("============================== 여기까지 lot 번호랑 material 얻어옴");
 				            	 //3. lot 테이블에 insert 하기
 				            	 params.put("lot",lotNumber);
-				            	 params.put("material",material);
+				            	// params.put("material",material);
 				            	 success = sdao.insertLOT(params);
 				            	 
 				            	 logger.debug("============================== 여기까지 lot테이블에 등록함 얻어옴");
@@ -145,10 +145,10 @@ public class ShipmentServiceImpl implements ShipmentService {
 				            	 
 				            	 int success = sdao.insertHistory(params);
 				            	 
-					            String material = sdao.getMaterail(lotNumber);
+					            //String material = sdao.getMaterail(lotNumber);
 
 					             params.put("lot",lotNumber);
-				            	 params.put("material",material);
+				            	// params.put("material",material);
 				            	 success = sdao.insertLOT(params);
 				            	 
 				            	 shipmentAmount = 0;     				                 

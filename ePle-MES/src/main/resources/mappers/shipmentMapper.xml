@@ -217,7 +217,7 @@
 		insert into SHIPMENT
 		values
 		(#{code},#{reqs_code},#{date},#{ware_code},#{amount},
-		"출하대기",now(),#{reg_emp},now(),#{reg_emp);
+		"출하대기",now(),#{reg_emp},now(),#{reg_emp});
 	</insert>
 
 	<update id="updateRequestStatus">
@@ -322,7 +322,7 @@
 	<!-- LOT 테이블에 값 넣기 -->
 	<insert id="insertLOT">
 		insert into LOT (lot, material,shipment)
-		values (#{lot},#{material},#{vo.code})
+		values (#{lot},"gkgkgk",#{vo.code})
 	</insert>
 
 
@@ -331,8 +331,7 @@
 	<delete id="deleteLOTUpdate">
 		delete from LOT
 		where SHIPMENT in
-		<foreach item="item" index="index" collection="code" open="("
-			separator="," close=")">
+		<foreach item="item" index="index" collection="code" open="(" separator="," close=")">
 			#{item}
 		</foreach>
 	</delete>
@@ -398,7 +397,7 @@
 		UPDATE SHIPMENT s
 		SET s.status = '출하완료'
 		WHERE s.code IN
-		<foreach collection="code" item="codeNum" open="(" close=")"
+		<foreach collection="array" item="codeNum" open="(" close=")"
 			separator=",">
 			#{codeNum}
 		</foreach>

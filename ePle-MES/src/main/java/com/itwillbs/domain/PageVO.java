@@ -23,6 +23,8 @@ public class PageVO {
 	private boolean next;
 	
 	private String emp_code;
+	
+	private String mapd;
 
 	private int displayPageNum = 5;
 
@@ -124,11 +126,19 @@ public class PageVO {
 	public String getEmp_code() {
 		return emp_code;
 	}
+	
+	public void setMapd(String mapd) {
+		this.mapd = mapd;
+	}
+	
+	public String getMapd() {
+		return mapd;
+	}
 
 	@Override
 	public String toString() {
 		return "PageVO [totalCount=" + totalCount + ", startPage=" + startPage + ", endPage=" + endPage + ", prev="
-				+ prev + ", next=" + next + ", emp_code=" + emp_code + ", displayPageNum=" + displayPageNum + ", cri="
-				+ cri + ", search=" + search + ", toString()=" + super.toString() + "]";
+				+ prev + ", next=" + next + ", emp_code=" + emp_code + ", mapd=" + mapd + ", displayPageNum="
+				+ displayPageNum + ", cri=" + cri + ", search=" + search + ", toString()=" + super.toString() + "]";
 	}
 }

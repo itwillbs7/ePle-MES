@@ -89,7 +89,7 @@ font-weight: bold;
 
 	<%@ include file="../include/footer.jsp"%>
 	<script type="text/javascript">
-	window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
+	window.resizeTo(outerWidth - innerWidth + 550, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
 	
 	
 	

@@ -350,11 +350,63 @@ public class MaterialController {
       @RequestMapping(value = "/outInfo", method = RequestMethod.GET)
   	  public void outInfo(@RequestParam(value = "code") String code,Model model) throws Exception {
   		
-    	Warehouse_HistoryVO outInfo = mService.outInfo(code);
-  		model.addAttribute("outInfo", outInfo);
+      	Warehouse_HistoryVO outInfo = mService.inInfo(code);
+    	model.addAttribute("outInfo", outInfo);
 
   	  }
       
+      
+      
+      
+      
+      
+      
+      // ======================================출고 등록 !!!!!
+	  @RequestMapping(value = "/outAdd", method = RequestMethod.GET) 
+	  public void outAdd(@RequestParam("code") String code, Model model) throws Exception {
+	 
+		Warehouse_HistoryVO inInfo = mService.inInfo(code);
+	  	model.addAttribute("inInfo", inInfo);
+	  }
+	  
+	  @RequestMapping(value = "/outAdd", method = RequestMethod.POST) 
+	  public String outAdd(Warehouse_HistoryVO vo,HttpSession session, RedirectAttributes rttr) throws Exception{
+	  
+    	  String recentCode = mService.outRecentCode();
+
+    	  SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+    	  String now = dateformat.format(new Date());
+
+    	  String code = "OUT";
+
+    	  if(recentCode == null || recentCode.equals("")) {
+    		  code += now;
+    		  code += "001";
+    	  }
+
+    	  else {
+    		  String fDate = recentCode.substring(2, recentCode.length()-3);
+    		  if(now.equals(fDate)) {		
+    			  String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
+    			  while(fCount.length() < 3) fCount = "0" + fCount;
+    			  code += fDate + fCount;
+    		  }
+    		  else {
+    			  code += now + "001";
+    		  }
+    	  }
+    	  vo.setCode(code);
+    	  
+    	  
+		  int result = mService.outAdd(vo);
+	
+		  if (result == 1) {
+			  return "/material/resultSuccess"; 
+		  } else {
+			  return "/material/resultFailed"; 
+		  } 
+	  }
+	  
 	  /*-----------------------------------------출고 끝--------------------------------------------*/
 	 
 	  
