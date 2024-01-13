@@ -59,9 +59,7 @@ public class RequirementController {
 
 	@PostMapping("/add")
 	public String add(String mapd_code, String material, int amount, String content, RedirectAttributes rttr) throws Exception {
-		int bno = rService.getRecentBno();
 		BOMVO vo = new BOMVO();
-		vo.setBno(++bno + "");
 		vo.setMaterial(material);
 		vo.setAmount(amount);
 		vo.setContent(content);

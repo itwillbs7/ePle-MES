@@ -50,8 +50,8 @@
 	
 	<!-- 재료 추가 -->
 	<insert id="addMaterial">
-		INSERT INTO BOM 
-		VALUES (#{bno}, ${amount}, #{material}, #{content}, #{mapd_code})
+		INSERT INTO BOM (amount, material, content, mapd_code) 
+		VALUES (${amount}, #{material}, #{content}, #{mapd_code})
 	</insert>
 	
 	<!-- 재료 수정 -->
