@@ -114,7 +114,7 @@
 		join REQUEST r on s.reqs_code = r.code
 		join CLIENT c on
 		c.code = r.client_code
-		where s.status in ('출하완료','수령')
+		where r.status in ('출하완료','수령')
 		<if test="code != null"> AND s.code = #{code} </if>
 	</select>
 
@@ -128,7 +128,7 @@
 		join CLIENT c on c.code =
 		r.client_code
 		join MAPD m on r.product = m.code
-		where s.status in
+		where r.status in
 		('출하완료','수령')
 		LIMIT #{startPage},#{pageSize}
 	</select>
@@ -141,7 +141,7 @@
 		join CLIENT c on
 		c.code = r.client_code
 		join MAPD m on r.product = m.code
-		where s.status
+		where r.status
 		in ('출하완료','수령')
 		<if test="productName!= null and product != ''"> AND m.name like concat('%',#{productName},'%') </if>
 		<if test="clientName != null and clientName != ''"> AND c.name like concat('%',#{clientName},'%') </if>
@@ -155,7 +155,7 @@
 		join CLIENT c on c.code = r.client_code
 		join MAPD m on r.product =
 		m.code
-		where s.status in ('출하완료','수령')
+		where r.status in ('출하완료','수령')
 		<if test="productName!= null and product != ''"> AND m.name like concat('%',#{productName},'%') </if>
 		<if test="clientName != null and clientName != ''"> AND c.name like concat('%',#{clientName},'%') </if>
 	</select>

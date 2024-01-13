@@ -90,8 +90,8 @@
 													<div class="custom-control custom-checkbox mb-5">
 														<input type="checkbox" class="custom-control-input"
 															id="formCheck2" name="statusList" value="폐기"
-															<c:if test="${paramMap.statusList.contains('폐기')}">checked</c:if>> <label
-															id="formCheck2" name="statusList" value="폐기"></label>
+															<c:if test="${paramMap.statusList.contains('폐기')}">checked</c:if>> 
+															<label class="custom-control-label" for="formCheck2">폐기</label>
 													</div>
 											</div>
 											<div class="col-md-4 col-sm-12" style="margin-top: auto;">

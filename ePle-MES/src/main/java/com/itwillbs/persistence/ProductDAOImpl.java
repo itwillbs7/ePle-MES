@@ -78,11 +78,17 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public int getProductCount() throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".countProduct");
+	public int getProductCount(PageVO vo) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".countProduct", vo);
 	}
 	
+	@Override
+	public List<MAPDVO> getCommonList(String group_id) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getCommonList", group_id);
+	}
 	
-    
-    
+	@Override
+	public String getRecentCode() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getRecentCode");
+	}
 }
