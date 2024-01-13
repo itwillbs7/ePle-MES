@@ -11,6 +11,9 @@
 </head>
 <body>
 <body>
+<c:if test="${sessionScope.id eq null or sessionScope.dep_group != '설비'}">
+	<c:redirect url="/" />
+</c:if>
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
