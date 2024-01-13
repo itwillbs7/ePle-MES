@@ -134,19 +134,24 @@
 	</select>
 	
 	
-	<!-- 재고 목록, 재고 검색 -->
+	<!-- 재고 목록 -->
 	<select id="stockList" resultType="WarehouseVO">
-    	SELECT code, name, warehouse, total
-    	FROM STOCK_VIEW
-    	WHERE total != 0
+    	SELECT code, name, SUM(total) AS total
+		FROM STOCK_VIEW 
+		GROUP BY code, name
     	LIMIT #{cri.startPage}, #{cri.pageSize}
 	</select>
 
-	<!-- 모든 창고 수 -->
+	<!-- 모든 재고 수 -->
 	<select id="stockListCount" resultType="int">
-		SELECT count(*) 
-		FROM WAREHOUSE
+		SELECT COUNT(*) AS row_count
+		FROM (
+    		SELECT code, name, SUM(total) AS total
+    		FROM STOCK_VIEW 
+    		GROUP BY code, name
+		) AS subquery
 	</select>
+	
 	
 	
 	
