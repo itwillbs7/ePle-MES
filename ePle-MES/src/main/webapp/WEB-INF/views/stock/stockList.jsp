@@ -43,38 +43,6 @@ margin-right:20px;
 	<br>
 				
 				
-	<!------------------------------ 재고 검색 시작 ----------------------------->
-	<div class="faq-wrap">
-		<div id="accordion">
-			<div class="card">
-						
-				<div class="card-header">
-					<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false"><b>재고 검색</b></button>
-				</div>
-							
-				<div id="faq1" class="collapse" data-parent="#accordion" style="">
-					<div class="card-body">
-								
-								<div class="form-inline">
-											<div class="col-md-12 col-sm-12 btn-group" >
-											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="입고코드" autocomplete="off" >
-											<label>관리자</label> 
-											<input type="text" name="searchName" id="manager" class="form-control back" placeholder="관리자코드" autocomplete="off" readonly>
-											<input type="text" id="managerName" class="form-control back" placeholder="관리자이름" autocomplete="off" readonly>
-											</div>
-								</div>
-										
-							<div class="btn-group pull-right" style="margin-bottom: 10px">
-								<button type="submit" class="btn btn-primary" id="search" onclick="doSearch()"> <b>검색</b> </button>
-								<button type="reset"  class="btn btn-secondary" id="reset" onclick="resetSearch()"> <b>초기화</b> </button>
-							</div>
-									
-					</div>
-				</div>
-							
-			</div>
-		</div>
-	</div>
 				
 				
 	<!------------------------- 추가 / 수정 / 삭제 버튼 ------------------------->
@@ -91,7 +59,7 @@ margin-right:20px;
 			<div class="col-sm-30">
 				<form class="table" id="table">
 					<table class="table table-striped">
-					<!-- 체크박스 / 제품코드 / 품명 / 창고코드 / 전체 수량+단위 / -->
+					<!-- 체크박스 / 품목코드 / 품명 / 현재고 / -->
 						<tr>
 							<td style="width: 100px;">
 								<div class="custom-control custom-checkbox mb-5">
@@ -101,7 +69,6 @@ margin-right:20px;
 							</td>
 							<th>품목코드</th>
 							<th>품명</th>
-							<th>창고</th>
 							<th>현재고</th>
 						</tr>
 
@@ -113,24 +80,22 @@ margin-right:20px;
 									<label class="custom-control-label" for="${vo.code }"></label>
 								</div>
 							</td>
-							<th class="inInfo${vo.code}" style="color: #FF1493; cursor:pointer;">${vo.code }</th>
+							<th class="inInfo${vo.code}" style="color: #FF1493; ">${vo.code }</th>
 							<th>${vo.name }</th>
-							<th>${vo.warehouse }</th>
-							<th id="inventoryText">${vo.total }</th>
-
-
+							<th>
+								<c:if test="${vo.total < 11 }">
+									<b style="color: red;">${vo.total }</b>
+								</c:if>
+								<c:if test="${vo.total >= 11 }">
+									${vo.total }
+								</c:if>
+							</th>
 						</tr>
 						</c:forEach>
 							
 					</table>
 				</form>
 
-				<!-------------------------------- 출고 갯수 -------------------------------->
-				<!-- <div class="row">
-					<div class="col-sm-12 col-md-5">
-						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
-					</div>
-				</div> -->
 
 
 				<!--------------------------------- 페이징 ---------------------------------->
@@ -227,32 +192,7 @@ margin-right:20px;
 			set = retPopupSetting(width, height);
 			return window.open(i, 'Popup_Window', set);
 		}
-
-		 	// 수정 O
-			$("#update").click(function() {
-			    var check = $("input:checkbox[name=tableCheck]:checked");
-			    if (check.length === 0 || check.length > 1) {
-			        alert("수정할 항목을 하나만 선택하세요!");
-			    } else {
-			        var code = check.val();
-			        openPage("/material/inEdit?code=" + code, 400, 700);
-			    }
-			});
-
-
-		 	// 상세보기 O
-			$('body').on('click', '[class^="inInfo"]', function(){
-        		var code = $(this).text().trim();
-      		  openPage("${pageContext.request.contextPath}/material/outInfo?code=" + code, 400, 700); });
-			
-			
-			// 검색 - 사원 리스트 
-			$("#manager,#managerName").click(function() {
-				openPage("/warehouse/searchEmployees", 400,700);
-			});
-
-			
-		});
+		
 		
 
 
@@ -300,14 +240,6 @@ margin-right:20px;
 		}
 
 
-
-		    window.onload = function() {
-		        var inventory = parseInt(document.getElementById("inventoryText").innerText);
-
-		        if (inventory <= 10) {
-		            document.getElementById("inventoryText").style.color = "red";
-		        }
-		    };
 
 		    
 	</script>
