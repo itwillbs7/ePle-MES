@@ -21,6 +21,7 @@ public class WarehouseVO {
 	private String mapd_code;
 	private String amount;
 	private String code_id;
+	private String group_display;
 
 	// Search
 	private String searchCode;

@@ -19,6 +19,7 @@
 			<form role="form" name="commonForm">
 				<!-- 입력 구간 -->
 					<input type="hidden" value="1" name="active">
+					<input type="hidden" value="${cvo.group_id }+'_'+${cvo.code_id}" name="index">
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">
