@@ -29,8 +29,6 @@ jQuery(document).ready(function () {
 		// page is ready
 		$("#calendar").fullCalendar({
 			timeZone:"KST",
-			height: '50%', 	// calendar 높이 설정
-            expandRows: true, // 화면에 맞게 높이 재설정
 			themeSystem: "bootstrap4",
 			defaultView: "month",
 			// emphasizes business hours

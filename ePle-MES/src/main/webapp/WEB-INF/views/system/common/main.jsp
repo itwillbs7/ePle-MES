@@ -47,6 +47,9 @@
 													<button type="submit" class="btn btn-primary" id="searchBtn">
 														<b>검색</b>
 													</button>
+													<button type="button" class="btn btn-secondary" onclick="location.href='/system/common/main';">
+														<b>초기화</b>
+													</button>
 													</lable>
 												</div>
 											</div>
@@ -63,9 +66,6 @@
 						<div class="btn-group pull-right" style="margin-bottom: 10px">
 							<button type="button" class="btn btn-success" id="add">
 								<b>추가</b>
-							</button>
-							<button type="button" class="btn btn-warning" id="update">
-								<b>수정</b>
 							</button>
 							<button type="button" class="btn btn-danger" id="delete">
 								<b>삭제</b>
@@ -273,7 +273,7 @@
 	    var form = document.createElement('form');
 	    form.method = 'post';
 		// 실제로 데이터를 전송할 서버의 URL로 변경
-	    form.action = '/system/common/main?pageNum='+i+'&category='+category+'&keyword=' + keyword;
+	    form.action = '/system/common/main?pageNum='+i+'&category='+category+'&keyword='+keyword;
 	    // 폼을 body에 추가하고 전송
 	    document.body.appendChild(form);
 	    form.submit();
@@ -332,6 +332,7 @@
 
 			// 수정
 			$("#update").click(function() {
+
 				
 				// 체크된 체크박스의 갯수
 				var n = $( "input[type=checkbox]:checked" ).length;
@@ -359,7 +360,7 @@
 			// 삭제
 			$("#delete").click(function() {
 				
-				 // 체크박스 값 저장 배열
+				// 체크박스 값 저장 배열
 			    var selectedIndexes = [];
 
 				 // 선택된 체크박스

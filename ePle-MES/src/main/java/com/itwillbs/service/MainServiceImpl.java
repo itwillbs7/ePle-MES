@@ -1,5 +1,8 @@
 package com.itwillbs.service;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -21,6 +24,11 @@ public class MainServiceImpl implements MainService {
 		logger.debug("getUserInfo");
 		
 		return mdao.getUserInfo(uvo);
+	}
+	
+	@Override
+	public List<HashMap<String, Object>> getWeeklyProduction() throws Exception {
+		return mdao.getWeeklyProduction();
 	}
 
 }

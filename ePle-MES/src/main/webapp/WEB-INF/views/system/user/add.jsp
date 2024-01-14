@@ -115,7 +115,7 @@
 			window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight());
 			
 			var formObj = $('form[role="form"]');
-			var isOk = false; // 중복검사용
+			var isOk = true; // 중복검사용
  	        
  	        // 확인(submit) 클릭 시 유효성 검사 후 submit
 	 		$(".btn-success").click(function(){
@@ -153,18 +153,23 @@
 	 	        		console.log(data);
 	 	        		if(data.idResult > 0) {
 	 	        			alert('아이디 중복입니다');
+		 	        		isOk = false;
+		 	        		window.history.back();
 	 	        			return false;
 	 	        		}
 	 	        		if(data.emailResult > 0) {
 	 	        			alert('이메일 중복입니다');
+		 	        		window.history.back();
+		 	        		isOk = false;
 	 	        			return false;
 	 	        		}
 	 	        		if(data.phoneResult > 0) {
 	 	        			alert('휴대전화번호 중복입니다');
+		 	        		window.history.back();
+		 	        		isOk = false;
 	 	        			return false;
 	 	        		}
 	 	        		
-	 	        		isOk = true;
 			 			
 	 	        	}, 
 	 	        	error : function() {
@@ -181,6 +186,8 @@
 	 			formObj.attr("action","/system/user/add");
 	 			formObj.attr("method","POST");
 	 			formObj.submit(); 
+	 	        } {
+	 	        	window.history.back();
 	 	        }
 	 		}); // click
 			

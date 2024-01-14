@@ -1,5 +1,8 @@
 package com.itwillbs.persistence;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -22,5 +25,9 @@ public class MainDAOImpl implements MainDAO {
 		// TODO Auto-generated method stub
 		return sqlsession.selectOne(NAMESPACE+".selectUserInfo", uvo);
 	}
-
+	
+	@Override
+	public List<HashMap<String, Object>> getWeeklyProduction() throws Exception {
+		return sqlsession.selectList(NAMESPACE + ".getWeeklyProduction");
+	}
 }
