@@ -147,16 +147,16 @@
  	select * from COMMON_CODE 
  	<where>
  		<if test="category == 'group_id' ">
- 			group_id like #{keyword}
+ 			group_id like CONCAT('%',#{keyword},'%')
  		</if>
  		<if test="category =='group_name' ">
- 			group_name like #{keyword}
+ 			group_name like CONCAT('%',#{keyword},'%')
  		</if>
  		<if test="category == 'code_id' ">
- 			code_id like #{keyword}
+ 			code_id like CONCAT('%',#{keyword},'%')
  		</if>
  		<if test="category == 'code_name' ">
- 			code_name like #{keyword}
+ 			code_name like CONCAT('%',#{keyword},'%')
  		</if>
  	</where> 
  </select>
@@ -164,16 +164,16 @@
  	select * from COMMON_CODE
  	<where>
  		<if test="categoryAndKeyword.category == 'group_id' ">
- 			group_id like #{categoryAndKeyword.keyword}
+ 			group_id like CONCAT('%',#{categoryAndKeyword.keyword},'%')
  		</if>
  		<if test="categoryAndKeyword.category =='group_name' ">
- 			group_name like #{categoryAndKeyword.keyword}
+ 			group_name like CONCAT('%',#{categoryAndKeyword.keyword},'%')
  		</if>
  		<if test="categoryAndKeyword.category == 'code_id' ">
- 			code_id like #{categoryAndKeyword.keyword}
+ 			code_id like CONCAT('%',#{categoryAndKeyword.keyword},'%')
  		</if>
  		<if test="categoryAndKeyword.category == 'code_name' ">
- 			code_name like #{categoryAndKeyword.keyword}
+ 			code_name like CONCAT('%',#{categoryAndKeyword.keyword},'%')
  		</if>
  	</where> 
  	limit #{cri.startPage},#{cri.pageSize}
@@ -182,25 +182,25 @@
  	select * from EMPLOYEES
  	<where>
  		<if test="categoryAndKeyword.category == 'code' ">
- 			code like #{categoryAndKeyword.keyword}
+ 			code like CONCAT('%',#{categoryAndKeyword.keyword},'%')
  		</if>
  		<if test="categoryAndKeyword.category =='name' ">
- 			name like #{categoryAndKeyword.keyword}
+ 			name like CONCAT('%',#{categoryAndKeyword.keyword},'%')
  		</if>
  		<if test="categoryAndKeyword.category == 'auth' ">
- 			auth like #{categoryAndKeyword.keyword}
+ 			auth like CONCAT('%',#{categoryAndKeyword.keyword},'%')
  		</if>
  		<if test="categoryAndKeyword.category == 'id' ">
- 			id like #{categoryAndKeyword.keyword}
+ 			id like CONCAT('%',#{categoryAndKeyword.keyword},'%')
  		</if>
  		<if test="categoryAndKeyword.category == 'dep_group' ">
- 			dep_group like #{categoryAndKeyword.keyword}
+ 			dep_group like CONCAT('%',#{categoryAndKeyword.keyword},'%')
  		</if>
  		<if test="categoryAndKeyword.category == 'pos_group' ">
- 			pos_group like #{categoryAndKeyword.keyword}
+ 			pos_group like CONCAT('%',#{categoryAndKeyword.keyword},'%')
  		</if>
  		<if test="categoryAndKeyword.category == 'phone' ">
- 			phone like #{categoryAndKeyword.keyword}
+ 			phone like CONCAT('%',#{categoryAndKeyword.keyword},'%')
  		</if>
  	</where> 
  	limit #{cri.startPage},#{cri.pageSize}
@@ -216,25 +216,25 @@
 	<if test="categoryAndKeyWord != null or categoryAndKeyword != ''">
 		<where>
 	 		<if test="category == 'code' ">
-	 			code like #{keyword}
+	 			code like CONCAT('%',#{keyword},'%')
 	 		</if>
 	 		<if test="category =='name' ">
-	 			name like #{keyword}
+	 			name like CONCAT('%',#{keyword},'%')
 	 		</if>
 	 		<if test="category == 'auth' ">
-	 			auth like #{keyword}
+	 			auth like CONCAT('%',#{keyword},'%')
 	 		</if>
 	 		<if test="category == 'id' ">
-	 			id like #{keyword}
+	 			id like CONCAT('%',#{keyword},'%')
 	 		</if>
 	 		<if test="category == 'dep_group' ">
-	 			dep_group like #{keyword}
+	 			dep_group like CONCAT('%',#{keyword},'%')
 	 		</if>
 	 		<if test="category == 'pos_group' ">
-	 			pos_group like #{keyword}
+	 			pos_group like CONCAT('%',#{keyword},'%')
 	 		</if>
 	 		<if test="category == 'phone' ">
-	 			phone like #{keyword}
+	 			phone like CONCAT('%',#{keyword},'%')
 	 		</if>
 		</where>
 	</if> 	
@@ -244,16 +244,16 @@
 	<if test="categoryAndKeyWord != null or categoryAndKeyword != ''">
 		<where>
 	 		<if test="category == 'group_id' ">
- 				group_id like #{keyword}
+ 				group_id like CONCAT('%',#{keyword},'%')
 	 		</if>
 	 		<if test="category =='group_name' ">
-	 			group_name like #{keyword}
+	 			group_name like CONCAT('%',#{keyword},'%')
 	 		</if>
 	 		<if test="category == 'code_id' ">
-	 			code_id like #{keyword}
+	 			code_id like CONCAT('%',#{keyword},'%')
 	 		</if>
 	 		<if test="category == 'code_name' ">
-	 			code_name like #{keyword}
+	 			code_name like CONCAT('%',#{keyword},'%')
 	 		</if>
 		</where>
 	</if> 	

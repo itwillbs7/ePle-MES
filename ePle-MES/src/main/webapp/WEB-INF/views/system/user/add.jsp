@@ -118,78 +118,69 @@
 			var isOk = true; // 중복검사용
  	        
  	        // 확인(submit) 클릭 시 유효성 검사 후 submit
-	 		$(".btn-success").click(function(){
-				// 입력 값
-		        var name = document.forms["userForm"]["name"].value;
-		        var id = document.forms["userForm"]["id"].value;
-		        var pw = document.forms["userForm"]["pw"].value;
-		        var dep = document.forms["userForm"]["dep"].value;
-		        var pos = document.forms["userForm"]["pos"].value;
-		        var hiredate = document.forms["userForm"]["hiredate"].value;
-		        var phone = document.forms["userForm"]["phone"].value;
-		        var email = document.forms["userForm"]["email"].value;
-		        var postcode = document.forms["userForm"]["postcode"].value;
-		        var address1 = document.forms["userForm"]["address1"].value;
-		        var auth = document.forms["userForm"]["auth"].value;
-	 	        // 입력값이 비어있다면 false
-	 	        if (name === "" || id === "" || pw === "" || dep === "null" || pos === "null" || 
-	 	        		hiredate === "" || phone === "" || email === "" || postcode === "" || address1 === "" || auth === "null") {
-	 	            alert("모든 항목을 입력해주세요.");
-	 	            return false;
-	 	        }
-	 	        
-	 	        $.ajax({
-	 	        	
-	 	        	type : "GET", 
-	 	        	url : "/systemAjax/user", 
-	 	        	dataType : "json", 
-	 	        	data : {
-	 	        		id : id, 
-	 	        		phone : phone, 
-	 	        		email : email
-	 	        	}, 
-	 	        	contentType : "application/json; charset=UTF-8", 
-	 	        	success : function(data) {
-	 	        		console.log(data);
-	 	        		if(data.idResult > 0) {
-	 	        			alert('아이디 중복입니다');
-		 	        		isOk = false;
-		 	        		window.history.back();
-	 	        			return false;
-	 	        		}
-	 	        		if(data.emailResult > 0) {
-	 	        			alert('이메일 중복입니다');
-		 	        		window.history.back();
-		 	        		isOk = false;
-	 	        			return false;
-	 	        		}
-	 	        		if(data.phoneResult > 0) {
-	 	        			alert('휴대전화번호 중복입니다');
-		 	        		window.history.back();
-		 	        		isOk = false;
-	 	        			return false;
-	 	        		}
-	 	        		
-			 			
-	 	        	}, 
-	 	        	error : function() {
-	 	        		alert('서버 오류 발생! 다시 시도해주세요');	 	        	
-	 	        	}
-	 	        	
-	 	        }); // ajax
-	 	        
-	 	        if(phone.length != 11) {
-	 	        	alert('휴대전화번호는 11자리로 입력해주세요');
-	 	        }
-	 	        
-	 	        if(isOk) {
-	 			formObj.attr("action","/system/user/add");
-	 			formObj.attr("method","POST");
-	 			formObj.submit(); 
-	 	        } {
-	 	        	window.history.back();
-	 	        }
-	 		}); // click
+			$(".btn-success").click(function () {
+			    // 입력 값
+			    var name = document.forms["userForm"]["name"].value;
+			    var id = document.forms["userForm"]["id"].value;
+			    var pw = document.forms["userForm"]["pw"].value;
+			    var dep = document.forms["userForm"]["dep"].value;
+			    var pos = document.forms["userForm"]["pos"].value;
+			    var hiredate = document.forms["userForm"]["hiredate"].value;
+			    var phone = document.forms["userForm"]["phone"].value;
+			    var email = document.forms["userForm"]["email"].value;
+			    var postcode = document.forms["userForm"]["postcode"].value;
+			    var address1 = document.forms["userForm"]["address1"].value;
+			    var auth = document.forms["userForm"]["auth"].value;
+
+			    // 입력값이 비어있다면 false
+			    if (name === "" || id === "" || pw === "" || dep === "null" || pos === "null" ||
+			        hiredate === "" || phone === "" || email === "" || postcode === "" || address1 === "" || auth === "null") {
+			        alert("모든 항목을 입력해주세요.");
+			        return false;
+			    }
+
+			    var isOk = true;
+
+			    $.ajax({
+			        type: "GET",
+			        url: "/systemAjax/user",
+			        dataType: "json",
+			        data: {
+			            id: id,
+			            phone: phone,
+			            email: email
+			        },
+			        contentType: "application/json; charset=UTF-8",
+			        success: function (data) {
+			            console.log(data);
+			            if (data.idResult > 0) {
+			                alert('아이디 중복입니다');
+			                isOk = false;
+			            }
+			            if (data.emailResult > 0) {
+			                alert('이메일 중복입니다');
+			                isOk = false;
+			            }
+			            if (data.phoneResult > 0) {
+			                alert('휴대전화번호 중복입니다');
+			                isOk = false;
+			            }
+
+			            if (isOk) {
+			                // 여기서 form 제출을 호출
+			                formObj.attr("action", "/system/user/add");
+			                formObj.attr("method", "POST");
+			                formObj.submit();
+			            } 
+			            
+			            return;
+			            
+			        },
+			        error: function () {
+			            alert('서버 오류 발생! 다시 시도해주세요');
+			        }
+			    }); // ajax
+			});
 			
 		}); // jquery
 		
