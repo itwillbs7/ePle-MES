@@ -71,8 +71,11 @@ public class resultDAOImpl implements resultDAO{
 	}
 
 	@Override
-	public void addResult(String code) throws Exception {
-		sqlSession.update(NAMESPACE + ".addResult",code);
+	public void addResult(String code, int num) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("code", code);
+		map.put("num", num);
+		sqlSession.update(NAMESPACE + ".addResult",map);
 		//지시량과 양품량이 같아지면 완료로 전환
 	}
 	

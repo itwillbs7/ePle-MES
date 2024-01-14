@@ -87,9 +87,9 @@
 		UPDATE RESULT SET status = '완료' WHERE code = #{code} AND status = '생산중'
 	</update>
 	
-	<update id="addResult">
+	<update id="addResult" parameterType="hashmap">
 		<![CDATA[
-			UPDATE RESULT SET amount = amount+1,status = CASE WHEN amount = (SELECT amount FROM INSTRUCTION WHERE code = inst_code) THEN '완료' ELSE status END
+			UPDATE RESULT SET amount = amount + #{num} ,status = CASE WHEN amount = (SELECT amount FROM INSTRUCTION WHERE code = inst_code) THEN '완료' ELSE status END
 			WHERE code = #{code} AND status = '생산중' AND amount < (SELECT amount FROM INSTRUCTION WHERE code = inst_code)
 		]]>
 	</update>

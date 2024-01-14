@@ -25,7 +25,7 @@ public interface resultService {
 
 	public void productionComplete(String code) throws Exception;
 
-	public void addResult(String code) throws Exception;
+	public void addResult(String code, int num) throws Exception;
 
 	public void insertFailed(failedVO vo) throws Exception;
 

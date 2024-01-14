@@ -104,12 +104,14 @@ public class resultController {
 	//양품+
 	@RequestMapping(value = "/addResult", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> addResult(String code) throws Exception {
+	public Map<String, Object> addResult(String code, int num) throws Exception {
 		logger.debug("Controller : addResult() 호출");
+		logger.debug("code : " + code);
+		logger.debug("num : " + num);
 		//양품량 +1
 		//상태가 생산중일때만 동작
 		//지시량과 양품량이 같아지면 완료로 전환
-		rsService.addResult(code);
+		rsService.addResult(code,num);
 		return getInfo(code);
 	}
 	

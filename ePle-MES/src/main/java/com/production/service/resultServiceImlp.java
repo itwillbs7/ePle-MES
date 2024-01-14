@@ -61,8 +61,8 @@ public class resultServiceImlp implements resultService{
 		
 	}
 	@Override
-	public void addResult(String code) throws Exception {
-		rsDAO.addResult(code);
+	public void addResult(String code, int num) throws Exception {
+		rsDAO.addResult(code, num);
 		
 	}
 

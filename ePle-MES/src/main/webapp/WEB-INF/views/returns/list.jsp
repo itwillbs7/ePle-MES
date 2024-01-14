@@ -36,7 +36,7 @@
 								<b>검색</b>
 							</button>
 						</div>
-						<div id="faq1" class="collapse show" data-parent="#accordion" style="">
+						<div id="faq1" class="collapse" data-parent="#accordion" style="">
 							<div class="card-body">
 								<form id="accordion-search" method="get"
 									action="/returns/list">
@@ -148,7 +148,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
 			</div>
 
 
@@ -272,6 +271,7 @@
 							</div>
 					</div>
 				</div>
+			</div>
 			</div>
 			<!-- Checkbox select Datatable End -->
 			<!-- 푸터 -->
