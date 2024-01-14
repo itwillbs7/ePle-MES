@@ -63,7 +63,8 @@
 						<!-- 세션에서 받아오기 -->
 						<div class="form-group">
 							<label><b>등록자</b></label>
-							<input class="form-control required" type="text" placeholder="등록자 정보가 없습니다" readonly value="관리자1" name="reg_emp">
+							<input class="form-control required" type="text" placeholder="등록자 정보가 없습니다" readonly value="${sessionScope.name }">
+							<input class="form-control required" type="hidden" placeholder="등록자 정보가 없습니다" readonly value="${sessionScope.code }" name="reg_emp">
 						</div>
 						<!-- 세션에서 받아오기 -->
 						<!-- examples end -->

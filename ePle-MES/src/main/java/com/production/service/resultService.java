@@ -3,6 +3,7 @@ package com.production.service;
 import java.util.List;
 
 import com.itwillbs.domain.CommonVO;
+import com.itwillbs.domain.Warehouse_HistoryVO;
 import com.production.domain.BOMVO;
 import com.production.domain.failedVO;
 import com.production.domain.inputVO;
@@ -30,7 +31,7 @@ public interface resultService {
 
 	public List<CommonVO> getCode_id() throws Exception;
 
-	public void insertInput(inputVO[] vo) throws Exception;
+	public List<Warehouse_HistoryVO> insertInput(inputVO[] vo) throws Exception;
 
 	public List<inputVO> getInput(String code) throws Exception;
 

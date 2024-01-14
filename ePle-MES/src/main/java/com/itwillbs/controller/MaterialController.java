@@ -1,6 +1,7 @@
 package com.itwillbs.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -370,33 +371,34 @@ public class MaterialController {
 	  }
 	  
 	  @RequestMapping(value = "/outAdd", method = RequestMethod.POST) 
-	  public String outAdd(Warehouse_HistoryVO vo,HttpSession session, RedirectAttributes rttr) throws Exception{
-	  
-    	  String recentCode = mService.outRecentCode();
-
-    	  SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
-    	  String now = dateformat.format(new Date());
-
-    	  String code = "OUT";
-
-    	  if(recentCode == null || recentCode.equals("")) {
-    		  code += now;
-    		  code += "001";
-    	  }
-
-    	  else {
-    		  String fDate = recentCode.substring(2, recentCode.length()-3);
-    		  if(now.equals(fDate)) {		
-    			  String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
-    			  while(fCount.length() < 3) fCount = "0" + fCount;
-    			  code += fDate + fCount;
-    		  }
-    		  else {
-    			  code += now + "001";
-    		  }
-    	  }
-    	  vo.setCode(code);
-    	  
+	  public String outAdd(Warehouse_HistoryVO vo, @RequestParam(value = "voList",required = false) List<Warehouse_HistoryVO> wList) throws Exception{
+		  
+		  if (wList != null) {
+			  LOGGER.debug("voList : not null");
+			  outAddList(wList);
+		  }
+		  
+		  String recentCode = mService.outRecentCode();
+		  
+		  SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+		  String now = dateformat.format(new Date());
+		  String code = "OUT";
+		  
+		  if(recentCode == null || recentCode.equals("")) {
+			  code += now;
+			  code += "001";
+		  }else {
+			  String fDate = recentCode.substring(2, recentCode.length()-3);
+			  if(now.equals(fDate)) {		
+				  String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
+				  while(fCount.length() < 3) fCount = "0" + fCount;
+				  code += fDate + fCount;
+			  }else {
+				  code += now + "001";
+			  }
+		  }
+		  
+		  vo.setCode(code);
     	  
 		  int result = mService.outAdd(vo);
 	
@@ -405,6 +407,32 @@ public class MaterialController {
 		  } else {
 			  return "/material/resultFailed"; 
 		  } 
+	  }
+	  
+	  public void outAddList(List<Warehouse_HistoryVO> list) throws Exception {
+		  String recentCode = null;
+		  SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+		  String now = dateformat.format(new Date());
+		  String code = "OUT";
+		  
+		  for (Warehouse_HistoryVO warehouse_HistoryVO : list) {
+			  recentCode = mService.outRecentCode();
+			  if(recentCode == null || recentCode.equals("")) {
+				  code += now;
+				  code += "001";
+			  }else {
+				  String fDate = recentCode.substring(2, recentCode.length()-3);
+				  if(now.equals(fDate)) {		
+					  String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
+					  while(fCount.length() < 3) fCount = "0" + fCount;
+					  code += fDate + fCount;
+				  }else {
+					  code += now + "001";
+				  }
+			  }
+			  warehouse_HistoryVO.setCode(code);
+			  mService.outAdd(warehouse_HistoryVO);
+		  }
 	  }
 	  
 	  /*-----------------------------------------출고 끝--------------------------------------------*/

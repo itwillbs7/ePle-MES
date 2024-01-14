@@ -43,7 +43,7 @@
 											</div>
 											<div class="col-md-2 col-sm-12">
 												<div class="custom-control custom-checkbox mb-5" style="position: absolute; top: 50%; margin-top: -8px;">
-													<input type="checkbox" class="custom-control-input" id="isFinished" name="isFinished" ${isFinished } /> <label class="custom-control-label" for="isFinished">완료포함</label>
+													<input type="checkbox" class="custom-control-input" id="isFinished" name="isFinished" ${isFinished } /> <label class="custom-control-label" for="isFinished">입고완료포함</label>
 												</div>
 											</div>
 											<div class="col-md-2 col-sm-12">
@@ -482,6 +482,7 @@
 	<script type="text/javascript">
 		$(document) .on( "click", "#inputButton", function() {
 			var status = $("#statusInfo").val();
+			if (status == '대기' || status == '생산중') {
 				var popupWidth, popupHeight, popupX, popupY, link;
 				var set;
 				var code = $("#codeInfo").val();
@@ -510,6 +511,9 @@
 				}
 				
 				openPage("/production/input?code=" + code, 500, 600);
+			}else{
+				alert('재료투입은 대기,생산중일 때만 가능합니다.');
+			}
 		});
 	</script>
 

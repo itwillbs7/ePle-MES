@@ -1,6 +1,5 @@
 package com.production.service;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.CommonVO;
+import com.itwillbs.domain.Warehouse_HistoryVO;
 import com.production.domain.BOMVO;
 import com.production.domain.failedVO;
 import com.production.domain.inputVO;
@@ -77,8 +77,8 @@ public class resultServiceImlp implements resultService{
 	}
 
 	@Override
-	public void insertInput(inputVO[] vo) throws Exception {
-		rsDAO.insertInput(vo);
+	public List<Warehouse_HistoryVO> insertInput(inputVO[] vo) throws Exception {
+		return rsDAO.insertInput(vo);
 	}
 
 	@Override
