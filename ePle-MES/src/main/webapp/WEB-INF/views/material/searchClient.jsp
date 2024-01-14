@@ -6,15 +6,20 @@
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <%@ include file="../include/head.jsp"%>
-
-<title>거래처 조회</title>
-
-<style type="text/css">
+<style>
+  .table th,
+  .table td {
+    text-align: center;
+  }
 .con:hover{
 	background-color : #e1e1e1;
 	cursor:pointer;
 }
 </style>
+<title>거래처 조회</title>
+
+<!-- 전체 거래처 출력합니다 -->
+<!-- /material/orderAdd 에서 참조중 -->
 
 </head>
 <body>
@@ -22,7 +27,7 @@
 	<div class="login-box bg-white box-shadow border-radius-10">
 			
 			<div class="login-title">
-			<h2 class="text-center text-primary">거래처 조회</h2>
+			<h2 class="text-center" style="color: #FF8C00;">거래처 조회</h2>
 			</div>
 			
 			<!------------------------------- 검색 시작 ------------------------------->
@@ -109,7 +114,7 @@
 				        console.log("searchName:", query.searchName);
 				        
 				        $.ajax({
-				            url : "${pageContext.request.contextPath}/stock/searchEmployees",
+				            url : "${pageContext.request.contextPath}/material/searchClient",
 				            type : "get",
 				            data : query,
 				            dataType : "text",
@@ -131,7 +136,20 @@
 
 				        });
 				    
-				} 
+				}
+		 		
+		 		
+		 		
+		 		
+		  	    document.addEventListener('keydown', function (event) {
+		  	        if (event.key === 'Enter') {
+		  	            doSearch();
+		  	            event.preventDefault(); 
+		  	        }
+		  	    });
+		  	    
+		  	    
+		  	    
 			</script>
 		</div>
 	</div>

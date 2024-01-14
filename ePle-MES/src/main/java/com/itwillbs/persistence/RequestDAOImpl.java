@@ -29,6 +29,7 @@ public class RequestDAOImpl implements RequestDAO {
 	@Override
 	public List<RequestVO> getRequestListPage(RequestVO vo, Criteria cri) throws Exception {
 		logger.debug("DAO 페이징 처리 getRequestListPage(Criteria cri) + " + cri);
+		logger.debug(" ++++++++++ vo " + vo);
 
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("cri", cri);
@@ -36,12 +37,9 @@ public class RequestDAOImpl implements RequestDAO {
 
 		List<RequestVO> list = new ArrayList<RequestVO>();
 
-		if (vo == null) {
-			list = sqlSession.selectList(NAMESPACE + ".listPage", paramMap);
-		} else {
-			list = sqlSession.selectList(NAMESPACE + ".research", paramMap);
-		}
-
+		
+		list = sqlSession.selectList(NAMESPACE + ".research", paramMap);
+		
 		return list;
 
 	}
@@ -62,14 +60,15 @@ public class RequestDAOImpl implements RequestDAO {
 	}
 
 	@Override
-	public List<RequestVO> getRequestListPage(int page) throws Exception {
-		// 페이징 처리 계산
-		// page 1 => 1 ~ 10 => limit 0, 10 이라고 해야함
-		// page 2 => 11 ~ 20 => limit 10, 10
-		// page 3 => 21 ~ 30 => limit 20, 10 return null;
+	public List<RequestVO> requestListpage(Criteria cri) throws Exception {
+		
+		return sqlSession.selectList(NAMESPACE + ".listPage", cri);
+	}
 
-		page = (page - 1) * 10;
-		return sqlSession.selectList(NAMESPACE + ".listPage", page);
+	@Override
+	public int getTotal() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".countRequest");
 	}
 
 	@Override
@@ -82,6 +81,12 @@ public class RequestDAOImpl implements RequestDAO {
 	public RequestVO getRequestDetail(String code) throws Exception {
 		logger.debug("DAO 수주정보 자세히보기 getRequestDetail(String code) " + code);
 		RequestVO vo = sqlSession.selectOne(NAMESPACE + ".getRequestInfo", code);
+		
+		String manager = vo.getManager();
+		
+		vo.setManagerName(sqlSession.selectOne(NAMESPACE+".getManagerName", manager));
+		
+		logger.debug("@@@@@@@@@@@@@@"+vo.getManagerName());
 
 		logger.debug("vo : " + vo);
 		return vo;

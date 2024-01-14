@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
@@ -63,14 +62,14 @@
 												</div>
 												<div class="col-md-2 col-sm-12">
 													<div class="form-group">
-														<label>기간</label> <input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="dateRange">
+														<label>기간</label> <input class="form-control datetimepicker-range" placeholder="Select Month" type="text" name="dateRange" autocomplete='off'>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 									<div class="btn-group pull-right" style="margin-bottom: 10px">
-										<button class="btn btn-primary" type="button" onclick="ajaxSearch()">
+										<button class="btn btn-primary" type="submit">
 											<b>검색</b>
 										</button>
 										<button type="reset" class="btn btn-secondary" id="reset">
@@ -111,6 +110,7 @@
 									</td>
 									<th>code.</th>
 									<th>수주번호</th>
+									<th>품번</th>
 									<th>품명</th>
 									<th>수량</th>
 									<th>라인코드</th>
@@ -130,6 +130,7 @@
 										<!-- 상세 정보 이동! -->
 										<th>${vo.request }</th>
 										<th>${vo.product }</th>
+										<th>${vo.product_name }</th>
 										<th>${vo.amount }</th>
 										<th>${vo.line_code }</th>
 										<th>${vo.production_date }</th>
@@ -143,13 +144,32 @@
 								<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(${instructionVOList.size() }) 중 (${instructionVOList.size() }) 개</div>
 							</div>
 						</div>
-						<!-- <div class="btn-toolbar justify-content-center mb-15">
+						<%-- <div class="btn-toolbar justify-content-center mb-15">
+					<div class="btn-group">
+						<c:if test="${pageVO.prev}">
+							<a href="/material/inList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+						</c:if>
+						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+							<a href="/material/inList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+						</c:forEach>
+						<c:if test="${pageVO.next}">
+							<a href="/material/inList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+						</c:if>
+					</div>
+				</div> --%>
+						<div class="btn-toolbar justify-content-center mb-15">
 							<div class="btn-group">
-								<a href="#" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
-								</a> <a href="#" class="btn btn-outline-primary">1</a> <a href="#" class="btn btn-outline-primary">2</a> <span class="btn btn-primary current">3</span> <a href="#" class="btn btn-outline-primary">4</a> <a href="#" class="btn btn-outline-primary">5</a> <a href="#" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
-								</a>
+								<c:if test="${ajaxSearchVO.pageVO.prev}">
+									<a href="/production/instruction?page=${ajaxSearchVO.pageVO.startPage - 1}" class="btn btn-outline-primary prev paging"> <i class="fa fa-angle-double-left"> </i> </a>
+								</c:if>
+								<c:forEach begin="${ajaxSearchVO.pageVO.startPage}" end="${ajaxSearchVO.pageVO.endPage}" var="i">
+									<a href="/production/instruction?page=${i}" class="btn btn-outline-primary ${ajaxSearchVO.pageVO.page == i ? 'active' : ''} paging"> ${i} </a>
+								</c:forEach>
+								<c:if test="${ajaxSearchVO.pageVO.next}">
+									<a href="/production/instruction?page=${ajaxSearchVO.pageVO.endPage + 1}" class="btn btn-outline-primary next paging"> <i class="fa fa-angle-double-right"> </i> </a>
+								</c:if>
 							</div>
-						</div> -->
+						</div>
 					</div>
 				</div>
 			</div>
@@ -204,7 +224,7 @@
 				var code_arr = getCode_Arr('update');
 				if (code_arr != null) {
 					// 가로, 세로 설정
-					openPage("/production/updateInstruction"+"?code=" + code_arr[0], 400, 700);
+					openPage("/production/updateInstruction"+"?code=" + code_arr[0], 500, 600);
 				}
 			});
 
@@ -237,44 +257,6 @@
 			}
 		}
 	</script>
-	<!-- ajax검색 -->
-	<script type="text/javascript">
-		function ajaxSearch() {
-			var queryString = $('#accordion-search').serialize();
-			$.ajax({
-				type : 'post',
-				url : '/production/ajaxSearch',
-				data : queryString,
-				error: function(){
-					alert("error");
-				},
-				success : function(data){
-					$('.instructionVO').remove();
-					var html = "";
-					//지시사항 상세 검색 결과가 초기 지시사항 페이지와 다르게 나온다.개선필요
-					$(data).each(function(){
-						html += "<tr class='instructionVO'>";
-						html += "<td>";
-						html += "<div class='custom-control custom-checkbox mb-5'>";
-						html += "<input type='checkbox' class='custom-control-input checkCode' id='" + this.code +"' name='tableCheck' value='" + this.code +"'>";
-						html += "<label class='custom-control-label' for='" + this.code +"'></label>";
-						html += "</div>";
-						html += "</td>";
-						html += "<th>" + this.code +"</th>";
-						html += "<th><a href='#'><b class='text-blue' id='tableTitle1'>" + this.product +"</b></a></th>";
-						html += "<th>" + this.amount +"</th>";
-						html += "<th>" + this.line_code +"</th>";
-						html += "<th>" + this.content +"</th>";
-						html += "<th>" + this.request +"</th>";
-						html += "<th>" + this.production_date +"</th>";
-						html += "</tr>";
-					});
-					$("table").append(html);
-					subContent();
-				}
-			});
-		}
-	</script>
 	<!-- 수주정보 받기 시작 -->
 	<script type="text/javascript">
 		window.addEventListener("message", function(event) {
@@ -288,7 +270,7 @@
 	<script type="text/javascript">
 		function subContent() {
 			$(".instructionVO ").each(function() {
-				var content  = $(this).children().eq(7);
+				var content  = $(this).children().eq(8);
 				var text  = content.text();
 				if (text.length > 20) {
 					var subText = text.substring(0, 20) + "...";
@@ -306,5 +288,46 @@
 		subContent();
 	</script>
 	<!-- 초기설정 끝 -->
+	<!-- 페이징 주소줄 가져오기 시작 -->
+	<script type="text/javascript">
+	function getUrl() {
+		var currentUrl = window.location.href;
+		// 특정 문자 이전의 문자를 삭제
+		var index = currentUrl.indexOf("/production/instruction");
+		if (index !== -1) {
+			currentUrl = currentUrl.substring(index+23);
+		}
+		
+		index = currentUrl.indexOf("?");
+		if (index !== -1) {
+			currentUrl = currentUrl.substring(index+1);
+		}
+		// 확인할 문자
+		var targetChar = 'page=';
+
+		// 정규식 패턴
+		var pattern = new RegExp(/([?&])?page=\d+(&|$)/);
+
+		// 문자열에 특정 문자 패턴이 있는지 확인
+		if (pattern.test(currentUrl)) {
+		    // 특정 문자 뒤의 숫자를 찾아 대체
+		    currentUrl = currentUrl.replace(pattern, '');
+		}
+
+		// 이스케이프 함수
+		return currentUrl;
+	}
+	</script>
+	<!-- 페이징 주소줄 가져오기 끝 -->
+	<script type="text/javascript">
+		$(".paging").each(function () {
+			var href = $(this).attr("href");
+			if (getUrl() != '') {
+				href += "&" + getUrl();
+			}
+			$(this).attr("href",href);
+		});
+		
+	</script>
 </body>
 </html>

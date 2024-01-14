@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ page session="false"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +9,9 @@
 <title>상세 정보</title>
 </head>
 <body>
-<body>
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
@@ -78,7 +79,7 @@
 														</c:when>
 														<c:otherwise>
 															<c:forEach items="${list}" var="i">
-																<li class="list-group-item">${i.start_time} ~ ${i.end_time} : ${i.code_name}</li>
+																<li class="list-group-item"><b>시작 시간</b><br><fmt:formatDate value="${i.start_time}" type="both" /><br><b>종료 시간</b><br><fmt:formatDate value="${i.end_time}" type="both" /><br><br>${i.code_name}</li>
 															</c:forEach>
 														</c:otherwise>
 													</c:choose>

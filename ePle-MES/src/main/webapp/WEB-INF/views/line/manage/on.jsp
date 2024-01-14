@@ -9,6 +9,9 @@
 <title>라인 가동</title>
 </head>
 <body>
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
@@ -18,15 +21,15 @@
 				<h1 class="text-center text-primary">라인 가동</h1>
 			</div>
 			<!-- 폼 -->
-			<form method="post">
+			<form action="/line/manage/on" method="post">
 				<!-- 리스트 목록 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">
 							<ul class="list-group">
 								<c:if test="${!empty info}">
-									<li class="list-group-item">${info.code} : ${info.name}(${info.model})</li>
-									<input type="hidden" name="codeList" value="${info.code}">
+									<li class="list-group-item">${info.code} : ${info.name}(${info.place})</li>
+									<input type="hidden" name="code" value="${info.code}">
 								</c:if>
 							</ul>
 						</div>
@@ -42,8 +45,8 @@
 							onclick="closePopup();">
 							<b>취소</b>
 						</button>
-						<button type="submit" class="btn btn-warning">
-							<b>삭제</b>
+						<button type="submit" class="btn btn-primary">
+							<b>가동</b>
 						</button>
 					</div>
 				</div>
@@ -72,7 +75,7 @@
 					let title = opener.document.getElementById('tableTitle' + delList[i].value);
 					let info = opener.document.getElementById('tableinfo' + delList[i].value);
 					$(".list-group").append(listHtml + delList[i].value + "&nbsp;:&nbsp;"+title.innerText + "(" + info.innerText + ")" + "</li>");
-					$("form").append("<input type='hidden' name='codeList' value='" + delList[i].value +"'>");
+					$("form").append("<input type='hidden' name='code' value='" + delList[i].value +"'>");
 				}
 			}
 			// 닫기 진행!

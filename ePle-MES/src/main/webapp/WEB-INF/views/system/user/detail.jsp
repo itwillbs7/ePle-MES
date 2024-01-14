@@ -65,7 +65,13 @@
 							<label>주소</label> <input class="form-control" name="address" value="${vo.address }" type="text" readonly>
 						</div>
 						<div class="form-group">
-							<label>사용여부</label> <input class="form-control" name="active" value="${vo.active }" type="text" readonly>
+							<label>사용여부</label>
+							<c:if test="${vo.active==1 }">
+								<input type="checkbox" checked="checked" class="switch-btn" data-color="#26bf36" data-size="large" name="activeCheckbox" disabled="disabled">
+							</c:if>
+							<c:if test="${vo.active==0 }">
+								<input type="checkbox" class="switch-btn" data-color="#26bf36" data-size="large" name="activeCheckbox" disabled="disabled">
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -99,6 +105,22 @@
 		function deleteUser() {
 			openPage("/system/user/delete?indexes=${vo.code }",400, 700);
 		}
+	</script>
+	<script type="text/javascript">
+	
+	$(document).ready(function(){
+		window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight());
+		});
+
+		/* outerWidth : 바깥 둘레 포함 가로 크기
+		innerWidth : 내부 가로 크기
+		500 -> 내부 가로 수치
+		outerHeight : 바깥 둘레 포함 세로 크기
+		innerHeight : 내부 세로 크기
+
+		$(".login-box").outerHeight() : 모달창 박스 크기 추적
+		+11은 자유(스크롤바 없애려고 늘임) -> 수치 조정 가능 */
+	
 	</script>
 </body>
 </html>

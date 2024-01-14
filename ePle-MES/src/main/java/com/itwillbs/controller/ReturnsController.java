@@ -1,6 +1,8 @@
 package com.itwillbs.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -53,15 +55,25 @@ public class ReturnsController {
 							   ) throws Exception { //5-1
 		// 수주 목록 return
 		logger.debug("returnsListGET -> DB에서 목록 가져오기(페이징 처리하기)");
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("clientName", vo.getClientName());
+		paramMap.put("productName", vo.getProductName()); // 이거 품명임
+		paramMap.put("managerName", vo.getManagerName()); // 이거 품명임
+		paramMap.put("statusList", vo.getStatusList());
+		paramMap.put("startDate", vo.getStartDate());
+		paramMap.put("endDate", vo.getEndDate());
 
 		List<ReturnsVO> returnsList = rtService.returnsListpage(vo,cri);
 		
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(rtService.getTotal(vo)); // 디비에서 직접 실행결과 가져오기
 		
+		
+		
 		model.addAttribute("List", returnsList);
 		model.addAttribute("pageVO", pageVO);
-		
+		model.addAttribute("paramMap", paramMap);
+
 	}
 	
 	// http://localhost:8088/request/search
@@ -114,9 +126,13 @@ public class ReturnsController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String returnsInsertPOST(ReturnsVO vo, RedirectAttributes rttr) throws Exception {
+	public String returnsInsertPOST(HttpSession session, ReturnsVO vo, RedirectAttributes rttr) throws Exception {
 		// 반품 추가 액션
 		logger.debug("(^^)/insert 예정 정보 "+vo);
+		
+		// 사번 수집
+		String id = (String) session.getAttribute("id");
+		vo.setReg_emp(id);
 		
 		String vocode=vo.getCode();
 		// ex) 23ODMG1207 여기까지 검색해서 가장 최근 등록된 코드
@@ -149,12 +165,12 @@ public class ReturnsController {
 		String link = "";
 		if (result >= 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "출하상태 변경 결과");
-			rttr.addFlashAttribute("result", "출하완료 되었습니다.");
+			rttr.addFlashAttribute("title", "반품 등록 결과");
+			rttr.addFlashAttribute("result", "반품 등록이 완료 되었습니다.");
 		} else {
 			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "출하상태 변경 결과");
-			rttr.addFlashAttribute("result", "오류가 발생했습니다");
+			rttr.addFlashAttribute("title", "반품 등록 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다. 관리자에게 문의해주세요");
 		}
 		return link;
 	}
@@ -226,24 +242,26 @@ public class ReturnsController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String returnsUpdatePOST(ReturnsVO vo, RedirectAttributes rttr) throws Exception{
+	public String returnsUpdatePOST(HttpSession session,ReturnsVO vo, RedirectAttributes rttr) throws Exception{
 		// 반품 수정 액션
 		logger.debug("returnsUpdatePOST() 전달받은 정보 DB 저장하기");
 		logger.debug("vo "+vo);
 		
-		// 일단 임시 아이디값(실제로는 세션에서 값을 받아와야함)
-		String id = "id";
+		// 사번 수집
+		String id = (String) session.getAttribute("id");
+
+//		String id = "id";
 		int result= rtService.updateReturns(vo, id);
 		
 		String link = "";
 		if (result >= 1) {
 			link = "redirect:/confirm";
-			rttr.addFlashAttribute("title", "출하상태 변경 결과");
-			rttr.addFlashAttribute("result", "출하완료 되었습니다.");
+			rttr.addFlashAttribute("title", "반품 내용 수정 결과");
+			rttr.addFlashAttribute("result", "반품내용이 수정 되었습니다.");
 		} else {
 			link = "redirect:/error";
-			rttr.addFlashAttribute("title", "출하상태 변경 결과");
-			rttr.addFlashAttribute("result", "오류가 발생했습니다");
+			rttr.addFlashAttribute("title", "반품 내용 수정 결과");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다. 관리자에게 문의해주세요");
 		}
 		return link;
 
@@ -277,7 +295,7 @@ public class ReturnsController {
 		} else {
 			link = "redirect:/error";
 			rttr.addFlashAttribute("title", "반품 삭제  결과");
-			rttr.addFlashAttribute("result", "오류가 발생했습니다");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다. 관리자에게 문의해주세요");
 		}
 		return link;
 	}
@@ -289,7 +307,7 @@ public class ReturnsController {
 		
 		String[] code = codes.split(",");
 		List<ReturnsVO> vo = rtService.getinfo(code);
-		logger.debug("찾아온 폐기 정보 vo"+vo);
+		logger.debug("@@@@@@@찾아온 폐기 정보 vo"+vo);
 		model.addAttribute("List", vo);
 	}
 	
@@ -308,7 +326,7 @@ public class ReturnsController {
 		} else {
 			link = "redirect:/error";
 			rttr.addFlashAttribute("title", "폐기 처리 결과");
-			rttr.addFlashAttribute("result", "오류가 발생했습니다");
+			rttr.addFlashAttribute("result", "오류가 발생했습니다. 관리자에게 문의해주세요");
 		}
 		
 		return link;

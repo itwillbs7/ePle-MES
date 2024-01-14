@@ -12,7 +12,7 @@ public class ShipmentVO {
 	private String reqs_code;
 	
 	private String date; // 출하일자
-	private String StartDate;
+	private String startDate;
 	private String endDate;
 	
 	private String ware_code;

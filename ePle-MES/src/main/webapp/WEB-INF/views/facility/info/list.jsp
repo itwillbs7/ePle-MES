@@ -15,6 +15,9 @@
 <title>설비 목록</title>
 </head>
 <body>
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
 	<%@ include file="../../include/header.jsp"%>
 	<%@ include file="../../include/right-side-bar.jsp"%>
@@ -119,6 +122,17 @@
 																	<input type="radio" id="formRadio3" name="formRadio" checked class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
 																</div>
 															</c:when>
+															<c:otherwise>
+																<div class="custom-control custom-radio mb-5">
+																	<input type="radio" id="formRadio1" name="formRadio" class="custom-control-input" value="all"> <label class="custom-control-label" for="formRadio1">전체</label>
+																</div>
+																<div class="custom-control custom-radio mb-5">
+																	<input type="radio" id="formRadio2" name="formRadio" class="custom-control-input" value="true"> <label class="custom-control-label" for="formRadio2">활성화</label>
+																</div>
+																<div class="custom-control custom-radio mb-5">
+																	<input type="radio" id="formRadio3" name="formRadio" class="custom-control-input" value="false"> <label class="custom-control-label" for="formRadio3">비활성화</label>
+																</div>
+															</c:otherwise>
 														</c:choose>
 													</div>
 													<div class="col-md-2 col-sm-12">
@@ -183,15 +197,6 @@
 									<a class="dropdown-item" href="javascript:changePageSize(10);">10</a> <a class="dropdown-item" href="javascript:changePageSize(25);">25</a> <a class="dropdown-item" href="javascript:changePageSize(50);">50</a> <a class="dropdown-item" href="javascript:changePageSize(100);">100</a>
 								</div>
 							</div>
-							&nbsp;
-							<div class="dropdown">
-								<button type="button" id="searchCategoryButton" class="btn btn-secondary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-									내보내기 <span class="caret"></span>
-								</button>
-								<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="javascript:exportData(1);">PDF</a> <a class="dropdown-item" href="javascript:exportData(2);">CSV</a> <a class="dropdown-item" href="javascript:exportData(3);">인쇄</a>
-								</div>
-							</div>
 						</div>
 						<div class="btn-group pull-right" style="margin-bottom: 10px">
 							<button type="button" class="btn btn-success" id="add">
@@ -244,7 +249,7 @@
 											<th>${i.order.code_name}</th>
 											<!-- 상세 정보 이동! -->
 											<th id="tableTitle${i.code}">${i.mapd.name}</th>
-											<th>${i.line_name}</th>
+											<th id="tableinfo${i.code}">${i.line_name}</th>
 											<td style="">
 												<!-- 옵션 -->
 												<div class="dropdown">

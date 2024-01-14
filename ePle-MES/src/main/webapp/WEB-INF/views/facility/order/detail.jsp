@@ -8,7 +8,9 @@
 <title>발주 정보</title>
 </head>
 <body>
-<body>
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
@@ -27,8 +29,7 @@
 								</c:when>
 								<c:otherwise>
 									<li class="list-group-item"><b style="display:block;">발주 번호</b><p style="display:inline;">${info.code}</p></li>
-									<li class="list-group-item"><b style="display:block;">작성 정보</b><p style="display:inline;">${info.reg_name}(${info.reg_emp}) ${info.reg_date}</p></li>
-									<li class="list-group-item"><b style="display:block;">최근 수정 정보</b><p style="display:inline;">${info.update_name}(${info.update_emp}) ${info.update_date}</p></li>
+									<li class="list-group-item"><b style="display:block;">작성 정보</b><p style="display:inline;">${info.emp_name}(${info.ask_emp}) ${info.date}</p></li>
 									<li class="list-group-item"><b style="display:block;">물품 정보</b><p style="display:inline;">${info.code_name}</p></li>
 									<li class="list-group-item"><b style="display:block;">개수</b><p style="display:inline;">${info.amount}</p></li>
 								</c:otherwise>

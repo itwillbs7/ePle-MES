@@ -13,10 +13,10 @@ public class FacilitySearchVO extends SearchVO{
 		sortValue = "asc";
 	}
 	
-	private final String[] eng = {"code", "co.group_name", "co.code_name", "m.name", "l.name"};
+	private final String[] eng = {"f.code", "c.group_name", "c.code_name", "m.name", "l.name"};
 	private final String[] kor = {"코드", "카테고리", "물품 종류", "이름", "라인"};
 	
-	private final String[] searchMenu = {"code", "co.group_name", "co.code_name", "m.name"};
+	private final String[] searchMenu = {"f.code", "c.group_name", "c.code_name", "m.name"};
 	private final String[] searchKor = {"코드", "카테고리", "물품 종류" , "이름"};
 
 	public boolean getIsnull() {

@@ -4,7 +4,9 @@
 
 	<!-- 로고(메인 페이지 이동) -->
 	<div class="brand-logo">
-		<a href="/"> <!-- 로고 이미지 svg --> <img src="${pageContext.request.contextPath}/resources/vendors/images/deskapp-logo.svg" alt="" class="dark-logo" /> <img src="${pageContext.request.contextPath}/resources/vendors/images/deskapp-logo-white.svg" alt="" class="light-logo" />
+		<a href="/"> <!-- 로고 이미지 svg --> 
+			<img src="${pageContext.request.contextPath}/resources/images/dark.png" alt="" class="dark-logo" />
+			<img src="${pageContext.request.contextPath}/resources/images/white.png" alt="" class="light-logo" />
 		</a>
 
 		<!-- 메뉴 사이드바 닫기 -->
@@ -38,7 +40,7 @@
 					<ul class="submenu">
 						<li><a href="/material/orderList">발주 관리</a></li>
 						<li><a href="/material/inList">입출고 관리</a></li>
-						<li><a href="/stock/list">재고 관리</a></li>
+						<li><a href="/stock/stockList">재고 관리</a></li>
 						<li><a href="/stock/warehouseList">창고 목록</a></li>
 					</ul></li>
 
@@ -54,8 +56,10 @@
 				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-wrench-adjustable-circle"></span><span class="mtext">설비 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="/facility/info/list">설비 정보</a></li>
+						<li><a href="/facility/mapd/list">설비 정보</a></li>
+						<li><a href="/facility/info/list">설비 목록</a></li>
 						<li><a href="/facility/mt/main">보전</a></li>
+						<li><a href="/facility/mt/status">설비 모니터링</a></li>
 						<li><a href="/facility/order/list">발주 신청</a></li>
 					</ul></li>
 
@@ -65,7 +69,7 @@
 				
 					<ul class="submenu">
 						<li><a href="/product/productAll">품목 정보 관리</a></li>
-						<li><a href="/requirement/requirementAll">소요량 관리</a></li>
+						<li><a href="/requirement/list">소요량 관리</a></li>
 						<li><a href="/line/lineAll">라인 정보 관리</a></li>
 						<li><a href="/client/clientAll">거래처 정보 관리</a></li>
 					</ul></li>
@@ -78,7 +82,7 @@
 						<li><a href="/system/user/main">사용자 관리</a></li>
 					</ul></li>
 				
-				<li><a href="/line/status" class="dropdown-toggle no-arrow"> <span class="micon bi bi-command"></span> <span class="mtext">라인 관리</span>
+				<li><a href="/line/manage/status" class="dropdown-toggle no-arrow"> <span class="micon bi bi-command"></span> <span class="mtext">라인 현황</span>
 				</a></li>
 			</ul>
 		</div>

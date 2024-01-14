@@ -61,8 +61,6 @@ public class MaterialDAOImpl implements MaterialDAO {
 		logger.debug("D - inEdit(Warehouse_HistoryVO vo)");
 		return sqlSession.update(NAMESPACE+".inEdit", vo);
 	}
-	
-	
 	// 입고등록) 발주 목록 
 	@Override
 	public List<OrderVO> searchOrder(OrderVO vo) throws Exception {
@@ -92,9 +90,19 @@ public class MaterialDAOImpl implements MaterialDAO {
 	public int warehouseListCount(WarehouseVO vo) throws Exception {
 		logger.debug("D - warehouseListCount(WarehouseVO vo)");
 		return sqlSession.selectOne(NAMESPACE + ".warehouseListCount", vo);
+	}
+	// 입고검색) 품목 목록 (전체)
+	@Override
+	public List<OrderVO> searchMAPD(OrderVO vo) throws Exception {
+		logger.debug("D - searchMAPD(OrderVO vo)");
+		return sqlSession.selectList(NAMESPACE + ".searchMAPD", vo);
+	}
+	// 입고검색) 품목 데이터 수 (전체)
+	@Override
+	public int searchMAPDCount(OrderVO vo) throws Exception {
+		logger.debug("D - searchMAPDCount(OrderVO vo)");
+		return sqlSession.selectOne(NAMESPACE + ".searchMAPDCount", vo);
 	}	
-	
-	
 	// 발주요청 리스트 (페이징)
 	@Override
 	public List<OrderVO> askOrderList(OrderVO vo) throws Exception {
@@ -145,8 +153,6 @@ public class MaterialDAOImpl implements MaterialDAO {
 		data.put("code_arr", code_arr);
 		sqlSession.delete(NAMESPACE + ".askOrderDel", data);
 	}		
-	
-	
 	// 발주요청등록) 품목 목록 (원자재) 
 	@Override
 	public List<OrderVO> searchMaterial(OrderVO vo) throws Exception {
@@ -159,14 +165,50 @@ public class MaterialDAOImpl implements MaterialDAO {
 		logger.debug("D - searchMaterialCount(OrderVO vo)");
 		return sqlSession.selectOne(NAMESPACE + ".searchMaterialCount", vo);
 	}	
-	
-	// 발주등록)
+	// 발주관리 등록
 	@Override
 	public int orderAdd(OrderVO vo) throws Exception {
 		logger.debug("D - orderAdd(OrderVO vo)");
 		return sqlSession.update(NAMESPACE+".orderAdd", vo);
 	}
-	
+	// 발주관리 리스트 (페이징)
+	@Override
+	public List<OrderVO> orderList(OrderVO vo) throws Exception {
+		logger.debug("D - orderList(OrderVO vo)");
+		return sqlSession.selectList(NAMESPACE + ".orderList", vo);
+	}
+	// 전체 발주관리 데이터 수
+	@Override
+	public int orderListCount2(OrderVO vo) throws Exception {
+		logger.debug("D - orderListCount2(OrderVO vo)");
+		return sqlSession.selectOne(NAMESPACE + ".orderListCount2", vo);
+	}
+	// 발주관리 상세
+	@Override
+	public OrderVO orderInfo(String code) throws Exception {
+		logger.debug("D - orderInfo(String code)");
+		return sqlSession.selectOne(NAMESPACE + ".orderInfo", code); 
+	}	
+	// 발주관리 수정
+	@Override
+	public int orderEdit(OrderVO vo)throws Exception {
+		logger.debug("D - orderEdit(OrderVO vo)");
+		return sqlSession.update(NAMESPACE+".orderEdit", vo);
+	}
+	// 발주관리 삭제 
+	@Override
+	public List<OrderVO> delOrderInfo(String[] code_arr) throws Exception{
+		Map<String, Object> data = new HashMap<>();
+		data.put("code_arr", code_arr);
+		List<OrderVO> delOrderInfo = sqlSession.selectList(NAMESPACE+".delOrderInfo", data);		
+	    return delOrderInfo;
+	}
+	@Override
+	public void orderDel(String[] code_arr) throws Exception {
+		Map<String,String[]>data = new HashMap<String,String[]>();
+		data.put("code_arr", code_arr);
+		sqlSession.delete(NAMESPACE + ".orderDel", data);
+	}	
 	// 발주등록) 거래처 목록 
 	@Override
 	public List<OrderVO> searchClient(OrderVO vo) throws Exception {
@@ -178,6 +220,42 @@ public class MaterialDAOImpl implements MaterialDAO {
 	public int searchClientCount(OrderVO vo) throws Exception {
 		logger.debug("D - searchClientCount(OrderVO vo)");
 		return sqlSession.selectOne(NAMESPACE + ".searchClientCount", vo);
+	}	
+	
+	
+	
+	// 출고 리스트 (페이징)
+	@Override
+	public List<Warehouse_HistoryVO> outList(Warehouse_HistoryVO vo) throws Exception {
+		logger.debug("D - outList(Warehouse_HistoryVO vo)");
+		return sqlSession.selectList(NAMESPACE + ".outList", vo);
+	}
+	// 전체 출고 데이터 수
+	@Override
+	public int outListCount(Warehouse_HistoryVO vo) throws Exception {
+		logger.debug("D - outListCount(Warehouse_HistoryVO vo)");
+		return sqlSession.selectOne(NAMESPACE + ".outListCount", vo);
+	}
+	// 출고 상세
+	@Override
+	public Warehouse_HistoryVO outInfo(String code) throws Exception {
+		logger.debug("D - outInfo(String code)");
+		return sqlSession.selectOne(NAMESPACE + ".outInfo", code); // 코드!
+	}	
+	
+	
+	
+	// 출고 등록
+	@Override
+	public int outAdd(Warehouse_HistoryVO vo) throws Exception {
+		logger.debug("D - outAdd(Warehouse_HistoryVO vo)");
+		return sqlSession.update(NAMESPACE + ".outAdd", vo);
+	}
+	// 출고 최신코드 가져오기
+	@Override
+	public String outRecentCode() throws Exception {
+		logger.debug("D - outRecentCode()");
+		return sqlSession.selectOne(NAMESPACE + ".outRecentCode");
 	}	
 	
 	

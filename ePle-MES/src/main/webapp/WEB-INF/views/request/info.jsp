@@ -31,6 +31,10 @@
 							<input class="form-control" type="text"   id="client_code" readonly value="${vo.client_code }">
 						</div>
 						<div class="form-group">
+							<label>업체명</label> 
+							<input class="form-control" type="text" readonly value="${vo.clientName }">
+						</div>
+						<div class="form-group">
 							<label>수주일자</label> 
 							<input class="form-control date-picker" type="text" id="date-picker" readonly value="${vo.date }">
 						</div>
@@ -39,29 +43,19 @@
 							<input class="form-control date-picker"  type="text"  readonly value="${vo.deadline }">
 						</div>
 						<div class="form-group">
-							<label>담당자코드</label> 
-							<input class="form-control" type="text"  readonly value="${vo.manager }">
-						</div>
-						<div class="form-group">
 							<label>품번</label> 
 							<input class="form-control" type="text" readonly value="${vo.product }">
 						</div>
 						<div class="form-group">
-							<label>수주량</label> 
-							<input class="form-control" type="text" readonly value="${vo.amount }">
-						</div>
-						<!-- 자동입력내역 -->
-						<div class="form-group">
-							<label>업체명</label> 
-							<input class="form-control" type="text" readonly value="${vo.clientName }">
-						</div>
-						<div class="form-group">
-							<label>담당자명</label> 
-							<input class="form-control" type="text"  readonly value="${vo.managerName}">
-						</div>
-						<div class="form-group">
 							<label>품명</label> 
 							<input class="form-control" type="text" readonly value="${vo.productName }">
+						</div>
+						<div class="form-group">
+							<label>단가</label> <input class="form-control"  type="text" readonly value="${vo.currency }">
+						</div>
+						<div class="form-group">
+							<label>수주량</label> 
+							<input class="form-control" type="text" readonly value="${vo.amount }">
 						</div>
 						<div class="form-group">
 							<label>단위</label> <input class="form-control"  type="text" readonly value="${vo.unit }">
@@ -73,8 +67,14 @@
 							<label>과부족량</label> 
 							<input class="form-control" type="text" readonly value="${vo.stock - vo.amount}">
 						</div>
+						<!-- 자동입력내역 -->
 						<div class="form-group">
-							<label>단가</label> <input class="form-control"  type="text" readonly value="${vo.currency }">
+							<label>담당자코드</label> 
+							<input class="form-control" type="text"  readonly value="${vo.manager }">
+						</div>
+						<div class="form-group">
+							<label>담당자명</label> 
+							<input class="form-control" type="text"  readonly value="${vo.managerName}">
 						</div>
 						<div class="form-group">
 							<label>수주상태</label> <input class="form-control" type="text" readonly value="${vo.status }" id="status">

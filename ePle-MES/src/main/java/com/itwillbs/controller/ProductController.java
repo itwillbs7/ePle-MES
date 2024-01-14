@@ -33,14 +33,16 @@ public class ProductController {
     // 품목 수정 - GET
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public void updateGET(@RequestParam("code") String code, Model model) throws Exception {
-        MAPDVO mvo = pService.getProduct(code);
+    	MAPDVO mvo = pService.getProduct(code);
         model.addAttribute("mvo", mvo);
+        model.addAttribute("list", pService.getCommonList("PROD"));
     }
 
     // 품목 수정 - POST
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updatePOST(MAPDVO mvo, RedirectAttributes rttr) throws Exception {
-    	
+    public String updatePOST(HttpSession session, MAPDVO mvo, RedirectAttributes rttr) throws Exception {
+    	String id = (String)session.getAttribute("code");
+		mvo.setUpdate_emp(id); // emp 사용하는 부분에 붙여 넣기
     	int result = pService.productUpdate(mvo);
     	
 		if(result == 1) {
@@ -88,16 +90,15 @@ public class ProductController {
             return "product/resultFailed";
         }
     }
-	
+
     // 품목 추가 - GET, POST
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public void productInsertGET() throws Exception { 
-		
+	public void productInsertGET(Model model) throws Exception { 
+		model.addAttribute("list", pService.getCommonList("PROD"));
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String productInsertPOST(HttpSession session,MAPDVO mvo, RedirectAttributes rttr) throws Exception {
-
 		// 서비스 - DB에 글쓰기(insert) 동작 호출
 		int result = pService.InsertProduct(mvo);
 		String id = (String)session.getAttribute("code");
@@ -127,10 +128,10 @@ public class ProductController {
 
 	    // 세션에 페이징 처리 확인 변수 설정
 	    session.setAttribute("viewcntCheck", true);
-
+	    vo.setMapd("PROD");
 	    // 페이징 처리에 필요한 정보 설정
 	    vo.setCri(cri);
-	    vo.setTotalCount(pService.totalProductCount());
+	    vo.setTotalCount(pService.totalProductCount(vo));
 
 	    // 검색어가 있는 경우
 	    if (!searchKeyword.isEmpty()) {

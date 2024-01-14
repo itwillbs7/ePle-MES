@@ -5,6 +5,11 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<style>
+label {
+font-weight: bold;
+}
+</style>
 <title>창고 수정</title>
 </head>
 <body>
@@ -13,7 +18,7 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">창고 수정</h1>
+				<h1 class="text-center" style="color: #7CB342;">창고 수정</h1>
 			</div>
 			<!-- 폼 -->
 			<form action="/stock/warehouseEdit" method="post" id="editForm">
@@ -23,13 +28,13 @@
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						
-								<div class="form-group">
 									<label>창고코드</label> 
+								<div class="form-group">
 								<input class="form-control" type="text" name="code" id="code" readonly value="${List.code }">
 								</div>
 								
-								<div class="form-group">
 									<label>창고 정보</label> 
+								<div class="form-group">
 									<input class="form-control" type="text" name="category"  readonly value="${List.category}">
 								</div>
 								<div class="form-group">
@@ -39,13 +44,13 @@
 									<input class="form-control" type="text" name="location"  readonly value="${List.location}">
 								</div>
 
+									<label>담당자 정보</label> 
 								<div class="form-group">
-									<label>관리자 정보</label> 
-									<input class="form-control" type="hidden" id="selectA" name="manager">
-									<input class="form-control" type="text" id="selectB" readonly value="${List.name}">
+									<input class="form-control" type="hidden" id="selectA" name="manager" value="${List.empCode}">
+									<input class="form-control" type="text" id="selectB" value="${List.name}">
 								</div>
 								<div class="form-group">
-									<input class="form-control" type="text" id="selectC" name="mng_phone" readonly value="${List.phone}">
+									<input class="form-control" type="text" id="selectC" name="mng_phone" value="${List.phone}">
 								</div>
 
 

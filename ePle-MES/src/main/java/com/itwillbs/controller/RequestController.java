@@ -44,8 +44,12 @@ public class RequestController {
 		logger.debug("requestListGET -> DB에서 목록 가져오기(페이징 처리하기)");
 		
 		pageVO.setCri(cri);
+		
 		pageVO.setTotalCount(rService.getTotal(vo)); // 디비에서 직접 실행결과 가져오기
 		List<RequestVO> requestList = rService.requestListpage(vo,cri);
+		
+		logger.debug("PAGEVO 확인하기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+pageVO);
+		
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		logger.debug("test"+vo.getClientName());
@@ -118,10 +122,10 @@ public class RequestController {
 				vo.setCode(code);
 		
 		// vo에 세션 아이디 추가하기
-//		String id = (String) session.getAttribute("id");
-//		vo.setReg_emp(id);
-		String id = "test";
+		String id = (String) session.getAttribute("id");
 		vo.setReg_emp(id);
+//		String id = "test";
+//		vo.setReg_emp(id);
 		
 		int result = rService.dataInsertRequest(vo);
 		
@@ -265,10 +269,10 @@ public class RequestController {
 		logger.debug("requestUpdatePOST() 전달받은 정보 DB 저장하기");
 		logger.debug("vo "+vo);
 		
-		// 일단 임시 아이디값(실제로는 세션에서 값을 받아와야함)
-//		String id = (String) session.getAttribute("id");
-//		vo.setUpdate_emp(id);
-		String id = "id";
+		// 사번 수집
+		String id = (String) session.getAttribute("id");
+		vo.setUpdate_emp(id);
+//		String id = "id";
 		int result = rService.updateRequest(vo, id);
 		String link = "";
 		if (result >= 1) {

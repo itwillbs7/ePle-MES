@@ -75,7 +75,7 @@
 				<thead>
 					<tr>
 						<th>출하번호</th>
-						<th>품번</th>
+						<th>회사명</th>
 						<th>출하일자</th>
 						<th>출하량</th>
 					</tr>
@@ -85,7 +85,7 @@
 						<tr
 							onclick="selectWork('${item.code}','${item.product}','${item.clientName}','${item.date}','${item.amount}','${item.reqs_code}','${item.unit}')">
 							<th>${item.code}</th>
-							<th>${item.product }</th>
+							<th>${item.clientName }</th>
 							<th>${item.date}</th>
 							<th>${item.amount}</th>
 						</tr>

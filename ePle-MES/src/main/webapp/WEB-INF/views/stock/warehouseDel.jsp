@@ -15,7 +15,7 @@
             <button type="button" class="close" onclick="window.close();">×</button>
             <!-- 타이틀 -->
             <div class="login-title">
-                <h1 class="text-center text-primary">창고 삭제</h1>
+                <h1 class="text-center" style="color: #FF8C00;">창고 삭제</h1>
             </div>
             <!-- 폼 -->
             <form id="deleteForm" method="post">
@@ -42,7 +42,10 @@
                         </div>
                     </div>
                 </div>
-                <h4 class="text-center text-primary">정말로 삭제..?</h4>
+                <hr>
+                <br>
+                <h6 class="text-center">해당 창고를 삭제하시겠습니까?</h6>
+                <br>
                 <!-- 삭제 리스트 목록 -->
 
                 <!-- 버튼 -->

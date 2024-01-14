@@ -26,25 +26,29 @@
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">
-							<label><b>수주정보</b></label> <input class="form-control required" type="text" placeholder="수주정보" name="request" id="request" readonly>
-							<button type="button" class="btn btn-success" id="chooseRequest">
-								<b>수주정보 조회</b>
-							</button>
+							<label><b>* 수주정보</b></label>
+							<div style="display: flex;">
+								<input class="form-control required" type="text" placeholder="수주정보" name="request" id="request" readonly style="width: 65%; box-sizing: border-box;">
+								<button type="button" class="btn btn-success" id="chooseRequest" style="width: 35%; box-sizing: border-box;"><b>수주정보 조회</b></button>
+							</div>
+								
 						</div>
 						<div class="form-group">
-							<label><b>제품</b></label> <input class="form-control required" type="text" placeholder="제품" readonly name="product" id="product">
+							<label><b>* 제품번호</b></label> <input class="form-control required" type="text" placeholder="제품번호" readonly name="product" id="product">
 						</div>
 						<div class="form-group">
-							<label>수량</label>
+							<label><b>* 제품명</b></label> <input class="form-control required" type="text" placeholder="제품명" readonly name="product_name" id="product_name">
+						</div>
+						<div class="form-group">
 							<!-- 슬라이드바 -->
 							<div class="pd-20 card-box mb-30">
-								<h4 class="h4 pb-10">수량</h4>
+								<h4 class="h4 pb-10">*수량</h4>
 								<div class="row">
 									<div class="col-md-6 mb-30 mb-md-0">
 										<input id="amount" class="required" name="amount" />
 									</div>
 								</div>
-								<input type="number" id="amount_input" class="form-control required" min="0" max="100" />
+								<input type="number" id="amount_input" class="form-control required" min="1" max="100" />
 								<br>
 								<div class="table-responsive">
 									<table id="materials" class="table table-striped">
@@ -57,18 +61,6 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td scope="row">1</td>
-												<td>aa</td>
-												<td>1</td>
-												<td>1</td>
-											</tr>
-											<tr>
-												<td scope="row">2</td>
-												<td>bb</td>
-												<td>2</td>
-												<td>1</td>
-											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -82,7 +74,7 @@
 					<div class="col-sm-12 mb-3">
 						<!-- examples -->
 						<div class="form-group">
-							<label><b>라인코드</b></label> <select class="custom-select2 form-control required" name="line_code" style="width: 100%; height: 38px">
+							<label><b>* 라인코드</b></label> <select class="custom-select2 form-control required" name="line_code" style="width: 100%; height: 38px">
 								<!-- 공통 코드로 받아오기 -->
 								<c:forEach items="${line_codeList }" var="line_code">
 									<option value="${line_code }">${line_code }</option>
@@ -90,16 +82,18 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label><b>생산일</b></label>
+							<label><b>* 생산일</b></label>
 							<input class="form-control date-picker required" placeholder="Select Date" type="text" name="production_date" autocomplete='off'/>
 						</div>
 						<div class="form-group">
-							<label>지시사항</label>
+							<label><b>지시사항</b></label>
 							<textarea class="form-control" name="content"></textarea>
 						</div>
 						<!-- 세션에서 받아오기 -->
 						<div class="form-group">
-							<label>등록자</label> <input class="form-control required" type="text" placeholder="등록자 정보가 없습니다" readonly value="관리자1" name="reg_emp">
+							<label><b>* 등록자</b></label>
+							<input class="form-control required" type="text" placeholder="등록자 정보가 없습니다" readonly value="${sessionScope.name }">
+							<input class="form-control required" type="hidden" placeholder="등록자 정보가 없습니다" readonly value="${sessionScope.code }" name="reg_emp">
 						</div>
 						<!-- 세션에서 받아오기 -->
 						<!-- examples end -->
@@ -192,6 +186,7 @@
 				$('#submit').attr("disabled",true);
 			}
 		});
+	});
 	</script>
 	<!-- 필수입력 체크 끝-->
 	<!-- 수주정보 조회 시작 -->
@@ -251,13 +246,58 @@
 						var requestVO = data;
 						$("#request").val(requestVO.code).change();
 						$("#product").val(requestVO.product).change();
+						$("#product_name").val(requestVO.product_name).change();
 						sliderUpdate(data.amount);
+						getBOM(data.product);
+						if (data.amount == 0) {
+							alert("이미 모든 수주량이 등록되었습니다.");
+							$("#amount_input").attr("disabled","disabled");
+							$("select.required").attr("disabled","disabled");
+							$(".required[name='production_date']").attr("disabled","disabled");
+							$("textarea[name='content']").attr("disabled","disabled");
+						}else{
+							$("#amount_input").removeAttr("disabled");
+							$("select.required").removeAttr("disabled");
+							$(".required[name='production_date']").removeAttr("disabled");
+							$("textarea[name='content']").removeAttr("disabled");
+						}
 					}
 				});
 			}
 		});
 	</script>
 	<!-- 수주정보 받기 끝 -->
+	<!-- BOM업데이트 시작 -->
+	<script type="text/javascript">
+		function getBOM(product) {
+			$("#materials>tbody").empty();
+			$.ajax({
+				url : "/production/getBOM",
+				type : "POST",
+				data : {
+					mapd_code : product
+				},
+				error : function() {
+					alert("error");
+				},
+				success : function(data) {
+					console.log(data);
+					var html = "";
+					for (var i = 0; i < data.length; i++) {
+						html = "";
+						html += "<tr>";
+						html += "<td>" + data[i].bno + "</td>";
+						html += "<td>" + data[i].material + "</td>";
+						html += "<td>" + data[i].amount + "</td>";
+						html += "<td>" + data[i].amount + "</td>";
+						html += "</tr>";
+						$("#materials>tbody").append(html);
+					}
+				}
+			});
+		}
+	</script>
+	<!-- BOM업데이트 끝 -->
 	<!-- submit시 시작 -->
 	<script type="text/javascript">
 		$("#insertForm").submit(function(e) {

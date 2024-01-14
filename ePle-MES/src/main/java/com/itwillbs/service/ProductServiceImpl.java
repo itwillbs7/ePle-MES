@@ -58,8 +58,17 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int totalProductCount() throws Exception {
-		return pdao.getProductCount();
+	public int totalProductCount(PageVO vo) throws Exception {
+		return pdao.getProductCount(vo);
 	}
 
+	@Override
+	public List<MAPDVO> getCommonList(String group_id) throws Exception {
+		return pdao.getCommonList(group_id);
+	}
+	
+	@Override
+	public String getRecentCode() throws Exception {
+		return pdao.getRecentCode();
+	}
 }

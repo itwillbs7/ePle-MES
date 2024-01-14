@@ -23,7 +23,7 @@
 				<h1 class="text-center text-primary">출하명령 등록</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="" method="post" id="addForm" >
+			<form action="/shipment/add" method="post" id="addForm" >
 				<!-- 비입력 구간 -->
 				<input class="form-control" type="hidden" placeholder="출하번호" name="code" id="code" >
 				<!-- 입력 구간 -->
@@ -36,45 +36,45 @@
 							name="reqs_code" id="reqs_code" readonly required="required">
 						</div>
 						<div class="form-group">
-							<label for="date">출하일자</label> 
-							<input class="form-control date-picker" name="date" type="text" id="date"
-							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
-						</div>
-						<div class="form-group">
-							<label for="amount">출하량</label> <input class="form-control" name="amount" id="amount"
-							type="number" placeholder="출하량을 입력해주세요" autocomplete="off" min="1" required="required">
-						</div>
-						<!-- 자동입력내역 -->
-						<div class="form-group">
-							<label >수주량</label> 
-							<input class="form-control" name="reqsamount" id="reqsamount"
-							type="number" autocomplete="off" min="1" required="required" readonly>
+							<label>업체명</label> 
+							<input class="form-control" type="text" readonly id="clientName" required="required"
+							readonly>
 						</div>
 						<div class="form-group">
 							<label >수주일자</label> 
 							<input class="form-control " name="reqsdate" type="text" id="reqsdate"
 							 autocomplete="off" required="required" readonly>
 						</div>
-						<div class="form-group">
-							<label>업체명</label> 
-							<input class="form-control" type="text" readonly id="clientName" required="required"
-							readonly>
+						<div class="form-group" id="returndate">
+							<label for="date">출하일자</label> 
+							<input class="form-control date-picker" readonly name="date" type="text" id="date"
+							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
 						</div>
 						<div class="form-group">
 							<label>품번</label> 
 							<input class="form-control" name = "product" type="text" readonly id="product" required="required">
 						</div>
 						<div class="form-group">
+							<label >수주량</label> 
+							<input class="form-control" name="reqsamount" id="reqsamount"
+							type="number" autocomplete="off" min="1" required="required" readonly>
+						</div>
+						<div class="form-group">
+							<label>현재 재고량</label> 
+							<input class="form-control" name ="stock" type="number" readonly id="stock" required="required">
+						</div>
+						<div class="form-group">
 							<label>단위</label> 
 							<input class="form-control" name ="unit" type="text" readonly id="unit" required="required">
 						</div>
-						<div class="form-group">
-							<label>재고량</label> 
-							<input class="form-control" name ="stock" type="text" readonly id="stock" required="required">
-							<input class="form-control" name ="ware_code" type="hidden" readonly id="ware_code" required="required">
-							<input class="form-control" name ="stock_code" type="hidden" readonly id="stock_code" required="required">
-							<input class="form-control" name ="wareHistory_code" type="hidden" readonly id="wareHistory_code" required="required">
+						<div class="form-group" id="shipamount">
+							<label for="shipamount">출하량</label> 
+							<input class="form-control" name="amount" id="amount"
+							type="number" placeholder="출하량을 입력해주세요" autocomplete="off" min="1" required="required">
 						</div>
+						<!-- 자동입력내역 -->
+							<input class="form-control" name ="wareHistory_code" type="hidden" readonly id="wareHistory_code" required="required">
+							<input class="form-control" name ="ware_code" type="hidden" readonly id="ware_code" required="required">
 
 
 				<!-- 버튼 -->
@@ -98,12 +98,6 @@
 
 	 <script type="text/javascript" class="formDataSetting">  
 
-	 // 출하일자 min / 출하량 max 설정
-	 document.getElementById('reqsdate').addEventListener('input', function() {
-  		document.getElementById('date').min = document.getElementById('reqsdate').value;
-  		document.getElementById('amount').max = document.getElementById('reqsamount').value;
-	});
-	 
 	// 출하량 입력 필드 선택
 	 var amountInput = document.getElementById('amount');
 
@@ -115,8 +109,7 @@
 
 	   // 출하량이 수주량을 초과하는지 확인
 	   if (amount > reqsAmount) {
-	     // 메시지 표시(이거 alert 말고 append로 바꾸기)
-	     alert('출하량이 수주량을 초과하였습니다.');
+			alert('출하량이 수주량보다 많습니다');
 	   }
 	 });
 	 
@@ -135,7 +128,9 @@
 			const month = String(date.getMonth() + 1).padStart(2, "0"); //이번달
 			const day = String(date.getDate()).padStart(2, "0"); //오늘날짜 
 			
-			const orderNum = year+"OT"+month+day+ware_code; 
+			ware_code = ware_code.substr(0.3);
+			
+			const orderNum = year+"SP"+month+day+ware_code; 
 			return orderNum;
 		}
 	 
@@ -145,7 +140,7 @@
 			const month = String(date.getMonth() + 1).padStart(2, "0"); //이번달
 			const day = String(date.getDate()).padStart(2, "0"); //오늘날짜 
 			
-			const historyNum = "OT"+year+month+day;
+			const historyNum = "OUT"+year+month+day;
 			return historyNum;
 	 }
 	 
@@ -155,6 +150,30 @@
 	 document.querySelector('form').addEventListener('submit', function(event) {
 		    // 기본 제출 이벤트를 막음
 		    event.preventDefault();
+		    
+		    var date = document.getElementById('date').value; // 출하일자
+			var reqsdate = new Date(document.getElementById('reqsdate').value); // 수주일자
+			
+			if(date == null || date === ''){
+				$('#returndate').append('<span style="color : red; font-size : 12px"> * 날짜를 입력하세요 </span>');
+				document.getElementById('date').focus();
+					return;
+			}
+			
+			// 출하일자는 수주일자 이전날짜를 선택할 수 없다
+			if(date<reqsdate){
+			$('#returndate').append('<span style="color : red; font-size : 12px"> * 출하일자는 수주일자 이후여야 합니다 </span>');
+			document.getElementById('date').focus();
+				return;
+			}
+			
+			var stock = Number(document.getElementById('stock').value);
+			var shipAmount = Number(document.getElementById('amount').value);
+			
+			if( stock < shipAmount){
+				$('#shipamount').append('<span style="color : red; font-size : 12px"> * 출하량이 재고량보다 많습니다 </span>');
+				return;
+			}
 		    
 		    // 출하번호 생성
 		    const orderNum = createOrderNum();
@@ -175,8 +194,7 @@
 	
 	// 수주번호 찾기	
 		$("#reqs_code").click(function() {
-	// 가로, 세로 설정
-			window.open("/shipment/searchRequest", "Request Search", "width=500,height=600");
+			window.open("/shipment/searchRequest", "Request Search", "width=600,height=600,left=200,top=200");
 		});
 	
 	

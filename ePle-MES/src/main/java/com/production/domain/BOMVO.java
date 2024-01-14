@@ -1,5 +1,17 @@
 package com.production.domain;
 
-public class BOMVO {
+import lombok.Data;
 
+@Data
+public class BOMVO {
+	private String bno;
+	
+	private int amount;
+	private String material;
+	private String content;
+	private String mapd_code;
+	private int inventory;
+	
+	private String mapdName;
+	private String materialName;
 }

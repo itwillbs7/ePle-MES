@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
@@ -44,7 +43,7 @@
 											</div>
 											<div class="col-md-2 col-sm-12">
 												<div class="custom-control custom-checkbox mb-5" style="position: absolute; top: 50%; margin-top: -8px;">
-													<input type="checkbox" class="custom-control-input" id="isFinished" name="isFinished" ${isFinished } /> <label class="custom-control-label" for="isFinished">완료포함</label>
+													<input type="checkbox" class="custom-control-input" id="isFinished" name="isFinished" ${isFinished } /> <label class="custom-control-label" for="isFinished">입고완료포함</label>
 												</div>
 											</div>
 											<div class="col-md-2 col-sm-12">
@@ -88,7 +87,7 @@
 										<td>${result.vo.production_date }</td>
 										<td>${result.vo.line_code }</td>
 										<td>${result.status }</td>
-										<td>${result.vo.product }</td>
+										<td>${result.vo.product_name }</td>
 										<td>${result.vo.amount }</td>
 										<td>${result.amount }</td>
 										<td>${result.failedCount }</td>
@@ -109,11 +108,16 @@
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="result" role="tabpanel">
-								<div class='infoBtnGroup'>
+								<div class='infoBtnGroup' style="display: flex;">
+									<button type='button' class='btn btn-success infoBtn' id='inputButton' disabled>재료투입</button>
 									<button type='button' class='btn btn-success infoBtn' id='Start' disabled>시작</button>
-									<button type='button' class='btn btn-danger infoBtn' id='Complete' disabled>완료</button>
-									<button type='button' class='btn btn-secondary infoBtn' id='addResult' disabled>양품추가</button>
+									<button type='button' class='btn btn-warning infoBtn' id='Complete' disabled>완료</button>
+									<div style="display: flex; width: 200px; align-items: center;">
+										<input class="form-control required" type="number" placeholder="양품갯수" name="num" min="1" id="resultNum" style="box-sizing: border-box; margin-right: 6px;">
+										<button type='button' class='btn btn-secondary infoBtn' id='addResult' style="box-sizing: border-box;" disabled>양품추가</button>
+									</div>
 									<button type="button" class="btn btn-dark infoBtn" id="addFailed" disabled>불량추가</button>
+									<button type="button" class="btn btn-dark infoBtn" id="inAdd" disabled>입고등록</button>
 								</div>
 								<i class="icon-copy fa fa-info-circle toggleIcon" aria-hidden="true" style="font-size: 30px; width: 100%; text-align: center; ertical-align: middle; line-height: 100px;">&nbsp;실적을 선택해 주세요</i>
 								<table class='table table-bordered toggleTable' id='infoTable' style="display: none;">
@@ -210,22 +214,23 @@
 											</tr>
 										</thead>
 										<tbody>
-											<%-- <c:forEach items="failedList" var="failed">
-												<tr>
-													<td>${failed.code }</td>
-													<td>${failed.emp_code }</td>
-													<td>${failed.code_id }</td>
-													<td>${failed.content }</td>
-													<td>${failed.action }</td>
-													<td>${failed.amount }</td>
-													<td>${failed.emp_date }</td>
-												</tr>
-											</c:forEach> --%>
 										</tbody>
 									</table>
 							</div>
 							<div class="tab-pane fade" id="input" role="tabpanel">
-								<div class="pd-20">input</div>
+								<i class="icon-copy fa fa-info-circle toggleIcon" aria-hidden="true" style="font-size: 30px; width: 100%; text-align: center; ertical-align: middle; line-height: 100px;">&nbsp;실적을 선택해 주세요</i>
+									<table class='table table-bordered toggleTable' id='inputTable' style="display: none; margin-top: 20px;">
+										<thead>
+											<tr>
+												<th>투입코드</th>
+												<th>재료코드</th>
+												<th>재료명</th>
+												<th>갯수</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
 							</div>
 						</div>
 					</div>
@@ -273,34 +278,91 @@
 	<!-- 시작 버튼 시작 -->
 	<script type="text/javascript">
 		$(document).on("click", ".infoBtn", function() {
-			var code = $("#codeInfo").val();
 			var id = $(this).attr("id");
-			$.ajax({
-				url : "/production/" + id,
-				method : "POST",
-				data : {
-					code : code
-				},
-				error : function() {
-					
-				},
-				success : function(data) {
-					setInfo(data);
+			var status = $("#statusInfo").val();
+			if (id == 'Start') {
+				if (status == '대기') {
+					resultControll(id);
+				}else{
+					alert('대기 중일 때만 시작할 수 있습니다');
 				}
-			});
+			}
+			if (id == 'Complete') {
+				if (status == '생산중') {
+					resultControll(id);
+				}else{
+					alert('생산 중일 때만 완료할 수 있습니다');
+				}
+			}
+			if (id == 'addResult') {
+				if (status == '생산중') {
+					resultControll(id);
+				}else{
+					alert('생산 중일 때만 추가할 수 있습니다');
+				}
+			}
 		});
 	</script>
 	<!-- 시작 버튼 끝 -->
+	<!-- 실적 제어 시작 -->
+	<script type="text/javascript">
+		function resultControll(id) {
+			var code = $("#codeInfo").val();
+			if (id == 'addResult') {
+				var num = Number($("#resultNum").val());
+				var inst = Number($("#instAmoInfo").val());
+				var amo = Number($("#amoInfo").val());
+				if (num <= 0 ) {
+					alert("수량이 0 보다 작을 수 없습니다");
+					return;
+				}
+				if (num > (inst - amo)) {
+					alert("수량이 지시량 보다 클 수 없습니다");
+					return;
+				}
+				$.ajax({
+					url : "/production/" + id,
+					method : "POST",
+					data : {
+						code : code,
+						num : num
+					},
+					error : function() {
+						
+					},
+					success : function(data) {
+						setInfo(data);
+					}
+				});
+			}else{
+				$.ajax({
+					url : "/production/" + id,
+					method : "POST",
+					data : {
+						code : code
+					},
+					error : function() {
+						
+					},
+					success : function(data) {
+						setInfo(data);
+					}
+				});
+			}
+		}
+	</script>
+	<!-- 실적 제어 끝 -->
 	<!-- setInfo 시작 -->
 	<script type="text/javascript">
 		function setInfo(data) {
 			var dataResult = data.result;
 			var failedList = data.failedList;
+			var inputList = data.inputList;
 			$("#codeInfo").val(dataResult.code);
 			$("#dateInfo").val(dataResult.vo.production_date);
 			$("#lineInfo").val(dataResult.vo.line_code);
 			$("#statusInfo").val(dataResult.status);
-			$("#pnameInfo").val(dataResult.vo.product);
+			$("#pnameInfo").val(dataResult.vo.product_name);
 			$("#instAmoInfo").val(dataResult.vo.amount);
 			$("#amoInfo").val(dataResult.amount);
 			$("#failInfo").val(dataResult.failedCount);
@@ -314,13 +376,24 @@
 				html += "<tr>";
 				html += "<th>"+ failedList[i].code +"</th>";
 				html += "<th>" + failedList[i].reg_emp + "</th>";
-				html += "<th>" + failedList[i].code_id + "</th>";
+				html += "<th>" + failedList[i].code_name + "</th>";
 				html += "<th>" + failedList[i].content + "</th>";
 				html += "<th>" + failedList[i].action + "</th>";
 				html += "<th>" + failedList[i].amount + "</th>";
 				html += "<th>" + failedList[i].reg_date + "</th>";
 				html += "</tr>";
 				$('#failedTable>tbody').append(html);
+			}
+			$('#inputTable>tbody>tr').remove();
+			for (var i = 0; i < inputList.length; i++) {
+				html = "";
+				html += "<tr>";
+				html += "<th>"+ inputList[i].code +"</th>";
+				html += "<th>" + inputList[i].mapd_code + "</th>";
+				html += "<th>" + inputList[i].mapd_name + "</th>";
+				html += "<th>" + inputList[i].amount + "</th>";
+				html += "</tr>";
+				$('#inputTable>tbody').append(html);
 			}
 
 			//css변경
@@ -357,39 +430,125 @@
 	<!-- 불량추가 시작 -->
 	<script type="text/javascript">
 		$(document) .on( "click", "#addFailed", function() {
-			var popupWidth, popupHeight, popupX, popupY, link;
-			var set;
-			var code = $("#codeInfo").val();
-			var product = $("#pnameInfo").val();
-			function retPopupSetting(width, height) {
-				// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
-				popupX = Math.ceil((window.screen.width - width) / 2);
-				// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
-				popupY = Math.ceil((window.screen.height - height) / 2);
-		
-				var setting = "";
-				setting += "toolbar=0,";
-				setting += "scrollbars=0,";
-				setting += "statusbar=0,";
-				setting += "menubar=0,";
-				setting += "resizeable=0,";
-				setting += "width=" + width + ",";
-				setting += "height=" + height + ",";
-				setting += "top=" + popupY + ",";
-				setting += "left=" + popupX;
-				return setting;
+			var status = $("#statusInfo").val();
+			if (status == '생산중') {
+				var popupWidth, popupHeight, popupX, popupY, link;
+				var set;
+				var code = $("#codeInfo").val();
+				var product = $("#pnameInfo").val();
+				function retPopupSetting(width, height) {
+					// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
+					popupX = Math.ceil((window.screen.width - width) / 2);
+					// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
+					popupY = Math.ceil((window.screen.height - height) / 2);
+			
+					var setting = "";
+					setting += "toolbar=0,";
+					setting += "scrollbars=0,";
+					setting += "statusbar=0,";
+					setting += "menubar=0,";
+					setting += "resizeable=0,";
+					setting += "width=" + width + ",";
+					setting += "height=" + height + ",";
+					setting += "top=" + popupY + ",";
+					setting += "left=" + popupX;
+					return setting;
+				}
+			
+				function openPage(i, width, height) {
+					set = retPopupSetting(width, height);
+					return window.open(i, 'Popup_Window', set);
+				}
+			
+				openPage("/production/insertFailed?code=" + code + "&product=" + product, 500, 600);
+			}else{
+				alert('생산 중일 때만 불량을 추가 할 수 있습니다.');
 			}
-		
-			function openPage(i, width, height) {
-				set = retPopupSetting(width, height);
-				return window.open(i, 'Popup_Window', set);
-			}
-		
-			openPage("/production/insertFailed?code=" + code + "&product=" + product, 500, 600);
 		});
 	</script>
 
 	<!-- 불량추가 끝 -->
+	<!-- 입고등록 시작 -->
+	<script type="text/javascript">
+		$(document) .on( "click", "#inAdd", function() {
+			var status = $("#statusInfo").val();
+			if (status == '완료') {
+				var popupWidth, popupHeight, popupX, popupY, link;
+				var set;
+				var code = $("#codeInfo").val();
+				var product = $("#pnameInfo").val();
+				function retPopupSetting(width, height) {
+					// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
+					popupX = Math.ceil((window.screen.width - width) / 2);
+					// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
+					popupY = Math.ceil((window.screen.height - height) / 2);
+			
+					var setting = "";
+					setting += "toolbar=0,";
+					setting += "scrollbars=0,";
+					setting += "statusbar=0,";
+					setting += "menubar=0,";
+					setting += "resizeable=0,";
+					setting += "width=" + width + ",";
+					setting += "height=" + height + ",";
+					setting += "top=" + popupY + ",";
+					setting += "left=" + popupX;
+					return setting;
+				}
+			
+				function openPage(i, width, height) {
+					set = retPopupSetting(width, height);
+					return window.open(i, 'Popup_Window', set);
+				}
+				
+				openPage("/production/inAdd?code=" + code, 500, 600);
+			}else{
+				alert('완료된 실적만 입고등록을 할 수 있습니다.');
+			}
+		});
+	</script>
+
+	<!-- 입고등록 끝 -->
+	<!-- 재료투입 시작 -->
+	<script type="text/javascript">
+		$(document) .on( "click", "#inputButton", function() {
+			var status = $("#statusInfo").val();
+			if (status == '대기' || status == '생산중') {
+				var popupWidth, popupHeight, popupX, popupY, link;
+				var set;
+				var code = $("#codeInfo").val();
+				function retPopupSetting(width, height) {
+					// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
+					popupX = Math.ceil((window.screen.width - width) / 2);
+					// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
+					popupY = Math.ceil((window.screen.height - height) / 2);
+			
+					var setting = "";
+					setting += "toolbar=0,";
+					setting += "scrollbars=0,";
+					setting += "statusbar=0,";
+					setting += "menubar=0,";
+					setting += "resizeable=0,";
+					setting += "width=" + width + ",";
+					setting += "height=" + height + ",";
+					setting += "top=" + popupY + ",";
+					setting += "left=" + popupX;
+					return setting;
+				}
+			
+				function openPage(i, width, height) {
+					set = retPopupSetting(width, height);
+					return window.open(i, 'Popup_Window', set);
+				}
+				
+				openPage("/production/input?code=" + code, 500, 600);
+			}else{
+				alert('재료투입은 대기,생산중일 때만 가능합니다.');
+			}
+		});
+	</script>
+
+	<!-- 재료투입 끝 -->
 	<!-- 수주정보 받기 시작 -->
 	<script type="text/javascript">
 		window.addEventListener("message", function(event) {

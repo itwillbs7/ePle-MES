@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+<%@ page isELIgnored="false" %>
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
@@ -14,16 +14,17 @@
 	<%@ include file="../include/right-side-bar.jsp"%>
 	<%@ include file="../include/left-side-bar.jsp"%>
 	<!-- 비로그인 거름망 -->
-	<%-- <c:if test="${empty id}" > --%>
-	<%-- 	<c:redirect url="/main/login"/> --%>
-	<%-- </c:if> --%>
+	 <c:if test="${empty sessionScope.id}" > 
+	 	<c:redirect url="/login"/> 
+	 </c:if> 
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="title" style="margin-bottom: 10px;">
-				<h1>출하 관리</h1>
+				<h1><a href="/shipment/list" style="color:#202342;">출하 관리</a></h1>
 			</div>
-
+		<div class="min-height-200px">
+				<br>
 			<!-- 아코디언 시작 -->
 			<div class="faq-wrap">
 				<div id="accordion">
@@ -34,41 +35,49 @@
 								<b>검색</b>
 							</button>
 						</div>
-						<div id="faq1" class="collapse show" data-parent="#accordion" style="">
+						<div id="faq1" class="collapse" data-parent="#accordion" style="">
 							<div class="card-body">
-								<form id="accordion-search" method="get"
-									action="/shipment/list">
+								<form id="accordion-search" method="get" action="/shipment/list">
 									<div class="col-md-12">
 										<div class="form-group">
+										
+										
 											<div class="row">
-												<h4 class="text-blue h4">기본 검색</h4>
-												<div class="col-md-5 col-sm-12 btn-group ml-auto">
-													<label>업체명</label> <input type="hidden" 
-														id="client_code" > <input type="text"
-														name="clientName" class="form-control" id="searchCompany"
-														style="width: 100%;" placeholder="업체명 찾아보기"
-														autocomplete="off" readonly value="${paramMap.clientName }">
+												<h4 class="text-blue h4">출하 검색</h4>
+											</div>
+											<div class="row">
+												<div class="col-md-1 col-sm-12" >
 												</div>
-												<div class="col-md-5 col-sm-12 btn-group ml-auto">
-													<label>품명</label> 
+												<div class="col-md-5 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
+													<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>업체명</b></label> 
+													<input type="hidden" id="client_code" > 
+													<input type="text" name="clientName" class="form-control" 
+													id="searchCompany" style="width: 50%;" 
+													autocomplete="off" readonly value="${paramMap.clientName }">
+												</div>
+												<div class="col-md-6 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
+													<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>품명</b></label> 
 													<input type="hidden" name="product" id="product" value="${paramMap.product }"> 
 														<input type="text" name="reqsdate" 
 														class="form-control" id="searchProduct"
-														style="width: 100%;" placeholder="품명 찾아보기"
+														style="width: 50%;" 
 														autocomplete="off" readonly value="${paramMap.reqsdate }">
 												</div>
 											</div>
+											<br>
 											<div class="row">
-												<div class="col-md-1 col-sm-12">
-													<label class="weight-600">출하 상태</label>
+												<div class="col-md-1 col-sm-12" >
 												</div>
-												<div class="col-md-1 col-sm-12" style="margin-top: auto;">
-													<div class="custom-control custom-checkbox mb-5">
+												<label class="col-md-1 col-sm-12"><b>출하 상태</b></label>
+												<div class="col-md-1 col-sm-12" >
+													<div class="custom-control custom-checkbox mb-3">
 														<input type="checkbox" class="custom-control-input"
 															id="formCheck1" name="statusList" value="출하대기"
-															<c:if test="${paramMap.statusList.contains('출하대기')}">checked</c:if>> <label
-															class="custom-control-label" for="formCheck1">출하대기</label>
+															<c:if test="${paramMap.statusList.contains('출하대기')}">checked</c:if>> 
+														<label class="custom-control-label" for="formCheck1">출하대기</label>
 													</div>
+												</div>
+												<div class="col-md-3 col-sm-12" >
 													<div class="custom-control custom-checkbox mb-5">
 														<input type="checkbox" class="custom-control-input"
 															id="formCheck2" name="statusList" value="출하완료"
@@ -76,17 +85,25 @@
 															class="custom-control-label" for="formCheck2">출하완료</label>
 													</div>
 												</div>
-											</div>
-											<div class="col-md-2 col-sm-12">
-												<div class="form-group">
-													<label>출하 일자</label> 
-													<input class="form-control date-picker" type="text" name="startDate"
-														autocomplete="off" id="deadline" readonly value="${paramMap.startDate }"> 
-													<input class="form-control date-picker" type="text" name="endDate" 
-													autocomplete="off" id="deadline2" readonly value="${paramMap.endDate }">
-													<label>출하 일자</label> <input class="form-control "
-														placeholder="Select Month" type="date" name="startDate"
-														autocomplete="off" id="deadline"> ~ <input
+												<label class="col-md-1 col-sm-12"><b>출하 일자</b></label>
+												<div class="col-md-4 col-sm-12">
+													<div class="form-group md-4" style="margin-top : auto;">
+															<span style="display : flex; justify-content:space-between;">
+															<input class="form-control date-picker" 
+															type="text" name="startDate" autocomplete="off" id="startDate"
+															style="width:50%;" readonly value = "${paramMap.startDate }">
+															<span style="padding:0px 10px; padding-top:10px; text-align : center;"> ~ </span>
+															<input class="form-control date-picker"
+															type="text" name="endDate" autocomplete="off" id="endDate" style="width:50%;"
+															readonly value = "${paramMap.endDate }">
+															</span>
+													</div>
+												</div>
+												</div>
+											
+											
+										</div>
+									</div>
 									
 										<!-- 정렬, asc, desc -->
 										<input type="hidden" name="activeSortCategory" id="sortCategory" value="${pageVO.search.activeSortCategory}"> 
@@ -118,19 +135,21 @@
 											<b>초기화</b>
 										</button>
 									</div>
+
 								</form>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
+	
 
 			<!-- 아코디언 끝 -->
 
 			<!-- Checkbox select Datatable start -->
 			<div class="card-box mb-30">
 				<div class="pd-20">
+				<c:if test="${sessionScope.pos_id.equals('005') or sessionScope.dep_group.equals('영업')}">
 					<div class="btn-group pull-right" style="margin-bottom: 10px">
 						<button type="button" class="btn btn-success" id="add">
 							<b>추가</b>
@@ -144,16 +163,16 @@
 							<b>출하완료</b>
 						</button>
 					</div>
+				</c:if>
 				</div>
 				<div class="pb-20">
 					<div class="col-sm-30">
 						<form class="table" id="table">
-							<table class="table table-striped">
+							<table class="table table-striped" style="text-align : center">
 								<thead>
 									<tr>
 										<td style="width: 100px;">
 											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> 
 												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> 
 												<label class="custom-control-label" for="tableCheckAll"></label>
 											</div>
@@ -164,6 +183,10 @@
 										<th>납품예정일</th>
 										<th>품번</th>
 										<th>수주수량</th>
+										<th>출하량</th>
+										<th>출하일자</th>
+										<th>출하상태</th>
+									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${List}" var="List" varStatus="status">
@@ -171,18 +194,31 @@
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<c:choose>
 												<c:when test="${List.status eq '출하대기'}">
-													<td><div class="custom-control custom-checkbox mb-5">
+													<td>
+													<div class="custom-control custom-checkbox mb-5">
 															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 															<input type="checkbox" class="custom-control-input"
 																id="checkTable${status.index}" name="tableCheck"
-																value="${List.code }">
+																value="${List.code }" >
 															<input type="checkbox" class="hidden-checkbox" id="hiddenCheckTable${status.index}" 
-															data-reqs-code="${List.reqs_code }" style="display: none;">
-															<label class="custom-control-label" for="checkTable${status.index}"></label>
-														</div></td>
+															data-reqs-code="${List.reqs_code }" style="display: none;" >
+															<label class="custom-control-label" for="checkTable${status.index}" ></label>
+													</div>
+														</td>
 												</c:when>
 												<c:otherwise>
-													<td></td>
+													<td>
+													<div class="custom-control custom-checkbox mb-5">
+															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
+															<input type="text" class="custom-control-input"
+																id="checkTable${status.index}" name="tableCheck"
+																value="${List.code }" style="visibility: hidden;" disabled="disabled">
+															<input type="text" class="hidden-checkbox" id="hiddenCheckTable${status.index}" 
+															data-reqs-code="${List.reqs_code }" style="display: none;" disabled="disabled">
+															<label style="visibility: hidden;" class="custom-control-label" for="checkTable${status.index}" ></label>
+													</div>
+													
+													</td>
 												</c:otherwise>
 											</c:choose>
 											<!-- 상세 정보 이동! -->
@@ -193,7 +229,6 @@
 											<th>${List.reqsdate }</th>
 											<th>${List.product }</th>
 											<th>${List.reqsamount }</th>
-											<th>${List.stock }</th>
 											<th>${List.amount }</th>
 											<th>${List.date }</th>
 											<th>${List.status }</th>
@@ -239,6 +274,7 @@
 							</div>
 					</div>
 				</div>
+			</div>
 			</div>
 			<!-- Checkbox select Datatable End -->
 			
@@ -306,9 +342,11 @@ $('#reset').click(function(){
 
 		$(document).ready(function() {
 			
+			
 			$("#tableCheckAll").click(function() {
 			    if ($("#tableCheckAll").is(":checked")) {
 			        $("input.hidden-checkbox").prop("checked", true);
+					$(":checkbox:not(:disabled)").prop("checked", true);
 			    } else {
 			    	 $("input.hidden-checkbox").prop("checked", false);
 			    }
@@ -331,7 +369,7 @@ $('#reset').click(function(){
 											deleteList.push($(this).val());
 										});
 								if (deleteList.length > 0) {
-									openPage("/shipment/delete?code="+ deleteList.join(','), 400, 700);
+									openPage("/shipment/delete?code="+ deleteList.join(','), 600, 500);
 								} else {
 									alert('관리자에게 문의하세요');
 								}
@@ -373,7 +411,7 @@ $('#reset').click(function(){
 					    }
 
 					    if (stautsList.length > 0) {
-					        openPage("/shipment/print?code="+ stautsList.join(','), 400, 700);
+					        openPage("/shipment/print?code="+ stautsList.join(','), 1000, 700);
 					    } 
 					    else {
 					        alert('관리자에게 문의하세요');

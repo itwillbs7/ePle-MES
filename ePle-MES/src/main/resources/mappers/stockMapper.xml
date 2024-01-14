@@ -63,7 +63,7 @@
 	
 	<!-- 창고 상세 -->
 	<select id="warehouseInfo" parameterType="String" resultType="WarehouseVO">
-		SELECT w.code, w.location, w.category, w.name wh_name, e.code, e.name, e.phone, w.active
+		SELECT w.code, w.location, w.category, w.name wh_name, e.code empCode, e.name, e.phone, w.active
     	FROM WAREHOUSE w 
     	JOIN EMPLOYEES e 
     	ON w.manager = e.code
@@ -95,9 +95,6 @@
 			#{item}
 		</foreach>
 	</delete>	
-	
-	
-	<!-- id mapdcode whcode category mapdname unit expiryd amount -->
 	
 	<!-- 창고등록) 사원 검색 팝업 -->
 	<select id="searchEmployees" resultType="WarehouseVO">
@@ -135,6 +132,45 @@
 			</if>
 			</if>
 	</select>
+	
+	
+	<!-- 재고 목록 -->
+	<select id="stockList" resultType="WarehouseVO">
+		SELECT
+ 			CASE 
+ 				WHEN m.group_id = 'PROD' THEN c.code_name
+    		ELSE c.group_name
+  			END AS group_display,
+  				sv.code,
+  				sv.name,
+  				SUM(total) AS total
+		FROM STOCK_VIEW sv
+  		JOIN MAPD m ON sv.code = m.code
+  		JOIN COMMON_CODE c ON m.group_id = c.group_id AND m.code_id = c.code_id
+		GROUP BY code, name, group_display
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>
+
+	<!-- 모든 재고 수 -->
+	<select id="stockListCount" resultType="int">
+		SELECT COUNT(*) AS row_count
+		FROM (
+  			SELECT 1
+  			FROM STOCK_VIEW sv
+    		JOIN MAPD m ON sv.code = m.code
+    		JOIN COMMON_CODE c ON m.group_id = c.group_id AND m.code_id = c.code_id
+  		GROUP BY sv.code, sv.name,
+    		CASE 
+    			WHEN m.group_id = 'PROD' THEN c.code_name
+      		ELSE c.group_name
+    		END
+		) AS subquery
+	</select>
+	
+	
+	
+	
+	
 	
 		
 	

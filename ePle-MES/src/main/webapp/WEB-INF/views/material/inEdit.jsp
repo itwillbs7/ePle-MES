@@ -5,6 +5,14 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<style>
+label {
+font-weight: bold;
+}
+.back {
+  background-color: white !important;
+}
+</style>
 <title>입고 수정</title>
 </head>
 <body>
@@ -13,7 +21,7 @@
 		<div class="login-box bg-white box-shadow border-radius-10">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">입고 수정</h1>
+				<h1 class="text-center" style="color: #7CB342;">입고 수정</h1>
 			</div>
 			<!-- 폼 -->
 			<form action="/material/inEdit" method="post" id="editForm">
@@ -23,17 +31,18 @@
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
 						
+									<label>입고 코드</label> 
 								<div class="form-group">
-									<label>입고코드</label> 
 								<input class="form-control" type="text" name="code" id="code" readonly value="${inInfo.code }">
 								</div>
 								
+									<label>자재 유형</label> 
 								<div class="form-group">
-									<label>자재 유형</label> <input class="form-control" type="text" name="category" value="${inInfo.category }" readonly>
+									<input class="form-control" type="text" name="category" value="${inInfo.category }" readonly>
 								</div>
 
-								<div class="form-group">
 									<label>발주/수주 정보</label> 
+								<div class="form-group">
 									<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="발주/수주코드" readonly value="${inInfo.order_num}">
 								</div>
 								<div class="form-group">
@@ -41,16 +50,16 @@
 									<input class="form-control" type="hidden" id="mapdCode" name="mapd_code" placeholder="자재코드" readonly value="${inInfo.mapd_code }">
 								</div>
 								<div class="form-group">
-									<input class="form-control" type="text" id="orderAmount" name="amount" placeholder="수량" value="${inInfo.amount }">
+									<input class="form-control" type="text" id="orderAmount" name="amount" required placeholder="수량" value="${inInfo.amount }">
 								</div>
 
-								<div class="form-group">
 									<label>창고 정보</label> 
-									<input class="form-control" type="text" id="warehouseCode" name="warehouse_code" placeholder="창고코드" value="${inInfo.warehouse_code}">
+								<div class="form-group">
+									<input class="form-control back" type="text" id="warehouseCode" name="warehouse_code" required readonly placeholder="창고코드" value="${inInfo.warehouse_code}">
 								</div>
 								<div class="form-group">
-									<input class="form-control" type="text" id="empName" placeholder="담당자" value="${inInfo.empName}">
-									<input class="form-control" type="hidden" id="empCode" name="emp_code" placeholder="담당자" readonly value="${inInfo.emp_code}">
+									<input class="form-control back" type="text" id="empName" placeholder="담당자" required readonly value="${inInfo.empName}">
+									<input class="form-control back" type="hidden" id="empCode" name="emp_code" placeholder="담당자" readonly value="${inInfo.emp_code}">
 								</div>
 
 

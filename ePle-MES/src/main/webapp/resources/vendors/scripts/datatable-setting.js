@@ -10,7 +10,7 @@ $('document').ready(function(){
 		"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 		"language": {
 			"info": "_START_-_END_ of _TOTAL_ entries",
-			searchPlaceholder: "검색",
+			searchPlaceholder: "Search",
 			paginate: {
 				next: '<i class="ion-chevron-right"></i>',
 				previous: '<i class="ion-chevron-left"></i>'  
@@ -29,7 +29,7 @@ $('document').ready(function(){
 		"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 		"language": {
 			"info": "_START_-_END_ of _TOTAL_ entries",
-			searchPlaceholder: "검색",
+			searchPlaceholder: "Search",
 			paginate: {
 				next: '<i class="ion-chevron-right"></i>',
 				previous: '<i class="ion-chevron-left"></i>'  
@@ -37,7 +37,7 @@ $('document').ready(function(){
 		},
 		dom: 'Bfrtp',
 		buttons: [
-		'복사', 'csv', 'pdf', '인쇄'
+		'copy', 'csv', 'pdf', 'print'
 		]
 	});
 
@@ -65,7 +65,7 @@ $('document').ready(function(){
 		"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 		"language": {
 			"info": "_START_-_END_ of _TOTAL_ entries",
-			searchPlaceholder: "검색",
+			searchPlaceholder: "Search",
 			paginate: {
 				next: '<i class="ion-chevron-right"></i>',
 				previous: '<i class="ion-chevron-left"></i>'  

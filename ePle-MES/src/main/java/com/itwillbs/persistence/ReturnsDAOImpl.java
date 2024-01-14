@@ -206,21 +206,14 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 		String code = vo.getCode();
 		ReturnsVO check = sqlSession.selectOne(NAMESPACE + ".getReturnsInfo", code);
 
-		String request = check.getRequest_code();
-		String newReqs = vo.getRequest_code();
+		String request = check.getRequest_code(); // 기존 수주번호
+		String newReqs = vo.getRequest_code(); // 새롭게 등록한 수주번호
 		if (!request.equals(newReqs)) {
 			// 기존 수주코드와 새로 입력된 수주코드가 일치하지 않으면 수주상태를 출하완료로 변경
 			sqlSession.update(NAMESPACE + ".updateBeforeUpdate", request);
 		}
 
-		String prevStatus = check.getStatus(); // 이전상태
-		String newStatus = vo.getStatus(); // 수정할 상태
-		if (request.equals(newReqs)) {
-			// 수주코드의 변경이 없을 때 출하상태의 변경이 있을 경우(폐기 -> 반품등록)
-			if (prevStatus.equals("폐기") && !prevStatus.equals(newStatus)) {
-				sqlSession.update(NAMESPACE + ".updateBeforeUpdate2", request);
-			}
-		}
+		
 		logger.debug("╚═══*.·:·.☽✧   수주상태 변경 완료     ✧☾.·:·.*═══╝");
 
 		logger.debug("╔═══*.·:·.☽✧   반품 수정하기   ✧☾.·:·.*═══╗");
@@ -238,6 +231,8 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 		Map<String, Object> params = new HashMap<>();
 		params.put("code", code);
 		List vo = sqlSession.selectList(NAMESPACE + ".getDeleteInfo", params);
+		
+		
 		logger.debug("╚═══*.·:·.☽✧   불러오기 완료     ✧☾.·:·.*═══╝");
 		return vo;
 	}
@@ -251,7 +246,7 @@ public class ReturnsDAOImpl implements ReturnsDAO {
 		Map<String, Object> params = new HashMap<>();
 		params.put("code", code);
 		// 수주상태 변경?
-//		result = sqlSession.update(NAMESPACE + ".updateStatusBeforeDelete", params);
+		result = sqlSession.update(NAMESPACE + ".updateStatusBeforeDelete", params);
 
 //		if (result >= 1) {
 //			result = 0;

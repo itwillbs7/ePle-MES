@@ -9,6 +9,9 @@
 <title>설비 삭제</title>
 </head>
 <body>
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
@@ -25,7 +28,7 @@
 						<div class="form-group">
 							<ul class="list-group">
 								<c:if test="${!empty info}">
-									<li class="list-group-item">${info.code} : ${info.name}(${info.model})</li>
+									<li class="list-group-item">${info.code} : ${info.mapd.name}(${info.line.name})</li>
 									<input type="hidden" name="codeList" value="${info.code}">
 								</c:if>
 							</ul>
@@ -42,7 +45,7 @@
 							onclick="closePopup();">
 							<b>취소</b>
 						</button>
-						<button type="submit" class="btn btn-warning">
+						<button type="submit" class="btn btn-danger">
 							<b>삭제</b>
 						</button>
 					</div>

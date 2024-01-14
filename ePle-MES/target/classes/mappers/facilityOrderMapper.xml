@@ -9,17 +9,10 @@
 		id="order">
 		<result property="code" column="code" />
 		<result property="date" column="date" />
+		<result property="ask_emp" column="ask_emp"/>
 		<result property="group_name" column="group_name" />
 		<result property="code_name" column="code_name" />
-		<result property="client_code" column="client_code" />
-		<result property="client_name" column="client_name" />
 		<result property="amount" column="amount" />
-		<result property="reg_date" column="reg_date" />
-		<result property="reg_emp" column="reg_emp" />
-		<result property="reg_name" column="reg_name" />
-		<result property="update_date" column="update_date" />
-		<result property="update_emp" column="update_emp" />
-		<result property="update_name" column="update_name" />
 		<result property="status" column="status" />
 		<collection property="mapd" resultMap="mapd">
 			<result property="mapd_code" column="mapd_code" />
@@ -39,17 +32,15 @@
 	</resultMap>
 
 	<select id="getOrderList" resultMap="order">
-		select o.code, o.date,
+		select o.code, o.date, o.ask_emp, e.name as emp_name,
 		o.material, m.group_id, c.group_name, m.code_id,
-		c.code_name, o.amount, m.name, o.reg_date, o.reg_emp, e1.name as
-		reg_name,
-		o.update_date, o.update_emp, e2.name as update_name, o.status
+		c.code_name, o.amount, m.name,
+		o.update_date, o.update_emp
 		from ORDERS o
 		left outer join MAPD m ON o.material = m.code
 		left outer join COMMON_CODE c ON c.group_id = m.group_id AND c.code_id =
 		m.code_id
-		left outer join EMPLOYEES e1 ON e1.code = o.reg_emp
-		left outer join EMPLOYEES e2 ON e2.code = o.update_emp
+		left outer join EMPLOYEES e ON e.code = o.ask_emp
 		where o.code like '%FO%' and o.status = '신청'
 		ORDER BY
 		${search.eng[search.activeSortCategory]} ${search.sortValue}
@@ -70,27 +61,23 @@
 	<insert id="insertOrder">
 		INSERT INTO ORDERS
 		(code, material, date, amount,
-		reg_date,
-		reg_emp, update_date, update_emp, status) VALUES
+		ask_emp, status) VALUES
 		(#{code},
 		#{material}, now(), ${amount},
-		now(), #{reg_emp}, now(), #{reg_emp},
-		'신청')
+		#{ask_emp}, '신청')
 	</insert>
 
 	<select id="getDetail" resultMap="order"
 		resultType="com.itwillbs.domain.FacilityOrderVO">
-		select o.code, o.date,
+		select o.code, o.date, o.ask_emp, e.name as emp_name,
 		o.material, m.group_id, c.group_name, m.code_id,
-		c.code_name, o.amount, m.name as mapd_name, o.reg_date, o.reg_emp, e1.name as
-		reg_name,
-		o.update_date, o.update_emp, e2.name as update_name, o.status
+		c.code_name, o.amount, m.name,
+		o.update_date, o.update_emp
 		from ORDERS o
 		left outer join MAPD m ON o.material = m.code
 		left outer join COMMON_CODE c ON c.group_id = m.group_id AND c.code_id =
 		m.code_id
-		left outer join EMPLOYEES e1 ON e1.code = o.reg_emp
-		left outer join EMPLOYEES e2 ON e2.code = o.update_emp
+		left outer join EMPLOYEES e ON e.code = o.ask_emp
 		where o.code = #{code}
 	</select>
 
@@ -99,8 +86,6 @@
 		UPDATE ORDERS
 		<set>
 			material = #{material}, amount = ${amount},
-			update_date = now(),
-			update_emp = #{update_emp}
 		</set>
 		<where>
 			code = #{code} AND status = '신청'

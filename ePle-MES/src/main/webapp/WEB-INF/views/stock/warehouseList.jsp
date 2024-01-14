@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
@@ -17,6 +16,17 @@
   align-items:center;
   justify-content:center;
   }
+  .back {
+  background-color: white !important;
+}
+#whCode{
+margin-left:100px;
+margin-right:50px;
+}
+#selectA{
+margin-left:20px;
+margin-right:20px;
+}
 </style>
 <title>창고 목록</title>
 </head>
@@ -48,19 +58,15 @@
 				<div id="faq1" class="collapse" data-parent="#accordion" style="">
 					<div class="card-body">
 								
-							<div class="col-md-12">
 								<div class="form-inline">
-									<div class="row">
 										<div class="col-md-20 col-sm-12 btn-group" >
 											<input type="text" name="searchCode" id="whCode" class="form-control" placeholder="창고코드" autocomplete="off" >
-											<label>관리자</label> 
-											<input type="text" name="searchName" id="selectA" class="form-control" placeholder="관리자코드" autocomplete="off" readonly>
-											<input type="text" id="selectB" class="form-control" placeholder="관리자이름" autocomplete="off" readonly>
-											<input type="hidden" id="selectC" class="form-control" autocomplete="off" readonly>
+											<label>담당자</label> 
+											<input type="text" name="searchName" id="selectA" class="form-control back" placeholder="담당자코드" autocomplete="off" readonly>
+											<input type="text" id="selectB" class="form-control back" placeholder="담당자이름" autocomplete="off" readonly>
+											<input type="hidden" id="selectC" class="form-control back" autocomplete="off" readonly>
 										</div>
-									</div>
 								</div>
-							</div>
 										
 							<div class="btn-group pull-right" style="margin-bottom: 10px">
 								<button type="submit" class="btn btn-primary" id="search" onclick="doSearch()"> <b>검색</b> </button>
@@ -92,7 +98,7 @@
 			<div class="col-sm-30">
 				<form class="table" id="table">
 					<table class="table table-striped">
-					<!--- 체크박스 / 창고코드 / 주소지 / 창고유형(원자재.완제품) / 창고명 / 담당자 / 연락처 / 사용여부 --->
+					<!--- 체크박스 / 창고코드 / 위치 / 창고유형(원자재.완제품.설비) / 창고명 / 담당자 / 연락처 --->
 						<tr>
 							<td style="width: 100px;">
 								<div class="custom-control custom-checkbox mb-5">
@@ -106,9 +112,8 @@
 							<th>창고명</th>
 							<th>담당자</th>
 							<th>연락처</th>
-							<th>옵션</th>
 						</tr>
-
+					<c:if test="${not empty warehouseList}">
 						<c:forEach items="${warehouseList }" var="vo">
 						<tr>
 							<td>
@@ -122,49 +127,36 @@
 							<th>${vo.category }</th>
 							<th>${vo.wh_name }</th>
 							<th>${vo.name }</th>
-							<th>${vo.phone }</th>
-							<td style="">
+							<th class="con">
+								<script>
+									var phoneNumber = "${vo.phone}";
+									var formattedPhoneNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/,'$1-$2-$3');
+										document.write(formattedPhoneNumber);
+								</script>
+							</th>
 
-
-
-							<!-------------------------------- 옵션 선택 -------------------------------->
-							<div class="dropdown">
-								<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> <i class="dw dw-more"></i> </a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-										<!-- 상세 보기 -->
-										<a class="dropdown-item" href="javascript:openPage('/stock/warehouseInfo?code=${vo.code }', 400, 700"><i class="dw dw-eye"></i>상세 보기</a>
-										<!-- 수정 -->
-										<a class="dropdown-item" href="javascript:openPage('/stock/warehouseEdit?code=${vo.code }', 400, 700"><i class="dw dw-edit2"></i> 수정</a>
-									</div>
-							</div>
-								
-								
-							</td>
 						</tr>
 						</c:forEach>
-							
+					</c:if>
+					<c:if test="${empty warehouseList}">
+						<tr>
+							<td colspan="7" >검색 결과가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
+						</tr>
+					</c:if>		
 					</table>
 				</form>
-
-				<!-------------------------------- 창고 갯수 -------------------------------->
-				<!-- <div class="row">
-					<div class="col-sm-12 col-md-5">
-						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
-					</div>
-				</div> -->
-
 
 				<!--------------------------------- 페이징 ---------------------------------->
 				<div class="btn-toolbar justify-content-center mb-15">
 					<div class="btn-group">
 						<c:if test="${pageVO.prev}">
-							<a href="/stock/warehouseList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+							<a href="/stock/warehouseList?page=${pageVO.startPage - 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
 						</c:if>
 						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/stock/warehouseList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+							<a href="/stock/warehouseList?page=${i}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
 						</c:forEach>
 						<c:if test="${pageVO.next}">
-							<a href="/stock/warehouseList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+							<a href="/stock/warehouseList?page=${pageVO.endPage + 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
 						</c:if>
 					</div>
 				</div>
@@ -262,14 +254,14 @@
 			        alert("수정할 항목을 하나만 선택하세요!");
 			    } else {
 			        var code = check.val();
-			        openPage("/stock/warehouseEdit?code=" + code, 400, 700);
+			        openPage("/stock/warehouseEdit?code=" + code, 600, 700);
 			    }
 			});
 		 	
 		 	// 상세보기 O
 			$('body').on('click', '[class^="inInfo"]', function(){
         		var code = $(this).text().trim();
-      		  openPage("${pageContext.request.contextPath}/stock/warehouseInfo?code=" + code, 400, 700); });
+      		  openPage("${pageContext.request.contextPath}/stock/warehouseInfo?code=" + code, 600, 700); });
 			
 			
 			// 검색 
@@ -341,11 +333,16 @@
 			$("#selectA").val("");
 			$("#selectB").val("");
 		    $("#whCode").attr("placeholder", "창고코드");
-		    $("#selectA").attr("placeholder", "관리자코드");
-		    $("#selectB").attr("placeholder", "관리자이름");
+		    $("#selectA").attr("placeholder", "담당자코드");
+		    $("#selectB").attr("placeholder", "담당자이름");
 		} 
 		
-		
+		document.addEventListener('keydown', function(event) {
+			if (event.key === 'Enter') {
+				doSearch();
+				event.preventDefault();
+			}
+		});
 
 
 		

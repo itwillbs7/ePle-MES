@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.domain.CommonVO;
 import com.itwillbs.domain.Criteria;
-import com.itwillbs.domain.FacilitySearchVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.UserVO;
 import com.itwillbs.service.SystemServiceImpl;
@@ -28,39 +27,84 @@ import com.itwillbs.service.SystemServiceImpl;
 @Controller
 @RequestMapping (value = "/system/*")
 public class SystemController {
-
 	
 	private static final Logger logger = LoggerFactory.getLogger(SystemController.class);
 	@Inject
 	private SystemServiceImpl sService;
 	
 	@GetMapping(value = "/common/main")
-	public void commonMainGET(PageVO pageVO, Criteria cri, Model model) throws Exception {
+	public void commonMainGET(PageVO page, Criteria cri, Model model, 
+			@ModelAttribute("pageNum") String pageNum) throws Exception {
 		logger.debug("commonMainGET 실행");
-		// DB로 가서 공통코드 데이터 몽땅 들고오기
-		logger.debug("공통코드 리스트 : " + sService.getCommons().toString());
-		model.addAttribute("CommonVO",sService.getCommons());
+		
+		// 페이징 처리
+		// 페이지 번호 없을 시 페이지번호 = 1
+		if (pageNum==null || pageNum.equals("")) {
+			cri.setPage(1);
+		} else {
+			cri.setPage(Integer.parseInt(pageNum));
+		}
+		// 한 페이지 당 출력할 데이터 수 
+		cri.setPageSize(10);
+		
+		// 출력 수에 맞는 공통코드 리스트 저장
+		List<CommonVO> CommonVO = sService.getCommonListPage(cri);
+		//-------------------
+		logger.debug("CommonVO : " + CommonVO);
+		// 페이지 블럭 처리
+		page.setCri(cri);
+		page.setTotalCount(sService.getCommonTotalCount());
+		model.addAttribute("CommonVO", CommonVO);
+		model.addAttribute("pageVO", page);
+		
 	}
 	
 	@PostMapping(value = "/common/main")
 	public void commonMainPOST(@RequestParam("keyword") String keyword, 
-			@RequestParam("category") String category, Model model) throws Exception{
+			@RequestParam("category") String category, Model model, PageVO page, Criteria cri, 
+			@ModelAttribute("pageNum") String pageNum) throws Exception{
 		logger.debug("commonMainPOST 실행");
-		// 카테고리, 키워드 확인
-		logger.debug("category & keyword : " + category + ", " + keyword);
-		// Map에 저장
-		Map<String, Object> categoryAndKeyword = new HashMap<String, Object>();
-		categoryAndKeyword.put("category", "%"+category+"%");
-		categoryAndKeyword.put("keyword", "%"+keyword+"%");
-		// DB로 가서 키워드 공통코드 데이터 가져오기
-		logger.debug(categoryAndKeyword.toString());
-		model.addAttribute("CommonVO", sService.getKeywordCommons(categoryAndKeyword));
+		// 페이징 처리
+		if (pageNum==null || pageNum.equals("")) {
+			cri.setPage(1);
+		} else {
+			cri.setPage(Integer.parseInt(pageNum));
+		}
+		cri.setPageSize(10);
+		page.setCri(cri);
+			// 카테고리, 키워드 확인
+			logger.debug("category & keyword : " + category + ", " + keyword);
+			// Map에 저장
+			Map<String, Object> categoryAndKeyword = new HashMap<String, Object>();
+			categoryAndKeyword.put("category", category);
+			categoryAndKeyword.put("keyword", keyword);
+		page.setTotalCount(sService.getCommonSearchCount(categoryAndKeyword));
+		// 키워드 데이터 가져오기 (Map에 키워드+페이징 정보 같이 넘겨준다)
+		Map<String, Object> searchDataMap = new HashMap<String, Object>();
+		searchDataMap.put("categoryAndKeyword", categoryAndKeyword); 
+		searchDataMap.put("cri", cri); 
+		List<CommonVO> CommonVO = sService.getKeywordCommonsPage(searchDataMap);
+		
+		model.addAttribute("CommonVO", CommonVO);
+		model.addAttribute("pageVO", page);
+		model.addAttribute("categoryAndKeyword", categoryAndKeyword); 
 		
 	}
 	
+	
 	@RequestMapping(value = "/common/add", method = RequestMethod.GET)
-	public void commonAddGET() {
+	public void commonAddGET(Model model) throws Exception{
 		logger.debug("addGET 실행");
+		
+		// 그룹명, 그룹코드에 해당하는 데이터 불러오기
+		String groupName = "group_name";
+		String groupId = "group_id";
+		List<String> groupNameList = sService.getDistinctCommon(groupName);
+		List<String> groupIdList = sService.getDistinctCommon(groupId);
+		
+		model.addAttribute("groupNameList", groupNameList);
+		model.addAttribute("groupIdList", groupIdList);
+		
 		
 	}
 	
@@ -83,18 +127,17 @@ public class SystemController {
 		logger.debug("commonUpdateGET 실행");
 		logger.debug(index);
 		
-		// 전달받은 정보의 구분자 위치 at 계산
-		int at = index.indexOf('_');
-		
-		// 전달받은 정보 구분자 at을 통해 subString + cvo에 저장
+		// 전달받은 정보 구분자로 배열 저장
+		String[] indexArr = index.split("_");
 		CommonVO cvo = new CommonVO();
-		logger.debug("group_id : " + index.substring(0, at));
-		logger.debug("code_id : " + index.substring(at+1));
-		cvo.setGroup_id(index.substring(0, at));
-		cvo.setCode_id(index.substring(at+1));
+		cvo.setGroup_id(indexArr[0]);
+		cvo.setCode_id(indexArr[1]);
+		
 		logger.debug("cvo : " + cvo.toString());
 		logger.debug("getOneCommon : " + sService.getOneCommon(cvo));
 		
+		model.addAttribute("groupIdList", sService.getDistinctCommon("group_id"));
+		model.addAttribute("groupNameList", sService.getDistinctCommon("group_name"));
 		model.addAttribute("cvo", sService.getOneCommon(cvo));
 		
 	}
@@ -132,23 +175,55 @@ public class SystemController {
 	}
 	
 	@GetMapping(value = "/common/delete")
-	public String commonDeleteGET(@RequestParam String index) throws Exception {
+	public void commonDeleteGET(@RequestParam String indexes, Model model) throws Exception {
 		
 		logger.debug("commonDeleteGET 실행");
-		logger.debug("index : " + index);
+		logger.debug("indexes : " + indexes);
 		
-		// 전달받은 정보의 구분자 위치 at 계산
-		int at = index.indexOf('_');
+		// 전달받은 indexes ','로 split 예) indexes : DEP_001,DEP_002, ...
+		// 공통코드 인덱스 : 그룹ID_코드ID
+		// Map index에 그룹ID배열, 코드ID배열 각각 저장해서 넘긴다
+		// Mapper에서 그룹ID, 코드ID 배열 각각 꺼내서 foreach로 사용
+//		String[] indexArr = indexes.split(","); // (그룹ID_코드ID) (그룹ID_코드ID) (그룹ID_코드ID) ...
+		String[] indexArr = indexes.split(",");
+		List<String> groupIds = new ArrayList<String>();
+		List<String> codeIds = new ArrayList<String>();
 		
-		CommonVO cvo = new CommonVO();
-		cvo.setGroup_id(index.substring(0, at));
-		cvo.setCode_id(index.substring(at+1));
+		for(String str:indexArr) {
+			groupIds.add(str.split("_")[0]);
+			codeIds.add(str.split("_")[1]);
+		}
+		Map<String, Object> index = new HashMap<String, Object>();
+		index.put("groupIds", groupIds);
+		index.put("codeIds", codeIds);
 		
-		logger.debug(cvo.toString());
+		model.addAttribute("commonList", sService.getSomeCommons(index));
+	}
+	
+	@PostMapping(value = "/common/delete")
+	public String commonDeletePOST(@RequestParam("indexList") List<String> indexList, Model model) throws Exception {
+		logger.debug("commonDeletePOST 실행");
 		
-		sService.deleteCommon(cvo);
-		return "redirect:/system/common/deleteComplete";
+		// 전달받은 indexList split(",")로 쪼개기
+		// 그룹ID list, 코드ID list에 foreach로 split("_")로 쪼개서 각각 저장
+		// Map index에 그룹ID배열, 코드ID배열 각각 저장해서 넘긴다
+		// Mapper에서 그룹ID, 코드ID 배열 각각 꺼내서 foreach로 사용
 		
+		List<String> groupIds = new ArrayList<String>(); 
+		List<String> codeIds = new ArrayList<String>(); 
+		for(String index : indexList) {
+			groupIds.add(index.split("_")[0]);
+			codeIds.add(index.split("_")[1]);
+		}
+		Map<String, Object> indexMap = new HashMap<String,Object>();
+		indexMap.put("groupIds", groupIds);
+		indexMap.put("codeIds", codeIds);
+		
+		// 삭제 서비스 호출
+		// result : 삭제된 갯수
+		model.addAttribute("result", sService.deleteSomeCommons(indexMap));
+		
+		return "/system/common/deleteComplete";
 	}
 	
 	@GetMapping (value = "/common/deleteComplete")
@@ -327,7 +402,7 @@ public class SystemController {
 	public void userDeleteGET (@RequestParam("indexes") String indexes, 
 			Model model) throws Exception{
 		logger.debug("userDeleteGET 실행");
-		logger.debug("index : " + indexes);
+		logger.debug("indexes : " + indexes);
 		Map<String,Object> index = new HashMap<String, Object>();
 		index.put("indexArray", indexes.split(","));
 		// 배열로 mapper에 인자 넘겨주고 List(UserVO)받기

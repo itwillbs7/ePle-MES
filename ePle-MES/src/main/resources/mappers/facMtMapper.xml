@@ -25,34 +25,47 @@
 		<result property="res_content" column="res_content" />
 		<result property="comp_date" column="comp_date" />
 		<collection resultMap="fac" property="facility">
-			<result property="group_id" column="fac_group_id" />
-			<result property="group_name" column="fac_group_name" />
-			<result property="code_id" column="fac_code_id" />
-			<result property="code_name" column="fac_code_name" />
 			<result property="name" column="fac_name" />
 			<result property="model" column="model" />
 			<result property="line_code" column="line_code" />
 			<result property="line_name" column="line_name" />
+			<result property="group_name" column="group_name" />
+			<result property="code_name" column="code_name" />
+			<collection property="mapd" resultMap="mapd">
+				<result property="code" column="code" />
+				<result property="name" column="name" />
+				<result property="inprice" column="inprice" />
+			</collection>
 		</collection>
 	</resultMap>
 	<resultMap type="com.itwillbs.domain.FacilityVO" id="fac">
 		<result property="code" column="code" />
-		<result property="group_id" column="group_id" />
-		<result property="code_id" column="code_id" />
 		<result property="group_name" column="group_name" />
 		<result property="code_name" column="code_name" />
-		<result property="name" column="name" />
 		<result property="model" column="model" />
-		<result property="client_code" column="client_code" />
-		<result property="client_name" column="client_name" />
-		<result property="purchase_date" column="purchase_date" />
 		<result property="inprice" column="inprice" />
 		<result property="line_code" column="line_code" />
 		<result property="line_name" column="line_name" />
 		<result property="uph" column="uph" />
 		<result property="active" column="active" />
+		<collection property="mapd" resultMap="mapd">
+			<result property="mapd_code" column="mapd_code" />
+			<result property="name" column="name" />
+			<result property="group_id" column="group_id" />
+			<result property="code_id" column="code_id" />
+			<result property="inprice" column="inprice" />
+		</collection>
 	</resultMap>
-
+	
+	<resultMap type="com.itwillbs.domain.MAPDVO" id="mapd">
+		<result property="code" column="code" />
+		<result property="group_id" column="group_id" />
+		<result property="code_id" column="code_id" />
+		<result property="name" column="name" />
+		<result property="size" column="size" />
+		<result property="unit" column="unit" />
+		<result property="inprice" column="inprice" />
+	</resultMap>
 	<!-- 공통 -->
 	<!-- 최근 코드 불러오기 -->
 	<select id="getRecentCode" resultType="String">
@@ -68,9 +81,10 @@
 	<select id="getStatusList"
 		resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
 		SELECT f.code AS
-		fac_code, model, f.name, l.name AS line_name, k.reg_date
+		fac_code, model, m.name, l.name AS line_name, k.reg_date
 		FROM FAC_INFO f
 		LEFT OUTER JOIN LINE l ON l.code = f.line_code
+		LEFT OUTER JOIN MAPD m ON f.mapd = m.code 
 		LEFT OUTER JOIN
 		(SELECT fac_code, reg_date FROM
 		(SELECT fac_code, reg_date,
@@ -85,10 +99,11 @@
 	<select id="getOrderList"
 		resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
 		SELECT f.code as
-		fac_code, model, f.name as name, f.line_code, l.name as line_name,
+		fac_code, model, map.name, f.line_code, l.name as line_name,
 		mt_subject, m.reg_date
 		FROM FAC_MT m RIGHT OUTER JOIN FAC_INFO f on
-		m.fac_code = f.code left OUTER join LINE l ON l.code = f.line_code
+		m.fac_code = f.code left OUTER join LINE l ON l.code = f.line_code 
+		LEFT OUTER JOIN MAPD map ON f.mapd = map.code 
 		WHERE m.complete = false and m.code_id = 'None' order by m.reg_date;
 	</select>
 
@@ -244,6 +259,7 @@
 	<sql id="join">
 		LEFT OUTER JOIN FAC_INFO f ON m.fac_code = f.code
 		LEFT OUTER JOIN LINE l ON f.line_code = l.code
+		LEFT OUTER JOIN MAPD map ON f.mapd = map.code 
 		LEFT OUTER JOIN EMPLOYEES e1 ON m.emp_code = e1.code
 		LEFT OUTER JOIN EMPLOYEES e2 ON m.manager = e2.code
 	</sql>
@@ -253,6 +269,7 @@
 		FROM FAC_MT m
 		<include refid="join" />
 		<include refid="search" />
+		AND m.emp_code = #{emp_code} 
 	</select>
 	<!-- 보전 내역 개수 -->
 	<!-- 보전 내역 목록 -->
@@ -260,12 +277,13 @@
 		resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
 		SELECT m.code, m.reg_date, m.emp_code, e1.name as emp_name,
 		m.fac_code, m.code_id,
-		f.name as fac_name, f.model, f.line_code, l.name as line_name, m.mt_subject,
+		map.name as fac_name, f.model, f.line_code, l.name as line_name, m.mt_subject,
 		m.mt_content,
 		m.manager, e2.name as manager_name, m.res_info, m.res_content, m.comp_date
 		FROM FAC_MT m
 		<include refid="join" />
 		<include refid="search" />
+		AND m.emp_code = #{emp_code} 
 		ORDER BY m.reg_date desc 
 		LIMIT ${cri.startPage}, ${cri.pageSize}
 	</select>

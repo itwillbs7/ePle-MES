@@ -18,7 +18,7 @@
 				<!-- 버튼 -->
 				<div class="row">
 					<div class="col-sm-6 mb-2 justify-content-center btn-toolbar btn-group">
-						<button type="button" class="btn btn-success" onclick="window.close();">
+						<button type="button" class="btn btn-success" onclick="closePopup();">
 							<b>확인</b>
 						</button>
 					</div>
@@ -30,6 +30,9 @@
 	
 	<script type="text/javascript">
 	
+	$(document).ready(function() {
+		window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight());
+	});
 	</script>
 	
 	

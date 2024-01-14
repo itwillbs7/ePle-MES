@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../../include/head.jsp"%>
@@ -107,17 +106,17 @@
 											</td>
 																						<!-- 상세 정보 이동! -->
 											<td><a href="#" onclick="openPage('/system/user/detail?index=${vo.code}', 400, 700);"><b class="text-blue" id="tableTitle1">${vo.code }</b></a></td>
-											<td>${vo.name }</td>
+											<td><b>${vo.name }<b></b></td>
 											<td>
-												<c:if test="${vo.auth ==1}">사원</c:if>
-												<c:if test="${vo.auth ==2}">매니저</c:if>
-												<c:if test="${vo.auth ==3}">관리자</c:if>
+												<c:if test="${vo.auth ==1}"><b>사원</b></c:if>
+												<c:if test="${vo.auth ==2}"><b>매니저</b></c:if>
+												<c:if test="${vo.auth ==3}"><b>관리자</b></c:if>
 											</td>
-											<td>${vo.id }</td>
-											<td>${vo.dep_group }</td>
-											<td>${vo.pos_group }</td>
-											<td>${vo.phone }</td>
-											<td><c:if test="${vo.active==1 }">Y</c:if><c:if test="${vo.active==0 }">N</c:if></td>
+											<td><b>${vo.id }</b></td>
+											<td><b>${vo.dep_group }</b></td>
+											<td><b>${vo.pos_group }</b></td>
+											<td><b>${vo.phone }</b></td>
+											<td><c:if test="${vo.active==1 }"><b>Y</b></c:if><c:if test="${vo.active==0 }"><b>N</b></c:if></td>
 											<td style="">
 											<!-- 옵션 -->
 												<div class="dropdown">
@@ -149,7 +148,7 @@
 											<c:if test="${pageVO.totalCount > 0}">
 												<div class="btn-group">
 													<c:if test="${pageVO.prev}">
-														<a href="/system/user/main?pageNum=${pageVO.startPage-pageVO.cri.pageSize }" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+														<a href="/system/user/main?pageNum=${pageVO.startPage-pageVO.displayPageNum }" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
 														</a>
 													</c:if>
 													<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
@@ -161,7 +160,7 @@
 														</c:if>
 													</c:forEach>
 													<c:if test="${pageVO.next}">
-														<a href="/system/user/main?pageNum=${pageVO.startPage+pageVO.cri.pageSize }" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+														<a href="/system/user/main?pageNum=${pageVO.startPage+pageVO.displayPageNum }" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
 														</a>
 													</c:if>
 												</div>
@@ -172,7 +171,7 @@
 											<c:if test="${pageVO.totalCount > 0}">
 												<div class="btn-group">
 													<c:if test="${pageVO.prev}">
-														<a href="#" onclick="postPage(${pageVO.startPage-pageVO.cri.pageSize},'${categoryAndKeyword.category }','${categoryAndKeyword.keyword }');" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+														<a href="" onclick="postPage(${pageVO.startPage-pageVO.cri.pageSize},'${categoryAndKeyword.category }','${categoryAndKeyword.keyword }');" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
 														</a>
 													</c:if>
 													<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
@@ -204,6 +203,40 @@
 			</div>
 		</div>
 	</div>
+	<!-- 모달 창 -->
+	<div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm modal-dialog-centered">
+			<div class="modal-content bg-warning">
+				<div class="modal-body text-center">
+					<h3 class="mb-15">
+						<i class="fa fa-exclamation-triangle"></i> 주의
+					</h3>
+					<p>
+						<b>선택된 데이터</b>가 없습니다!
+					</p>
+					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 모달 창 -->
+	<!-- 모달 창 -->
+	<div class="modal fade" id="warning-modal2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm modal-dialog-centered">
+			<div class="modal-content bg-warning">
+				<div class="modal-body text-center">
+					<h3 class="mb-15">
+						<i class="fa fa-exclamation-triangle"></i> 주의
+					</h3>
+					<p>
+						<b>복수의 데이터</b>를 수정할 수 없습니다.
+					</p>
+					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 모달 창 -->
 
 	<script type="text/javascript">
 	
@@ -280,11 +313,15 @@
 				var index = $( "input[type=checkbox]:checked" ).val();
 				
 				if (n > 1) {
-					alert('수정은 한 번에 1개씩만 가능합니다!');
+					$(this).attr("data-toggle", "modal");
+					$(this).attr("data-target", "#warning-modal2");
+					$($(this).data("target")).show();
 					return;
 				}
 				if (n == 0) {
-					alert('수정을 원하는 행을 선택해주세요!');
+					$(this).attr("data-toggle", "modal");
+					$(this).attr("data-target", "#warning-modal");
+					$($(this).data("target")).show();
 					return;
 				}
 				
@@ -311,7 +348,9 @@
 		            openPage("/system/user/delete?indexes=" + indexes, 400, 700);
 			        
 			    } else {
-			        alert('삭제를 원하는 행을 선택해주세요!');
+			    	$(this).attr("data-toggle", "modal");
+					$(this).attr("data-target", "#warning-modal");
+					$($(this).data("target")).show();
 			    }
 			    
 				

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
@@ -76,14 +75,12 @@
 			<h1> 거래명세서 </h1>
 			<br><br>
 			<table class="table table-bordered">
-			<c:forEach items="${request}" var="req" varStatus="status">
 				<tr>
-					<th>업체명 : ${req.clientName }</th>
-					<th>수주일 : ${req.date }</th>
-					<th>주소  : ${req.startDate } ${req.endDate }</th>
-					<th>연락처 : ${req.startDead }</th>
+					<th>업체명 : ${request[0].clientName }</th>
+					<th>수주일 : '${request[0].date }</th>
+					<th>주소  : ${request[0].startDate } ${request[0].endDate }</th>
+					<th>연락처 : ${request[0].startDead }</th>
 				</tr>
-			</c:forEach>
 			</table>
 			<br>
 				<div class="pb-20">

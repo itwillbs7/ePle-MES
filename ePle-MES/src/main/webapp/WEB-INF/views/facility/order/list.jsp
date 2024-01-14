@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../../include/head.jsp"%>
 <title>설비 발주 신청</title>
 </head>
 <body>
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
 	<%@ include file="../../include/header.jsp"%>
 	<%@ include file="../../include/right-side-bar.jsp"%>
@@ -125,7 +127,7 @@
 											<th>${i.date}</th>
 											<th>${i.group_name}</th>
 											<th id ="tableTitle${i.code}">${i.mapd.name}</th>
-											<th>${i.reg_emp}</th>
+											<th>${i.ask_emp}</th>
 											<th id="tableinfo${i.code}">${i.amount}</th>
 											<td style="">
 												<!-- 옵션 -->

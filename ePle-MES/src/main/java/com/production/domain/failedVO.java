@@ -12,6 +12,7 @@ public class failedVO {
 	private String emp_code;
 	private String group_id;
 	private String code_id;
+	private String code_name;
 	private String content;
 	private String action;
 	private int amount;

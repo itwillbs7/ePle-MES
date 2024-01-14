@@ -11,17 +11,15 @@
   .table td {
     text-align: center;
   }
-</style>
-<title>품목 조회</title>
-
-<!-- 원자재 품목만 출력합니다 -->
-
-<style type="text/css">
 .con:hover{
 	background-color : #e1e1e1;
 	cursor:pointer;
 }
 </style>
+<title>품목 조회</title>
+
+<!-- 원자재 품목만 출력합니다 -->
+<!-- /material/askOrderAdd 에서 참조중 -->
 
 </head>
 <body>
@@ -29,7 +27,7 @@
 	<div class="login-box bg-white box-shadow border-radius-10">
 			
 			<div class="login-title">
-			<h2 class="text-center text-primary">품목 조회</h2>
+			<h2 class="text-center" style="color: #FF8C00;">품목 조회</h2>
 			</div>
 			
 			<!------------------------------- 검색 시작 ------------------------------->
@@ -99,6 +97,7 @@
 
 
 			<script type="text/javascript">
+			
 				function selectWork(a, b) { 
 
 					opener.document.getElementById("mapdCode").value = a
@@ -134,6 +133,18 @@
 				        });
 				    
 		 		}
+		 		
+		 		
+		 		
+		  	    document.addEventListener('keydown', function (event) {
+		  	        if (event.key === 'Enter') {
+		  	            doSearch();
+		  	            event.preventDefault(); 
+		  	        }
+		  	    });
+		  	  
+		  	  
+		  	  
 			</script>
 		</div>
 	</div>

@@ -42,38 +42,34 @@ display : none;
 							name="client_code" id="client_code" readonly required="required">
 						</div>
 						<div class="form-group">
+							<label>업체명</label> 
+							<input class="form-control" type="text" readonly id="clientName" required="required">
+						</div>
+						<div class="form-group">
 							<label for="date">수주일자</label> 
 							<input class="form-control date-picker " name="date" type="text" id="date"
 							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="returndate">
 							<label for="deadline">납품일자</label> 
 							<input class="form-control date-picker deadline" name="deadline" type="text" id="deadline"
 							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
-						</div>
-						<div class="form-group">
-							<label for="manager">담당자코드</label> <input class="form-control" id="manager" 
-							name="manager" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" readonly required="required">
 						</div>
 						<div class="form-group">
 							<label for="product">품번</label> <input class="form-control" name="product" id="product" 
 							type="text" placeholder="클릭 시 팝업검색창이 뜹니다" readonly required="required">
 						</div>
 						<div class="form-group">
+							<label>품명</label> <input class="form-control" type="text" readonly id="productName" required="required">
+						</div>
+						<div class="form-group">
+							<label>단가</label> <input class="form-control" name ="currency" type="text" readonly id="currency" required="required">
+						</div>
+						<div class="form-group">
 							<label for="amount">수주량</label> <input class="form-control" name="amount" id="amount"
 							type="number" placeholder="필수입력" autocomplete="off" min="1" required="required">
 						</div>
 						<!-- 자동입력내역 -->
-						<div class="form-group">
-							<label>업체명</label> 
-							<input class="form-control" type="text" readonly id="clientName" required="required">
-						</div>
-						<div class="form-group">
-							<label>담당자명</label> <input class="form-control" type="text" readonly id="managerName" required="required">
-						</div>
-						<div class="form-group">
-							<label>품명</label> <input class="form-control" type="text" readonly id="productName" required="required">
-						</div>
 						<div class="form-group">
 							<label>단위</label> <input class="form-control" name ="unit" type="text" readonly id="unit" required="required">
 						</div>
@@ -84,7 +80,11 @@ display : none;
 							<label>과부족량</label> <input class="form-control" type="text" readonly value="" id="gwa" required="required">
 						</div>
 						<div class="form-group">
-							<label>단가</label> <input class="form-control" name ="currency" type="text" readonly id="currency" required="required">
+							<label for="manager">담당자코드</label> <input class="form-control" id="manager" 
+							name="manager" type="text" placeholder="클릭 시 팝업검색창이 뜹니다" readonly required="required">
+						</div>
+						<div class="form-group">
+							<label>담당자명</label> <input class="form-control" type="text" readonly id="managerName" required="required">
 						</div>
 
 
@@ -109,10 +109,6 @@ display : none;
 
 	 <script type="text/javascript" class="formDataSetting">  
 
-	 // 수주일자와 납품일자 조정
-	 document.getElementById('date').addEventListener('change', function() {
-  		document.getElementById('deadline').min = this.value;
-	});
 	 
 	 // 과부족량 계산
 	 document.querySelector('input[name="amount"]').addEventListener('input', calculateDifference);
@@ -156,12 +152,26 @@ display : none;
 			const month = String(date.getMonth() + 1).padStart(2, "0"); //이번달
 			const day = String(date.getDate()).padStart(2, "0"); //오늘날짜 
 			
+			client = client.substr(0, 3);
+			product = product.substr(0, 3);
+			
 			const orderNum = year+"RQ"+client+month+day+product; 
 			return orderNum;
 		}
 	 document.querySelector('form').addEventListener('submit', function(event) {
 		    // 기본 제출 이벤트를 막음
 		    event.preventDefault();
+	 
+		var date = new Date(document.getElementById('date').value);
+		var deadline = new Date(document.getElementById('deadline').value);
+		// 납품일자는 수주일자 이전날짜를 선택할 수 없다
+		if(deadline<date){
+		$('#returndate').append('<span style="color : red; font-size : 12px"> * 납품예정일은 수주일자 이후여야 합니다 </span>');
+		document.getElementById('deadline').focus();
+			return;
+		}
+		
+
 		    
 		    // 출하번호 생성
 		    const orderNum = createOrderNum();
@@ -184,20 +194,20 @@ display : none;
 	// 업체찾기	
 		$("#client_code").click(function() {
 	// 가로, 세로 설정
-			window.open("/request/searchClient", "Client Search", "width=500,height=600");
+			window.open("/request/searchClient", "Client Search", "width=500,height=600,left=200,top=200");
 		});
 
 	
 	//담당자 찾기
 		$("#manager").click(function() {
 	// 가로, 세로 설정
-			window.open("/request/searchManager", "Manager Search", "width=500,height=600");
+			window.open("/request/searchManager", "Manager Search", "width=500,height=600,left=200,top=200");
 		});
 	
 	// 물품정보찾기
 		$("#product").click(function() {
 	// 가로, 세로 설정s
-			window.open("/request/searchProduct", "Product Search", "width=500,height=600");
+			window.open("/request/searchProduct", "Product Search", "width=500,height=600,left=200,top=200");
 		});
 	
 	

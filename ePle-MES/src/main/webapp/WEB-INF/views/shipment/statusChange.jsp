@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<title>수주 삭제</title>
+<title>출하 완료 처리</title>
 <!-- 
 	실행 방법
 		- 테이블 페이지의 옵션에서 삭제클릭
@@ -26,11 +26,11 @@
 <body>
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
-		<div class="login-box bg-white box-shadow border-radius-10">
+		<div class="login-box bg-white box-shadow border-radius-10" style="max-width:600px">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">수주 삭제</h1>
-				<h3 class="text-center text-primary">삭제 리스트</h3>
+				<h1 class="text-center text-primary">출하 완료 처리</h1>
+				<h3 class="text-center text-primary" style="margin-top : 10px;">출하 완료 처리 리스트</h3>
 			</div>
 			<!-- 폼 -->
 			<form method="post" id="deleteForm">

@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
@@ -11,6 +10,9 @@
 .con:hover{
 	background-color : #e1e1e1;
 	cursor:pointer;
+}
+.click {
+    color: blue;
 }
 </style>
 <title>발주 요청 목록</title>
@@ -26,6 +28,9 @@
 			</div>
 			
 			<div class="tab">
+                <br>
+                <h6 class="text-center click">발주코드를 선택해주세요!</h6>
+                <br>
 				
 				<div class="tab-content">
 			<!------------------------------- 목록 시작 ------------------------------->
@@ -34,23 +39,23 @@
 				<tr>
 					<th>발주코드</th>
 					<th>품명</th>
-					<th>요청량</th>
-					<th>신청일</th>
+					<th>발주량</th>
+					<th>요청일</th>
 				</tr>
 			</thead>
 			
 			<tbody>
-				<c:forEach items="${askOrderList}" var="vo">
+				<c:forEach items="${askOrderList}" var="vo" varStatus="loop">
 				<tr>
-					<td class="inInfo${vo.code} con">${vo.code }</td>
-					<td class="con">${vo.name }</td>
-					<td class="con">${vo.amount } ${vo.unit }</td>
-					<td><fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></td>
+					<td class="inInfo${vo.code} con"> ${vo.code }</td>
+					<td class=""> ${vo.name }</td>
+					<td class=""> ${vo.amount } ${vo.unit }</td>
+					<td class=""> <fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></td>
 				</tr>
 				</c:forEach>
+				
 			</tbody>
 			</table>
-			
 			
 		    <!------------------------------ 페이징 시작 ------------------------------>
 				<div class="btn-toolbar justify-content-center mb-15">
@@ -82,7 +87,6 @@
 
 	<%@ include file="../include/footer.jsp"%>
 	<script type="text/javascript">
-	window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
 	
 	function retPopupSetting(width, height){
 		// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
@@ -109,9 +113,11 @@
 	}
 		
 	// 
-	$('body').on('click', '[class^="inInfo"]', function(){
-		var code = $(this).text().trim();
-		  openPage("${pageContext.request.contextPath}/material/orderAdd?code=" + code, 400, 700); });
+$('body').on('click', '[class^="inInfo"]', function(){
+    var code = $(this).text().trim();
+    openPage("${pageContext.request.contextPath}/material/orderAdd?code=" + code, 800, 1000);
+});
+
 			
 	
 	

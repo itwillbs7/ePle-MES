@@ -309,14 +309,14 @@ var options5 = {
 		colors: ['transparent']
 	},
 	series: [{
-		name: 'In Progress',
+		name: 'ㅁㅁ',
 		data: [40, 28, 47, 22, 34, 25]
 	}, {
-		name: 'Complete',
+		name: 'ㅂㅂ',
 		data: [30, 20, 37, 10, 28, 11]
 	}],
 	xaxis: {
-		categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+		categories: ['일', '월', '화', '수', '목', '금', '토'],
 		labels: {
 			style: {
 				colors: ['#353535'],

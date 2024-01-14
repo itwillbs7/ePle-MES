@@ -5,6 +5,11 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<style>
+label {
+font-weight: bold;
+}
+</style>
 <title>발주 요청서</title>
 </head>
 <body>
@@ -22,8 +27,8 @@
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<!-- 필수입력내역 -->
-								<div class="form-group">
 									<label>발주 코드</label> 
+								<div class="form-group">
 								<input class="form-control" type="text" name="code" id="code" value="${List.code }" readonly>
 								</div>
 								
@@ -31,18 +36,26 @@
 									<!-- <label>자재 유형</label>  -->
 								</div>
 
-								<div class="form-group">
 									<label>품목 정보</label> 
+								<div class="form-group">
 									<input class="form-control" type="text" id="material" name="material" placeholder="품목코드" value="${List.material}" readonly>
-									<input class="form-control" type="text" id="name" placeholder="품명" readonly value="${List.name }">
 								</div>
 								<div class="form-group">
-									<label>요청량</label> 
+									<input class="form-control" type="text" id="name" placeholder="품명" readonly value="${List.name }">
+								</div>
+
+									<label>발주량</label> 
+								<div class="form-group">
 									<input class="form-control" type="text" id="orderAmount" name="amount" placeholder="요청량" value="${List.amount } ${List.unit }" readonly>
 								</div>
 
+									<label>요청자</label> 
 								<div class="form-group">
-									<label>신청 일자</label> 
+									<input class="form-control" type="text" id="" name="" placeholder="사원이름" value="${List.empName}" readonly>
+								</div>
+
+									<label>요청 일자</label> 
+								<div class="form-group">
 									<input class="form-control" type="text" id="warehouseCode" name="warehouse_code" placeholder="" value="${List.date}" readonly>
 								</div>
 

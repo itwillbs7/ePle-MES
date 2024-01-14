@@ -1,6 +1,6 @@
 package com.itwillbs.domain;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.Data;
 
@@ -8,6 +8,7 @@ import lombok.Data;
 public class FacilityVO {
 	private String code;
 	private String emp_code;
+	private Timestamp date;
 	private String model;
 	private String mapd_code;
 	private String order_code;

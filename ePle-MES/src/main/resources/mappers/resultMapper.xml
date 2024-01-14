@@ -22,6 +22,7 @@
   	<resultMap type="com.production.domain.instructionVO" id="instructionVOMap">
   		<result property="code" column="I_code"/>
   		<result property="product" column="product"/>
+  		<result property="product_name" column="product_name"/>
   		<result property="line_code" column="line_code"/>
   		<result property="content" column="content"/>
   		<result property="request" column="request"/>
@@ -33,14 +34,15 @@
   		<result property="update_date" column="I_update_date"/>
   		<result property="status" column="I_status"/>
   	</resultMap>
-  	
-  	<select id="1234">
-		SELECT R.code AS R_code,emp_code,R.amount AS R_amount,R.status AS R_status,R.reg_date AS R_reg_date,R.reg_emp AS R_reg_emp,R.update_date AS R_update_date,R.update_emp AS R_update_emp,inst_code,(SELECT sum(amount) FROM FAILED WHERE result_code = R.code) AS failed_count,
-		I.code AS I_code,product,line_code,content,request,I.amount AS I_amount,production_date,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date,I.status AS I_status 
-		FROM RESULT R 
-		LEFT JOIN INSTRUCTION I 
-		ON R.inst_code = I.code 
-		WHERE 1 = 1 AND I.status != '비활성' 
+	<select id="getResultList" parameterType="hashmap" resultType="com.production.domain.resultVO" resultMap="resultVOMap">
+		<![CDATA[
+			SELECT R.code AS R_code,emp_code,R.amount AS R_amount,R.status AS R_status,R.reg_date AS R_reg_date,R.reg_emp AS R_reg_emp,R.update_date AS R_update_date,R.update_emp AS R_update_emp,inst_code,(SELECT sum(amount) FROM FAILED WHERE result_code = R.code) AS failed_count,
+			I.code AS I_code,product,M.name AS product_name,line_code,content,request,I.amount AS I_amount,production_date,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date,I.status AS I_status 
+			FROM RESULT R 
+			LEFT JOIN INSTRUCTION I ON R.inst_code = I.code 
+			LEFT JOIN MAPD M ON I.product = M.code 
+			WHERE 1 = 1 AND I.status != '비활성' 
+		]]>
 		<if test="date != null">
 			 AND production_date = #{date}
 		</if>
@@ -50,24 +52,23 @@
 				#{arr}
 			</foreach>
 		</if>
-		<if test="isFinish != null">
-			<if test="!isFinish">
-				 AND R_status != '완료'
-			</if>
+		<if test="isFinish == null">
+			 AND R.status != '입고'
 		</if>
 	</select>
 	<select id="getResult" resultType="com.production.domain.resultVO" resultMap="resultVOMap">
 		<![CDATA[
 			SELECT R.code AS R_code,emp_code,R.amount AS R_amount,R.status AS R_status,R.reg_date AS R_reg_date,R.reg_emp AS R_reg_emp,R.update_date AS R_update_date,R.update_emp AS R_update_emp,inst_code,(SELECT sum(amount) FROM FAILED WHERE result_code = R.code) AS failed_count,
-			I.code AS I_code,product,line_code,content,request,I.amount AS I_amount,production_date,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date,I.status AS I_status 
+			I.code AS I_code,product,M.name AS product_name,line_code,content,request,I.amount AS I_amount,production_date,I.reg_emp AS I_reg_emp,I.reg_date AS I_reg_date,I.update_emp AS I_update_emp,I.update_date AS I_update_date,I.status AS I_status 
 			FROM RESULT R 
-			LEFT JOIN INSTRUCTION I 
-			ON R.inst_code = I.code 
+			LEFT JOIN INSTRUCTION I ON R.inst_code = I.code 
+			LEFT JOIN MAPD M ON I.product = M.code 
 	  		WHERE R.code = #{code} AND I.status != '비활성' 
-
-	<select id="getResultList" parameterType="hashmap" resultType="com.production.domain.resultVO" resultMap="resultVOMap">
+		]]>
+	</select>
+	<select id="getFailedList" resultType="com.production.domain.failedVO">
 		<![CDATA[
-			SELECT * FROM FAILED WHERE result_code = #{code}
+			SELECT F.*,C.code_name AS code_name FROM FAILED F LEFT JOIN COMMON_CODE C ON F.group_id = C.group_id AND F.code_id = C.code_id WHERE result_code = #{code}
 		]]>
 	</select>
 	<select id="getBOM" resultType="com.production.domain.BOMVO">
@@ -86,13 +87,69 @@
 		UPDATE RESULT SET status = '완료' WHERE code = #{code} AND status = '생산중'
 	</update>
 	
-	<update id="addResult">
+	<update id="addResult" parameterType="hashmap">
 		<![CDATA[
-			UPDATE RESULT SET amount = amount+1,status = CASE WHEN amount = (SELECT amount FROM INSTRUCTION WHERE code = inst_code) THEN '완료' ELSE status END
+			UPDATE RESULT SET amount = amount + #{num} ,status = CASE WHEN amount = (SELECT amount FROM INSTRUCTION WHERE code = inst_code) THEN '완료' ELSE status END
 			WHERE code = #{code} AND status = '생산중' AND amount < (SELECT amount FROM INSTRUCTION WHERE code = inst_code)
 		]]>
 	</update>
 	<insert id="insertFailed">
-		INSERT INTO FAILED VALUES(DEFAULT,'emp_code','group_id',#{code_id},#{content},#{action},#{amount},now(),#{reg_emp},null,null,#{result_code})
+		INSERT INTO FAILED VALUES(DEFAULT,'emp_code',#{group_id},#{code_id},#{content},#{action},#{amount},now(),#{reg_emp},null,null,#{result_code})
 	</insert>
+	<select id="getCode_id" resultType="com.itwillbs.domain.CommonVO">
+		SELECT * FROM COMMON_CODE WHERE group_id = 'DEF';
+	</select>
+	<select id="checkDuplication" parameterType="com.production.domain.inputVO" resultType="int">
+		SELECT IF(COUNT(*) > 0, 0, 1) AS result FROM INPUT WHERE mapd_code = #{mapd_code} AND result_code = #{result_code};
+	</select>
+	<insert id="insertInput" parameterType="com.production.domain.inputVO">
+		INSERT INTO INPUT VALUES(DEFAULT,#{mapd_code},#{amount},#{result_code})
+	</insert>
+	<update id="updateInput" parameterType="com.production.domain.inputVO">
+		UPDATE INPUT SET amount = amount + #{amount} WHERE mapd_code = #{mapd_code} AND result_code = #{result_code}
+	</update>
+	<select id="getInput" resultType="com.production.domain.inputVO">
+		SELECT I.*,M.name AS mapd_name FROM INPUT I LEFT JOIN MAPD M ON I.mapd_code = M.code WHERE result_code = #{code};
+	</select>
+	<insert id="insertLot">
+		INSERT INTO LOT VALUES(DEFAULT,#{code},null,null);
+	</insert>
+	<update id="updateAdd">
+			UPDATE RESULT SET status = '입고' WHERE code = #{code} AND status = '완료'
+	</update>
+	<select id="getLimit" resultType="Integer" parameterType="com.production.domain.inputVO">
+		<![CDATA[
+			SELECT COUNT(*) AS stop_search_count
+		    FROM (
+		        SELECT code, amount, date, @total := @total + amount AS running_total, CASE WHEN @total >= #{amount} THEN 1 ELSE 0 END AS stop_search
+				FROM WAREHOUSE_HISTORY
+				JOIN (SELECT @total := 0) AS init
+				WHERE mapd_code = #{mapd_code}
+				ORDER BY date
+		    ) AS count_subquery
+		    where stop_search = 0
+		]]>
+	</select>
+	<select id="getCode" resultType="String" parameterType="hashmap">
+		<![CDATA[
+		    SELECT code
+		    FROM (
+		        SELECT code, amount, date, 
+		            @total := @total + amount AS running_total,
+		            CASE WHEN @total >= #{amount} THEN 1 ELSE 0 END AS stop_search
+		        FROM WAREHOUSE_HISTORY
+		        JOIN (SELECT @total := 0) AS init
+		        WHERE mapd_code = #{mapd_code}
+		        ORDER BY date
+		    ) AS derived_table_alias
+		    ORDER BY date 
+		    limit #{limit}
+	    ]]>
+	</select>
+	<select id="getWarehoseVOList" resultType="com.itwillbs.domain.Warehouse_HistoryVO" parameterType="java.util.List">
+		SELECT * FROM WAREHOUSE_HISTORY WHERE code IN 
+		<foreach collection="list" item="arr" open="(" close=")" separator=", ">
+			 #{arr}
+		</foreach>
+	</select>
 </mapper>

@@ -10,6 +10,9 @@
 <title>일상 보전 등록</title>
 </head>
 <body>
+<c:if test="${(sessionScope.id != 'admin' or sessionScope.id eq null) and (sessionScope.dep_group != '설비')}">
+	<c:redirect url="/" />
+</c:if>
 	<!-- 직원의 경우 사후보전만 실시 -->
 
 	<!-- 콘텐츠 시작 -->
@@ -20,7 +23,6 @@
 			<div class="pd-20">
 				<!-- 폼 -->
 				<form method="post" action="/facility/mt/routine">
-
 					<!-- 입력 구간 -->
 					<div class="row">
 						<div class="col-sm-12 mb-3">

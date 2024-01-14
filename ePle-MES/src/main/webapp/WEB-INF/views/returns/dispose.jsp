@@ -26,11 +26,11 @@
 <body>
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
-		<div class="login-box bg-white box-shadow border-radius-10">
+		<div class="login-box bg-white box-shadow border-radius-10" style="max-width:600px">
 			<!-- 타이틀 -->
 			<div class="login-title">
-				<h1 class="text-center text-primary">폐기 리스트</h1>
-				<h3 class="text-center text-primary">반품내역 폐기 완료 리스트</h3>
+				<h1 class="text-center text-primary">반품 폐기</h1>
+				<h3 class="text-center text-primary" style="margin-top : 10px;">폐기 처리 리스트</h3>
 			</div>
 			<!-- 폼 -->
 			<form action ="" method="post" id="deleteForm">

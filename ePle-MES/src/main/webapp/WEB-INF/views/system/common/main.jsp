@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
 <html>
 <head>
 <%@ include file="../../include/head.jsp"%>
@@ -11,6 +10,7 @@
 	<%@ include file="../../include/header.jsp"%>
 	<%@ include file="../../include/right-side-bar.jsp"%>
 	<%@ include file="../../include/left-side-bar.jsp"%>
+	<%@ include file="../../include/datatable.jsp"%>
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
@@ -33,19 +33,21 @@
 									<form id="accordion-search" method="post" action="/system/common/main">
 											<div class="form-group row">
 												<div class="col-sm-5 col-md-10">
-													<select class="custom-select col-2" name="category">
+													<select class="custom-select col-2" name="category" onchange="return onchangeCategory(this);">
 														<option selected="null">카테고리</option>
 														<option value="group_id">그룹ID</option>
 														<option value="group_name">그룹명</option>
 														<option value="code_id">코드ID</option>
 														<option value="code_name">코드명</option>
 													</select>
-													<input class="form-group" type="text" placeholder="검색어" name="keyword">
+													<select class="custom-select col-2" name="keyword">
+														<option selected="null">검색어</option>
+													</select>
 													<lable class="btn-group pull-right">
-													<button type="submit" class="btn btn-primary" id="search">
+													<button type="submit" class="btn btn-primary" id="searchBtn">
 														<b>검색</b>
 													</button>
-													<button type="reset" class="btn btn-secondary" id="reset">
+													<button type="button" class="btn btn-secondary" onclick="location.href='/system/common/main';">
 														<b>초기화</b>
 													</button>
 													</lable>
@@ -65,9 +67,6 @@
 							<button type="button" class="btn btn-success" id="add">
 								<b>추가</b>
 							</button>
-							<button type="button" class="btn btn-warning" id="update">
-								<b>수정</b>
-							</button>
 							<button type="button" class="btn btn-danger" id="delete">
 								<b>삭제</b>
 							</button>
@@ -80,15 +79,13 @@
 									<tr>
 										<td style="width: 100px;">
 											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
+												<input type="checkbox" class="custom-control-input" id="tableCheckAll" value="xxx_xxx" > <label class="custom-control-label" for="tableCheckAll"></label>
 											</div>
 										</td>
 										<th>그룹ID</th>
 										<th>그룹명</th>
 										<th>코드ID</th>
 										<th>코드명</th>
-										<th>정렬순서</th>
-										<th>사용여부</th>
 										<th>옵션</th>
 									</tr>
 									<form role="form"><c:forEach var="cvo" items="${CommonVO }">
@@ -101,12 +98,9 @@
 												</div>
 											</td>
 											<th>${cvo.group_id }</th>
-											<!-- 상세 정보 이동! -->
-											<th><a href="#"><b class="text-blue" id="tableTitle1">${cvo.group_name }</b></a></th>
+											<th><b>${cvo.group_name }</b></th>
 											<th>${cvo.code_id }</th>
 											<th>${cvo.code_name }</th>
-											<th>${cvo.sortorder }</th>
-											<th>${cvo.active }</th>
 											<td style="">
 											<!-- 옵션 -->
 												<div class="dropdown">
@@ -115,9 +109,9 @@
 													<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 														<!-- 링크 설정 -->
 														<!-- 수정 -->
-														<a class="dropdown-item" href="javascript:openPage('/system/common/update?index=${cvo.group_id }_${cvo.code_id }', 400, 700)"><i class="dw dw-edit2"></i> 수정</a>
+														<%-- <a class="dropdown-item" href="javascript:openPage('/system/common/update?index=${cvo.group_id }_${cvo.code_id }', 400, 700)"><i class="dw dw-edit2"></i> 수정</a> --%>
 														<!-- 삭제 -->
-														<a class="dropdown-item" href="javascript:openPage('/system/common/delete?index=${cvo.group_id }_${cvo.code_id }', 400, 700)"><i class="dw dw-delete-3"></i> 삭제</a>
+														<a class="dropdown-item" href="javascript:openPage('/system/common/delete?indexes=${cvo.group_id }_${cvo.code_id }', 400, 700)"><i class="dw dw-delete-3"></i> 삭제</a>
 													</div>
 												</div>
 											</td>
@@ -127,34 +121,56 @@
 							</form>
 							<div class="row">
 								<div class="col-sm-12 col-md-5">
-									<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;(전체 수) 중 (검색 결과) 개</div>
+									<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">&nbsp;&nbsp;총 갯수 : ${pageVO.totalCount }개 / ${pageVO.totalPageCount }페이지 중  ${pageVO.cri.page }페이지</div>
 								</div>
 							</div>
 							<div class="btn-toolbar justify-content-center mb-15">
-								<div class="btn-group">
-									<div class="btn-toolbar justify-content-center mb-15">
-										<c:if test="${pageVO.totalCount > 1}">
-											<div class="btn-group">
-												<c:if test="${pageVO.prev}">
-													<a href="javascript:pageMove(${pageVO.startPage - 1})" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
-													</a>
+								<!-- 검색하지않았을때 페이징 처리 -->
+								<c:if test="${empty categoryAndKeyword }">
+									<c:if test="${pageVO.totalCount > 0}">
+										<div class="btn-group">
+											<c:if test="${pageVO.prev}">
+												<a href="/system/common/main?pageNum=${pageVO.startPage-pageVO.displayPageNum }" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+												</a>
+											</c:if>
+											<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+												<c:if test="${pageVO.cri.page == i}">
+													<span class="btn btn-primary current">${i}</span>
 												</c:if>
-												<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-													<c:if test="${pageVO.cri.page == i}">
-														<span class="btn btn-primary current">${i}</span>
-													</c:if>
-													<c:if test="${pageVO.cri.page != i}">
-														<a href="javascript:pageMove(${i})" class="btn btn-outline-primary">${i}</a>
-													</c:if>
-												</c:forEach>
-												<c:if test="${pageVO.next}">
-													<a href="javascript:pageMove(${pageVO.endPage + 1})" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
-													</a>
+												<c:if test="${pageVO.cri.page != i}">
+													<a href="/system/common/main?pageNum=${i }" class="btn btn-outline-primary">${i}</a>
 												</c:if>
-											</div>
-										</c:if>
-									</div>
-								</div>
+											</c:forEach>
+											<c:if test="${pageVO.next}">
+												<a href="/system/common/main?pageNum=${pageVO.startPage+pageVO.displayPageNum }" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+												</a>
+											</c:if>
+										</div>
+									</c:if>
+								</c:if>	
+								<!-- 검색했을때의 페이징 처리 -->
+								<c:if test="${!empty categoryAndKeyword }">
+									<c:if test="${pageVO.totalCount > 0}">
+										<div class="btn-group">
+											<c:if test="${pageVO.prev}">
+												<a href="" onclick="postPage(${pageVO.startPage-pageVO.cri.pageSize},'${categoryAndKeyword.category }','${categoryAndKeyword.keyword }');" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"></i>
+												</a>
+											</c:if>
+											<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+												<c:if test="${pageVO.cri.page == i}">
+													<span class="btn btn-primary current">${i}</span>
+												</c:if>
+												<c:if test="${pageVO.cri.page != i}">
+													<a href="#" onclick="postPage(${i},'${categoryAndKeyword.category }','${categoryAndKeyword.keyword }');" class="btn btn-outline-primary">${i}</a>
+												</c:if>
+											</c:forEach>
+											<c:if test="${pageVO.next}">
+												<a href="#" onclick="postPage(${pageVO.startPage+pageVO.cri.pageSize},'${categoryAndKeyword.category }','${categoryAndKeyword.keyword }');" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"></i>
+												</a>
+											</c:if>
+										</div>
+									</c:if>
+								</c:if>
 							</div>
 						</div>
 					</div>
@@ -164,15 +180,104 @@
 				<div class="footer-wrap pd-20 mb-20 card-box">
 					ePle MES made by <a href="https://github.com/dropways" target="_blank">아이티윌 부산 2023년 7월 프로젝트 2차 1조</a>
 				</div>
-				<%@ include file="../../include/footer.jsp"%>
-				<%@ include file="../../include/datatable.jsp"%>
+				
+				
 			</div>
 		</div>
 	</div>
+	<!-- 모달 창 -->
+	<div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm modal-dialog-centered">
+			<div class="modal-content bg-warning">
+				<div class="modal-body text-center">
+					<h3 class="mb-15">
+						<i class="fa fa-exclamation-triangle"></i> 주의
+					</h3>
+					<p>
+						<b>선택된 데이터</b>가 없습니다!
+					</p>
+					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 모달 창 -->
+	<!-- 모달 창 -->
+	<div class="modal fade" id="warning-modal2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm modal-dialog-centered">
+			<div class="modal-content bg-warning">
+				<div class="modal-body text-center">
+					<h3 class="mb-15">
+						<i class="fa fa-exclamation-triangle"></i> 주의
+					</h3>
+					<p>
+						<b>복수의 데이터</b>를 수정할 수 없습니다.
+					</p>
+					<button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 모달 창 -->
 
 	<script type="text/javascript">
-
 	
+	// 검색 카테고리 onchange 시 실행 함수
+	function onchangeCategory(selectElement) {
+		
+		// 카테고리 선택 값
+		var categoryVal = selectElement.value;
+		var keywordSelect = document.querySelector('[name="keyword"]');
+		// 선택에 따른 조건부 실행
+		if (categoryVal === 'null') {
+			return false;			
+		}
+		
+		$.ajax({
+				type: 'GET', 
+				url: '/systemAjax/getDistinctCommon?category='+categoryVal, 
+				success: function(data) {
+					console.log(data);
+			        // 기존의 옵션 제거
+			        while (keywordSelect.options.length > 0) {
+			            keywordSelect.remove(0);
+			        }
+			        
+			        data.forEach(function(value,index) {
+			        	
+				      addOption(keywordSelect, value);
+				      
+			        });
+			        
+			        
+				}
+				
+		}); // ajax
+		
+	} // function
+	
+	// select 옵션 추가 함수
+	function addOption(selectElement, value) {
+		
+		var option = document.createElement('option');
+		option.value = value;
+        option.text = value;
+        selectElement.add(option);
+		
+	} // function
+
+	// 페이지 이동 (POST)
+	function postPage(i,category,keyword) {
+		console.log('함수실행');
+	    // 폼 생성
+	    var form = document.createElement('form');
+	    form.method = 'post';
+		// 실제로 데이터를 전송할 서버의 URL로 변경
+	    form.action = '/system/common/main?pageNum='+i+'&category='+category+'&keyword='+keyword;
+	    // 폼을 body에 추가하고 전송
+	    document.body.appendChild(form);
+	    form.submit();
+	}
 	
 	<!-- 추가, 수정, 삭제 -->
 		var popupWidth, popupHeight, popupX, popupY, link;
@@ -214,7 +319,7 @@
 				
 				if(userConfirm) {
 					
-					openPage("/system/common/delete?index="+index,400, 700);
+					openPage("/system/common/delete?indexes="+index,400, 700);
 				}
 				
 			}
@@ -227,19 +332,26 @@
 
 			// 수정
 			$("#update").click(function() {
+
 				
 				// 체크된 체크박스의 갯수
 				var n = $( "input[type=checkbox]:checked" ).length;
 				var index = $( "input[type=checkbox]:checked" ).val();
 				
 				if (n > 1) {
-					alert('수정은 한 번에 1개씩만 가능합니다!');
+					$(this).attr("data-toggle", "modal");
+					$(this).attr("data-target", "#warning-modal2");
+					$($(this).data("target")).show();
+					return;
 					return;
 				}
 				if (n == 0) {
-					alert('수정을 원하는 행을 선택해주세요!');
+					$(this).attr("data-toggle", "modal");
+					$(this).attr("data-target", "#warning-modal");
+					$($(this).data("target")).show();
+					return;
+					return;
 				}
-				alert(index);
 				
 				// 가로, 세로 설정
 				openPage("/system/common/update?index="+index, 400, 700);
@@ -248,30 +360,33 @@
 			// 삭제
 			$("#delete").click(function() {
 				
-				// 체크된 체크박스의 갯수
-				var n = $( "input[type=checkbox]:checked" ).length;
-				var index = $( "input[type=checkbox]:checked" ).val();
+				// 체크박스 값 저장 배열
+			    var selectedIndexes = [];
+
+				 // 선택된 체크박스
+			    $("input[type=checkbox]:checked").each(function() {
+			        selectedIndexes.push($(this).val());
+			    });
 				
-				if (n > 1) {
-					alert('삭제는 한 번에 1개씩만 가능합니다!');
+			    // 체크된 체크박스의 갯수 확인
+			    if (selectedIndexes.length > 0) {
+			        // 인덱스 문자열 컨트롤러로 전달
+			        var indexes = selectedIndexes.join(",");
+		            // 선택된 인덱스를 컨트롤러로 전달
+		            openPage("/system/common/delete?indexes="+indexes, 400, 700);
+			        
+			    } else {
+			    	$(this).attr("data-toggle", "modal");
+					$(this).attr("data-target", "#warning-modal");
+					$($(this).data("target")).show();
 					return;
-				}
-				if (n == 0) {
-					alert('n : ' + n);
-					alert('삭제를 원하는 행을 선택해주세요!');
-				}
-				alert(index);
+			    }			    
 				
-				var userConfirm = confirm('삭제하시겠습니까?');
-				if (userConfirm) {
-					// 가로, 세로 설정
-					openPage("/system/common/delete?index="+index, 400, 700);
-				}
-				
-			});
+			}); // delete click
 			
 			
-		});
+		}); // jquery
 	</script>
+	<%@ include file="../../include/footer.jsp"%>
 </body>
 </html>

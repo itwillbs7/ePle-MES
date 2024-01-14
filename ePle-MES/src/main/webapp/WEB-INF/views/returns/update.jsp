@@ -45,49 +45,6 @@
 								value="${List.ship_code }">
 						</div>
 						<div class="form-group">
-							<label for="deadline">반품일자</label> <input class="form-control date-picker"
-								name="date" type="text" id="date" value="${List.date }"
-								autocomplete="off" required="required" readonly>
-						</div>
-						<div class="form-group">
-							<label for="amount">반품량</label> 
-							<input class="form-control"
-								name="amount" id="amount" type="number"
-								readonly autocomplete="off" min="1"
-								required="required" value=${List.amount }>
-						</div>
-						<div class="form-group">
-							<label for="amount">반품사유</label>
-							<textarea class="form-control" placeholder="반품사유를 입력하세요"
-								name="reason" readonly>${List.reason}</textarea>
-						</div>
-						<div class="form-group">
-							<label>lot</label> 
-							<select class="custom-select2 form-control select2-hidden-accessible"
-								name="lot" style="width: 100%; height: 38px"
-								data-select2-id="1" tabindex="-1" aria-hidden="true" id="lot">
-							</select>
-						</div>
-						
-						<!-- 자동입력내역 -->
-						<div class="form-group">
-							<label for="client_code">수주번호</label> <input class="form-control"
-								type="text" placeholder="클릭 시 팝업검색창이 뜹니다" name="request_code"
-								id="request_code" readonly required="required"
-								value="${List.request_code }">
-						</div>
-						<div class="form-group">
-							<label for="amount">출하량</label> <input class="form-control"
-								name="samount" id="samount" type="number" autocomplete="off"
-								min="1" required="required" readonly value="${List.amount }">
-							<input type="hidden" name="unit" id="unit" value="${List.unit }">
-						</div>
-						<div class="form-group">
-							<label for="date">출하일자</label> <input class="form-control "
-								name="reqsdate" type="date" id="reqsdate" autocomplete="off"
-								required="required" readonly value="${List.reqsdate }">
-						</div>
-						<div class="form-group">
 							<label>수주업체</label> <input class="form-control" type="text"
 								readonly id="clientName" required="required" readonly
 								value="${List.clientName }"> 
@@ -96,10 +53,53 @@
 								readonly value="${List.client_code }">
 						</div>
 						<div class="form-group">
+							<label for="client_code">수주번호</label> <input class="form-control"
+								type="text" placeholder="클릭 시 팝업검색창이 뜹니다" name="request_code"
+								id="request_code" readonly required="required"
+								value="${List.request_code }">
+						</div>
+						<div class="form-group">
+							<label for="date">출하일자</label> <input class="form-control "
+								name="reqsdate" type="text" id="reqsdate" autocomplete="off"
+								required="required" readonly value="${List.reqsdate }">
+						</div>
+						<div class="form-group" id="returndate">
+							<label for="deadline">반품일자</label> <input class="form-control date-picker"
+								name="date" type="date" id="date" value="${List.date }"
+								autocomplete="off" required="required" readonly>
+						</div>
+						<div class="form-group">
+							<label for="amount">출하량</label> <input class="form-control"
+								name="samount" id="samount" type="number" autocomplete="off"
+								min="1" required="required" readonly value="${List.amount }">
+							<input type="hidden" name="unit" id="unit" value="${List.unit }">
+						</div>
+						<div class="form-group">
+							<label>lot</label> 
+							<select class="custom-select2 form-control select2-hidden-accessible"
+								name="lot" style="width: 100%; height: 38px"
+								data-select2-id="1" tabindex="-1" aria-hidden="true" id="lot">
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="amount">반품량</label> 
+							<input class="form-control"
+								name="amount" id="amount" type="number"
+								 autocomplete="off" min="1"
+								required="required" value=${List.amount }>
+						</div>
+						<div class="form-group">
+							<label for="amount">반품사유</label>
+							<textarea class="form-control" placeholder="반품사유를 입력하세요"
+								name="reason" >${List.reason}</textarea>
+						</div>
+						
+						<!-- 자동입력내역 -->
+						<div class="form-group">
 							<label for="status">수주상태</label>
 								<select name="status" id="status" class="custom-select col-12"  required="required">
 									<option value="반품등록" <c:if test="${List.status eq '반품등록'}">selected</c:if>>반품등록</option>
-									<option value="폐기완료" <c:if test="${List.status eq '폐기완료'}">selected</c:if>>폐기완료</option>		
+									<option value="폐기" <c:if test="${List.status eq '폐기'}">selected</c:if>>폐기</option>		
 								</select>
 						</div>
 						<!-- 버튼 -->
@@ -110,7 +110,6 @@
 									onclick="window.close();">
 									<b>취소</b>
 								</button>
-								<!-- 						<input type="button" class="btn btn-success" value="등록" onclick="finished()" id="sa-custom-position"> -->
 								<input type="submit" class="btn btn-success" value="수정"
 									id="sa-custom-position">
 							</div>
@@ -126,77 +125,68 @@
 	<%@ include file="../include/footer.jsp"%>
 
 	<script type="text/javascript" class="formDataSetting">
-		// 출하일자 min 설정
-		document.getElementById('shipdate').addEventListener(
-				'input',
-				function() {
-					document.getElementById('date').min = document
-							.getElementById('shipdate').value;
-					document.getElementById('amount').max = document
-							.getElementById('samount').value;
-				});
+	document.querySelector('form').addEventListener('submit',function(event) {
+		// 기본 제출 이벤트를 막음
+		event.preventDefault();
+		
+		var date = new Date(document.getElementById('date').value); // 반품일자
+		var reqsdate = new Date(document.getElementById('reqsdate').value); // 출하일자
+		// 반품일자는 출하일자 이후여야 한다
+		if(date<reqsdate){
+		$('#returndate').append('<span style="color : red; font-size : 12px"> * 반품일자는 출하일자 이후여야 합니다 </span>');
+		document.getElementById('date').focus();
+			return;
+		}
 
+		// 폼 제출
+		this.submit();
+	});
+	
+	function ajax() {
+		$.ajax({
+			type : "GET",
+			url : "/returns/searchLOT",
+			data : {
+				request_code : $("#request_code").val(),
+				ship_code : $("#ship_code").val()
+					},
+			success : function(data) {
+					$('#lot').empty();
+
+					$.each(data,function(index,item) {
+						// item을 이용하여 option 요소를 만들고 select 요소에 추가합니다.
+						$('#lot').append('<option value="' + item.lot + '" data-amount="' + item.amount + '">'+ item.lot+ '( 수량 : '+ item.amount+ ' ) </option>');
+									});
+						document.getElementById('amount').max = $('#lot option:selected').data('amount');
+					},
+			error : function(data) {
+					alert('다시시도');
+									}
+					});
+				};
 	</script>
 	
 	<!-- 팝업 -->
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$.ajax({
-				type : "GET",
-				url : "/returns/searchLOT",
-				data : {
-					request_code : $("#request_code").val(),
-					ship_code : $("#ship_code").val()
-				},
-				success : function(data){
-					 // 먼저 기존의 option을 모두 제거합니다.
-			        $('#lot').empty();
+	$(document).ready(function() {
+		// lot , lot 수량 가져오기
 
-			        // AJAX로 받아온 데이터를 각각 처리합니다.
-			        $.each(data, function(index, item) {
-			            // item을 이용하여 option 요소를 만들고 select 요소에 추가합니다.
-			            $('#lot').append('<option value="' + item.lot + '">' + item.lot + '</option>');
-			        });
-				},
-				error : function(data){
-					alert('다시시도');
-				}
-			});
-
-					// 출하번호 찾기	
-					$("#ship_code").click(function() {
-						window.open("/returns/searchShipment","Shipment Search","width=500,height=600");
-						});
 					
-					
-					$("#ship_code").on("input",function(){
-						$.ajax({
-							type : "GET",
-							url : "/returns/searchLOT",
-							data : {
-								request_code : $("#request_code").val(),
-								ship_code : $("#ship_code").val()
-							},
-							success : function(data){
-								 // 먼저 기존의 option을 모두 제거합니다.
-						        $('#lot').empty();
+			if ($("#ship_code").val() != null) {ajax();}
 
-						        // AJAX로 받아온 데이터를 각각 처리합니다.
-						        $.each(data, function(index, item) {
-						            // item을 이용하여 option 요소를 만들고 select 요소에 추가합니다.
-						            $('#lot').append('<option value="' + item.lot + '">' + item.lot + '</option>');
-						        });
-							},
-							error : function(data){
-								alert('다시시도');
-							}
-						});
-						
-					});
-					
+			// #lot 셀렉트 박스가 변경되었을 때 발생하는 이벤트를 정의합니다.
+			$('#lot').change(function() {
+						document.getElementById('amount').max = $('option:selected', this).data('amount');
+										});
 
+			// 출하번호 찾기	
+			$("#ship_code").click(function() {
+				window.open("/returns/searchShipment","Shipment Search","width=500,height=600");
+									});
 
-	});//끝
+			// 출하코드 입력 시
+			$("#ship_code").on("input", function() { ajax(); });
+			});//끝
 	</script>
 
 </body>

@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.production.domain.BOMVO;
+import com.production.domain.ProductVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MAPDVO;
 import com.itwillbs.persistence.RequirementDAO;
@@ -18,59 +20,50 @@ public class RequirementServiceImpl implements RequirementService {
 	private static final Logger logger = LoggerFactory.getLogger(RequirementServiceImpl.class);
 	
 	@Inject
-	private RequirementDAO rdao;
-
+	private RequirementDAO dao;
+	
 	@Override
-	public List<MAPDVO> requirementListAll() throws Exception {
-		logger.debug(" S : requirementListAll() ");
-		return rdao.getRequirementListAll();
-	}
-
-	@Override
-	public MAPDVO getRequirement(String code) throws Exception {
-		logger.debug(" S : getRequirement(String code) ");
-		return rdao.getRequirement(code);
-	}
-
-	@Override
-	public int requirementUpdate(MAPDVO mvo) throws Exception {
-		logger.debug(" S : requirementUpdate(MAPDVO mvo) ");
-		return rdao.updateRequirement(mvo);
-	}
-
-    @Override
-    public int deleteRequirements(String[] codes) throws Exception {
-        return rdao.deleteRequirements(codes);
-    }
-
-	@Override
-	public List<MAPDVO> requirementListPage(Criteria cri) throws Exception {
-		logger.debug(" S : requirementListPage(Criteria cri) ");
-		return rdao.getRequirementListPage(cri);
-	}
-
-	@Override
-	public int totalRequirementCount() throws Exception {
-		logger.debug(" S : totalRequirementCount() ");
-		return rdao.getRequirementCount();
+	public List<ProductVO> getProductList() throws Exception {
+		return dao.getProductList();
 	}
 	
-    @Override
-    public List<MAPDVO> getInfo(String[] codes) throws Exception {
-        return rdao.getInfo(codes);
-    }
-
 	@Override
-	public int InsertRequirement(MAPDVO mvo) throws Exception {
-		return rdao.insertRequirement(mvo);
-	}
-
-	@Override
-	public MAPDVO infoRequirement(String code) throws Exception {
-		return rdao.infoRequirement(code);
-
+	public ProductVO getProduct(String code) throws Exception {
+		return dao.getProduct(code);
 	}
 	
+	@Override
+	public List<BOMVO> getBomList(String code) throws Exception {
+		return dao.getBomList(code);
+	}
 	
+	@Override
+	public int addMaterial(BOMVO vo) throws Exception {
+		return dao.addMaterial(vo);
+	}
 	
+	@Override
+	public int updateMaterial(BOMVO vo) throws Exception {
+		return dao.updateMaterial(vo);
+	}
+	
+	@Override
+	public int deleteMaterial(String[] code) throws Exception {
+		return dao.deleteMaterial(code);
+	}
+	
+	@Override
+	public List<MAPDVO> getMapdList() throws Exception {
+		return dao.getMapdList();
+	}
+	
+	@Override
+	public List<MAPDVO> getMaterialList() throws Exception {
+		return dao.getMaterialList();
+	}
+	
+	@Override
+	public int getRecentBno() throws Exception {
+		return dao.getRecentBno();
+	}
 }

@@ -24,6 +24,9 @@ public interface ProductDAO {
 	public List<MAPDVO> getProductListPage(int page) throws Exception;
 	public List<MAPDVO> getProductListPage(PageVO vo) throws Exception;
 	
-	public int getProductCount() throws Exception;
+	public int getProductCount(PageVO vo) throws Exception;
 	
+	public List<MAPDVO> getCommonList(String group_id) throws Exception;
+	
+	public String getRecentCode() throws Exception;
 }

@@ -35,12 +35,10 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 		List<ShipmentVO> list = new ArrayList<ShipmentVO>();
 		
-		if(vo == null) {
-			list = sqlSession.selectList(NAMESPACE+".listPage", paramMap);
-		}else {
+		
 			list = sqlSession.selectList(NAMESPACE+".research", paramMap);
 			
-		}
+		
 
 		return list;
 	}
@@ -110,85 +108,46 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		return sqlSession.selectOne(NAMESPACE+".getRecentHistory", vocode);
 	}
 	
+	@Override
+	public int updateRequestStatus(String request) throws Exception {
+		// 수주상태 출하완료로 변경
+		return sqlSession.update(NAMESPACE+".updateRequestStatus",request);
+	}
 
 	@Override
 	public int insertShipment(ShipmentVO vo) throws Exception {
 		logger.debug("@@@ DAO 출하 등록하기 insertShipment(ShipmentVO vo) : "+vo);
 		// 여기 아이디도 추가해야함(등록자 아이디)
 		int result = sqlSession.insert(NAMESPACE+".insertShipment", vo);
-		
-		
-		// 추가했을 때 수주상태를 변경해야함!
-		String request = vo.getReqs_code();	// 수주번호
-		String shipment = vo.getCode(); // 출하번호
-		
-		sqlSession.update(NAMESPACE+".updateRequestStatus",request);
-		
-		if(result == 1) {
-			// 출하량
-			int shipmentAmount = vo.getAmount();
-			
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("vo", vo);
-			
-			// 사용한 LOT 모아두는 리스트
-			List<String> usedLOTList = new ArrayList();
-			// 사용한 LOT
-			String usedLOT = null;
-			String orderNum = "";
-			int lotIndex = 0;
-			
-			List<HashMap<String, Object>> lotGetList = sqlSession.selectList(NAMESPACE+".getLOT", params);
-			
-			 // 출하량이 0보다 클 동안 반복
-				while (shipmentAmount > 0 && lotIndex < lotGetList.size()) {
-			    	// 사용가능한 LOT 번호, 지금 수량을 얻을 수 잇음
-			    	
-					HashMap<String, Object> lot = lotGetList.get(lotIndex);
-					BigDecimal totalBigDecimal = (BigDecimal) lot.get("Total");
-					int total = totalBigDecimal.intValue();
-					String lotNumber = (String)lot.get("lot");
-
-			             if (total <= shipmentAmount) { // 출하량이 수량보다 많을 때
-			                 //1. 입출고 기록에서 출고기록 남기기(lot / 출하번호)
-			            	 orderNum = lotNumber+"/"+shipment;
-			            	 params.put("order_num", orderNum);
-			            	 params.put("total",total);
-			            	 
-			            	 sqlSession.insert(NAMESPACE+".insertHistory", params);
-			            	 
-			            	 // 등록하기 전에 lot , material 들고오기
-			       
-			            	 //3. lot 테이블에 insert 하기
-			            	 params.put("lot",lotNumber);
-			            	 sqlSession.insert(NAMESPACE+".insertLOT", params);
-			            	 
-			            	 // 4. 
-			                 shipmentAmount -= total;
-			             } else {
-			                 // total이 출하량보다 크면, 해당 LOT에서 출하량만큼만 사용
-			                 
-			            	 orderNum = lotNumber+"/"+shipment;
-			            	 params.put("order_num", orderNum);
-			            	 params.put("total",shipmentAmount);
-			            	 
-			            	 sqlSession.insert(NAMESPACE+".insertHistory", params);
-			            	 params.put("lot",lotNumber);
-			            	 sqlSession.insert(NAMESPACE+".insertLOT", params);
-			            	 
-			            	 shipmentAmount = 0;     				                 
-			             }			        
-			             lotIndex++;
-			    	 }// while문 끝
-				
-				
-		}// insert 성공했을 시 끝
-		
 		return result;
-		
 	}
 	
-	//----- add 용 검색 ----
+	@Override
+	public List<HashMap<String, Object>> getLOTList(Map<String, Object> params) throws Exception {
+		// 이거 LOT 리스트 가져오기
+		return sqlSession.selectList(NAMESPACE+".getLOT", params);
+	}
+
+	@Override
+	public int insertHistory(Map<String, Object> params) throws Exception {
+		// 입출고기록에 출하기록하기
+		return sqlSession.insert(NAMESPACE+".insertHistory", params);
+
+	}
+	
+
+	@Override
+	public String getMaterail(String lotNumber) throws Exception {
+		// Material 정보 가져오기
+		return sqlSession.selectOne(NAMESPACE+".getMaterial", lotNumber);
+	}
+
+	@Override
+	public int insertLOT(Map<String, Object> params) throws Exception {
+		// LOT 테이블에 넣기
+		return 				            	 sqlSession.insert(NAMESPACE+".insertLOT", params);
+
+	}
 
 	@Override
 	public List<RequestVO> getRequestList(Criteria cri) throws Exception {
@@ -329,16 +288,15 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		// lot 테이블 데이터 지우기
 		sqlSession.delete(NAMESPACE+".deleteLOTUpdate", params);
 		
+		logger.debug("====== 입출고기록 지우기");
 		// 입출고기록 지우기
 		sqlSession.delete(NAMESPACE+".deleteHistoryUpdate", params);
 	    
+		logger.debug("====== 출하정보 가져오기 ");
 	    // 출하정보 가져오기
 	    List vo = sqlSession.selectList(NAMESPACE+".getShipmentInfoList", params);
 	    params.put("shipment",vo);
-	    
-	    //  + 출고량만큼 STOCK에 더해서 update하기
-	    sqlSession.update(NAMESPACE+".updateStockForUpdate", params);
-	    
+	    	    
 	    // 수주상태 변경
 	    result = sqlSession.update(NAMESPACE+".updateStatusBeforeDelete", params);
 	    
@@ -388,8 +346,8 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 	@Override
 	public int actDoneShipment(String[] code) throws Exception {
-		Map<String, Object> params = new HashMap<>();
-		params.put("code", code);
+		logger.debug(" 큐알코드 처리하기!!!!!!!!!!!!!!!! 출하번호!!!!!!!!!"+code);
+		
 		return sqlSession.update(NAMESPACE+".updateStatusToShipment",code);
 	}
 

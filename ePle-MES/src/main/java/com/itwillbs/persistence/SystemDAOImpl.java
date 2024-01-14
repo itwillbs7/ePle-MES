@@ -43,6 +43,20 @@ public class SystemDAOImpl implements SystemDAO {
 		logger.debug("cvo : " + sqlSession.selectOne(NAMESPACE+".selectOneCommon", cvo));
 		return sqlSession.selectOne(NAMESPACE+".selectOneCommon", cvo);
 	}
+	
+	@Override
+	public List<CommonVO> getSomeCommons(Map<String, Object> index) throws Exception {
+		logger.debug("getSomeCommons 실행");
+		return sqlSession.selectList(NAMESPACE+".selectSomeCommons", index);
+	}
+
+	@Override
+	public List<String> getDistinctCommon(String category) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("getDistinctCommon 실행");
+		logger.debug("category : " + category);
+		return sqlSession.selectList(NAMESPACE+".selectDistinctCommon", category);
+	}
 
 	@Override
 	public void updateCommon(Map<String, Object> newCommon) throws Exception {
@@ -59,6 +73,13 @@ public class SystemDAOImpl implements SystemDAO {
 		logger.debug("deleteCommon 실행");
 		logger.debug("cvo : " + cvo.toString());
 		sqlSession.delete(NAMESPACE+".deleteCommon", cvo);
+	}
+
+	@Override
+	public int deleteSomeCommons(Map<String, Object> indexMap) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("deleteSomeCommons 실행");
+		return sqlSession.delete(NAMESPACE+".deleteSomeCommons", indexMap);
 	}
 
 	@Override
@@ -106,16 +127,35 @@ public class SystemDAOImpl implements SystemDAO {
 	}
 
 	@Override
+	public List<CommonVO> getKeywordCommonsPage(Map<String, Object> searchDataMap) throws Exception {
+		logger.debug("getKeywordCommonsPage 실행");
+		return sqlSession.selectList(NAMESPACE+".selectKeyWordCommonPage", searchDataMap);
+	}
+	
+	@Override
 	public List<UserVO> getKeyWordUsersPage(Map<String, Object> searchDataMap) throws Exception {
-		logger.debug("getKeyWordUsers 실행");
-		return sqlSession.selectList(NAMESPACE+".selectKeyWordUser", searchDataMap);
+		logger.debug("getKeyWordUsersPage 실행");
+		return sqlSession.selectList(NAMESPACE+".selectKeyWordUserPage", searchDataMap);
 	}
 
+	@Override
+	public List<CommonVO> getCommonListPage(Criteria cri) throws Exception {
+		logger.debug("getCommonListPage 실행");
+		logger.debug("cri : " + cri.toString());
+		return sqlSession.selectList(NAMESPACE+".selectCommonListPage", cri);
+	}
+	
 	@Override
 	public List<UserVO> getUserListPage(Criteria cri) throws Exception {
 		logger.debug("getUserListPage 실행");
 		logger.debug("cri : " + cri.toString());
 		return sqlSession.selectList(NAMESPACE+".selectUserListPage", cri);
+	}
+	
+	@Override
+	public int getCommonTotalCount() throws Exception {
+		logger.debug("getCommonTotalCount 실행");
+		return sqlSession.selectOne(NAMESPACE+".selectCommonTotalCount");
 	}
 
 	@Override
@@ -124,6 +164,14 @@ public class SystemDAOImpl implements SystemDAO {
 		return sqlSession.selectOne(NAMESPACE+".selectUserTotalCount");
 	}
 
+	@Override
+	public int getCommonSearchCount (Map<String, Object> categoryAndKeyword) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("getCommonSearchCount 실행");
+		logger.debug("검색어 : " + categoryAndKeyword.get("keyword").toString());
+		return sqlSession.selectOne(NAMESPACE+".selectCommonSearchCount", categoryAndKeyword);
+	}
+	
 	@Override
 	public int getUserSearchCount(Map<String, Object> categoryAndKeyword) throws Exception {
 		// TODO Auto-generated method stub
@@ -144,6 +192,34 @@ public class SystemDAOImpl implements SystemDAO {
 		// TODO Auto-generated method stub
 		logger.debug("getPosCodenames 실행");
 		return sqlSession.selectList(NAMESPACE+".selectPosCodenames");
+	}
+
+	@Override
+	public int duplicateIDCheck(Map<String, Object> idMap) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("duplicateCheck 실행");
+		return sqlSession.selectOne(NAMESPACE+".duplicateIDCheck", idMap);
+	}
+
+	@Override
+	public int duplicateEmailCheck(Map<String, Object> emailMap) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("duplicateEmailCheck 실행");
+		return sqlSession.selectOne(NAMESPACE+".duplicateEmailCheck", emailMap);
+	}
+
+	@Override
+	public int duplicatePhoneCheck(Map<String, Object> phoneMap) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("duplicatePhoneCheck 실행");
+		return sqlSession.selectOne(NAMESPACE+".duplicatePhoneCheck", phoneMap);
+	}
+
+	@Override
+	public int duplicateCommonCheck(CommonVO cvo) throws Exception {
+		// TODO Auto-generated method stub
+		logger.debug("duplicateCommonCheck 실행");
+		return sqlSession.selectOne(NAMESPACE+".duplicateCommonCheck", cvo);
 	}
 	
 	

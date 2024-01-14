@@ -9,6 +9,9 @@
 <title>보전 신청 목록</title>
 </head>
 <body>
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
 	<!-- 직원의 보전 신청 내역, 완료된 건 표시x -->
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
@@ -30,7 +33,7 @@
 					<div id="accordion">
 						<c:choose>
 							<c:when test="${empty list or list.size() == 0}">
-								<h4 class="text-center">등록된 보전 신청이 없습니다!</h4>
+								<h4 class="text-center mb-20">등록된 보전 신청이 없습니다!</h4>
 							</c:when>
 							<c:otherwise>
 								<c:forEach items="${list}" var="i">
@@ -88,5 +91,10 @@
 		<!-- 콘텐츠 끝> -->
 		<%@ include file="../../include/footer.jsp"%>
 	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 11);
+		});
+	</script>
 </body>
 </html>

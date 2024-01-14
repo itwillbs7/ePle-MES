@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<%@ page session="false"%>
 <html>
 <head>
 <style type="text/css">
@@ -24,7 +23,7 @@ font-weight: bold;
 		<button type="button" class="close" onclick="window.close();">×</button>
 
 			<div class="login-title">
-				<h1 class="text-center" style="color: #00E007;">창고 등록</h1>
+				<h1 class="text-center" style="color: #7CB342;">창고 등록</h1>
 			</div>
 			
 			<div class="tab">
@@ -50,17 +49,17 @@ font-weight: bold;
 										<input class="form-control" type="text" name="name" placeholder="창고이름" required>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="text" name="location" placeholder="창고위치 (ex 부산 동구)" required>
+										<input class="form-control" type="text" name="location" placeholder="창고위치 (ex A동 5구역)" required>
 									</div>
 								
 									
 									<label>담당자 정보</label> 
 									<div class="form-group">
 										<input class="form-control" type="hidden" name="manager" id="selectA">
-										<input class="form-control" type="text" id="selectB" placeholder="사원이름 (클릭하세요)" readonly required>
+										<input class="form-control" type="text" id="selectB" placeholder="사원이름" readonly required>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="text" id="selectC" name="mng_phone" placeholder="사원연락처 (클릭하세요)" readonly required>
+										<input class="form-control" type="text" id="selectC" name="mng_phone" placeholder="사원연락처" readonly required>
 									</div>
 
 									
@@ -90,7 +89,7 @@ font-weight: bold;
 
 	<%@ include file="../include/footer.jsp"%>
 	<script type="text/javascript">
-	window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
+	window.resizeTo(outerWidth - innerWidth + 550, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
 	
 	
 	

@@ -7,10 +7,9 @@
   	<!--materialMapper.xml-->
     <mapper namespace="com.itwillbs.mapper.MaterialMapper">
   
-
 	<!-- 입고 리스트 -->
 	<select id="InList" resultType="Warehouse_HistoryVO">
-		SELECT wh.*, m.name mapdName, m.unit, e.name empName
+		SELECT wh.*, m.name mapdName, m.unit, e.name empName, m.code
 		FROM WAREHOUSE_HISTORY wh
 		JOIN MAPD m
 		ON wh.mapd_code = m.code
@@ -21,10 +20,13 @@
         WHERE wh.io = 'IN'
         <if test="searchCode != null or searchName != null" >
 		<if test="searchCode != null">
-			AND wh.warehouse_code LIKE CONCAT('%', #{searchCode}, '%')
+			AND wh.code LIKE CONCAT('%', #{searchCode}, '%')
+		</if>
+		<if test="searchCode != null and searchName != null">
+				AND
 		</if>
 		<if test="searchName != null">
-			AND m.name LIKE CONCAT('%', #{searchName}, '%')
+			m.code LIKE CONCAT('%', #{searchName}, '%')
 		</if>
 		</if>
 		ORDER BY wh.code DESC
@@ -34,8 +36,25 @@
 	<!-- 전체 입고 데이터 수 -->
 	<select id="InListCount" resultType="int">
 		SELECT count(*)
-		FROM WAREHOUSE_HISTORY
-		WHERE io = 'IN' 
+		FROM WAREHOUSE_HISTORY wh
+		JOIN MAPD m
+		ON wh.mapd_code = m.code
+		LEFT OUTER JOIN WAREHOUSE w
+        ON wh.warehouse_code = w.code
+        LEFT OUTER JOIN EMPLOYEES e
+        ON w.manager = e.code
+        WHERE wh.io = 'IN'
+		<if test="searchCode != null or searchName != null" >
+		<if test="searchCode != null">
+			AND wh.code LIKE CONCAT('%', #{searchCode}, '%')
+		</if>
+		<if test="searchCode != null and searchName != null">
+				AND
+		</if>
+		<if test="searchName != null">
+			m.code LIKE CONCAT('%', #{searchName}, '%')
+		</if>
+		</if>
 	</select>
 	
 	<!-- 입고 등록 -->
@@ -80,10 +99,12 @@
 	
 	<!-- 발주요청 리스트 -->
 	<select id="askOrderList" resultType="OrderVO">
-		SELECT o.code, o.material, m.name, o.amount, m.unit, o.date, o.status, m.group_id
+		SELECT o.code, o.material, m.name, o.amount, m.unit, o.date, o.status, m.group_id, o.ask_emp, e.name empName
     	FROM ORDERS o
 		LEFT OUTER JOIN MAPD m
         ON o.material = m.code
+        LEFT OUTER JOIN EMPLOYEES e
+        ON e.code = o.ask_emp
 		WHERE o.complete = 0 AND o.status = '신청'
 		ORDER BY o.code desc
 		LIMIT #{cri.startPage}, #{cri.pageSize}
@@ -98,8 +119,8 @@
 	
 	<!-- 발주요청 등록 -->
 	<insert id="askOrderAdd">
-		INSERT INTO ORDERS (code,material,date,amount,complete,status) 
-		VALUES (#{code},#{material},now(),#{amount},'0','신청')
+		INSERT INTO ORDERS (code,material,date,amount,complete,status,ask_emp) 
+		VALUES (#{code},#{material},now(),#{amount},'0','신청',#{ask_emp})
 	</insert>
 
 	<!-- 발주 최신코드 가져오기 -->
@@ -109,17 +130,19 @@
 	
 	<!-- 발주요청 상세 -->
 	<select id="askOrderInfo" parameterType="String" resultType="OrderVO">
-		SELECT o.code, o.material, m.code_id, m.name, o.amount, m.unit, o.date, o.status
+		SELECT o.code, o.material, m.code_id, m.name, o.amount, m.unit, o.date, o.status, e.name empName
     	FROM ORDERS o
 		LEFT OUTER JOIN MAPD m
         ON o.material = m.code
+        LEFT OUTER JOIN EMPLOYEES e
+        ON o.ask_emp = e.code
         WHERE o.status = '신청' AND o.code = #{code}
 	</select>
 	
 	<!-- 발주요청 수정 -->
 	<update id="askOrderEdit">
 		UPDATE ORDERS 
-		SET amount = #{amount}, material = #{material}
+		SET amount = #{amount}, material = #{material}, ask_emp=#{ask_emp}
 		WHERE code = #{code} AND status = '신청'
 	</update>
 	
@@ -145,14 +168,93 @@
 	
 	
 	
-	<!-- 발주등록 update -->
+	<!-- 발주관리 등록 update -->
 	<update id="orderAdd">
 		UPDATE ORDERS 
 		SET client_code=#{client_code}, price=#{price}, order_date=#{order_date}, reg_date=now(), reg_emp=#{reg_emp}, update_date=now(), update_emp=#{reg_emp}, status='완료'
 		WHERE code = #{code} AND status = '신청'
 	</update>
 	
-	<!-- 발주관리메인 + 입고등록) 발주 목록 -->
+	<!-- 발주관리 목록 -->
+	<select id="orderList" resultType="OrderVO">
+		SELECT o.code, o.material, m.name, o.amount, cl.code, cl.name client_name, m.unit, o.price, o.order_date, o.status, e.name reg_name, o.reg_emp
+		FROM ORDERS o
+		LEFT OUTER JOIN MAPD m
+		ON o.material = m.code
+		LEFT OUTER JOIN CLIENT cl
+		ON o.client_code = cl.code
+		LEFT OUTER JOIN EMPLOYEES e
+		ON e.code = o.reg_emp
+		WHERE status = '완료' 
+			<if test="searchCode != null or searchName != null">
+			<if test="searchCode != null">
+				AND o.code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchName != null">
+				AND o.reg_emp LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+			</if>
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>	
+	
+	<!-- 발주관리 데이터 수 -->
+	<select id="orderListCount2" resultType="int">
+		SELECT count(*) 
+		FROM ORDERS o
+		LEFT OUTER JOIN MAPD m
+		ON o.material = m.code
+		LEFT OUTER JOIN EMPLOYEES e
+		ON e.code = o.reg_emp
+		WHERE status = '완료'
+			<if test="searchCode != null or searchName != null" >
+			<if test="searchCode != null">
+				AND o.code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchName != null">
+				AND o.reg_emp LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+			</if>
+	</select>	
+	
+	<!-- 발주관리 상세 -->
+	<select id="orderInfo" parameterType="String" resultType="OrderVO">
+		SELECT o.code, o.material, m.code_id, m.name, o.amount, m.unit, o.date, o.status, e.name empName, o.client_code, c.name clName, o.price, o.order_date, o.reg_emp
+    	FROM ORDERS o
+		LEFT OUTER JOIN MAPD m
+        ON o.material = m.code
+        LEFT OUTER JOIN EMPLOYEES e
+        ON o.reg_emp = e.code
+        LEFT OUTER JOIN CLIENT c
+        ON o.client_code = c.code
+        WHERE o.status = '완료' AND o.code = #{code}
+	</select>
+	
+	<!-- 발주관리 삭제 -->
+	<select id="delOrderInfo" resultType="OrderVO">
+    	SELECT o.code, o.material, m.code_id, m.name, o.amount, m.unit, o.date, o.status, o.reg_date, o.price
+    	FROM ORDERS o
+		LEFT OUTER JOIN MAPD m
+        ON o.material = m.code
+        WHERE o.status = '완료' AND o.code IN
+		<foreach collection="code_arr" item="item" open="(" close=")" separator=",">
+			#{item}
+		 </foreach>
+	</select>
+	
+	<delete id="orderDel" parameterType="hashmap">
+		DELETE FROM ORDERS WHERE status = '완료' AND code IN
+		<foreach collection="code_arr" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 입고등록) 발주 목록 -->
 	<select id="SearchOrder" resultType="OrderVO">
 		SELECT o.code, o.material, m.name, o.amount, cl.code, cl.name client_name, m.unit, o.price, o.order_date, o.status, e.name reg_name
 		FROM ORDERS o
@@ -230,7 +332,7 @@
 	<select id="searchMaterial" resultType="OrderVO">
 		SELECT code, name
 		FROM MAPD  
-	    WHERE group_id = 'MAT'
+	    WHERE group_id = 'PROD'
 		<if test="searchName != null">
 			AND name LIKE CONCAT('%', #{searchName}, '%')
 		</if>  
@@ -241,10 +343,41 @@
 	<select id="searchMaterialCount" resultType="int">
 		SELECT count(*) 
 		FROM MAPD
-		WHERE group_id = 'MAT'
+		WHERE group_id = 'PROD'
 		<if test="searchName != null">
 			AND name LIKE CONCAT('%', #{searchName}, '%')
 		</if> 
+	</select>	
+	
+	<!-- 입고검색) 품목 목록 (전체) -->
+	<select id="searchMAPD" resultType="OrderVO">
+		SELECT code, name
+		FROM MAPD  
+	    WHERE active=1
+		<if test="searchCode != null or searchName != null" >
+			<if test="searchCode != null">
+				AND code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchName != null">
+				AND name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+		</if> 
+    	LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>	
+	
+	<!-- 입고검색) 품목 데이터 수 (전체) -->
+	<select id="searchMAPDCount" resultType="int">
+		SELECT count(*) 
+		FROM MAPD
+		WHERE active=1
+		<if test="searchCode != null or searchName != null" >
+			<if test="searchCode != null">
+				AND code LIKE CONCAT('%', #{searchCode}, '%')
+			</if>
+			<if test="searchName != null">
+				AND name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+		</if>
 	</select>	
 	
 	<!-- 발주등록) 거래처 목록 -->
@@ -269,6 +402,86 @@
 	</select>
 	
 	
+	<!-- 출고 리스트 -->
+	<select id="outList" resultType="Warehouse_HistoryVO">
+		SELECT wh.*, m.name mapdName, m.unit, e.name empName
+		FROM WAREHOUSE_HISTORY wh
+		JOIN MAPD m
+		ON wh.mapd_code = m.code
+		LEFT OUTER JOIN WAREHOUSE w
+        ON wh.warehouse_code = w.code
+        LEFT OUTER JOIN EMPLOYEES e
+        ON w.manager = e.code
+        WHERE wh.io = 'OUT'
+        <if test="searchCode != null or searchName != null" >
+		<if test="searchCode != null">
+			AND wh.code LIKE CONCAT('%', #{searchCode}, '%')
+		</if>
+		<if test="searchCode != null and searchName != null">
+				AND
+		</if>
+		<if test="searchName != null">
+			m.code LIKE CONCAT('%', #{searchName}, '%')
+		</if>
+		</if>
+		ORDER BY wh.code DESC
+		LIMIT #{cri.startPage}, #{cri.pageSize}
+	</select>
+	
+	<!-- 전체 출고 데이터 수 -->
+	<select id="outListCount" resultType="int">
+		SELECT count(*)
+		FROM WAREHOUSE_HISTORY wh
+		JOIN MAPD m
+		ON wh.mapd_code = m.code
+		LEFT OUTER JOIN WAREHOUSE w
+        ON wh.warehouse_code = w.code
+        LEFT OUTER JOIN EMPLOYEES e
+        ON w.manager = e.code
+        WHERE wh.io = 'OUT'
+        <if test="searchCode != null or searchName != null" >
+		<if test="searchCode != null">
+			AND wh.code LIKE CONCAT('%', #{searchCode}, '%')
+		</if>
+		<if test="searchCode != null and searchName != null">
+				AND
+		</if>
+		<if test="searchName != null">
+			m.code LIKE CONCAT('%', #{searchName}, '%')
+		</if>
+		</if>
+	</select>
+	
+	<!-- 출고 상세 -->
+	<select id="outInfo" parameterType="String" resultType="Warehouse_HistoryVO">
+		SELECT wh.*, m.name mapdName, m.unit, e.name empName, m.unit
+		FROM WAREHOUSE_HISTORY wh
+		JOIN MAPD m
+		ON wh.mapd_code = m.code
+		LEFT OUTER JOIN WAREHOUSE w
+        ON wh.warehouse_code = w.code
+        LEFT OUTER JOIN EMPLOYEES e
+        ON w.manager = e.code
+        WHERE wh.io = 'OUT' AND wh.code = #{code}
+	</select>
+	
+	
+	
+	
+	
+	
+	<!-- 출고 등록 -->
+	<insert id="outAdd">
+		INSERT INTO WAREHOUSE_HISTORY
+		(code,order_num,warehouse_code,io,category,amount,mapd_code,emp_code,date)
+		VALUES
+		(#{code},#{order_num},#{warehouse_code},'OUT','원자재',#{amount},#{mapd_code},#{emp_code},now())
+	</insert>
+	
+	<!-- 최신코드 가져오기 -->
+	<select id="outRecentCode" resultType="String">
+		SELECT code FROM WAREHOUSE_HISTORY WHERE code LIKE 'OUT%' AND DATE(date) = CURDATE() ORDER BY code DESC LIMIT 0, 1
+	</select>
 	
 	
 	

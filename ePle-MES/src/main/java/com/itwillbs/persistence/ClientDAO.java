@@ -14,7 +14,7 @@ public interface ClientDAO {
 	public int updateClient(ClientVO cvo) throws Exception;
 	
 	public int deleteClients(String[] codes) throws Exception;
-			
+
 	public int insertClient(ClientVO cvo) throws Exception;
 			
 	public List<ClientVO> getInfo(String[] codes) throws Exception;
@@ -24,7 +24,8 @@ public interface ClientDAO {
 	
 	public List<ClientVO> getClientListPage(int page) throws Exception;
 	public List<ClientVO> getClientListPage(PageVO vo) throws Exception;
-	
+
 	public int getClientCount() throws Exception;
+
 	
 }
