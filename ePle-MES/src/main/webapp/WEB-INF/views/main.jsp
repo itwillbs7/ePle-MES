@@ -4,8 +4,8 @@
 <html>
 <head>
 <%@ include file="include/head.jsp"%>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/src/plugins/fullcalendar/fullcalendar.css" />
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/src/plugins/fullcalendar/fullcalendar.css" />
 <title>메인</title>
 </head>
 <body>
@@ -16,40 +16,51 @@
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="min-height-200px">
-				<div class="col-lg-6 col-md-12 col-sm-12 mb-30 card-box">
-					<div class="pd-20">
-						<div class="mb-10 text-center">
-							<h2>일정</h2>
+				<div class="row">
+					<div class="col-md-6 col-sm-12 mb-30">
+						<div class="pd-20 card-box height-100-p">
+							<div class="clearfix mb-30">
+								<div class="text-center">
+									<h2 class="text-blue">제목</h2>
+								</div>
+							</div>
+							<!-- 작성란 -->
 						</div>
-						<div class="calendar-wrap">
-							<div id="calendar"></div>
+					</div>
+					<div class="col-md-6 col-sm-12 mb-30">
+						<div class="pd-20 card-box height-100-p">
+							<div class="clearfix mb-30">
+								<div class="text-center">
+									<h2 class="text-blue">일정</h2>
+								</div>
+							</div>
+							<div class="calendar-wrap">
+								<div id="calendar"></div>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-6 col-md-12 col-sm-12 mb-30 card-box">
-					<div class="pd-20">
-						<div class="calendar-wrap">
-							<h1>옆영역</h1>
-						</div>
-					</div>
-				</div>
+
 				<!-- 푸터 -->
 				<%@ include file="include/github.jsp"%>
 				<%@ include file="include/footer.jsp"%>
 			</div>
 		</div>
 	</div>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 	<!-- fullcalendar 언어 설정관련 script -->
-	<script src="${pageContext.request.contextPath}/resources/vendors/scripts/calendar-setting.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/src/plugins/fullcalendar/fullcalendar.js"></script>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$(".fc-right").addClass("pull-right");
-		$(".fc-left").addClass("text-center");
-		$(".fc-clear").remove();
-		$(".fc-center").remove();
-	});
-</script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendors/scripts/calendar-setting.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/src/plugins/fullcalendar/fullcalendar.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".fc-right").addClass("pull-right");
+			$(".fc-left").addClass("text-center");
+			$(".fc-clear").remove();
+			$(".fc-center").remove();
+		});
+	</script>
 </body>
 </html>
