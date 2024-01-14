@@ -109,7 +109,7 @@
                     <div class="col-sm-12 mb-3">
                         <div class="form-group">
                             <label>등록일</label>
-                            <input class="form-control" type="text" name="reg_date" value="${mvo.reg_date}" readonly>
+                            <input class="form-control" type="text" name="reg_date" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" readonly>
                         </div>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                     <div class="col-sm-12 mb-3">
                         <div class="form-group">
                             <label>수정일</label>
-                            <input class="form-control" type="text" name="update_date" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()) %>" readonly>
+                            <input class="form-control" type="text" name="update_date" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" readonly>
                         </div>
                     </div>
                 </div>

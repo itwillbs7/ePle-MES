@@ -18,9 +18,9 @@ public class MAPDVO {
 	private int inprice;
 	private int outprice;
 	private String reg_emp;
-	private Timestamp reg_date;
+	private String reg_date;
 	private String update_emp;
-	private Timestamp update_date;
+	private String update_date;
 	private String requirement;
 	private boolean active;
 	
