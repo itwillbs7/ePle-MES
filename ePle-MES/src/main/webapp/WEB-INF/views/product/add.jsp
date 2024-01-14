@@ -68,17 +68,17 @@
 						<div class="form-group">
                             <label>등록자 사원코드</label> <input class="form-control" type="text" name="reg_emp" placeholder="등록자 사원코드 입력" required>
                         </div>
-                        <div class="form-group">
-                            <label>등록일</label>
-                            <input class="form-control" type="text" name="reg_date" placeholder="등록일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date()) %>" readonly required>
-                        </div>
+						<div class="form-group">
+						    <label>등록일</label>
+						    <input class="form-control" type="text" name="reg_date" placeholder="등록일 입력" id="regDate" readonly required>
+						</div>
                         <div class="form-group">
                             <label>수정자 사원코드</label> <input class="form-control" type="text" name="update_emp" placeholder="수정자 사원코드 입력" required>
                         </div>
-                        <div class="form-group">
-                            <label>수정일</label>
-                            <input class="form-control" type="text" name="update_date" placeholder="수정일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date()) %>" readonly required>
-                        </div>
+						<div class="form-group">
+						    <label>수정일</label>
+						    <input class="form-control" type="text" name="update_date" placeholder="수정일 입력" id="updateDate" readonly required>
+						</div>
 						<div class="form-group">
 						    <label>사용여부</label>
 						    <select class="form-control" name="active" required>
@@ -118,13 +118,31 @@
 	        var pattern = /^[A-Z0-9]+$/;
 	
 	        if (!pattern.test(inputValue)) {
-	            document.getElementById('codeValidationMsg').innerText = '영어 대문자와 숫자만 입력 가능합니다.';
-	            inputField.setCustomValidity('영어 대문자와 숫자만 입력 가능합니다.');
+	            document.getElementById('codeValidationMsg').innerText = '영문 대문자와 숫자를 조합하여 입력하세요.';
+	            inputField.setCustomValidity('영문 대문자와 숫자를 조합하여 입력하세요.');
 	        } else {
 	            document.getElementById('codeValidationMsg').innerText = '';
 	            inputField.setCustomValidity('');
 	        }
 	    }
+	    
+	    // 등록일과 수정일을 현재 날짜로 채우는 함수
+	    function fillCurrentDate(fieldId) {
+	        var currentDate = new Date();
+	        var year = currentDate.getFullYear();
+	        var month = ('0' + (currentDate.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더해줍니다.
+	        var day = ('0' + currentDate.getDate()).slice(-2);
+
+	        var formattedDate = year + '-' + month + '-' + day;
+
+	        document.getElementById(fieldId).value = formattedDate;
+	    }
+
+	    // 페이지 로드 시 현재 날짜로 등록일과 수정일 채우기
+	    document.addEventListener('DOMContentLoaded', function () {
+	        fillCurrentDate('regDate');
+	        fillCurrentDate('updateDate');
+	    });
 	</script>
 	
 </body>
