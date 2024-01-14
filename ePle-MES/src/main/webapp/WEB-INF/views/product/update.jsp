@@ -84,15 +84,9 @@
                     </div>
                 </div>
                 
-                <!-- 출고단가 (원) -->
-                <div class="row">
-                    <div class="col-sm-12 mb-3">
-                        <div class="form-group">
-                            <label>출고단가 (원)</label>
-                            <input class="form-control" type="text" name="outprice" value="${mvo.outprice}">
-                        </div>
-                    </div>
-                </div>
+                <!-- 출고 단가 -->
+                <input class="form-control" type="hidden" name="outprice" value="${mvo.outprice}">
+                
                 
                 <!-- 등록자 사원코드 -->
                 <input class="form-control" type="hidden" name="reg_emp" value="${mvo.reg_emp}" readonly>
