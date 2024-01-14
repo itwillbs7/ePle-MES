@@ -42,9 +42,10 @@ font-weight: bold;
     									<label>자재 유형</label>
 									<div class="form-group">
     									<select class="form-control" name="category" required>
-        									<option value="" disabled selected hidden>창고를 선택하세요</option>
+        									<option value="" disabled selected hidden>유형을 선택하세요</option>
         									<option value="원자재">원자재</option>
         									<option value="설비">설비</option>
+        									<option value="완제품">완제품</option>
     									</select>
 									</div>
 									

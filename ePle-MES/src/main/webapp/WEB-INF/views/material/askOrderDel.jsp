@@ -10,17 +10,21 @@
 .login-box {
 width: 120% !important;
 }
+  .table th,
+  .table td {
+    text-align: center;
+  }
 </style>
-    <title>발주 요청 취소</title>
+    <title>발주 요청 삭제</title>
 </head>
 <body>
     <!-- 콘텐츠 시작 -->
     <div class="modal-content">
-        <div class="container-fluid login-box bg-white box-shadow border-radius-10">
+        <div class="container-fluid login-box bg-white box-shadow border-radius-10" style="max-width: 100%;">
             <button type="button" class="close" onclick="window.close();">×</button>
             <!-- 타이틀 -->
             <div class="login-title">
-                <h2 class="text-center" style="color: #FF8C00;">발주 요청 취소</h2>
+                <h2 class="text-center" style="color: #FF8C00;">발주 요청 삭제</h2>
             </div>
             <!-- 폼 -->
             <form id="deleteForm" method="post">
@@ -48,7 +52,6 @@ width: 120% !important;
                     </div>
                 </div>
                 <hr>
-                <br>
                 <h6 class="text-center">해당 요청을 삭제하시겠습니까?</h6>
                 <br>
                 

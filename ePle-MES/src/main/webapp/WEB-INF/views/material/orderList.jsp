@@ -123,7 +123,7 @@ margin-right:20px;
 							<th>담당자</th>
 							<th>발주상태</th>
 						</tr>
-
+					<c:if test="${not empty orderList}">
 						<c:forEach items="${orderList }" var="vo">
 						<tr>
 							<td>
@@ -145,6 +145,12 @@ margin-right:20px;
 
 						</tr>
 						</c:forEach>
+					</c:if>
+					<c:if test="${empty orderList}">
+						<tr>
+							<td colspan="10" style="text-align: center; vertical-align: middle;">검색 결과가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
+						</tr>
+					</c:if>
 							
 					</table>
 				</form>
@@ -155,13 +161,13 @@ margin-right:20px;
 				<div class="btn-toolbar justify-content-center mb-15">
 					<div class="btn-group">
 						<c:if test="${pageVO.prev}">
-							<a href="/material/orderList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+							<a href="/material/orderList?page=${pageVO.startPage - 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
 						</c:if>
 						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/material/orderList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+							<a href="/material/orderList?page=${i}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
 						</c:forEach>
 						<c:if test="${pageVO.next}">
-							<a href="/material/orderList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+							<a href="/material/orderList?page=${pageVO.endPage + 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
 						</c:if>
 					</div>
 				</div>
@@ -249,7 +255,7 @@ margin-right:20px;
 		$(document).ready(function() {
 			// 추가 O
 			$("#add").click(function() {
-				openPage("/material/orderBeforeAdd", 800, 600);
+				openPage("/material/orderBeforeAdd", 750, 600);
 			});
 
 		// 수정 O
@@ -284,14 +290,12 @@ margin-right:20px;
 			    });
 			    
 			    if (codes.length > 0) { 
-			        openPage("/material/orderDel?codes=" + codes.join(','), 400, 600);
+			        openPage("/material/orderDel?codes=" + codes.join(','), 700, 400);
 			    } else {
-			        $('#warning-modal').modal('show'); 
+			    	alert("선택된 항목이 없습니다!"); 
 			    }
 			});
 
-
-			
 			
 		});
 		

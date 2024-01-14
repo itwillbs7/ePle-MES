@@ -333,7 +333,7 @@ public class MaterialController {
 		  int result = mService.orderAdd(vo);
 	
 		  if (result == 1) {
-			  return "/material/resultSuccess2"; 
+			  return "/material/resultSuccess"; 
 		  } else {
 			  return "/material/resultFailed"; 
 		  } 

@@ -87,7 +87,7 @@ margin-right:20px;
 			<div class="btn-group pull-right" style="margin-bottom: 10px">
 				<button type="button" class="btn btn-success" id="add"><b>추가</b></button>
 				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
-				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
+				<!-- <button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button> -->
 			</div>
 		</div>
 
@@ -279,10 +279,11 @@ margin-right:20px;
 			    });
 			    
 			    if (codes.length > 0) { 
-			        openPage("/stock/warehouseDel?codes=" + codes.join(','), 400, 600);
+			        openPage("/stock/warehouseDel?codes=" + codes.join(','), 600, 500);
 			    } else {
-			        $('#warning-modal').modal('show'); 
+			    	alert("선택된 항목이 없습니다!"); 
 			    }
+			    
 			});
 
 

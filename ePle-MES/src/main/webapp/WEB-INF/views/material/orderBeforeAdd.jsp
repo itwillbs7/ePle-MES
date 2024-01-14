@@ -14,6 +14,10 @@
 .click {
     color: blue;
 }
+  .table th,
+  .table td {
+    text-align: center;
+  }
 </style>
 <title>발주 요청 목록</title>
 </head>
@@ -115,7 +119,7 @@
 	// 
 $('body').on('click', '[class^="inInfo"]', function(){
     var code = $(this).text().trim();
-    openPage("${pageContext.request.contextPath}/material/orderAdd?code=" + code, 800, 1000);
+    openPage("${pageContext.request.contextPath}/material/orderAdd?code=" + code, 450, 1000);
 });
 
 			

@@ -130,7 +130,7 @@
 	
 	<!-- 발주요청 상세 -->
 	<select id="askOrderInfo" parameterType="String" resultType="OrderVO">
-		SELECT o.code, o.material, m.code_id, m.name, o.amount, m.unit, o.date, o.status, e.name empName
+		SELECT o.code, o.material, m.code_id, m.name, o.amount, m.unit, o.date, o.status, e.name empName, o.ask_emp
     	FROM ORDERS o
 		LEFT OUTER JOIN MAPD m
         ON o.material = m.code

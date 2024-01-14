@@ -51,7 +51,7 @@ font-weight: bold;
 								</div>
 								
 									<label>요청자</label> 
-									<input class="form-control back" type="hidden" id="selectA" name="ask_emp" required readonly>
+									<input class="form-control back" type="hidden" id="selectA" name="ask_emp" value="${List.ask_emp }" required readonly>
 								<div class="form-group">
 									<input class="form-control back" type="text" id="selectB" value="${List.empName }" required readonly>
 								</div>

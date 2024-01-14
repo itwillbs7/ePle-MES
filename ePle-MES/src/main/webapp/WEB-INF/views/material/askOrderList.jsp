@@ -41,7 +41,7 @@
 	<div class="card-box mb-30">
 		<div class="pd-20">
 			<div class="btn-group pull-right" style="margin-bottom: 10px; margin-left: 10px;">
-				<button type="button" class="btn btn-danger" id="delete"><b>요청 취소</b></button>
+				<button type="button" class="btn btn-danger" id="delete"><b>요청 삭제</b></button>
 			</div>
 			<div class="btn-group pull-right" style="margin-bottom: 10px; margin-left: 10px;">
 				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
@@ -95,13 +95,6 @@
 							
 					</table>
 				</form>
-
-				<!-------------------------------- 입고 갯수 -------------------------------->
-				<!-- <div class="row">
-					<div class="col-sm-12 col-md-5">
-						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
-					</div>
-				</div> -->
 
 
 				<!--------------------------------- 페이징 ---------------------------------->
@@ -212,7 +205,7 @@
 			        alert("수정할 항목을 하나만 선택하세요!");
 			    } else {
 			        var code = check.val();
-			        openPage("/material/askOrderEdit?code=" + code, 400, 700);
+			        openPage("/material/askOrderEdit?code=" + code, 450, 700);
 			    }
 			});
 
@@ -224,7 +217,7 @@
 			    });
 			    
 			    if (codes.length > 0) { 
-			        openPage("/material/askOrderDel?codes=" + codes.join(','), 700, 600);
+			        openPage("/material/askOrderDel?codes=" + codes.join(','), 600, 500);
 			    } else {
 			    	alert("선택된 항목이 없습니다!"); 
 			    }
@@ -233,7 +226,7 @@
 			// 상세보기 O
 			$('body').on('click', '[class^="inInfo"]', function(){
         		var code = $(this).text().trim();
-      		  openPage("${pageContext.request.contextPath}/material/askOrderInfo?code=" + code, 400, 700); });
+      		  openPage("${pageContext.request.contextPath}/material/askOrderInfo?code=" + code, 450, 700); });
 			
 			
 		});

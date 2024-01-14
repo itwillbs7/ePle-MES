@@ -15,15 +15,19 @@
 	background-color : #e1e1e1;
 	cursor:pointer;
 }
+  .table th,
+  .table td {
+    text-align: center;
+  }
 </style>
 
 </head>
 <body>
 	<div class="modal-content">
-	<div class="login-box bg-white box-shadow border-radius-10">
+	<div class="login-box bg-white box-shadow border-radius-10" style="max-width: 80%;">
 			
 			<div class="login-title">
-			<h2 class="text-center text-primary">창고 조회</h2>
+			<a href="${pageContext.request.contextPath}/material/searchOrderWarehouse"><h2 class="text-center text-primary">창고 조회</h2></a>
 			</div>
 			
 			<!------------------------------- 검색 시작 ------------------------------->
@@ -65,15 +69,24 @@
 			</thead>
 			
 			<tbody>
-				<c:forEach items="${orderWarehouse}" var="vo">
-				<tr onclick="selectWork('${vo.code }','${vo.wh_name }','${vo.manager }', '${vo.name }')">
-					<td class="con">${vo.code }</td>
-					<td class="con">${vo.wh_name }</td>
-					<td class="con">${vo.manager }</td>
-					<td class="con">${vo.name }</td>
-				</tr>
-				</c:forEach>
-			</tbody>
+					<c:if test="${not empty orderWarehouse}">
+						<c:forEach items="${orderWarehouse}" var="vo">
+							<tr
+								onclick="selectWork('${vo.code }','${vo.wh_name }','${vo.manager }', '${vo.name }')">
+								<td class="con">${vo.code }</td>
+								<td class="con">${vo.wh_name }</td>
+								<td class="con">${vo.manager }</td>
+								<td class="con">${vo.name }</td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					<c:if test="${empty orderWarehouse}">
+						<tr>
+							<td colspan="4"
+								style="text-align: center; vertical-align: middle;">검색 결과가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
+						</tr>
+					</c:if>
+				</tbody>
 			</table>
 			
 			

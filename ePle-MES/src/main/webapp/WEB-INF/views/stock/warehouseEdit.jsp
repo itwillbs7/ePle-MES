@@ -38,7 +38,7 @@ font-weight: bold;
 									<input class="form-control" type="text" name="category"  readonly value="${List.category}">
 								</div>
 								<div class="form-group">
-									<input class="form-control" type="text" name="wh_name"  readonly value="${List.wh_name}">
+									<input class="form-control" type="text" name="name"  value="${List.wh_name}">
 								</div>
 								<div class="form-group">
 									<input class="form-control" type="text" name="location"  readonly value="${List.location}">

@@ -27,7 +27,7 @@
 	<div class="login-box bg-white box-shadow border-radius-10">
 			
 			<div class="login-title">
-			<h2 class="text-center" style="color: #FF8C00;">거래처 조회</h2>
+			<a href="${pageContext.request.contextPath}/material/searchClient"><h2 class="text-center" style="color: #FF8C00;">거래처 조회</h2></a>
 			</div>
 			
 			<!------------------------------- 검색 시작 ------------------------------->
@@ -63,12 +63,19 @@
 			</thead>
 			
 			<tbody>
+			<c:if test="${not empty searchClient}">
 				<c:forEach items="${searchClient}" var="vo">
 				<tr onclick="selectWork('${vo.code }','${vo.name }')">
 					<td class="con">${vo.code }</td>
 					<td class="con">${vo.name }</td>
 				</tr>
 				</c:forEach>
+				</c:if>
+					<c:if test="${empty searchClient}">
+						<tr>
+							<td colspan="3" style="text-align: center; vertical-align: middle;">검색 결과가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
+						</tr>
+					</c:if>
 			</tbody>
 			</table>
 			

@@ -8,9 +8,12 @@
 </head>
 <body>
 	<script type="text/javascript">
-		alert("처리가 완료되었습니다.");
-		window.parent.parent.location.reload();
-		window.close();
+	alert("처리가 완료되었습니다!");
+	  if (window !== window.top) {
+	        var topParent = window.top;
+	        topParent.location.reload();
+	    }
+	    window.close();
 	</script>
 </body>
 </html>

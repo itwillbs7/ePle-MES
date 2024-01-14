@@ -73,7 +73,7 @@
 	<!-- 창고 수정 -->
 	<update id="warehouseEdit">
 		UPDATE WAREHOUSE 
-		SET manager = #{manager}, mng_phone = #{mng_phone}
+		SET manager = #{manager}, mng_phone = #{mng_phone}, name = #{name}
 		WHERE code = #{code}
 	</update>
 	

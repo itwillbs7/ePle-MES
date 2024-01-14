@@ -7,13 +7,17 @@
     <%@ include file="../include/head.jsp"%>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <style>
+  .table th,
+  .table td {
+    text-align: center;
+  }
 </style>
     <title>발주서 삭제</title>
 </head>
 <body>
     <!-- 콘텐츠 시작 -->
     <div class="modal-content">
-        <div class="container-fluid login-box bg-white box-shadow border-radius-10">
+        <div class="container-fluid login-box bg-white box-shadow border-radius-10" style="max-width: 100%;">
             <button type="button" class="close" onclick="window.close();">×</button>
             <!-- 타이틀 -->
             <div class="login-title">
