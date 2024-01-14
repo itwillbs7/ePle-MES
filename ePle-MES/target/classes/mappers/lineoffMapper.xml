@@ -147,9 +147,7 @@
 				</when>
 				<when test="column.toString() eq 'end_time'">
 					<![CDATA[l.active = FALSE AND complete = FALSE AND start_time is not null AND end_time is not null AND
-        						((start_time <= now() AND end_time <= now())
-        							OR 
-        						(start_time > now()))]]>
+        						start_time <= now() AND end_time <= now() ]]>
 				</when>
 			</choose>
 		</where>

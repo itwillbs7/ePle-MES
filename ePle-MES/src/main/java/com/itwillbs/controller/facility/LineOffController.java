@@ -124,7 +124,7 @@ public class LineOffController {
 		
 		for (int i = 0; i < code.length; i++) {
 			LineOffVO vo = new LineOffVO();
-			String c = i + recent + "";
+			String c = (i + recent) + "";
 			while (c.length() < 3)
 				c = "0" + c;
 			vo.setCode(newCode + now + c);
@@ -133,8 +133,8 @@ public class LineOffController {
 			vo.setLine_code(code[i]);
 			list.add(vo);
 		}
-		if (oService.insert(list) > 0) {
-			if (oService.setLineOff(code) > 0) {
+		if (oService.insert(list) == code.length) {
+			if (oService.setLineOff(code) == code.length) {
 				rttr.addFlashAttribute("title", "라인 정지 결과");
 				rttr.addFlashAttribute("result", "라인 정지가 완료되었습니다.");
 				return "redirect:/confirm";
