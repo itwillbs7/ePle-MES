@@ -110,14 +110,15 @@
 				                </div>
 				
 								<!-- 사용 여부 -->
-				                <div class="row">
-				                    <div class="col-sm-12 mb-3">
-				                        <div class="form-group">
-				                            <label>사용여부</label>
-				                            <input class="form-control" type="text" name="active" value="${infoProduct.active}" readonly>
-				                        </div>
-				                    </div>
-				                </div>
+								<div class="row">
+								    <div class="col-sm-12 mb-3">
+								        <div class="form-group">
+								            <label>사용여부</label>
+								            <input class="form-control" type="text" name="active" value="${infoProduct.active == 'true' ? 'Y' : 'N'}" readonly>
+								        </div>
+								    </div>
+								</div>
+				                
 				<!-- 버튼 -->
 				<div class="row">
 					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
@@ -143,6 +144,7 @@
 	        var updateDateInput = document.getElementsByName("update_date")[0];
 	        updateDateInput.value = updateDateInput.value.substring(0, 10);
 	    });
+	    
 	</script>
 
 	<%@ include file="../include/footer.jsp"%>
