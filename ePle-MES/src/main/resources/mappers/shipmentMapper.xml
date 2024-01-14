@@ -207,7 +207,7 @@
 	<!-- 수주번호 가져오기 -->
 	<select id="getRecentHistory" resultType="String">
 		SELECT code FROM
-		WAREHOUSE_HISTORY WHERE code LIKE concat(#{vocode},'%') ORDER BY date
+		WAREHOUSE_HISTORY WHERE code LIKE concat(#{vocode},'%') ORDER BY code
 		DESC LIMIT 0, 1
 	</select>
 
@@ -365,7 +365,7 @@
 
 	<!-- 수주정보리스트로 가져오기(큐알코드용) -->
 	<select id="getRequestInfoList" resultType="RequestVO">
-		SELECT r.*, c.name clientName, m.name productName,
+		SELECT distinct r.*, c.name clientName, m.name productName,
 		c.address startDate ,c.address2 endDate, c.tel startDead
 		from REQUEST r
 		join
@@ -387,8 +387,7 @@
 		SET
 		r.status = '출하완료'
 		WHERE s.code IN
-		<foreach collection="code" item="codeNum" open="(" close=")"
-			separator=",">
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
 			#{codeNum}
 		</foreach>
 	</update>
@@ -397,8 +396,7 @@
 		UPDATE SHIPMENT s
 		SET s.status = '출하완료'
 		WHERE s.code IN
-		<foreach collection="array" item="codeNum" open="(" close=")"
-			separator=",">
+		<foreach collection="code" item="codeNum" open="(" close=")" separator=",">
 			#{codeNum}
 		</foreach>
 	</update>
