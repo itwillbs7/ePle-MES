@@ -22,17 +22,19 @@
 				<div class="row">
 				    <div class="col-sm-12 mb-3">
 				        <!-- examples -->
-				        <label>품목 코드</label>
+				        <label>품번</label>
 				        <div class="form-group">
 				            <input class="form-control" type="text" name="code" id="productCode" placeholder="품목 코드 입력" oninput="validateProductCode(this)" required>
 				            <small id="codeValidationMsg" style="color: red;"></small>
 				        </div>
-						<div class="form-group">
-						    <label>품번</label>
-						    <input class="form-control" type="text" name="group_id" placeholder="품번 입력" required>
-						</div>
+						    <input class="form-control" type="hidden" name="group_id" value="PROD">
                         <div class="form-group">
-                            <label>소분류</label> <input class="form-control" type="text" name="code_id" placeholder="소분류 입력" required>
+                            <label>소분류</label>
+							<select class="custom-select col-12" name="code_id">
+								<option value="001">원자재</option>
+								<option value="002">반제품</option>
+								<option value="003">완제품</option>
+							</select>    
                         </div>
                         <div class="form-group">
                             <label>품명</label> <input class="form-control" type="text" name="name" placeholder="원자재 또는 완제품 품명 입력" required>
@@ -56,15 +58,7 @@
 						        </div>
 							</div>
 						</div>
-						<div class="form-group">
-						    <label>출고 단가</label>
-						    <div class="input-group">
-						        <input class="form-control" type="number" name="outprice" placeholder="출고 단가 입력" required>
-						        <div class="input-group-append">
-						            <span class="input-group-text">원</span>
-						        </div>
-							</div>
-						</div>
+				        <input class="form-control" type="hidden" name="outprice" value="100">
 						<div class="form-group">
                             <input class="form-control" type="hidden" name="reg_emp" value="${sessionScope.code }">
                         </div>
