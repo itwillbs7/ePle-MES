@@ -347,8 +347,9 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	@Override
 	public int actDoneShipment(String[] code) throws Exception {
 		logger.debug(" 큐알코드 처리하기!!!!!!!!!!!!!!!! 출하번호!!!!!!!!!"+code);
-		
-		return sqlSession.update(NAMESPACE+".updateStatusToShipment",code);
+		Map<String, Object> params = new HashMap<>();
+		params.put("code", code);
+		return sqlSession.update(NAMESPACE+".updateStatusToShipment",params);
 	}
 
 	
