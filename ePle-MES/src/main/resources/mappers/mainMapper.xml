@@ -24,11 +24,17 @@
 	<result property="auth" column="auth"/>
 </resultMap>
 
+<resultMap type="HashMap" id="week">
+	<result property="total" column="total"/>
+	<result property="date" column="date"/>
+</resultMap>
+
 <select id="selectUserInfo" parameterType="UserVO" resultType="UserVO">
 	SELECT * FROM EMPLOYEES WHERE id = #{id} 
 </select>
 
-
-
+<select id="getWeeklyProduction" resultMap="week">
+	SELECT * FROM WEEKLY_PRODUCTION;
+</select>
 
 </mapper>
