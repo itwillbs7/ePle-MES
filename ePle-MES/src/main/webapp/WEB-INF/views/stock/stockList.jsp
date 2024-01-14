@@ -71,6 +71,7 @@ margin-right:20px;
 							<th>품목코드</th>
 							<th>품명</th>
 							<th>현재고</th>
+							<th>발주요청</th>
 						</tr>
 
 						<c:forEach items="${stockList }" var="vo">
@@ -82,7 +83,7 @@ margin-right:20px;
 								</div>
 							</td>
 							<th>${vo.group_display }</th>
-							<th class="inInfo${vo.code}" style="color: #FF1493; ">${vo.code }</th>
+							<th style="color: #FF1493; ">${vo.code }</th>
 							<th>${vo.name }</th>
 							<th>
 								<c:if test="${vo.total < 11 }">
@@ -92,6 +93,14 @@ margin-right:20px;
 									${vo.total }
 								</c:if>
 							</th>
+							
+							<th class="inInfo" data-code="${vo.code}">
+    							<c:if test="${vo.total < 11}">
+        							<button type="button" class="btn btn-primary" value="${vo.code}"><b>발주요청</b></button>
+    							</c:if>
+							</th>
+
+                        	
 						</tr>
 						</c:forEach>
 							
@@ -197,6 +206,22 @@ margin-right:20px;
 		
 		
 
+		
+		
+		
+		$(document).ready(function() {
+		    // 발주요청 O
+		    $('body').on('click', '.inInfo', function(){
+		        var code = $(this).data('code');
+		        openPage("${pageContext.request.contextPath}/material/askOrderAdd?code=" + code, 400, 700);
+		    });
+		});
+
+		
+		
+		
+		
+		
 
  		// 검색하기
   		function doSearch() {

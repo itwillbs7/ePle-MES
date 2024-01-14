@@ -29,7 +29,7 @@ font-weight: bold;
 			<div class="tab">
 				
 				<div class="tab-content">
-
+				
 					<!------------------------------ 첫번째 폼 ------------------------------>
 					<div class="tab-pane fade active show" id="ord-Warehousing" role="tabpanel">
 						<form method="post" id="pro-form">
@@ -38,7 +38,7 @@ font-weight: bold;
 									
 										<label>품목 정보</label> 
 									<div class="form-group">
-										<input class="form-control back" type="text" id="mapdCode" name="material" placeholder="품목코드" required readonly>
+										<input class="form-control back" type="text" id="mapdCode" name="material" placeholder="품목코드" value="${List.code }" required readonly>
 									</div>
 									<div class="form-group">
 										<input class="form-control back" type="text" id="mapdName" placeholder="품명" required readonly>
