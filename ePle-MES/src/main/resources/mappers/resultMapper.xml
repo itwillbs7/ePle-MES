@@ -53,7 +53,7 @@
 			</foreach>
 		</if>
 		<if test="isFinish == null">
-			 AND R.status != '완료'
+			 AND R.status != '입고'
 		</if>
 	</select>
 	<select id="getResult" resultType="com.production.domain.resultVO" resultMap="resultVOMap">
@@ -87,9 +87,9 @@
 		UPDATE RESULT SET status = '완료' WHERE code = #{code} AND status = '생산중'
 	</update>
 	
-	<update id="addResult">
+	<update id="addResult" parameterType="hashmap">
 		<![CDATA[
-			UPDATE RESULT SET amount = amount+1,status = CASE WHEN amount = (SELECT amount FROM INSTRUCTION WHERE code = inst_code) THEN '완료' ELSE status END
+			UPDATE RESULT SET amount = amount + #{num} ,status = CASE WHEN amount = (SELECT amount FROM INSTRUCTION WHERE code = inst_code) THEN '완료' ELSE status END
 			WHERE code = #{code} AND status = '생산중' AND amount < (SELECT amount FROM INSTRUCTION WHERE code = inst_code)
 		]]>
 	</update>
@@ -114,4 +114,42 @@
 	<insert id="insertLot">
 		INSERT INTO LOT VALUES(DEFAULT,#{code},null,null);
 	</insert>
+	<update id="updateAdd">
+			UPDATE RESULT SET status = '입고' WHERE code = #{code} AND status = '완료'
+	</update>
+	<select id="getLimit" resultType="Integer" parameterType="com.production.domain.inputVO">
+		<![CDATA[
+			SELECT COUNT(*) AS stop_search_count
+		    FROM (
+		        SELECT code, amount, date, @total := @total + amount AS running_total, CASE WHEN @total >= #{amount} THEN 1 ELSE 0 END AS stop_search
+				FROM WAREHOUSE_HISTORY
+				JOIN (SELECT @total := 0) AS init
+				WHERE mapd_code = #{mapd_code}
+				ORDER BY date
+		    ) AS count_subquery
+		    where stop_search = 0
+		]]>
+	</select>
+	<select id="getCode" resultType="String" parameterType="hashmap">
+		<![CDATA[
+		    SELECT code
+		    FROM (
+		        SELECT code, amount, date, 
+		            @total := @total + amount AS running_total,
+		            CASE WHEN @total >= #{amount} THEN 1 ELSE 0 END AS stop_search
+		        FROM WAREHOUSE_HISTORY
+		        JOIN (SELECT @total := 0) AS init
+		        WHERE mapd_code = #{mapd_code}
+		        ORDER BY date
+		    ) AS derived_table_alias
+		    ORDER BY date 
+		    limit #{limit}
+	    ]]>
+	</select>
+	<select id="getWarehoseVOList" resultType="com.itwillbs.domain.Warehouse_HistoryVO" parameterType="java.util.List">
+		SELECT * FROM WAREHOUSE_HISTORY WHERE code IN 
+		<foreach collection="list" item="arr" open="(" close=")" separator=", ">
+			 #{arr}
+		</foreach>
+	</select>
 </mapper>

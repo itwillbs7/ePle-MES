@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.itwillbs.domain.CommonVO;
+import com.itwillbs.domain.Warehouse_HistoryVO;
 import com.production.domain.BOMVO;
 import com.production.domain.failedVO;
 import com.production.domain.inputVO;
@@ -25,13 +26,13 @@ public interface resultDAO {
 	
 	public void productionComplete(String code) throws Exception;
 	
-	public void addResult(String code) throws Exception;
+	public void addResult(String code, int num) throws Exception;
 	
 	public void insertFailed(failedVO vo) throws Exception;
 
 	public List<CommonVO> getCode_id() throws Exception;
 
-	public void insertInput(inputVO[] vo) throws Exception;
+	public List<Warehouse_HistoryVO> insertInput(inputVO[] vo) throws Exception;
 
 	public List<inputVO> getInput(String code) throws Exception;
 
