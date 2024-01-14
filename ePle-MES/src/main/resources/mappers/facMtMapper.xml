@@ -196,7 +196,7 @@
 	<select id="getInsertedList"
 		resultType="com.itwillbs.domain.FacMtVO" resultMap="mt">
 		SELECT * FROM
-		FAC_MT WHERE emp_code = #{code}
+		FAC_MT WHERE emp_code = #{code} and complete = false
 	</select>
 
 	<!-- 사후보전 신청 추가 -->
@@ -230,7 +230,7 @@
 	<!-- 보전 내역 -->
 	<sql id="search">
 		<where>
-			m.code_id not in ('PM', 'None') AND complete = true
+			m.emp_code = #{emp_code} and m.code_id not in ('PM', 'None') AND complete = true
 			<choose>
 				<when test="search.isnull == false">
 					<!-- 기본 검색 -->
@@ -269,7 +269,6 @@
 		FROM FAC_MT m
 		<include refid="join" />
 		<include refid="search" />
-		AND m.emp_code = #{emp_code} 
 	</select>
 	<!-- 보전 내역 개수 -->
 	<!-- 보전 내역 목록 -->
@@ -283,7 +282,6 @@
 		FROM FAC_MT m
 		<include refid="join" />
 		<include refid="search" />
-		AND m.emp_code = #{emp_code} 
 		ORDER BY m.reg_date desc 
 		LIMIT ${cri.startPage}, ${cri.pageSize}
 	</select>

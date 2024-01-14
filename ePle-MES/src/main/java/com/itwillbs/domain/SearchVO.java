@@ -31,9 +31,9 @@ public class SearchVO {
 	
 	public void setBetweenDates() {
 		if(between == null || between.equals("")) return;
-		String[] split = between.split("~");
-		betweenDateLeft = split[0].substring(0, split[0].length()-1);
-		betweenDateRight = split[1].substring(1);
+		//2023-12-10 - 2023-12-11
+		betweenDateLeft = between.substring(0, 10);
+		betweenDateRight = between.substring(13);
 	}
 	
 	private boolean isajax;
