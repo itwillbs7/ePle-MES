@@ -60,9 +60,7 @@
  </select>
  <insert id="insertCommons">
  	insert into COMMON_CODE (group_id, group_name, code_id, code_name, sortorder, active) 
- 	values (#{group_id}, #{group_name}, #{code_id}, #{code_name}, 
- 	(SELECT ifnull(sortorder + 1, 1) as sortorder FROM COMMON_CODE WHERE group_id = #{group_id} order by sortorder desc limit 0, 1)
- 	, #{active})
+ 	values (#{group_id}, #{group_name}, #{code_id}, #{code_name}, #{code_id}, #{active})
  </insert>
  <select id="selectCommons" resultType="CommonVO">
  	select * from COMMON_CODE order by group_id, sortorder
