@@ -18,71 +18,7 @@
 				<h1>라인 관리</h1>
 			</div>
 			<div class="min-height-200px">
-				<!-- 아코디언 시작 -->
-				<div class="faq-wrap">
-					<div id="accordion">
-						<div class="card">
-							<div class="card-header">
-								<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false">
-									<b>검색</b>
-								</button>
-							</div>
-							<div id="faq1" class="collapse" data-parent="#accordion" style="">
-								<div class="card-body">
-									<form id="accordion-search" method="GET" action="#">
-										<div class="col-md-12">
-											<div class="form-group">
-												<div class="row">
-													<div class="col-md-5 col-sm-12 btn-group" style="margin-left: auto;">
-														<div class="btn-group dropdown">
-															<button type="button" id="searchCategoryButton" class="btn btn-primary dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
-																선택 <span class="caret"></span>
-															</button>
-															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" href="javascript:buttonCategory('라인 코드');">라인 코드</a> 
-																<a class="dropdown-item" href="javascript:buttonCategory('라인명');">라인명</a>
-															</div>
-														</div>
-														<input type="hidden" id="searchCategory" name="searchCategory"> <input type="text" name="searchKeyword" class="form-control" style="width: 100%;" placeholder="검색어 입력">
-													</div>
-												</div>
-												<hr>
-											</div>
-										</div>
-										
-										<c:choose>
-											<c:when test="${!empty pageVO.cri.page}">
-												<input type="hidden" id="page" name="page" value="1">
-											</c:when>
-											<c:when test="${!empty pageVO.cri.page}">
-												<input type="hidden" id="page" name="page" value="${pageVO.cri.page}">
-											</c:when>
-										</c:choose>
 
-										<c:choose>
-											<c:when test="${empty pageVO.cri.pageSize}">
-												<input type="hidden" id="pageSize" name="pageSize" value="10">
-											</c:when>
-											<c:when test="${!empty pageVO.cri.pageSize}">
-												<input type="hidden" id="pageSize" name="pageSize" value="${pageVO.cri.pageSize}">
-											</c:when>
-										</c:choose>
-										
-										<div class="btn-group pull-right" style="margin-bottom: 10px">
-											<button type="submit" class="btn btn-primary" id="search">
-												<b>검색</b>
-											</button>
-											<button type="reset" class="btn btn-secondary" id="reset">
-												<b>초기화</b>
-											</button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- 아코디언 끝 -->
 				<!-- Checkbox select Datatable start -->
 				<div class="card-box mb-30">
 					<div class="pd-20">
@@ -131,9 +67,33 @@
 									        <th>${line.name}</th>
 									        <th>${line.process}</th>
 									        <th>${line.place}</th>
-									        <th>${line.status}</th>
+									        
+									        <th>
+	 										   <c:choose>
+		      									   <c:when test="${line.status}">
+		      									      Y
+		  										   </c:when>
+		  										   
+		      									   <c:otherwise>
+		     										    N
+											       </c:otherwise>
+											   </c:choose>
+									        </th>
+									       
 									        <th>${line.note}</th>
-									        <th>${line.active}</th>
+									        
+									        <th>
+	 										   <c:choose>
+		      									   <c:when test="${line.active}">
+		      									      Y
+		  										   </c:when>
+		  										   
+		      									   <c:otherwise>
+		     										    N
+											       </c:otherwise>
+											   </c:choose>
+									       </th>
+									       
 									        <td>
 												<button type="button" class="btn btn-info btn-sm" id="lineInfo">
 													<b>...</b>

@@ -136,19 +136,17 @@
 											    <fmt:formatNumber value="${product.inprice}" type="currency" currencyCode="KRW" pattern="#,###" /> 원
 											</th>
 									        <th>
-									        
- 										   <c:choose>
-      									   <c:when test="${product.active}">
-      									      Y
-  										   </c:when>
-      									   <c:otherwise>
-     										    N
-									       </c:otherwise>
-									       </c:choose>
-
-									        
-									        </th>
-						                    <td>
+	 										   <c:choose>
+		      									   <c:when test="${product.active}">
+		      									      Y
+		  										   </c:when>
+		  										   
+		      									   <c:otherwise>
+		     										    N
+											       </c:otherwise>
+											   </c:choose>
+									       </th>
+						                   <td>
 												<button type="button" class="btn btn-info btn-sm" id="productInfo">
 													<b>...</b>
 												</button>

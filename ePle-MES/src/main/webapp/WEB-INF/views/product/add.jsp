@@ -19,25 +19,23 @@
             <form action="/product/add" method="post">
 
                 <!-- 입력 구간 -->
-                <div class="row">
-                    <div class="col-sm-12 mb-3">
-                        <!-- examples -->
-                        <label>품목 코드</label> 
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="code" placeholder="품목 코드 입력" >
-                        </div>
-						<input class="form-control" type="hidden" name="group_id" value="PROD" readonly required>	
-						<div class="selectpicker form-group">
-						    <label>분류</label>
-						    <select class="selectpicker form-control" name="code_id" data-style="btn-info" data-size="5" required>
-						    	<option value="" disabled selected hidden="hidden">소분류 선택</option>
-						        <option value="001" data-subtext='001'>원자재</option>
-						        <option value="002" data-subtext='002'>반제품</option>
-						        <option value="003" data-subtext='003'>완제품</option>
-						    </select>
+				<div class="row">
+				    <div class="col-sm-12 mb-3">
+				        <!-- examples -->
+				        <label>품목 코드</label>
+				        <div class="form-group">
+				            <input class="form-control" type="text" name="code" id="productCode" placeholder="품목 코드 입력" oninput="validateProductCode(this)" required>
+				            <small id="codeValidationMsg" style="color: red;"></small>
+				        </div>
+						<div class="form-group">
+						    <label>품번</label>
+						    <input class="form-control" type="text" name="group_id" placeholder="품번 입력" required>
 						</div>
                         <div class="form-group">
-                            <label>품명</label> <input class="form-control" type="text" name="name" placeholder="품명 입력" required>
+                            <label>소분류</label> <input class="form-control" type="text" name="code_id" placeholder="소분류 입력" required>
+                        </div>
+                        <div class="form-group">
+                            <label>품명</label> <input class="form-control" type="text" name="name" placeholder="원자재 또는 완제품 품명 입력" required>
                         </div>
                         <div class="form-group">
                             <label>규격</label> <input class="form-control" type="text" name="size" placeholder="규격 입력" required>
@@ -52,7 +50,7 @@
                         <div class="form-group">
 						    <label>입고 단가</label>
 						    <div class="input-group">
-						        <input class="form-control" type="text" name="inprice" placeholder="입고 단가 입력" required>
+						        <input class="form-control" type="number" name="inprice" placeholder="입고 단가 입력" required>
 						        <div class="input-group-append">
 						            <span class="input-group-text">원</span>
 						        </div>
@@ -61,12 +59,26 @@
 						<div class="form-group">
 						    <label>출고 단가</label>
 						    <div class="input-group">
-						        <input class="form-control" type="text" name="outprice" placeholder="출고 단가 입력" required>
+						        <input class="form-control" type="number" name="outprice" placeholder="출고 단가 입력" required>
 						        <div class="input-group-append">
 						            <span class="input-group-text">원</span>
 						        </div>
 							</div>
 						</div>
+						<div class="form-group">
+                            <label>등록자 사원코드</label> <input class="form-control" type="text" name="reg_emp" placeholder="등록자 사원코드 입력" required>
+                        </div>
+                        <div class="form-group">
+                            <label>등록일</label>
+                            <input class="form-control" type="text" name="reg_date" placeholder="등록일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date()) %>" readonly required>
+                        </div>
+                        <div class="form-group">
+                            <label>수정자 사원코드</label> <input class="form-control" type="text" name="update_emp" placeholder="수정자 사원코드 입력" required>
+                        </div>
+                        <div class="form-group">
+                            <label>수정일</label>
+                            <input class="form-control" type="text" name="update_date" placeholder="수정일 입력" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date()) %>" readonly required>
+                        </div>
 						<div class="form-group">
 						    <label>사용여부</label>
 						    <select class="form-control" name="active" required>
@@ -96,9 +108,24 @@
 			<!-- 폼 -->
 		</div>
 	</div>
-	<!-- 콘텐츠 끝> -->
+	<!-- 콘텐츠 끝 -->
 
 	<%@ include file="../include/footer.jsp"%>
+	
+	<script>
+	    function validateProductCode(inputField) {
+	        var inputValue = inputField.value;
+	        var pattern = /^[A-Z0-9]+$/;
+	
+	        if (!pattern.test(inputValue)) {
+	            document.getElementById('codeValidationMsg').innerText = '영어 대문자와 숫자만 입력 가능합니다.';
+	            inputField.setCustomValidity('영어 대문자와 숫자만 입력 가능합니다.');
+	        } else {
+	            document.getElementById('codeValidationMsg').innerText = '';
+	            inputField.setCustomValidity('');
+	        }
+	    }
+	</script>
 	
 </body>
 </html>

@@ -39,17 +39,21 @@
 									<label>작업장</label> 
 									<input class="form-control" type="text" name="place"  readonly value="${infoLine.place}">
 								</div>
-								<div class="form-group">
-									<label>설비상태</label> 
-									<input class="form-control" type="text" name="status"  readonly value="${infoLine.status}">
-								</div>
+							        <div class="form-group">
+							            <label>사용여부</label>
+							            <input class="form-control" type="text" name="status" value="${infoLine.status == 'true' ? 'Y' : 'N'}" readonly>
+							        </div>
 								<div class="form-group">
 									<label>비고</label> 
 									<textarea class="form-control" name="note" rows="2" readonly>${infoLine.note}</textarea>
 								</div>
-								<div class="form-group">
-									<label>사용여부</label> 
-									<input class="form-control" type="text" name="active"  readonly value="${infoLine.active}">
+								<div class="row">
+								    <div class="col-sm-12 mb-3">
+								        <div class="form-group">
+								            <label>사용여부</label>
+								            <input class="form-control" type="text" name="active" value="${infoLine.active == 'true' ? 'Y' : 'N'}" readonly>
+								        </div>
+								    </div>
 								</div>
   
 				<!-- 버튼 -->

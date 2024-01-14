@@ -26,25 +26,25 @@
                     <div class="col-sm-12 mb-3">
                         <!-- examples -->
                         <div class="form-group">
-                            <label>거래처 코드</label> <input class="form-control" type="text" name="code" placeholder="거래처 코드 입력">
+                            <label>거래처 코드</label> <input class="form-control" type="text" name="code" placeholder="거래처 코드 입력" required>
                         </div>
                         <div class="form-group">
-                            <label>거래처명</label> <input class="form-control" type="text" name="name" placeholder="거래처명 입력">
+                            <label>거래처명</label> <input class="form-control" type="text" name="name" placeholder="거래처명 입력" required>
                         </div>
                         <div class="form-group">
-                            <label>거래처 구분</label> <input class="form-control" type="text" name="type" placeholder="거래처 구분 입력">
+                            <label>거래처 구분</label> <input class="form-control" type="text" name="type" placeholder="거래처 구분 입력" required>
                         </div>
                         <div class="form-group">
-                            <label>업태</label> <input class="form-control" type="text" name="conditions" placeholder="업태 입력">
+                            <label>업태</label> <input class="form-control" type="text" name="conditions" placeholder="업태 입력" required>
                         </div>
                         <div class="form-group">
-                            <label>종목</label> <input class="form-control" type="text" name="items" placeholder="종목 입력">
+                            <label>종목</label> <input class="form-control" type="text" name="items" placeholder="종목 입력" required>
                         </div>
                         <div class="form-group">
-                            <label>대표자</label> <input class="form-control" type="text" name="ceo" placeholder="대표자 입력">
+                            <label>대표자</label> <input class="form-control" type="text" name="ceo" placeholder="대표자 입력" required>
                         </div>
                         <div class="form-group">
-                            <label>담당자</label> <input class="form-control" type="text" name="manager" placeholder="담당자 입력">
+                            <label>담당자</label> <input class="form-control" type="text" name="manager" placeholder="담당자 입력" required>
                         </div>
                         
                         <!-- 우편번호 검색 버튼 및 결과 표시 -->
@@ -68,7 +68,7 @@
 						</div>
 						<div class="form-group">
 						    <label>휴대폰 번호</label> 
-						    <input class="form-control" type="tel" name="phone" pattern="01[0-9]-[0-9]{3,4}-[0-9]{4}" placeholder="예: 010-1234-5678">
+						    <input class="form-control" type="tel" name="phone" pattern="01[0-9]-[0-9]{3,4}-[0-9]{4}" placeholder="예: 010-1234-5678" required>
 						</div>
                         <div class="form-group">
 						    <label>팩스 번호</label> 
@@ -76,7 +76,7 @@
 						</div>
                         <div class="form-group">
 						    <label>이메일</label> 
-						    <input class="form-control" type="email" name="email" placeholder="예: example@example.com">
+						    <input class="form-control" type="email" name="email" placeholder="예: example@example.com" required>
 						</div>
                         <div class="form-group">
 						    <label>비고</label>

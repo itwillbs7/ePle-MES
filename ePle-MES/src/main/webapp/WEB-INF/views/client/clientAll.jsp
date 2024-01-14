@@ -137,7 +137,17 @@
 									        <th>${client.tel}</th>
 									        <th>${client.email}</th>
 									        <th>${client.note}</th>
-									        <th>${client.active}</th>
+									        <th>
+	 										   <c:choose>
+		      									   <c:when test="${client.active}">
+		      									      Y
+		  										   </c:when>
+		  										   
+		      									   <c:otherwise>
+		     										    N
+											       </c:otherwise>
+											   </c:choose>
+									       </th>
 									        <td>
 												<button type="button" class="btn btn-info btn-sm" id="clientInfo">
 													<b>...</b>
