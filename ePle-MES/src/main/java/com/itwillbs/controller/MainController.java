@@ -1,5 +1,9 @@
 package com.itwillbs.controller;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -10,8 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.domain.UserVO;
 import com.itwillbs.service.MainServiceImpl;
@@ -25,14 +27,14 @@ public class MainController {
 	
 		// http://localhost:8088
 		@GetMapping(value = "/")
-		public String mainGET(HttpSession session) throws Exception {
+		public String mainGET(HttpSession session, Model model) throws Exception {
 			logger.info("cc : mainGET() 호출");
 			
 			// 로그인 확인
 			if(session.getAttribute("id") == null) {
 				return "redirect:/login";
 			}
-			
+			model.addAttribute("week", mService.getWeeklyProduction());
 			return "main";
 		}
 		
@@ -59,11 +61,20 @@ public class MainController {
 				if(dbVO.getPw().equals(inputVO.getPw()) && dbVO.getActive() != 0) { // pw 일치 = 로그인
 					logger.debug(dbVO.toString());
 					logger.debug("비밀번호 일치, 세션 값 저장");
+					
+					LocalDateTime time = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+					
+					String now
+				    = time.format(
+				            DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")
+				        );
+					
 					session.setAttribute("code", dbVO.getCode());
 					session.setAttribute("id", dbVO.getId());
 					session.setAttribute("dep_group", dbVO.getDep_group());
 					session.setAttribute("dep_id", dbVO.getDep_id());
 					session.setAttribute("pos_group", dbVO.getPos_group());
+					session.setAttribute("login", now);
 					session.setAttribute("pos_id", dbVO.getPos_id());
 					session.setAttribute("name", dbVO.getName());
 					session.setAttribute("auth", dbVO.getAuth());
