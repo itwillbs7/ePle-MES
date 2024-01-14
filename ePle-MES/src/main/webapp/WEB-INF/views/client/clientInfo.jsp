@@ -76,12 +76,16 @@
 									<input class="form-control" type="text" name="email"  readonly value="${infoClient.email}">
 								</div>
 								<div class="form-group">
-									<label>비고</label> 
-									<input class="form-control" type="text" name="note"  readonly value="${infoClient.note}">
+								    <label>비고</label>
+								    <textarea class="form-control" name="note" rows="2" readonly>${infoClient.note}</textarea>
 								</div>
-								<div class="form-group">
-									<label>사용 여부</label> 
-									<input class="form-control" type="text" name="active"  readonly value="${infoClient.active}">
+								<div class="row">
+								    <div class="col-sm-12 mb-3">
+								        <div class="form-group">
+								            <label>사용여부</label>
+								            <input class="form-control" type="text" name="active" value="${infoClient.active == 'true' ? 'Y' : 'N'}" readonly>
+								        </div>
+								    </div>
 								</div>
 
 				<!-- 버튼 -->

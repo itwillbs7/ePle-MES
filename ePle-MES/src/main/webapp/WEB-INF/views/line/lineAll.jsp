@@ -132,9 +132,33 @@
 									        <th>${line.name}</th>
 									        <th>${line.process}</th>
 									        <th>${line.place}</th>
-									        <th>${line.status}</th>
+									        
+									        <th>
+	 										   <c:choose>
+		      									   <c:when test="${line.status}">
+		      									      Y
+		  										   </c:when>
+		  										   
+		      									   <c:otherwise>
+		     										    N
+											       </c:otherwise>
+											   </c:choose>
+									        </th>
+									       
 									        <th>${line.note}</th>
-									        <th>${line.active}</th>
+									        
+									        <th>
+	 										   <c:choose>
+		      									   <c:when test="${line.active}">
+		      									      Y
+		  										   </c:when>
+		  										   
+		      									   <c:otherwise>
+		     										    N
+											       </c:otherwise>
+											   </c:choose>
+									       </th>
+									       
 									        <td>
 												<button type="button" class="btn btn-info btn-sm" id="lineInfo">
 													<b>...</b>

@@ -31,16 +31,16 @@
                     </div>
                 </div>
                 
-                <!-- 소분류 -->
-                <div class="row">
-                    <div class="col-sm-12 mb-3">
-                        <div class="form-group">
-                            <label>소분류</label>
-                            <input class="form-control" type="text" name="code_id" value="${mvo.code_id}">
-                        </div>
-                    </div>
-                </div>
-                
+                <div class="form-group">
+				    <label>소분류</label>
+				    <select class="form-control" id="categoryDropdown" name="code_id" required>
+				        <option value="" disabled selected>소분류 선택</option>
+				        <option value="001" ${mvo.code_id == '001' ? 'selected' : ''}>원자재 / 001</option>
+				        <option value="002" ${mvo.code_id == '002' ? 'selected' : ''}>반제품 / 002</option>
+				        <option value="003" ${mvo.code_id == '003' ? 'selected' : ''}>완제품 / 003</option>
+				    </select>
+				</div>
+				
                 <!-- 원자재 or 완제품 품명 -->
                 <div class="row">
                     <div class="col-sm-12 mb-3">

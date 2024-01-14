@@ -22,14 +22,14 @@
                     <div class="col-sm-12 mb-3">
                         <!-- examples -->
                         <div class="form-group">
-                            <label>라인 코드</label> <input class="form-control" type="text" name="code">
+                            <label>라인 코드</label> <input class="form-control" type="text" name="code" required>
                         </div>
                         <div class="form-group">
-                            <label>라인명</label> <input class="form-control" type="text" name="name">
+                            <label>라인명</label> <input class="form-control" type="text" name="name" required>
                         </div>
                         <div class="form-group">
 						    <label>공정</label>
-						    <select class="form-control" name="process">
+						    <select class="form-control" name="process" required>
 						        <option value="" disabled selected>선택</option>
 						         <option value="1공정">1공정</option>
 						        <option value="2공정">2공정</option>
@@ -39,7 +39,7 @@
 						</div>
                         <div class="form-group">
 						    <label>작업장</label>
-						    <select class="form-control" name="place">
+						    <select class="form-control" name="place" required>
 						        <option value="" disabled selected>선택</option>
 						        <option value="1작업장">1작업장</option>
 						        <option value="2작업장">2작업장</option>
@@ -49,7 +49,7 @@
 						</div>
 						<div class="form-group">
 						    <label>설비상태</label>
-						    <select class="form-control" name="status">
+						    <select class="form-control" name="status" required>
 						        <option value="" disabled selected>설비상태 선택</option>
 						        <option value="true">Y</option>
 						        <option value="false">N</option>
