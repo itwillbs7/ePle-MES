@@ -162,21 +162,21 @@
 		) s ON r.product = s.code AND s.rn = 1
 		LEFT JOIN MAPD m ON r.product = m.code
 		WHERE r.status IN ('등록', '생산진행') AND s.total >= r.amount
-		LIMIT
-		#{startPage},#{pageSize}
+		and c.code not like 'ePle'
+		LIMIT #{startPage},#{pageSize}
 	</select>
 
 	<select id="getRequestCount" resultType="int">
 		SELECT count(*)
 		FROM REQUEST r
-		LEFT JOIN CLIENT c on
-		r.client_code =
-		c.code
-		RIGHT join STOCK_VIEW s on r.product = s.code
-		LEFT join MAPD m on
-		r.product = m.code
-		where status in ('등록','생산진행')
-		and s.total >= r.amount
+		LEFT JOIN CLIENT c ON r.client_code = c.code
+		RIGHT JOIN (
+		SELECT s.*, ROW_NUMBER() OVER(PARTITION BY s.code ORDER BY s.total DESC) rn
+		FROM STOCK_VIEW s
+		) s ON r.product = s.code AND s.rn = 1
+		LEFT JOIN MAPD m ON r.product = m.code
+		WHERE r.status IN ('등록', '생산진행') AND s.total >= r.amount
+		and c.code not like 'ePle'
 		<if test="clientName != null and clientName!= ''">AND c.name like concat('%',#{clientName},'%')</if>
 		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
 	</select>
@@ -192,6 +192,7 @@
 		LEFT join MAPD m on r.product = m.code
 		where status in ('등록','생산진행')
 		and s.total >= r.amount
+		and c.code not like 'ePle'
 		<if test="clientName != null and clientName!= ''">AND c.name like concat('%',#{clientName},'%')</if>
 		<if test="productName != null and productName != ''">AND m.name like concat('%',#{productName},'%')</if>
 		LIMIT #{cri.startPage},#{cri.pageSize}

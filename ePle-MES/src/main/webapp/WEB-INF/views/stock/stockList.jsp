@@ -67,6 +67,7 @@ margin-right:20px;
 									<label class="custom-control-label" for="tableCheckAll"></label>
 								</div>
 							</td>
+							<th>구분</th>
 							<th>품목코드</th>
 							<th>품명</th>
 							<th>현재고</th>
@@ -80,6 +81,7 @@ margin-right:20px;
 									<label class="custom-control-label" for="${vo.code }"></label>
 								</div>
 							</td>
+							<th>${vo.group_display }</th>
 							<th class="inInfo${vo.code}" style="color: #FF1493; ">${vo.code }</th>
 							<th>${vo.name }</th>
 							<th>

@@ -43,7 +43,7 @@
 											</div>
 											<div class="col-md-2 col-sm-12">
 												<div class="custom-control custom-checkbox mb-5" style="position: absolute; top: 50%; margin-top: -8px;">
-													<input type="checkbox" class="custom-control-input" id="isFinished" name="isFinished" ${isFinished } /> <label class="custom-control-label" for="isFinished">완료포함</label>
+													<input type="checkbox" class="custom-control-input" id="isFinished" name="isFinished" ${isFinished } /> <label class="custom-control-label" for="isFinished">입고완료포함</label>
 												</div>
 											</div>
 											<div class="col-md-2 col-sm-12">
@@ -108,11 +108,14 @@
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="result" role="tabpanel">
-								<div class='infoBtnGroup'>
+								<div class='infoBtnGroup' style="display: flex;">
 									<button type='button' class='btn btn-success infoBtn' id='inputButton' disabled>재료투입</button>
 									<button type='button' class='btn btn-success infoBtn' id='Start' disabled>시작</button>
 									<button type='button' class='btn btn-warning infoBtn' id='Complete' disabled>완료</button>
-									<button type='button' class='btn btn-secondary infoBtn' id='addResult' disabled>양품추가</button>
+									<div style="display: flex; width: 200px; align-items: center;">
+										<input class="form-control required" type="number" placeholder="양품갯수" name="num" min="1" id="resultNum" style="box-sizing: border-box; margin-right: 6px;">
+										<button type='button' class='btn btn-secondary infoBtn' id='addResult' style="box-sizing: border-box;" disabled>양품추가</button>
+									</div>
 									<button type="button" class="btn btn-dark infoBtn" id="addFailed" disabled>불량추가</button>
 									<button type="button" class="btn btn-dark infoBtn" id="inAdd" disabled>입고등록</button>
 								</div>
@@ -305,19 +308,47 @@
 	<script type="text/javascript">
 		function resultControll(id) {
 			var code = $("#codeInfo").val();
-			$.ajax({
-				url : "/production/" + id,
-				method : "POST",
-				data : {
-					code : code
-				},
-				error : function() {
-					
-				},
-				success : function(data) {
-					setInfo(data);
+			if (id == 'addResult') {
+				var num = Number($("#resultNum").val());
+				var inst = Number($("#instAmoInfo").val());
+				var amo = Number($("#amoInfo").val());
+				if (num <= 0 ) {
+					alert("수량이 0 보다 작을 수 없습니다");
+					return;
 				}
-			});
+				if (num > (inst - amo)) {
+					alert("수량이 지시량 보다 클 수 없습니다");
+					return;
+				}
+				$.ajax({
+					url : "/production/" + id,
+					method : "POST",
+					data : {
+						code : code,
+						num : num
+					},
+					error : function() {
+						
+					},
+					success : function(data) {
+						setInfo(data);
+					}
+				});
+			}else{
+				$.ajax({
+					url : "/production/" + id,
+					method : "POST",
+					data : {
+						code : code
+					},
+					error : function() {
+						
+					},
+					success : function(data) {
+						setInfo(data);
+					}
+				});
+			}
 		}
 	</script>
 	<!-- 실적 제어 끝 -->
@@ -482,6 +513,7 @@
 	<script type="text/javascript">
 		$(document) .on( "click", "#inputButton", function() {
 			var status = $("#statusInfo").val();
+			if (status == '대기' || status == '생산중') {
 				var popupWidth, popupHeight, popupX, popupY, link;
 				var set;
 				var code = $("#codeInfo").val();
@@ -510,6 +542,9 @@
 				}
 				
 				openPage("/production/input?code=" + code, 500, 600);
+			}else{
+				alert('재료투입은 대기,생산중일 때만 가능합니다.');
+			}
 		});
 	</script>
 

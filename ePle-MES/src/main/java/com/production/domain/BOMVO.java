@@ -10,6 +10,7 @@ public class BOMVO {
 	private String material;
 	private String content;
 	private String mapd_code;
+	private int inventory;
 	
 	private String mapdName;
 	private String materialName;
