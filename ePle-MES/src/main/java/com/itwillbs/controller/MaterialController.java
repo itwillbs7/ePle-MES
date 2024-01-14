@@ -351,7 +351,7 @@ public class MaterialController {
       @RequestMapping(value = "/outInfo", method = RequestMethod.GET)
   	  public void outInfo(@RequestParam(value = "code") String code,Model model) throws Exception {
   		
-      	Warehouse_HistoryVO outInfo = mService.inInfo(code);
+      	Warehouse_HistoryVO outInfo = mService.outInfo(code);
     	model.addAttribute("outInfo", outInfo);
 
   	  }
