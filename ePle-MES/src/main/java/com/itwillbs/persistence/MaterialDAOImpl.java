@@ -258,7 +258,14 @@ public class MaterialDAOImpl implements MaterialDAO {
 		return sqlSession.selectOne(NAMESPACE + ".outRecentCode");
 	}	
 	
-	
+	 // 품목 상세 (재고페이지 발주요청)
+	 @Override
+	 public OrderVO stockOrderMAPD(String code) throws Exception {
+	 	logger.debug("D - stockOrderMAPD(String code)" + code);
+	 	return sqlSession.selectOne(NAMESPACE + ".stockOrderMAPD", code);
+	}
+	 
+	 
 	
 	
 }

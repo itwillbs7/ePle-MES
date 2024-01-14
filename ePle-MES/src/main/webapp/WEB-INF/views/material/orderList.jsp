@@ -149,12 +149,6 @@ margin-right:20px;
 					</table>
 				</form>
 
-				<!-------------------------------- 발주 갯수 -------------------------------->
-				<!-- <div class="row">
-					<div class="col-sm-12 col-md-5">
-						<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> &nbsp;&nbsp; (전체 수) 중 (검색 결과) 개</div>
-					</div>
-				</div> -->
 
 
 				<!--------------------------------- 페이징 ---------------------------------->
@@ -255,7 +249,7 @@ margin-right:20px;
 		$(document).ready(function() {
 			// 추가 O
 			$("#add").click(function() {
-				openPage("/material/orderBeforeAdd", 500, 700);
+				openPage("/material/orderBeforeAdd", 800, 600);
 			});
 
 		// 수정 O

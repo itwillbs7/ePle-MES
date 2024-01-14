@@ -466,10 +466,6 @@
 	</select>
 	
 	
-	
-	
-	
-	
 	<!-- 출고 등록 -->
 	<insert id="outAdd">
 		INSERT INTO WAREHOUSE_HISTORY
@@ -484,6 +480,12 @@
 	</select>
 	
 	
+	<!-- 재고 - 품목상세 발주요청 -->
+	<select id="stockOrderMAPD" parameterType="String" resultType="OrderVO">
+		SELECT code, name
+		FROM MAPD  
+	    WHERE code = #{code}
+	</select>
 	
 	
 	
