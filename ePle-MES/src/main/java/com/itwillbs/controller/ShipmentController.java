@@ -389,7 +389,7 @@ public class ShipmentController {
 		// 일단 출하코드들 qr 먼저 
 		int width = 200;
         int height = 200;
-        String url = "http://localhost:8088/shipment/shipqr?code="+encodedCode;
+        String url = "http://class7-team1.itwillbs.com:8080/shipment/shipqr?code="+encodedCode;
         
         QRCodeWriter barcodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = 
@@ -408,7 +408,7 @@ public class ShipmentController {
         // 일단 출하코드들 qr 먼저 
         width = 200;
         height = 200;
-        url = "http://localhost:8088/shipment/clientqr?code="+encodedCode;
+        url = "http://class7-team1.itwillbs.com:8080/shipment/clientqr?code="+encodedCode;
         
         barcodeWriter = new QRCodeWriter();
         bitMatrix = 
