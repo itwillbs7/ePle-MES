@@ -121,7 +121,7 @@
 		SELECT R.code, R.product, M.name AS product_name, IFNULL(amount - (SELECT SUM(amount) FROM INSTRUCTION I WHERE request = #{code} AND status != '비활성') + (SELECT SUM(I.amount-(SELECT SUM(amount) FROM RESULT WHERE inst_code = I.code)) FROM INSTRUCTION I WHERE request = #{code} AND status != '비활성'),amount) AS amount FROM REQUEST R LEFT JOIN MAPD M ON R.product = M.code WHERE R.code = #{code}
 	</select>
 	<select id="getBOM" resultType="com.production.domain.BOMVO">
-		SELECT * FROM BOM WHERE mapd_code = #{mapd_code}
+		SELECT B.*,SUM(S.total) AS inventory FROM BOM B LEFT JOIN STOCK_VIEW S ON B.material = S.code WHERE mapd_code = #{mapd_code} group by B.bno
 	</select>
 
 </mapper>

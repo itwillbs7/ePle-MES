@@ -1,7 +1,9 @@
 package com.production.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.CommonVO;
+import com.itwillbs.domain.Warehouse_HistoryVO;
+import com.itwillbs.service.MaterialService;
 import com.production.domain.failedVO;
 import com.production.domain.inputVO;
 import com.production.domain.resultVO;
@@ -32,6 +37,9 @@ public class resultController {
 	
 	@Inject
 	private resultService rsService;
+	
+	@Inject
+	private MaterialService mService;
 	
 	//http://localhost:8088/production/result
 	//실적페이지 GET
@@ -146,11 +154,51 @@ public class resultController {
 	}
 	//재료 투입
 	@RequestMapping(value = "/input", method = RequestMethod.POST)
-	public void input(@RequestBody inputVO[] arr, Model model) throws Exception {
+	public void input(@RequestBody inputVO[] arr) throws Exception {
 		logger.debug("Controller : input(String code) POST 호출");
 		logger.debug("arr : " + arr[0]);
-		rsService.insertInput(arr);
+		List<Warehouse_HistoryVO> wList = rsService.insertInput(arr);
+		logger.debug("wList : " + wList);
+		outAddList(wList);
 	}
+	
+	public void outAddList(List<Warehouse_HistoryVO> list) throws Exception {
+		  String recentCode = null;
+		  SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+		  String now = dateformat.format(new Date());
+		  String code = "OUT";
+		  
+		  for (Warehouse_HistoryVO warehouse_HistoryVO : list) {
+			  recentCode = mService.outRecentCode();
+			  code = "OUT";
+			  logger.debug("recentCode : " + recentCode);
+			  if(recentCode == null || recentCode.equals("")) {
+				  code += now;
+				  code += "001";
+			  }else {
+				  String fDate = recentCode.substring(3, recentCode.length()-3);
+				  if(now.equals(fDate)) {	
+					  logger.debug("fDate : " + fDate);
+					  String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
+					  logger.debug("fCount : " + fCount);
+					  while(fCount.length() < 3) fCount = "0" + fCount;
+					  code += fDate + fCount;
+				  }else {
+					  code += now + "001";
+				  }
+			  }
+			  warehouse_HistoryVO.setCode(code);
+			  logger.debug("recentCode2 : " + code);
+			  mService.outAdd(warehouse_HistoryVO);
+		  }
+	  }
+	
+	
+	
+	
+	
+	
+	
 	//Lot 생성
 	@RequestMapping(value = "/insertLot", method = RequestMethod.POST)
 	@ResponseBody

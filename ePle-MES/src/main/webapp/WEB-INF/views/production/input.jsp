@@ -49,6 +49,7 @@ input[readonly] {
 													<th>재료코드</th>
 													<th>소요량</th>
 													<th>총합</th>
+													<th>재고</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -99,6 +100,7 @@ input[readonly] {
 					html += "<td>" + data[i].material + "<input type='hidden' name='mapd_code' value='" + data[i].material + "'></td>";
 					html += "<td>" + data[i].amount + "</td>";
 					html += "<td>" + data[i].amount * planedAmount + "<input type='hidden' name='amount' value='" + data[i].amount * planedAmount + "'></td>";
+					html += "<td>" + data[i].inventory + "<input type='hidden' name='inventory' value='" + data[i].inventory + "'></td>";
 					html += "</tr>";
 					$("#materials>tbody").append(html);
 				}
@@ -112,16 +114,22 @@ input[readonly] {
 			var arr = [];
 			var mapd_code = [];
 			var amount = [];
+			var inventory = [];
 			$("input[name='mapd_code']").each(function() {
-		        var mapd_codeVal = $(this).val();
-		        mapd_code.push(mapd_codeVal);
+		        mapd_code.push($(this).val());
 		    });
 			$("input[name='amount']").each(function() {
-		        var amountVal = $(this).val();
-		        amount.push(amountVal);
+		        amount.push($(this).val());
+		    });
+			$("input[name='inventory']").each(function() {
+				inventory.push($(this).val());
 		    });
 			var result_code = $("#result_code").val();
 			for (var i = 0; i < mapd_code.length; i++) {
+				if (Number(inventory[i]) < Number(amount[i])) {
+					alert('재고가 부족합니다');
+					return false;
+				}
 				arr.push({code:null,mapd_code:mapd_code[i],amount:amount[i],result_code:result_code});
 			}
 			$.ajax({
@@ -134,6 +142,8 @@ input[readonly] {
 				},
 				success : function(data) {
 					alert('success');
+					window.opener.postMessage("refresh", "*");
+					window.close();
 				}
 			});
 		}

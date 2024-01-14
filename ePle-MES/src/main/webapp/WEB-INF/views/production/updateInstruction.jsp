@@ -104,7 +104,8 @@
 						<!-- 세션에서 받아오기 -->
 						<div class="form-group">
 							<label>수정자</label>
-							<input class="form-control required" type="text" placeholder="수정자 정보가 없습니다" readonly value="${session.code }" name="update_emp">
+							<input class="form-control required" type="text" placeholder="수정자 정보가 없습니다" readonly value="${sessionScope.name }">
+							<input class="form-control required" type="hidden" placeholder="수정자 정보가 없습니다" readonly value="${sessionScope.code }" name="update_emp">
 						</div>
 						<!-- 세션에서 받아오기 -->
 						<!-- examples end -->
