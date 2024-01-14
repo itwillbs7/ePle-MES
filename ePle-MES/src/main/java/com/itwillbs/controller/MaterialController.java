@@ -23,6 +23,7 @@ import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.WarehouseVO;
 import com.itwillbs.domain.Warehouse_HistoryVO;
 import com.itwillbs.service.MaterialService;
+import com.itwillbs.service.facility.FacilityOrderService;
 
 /** MaterialController : 자재 컨트롤러 
 * 
@@ -42,7 +43,8 @@ public class MaterialController {
 	@Inject
 	private MaterialService mService;	
 	
-
+	@Inject
+	private FacilityOrderService oService;
 	
 	  /*----------------------------------------입고 시작-------------------------------------------*/
 	
@@ -159,46 +161,101 @@ public class MaterialController {
 
 	  }
 	
+	  // ======================================재고 - 발주요청
+	  @RequestMapping(value = "/stockOrderMAPD", method = RequestMethod.GET)
+	  public void askOrderAdd(@RequestParam(value = "code") String code, Model model) throws Exception {
+	      OrderVO stockOrderMAPD = mService.stockOrderMAPD(code);
+	      model.addAttribute("List", stockOrderMAPD);
+	  }
+	  @RequestMapping(value = "/stockOrderMAPD" , method = RequestMethod.POST)
+	  public String askOrderAdd(OrderVO vo, @RequestParam(value = "code") String codeParam, RedirectAttributes rttr) throws Exception {
+	     
+		  String recentCode;
+
+	      if (codeParam.startsWith("F")) {
+	    	  recentCode = oService.getRecentCode(); 
+	      } else {
+	          recentCode = mService.orderRecentCode(); 
+	      }
+
+	      SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+	      String now = dateformat.format(new Date());
+
+	      String code;
+
+	      if (codeParam.startsWith("F")) {
+	          code = "FO";
+	      } else {
+	          code = "OR";
+	      }
+
+	      if (recentCode == null || recentCode.equals("")) {
+	          code += now;
+	          code += "001";
+	      } else {
+	          String fDate = recentCode.substring(2, recentCode.length() - 3);
+	          if (now.equals(fDate)) {
+	              String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length() - 3)) + 1);
+	              while (fCount.length() < 3)
+	                  fCount = "0" + fCount;
+	              code += fDate + fCount;
+	          } else {
+	              code += now + "001";
+	          }
+	      }
+	      vo.setCode(code);
+
+	      int result = mService.askOrderAdd(vo);
+
+	      if (result == 1) {
+	          return "material/resultSuccess";
+	      } else {
+	          return "material/resultFailed";
+	      }
+	  }
+	  
 	  // ======================================발주요청 - 등록
 	  @RequestMapping(value = "/askOrderAdd", method = RequestMethod.GET)
 	  public void askOrderAdd(Model model) throws Exception {
 	  }
-	  
-      @RequestMapping(value = "/askOrderAdd", method = RequestMethod.POST)
-	  public String askOrderAdd(OrderVO vo, RedirectAttributes rttr) throws Exception {
-    	  String recentCode = mService.orderRecentCode();
 
-    	  SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
-    	  String now = dateformat.format(new Date());
+	     @RequestMapping(value = "/askOrderAdd", method = RequestMethod.POST)
+		  public String askOrderAdd(OrderVO vo, RedirectAttributes rttr) throws Exception {
+	    	  String recentCode = mService.orderRecentCode();
 
-    	  String code = "OR";
+	    	  SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+	    	  String now = dateformat.format(new Date());
 
-    	  if(recentCode == null || recentCode.equals("")) {
-    		  code += now;
-    		  code += "001";
-    	  }
+	    	  String code = "OR";
 
-    	  else {
-    		  String fDate = recentCode.substring(2, recentCode.length()-3);
-    		  if(now.equals(fDate)) {		
-    			  String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
-    			  while(fCount.length() < 3) fCount = "0" + fCount;
-    			  code += fDate + fCount;
-    		  }
-    		  else {
-    			  code += now + "001";
-    		  }
-    	  }
-    	  vo.setCode(code);
-    	
-    	  int result = mService.askOrderAdd(vo); 
-    	
-    	  if (result == 1) {
-    		  return "material/resultSuccess"; 
-    	  } else {
-			  return "material/resultFailed"; 
-    	  } 
-      }
+	    	  if(recentCode == null || recentCode.equals("")) {
+	    		  code += now;
+	    		  code += "001";
+	    	  }
+
+	    	  else {
+	    		  String fDate = recentCode.substring(2, recentCode.length()-3);
+	    		  if(now.equals(fDate)) {		
+	    			  String fCount = "" + (Integer.parseInt(recentCode.substring(recentCode.length()-3)) + 1);
+	    			  while(fCount.length() < 3) fCount = "0" + fCount;
+	    			  code += fDate + fCount;
+	    		  }
+	    		  else {
+	    			  code += now + "001";
+	    		  }
+	    	  }
+	    	  vo.setCode(code);
+	    	
+	    	  int result = mService.askOrderAdd(vo); 
+	    	
+	    	  if (result == 1) {
+	    		  return "material/resultSuccess"; 
+	    	  } else {
+				  return "material/resultFailed"; 
+	    	  } 
+	      }
+	      
+
       
       // ======================================발주요청 - 상세
       @RequestMapping(value = "/askOrderInfo", method = RequestMethod.GET)
@@ -437,6 +494,8 @@ public class MaterialController {
 	  
 	  /*-----------------------------------------출고 끝--------------------------------------------*/
 	 
+	  
+	  
 	  
 	  
 	  

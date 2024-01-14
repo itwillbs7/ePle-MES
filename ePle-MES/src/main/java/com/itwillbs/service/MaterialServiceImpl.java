@@ -244,5 +244,13 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 	
 	
+	 // 품목 상세 (재고페이지 발주요청)
+	 @Override
+	 public OrderVO stockOrderMAPD(String code) throws Exception {
+	 	logger.debug("S - stockOrderMAPD(String code)" + code);
+	 	return mdao.stockOrderMAPD(code);
+	}
+	 
+	 
 	
 }

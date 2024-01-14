@@ -38,10 +38,10 @@ font-weight: bold;
 									
 										<label>품목 정보</label> 
 									<div class="form-group">
-										<input class="form-control back" type="text" id="mapdCode" name="material" placeholder="품목코드"  required readonly>
+										<input class="form-control" type="text" id="mapdCode" name="material" placeholder="품목코드" value="${List.code }" required readonly>
 									</div>
 									<div class="form-group">
-										<input class="form-control back" type="text" id="mapdName" placeholder="품명" required readonly>
+										<input class="form-control" type="text" id="mapdName" placeholder="품명" value="${List.name }" required readonly>
 									</div>
 
 										<label>발주량</label> 
@@ -97,11 +97,13 @@ font-weight: bold;
 	}
 	
 	$(document).ready(function() {
-		// 등록 - 품목 리스트 (원자재)
+		
+		
+/* 		// 등록 - 품목 리스트 (원자재)
 	    $("#mapdCode,#mapdName").click(function() {
 	        var url = '${pageContext.request.contextPath}/material/searchMaterial';
 	        openPopup(url);
-	    });
+	    }); */
 
 		// 등록 - 사원 리스트 (전체)
 	    $("#selectA,#selectB").click(function() {

@@ -56,6 +56,17 @@
 													</button>
 												</div>
 											</div>
+
+
+											<div class="col-md-2 col-sm-12">
+												<div class="btn-group pull-right" style="margin-bottom: 10px; position: absolute; top: 50%; margin-top: -22px;">
+													<div class="btn-group pull-right" style="margin-left: 60px;">
+														<button type="button" class="btn btn-success" id="add"><b>발주요청</b></button>
+													</div>
+												</div>
+											</div>
+											
+											
 										</div>
 									</div>
 								</div>
@@ -571,6 +582,51 @@
 		});
 	</script>
 	<!-- 수주정보 받기 끝 -->
+
+
+
+
+	<!-- 발주요청 추가 -->
+	<script type="text/javascript">
+	
+		var popupWidth, popupHeight, popupX, popupY, link;
+		var set;
+
+		function retPopupSetting(width, height){
+			popupX = Math.ceil((window.screen.width - width) / 2);
+			popupY = Math.ceil((window.screen.height - height) / 2);
+
+			var setting = "";
+			setting += "toolbar=0,";
+			setting += "scrollbars=0,";
+			setting += "statusbar=0,";
+			setting += "menubar=0,";
+			setting += "resizable=0,";
+			setting += "width=" + width + ",";
+			setting += "height=" + height + ",";
+			setting += "top=" + popupY + ",";
+			setting += "left=" + popupX;
+			return setting;
+		}
+
+		function openPage(i, width, height) {
+			set = retPopupSetting(width, height);
+			return window.open(i, 'Popup_Window', set);
+		}
+
+		$(document).ready(function() {
+			// 발주 O
+			$("#add").click(function() {
+				openPage("/material/askOrderAdd", 400, 700);
+			});
+		});
+	</script>
+
+
+
+
+
+
 
 </body>
 </html>

@@ -213,7 +213,7 @@ margin-right:20px;
 		    // 발주요청 O
 		    $('body').on('click', '.inInfo', function(){
 		        var code = $(this).data('code');
-		        openPage("${pageContext.request.contextPath}/material/askOrderAdd?code=" + code, 400, 700);
+		        openPage("${pageContext.request.contextPath}/material/stockOrderMAPD?code=" + code, 400, 700);
 		    });
 		});
 

@@ -18,9 +18,9 @@
 <title>발주 요청 목록</title>
 </head>
 <body>
-
-	<div class="modal-content">
-		<div class="login-box bg-white box-shadow border-radius-10">
+<div class="modal-dialog modal-xl" style="max-width: 230%;">
+	<div class="modal-content" style="max-width: 230%;">
+		<div class="login-box bg-white box-shadow border-radius-10" style="max-width: 230%;">
 		<button type="button" class="close" onclick="window.close();">×</button>
 
 			<div class="login-title">
@@ -84,7 +84,7 @@
 			</div>
 		</div>
 	</div>
-
+</div>
 	<%@ include file="../include/footer.jsp"%>
 	<script type="text/javascript">
 	

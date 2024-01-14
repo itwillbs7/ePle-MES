@@ -95,7 +95,8 @@ public interface MaterialDAO {
 	// 출고 최신코드 가져오기
 	public String outRecentCode() throws Exception;	 
 		 
-		 
+	 // 품목 상세 (재고페이지 발주요청)
+	 public OrderVO stockOrderMAPD(String code) throws Exception;	 	 
 		 
 		 
 		 
