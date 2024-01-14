@@ -95,14 +95,7 @@
                 </div>
                 
                 <!-- 등록자 사원코드 -->
-                <div class="row">
-                    <div class="col-sm-12 mb-3">
-                        <div class="form-group">
-                            <label>등록자 사원코드</label>
-                            <input class="form-control" type="text" name="reg_emp" value="${mvo.reg_emp}" readonly>
-                        </div>
-                    </div>
-                </div>
+                <input class="form-control" type="hidden" name="reg_emp" value="${mvo.reg_emp}" readonly>
                 
                 <!-- 등록일 -->
                 <div class="row">
@@ -115,14 +108,7 @@
                 </div>
                 
                 <!-- 수정자 사원코드 -->
-                <div class="row">
-                    <div class="col-sm-12 mb-3">
-                        <div class="form-group">
-                            <label>수정자 사원코드</label>
-                            <input class="form-control" type="text" name="update_emp" value="${mvo.update_emp}">
-                        </div>
-                    </div>
-                </div>
+                <input class="form-control" type="hidden" name="update_emp" value="${mvo.update_emp}">
                 
                 <!-- 수정일 -->
                 <div class="row">

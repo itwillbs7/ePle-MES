@@ -66,14 +66,14 @@
 							</div>
 						</div>
 						<div class="form-group">
-                            <label>등록자 사원코드</label> <input class="form-control" type="text" name="reg_emp" placeholder="등록자 사원코드 입력" required>
+                            <input class="form-control" type="hidden" name="reg_emp" value="${sessionScope.code }">
                         </div>
 						<div class="form-group">
 						    <label>등록일</label>
 						    <input class="form-control" type="text" name="reg_date" placeholder="등록일 입력" id="regDate" readonly required>
 						</div>
                         <div class="form-group">
-                            <label>수정자 사원코드</label> <input class="form-control" type="text" name="update_emp" placeholder="수정자 사원코드 입력" required>
+                            <input class="form-control" type="hidden" name="update_emp" value="${sessionScope.code }">
                         </div>
 						<div class="form-group">
 						    <label>수정일</label>
