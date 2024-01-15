@@ -46,7 +46,7 @@
 						<div class="form-group">
 							<label for="date">수주일자</label> 
 							<input class="form-control " name="reqsdate" type="text" id="reqsdate"
-							 autocomplete="off" required="required" readonly value="${List.date }">
+							 autocomplete="off" required="required" readonly value="${List.reqsdate }">
 						</div>
 						<div class="form-group">
 							<label for="deadline">출하일자</label> 

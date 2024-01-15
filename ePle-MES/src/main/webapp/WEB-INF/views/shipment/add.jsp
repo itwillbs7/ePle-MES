@@ -47,7 +47,7 @@
 						</div>
 						<div class="form-group" id="returndate">
 							<label for="date">출하일자</label> 
-							<input class="form-control date-picker" readonly name="date" type="text" id="date"
+							<input class="form-control date-picker" name="date" type="text" id="date"
 							placeholder="클릭 시 달력이 뜹니다" autocomplete="off" required="required">
 						</div>
 						<div class="form-group">
@@ -152,7 +152,7 @@
 		    event.preventDefault();
 		    
 		    var date = document.getElementById('date').value; // 출하일자
-			var reqsdate = new Date(document.getElementById('reqsdate').value); // 수주일자
+			var reqsdate = document.getElementById('reqsdate').value; // 수주일자
 			
 			if(date == null || date === ''){
 				$('#returndate').append('<span style="color : red; font-size : 12px"> * 날짜를 입력하세요 </span>');

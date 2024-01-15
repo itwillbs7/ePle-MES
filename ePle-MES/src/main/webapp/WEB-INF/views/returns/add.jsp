@@ -138,8 +138,8 @@
 							// 기본 제출 이벤트를 막음
 							event.preventDefault();
 							
-							var date = new Date(document.getElementById('date').value);
-							var shipdate = new Date(document.getElementById('shipdate').value);
+							var date = document.getElementById('date').value;
+							var shipdate = document.getElementById('shipdate').value;
 							
 							// 반품일자는 출하일자 이전날짜를 선택할 수 없다
 							if(date<shipdate){
