@@ -311,7 +311,7 @@
 
 	<select id="getStockList" resultMap="st">
 		SELECT s.code, s.name, s.total 
-		from (SELECT code, name, sum(total) as total from STOCK_VIEW GROUP BY name) as s
+		from (SELECT code, name, sum(total) as total from STOCK_VIEW where code like '%F%' GROUP BY code,name) as s
 		LEFT OUTER JOIN MAPD m ON s.code = m.code
 		LEFT
 		OUTER JOIN COMMON_CODE c ON m.group_id = c.group_id AND m.code_id =
