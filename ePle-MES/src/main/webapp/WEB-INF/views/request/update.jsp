@@ -185,10 +185,8 @@
 							// 기본 제출 이벤트를 막음
 							event.preventDefault();
 
-							var date = new Date(
-									document.getElementById('date').value);
-							var deadline = new Date(document
-									.getElementById('deadline').value);
+							var date = document.getElementById('date').value;
+							var deadline = document.getElementById('deadline').value;
 							// 납품일자는 수주일자 이전날짜를 선택할 수 없다
 							if (deadline < date) {
 								$('#returndate')

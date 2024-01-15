@@ -129,8 +129,8 @@
 		// 기본 제출 이벤트를 막음
 		event.preventDefault();
 		
-		var date = new Date(document.getElementById('date').value); // 반품일자
-		var reqsdate = new Date(document.getElementById('reqsdate').value); // 출하일자
+		var date = document.getElementById('date').value; // 반품일자
+		var reqsdate = document.getElementById('reqsdate').value; // 출하일자
 		// 반품일자는 출하일자 이후여야 한다
 		if(date<reqsdate){
 		$('#returndate').append('<span style="color : red; font-size : 12px"> * 반품일자는 출하일자 이후여야 합니다 </span>');
