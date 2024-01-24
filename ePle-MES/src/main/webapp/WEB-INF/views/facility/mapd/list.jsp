@@ -14,8 +14,19 @@
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
-			<div class="title" style="margin-bottom: 10px;">
-				<h1>설비 정보 관리</h1>
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="title">설비 정보 관리</h1>
+				</div>
+				<div class="col-md-12">
+					<nav aria-label="breadcrumb" role="navigation">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">설비 관리</li>
+							<li class="breadcrumb-item active" aria-current="page"><b>설비
+									정보 관리</b></li>
+						</ol>
+					</nav>
+				</div>
 			</div>
 			<div class="min-height-200px">
 				<!-- 아코디언 시작 -->
@@ -102,21 +113,20 @@
 					<div class="pb-20">
 						<div class="col-sm-30">
 							<form class="table" id="table">
-								<table class="table table-striped">
+								<table class="table">
 									<tr>
 										<td style="width: 100px;">
 											<div class="custom-control custom-checkbox mb-5">
 												<input type="checkbox" class="custom-control-input" id="tableCheckAll"> <label class="custom-control-label" for="tableCheckAll"></label>
 											</div>
 										</td>
-										
 										<th>품번</th>
 										<th>품명</th>
 										<th>규격</th>
 										<th>단위</th>
-										<th>입고 단가 (원)</th>
-										<th>사용여부</th>
-										<th>상세보기</th>
+										<th style="text-align: center;">입고 단가 (원)</th>
+										<th style="text-align: center;">사용여부</th>
+										<th style="text-align:center;">상세보기</th>
 									</tr>
 									<c:forEach var="product" items="${productList}" varStatus="loop">
 									    <tr>
@@ -132,11 +142,10 @@
 									        <th>${product.name}</th>
 									        <th>${product.size}</th>
 									        <th>${product.unit}</th>
-											<th>
+											<th style="text-align: right;">
 											    <fmt:formatNumber value="${product.inprice}" type="currency" currencyCode="KRW" pattern="#,###" /> 원
 											</th>
-									        <th>
-									        
+									        <th style="text-align:center;">								        
  										   <c:choose>
       									   <c:when test="${product.active}">
       									      Y
@@ -145,10 +154,8 @@
      										    N
 									       </c:otherwise>
 									       </c:choose>
-
-									        
 									        </th>
-						                    <td>
+						                    <td style="text-align:center;">
 												<button type="button" class="btn btn-info btn-sm" id="productInfo">
 													<b>...</b>
 												</button>

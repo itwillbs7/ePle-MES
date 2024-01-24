@@ -27,8 +27,19 @@
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
-			<div class="title mb-30">
-				<h1>설비 상태</h1>
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="title">설비 상태</h1>
+				</div>
+				<div class="col-md-12">
+					<nav aria-label="breadcrumb" role="navigation">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">설비 관리</li>
+							<li class="breadcrumb-item active" aria-current="page"><b>설비
+									상태</b></li>
+						</ol>
+					</nav>
+				</div>
 			</div>
 			<div class="pd-20 mb-20 card-box">
 				<div class="tab">
@@ -121,7 +132,7 @@
 						<div class="tab-pane fade" id="profile5" role="tabpanel">
 							<div class="pd-20">
 								<div class="table-responsive">
-									<table class="table table-striped">
+									<table class="table">
 										<thead>
 											<tr>
 												<th>코드</th>

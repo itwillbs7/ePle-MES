@@ -17,8 +17,19 @@
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
-			<div class="title" style="margin-bottom: 10px;">
-				<h1>설비 발주 신청</h1>
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="title">발주 신청</h1>
+				</div>
+				<div class="col-md-12">
+					<nav aria-label="breadcrumb" role="navigation">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">설비 관리</li>
+							<li class="breadcrumb-item active" aria-current="page"><b>
+									발주 신청</b></li>
+						</ol>
+					</nav>
+				</div>
 			</div>
 			<div class="min-height-200px">
 				<form id="accordion-search">
@@ -77,7 +88,7 @@
 					</div>
 					<div class="pb-20">
 						<div class="col-sm-30">
-							<table class="table table-striped">
+							<table class="table">
 								<tr>
 									<td style="width: 100px;">
 										<div class="custom-control custom-checkbox mb-5">

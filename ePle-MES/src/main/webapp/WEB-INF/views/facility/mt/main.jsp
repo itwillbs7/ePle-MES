@@ -21,8 +21,19 @@
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
-			<div class="title" style="margin-bottom: 10px;">
-				<h1>설비 보전</h1>
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="title">설비 보전</h1>
+				</div>
+				<div class="col-md-12">
+					<nav aria-label="breadcrumb" role="navigation">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">설비 관리</li>
+							<li class="breadcrumb-item active" aria-current="page"><b>
+									설비 보전</b></li>
+						</ol>
+					</nav>
+				</div>
 			</div>
 			<br>
 			<div class="min-height-200px">

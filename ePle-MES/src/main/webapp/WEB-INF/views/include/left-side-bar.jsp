@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- 좌측 사이드 바(메뉴) -->
 <div class="left-side-bar">
 
@@ -23,44 +24,74 @@
 				<!-- 메뉴 -->
 
 				<!-- 단일 메뉴 -->
-				<li><a href="/" class="dropdown-toggle no-arrow"> <span class="micon bi bi-house"></span> <span class="mtext">메인</span>
+				<li><a href="/" class="dropdown-toggle no-arrow
+				<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/'}"> active </c:if>"
+				 > <span class="micon bi bi-house"></span> <span class="mtext">메인</span>
 				</a></li>
 
 				<!-- 드롭다운 -->
 				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-gear-wide-connected"></span><span class="mtext">생산 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="/production/instruction">작업지시 관리</a></li>
-						<li><a href="/production/result">실적 관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/production/instruction'}">class="active" </c:if>
+						href="/production/instruction">작업지시 관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/production/result'}">class="active" </c:if>
+						href="/production/result">실적 관리</a></li>
 					</ul></li>
 
 				<!-- 드롭다운 -->
 				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-archive"></span><span class="mtext">자재 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="/material/orderList">발주 관리</a></li>
-						<li><a href="/material/inList">입출고 관리</a></li>
-						<li><a href="/stock/stockList">재고 관리</a></li>
-						<li><a href="/stock/warehouseList">창고 목록</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/material/orderList'}">class="active" </c:if>
+						href="/material/orderList">발주 관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/material/inList'}">class="active" </c:if>
+						href="/material/inList">입출고 관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/stock/stockList'}">class="active" </c:if>
+						href="/stock/stockList">재고 관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/stock/warehouseList'}">class="active" </c:if>
+						href="/stock/warehouseList">창고 목록</a></li>
 					</ul></li>
 
 				<!-- 드롭다운 -->
 				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-file-bar-graph"></span><span class="mtext">영업 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="/request/list">수주관리</a></li>
-						<li><a href="/shipment/list">출하관리</a></li>
-						<li><a href="/returns/list">반품관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/request/list'}">class="active" </c:if>
+						href="/request/list">수주관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/shipment/list'}">class="active" </c:if>
+						href="/shipment/list">출하관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/returns/list'}">class="active" </c:if>
+						href="/returns/list">반품관리</a></li>
 					</ul></li>
 				<!-- 드롭다운 -->
 				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-wrench-adjustable-circle"></span><span class="mtext">설비 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="/facility/mapd/list">설비 정보</a></li>
-						<li><a href="/facility/info/list">설비 목록</a></li>
-						<li><a href="/facility/mt/main">보전</a></li>
-						<li><a href="/facility/mt/status">설비 모니터링</a></li>
-						<li><a href="/facility/order/list">발주 신청</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/facility/mapd/list'}">class="active" </c:if>
+						href="/facility/mapd/list">설비 정보</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/facility/info/list'}">class="active" </c:if>
+						href="/facility/info/list">설비 목록</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/facility/mt/main'}">class="active" </c:if>
+						href="/facility/mt/main">보전</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/facility/mt/status'}">class="active" </c:if>
+						href="/facility/mt/status">설비 모니터링</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/facility/order/list'}">class="active" </c:if>
+						href="/facility/order/list">발주 신청</a></li>
 					</ul></li>
 
 				<!-- 드롭다운 -->
@@ -68,21 +99,35 @@
 				</a>
 				
 					<ul class="submenu">
-						<li><a href="/product/productAll">품목 정보 관리</a></li>
-						<li><a href="/requirement/list">소요량 관리</a></li>
-						<li><a href="/line/lineAll">라인 정보 관리</a></li>
-						<li><a href="/client/clientAll">거래처 정보 관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/product/productAll'}">class="active" </c:if>
+						href="/product/productAll">품목 정보 관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/requirement/list'}">class="active" </c:if>
+						href="/requirement/list">소요량 관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/line/lineAll'}">class="active" </c:if>
+						href="/line/lineAll">라인 정보 관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/client/clientAll'}">class="active" </c:if>
+						href="/client/clientAll">거래처 정보 관리</a></li>
 					</ul></li>
 					
 				<!-- 드롭다운 -->
 				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-server"></span><span class="mtext">시스템 관리</span>
 				</a>
 					<ul class="submenu">
-						<li><a href="/system/common/main">공통코드 관리</a></li>
-						<li><a href="/system/user/main">사용자 관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/system/common/main'}">class="active" </c:if>
+						 href="/system/common/main">공통코드 관리</a></li>
+						<li><a 
+						<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/system/user/main'}">class="active" </c:if>
+						href="/system/user/main">사용자 관리</a></li>
 					</ul></li>
 				
-				<li><a href="/line/manage/status" class="dropdown-toggle no-arrow"> <span class="micon bi bi-command"></span> <span class="mtext">라인 현황</span>
+				<li><a href="/line/manage/status" class="dropdown-toggle no-arrow 
+				<c:if test="${requestScope['javax.servlet.forward.request_uri'] == '/line/manage/status'}"> active </c:if>
+				 "> <span class="micon bi bi-command"></span> <span class="mtext">라인 현황</span>
 				</a></li>
 			</ul>
 		</div>

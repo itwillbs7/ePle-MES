@@ -26,8 +26,18 @@
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
-			<div class="title mb-10">
-				<h1>라인 현황</h1>
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="title">라인 현황</h1>
+				</div>
+				<div class="col-md-12">
+					<nav aria-label="breadcrumb" role="navigation">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">메인</li>
+							<li class="breadcrumb-item active" aria-current="page"><b>라인 현황</b></li>
+						</ol>
+					</nav>
+				</div>
 			</div>
 			<div class="tab">
 				<ul class="nav nav-pills mb-20" role="tablist">

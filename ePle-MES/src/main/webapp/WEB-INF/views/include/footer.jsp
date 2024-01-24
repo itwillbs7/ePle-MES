@@ -56,7 +56,7 @@
 	}
 	
 	function closePopup(){
-		console.log('함수실행');
+		//console.log('함수실행');
 		opener.location.reload();
 		window.close();
 	}

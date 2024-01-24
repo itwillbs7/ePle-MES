@@ -13,13 +13,6 @@
 	</div>
 	<!-- 헤더 오른쪽 구간, 프로필&알림 등 -->
 	<div class="header-right">
-		<div class="dashboard-setting user-notification">
-			<div class="dropdown">
-				<a class="dropdown-toggle no-arrow" href="javascript:;"
-					data-toggle="right-sidebar"> <i class="dw dw-settings2"></i>
-				</a>
-			</div>
-		</div>
 		<!-- 회원 정보 (드롭다운 포함) -->
 		<div class="user-info-dropdown">
 			<div class="dropdown">
