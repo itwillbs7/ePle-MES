@@ -32,30 +32,32 @@ font-weight: bold;
 				
 					<!------------------------------ 첫번째 폼 ------------------------------>
 					<div class="tab-pane fade active show" id="ord-Warehousing" role="tabpanel">
-						<form method="post" id="pro-form">
+						<form method="post" id="pro-form" onsubmit="return validateForm()">
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
 									
 										<label>품목 정보</label> 
 									<div class="form-group">
-										<input class="form-control back" type="text" id="mapdCode" name="material" placeholder="품목코드"  required readonly>
+										<input class="form-control back" type="text" id="mapdCode" name="material" placeholder="품목코드" readonly>
 									</div>
 									<div class="form-group">
-										<input class="form-control back" type="text" id="mapdName" placeholder="품명" required readonly>
+										<input class="form-control back" type="text" id="mapdName" placeholder="품명" readonly>
 									</div>
 
 										<label>발주량</label> 
 									<div class="form-group">
-										<input class="form-control" type="number" name="amount" required min="1" max="999" required oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
+										<input class="form-control" type="number" id="amount" name="amount" min="1" max="2000">
 									</div>
-									
-										<label>요청자</label> 
+
+										<label>요청자 정보</label> 
 									<div class="form-group">
-										<input class="form-control back" type="text" id="selectA" name="ask_emp" placeholder="사원코드" required readonly>
+										<input class="form-control" type="text" readonly value="${sessionScope.dep_group }팀 (${sessionScope.pos_group })">
 									</div>
 									<div class="form-group">
-										<input class="form-control back" type="text" id="selectB" placeholder="사원명" required readonly>
-										<input class="form-control" type="hidden" id="selectC" readonly>
+										<input class="form-control" type="text" readonly value="${sessionScope.name }">
+									</div>
+									<div class="form-group">
+										<input class="form-control" type="hidden" readonly value="${sessionScope.code }" name="ask_emp">
 									</div>
 								</div>
 							</div>
@@ -88,7 +90,7 @@ font-weight: bold;
 	
 	
 	function openPopup(url) {
-	    var width = 550;
+	    var width = 420;
 	    var height = 550;
 	    var left = (screen.width - width) / 2;
 	    var top = (screen.height - height) / 2;
@@ -112,6 +114,19 @@ font-weight: bold;
 	});
 		
 		
+	
+	function validateForm() {
+	    
+	    var mapdCode = document.getElementById("mapdCode").value;
+	    var mapdName = document.getElementById("mapdName").value;
+	    var amount = document.getElementById("amount").value;
+	  
+	    if (mapdCode === "" || mapdName === "" || amount === "") {
+	        alert("모든 내용을 입력해주세요!");
+	        return false; // 제출 방지
+	    }
+	    return true;
+	}
 	
 	
 	

@@ -33,14 +33,16 @@ font-weight: bold;
 								<input class="form-control" type="text" name="code" id="code" value="${List.code }" readonly>
 								</div>
 
-									<label>거래처 정보</label> 
+									<label>발주 일자</label> 
 								<div class="form-group">
-									<input class="form-control" type="text" value="${List.client_code}" readonly>
+									<input class="form-control" type="text" id="" name="" value="${List.reg_date}" readonly>
 								</div>
+								
+									<label>납기 일자</label> 
 								<div class="form-group">
-									<input class="form-control" type="text" id="name" readonly value="${List.clName }">
+									<input class="form-control" type="text" id="" name="" value="${List.order_date}" readonly>
 								</div>
-
+								
 									<label>품목 정보</label> 
 								<div class="form-group">
 									<input class="form-control" type="text" id="material" name="material" placeholder="품목코드" value="${List.material}" readonly>
@@ -54,20 +56,21 @@ font-weight: bold;
 									<input class="form-control" type="text" id="orderAmount" name="amount" value="${List.amount } ${List.unit }" readonly>
 								</div>
 
-									<label>발주 금액</label> 
+									<label>총 발주 금액</label> 
 								<div class="form-group">
-									<input class="form-control" type="text" id="" name="" value="${List.price}" readonly>
+									<input class="form-control" type="text" id="price" name="" value="${List.price}" readonly>
 								</div>
 								
-									<label>납기 일자</label> 
+									<label>거래처 정보</label> 
 								<div class="form-group">
-									<input class="form-control" type="text" id="" name="" value="${List.order_date}" readonly>
+									<input class="form-control" type="text" value="${List.client_code}" readonly>
+								</div>
+								<div class="form-group">
+									<input class="form-control" type="text" id="name" readonly value="${List.clName }">
 								</div>
 								
 									<label>담당자</label> 
-								<div class="form-group">
-									<input class="form-control" type="text" id="" name="" value="${List.reg_emp}" readonly>
-								</div>
+									<input class="form-control" type="hidden" id="" name="" value="${List.reg_emp}" readonly>
 								<div class="form-group">
 									<input class="form-control" type="text" id="" name="" value="${List.empName}" readonly>
 								</div>
@@ -87,10 +90,24 @@ font-weight: bold;
 		</div>
 	</div>
 	<!-- 콘텐츠 끝> -->
-	<script type="text/javascript">
 
-	
-	</script>
+<script>
+  function formatNumberWithCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var priceInput = document.getElementById("price");
+
+    var priceValue = priceInput.value;
+
+    var formattedPrice = formatNumberWithCommas(priceValue);
+
+    priceInput.value = formattedPrice;
+  });
+</script>
+
+
 	<%@ include file="../include/footer.jsp"%>
 </body>
 </html>

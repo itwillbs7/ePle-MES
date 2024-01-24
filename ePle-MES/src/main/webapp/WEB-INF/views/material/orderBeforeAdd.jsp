@@ -32,7 +32,6 @@
 			</div>
 			
 			<div class="tab">
-                <br>
                 <h6 class="text-center click">발주코드를 선택해주세요!</h6>
                 <br>
 				
@@ -49,6 +48,7 @@
 			</thead>
 			
 			<tbody>
+			<c:if test="${not empty askOrderList}">
 				<c:forEach items="${askOrderList}" var="vo" varStatus="loop">
 				<tr>
 					<td class="inInfo${vo.code} con"> ${vo.code }</td>
@@ -57,6 +57,12 @@
 					<td class=""> <fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></td>
 				</tr>
 				</c:forEach>
+			</c:if>
+			<c:if test="${empty askOrderList}">
+				<tr>
+					<td colspan="4" style="text-align: center; vertical-align: middle;">요청서가 존재하지 않습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
+				</tr>
+			</c:if>
 				
 			</tbody>
 			</table>

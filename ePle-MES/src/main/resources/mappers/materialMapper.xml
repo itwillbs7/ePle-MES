@@ -106,7 +106,7 @@
         LEFT OUTER JOIN EMPLOYEES e
         ON e.code = o.ask_emp
 		WHERE o.complete = 0 AND o.status = '신청'
-		ORDER BY o.code desc
+		ORDER BY o.date DESC
 		LIMIT #{cri.startPage}, #{cri.pageSize}
 	</select>
 	
@@ -130,7 +130,7 @@
 	
 	<!-- 발주요청 상세 -->
 	<select id="askOrderInfo" parameterType="String" resultType="OrderVO">
-		SELECT o.code, o.material, m.code_id, m.name, o.amount, m.unit, o.date, o.status, e.name empName, o.ask_emp
+		SELECT o.code, o.material, m.code_id, m.name, o.amount, m.unit, o.date, o.status, e.name empName, o.ask_emp, m.inprice
     	FROM ORDERS o
 		LEFT OUTER JOIN MAPD m
         ON o.material = m.code
@@ -171,7 +171,7 @@
 	<!-- 발주관리 등록 update -->
 	<update id="orderAdd">
 		UPDATE ORDERS 
-		SET client_code=#{client_code}, price=#{price}, order_date=#{order_date}, reg_date=now(), reg_emp=#{reg_emp}, update_date=now(), update_emp=#{reg_emp}, status='완료'
+		SET client_code=#{client_code}, amount=#{amount}, price=#{price}, order_date=#{order_date}, reg_date=#{reg_date}, reg_emp=#{reg_emp}, update_date=now(), update_emp=#{reg_emp}, status='완료'
 		WHERE code = #{code} AND status = '신청'
 	</update>
 	
@@ -194,6 +194,7 @@
 				AND o.reg_emp LIKE CONCAT('%', #{searchName}, '%')
 			</if>
 			</if>
+		ORDER BY CAST(SUBSTRING(o.code, 3) AS UNSIGNED) DESC
     	LIMIT #{cri.startPage}, #{cri.pageSize}
 	</select>	
 	
@@ -218,7 +219,7 @@
 	
 	<!-- 발주관리 상세 -->
 	<select id="orderInfo" parameterType="String" resultType="OrderVO">
-		SELECT o.code, o.material, m.code_id, m.name, o.amount, m.unit, o.date, o.status, e.name empName, o.client_code, c.name clName, o.price, o.order_date, o.reg_emp
+		SELECT o.code, o.material, m.code_id, m.name, o.amount, m.unit, o.date, o.status, e.name empName, o.client_code, c.name clName, o.price, o.order_date, o.reg_emp, o.reg_date
     	FROM ORDERS o
 		LEFT OUTER JOIN MAPD m
         ON o.material = m.code
@@ -332,7 +333,7 @@
 	<select id="searchMaterial" resultType="OrderVO">
 		SELECT code, name
 		FROM MAPD  
-	    WHERE group_id = 'PROD'
+	    WHERE group_id = 'PROD' AND code_id = 001
 		<if test="searchName != null">
 			AND name LIKE CONCAT('%', #{searchName}, '%')
 		</if>  
@@ -343,7 +344,7 @@
 	<select id="searchMaterialCount" resultType="int">
 		SELECT count(*) 
 		FROM MAPD
-		WHERE group_id = 'PROD'
+		WHERE group_id = 'PROD' AND code_id = 001
 		<if test="searchName != null">
 			AND name LIKE CONCAT('%', #{searchName}, '%')
 		</if> 

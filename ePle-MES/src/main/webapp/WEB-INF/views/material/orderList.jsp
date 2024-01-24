@@ -39,19 +39,22 @@ margin-right:20px;
 	<!------------------------------ 메인 컨테이너 ------------------------------>
 	<div class="main-container">
 	<div class="pd-ltr-20 xs-pd-20-10">
-	<div class="title" style="margin-bottom: 10px;">
-		<a href="${pageContext.request.contextPath}/material/orderList"><h1>발주 관리</h1></a>
-	</div>
-		<div class="min-height-200px">
-		
-		<ul class="nav nav-pills">
-			<li class="nav-item"><a class="nav-link text-blue active" href="/material/orderList">발주 관리</a></li>
-			<li class="nav-item"><a class="nav-link text-pink" href="/material/askOrderList">발주 요청 목록</a></li>
-		</ul> 
-		
-	<br>
-				
-				
+	<div class="row">
+           <div class="col-md-12">
+               <a href="${pageContext.request.contextPath}/material/orderList"><h1>발주 관리</h1></a>
+            </div>
+            
+            <div class="col-md-12">
+               <nav aria-label="breadcrumb" role="navigation">
+                  <ol class="breadcrumb">
+                     <li class="breadcrumb-item">자재 관리</li>
+                     <li class="breadcrumb-item active" aria-current="page"><b>발주 관리</b></li>
+                     <li class="breadcrumb-item"><a href="/material/askOrderList">발주 요청 목록</a></li>
+                  </ol>
+               </nav>
+            </div>
+	</div>	
+	
 	<!------------------------------ 발주 검색 시작 ----------------------------->
 	<div class="faq-wrap">
 		<div id="accordion">
@@ -90,12 +93,23 @@ margin-right:20px;
 	<!------------------------- 추가 / 수정 / 삭제 버튼 ------------------------->
 	<div class="card-box mb-30">
 		<div class="pd-20">
+		
+		<c:if test="${sessionScope.pos_id.equals('005') or sessionScope.dep_group.equals('자재')}">
+		
 			<div class="btn-group pull-right" style="margin-bottom: 10px; margin-left: 10px;">
 				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
 			</div>
 			<div class="btn-group pull-right" style="margin-bottom: 10px">
 				<button type="button" class="btn btn-success" id="add"><b>요청서 불러오기</b></button>
 			</div>
+			
+<!-- 		<ul class="nav nav-pills">
+			<li class="nav-item"><a class="nav-link text-blue active" href="/material/orderList">발주 관리</a></li>
+			<li class="nav-item"><a class="nav-link text-pink" href="/material/askOrderList">요청 목록</a></li>
+		</ul>  -->
+		
+		</c:if>
+		
 		</div>
 
 
@@ -137,7 +151,9 @@ margin-right:20px;
 							<th>${vo.material }</th>
 							<th>${vo.name }</th>
 							<th>${vo.amount } ${vo.unit }</th>
-							<th>${vo.price }</th>
+							<th>
+            					<fmt:formatNumber value="${vo.price}" pattern="#,##0"/> 
+        					</th>
 							<th>${vo.order_date }</th>
 							<th>${vo.reg_name }</th>
 							<th style="color: blue;">${vo.status }</th>
@@ -148,7 +164,7 @@ margin-right:20px;
 					</c:if>
 					<c:if test="${empty orderList}">
 						<tr>
-							<td colspan="10" style="text-align: center; vertical-align: middle;">검색 결과가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
+							<td colspan="10" style="text-align: center; vertical-align: middle;">데이터가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
 						</tr>
 					</c:if>
 							
@@ -187,7 +203,6 @@ margin-right:20px;
 				
 			</div>
 		</div>
-	</div>
 	<!-- 메인 컨테이너 끝 -->
 
 
@@ -255,7 +270,7 @@ margin-right:20px;
 		$(document).ready(function() {
 			// 추가 O
 			$("#add").click(function() {
-				openPage("/material/orderBeforeAdd", 750, 600);
+				openPage("/material/orderBeforeAdd", 650, 600);
 			});
 
 		// 수정 O
@@ -290,7 +305,7 @@ margin-right:20px;
 			    });
 			    
 			    if (codes.length > 0) { 
-			        openPage("/material/orderDel?codes=" + codes.join(','), 700, 400);
+			        openPage("/material/orderDel?codes=" + codes.join(','), 700, 500);
 			    } else {
 			    	alert("선택된 항목이 없습니다!"); 
 			    }

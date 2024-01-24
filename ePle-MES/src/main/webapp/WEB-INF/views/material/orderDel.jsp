@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +44,9 @@
                                         <th>${vo.code}</th>
                                         <th>${vo.name }</th>
                                         <th>${vo.amount } ${vo.unit }</th>
-                                        <th>${vo.price }원</th>
+                                        <th>
+            								<fmt:formatNumber value="${vo.price}" pattern="#,##0"/>
+        								</th>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -49,7 +54,6 @@
                     </div>
                 </div>
                 <hr>
-                <br>
                 <h6 class="text-center">해당 발주서를 삭제하시겠습니까?</h6>
                 <br>
                 

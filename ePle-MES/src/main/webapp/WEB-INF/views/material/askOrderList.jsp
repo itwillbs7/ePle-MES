@@ -23,32 +23,44 @@
 	<!------------------------------ 메인 컨테이너 ------------------------------>
 	<div class="main-container">
 	<div class="pd-ltr-20 xs-pd-20-10">
-	<div class="title" style="margin-bottom: 10px;">
-		<a href="${pageContext.request.contextPath}/material/askOrderList"><h1>요청 목록</h1></a>
-	</div>
-		<div class="min-height-200px">
-			
-	    <ul class="nav nav-pills">
-			<li class="nav-item"><a class="nav-link text-blue" href="/material/orderList">발주 관리</a></li>
-			<li class="nav-item"><a class="nav-link text-blue active" href="/material/askOrderList">발주 요청 목록</a></li>
-		</ul> 
-		
-	<br>
-				
+	<div class="row">
+           <div class="col-md-12">
+               <a href="${pageContext.request.contextPath}/material/askOrderList"><h1>요청 목록</h1></a>
+            </div>
+            
+            <div class="col-md-12">
+               <nav aria-label="breadcrumb" role="navigation">
+                  <ol class="breadcrumb">
+                     <li class="breadcrumb-item">자재 관리</li>
+                     <li class="breadcrumb-item"><a href="/material/orderList">발주 관리</a></li>
+                     <li class="breadcrumb-item active" aria-current="page"><b>발주 요청 목록</b></li>
+                  </ol>
+               </nav>
+            </div>
+	</div>				
 				
 				
 	<!------------------------- 추가 / 수정 / 삭제 버튼 ------------------------->
 	<div class="card-box mb-30">
 		<div class="pd-20">
+		
+		<c:if test="${sessionScope.pos_id.equals('005') or sessionScope.dep_group.equals('자재')}">
+				
 			<div class="btn-group pull-right" style="margin-bottom: 10px; margin-left: 10px;">
-				<button type="button" class="btn btn-danger" id="delete"><b>요청 삭제</b></button>
+				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
 			</div>
+			
+		</c:if>
+		
 			<div class="btn-group pull-right" style="margin-bottom: 10px; margin-left: 10px;">
 				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
 			</div>
-			<div class="btn-group pull-right" style="margin-bottom: 10px;">
-				<button type="button" class="btn btn-success" id="add"><b>요청서 작성</b></button>
-			</div>
+			
+<!-- 		<ul class="nav nav-pills">
+			<li class="nav-item"><a class="nav-link text-blue" href="/material/orderList">발주 관리</a></li>
+			<li class="nav-item"><a class="nav-link text-blue active" href="/material/askOrderList">요청 목록</a></li>
+		</ul>  -->
+		
 		</div>
 
 	<!----------------------------- 요청 리스트 출력 ---------------------------->
@@ -73,7 +85,8 @@
 							<th>요청자</th>
 							<th>발주상태</th>
 						</tr>
-
+						
+					<c:if test="${not empty askOrderList}">
 						<c:forEach items="${askOrderList }" var="vo">
 						<tr>
 							<td>
@@ -92,7 +105,13 @@
 							<th style="color: red;">${vo.status }</th>
 						</tr>
 						</c:forEach>
-							
+					</c:if>
+					<c:if test="${empty askOrderList}">
+						<tr>
+							<td colspan="9" style="text-align: center; vertical-align: middle;">요청서가 존재하지 않습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
+						</tr>
+					</c:if>	
+											
 					</table>
 				</form>
 
@@ -195,7 +214,7 @@
 		$(document).ready(function() {
 			// 추가 O
 			$("#add").click(function() {
-				openPage("/material/askOrderAdd", 400, 700);
+				openPage("/material/askOrderAdd", 350, 700);
 			});
 
 		 	// 수정 O

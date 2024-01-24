@@ -4,8 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <title>발주서 등록</title>
 <style type="text/css">
@@ -26,7 +26,7 @@ font-weight: bold;
 				<h1 class="text-center" style="color: #7CB342;">발주서 등록</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="/material/orderAdd" method="post" id="editForm">
+			<form action="/material/orderAdd" method="post" id="editForm" onsubmit="return validateForm()">
 				<!-- 비입력 구간 -->
 				<!-- 입력 구간 -->
 				<div class="row">
@@ -42,12 +42,14 @@ font-weight: bold;
 									<!-- <label>자재 유형</label>  -->
 								</div>
 									
-									<label>거래처 정보</label> 
+									<label>발주 일자</label> 
 								<div class="form-group">
-									<input class="form-control back" type="text" id="selectD" name="client_code" placeholder="거래처 코드" required readonly>
+									<input class="form-control back" type="text" id="reg_date" name="reg_date" placeholder="발주 일자" readonly required>
 								</div>
+
+									<label>납기 일자</label> 
 								<div class="form-group">
-									<input class="form-control back" type="text" id="selectE" placeholder="거래처 이름" required readonly>
+									<input class="form-control back" type="text" id="order_date" name="order_date" placeholder="납기 일자" readonly required>
 								</div>
 								
 									<label>품목 정보</label> 
@@ -57,32 +59,36 @@ font-weight: bold;
 								<div class="form-group">
 									<input class="form-control" type="text" id="mapdName" value="${List.name }" required readonly>
 								</div>
+									<input class="form-control" type="hidden" id="inprice" value="${List.inprice }" required readonly>
 								
 									<label>발주량</label> 
 								<div class="form-group">
-									<input class="form-control" type="number" name="amount" required min="1" max="100" value="${List.amount }" readonly oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
+									<input class="form-control" type="number" id="amount" name="amount" required min="1" max="2000" value="${List.amount }">
 								</div>
 
-									<label>발주 금액</label> 
+									<label>총 발주 금액</label> 
 								<div class="form-group">
-									<input class="form-control back" type="text" name="price" required placeholder="0 ~ 9,000,000" maxlength="9000000" onkeyup="inputNumberFormat(this);">
+									<!-- <input class="form-control back" type="text" name="price" required maxlength="100000000" onkeyup="inputNumberFormat(this);"> -->
+									<input class="form-control" type="text" name="price" readonly required>
 								</div>
-
-									<label>납기 일자</label> 
+								
+									<label>거래처 정보</label> 
 								<div class="form-group">
-									<!-- 달력???? -->
-									<input class="form-control back" type="date" id="datepicker" name="order_date" required placeholder="달력을 클릭해 주세요">
+									<input class="form-control back" type="text" id="selectD" name="client_code" placeholder="거래처 코드" required readonly>
+								</div>
+								
+								<div class="form-group">
+									<input class="form-control back" type="text" id="selectE" placeholder="거래처 이름" required readonly>
 								</div>
 
 									<label>담당자</label> 
 								<div class="form-group">
-									<input class="form-control back" type="text" id="selectA" placeholder="담당자 코드" name="reg_emp" required placeholder="" readonly>
+									<input class="form-control" type="text" readonly value="${sessionScope.name }">
 								</div>
 								<div class="form-group">
-									<input class="form-control back" type="text" id="selectB" placeholder="담당자 이름" required readonly>
+									<input class="form-control" type="hidden" readonly value="${sessionScope.code }" name="reg_emp">
 								</div>
-									<input class="form-control" type="hidden" id="selectC" placeholder="">
-								
+
 
 				<!-- 버튼 -->
 				<div class="row">
@@ -100,11 +106,20 @@ font-weight: bold;
 	</div>
 	<!-- 콘텐츠 끝> -->
 	<script type="text/javascript">
+	window.resizeTo(outerWidth - innerWidth + 450, outerHeight - innerHeight + $(".login-box").outerHeight() + 13); 
+	
+	var width = 400; 
+	var height = $(".login-box").outerHeight() + 13; 
+
+	var left = (window.screen.width - width) / 2;
+	var top = (window.screen.height - height) / 2;
+
+	window.moveTo(left, top);
 
 	
 	
 	function openPopup(url) {
-	    var width = 550;
+	    var width = 410;
 	    var height = 550;
 	    var left = (screen.width - width) / 2;
 	    var top = (screen.height - height) / 2;
@@ -128,18 +143,8 @@ font-weight: bold;
 	});
 		
 	
-   $(document).ready(function() {
-    var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-
-   $('#datePicker').datepicker({
-      format: "yyyy-mm-dd",
-      startDate: tomorrow,
-    });
-  });	
-		
    
-	function comma(str) {
+/* 	function comma(str) {
         str = String(str);
         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
     }
@@ -160,11 +165,106 @@ font-weight: bold;
     function onlynumber(str) {
 	    str = String(str);
 	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
-	}
-    
-    
+	} */
     
 	</script>
+
+
+	<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var todayInput = document.getElementById("reg_date");
+
+        todayInput.addEventListener("click", function () {
+            var today = new Date();
+            var yyyy = today.getFullYear();
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var dd = String(today.getDate()).padStart(2, '0');
+            var hh = String(today.getHours()).padStart(2, '0');
+            var mi = String(today.getMinutes()).padStart(2, '0');
+            var ss = String(today.getSeconds()).padStart(2, '0');
+            var formattedDate = yyyy + "-" + mm + "-" + dd + " " + hh + ":" + mi + ":" + ss;
+
+            todayInput.value = formattedDate;
+            todayInput.readOnly = true;
+            todayInput.placeholder = "";
+
+
+			var threeDaysLater = new Date();
+				threeDaysLater.setDate(today.getDate() + 3);
+
+			var orderDateInput = document.getElementById("order_date");
+
+					$(orderDateInput).datepicker({
+						minDate : threeDaysLater,
+			//          minDate: new Date(),
+						dateFormat : "yyyy-mm-dd",
+					
+					});
+					
+			});
+		});
+	</script>
+
+	<script>
+	function formatNumberWithCommas(number) {
+		return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
+	function calculatePrice() {
+		var amount = parseFloat(document.getElementsByName("amount")[0].value);
+		var inprice = parseFloat(document.getElementById("inprice").value);
+
+		if (!isNaN(amount) && !isNaN(inprice)) {
+			var price = amount * inprice;
+
+			document.getElementsByName("price")[0].value = formatNumberWithCommas(price);
+		} else {
+			document.getElementsByName("price")[0].value = "";
+		}
+	}
+
+	document.getElementsByName("amount")[0].addEventListener("input", calculatePrice);
+	document.getElementById("inprice").addEventListener("input", calculatePrice);
+
+	document.addEventListener('DOMContentLoaded', function() {
+		calculatePrice();
+
+		document.getElementById("editForm").addEventListener("submit",
+				function(event) {
+					
+					var priceInput = document.getElementsByName("price")[0];
+					priceInput.value = priceInput.value.replace(/,/g, "");
+
+					return true;
+				});
+	});
+	
+	
+	
+	
+	function validateForm() {
+	    
+	    var reg_date = document.getElementById("reg_date").value;
+	    var order_date = document.getElementById("order_date").value;
+	    var amount = document.getElementById("amount").value;
+	    var selectD = document.getElementById("selectD").value;
+	    var selectE = document.getElementById("selectE").value;
+	  
+	    if (reg_date === "" || order_date === "" || amount === "" || selectD === "" || selectE === "") {
+	        alert("모든 내용을 입력해주세요!");
+	        return false; 
+	    }
+	    return true;
+	}
+	
+	
+	</script>
+
+
+
+
+
+
 	<%@ include file="../include/footer.jsp"%>
 </body>
 </html>

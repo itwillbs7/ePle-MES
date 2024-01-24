@@ -47,15 +47,15 @@ font-weight: bold;
 
 									<label>발주량</label> 
 								<div class="form-group">
-									<input class="form-control" type="number" name="amount" required min="1" max="100" placeholder="요청량" value="${List.amount }" oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
+									<input class="form-control" type="number" name="amount" required min="1" max="2000" placeholder="요청량" value="${List.amount }" oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
 								</div>
 								
 									<label>요청자</label> 
-									<input class="form-control back" type="hidden" id="selectA" name="ask_emp" value="${List.ask_emp }" required readonly>
+									<input class="form-control" type="hidden" id="selectA" name="ask_emp" value="${List.ask_emp }" required readonly>
 								<div class="form-group">
-									<input class="form-control back" type="text" id="selectB" value="${List.empName }" required readonly>
+									<input class="form-control" type="text" id="selectB" value="${List.empName }" required readonly>
 								</div>
-									<input class="form-control back" type="hidden" id="selectC" >
+									<input class="form-control" type="hidden" id="selectC" >
 
 									<label>요청 일자</label> 
 								<div class="form-group">
@@ -79,27 +79,6 @@ font-weight: bold;
 	<!-- 콘텐츠 끝> -->
 	<script type="text/javascript">
 
-	
-	
-	function openPopup(url) {
-	    var width = 550;
-	    var height = 550;
-	    var left = (screen.width - width) / 2;
-	    var top = (screen.height - height) / 2;
-	    var popupWindow = window.open(url, '_blank', "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
-	    popupWindow.focus();
-	}
-	
-	$(document).ready(function() {
-
-		// 등록 - 사원 리스트 (전체)
-	    $("#selectA,#selectB").click(function() {
-	        var url = '${pageContext.request.contextPath}/stock/searchEmployees';
-	        openPopup(url);
-	    });
-		
-	});
-		
 	
 		
 	</script>
