@@ -84,7 +84,6 @@ public class ReturnsController {
 		logger.debug("searchReturnsGET() -> 정보 받아서 DB에 조회하기");
 
 		logger.debug("Controller - vo "+vo);
-		// 전달받을 정보(반품상태 ,담당자코드, 업체코드
 		
 		List<ReturnsVO> ReturnsList= rtService.findReturnsList(vo);
 		logger.debug("검색정보 : "+ReturnsList);
@@ -232,11 +231,17 @@ public class ReturnsController {
 	
 	// http://localhost:8088/request/update
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public void returnsUpdateGET(ReturnsVO vo, Model model) throws Exception{
+	public void returnsUpdateGET(@RequestParam("code") String code,ReturnsVO vo, Model model) throws Exception{
 		// 반품 수정 폼5-5
 		// code 정보 받아서 해당하는 code 데이터 불러오기
 		logger.debug("returnsUpdateGET(RequestVO vo) 폼 정보 받아서 그대로 토해내기");
 		logger.debug("vo "+vo);
+		
+		String checkShipCode = vo.getShip_code();
+		if(checkShipCode == null || checkShipCode == "") {
+			vo = rtService.getinfo(code);
+		}
+		
 		model.addAttribute("List",vo);
 		
 	}

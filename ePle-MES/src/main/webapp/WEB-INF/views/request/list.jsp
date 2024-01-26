@@ -361,10 +361,18 @@ $('#reset').click(function(){
 			
 		$(document).ready(function() {
 	    	 
-			$("#add").click(function() {openPage("/request/add", 400, 700);});
+			$("#add").click(function() {openPage("/request/add", 600, 700);});
 
-			$("#update").click(function() {openPage("/request/update", 400, 700);});
-
+			$("#update").click(function() {
+			    var check = $("input:checkbox[name=tableCheck]:checked");
+			    if (check.length === 0 || check.length > 1) {
+			        alert("수정할 항목을 하나만 선택하세요!");
+			    } else {
+			        var code = check.val();
+			        openPage("/request/update?code=" + code, 600, 700);
+			    }
+			});
+			
 			 $("#delete").click(function() {
 				var deleteList = [];
 			    $("input:checkbox[name=tableCheck]:checked").each(function() {
@@ -381,14 +389,14 @@ $('#reset').click(function(){
 
 			$('body').on('click', '[class^="info"]', function(){
         		var code = $(this).text().trim();
-      		  openPage("/request/info?code=" + code, 400, 700); });
+      		  openPage("/request/info?code=" + code, 600, 795); });
 			
 
-			$("#searchCompany").click(function() {openPage("/request/searchClient", 400,700); });
+			$("#searchCompany").click(function() {openPage("/request/searchClient", 420,700); });
 			
-			$("#searchProduct").click(function() {openPage("/request/searchProduct", 400,700); });
+			$("#searchProduct").click(function() {openPage("/request/searchProduct", 420,700); });
 			
-			$("#searchManager").click(function() {openPage("/request/searchManager", 400,700); });
+			$("#searchManager").click(function() {openPage("/request/searchManager", 420,700); });
 			
 			
 		});	
