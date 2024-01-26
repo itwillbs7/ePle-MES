@@ -20,11 +20,19 @@
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
-			<div class="title" style="margin-bottom: 10px;">
-				<h1><a href="/returns/list" style="color:#202342;">반품 관리</a></h1>
-			</div>
-					<div class="min-height-200px">
-				<br>
+			<div class="row">
+            <div class="col-md-12">
+               <h1 class="title">반품 관리</h1>
+            </div>
+            <div class="col-md-12">
+               <nav aria-label="breadcrumb" role="navigation">
+                  <ol class="breadcrumb">
+                     <li class="breadcrumb-item">영업 관리</li>
+                     <li class="breadcrumb-item active" aria-current="page"><b>반품 관리</b></li>
+                  </ol>
+               </nav>
+            </div>
+         </div>
 
 			<!-- 아코디언 시작 -->
 			<div class="faq-wrap">
@@ -161,11 +169,16 @@
 						<button type="button" class="btn btn-success" id="add">
 							<b>추가</b>
 						</button>
-						<button type="button" class="btn btn-danger" id="dispose">
-							<b>폐기완료</b>
+						<button type="button" class="btn btn-warning" id="update">
+							<b>수정</b>
 						</button>
 						<button type="button" class="btn btn-danger" id="delete">
 							<b>삭제</b>
+						</button>
+					</div>
+					<div class="btn-group pull-right" style="margin-bottom: 10px; margin-right: 10px;">
+						<button type="button" class="btn btn-danger" id="dispose">
+							<b>폐기완료</b>
 						</button>
 					</div>
 				</c:if>
@@ -173,7 +186,7 @@
 				<div class="pb-20">
 					<div class="col-sm-30">
 						<form class="table" id="table">
-							<table class="table table-striped" style="text-align : center">
+							<table class="table" style="text-align : center">
 								<thead>
 									<tr>
 										<td style="width: 100px;">
@@ -201,7 +214,6 @@
 												<c:when test="${List.status eq '반품등록'}">
 													<td>
 													<div class="custom-control custom-checkbox mb-5">
-															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 															<input type="checkbox" class="custom-control-input"
 																id="checkTable${status.index}" name="tableCheck"
 																value="${List.code }"> <label
@@ -213,11 +225,10 @@
 												<c:otherwise>
 													<td>
 													<div class="custom-control custom-checkbox mb-5">
-															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-														<input type="text" class="custom-control-input"
-															id="checkTable${status.index}" name="tableCheck"
-															value="${List.code }" style="visibility: hidden;"> 
-														<label class="custom-control-label" style="visibility: hidden;"
+														<input type="checkbox" class="custom-control-input"
+															id="checkTable${status.index}" name="tableUnCheck"
+															value="${List.code }" disabled="disabled" > 
+														<label class="custom-control-label"
 															for="checkTable${status.index}"></label>
 													</div>
 													</td>
@@ -298,9 +309,7 @@ $('#reset').click(function(){
 		var set;
 
 		function retPopupSetting(width, height) {
-			// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
 			popupX = Math.ceil((window.screen.width - width) / 2);
-			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
 			popupY = Math.ceil((window.screen.height - height) / 2);
 
 			var setting = "";
@@ -318,24 +327,27 @@ $('#reset').click(function(){
 
 		function openPage(i, width, height) {
 			set = retPopupSetting(width, height);
-			return window.open(i, 'Popup_Window', set); // 가운데거가 이름이 똑같으면 같은창에서 열림
+			return window.open(i, 'Popup_Window', set); 
 		}
 	</script>
 	<script>
 
 		$(document).ready(function() {
 
-					// 추가
 					$("#add").click(function() {
 						openPage("/returns/add", 400, 700);
 					});
 
-					// 수정
 					$("#update").click(function() {
-						openPage("/returns/update", 400, 700);
+					    var check = $("input:checkbox[name=tableCheck]:checked");
+					    if (check.length === 0 || check.length > 1) {
+					        alert("수정할 항목을 하나만 선택하세요!");
+					    } else {
+					        var code = check.val();
+					        openPage("/returns/update?code=" + code, 400, 700);
+					    }
 					});
 
-					// 삭제
 					$("#delete").click(
 							function() {
 								var deleteList = [];
@@ -351,7 +363,6 @@ $('#reset').click(function(){
 								}
 							});
 
-					// 삭제
 					$("#dispose").click(
 							function() {
 								var disposeList = [];
@@ -367,19 +378,15 @@ $('#reset').click(function(){
 								}
 							});
 
-					// 상세보기
 					$('body').on('click', '[class^="info"]', function() {
 						var code = $(this).text().trim();
 						openPage("/returns/info?code=" + code, 400, 700);
 					});
 
-					// 각각의 검색창
-					// 업체검색
 					$("#searchCompany").click(function() {
 						openPage("/request/searchClient", 400, 700);
 					});
 
-					// 제품검색
 					$("#searchProduct").click(function() {
 						openPage("/request/searchProduct", 400, 700);
 					});
@@ -390,7 +397,6 @@ $('#reset').click(function(){
 
 				});
 	</script>
-	<!-- 검색은 ajax -->
 
 </body>
 </html>

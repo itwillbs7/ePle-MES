@@ -49,6 +49,11 @@
 							 autocomplete="off" required="required" readonly value="${rvo.date }">
 						</div>
 						<div class="form-group">
+							<label for="date">납품예정일</label> 
+							<input class="form-control " name="reqsdate" type="text" id="reqsdate"
+							 autocomplete="off" required="required" readonly value="${rvo.deadline}">
+						</div>
+						<div class="form-group">
 							<label for="deadline">출하일자</label> 
 							<input class="form-control " name="date" type="date" id="date"
 							autocomplete="off" required="required" readonly value="${vo.date }">

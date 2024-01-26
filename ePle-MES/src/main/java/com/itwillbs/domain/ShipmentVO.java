@@ -31,6 +31,7 @@ public class ShipmentVO {
 	private String product;
 	private String clientName;
 	private String wareHistory_code;
+	private String deadlineDate;
 	
 	private List<String> statusList;
 	

@@ -10,6 +10,12 @@
 	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 	crossorigin="anonymous"></script>
 <title>반품 등록</title>
+<style type="text/css">
+.con:hover{
+	background-color : #e1e1e1;
+	cursor:pointer;
+}
+</style>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -71,7 +77,7 @@
 				</form>
 			</div>
 			<!-- 폼 -->
-			<table class="table table-striped" id="tableId">
+			<table class="table" id="tableId">
 				<thead>
 					<tr>
 						<th>출하번호</th>
@@ -82,8 +88,7 @@
 				</thead>
 				<tbody>
 					<c:forEach items="${List}" var="item">
-						<tr
-							onclick="selectWork('${item.code}','${item.product}','${item.clientName}','${item.date}','${item.amount}','${item.reqs_code}','${item.unit}')">
+						<tr class="con" onclick="selectWork('${item.code}','${item.product}','${item.clientName}','${item.date}','${item.amount}','${item.reqs_code}','${item.unit}')">
 							<th>${item.code}</th>
 							<th>${item.clientName }</th>
 							<th>${item.date}</th>

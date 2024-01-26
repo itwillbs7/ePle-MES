@@ -7,21 +7,6 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <title>출하 완료 처리</title>
-<!-- 
-	실행 방법
-		- 테이블 페이지의 옵션에서 삭제클릭
-		- 테이블 내에서 체크박스 클릭 후 상단의 삭제 클릭
-		- 상세 정보에서 삭제 클릭
-	
-	taglib c 처리
-	세션에서 부서 체크
-	작성자 or 담당 부서가 아닌 경우 에러 메세지나 페이지 호출 및 닫기
-	
-	js & jquery 처리
-	인덱스와 표에서 선택한 것이 아무것도 없는 경우 에러 메세지나 페이지 호출 및 닫기
-	1개(표 옵션에서 인덱스로 들어옴) (우선 적용)
-	여러 개(표에서 체크박스)
- -->
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -38,7 +23,7 @@
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						<div class="form-group">
-						<table class="table table-striped">
+						<table class="table">
 							<tr>
 								<th>수주번호</th>
 								<th>회사명</th>
@@ -81,7 +66,6 @@
 	<%@ include file="../include/footer.jsp"%>
 	<script type="text/javascript">
 	function submitForm() {
-	    // 폼 제출 후 페이지를 새로고침
 	    window.location.href = window.location.href;
 	}
 	</script>

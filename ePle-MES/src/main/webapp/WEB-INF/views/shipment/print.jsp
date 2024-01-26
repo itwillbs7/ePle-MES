@@ -31,7 +31,7 @@
 				<div class="pb-20">
 					<div class="col-sm-30">
 						<form class="table" id="table">
-							<table class="table table-bordered">
+							<table class="table">
 								<thead>
 									<tr>
 										<th>출하번호</th>

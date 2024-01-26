@@ -19,12 +19,19 @@
 	 </c:if> 
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">
-		<div class="pd-ltr-20 xs-pd-20-10">
-			<div class="title" style="margin-bottom: 10px;">
-				<h1><a href="/shipment/list" style="color:#202342;">출하 관리</a></h1>
-			</div>
-		<div class="min-height-200px">
-				<br>
+		<div class="row">
+            <div class="col-md-12">
+               <h1 class="title">출하 관리</h1>
+            </div>
+            <div class="col-md-12">
+               <nav aria-label="breadcrumb" role="navigation">
+                  <ol class="breadcrumb">
+                     <li class="breadcrumb-item">영업 관리</li>
+                     <li class="breadcrumb-item active" aria-current="page"><b>출하 관리</b></li>
+                  </ol>
+               </nav>
+            </div>
+         </div>
 			<!-- 아코디언 시작 -->
 			<div class="faq-wrap">
 				<div id="accordion">
@@ -46,27 +53,20 @@
 												<h4 class="text-blue h4">출하 검색</h4>
 											</div>
 											<div class="row">
-												<div class="col-md-1 col-sm-12" >
-												</div>
-												<div class="col-md-5 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
+												<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
 													<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>업체명</b></label> 
 													<input type="hidden" id="client_code" > 
 													<input type="text" name="clientName" class="form-control" 
 													id="searchCompany" style="width: 50%;" 
 													autocomplete="off" readonly value="${paramMap.clientName }">
 												</div>
-												<div class="col-md-6 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
+												<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
 													<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>품명</b></label> 
 													<input type="hidden" name="product" id="product" value="${paramMap.product }"> 
 														<input type="text" name="reqsdate" 
 														class="form-control" id="searchProduct"
 														style="width: 50%;" 
 														autocomplete="off" readonly value="${paramMap.reqsdate }">
-												</div>
-											</div>
-											<br>
-											<div class="row">
-												<div class="col-md-1 col-sm-12" >
 												</div>
 												<label class="col-md-1 col-sm-12"><b>출하 상태</b></label>
 												<div class="col-md-1 col-sm-12" >
@@ -77,7 +77,7 @@
 														<label class="custom-control-label" for="formCheck1">출하대기</label>
 													</div>
 												</div>
-												<div class="col-md-3 col-sm-12" >
+												<div class="col-md-2 col-sm-12" >
 													<div class="custom-control custom-checkbox mb-5">
 														<input type="checkbox" class="custom-control-input"
 															id="formCheck2" name="statusList" value="출하완료"
@@ -99,7 +99,8 @@
 															</span>
 													</div>
 												</div>
-												</div>
+											</div>
+												
 											
 											
 										</div>
@@ -154,13 +155,21 @@
 						<button type="button" class="btn btn-success" id="add">
 							<b>추가</b>
 						</button>
+						<button type="button" class="btn btn-warning" id="update">
+							<b>수정</b>
+						</button>
 						<button type="button" class="btn btn-danger" id="delete">
 							<b>삭제</b>
 						</button>
 					</div>
-					<div class="btn-group pull-right" style="margin-bottom: 10px">
+					<div class="btn-group pull-right" style="margin-bottom: 10px; margin-right: 10px;">
 						<button type="button" class="btn btn-info" id="statusChange">
 							<b>출하완료</b>
+						</button>
+					</div>
+					<div class="btn-group pull-right" style="margin-bottom: 10px; margin-right: 10px;">
+						<button type="button" class="btn btn-primary" id="print">
+							<b>거래명세서</b>
 						</button>
 					</div>
 				</c:if>
@@ -168,7 +177,7 @@
 				<div class="pb-20">
 					<div class="col-sm-30">
 						<form class="table" id="table">
-							<table class="table table-striped" style="text-align : center">
+							<table class="table" style="text-align : center">
 								<thead>
 									<tr>
 										<td style="width: 100px;">
@@ -190,18 +199,16 @@
 								</thead>
 								<tbody>
 									<c:forEach items="${List}" var="List" varStatus="status">
-										<tr>
+										<tr id="colorCheck">
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<c:choose>
 												<c:when test="${List.status eq '출하대기'}">
 													<td>
 													<div class="custom-control custom-checkbox mb-5">
-															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 															<input type="checkbox" class="custom-control-input"
-																id="checkTable${status.index}" name="tableCheck"
-																value="${List.code }" >
-															<input type="checkbox" class="hidden-checkbox" id="hiddenCheckTable${status.index}" 
-															data-reqs-code="${List.reqs_code }" style="display: none;" >
+     														  id="checkTable${status.index}" name="tableCheck"
+     														  value="${List.code }" data-status="${List.status}"
+     														  data-reqs-code="${List.reqs_code}" data-code="${List.code}">
 															<label class="custom-control-label" for="checkTable${status.index}" ></label>
 													</div>
 														</td>
@@ -209,15 +216,11 @@
 												<c:otherwise>
 													<td>
 													<div class="custom-control custom-checkbox mb-5">
-															<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
-															<input type="text" class="custom-control-input"
-																id="checkTable${status.index}" name="tableCheck"
-																value="${List.code }" style="visibility: hidden;" disabled="disabled">
-															<input type="text" class="hidden-checkbox" id="hiddenCheckTable${status.index}" 
-															data-reqs-code="${List.reqs_code }" style="display: none;" disabled="disabled">
-															<label style="visibility: hidden;" class="custom-control-label" for="checkTable${status.index}" ></label>
+															<input type="checkbox" class="custom-control-input"
+																id="checkTable${status.index}" name="tableUnCheck"
+																value="${List.code }" disabled="disabled" data-status="${List.status}">
+															<label class="custom-control-label" for="checkTable${status.index}" ></label>
 													</div>
-													
 													</td>
 												</c:otherwise>
 											</c:choose>
@@ -241,11 +244,6 @@
 							<div class="col-sm-12 col-md-5">
 							</div>
 							<div class="col-sm-5 col-md-7 text-right">
-							<div>
-								<button type="button" class="btn btn-success btn-sm" id="print">
-									<b>거래명세서</b>
-								</button>
-							</div>
 							</div>
 						</div>
 						<div class="btn-toolbar justify-content-center mb-15">
@@ -285,8 +283,6 @@
 			</div>
 			<%@ include file="../include/footer.jsp"%>
 			<%@ include file="../include/datatable.jsp"%>
-		</div>
-	</div>
 
 <!-- 초기화 -->
 <script type="text/javascript">
@@ -343,25 +339,22 @@ $('#reset').click(function(){
 		$(document).ready(function() {
 			
 			
-			$("#tableCheckAll").click(function() {
-			    if ($("#tableCheckAll").is(":checked")) {
-			        $("input.hidden-checkbox").prop("checked", true);
-					$(":checkbox:not(:disabled)").prop("checked", true);
-			    } else {
-			    	 $("input.hidden-checkbox").prop("checked", false);
-			    }
-			});
-			
+			    	
 					// 추가
 					$("#add").click(function() {
 						openPage("/shipment/add", 400, 700);
 					});
 
-					// 수정
 					$("#update").click(function() {
-						openPage("/shipment/update", 400, 700);
+					    var check = $("input:checkbox[name=tableCheck]:checked");
+					    if (check.length === 0 || check.length > 1) {
+					        alert("수정할 항목을 하나만 선택하세요!");
+					    } else {
+					        var code = check.val();
+					        openPage("/shipment/update?code=" + code, 400, 700);
+					    }
 					});
-
+					
 					// 삭제
 					$("#delete").click(function() {
 								var deleteList = [];
@@ -375,7 +368,6 @@ $('#reset').click(function(){
 								}
 							});
 					
-					// 삭제
 					$("#statusChange").click(function() {
 								var stautsList = [];
 								$("input:checkbox[name=tableCheck]:checked").each(function() {
@@ -391,47 +383,40 @@ $('#reset').click(function(){
 					$("#print").click(function() {
 					    var stautsList = [];
 					    var checkboxes = document.querySelectorAll('input[name="tableCheck"]:checked');
-					    var hiddenCheckboxes = document.querySelectorAll('input.hidden-checkbox:checked');
 					    var selectedReqsCode = null; 
 					    
 					    for(var i = 0; i < checkboxes.length; i++) {
-					        var currentReqsCode = hiddenCheckboxes[i].dataset.reqsCode.substring(0, 11);
-
+					        var currentReqsCode = checkboxes[i].dataset.reqsCode.substring(0, 11);
 					        if(!selectedReqsCode) {
 					            selectedReqsCode = currentReqsCode;
 					        }
 					        else {
 					            if(selectedReqsCode !== currentReqsCode) {
 					                alert('동일한 수주만 선택해주세요.');
-					                return; // 함수 종료
+					                return;
 					            }
 					        }
-
-					        stautsList.push(checkboxes[i].value);
+								stautsList.push(checkboxes[i].value);
 					    }
 
 					    if (stautsList.length > 0) {
 					        openPage("/shipment/print?code="+ stautsList.join(','), 1000, 700);
 					    } 
 					    else {
-					        alert('관리자에게 문의하세요');
+					        alert('출하번호를 하나 이상 선택하세요');
 					    }
 					});
-
+					
 						
-					// 상세보기
 					$('body').on('click', '[class^="info"]', function() {
 						var code = $(this).text().trim();
 						openPage("/shipment/info?code=" + code, 400, 700);
 					});
 
-					// 각각의 검색창
-					// 업체검색
 					$("#searchCompany").click(function() {
 						openPage("/request/searchClient", 400, 700);
 					});
 
-					// 제품검색
 					$("#searchProduct").click(function() {
 						openPage("/request/searchProduct", 400, 700);
 					});
@@ -440,7 +425,6 @@ $('#reset').click(function(){
 
 				});
 	</script>
-	<!-- 검색은 ajax -->
 
 	
 </body>

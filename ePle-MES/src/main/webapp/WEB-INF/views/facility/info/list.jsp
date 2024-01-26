@@ -34,8 +34,7 @@
 					<nav aria-label="breadcrumb" role="navigation">
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item">설비 관리</li>
-							<li class="breadcrumb-item active" aria-current="page"><b>설비
-									목록</b></li>
+							<li class="breadcrumb-item active" aria-current="page"><b>설비 목록</b></li>
 						</ol>
 					</nav>
 				</div>

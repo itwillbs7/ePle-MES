@@ -6,6 +6,12 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 <title>수주 등록</title>
+<style type="text/css">
+.con:hover{
+	background-color : #e1e1e1;
+	cursor:pointer;
+}
+</style>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -32,7 +38,6 @@
 							<input class="form-control" type="text" placeholder="업체이름을 입력하세요" 
 							name="clientName" id="clientName" >
 						</div>
-<!-- 정렬, asc, desc -->
 										<input type="hidden" name="activeSortCategory" id="sortCategory" value="${pageVO.search.activeSortCategory}"> 
 										<input type="hidden" name="sortValue" id="sortValue" value="${pageVO.search.sortValue}">
 
@@ -63,13 +68,11 @@
 				</div>
 					</div>
 				</div>
-				<!-- 버튼 -->
 			</form>
 			</div>
-			<!-- 폼 -->
 			
 			
-			<table class="table table-striped" id="tableId">
+			<table class="table" id="tableId">
 			<thead>
 				<tr>
 					<th>업체코드</th>
@@ -78,7 +81,7 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${List}" var="List">
-				<tr onclick="selectWork('${List.client_code }','${List.clientName }')">
+				<tr class="con" onclick="selectWork('${List.client_code }','${List.clientName }')">
 					<th >${List.client_code }</th>
 					<th >${List.clientName }</th>
 				</tr>

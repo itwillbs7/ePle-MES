@@ -26,7 +26,7 @@
 				<div class="row">
 					<div class="col-sm-12 mb-6">
 						<div class="form-group">
-						<table class="table table-striped">
+						<table class="table">
 							<tr>
 								<th>출하번호</th>
 								<th>수주번호</th>

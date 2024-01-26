@@ -6,11 +6,6 @@
 <%@ include file="../include/head.jsp"%>
 <%-- <link href="${pageContext.requeset.contextPath }/resources/css/default.css" rel="stylesheet" type"text/css"> --%>
 <title>수주 관리</title>
-<style type="text/css">
-  .red-text {
-    color: red;
-  }
-</style>
 </head>
 <body>
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
@@ -24,12 +19,19 @@
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
-			<div class="title" style="margin-bottom: 10px;">
-				<h1><a href="/request/list" style="color:#202342;">수주 관리</a></h1>
-			</div>
-			<div class="min-height-200px">
-				<br>
-				
+			<div class="row">
+            <div class="col-md-12">
+               <h1 class="title">수주 관리</h1>
+            </div>
+            <div class="col-md-12">
+               <nav aria-label="breadcrumb" role="navigation">
+                  <ol class="breadcrumb">
+                     <li class="breadcrumb-item">영업 관리</li>
+                     <li class="breadcrumb-item active" aria-current="page"><b>수주 관리</b></li>
+                  </ol>
+               </nav>
+            </div>
+         </div>
 				<!-- 아코디언 시작 -->
 				<div class="faq-wrap">
 					<div id="accordion">
@@ -191,6 +193,9 @@
 							<button type="button" class="btn btn-success" id="add">
 								<b>추가</b>
 							</button>
+							<button type="button" class="btn btn-warning" id="update">
+								<b>수정</b>
+							</button>
 							<button type="button" class="btn btn-danger" id="delete">
 								<b>삭제</b>
 							</button>
@@ -200,7 +205,7 @@
 					<div class="pb-20">
 						<div class="col-sm-30">
 							<form class="table" id="table" action="">
-								<table class="table table-striped" style="text-align : center">
+								<table class="table" style="text-align : center">
 								<thead>
 									<tr>
 										<td style="width: 100px;">
@@ -223,13 +228,17 @@
 								</thead>
 								<tbody>
 								<c:forEach items="${requestList}" var="item" varStatus="status">
-									<tr class="${item.status eq '반품' ? 'red-text' : ''}">
-										<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+							<c:choose>
+								<c:when test="${item.status eq '반품'}"><tr class="table-danger">
+								</c:when>
+								<c:when test="${item.status eq '출하완료' or item.status eq '수령'}"><tr class="table-active">
+								</c:when>
+								<c:otherwise><tr></c:otherwise>
+							</c:choose>
 							<c:choose>
 							<c:when test="${item.status eq '등록'}">
 							<td>
 								<div class="custom-control custom-checkbox mb-5">
-							<!-- id에 뒤에 el식으로 테이블 인덱스나, 번호 추가, value에 primary 붙이기  -->
 									<input type="checkbox" class="custom-control-input" id="checkTable${status.index}" 
 									name="tableCheck" value="${item.code }"> 
 									<label class="custom-control-label" for="checkTable${status.index}"></label>
@@ -239,9 +248,9 @@
 							<c:otherwise>
 							<td>
 							<div class="custom-control custom-checkbox mb-5">
-								<input type="text" class="custom-control-input" id="checkTable${status.index}" 
-								name="tableCheck" value="${item.code}" style="visibility: hidden;"> 
-								<label class="custom-control-label" for="checkTable${status.index}" style="visibility: hidden;"></label>
+								<input type="checkbox" class="custom-control-input" id="checkTable${status.index}" 
+								name="tableUnCheck" value="${item.code}" disabled="disabled" > 
+								<label class="custom-control-label" for="checkTable${status.index}" ></label>
 							</div>
 							</td>
 							</c:otherwise>
@@ -301,7 +310,6 @@
 				<%@ include file="../include/datatable.jsp"%>
 			</div>
 		</div>
-	</div>
 	
 <!-- list 내 처리 -->
 <script type="text/javascript">
@@ -338,10 +346,9 @@ $('#reset').click(function(){
 
 		function openPage(i, width, height) {
 			set = retPopupSetting(width, height);
-			return window.open(i, 'Popup_Window', set); // 가운데거가 이름이 똑같으면 같은창에서 열림
+			return window.open(i, 'Popup_Window', set); 
 		}
 
-			// .diff = 과부족
 			$(".diff").each(function() {
 			    var diff = parseInt($(this).text());
 			    if (diff < 0) {
@@ -354,13 +361,10 @@ $('#reset').click(function(){
 			
 		$(document).ready(function() {
 	    	 
-			// 추가
 			$("#add").click(function() {openPage("/request/add", 400, 700);});
 
-			// 수정
 			$("#update").click(function() {openPage("/request/update", 400, 700);});
 
-			// 삭제
 			 $("#delete").click(function() {
 				var deleteList = [];
 			    $("input:checkbox[name=tableCheck]:checked").each(function() {
@@ -375,21 +379,15 @@ $('#reset').click(function(){
 				
 			
 
-			// 상세보기
 			$('body').on('click', '[class^="info"]', function(){
         		var code = $(this).text().trim();
       		  openPage("/request/info?code=" + code, 400, 700); });
 			
 
-			
-			// 각각의 검색창
-			// 업체검색
 			$("#searchCompany").click(function() {openPage("/request/searchClient", 400,700); });
 			
-			// 제품검색
 			$("#searchProduct").click(function() {openPage("/request/searchProduct", 400,700); });
 			
-			// 사원검색
 			$("#searchManager").click(function() {openPage("/request/searchManager", 400,700); });
 			
 			

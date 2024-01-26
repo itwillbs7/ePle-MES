@@ -111,9 +111,7 @@ public class ShipmentController {
 		String reqscode = vo.getReqs_code();
 		
 		RequestVO rvo = rService.getinfo(reqscode);
-		logger.debug("@@@@@@@@@@Controller - rvo "+rvo);
-		
-
+		logger.debug("@@@@@@@@@@Controller - rvo "+rvo);		
 		
 		model.addAttribute("vo",vo);
 		model.addAttribute("rvo",rvo);
@@ -134,79 +132,44 @@ public class ShipmentController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String shipmentInsertPOST(HttpSession session, ShipmentVO vo,RedirectAttributes rttr) throws Exception {
-		// 출하 추가 할 때
-		// 1. 출하명령을 추가한다
-		// 2. 수주상태를 출하대기로 변경한다
-		//   :  재고 >= 수주량 일 때!
-		// 3. LOT 테이블에 출하번호 넣기
-		
-		// 수주 추가 액션
+	public String shipmentInsertPOST(HttpSession session, ShipmentVO vo,RedirectAttributes rttr) 
+									throws Exception {
+
 		logger.debug("(^^)/insert 예정 정보 "+vo);
 		
 		//출하코드
 		String vocode=vo.getCode();
-		// ex) 23ODMG1207 여기까지 검색해서 가장 최근 등록된 코드
 		String recentCode = sService.getRecentCode(vocode);
-						
-				// ex ) 기존 코드 23ODMG1207BB1
 				String code = vo.getCode();
-				// ex) BB1 지금 상품코드
-
 				if(recentCode == null || recentCode.equals("")) {
-					// 등록된 코드가 없는 경우
-					// 코드 새로 생성
 					code += "001";
 				}else {
-					// 마지막 3자리 숫자 추출
 				    String lastFourNums = recentCode.substring(recentCode.length()-3);
-				    // 숫자로 변환 후 1 증가
 				    int increasedNum = Integer.parseInt(lastFourNums) + 1;
-				    // 다시 문자열로 변환
 				    String newLastFourNums = String.format("%03d", increasedNum);
-				    // 마지막 3자리 숫자를 증가시킨 숫자로 대체
 				    code = recentCode.substring(0, recentCode.length()-3) + newLastFourNums;
 					}
 					
 				vo.setCode(code);
 		
-		// vo에 세션 아이디 추가하기
 		String id = (String) session.getAttribute("id");
 		vo.setReg_emp(id);
 				
-//		String id = "test";
-//		vo.setReg_emp(id);
-		
-		// 창고 입출고내역 코드 만드는거 하기...?(효린씨꺼 참고해야함)
-		
-		//출하코드
-		
 				String voHistory = vo.getWareHistory_code();
-				// ex) 23ODMG1207 여기까지 검색해서 가장 최근 등록된 코드
 				String recentHistory = sService.getRecentHistory(voHistory);
 						
-						// ex) BB1 지금 상품코드
 
 						if(recentHistory == null || recentHistory.equals("")) {
-							// 등록된 코드가 없는 경우
-							// 코드 새로 생성
 							voHistory += "001";
 						}else {
-							// 마지막 3자리 숫자 추출
 						    String lastFourNums = recentHistory.substring(recentHistory.length()-3);
-						    // 숫자로 변환 후 1 증가
 						    int increasedNum = Integer.parseInt(lastFourNums) + 1;
-						    // 다시 문자열로 변환
 						    String newLastFourNums = String.format("%03d", increasedNum);
-						    // 마지막 3자리 숫자를 증가시킨 숫자로 대체
 						    voHistory = recentHistory.substring(0, recentHistory.length()-3) + newLastFourNums;
 							}
 							
 						vo.setWareHistory_code(voHistory);
 						logger.debug("입출고코드~~~~~~~~~~~~!!!!"+vo.getWareHistory_code());
-		
-//		String history = "test2";
-//		vo.setWareHistory_code(history);
 		
 		int result = sService.dataInsertShipment(vo);
 					
@@ -265,11 +228,26 @@ public class ShipmentController {
 	
 	// http://localhost:8088/request/update
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public void shipmentUpdateGET(ShipmentVO vo,Model model) throws Exception{
+	public void shipmentUpdateGET(@RequestParam("code") String code,ShipmentVO vo,Model model) throws Exception{
 		// 수주 수정 폼5-5
 		// code 정보 받아서 해당하는 code 데이터 불러오기
 		logger.debug("shipmentUpdateGET(shipmenttVO vo) 폼 정보 받아서 그대로 토해내기");
 		logger.debug("vo "+vo);
+		
+		String checkRequestCode = vo.getReqs_code();
+		RequestVO rvo = null;
+		if(checkRequestCode == null || checkRequestCode == "") {
+			vo = sService.getinfo(code);
+			String reqscode = vo.getReqs_code();
+			rvo = rService.getinfo(reqscode);
+			vo.setReqs_code(rvo.getCode());
+			vo.setReqsdate(rvo.getDate());
+			vo.setClientName(rvo.getClientName());
+			vo.setUnit(rvo.getUnit());
+			vo.setProduct(rvo.getProduct());
+			vo.setDeadlineDate(rvo.getDeadline());
+		}
+		
 		model.addAttribute("List",vo);
 		
 	}
@@ -389,7 +367,7 @@ public class ShipmentController {
 		// 일단 출하코드들 qr 먼저 
 		int width = 200;
         int height = 200;
-        String url = "http://class7-team1.itwillbs.com:8080/shipment/shipqr?code="+encodedCode;
+        String url = "http://c7d2307t1.itwillbs.com/ePle/shipment/shipqr?code="+encodedCode;
         
         QRCodeWriter barcodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = 
@@ -408,7 +386,7 @@ public class ShipmentController {
         // 일단 출하코드들 qr 먼저 
         width = 200;
         height = 200;
-        url = "http://class7-team1.itwillbs.com:8080/shipment/clientqr?code="+encodedCode;
+        url = "http://c7d2307t1.itwillbs.com/ePle/shipment/clientqr?code="+encodedCode;
         
         barcodeWriter = new QRCodeWriter();
         bitMatrix = 

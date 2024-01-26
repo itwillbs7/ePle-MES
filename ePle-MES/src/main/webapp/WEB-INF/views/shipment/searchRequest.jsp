@@ -10,6 +10,12 @@
 	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 	crossorigin="anonymous"></script>
 <title>출하 등록</title>
+<style type="text/css">
+.con:hover{
+	background-color : #e1e1e1;
+	cursor:pointer;
+}
+</style>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -70,7 +76,7 @@
 				</form>
 			</div>
 			<!-- 폼 -->
-			<table class="table table-striped" id="tableId">
+			<table class="table" id="tableId">
 				<thead>
 					<tr>
 						<th>수주번호</th>
@@ -81,8 +87,8 @@
 				</thead>
 				<tbody>
 					<c:forEach items="${List}" var="item">
-						<tr
-							onclick="selectWork('${item.code}','${item.product}','${item.clientName}','${item.date}','${item.amount}','${item.ware_code}','${item.stock}','${item.unit }')">
+						<tr class="con" 
+						onclick="selectWork('${item.code}','${item.product}','${item.clientName}','${item.date}','${item.amount}','${item.ware_code}','${item.stock}','${item.unit }')">
 							<th>${item.code }</th>
 							<th>${item.productName }</th>
 							<th>${item.date }</th>
@@ -127,8 +133,6 @@
 
 	<script type="text/javascript">
 		
-
-		//부모창으로 데이터 넘기기
 		function selectWork(a, b, c, d, e, f, g, h) { // 부모창으로 값 넘기기
 
 			opener.document.getElementById("reqs_code").value = a //수주번호

@@ -151,9 +151,8 @@
 
 	<!-- 수주정보 찾기 -->
 	<select id="getRequestList" resultType="RequestVO">
-		SELECT r.*, c.name
-		clientName, m.name productName, s.total stock, s.warehouse ware_code,
-		r.unit unit
+		SELECT r.*, c.name  clientName, m.name productName, 
+		s.total stock, s.warehouse ware_code,r.unit unit
 		FROM REQUEST r
 		LEFT JOIN CLIENT c ON r.client_code = c.code
 		RIGHT JOIN (

@@ -10,6 +10,12 @@
 	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 	crossorigin="anonymous"></script>
 <title>수주 등록</title>
+<style type="text/css">
+.con:hover{
+	background-color : #e1e1e1;
+	cursor:pointer;
+}
+</style>
 </head>
 <body>
 	<!-- 콘텐츠 시작 -->
@@ -68,7 +74,7 @@
 				</form>
 			</div>
 			<!-- 폼 -->
-			<table class="table table-striped" id="tableId">
+			<table class="table" id="tableId">
 				<thead>
 					<tr>
 						<th>사원코드</th>
@@ -77,8 +83,7 @@
 				</thead>
 				<tbody>
 					<c:forEach items="${List}" var="List">
-						<tr
-							onclick="selectWork('${List.manager }','${List.managerName }')">
+						<tr class="con" onclick="selectWork('${List.manager }','${List.managerName }')">
 							<th>${List.manager }</th>
 							<th>${List.managerName }</th>
 						</tr>
