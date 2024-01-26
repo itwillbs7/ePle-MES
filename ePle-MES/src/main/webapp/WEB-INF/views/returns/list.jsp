@@ -341,7 +341,7 @@ $('#reset').click(function(){
 					$("#update").click(function() {
 					    var check = $("input:checkbox[name=tableCheck]:checked");
 					    if (check.length === 0 || check.length > 1) {
-					        alert("수정할 항목을 하나 선택하세요!");
+					        alert("수정할 항목을 하나만 선택하세요!");
 					    } else {
 					        var code = check.val();
 					        openPage("/returns/update?code=" + code, 400, 700);
