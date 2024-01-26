@@ -36,12 +36,12 @@ font-weight: bold;
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
 									
-										<label>품목 정보</label> 
+										<label>원자재 정보</label> 
 									<div class="form-group">
 										<input class="form-control back" type="text" id="mapdCode" name="material" placeholder="품목코드" readonly>
 									</div>
 									<div class="form-group">
-										<input class="form-control back" type="text" id="mapdName" placeholder="품명" readonly>
+										<input class="form-control back" type="text" id="mapdName" placeholder="자재명" readonly>
 									</div>
 
 										<label>발주량</label> 

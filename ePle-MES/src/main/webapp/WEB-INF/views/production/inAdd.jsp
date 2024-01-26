@@ -7,8 +7,8 @@
 <head>
 <%@ include file="../include/head.jsp"%>
 <style>
-input[readonly] {
-  background-color: white;
+.back {
+  background-color: white !important;
 }
 </style>
 <title>입고 등록</title>
@@ -26,36 +26,36 @@ input[readonly] {
 				
 				<div class="tab-content">
 					<!------------------------------ 첫번째 폼 ------------------------------>
-						<form method="post" action="/material/inAdd" id="addForm">
+						<form method="post" action="/material/inAdd" id="addForm" onsubmit="return validateForm()">
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
 								
 									<div class="form-group">
     									<label>자재 유형</label>
-										<input class="form-control" type="text" name="category" placeholder="자재 유형" value="완재품" readonly>
+										<input class="form-control" type="text" name="category" placeholder="자재 유형" value="완제품" readonly>
 									</div>
 									<div class="form-group">
 										<label>실적 코드</label> 
 										<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="실적코드" value="${result.code }" readonly>
 									</div>
 									<div class="form-group">
-										<label>품목</label> 
+										<label>품목 코드</label> 
 										<input class="form-control" type="text" id="mapdName" placeholder="품명"  value="${result.vo.product }" readonly>
 										<input class="form-control" type="hidden" id="mapdCode" name="mapd_code" placeholder="자재코드" value="${result.vo.product }" readonly>
 									</div>
 									<div class="form-group">
-										<label>수량</label>
+										<label>생산량</label>
 										<input class="form-control" type="number" id="orderAmount" name="amount" value="${result.amount }" placeholder="수량" readonly>
 									</div>
 
 									<div class="form-group">
 										<label>창고 정보</label> 
-										<input class="form-control" type="text" id="warehouseCode" name="warehouse_code" placeholder="창고코드" readonly>
+										<input class="form-control back" type="text" id="warehouseCode" name="warehouse_code" placeholder="창고코드" readonly>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="text" id="empName" placeholder="담당자" readonly>
-										<input class="form-control" type="hidden" id="empCode" name="emp_code" placeholder="담당자" readonly>
+										<input class="form-control back" type="text" id="empName" placeholder="담당자" readonly>
 									</div>
+										<input class="form-control" type="hidden" readonly value="${sessionScope.code }" name="emp_code">
 								</div>
 							</div>
 							<!-- 버튼 -->
@@ -115,6 +115,19 @@ input[readonly] {
 			});
         });
     });
+    
+    
+	function validateForm() {
+	    
+	    var warehouseCode = document.getElementById("warehouseCode").value;
+	    var empName = document.getElementById("empName").value;
+	  
+	    if (warehouseCode === "" || empName === "" ) {
+	        alert("모든 내용을 입력해주세요!");
+	        return false; 
+	    }
+	    return true;
+	}
 </script>
 </body>
 </html>

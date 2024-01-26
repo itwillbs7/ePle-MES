@@ -33,9 +33,9 @@ font-weight: bold;
 									<input class="form-control" type="text" name="code" id="code" readonly value="${inInfo.code }">
 								</div>
 								
-									<label>발주/수주 정보</label> 
+									<label>발주/생산 정보</label> 
 								<div class="form-group">
-									<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="발주/수주코드" readonly value="${inInfo.order_num}">
+									<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="발주/실적코드" readonly value="${inInfo.order_num}">
 								</div>
 								<div class="form-group">
 									<input class="form-control" type="text"   id="mapdName" placeholder="품명" readonly value="${inInfo.mapdName }">
@@ -59,7 +59,7 @@ font-weight: bold;
 				<div class="row">
 					<div class="col-sm-12 mb-3 justify-content-center btn-toolbar btn-group">
 						<button type="button" class="btn btn-secondary" onclick="window.close();"><b>취소</b></button>
-						<input type="submit" class="btn btn-success" value="수정" id="update">
+						<!-- <input type="submit" class="btn btn-success" value="수정" id="update"> -->
 					</div>
 				</div>
 					</div>

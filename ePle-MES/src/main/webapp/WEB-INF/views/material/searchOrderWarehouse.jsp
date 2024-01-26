@@ -40,7 +40,6 @@
 							<input class="form-control" type="text" id="warehouseCode" name="searchCode" >
 						</div>
 							<input class="form-control" type="hidden" id="warehouseName">
-							<input class="form-control" type="hidden" id="empCode">
 						<div class="form-group">
 							<label>담당자명</label> 
 							<input class="form-control" type="text" id="empName" name="searchName">
@@ -63,7 +62,6 @@
 				<tr>
 					<th>창고코드</th>
 					<th>창고이름</th>
-					<th>사원코드</th>
 					<th>담당자명</th>
 				</tr>
 			</thead>
@@ -72,17 +70,16 @@
 					<c:if test="${not empty orderWarehouse}">
 						<c:forEach items="${orderWarehouse}" var="vo">
 							<tr
-								onclick="selectWork('${vo.code }','${vo.wh_name }','${vo.manager }', '${vo.name }')">
+								onclick="selectWork('${vo.code }','${vo.wh_name }','${vo.name }')">
 								<td class="con">${vo.code }</td>
 								<td class="con">${vo.wh_name }</td>
-								<td class="con">${vo.manager }</td>
 								<td class="con">${vo.name }</td>
 							</tr>
 						</c:forEach>
 					</c:if>
 					<c:if test="${empty orderWarehouse}">
 						<tr>
-							<td colspan="4"
+							<td colspan="3"
 								style="text-align: center; vertical-align: middle;">검색 결과가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
 						</tr>
 					</c:if>
@@ -115,11 +112,10 @@
 
 
 			<script type="text/javascript">
-				function selectWork(a, b, c, d) { 
+				function selectWork(a, b, c) { 
 
 					opener.document.getElementById("warehouseCode").value = a
-					opener.document.getElementById("empCode").value = c
-					opener.document.getElementById("empName").value = d
+					opener.document.getElementById("empName").value = c
 					window.close();
 				}
 				

@@ -36,21 +36,16 @@ font-weight: bold;
 								<input class="form-control" type="text" name="code" id="code" readonly value="${inInfo.code }">
 								</div>
 								
-									<label>자재 유형</label> 
+									<label>발주/생산 정보</label> 
 								<div class="form-group">
-									<input class="form-control" type="text" name="category" value="${inInfo.category }" readonly>
-								</div>
-
-									<label>발주/수주 정보</label> 
-								<div class="form-group">
-									<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="발주/수주코드" readonly value="${inInfo.order_num}">
+									<input class="form-control" type="text" id="orderCode" name="order_num" placeholder="발주/실적코드" readonly value="${inInfo.order_num}">
 								</div>
 								<div class="form-group">
 									<input class="form-control" type="text"   id="mapdName" placeholder="품명" readonly value="${inInfo.mapdName }">
 									<input class="form-control" type="hidden" id="mapdCode" name="mapd_code" placeholder="자재코드" readonly value="${inInfo.mapd_code }">
 								</div>
 								<div class="form-group">
-									<input class="form-control" type="text" id="orderAmount" name="amount" required placeholder="수량" value="${inInfo.amount }">
+									<input class="form-control" type="number" id="orderAmount" name="amount" required min="1" max="2000" placeholder="수량" value="${inInfo.amount }">
 								</div>
 
 									<label>창고 정보</label> 

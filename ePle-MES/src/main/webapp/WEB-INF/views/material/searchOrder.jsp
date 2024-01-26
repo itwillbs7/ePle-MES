@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
 
-<title>발주 조회</title>
+<title>미입고 발주서 목록</title>
 
 <!-- 발주완료 & 입고전인 발주서만 출력합니다 -->
 
@@ -16,19 +16,32 @@
 	background-color : #e1e1e1;
 	cursor:pointer;
 }
+
+.click {
+    color: blue;
+}
+
+  .table th,
+  .table td {
+    text-align: center;
+  }
 </style>
 
 </head>
 <body>
 	<div class="modal-content">
-	<div class="login-box bg-white box-shadow border-radius-10">
+	<div class="login-box bg-white box-shadow border-radius-10" style="max-width: 230%;">
 			
 			<div class="login-title">
-			<h2 class="text-center text-primary">발주 조회</h2>
+			<h2 class="text-center">미입고 발주서 목록</h2>
 			</div>
 			
+            <h6 class="text-center click">발주서를 선택해주세요!</h6>
+            
+            <br>
+				
 			<!------------------------------- 검색 시작 ------------------------------->
-			<div class="search_area">
+<!-- 			<div class="search_area">
 				<div class="row">
 					<div class="col-sm-12 mb-3">
 						
@@ -52,7 +65,7 @@
 						
 					</div>
 				</div>
-			</div>
+			</div> -->
 
 
 			<!------------------------------- 목록 시작 ------------------------------->
@@ -60,6 +73,7 @@
 			<thead>
 				<tr>
 					<th>발주코드</th>
+					<th>구분</th>
 					<th>자재코드</th>
 					<th>자재명</th>
 					<th>수량</th>
@@ -68,8 +82,18 @@
 			
 			<tbody>
 				<c:forEach items="${searchOrder}" var="vo">
-				<tr onclick="selectWork('${vo.code }','${vo.material }', '${vo.name }','${vo.amount }')">
+				<tr onclick="selectWork('${vo.code }', ${vo.code.startsWith('FO') ? '`설비`' : '`원자재`'},'${vo.material }', '${vo.name }','${vo.amount }')">
 					<td class="con">${vo.code }</td>
+					<td class="con category-column">
+                		<c:choose>
+                    		<c:when test="${vo.code.startsWith('FO')}">
+                        		설비
+                    		</c:when>
+                    		<c:when test="${vo.code.startsWith('OR')}">
+                        		원자재
+                    		</c:when>
+                		</c:choose>
+            		</td>
 					<td class="con">${vo.material }</td>
 					<td class="con">${vo.name }</td>
 					<td class="con">${vo.amount }</td>
@@ -104,12 +128,16 @@
 
 
 			<script type="text/javascript">
-				function selectWork(a, b, c, d) { 
+			window.resizeTo(outerWidth - innerWidth + 700, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
+			
+			
+				function selectWork(a, b, c, d, e) { 
 
 					opener.document.getElementById("orderCode").value = a
-					opener.document.getElementById("mapdCode").value = b
-					opener.document.getElementById("mapdName").value = c
-					opener.document.getElementById("orderAmount").value = d
+					opener.document.getElementById("category").value = b
+					opener.document.getElementById("mapdCode").value = c
+					opener.document.getElementById("mapdName").value = d
+					opener.document.getElementById("orderAmount").value = e
 					window.close();
 				}
 				
@@ -142,6 +170,7 @@
 				        });
 				    
 		 		}
+		 		
 			</script>
 		</div>
 	</div>

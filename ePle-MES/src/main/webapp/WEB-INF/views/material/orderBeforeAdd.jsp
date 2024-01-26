@@ -32,7 +32,7 @@
 			</div>
 			
 			<div class="tab">
-                <h6 class="text-center click">발주코드를 선택해주세요!</h6>
+                <h6 class="text-center click">요청서를 선택해주세요!</h6>
                 <br>
 				
 				<div class="tab-content">
@@ -51,10 +51,10 @@
 			<c:if test="${not empty askOrderList}">
 				<c:forEach items="${askOrderList}" var="vo" varStatus="loop">
 				<tr>
-					<td class="inInfo${vo.code} con"> ${vo.code }</td>
-					<td class=""> ${vo.name }</td>
-					<td class=""> ${vo.amount } ${vo.unit }</td>
-					<td class=""> <fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></td>
+					<td class="inInfo con" data-code="${vo.code}"> ${vo.code }</td>
+					<td class="inInfo con" data-code="${vo.code}"> ${vo.name }</td>
+					<td class="inInfo con" data-code="${vo.code}"> ${vo.amount } ${vo.unit }</td>
+					<td class="inInfo con" data-code="${vo.code}"> <fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></td>
 				</tr>
 				</c:forEach>
 			</c:if>
@@ -123,11 +123,15 @@
 	}
 		
 	// 
-$('body').on('click', '[class^="inInfo"]', function(){
+/* $('body').on('click', '[class^="inInfo"]', function(){
     var code = $(this).text().trim();
     openPage("${pageContext.request.contextPath}/material/orderAdd?code=" + code, 450, 1000);
-});
+}); */
 
+$('body').on('click', '[class^="inInfo"]', function(){
+    var code = $(this).data('code');
+    openPage("${pageContext.request.contextPath}/material/orderAdd?code=" + code, 450, 1000);
+});
 			
 	
 	

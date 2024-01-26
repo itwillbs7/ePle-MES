@@ -16,7 +16,7 @@
 		LEFT OUTER JOIN WAREHOUSE w
         ON wh.warehouse_code = w.code
         LEFT OUTER JOIN EMPLOYEES e
-        ON w.manager = e.code
+        ON wh.emp_code = e.code
         WHERE wh.io = 'IN'
         <if test="searchCode != null or searchName != null" >
 		<if test="searchCode != null">
@@ -42,7 +42,7 @@
 		LEFT OUTER JOIN WAREHOUSE w
         ON wh.warehouse_code = w.code
         LEFT OUTER JOIN EMPLOYEES e
-        ON w.manager = e.code
+        ON wh.emp_code = e.code
         WHERE wh.io = 'IN'
 		<if test="searchCode != null or searchName != null" >
 		<if test="searchCode != null">

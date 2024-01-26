@@ -34,17 +34,21 @@ margin-right:20px;
 	<!------------------------------ 메인 컨테이너 ------------------------------>
 	<div class="main-container">
 	<div class="pd-ltr-20 xs-pd-20-10">
-	<div class="title" style="margin-bottom: 10px;">
-		<a href="${pageContext.request.contextPath}/material/outList"><h1>출고 관리</h1></a>
-	</div>
-		<div class="min-height-200px">
-			
-	    <ul class="nav nav-pills">
-			<li class="nav-item"><a class="nav-link text-blue" href="/material/inList">입고 현황</a></li>
-			<li class="nav-item"><a class="nav-link text-blue active" href="/material/outList">출고 현황</a></li>
-		</ul> 
-		
-	<br>
+	<div class="row">
+           <div class="col-md-12">
+               <a href="${pageContext.request.contextPath}/material/outList"><h1>출고 관리</h1></a>
+            </div>
+            
+            <div class="col-md-12">
+               <nav aria-label="breadcrumb" role="navigation">
+                  <ol class="breadcrumb">
+                     <li class="breadcrumb-item">자재 관리</li>
+                     <li class="breadcrumb-item"><a href="/material/inList">입고 관리</a></li>
+                     <li class="breadcrumb-item active" aria-current="page"><b>출고 관리</b></li>
+                  </ol>
+               </nav>
+            </div>
+	</div>	
 				
 				
 	<!------------------------------ 출고 검색 시작 ----------------------------->
@@ -105,7 +109,7 @@ margin-right:20px;
 								</div>
 							</td>
 							<th>출고코드</th>
-							<th>출하코드</th>
+							<th>발주/출하코드</th>
 							<th>품명</th>
 							<th>수량</th>
 							<th>창고</th>
@@ -113,7 +117,8 @@ margin-right:20px;
 							<th>출고일자</th>
 							<th>담당자</th>
 						</tr>
-
+						
+					<c:if test="${not empty outList}">
 						<c:forEach items="${outList }" var="vo">
 						<tr>
 							<td>
@@ -134,7 +139,12 @@ margin-right:20px;
 
 						</tr>
 						</c:forEach>
-							
+				  </c:if>
+					<c:if test="${empty outList}">
+						<tr>
+							<td colspan="9" style="text-align: center; vertical-align: middle;">데이터가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
+						</tr>
+					</c:if>					
 					</table>
 				</form>
 
@@ -150,13 +160,13 @@ margin-right:20px;
 				<div class="btn-toolbar justify-content-center mb-15">
 					<div class="btn-group">
 						<c:if test="${pageVO.prev}">
-							<a href="/material/outList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
+							<a href="/material/outList?page=${pageVO.startPage - 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
 						</c:if>
 						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/material/outList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
+							<a href="/material/outList?page=${i}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
 						</c:forEach>
 						<c:if test="${pageVO.next}">
-							<a href="/material/outList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
+							<a href="/material/outList?page=${pageVO.endPage + 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
 						</c:if>
 					</div>
 				</div>
@@ -302,12 +312,17 @@ margin-right:20px;
 			$("#whCode").val("");
 			$("#selectF").val("");
 			$("#selectG").val("");
-		    $("#whCode").attr("placeholder", "입고코드");
+		    $("#whCode").attr("placeholder", "출고코드");
 		    $("#selectF").attr("placeholder", "품목코드");
 		    $("#selectG").attr("placeholder", "품명");
 		}
 
-		
+		document.addEventListener('keydown', function(event) {
+			if (event.key === 'Enter') {
+				doSearch();
+				event.preventDefault();
+			}
+		});
 	</script>
 </body>
 </html>

@@ -16,7 +16,7 @@
 	cursor:pointer;
 }
 </style>
-<title>품목 조회</title>
+<title>원자재 조회</title>
 
 <!-- 원자재 품목만 출력합니다 -->
 <!-- /material/askOrderAdd 에서 참조중 -->
@@ -27,7 +27,7 @@
 	<div class="login-box bg-white box-shadow border-radius-10">
 			
 			<div class="login-title">
-			<a href="${pageContext.request.contextPath}/material/searchMaterial"><h2 class="text-center" style="color: #FF8C00;">품목 조회</h2></a>
+			<a href="${pageContext.request.contextPath}/material/searchMaterial"><h2 class="text-center" style="color: #FF8C00;">원자재 조회</h2></a>
 			</div>
 			
 			<!------------------------------- 검색 시작 ------------------------------->
@@ -36,7 +36,7 @@
 					<div class="col-sm-12 mb-3">
 						
 						<div class="form-group">
-							<label>품명</label> 
+							<label>자재명</label> 
 							<input class="form-control" type="hidden" id="mapdCode" >
 							<input class="form-control" type="text" id="mapdName" name="searchName">
 						</div>

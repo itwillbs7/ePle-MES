@@ -39,19 +39,12 @@ font-weight: bold;
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
 								
-    									<label>자재 유형</label>
-									<div class="form-group">
-    									<select class="form-control" name="category" required>
-        									<option value="" disabled selected hidden>유형을 선택하세요</option>
-        									<option value="원자재">원자재</option>
-        									<option value="설비">설비</option>
-        									<option value="완제품">완제품</option>
-    									</select>
-									</div>
-									
 										<label>발주 정보</label> 
 									<div class="form-group">
 										<input class="form-control back" type="text" id="orderCode" name="order_num" placeholder="발주코드" required readonly>
+									</div>
+									<div class="form-group">
+										<input class="form-control back" type="text" id="category" name="category" placeholder="자재유형" required readonly>
 									</div>
 									<div class="form-group">
 										<input class="form-control back" type="text" id="mapdName" placeholder="품명" readonly>
@@ -67,8 +60,10 @@ font-weight: bold;
 									</div>
 									<div class="form-group">
 										<input class="form-control back" type="text" id="empName" placeholder="담당자" required readonly>
-										<input class="form-control back" type="hidden" id="empCode" name="emp_code" placeholder="담당자" required readonly>
 									</div>
+
+										<input class="form-control" type="hidden" readonly value="${sessionScope.code }" name="emp_code">
+
 
 
 								</div>
@@ -142,8 +137,9 @@ font-weight: bold;
 	    popupWindow.focus();
 	}
 	$(document).ready(function() {
+		
 		// 등록 - 발주 리스트 (발주완료, 입고X)
-	    $("#orderCode,#mapdName,#orderAmount").click(function() {
+	    $("#orderCode,#mapdName,#orderAmount,#category").click(function() {
 	        var url = '${pageContext.request.contextPath}/material/searchOrder';
 	        openPopup(url);
 	    });
@@ -153,11 +149,8 @@ font-weight: bold;
 	        var url = '${pageContext.request.contextPath}/material/searchOrderWarehouse';
 	        openPopup(url);
 	    });
+	 	
 	});
-		
-		
-	
-	
 	
 	</script>
 </body>

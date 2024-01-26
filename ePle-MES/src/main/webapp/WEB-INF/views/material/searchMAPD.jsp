@@ -20,6 +20,7 @@
 
 <!-- 전체 품목 출력합니다 -->
 <!-- /material/inList 에서 참조중 -->
+<!-- /material/outList 에서 참조중 -->
 
 </head>
 <body>
@@ -27,7 +28,7 @@
 	<div class="login-box bg-white box-shadow border-radius-10">
 			
 			<div class="login-title">
-			<h2 class="text-center" style="color: #FF8C00;">품목 조회</h2>
+			<a href="${pageContext.request.contextPath}/material/searchMAPD"><h2 class="text-center" style="color: #FF8C00;">품목 조회</h2></a>
 			</div>
 			
 			<!------------------------------- 검색 시작 ------------------------------->
@@ -66,12 +67,19 @@
 			</thead>
 			
 			<tbody>
+			<c:if test="${not empty searchMAPD}">
 				<c:forEach items="${searchMAPD}" var="vo">
 				<tr onclick="selectWork('${vo.code }','${vo.name }')">
 					<td class="con">${vo.code }</td>
 					<td class="con">${vo.name }</td>
 				</tr>
 				</c:forEach>
+			</c:if>
+					<c:if test="${empty searchMAPD}">
+						<tr>
+							<td colspan="2" style="text-align: center; vertical-align: middle;">검색 결과가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
+						</tr>
+					</c:if>
 			</tbody>
 			</table>
 			
@@ -81,16 +89,16 @@
 							<c:if test="${pageVO.totalCount > 1}">
 								<div class="btn-group">
 									<c:if test="${pageVO.prev}">
-										<a href="/material/searchMAPD?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> 
+										<a href="/material/searchMAPD?page=${pageVO.startPage - 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary prev"> 
 											<i class="fa fa-angle-double-left"></i>
 										</a>
 									</c:if>
 									<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i" step="1">
-										<a href="/material/searchMAPD?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}">
+										<a href="/material/searchMAPD?page=${i}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}">
 											${i} </a>
 									</c:forEach>
 									<c:if test="${pageVO.next}">
-										<a href="/material/searchMAPD?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> 
+										<a href="/material/searchMAPD?page=${pageVO.endPage + 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary next"> 
 											<i class="fa fa-angle-double-right"></i>
 										</a>
 									</c:if>
