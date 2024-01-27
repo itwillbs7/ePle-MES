@@ -6,9 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<script src="https://code.jquery.com/jquery-3.7.1.js"
-	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-	crossorigin="anonymous"></script>
 <title>수주 등록</title>
 <style type="text/css">
 .con:hover{
@@ -30,16 +27,15 @@
 				<form action="" method="post" id="accordion-search">
 					<!-- 입력 구간 -->
 					<div class="row">
-						<div class="col-sm-12 mb-3">
-							<!-- 필수입력내역 -->
-							<div class="form-group">
-								<label>사원코드</label> <input class="form-control" type="text"
-									placeholder="업체코드를 입력하세요" name="manager" id="manager">
+						<div class="col-6 mb-3">
+								<label style="font-weight: bold;">사원코드</label> <input class="form-control" type="text"
+									placeholder="사원코드를 입력하세요" name="manager" id="manager">
 							</div>
-							<div class="form-group">
-								<label>사원명</label> <input class="form-control" type="text"
-									placeholder="업체이름을 입력하세요" name="managerName" id="managerName">
+						<div class="col-6 mb-3">
+								<label style="font-weight: bold;">사원명</label> <input class="form-control" type="text"
+									placeholder="사원이름을 입력하세요" name="managerName" id="managerName">
 							</div>
+					</div>
 							<c:choose>
 								<c:when test="${!empty pageVO.cri.page}">
 									<input type="hidden" id="page" name="page" value="1">
@@ -68,8 +64,6 @@
 									</button>
 								</div>
 							</div>
-						</div>
-					</div>
 					<!-- 버튼 -->
 				</form>
 			</div>

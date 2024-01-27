@@ -20,7 +20,7 @@
 <body>
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
-		<div class="login-box bg-white box-shadow border-radius-10">
+		<div class="login-box bg-white box-shadow border-radius-10" style="max-width:650px; padding: 20px 15px;">
 			<!-- 타이틀 -->
 			<div class="login-title">
 				<h1 class="text-center text-primary">출하번호 검색</h1>
@@ -31,18 +31,17 @@
 					id="accordion-search">
 					<!-- 입력 구간 -->
 					<div class="row">
-						<div class="col-sm-12 mb-3">
-							<!-- 필수입력내역 -->
-							<div class="form-group">
-								<label>회사명</label> <input class="form-control" type="text"
+						<div class="col-sm-6 mb-3">
+								<label style="font-weight: bold;">회사명</label> <input class="form-control" type="text"
 									placeholder="업체명을 입력하세요" name="clientName" id="manager"
 									value="${clientName }">
 							</div>
-							<div class="form-group">
-								<label>품명</label> <input class="form-control" type="text"
+						<div class="col-sm-6 mb-3">
+								<label style="font-weight: bold;">품명</label> <input class="form-control" type="text"
 									placeholder="품명을 입력하세요" name="productName" id="managerName"
 									value="${productName }">
 							</div>
+					</div>
 							<c:choose>
 								<c:when test="${!empty pageVO.cri.page}">
 									<input type="hidden" id="page" name="page" value="1">
@@ -70,8 +69,6 @@
 										<b>검색</b>
 									</button>
 								</div>
-							</div>
-						</div>
 					</div>
 					<!-- 버튼 -->
 				</form>

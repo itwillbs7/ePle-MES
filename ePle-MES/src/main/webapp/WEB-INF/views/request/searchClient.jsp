@@ -26,18 +26,17 @@
 			<form method="post" id="accordion-search" action="/request/searchClient">
 				<!-- 입력 구간 -->
 				<div class="row">
-					<div class="col-sm-12 mb-3">
-						<!-- 필수입력내역 -->
-						<div class="form-group">
-							<label>업체코드</label> 
+					<div class="col-6 mb-3">
+							<label style="font-weight: bold;">업체코드</label> 
 							<input class="form-control" type="text" placeholder="업체코드를 입력하세요" 
-							name="client_code" id="client_code" >
+							name="client_code" id="client_code">
 						</div>
-						<div class="form-group">
-							<label>업체명</label> 
+					<div class="col-6 mb-3">
+							<label style="font-weight: bold;">업체명</label> 
 							<input class="form-control" type="text" placeholder="업체이름을 입력하세요" 
-							name="clientName" id="clientName" >
+							name="clientName" id="clientName">
 						</div>
+				</div>
 										<input type="hidden" name="activeSortCategory" id="sortCategory" value="${pageVO.search.activeSortCategory}"> 
 										<input type="hidden" name="sortValue" id="sortValue" value="${pageVO.search.sortValue}">
 
@@ -64,8 +63,6 @@
 						<button type="submit" class="btn btn-success" >
 							<b>검색</b>
 						</button>
-					</div>
-				</div>
 					</div>
 				</div>
 			</form>

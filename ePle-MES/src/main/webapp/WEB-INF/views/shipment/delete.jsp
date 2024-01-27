@@ -14,7 +14,7 @@
 <body>
 	<!-- 콘텐츠 시작 -->
 	<div class="modal-content">
-		<div class="login-box bg-white box-shadow border-radius-10" style="max-width:600px">
+		<div class="login-box bg-white box-shadow border-radius-10" style="max-width:700px">
 			<!-- 타이틀 -->
 			<div class="login-title">
 				<h1 class="text-center text-primary">출하명령 삭제</h1>

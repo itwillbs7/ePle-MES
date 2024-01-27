@@ -30,17 +30,16 @@
 				<form action="/request/searchProduct" method="post" id="accordion-search">
 					<!-- 입력 구간 -->
 					<div class="row">
-						<div class="col-sm-12 mb-3">
-							<!-- 필수입력내역 -->
-							<div class="form-group">
-								<label>품번</label> <input class="form-control" type="text"
-									placeholder="업체코드를 입력하세요" name="product" id="product" value="${product }">
+						<div class="col-6 mb-3">
+								<label style="font-weight: bold;">품번</label> <input class="form-control" type="text"
+									placeholder="품번을입력하세요" name="product" id="product" value="${product }">
 							</div>
-							<div class="form-group">
-								<label>품명</label> <input class="form-control" type="text"
-									placeholder="업체이름을 입력하세요" name="productName" id="productName" 
+						<div class="col-6 mb-3">
+								<label style="font-weight: bold;">품명</label> <input class="form-control" type="text"
+									placeholder="품명을 입력하세요" name="productName" id="productName" 
 									value="${productName }">
 							</div>
+					</div>
 							<c:choose>
 								<c:when test="${!empty pageVO.cri.page}">
 									<input type="hidden" id="page" name="page" value="1">
@@ -68,8 +67,6 @@
 										<b>검색</b>
 									</button>
 								</div>
-							</div>
-						</div>
 					</div>
 					<!-- 버튼 -->
 				</form>

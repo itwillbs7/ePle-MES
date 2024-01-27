@@ -38,7 +38,7 @@
 						<div class="card">
 							<div class="card-header">
 								<button class="btn btn-block collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false">
-									<b>검색</b>
+									<b>수주 검색</b>
 								</button>
 							</div>
 							<div id="faq1" class="collapse" data-parent="#accordion" style="">
@@ -46,9 +46,6 @@
 									<form id="accordion-search" method="get" action="/request/list">
 										<div class="col-md-12">
 											<div class="form-group">
-												<div class="row">
-													<h4 class="text-blue h4">수주 검색</h4>
-												</div>
 												<div class="row">
 													<div class="col-md-4 col-sm-12 btn-group" style="margin-left: auto;">
 														<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>업체명</b></label> 
@@ -231,7 +228,7 @@
 							<c:choose>
 								<c:when test="${item.status eq '반품'}"><tr class="table-danger">
 								</c:when>
-								<c:when test="${item.status eq '출하완료' or item.status eq '수령'}"><tr class="table-active">
+								<c:when test="${item.status eq '출하완료' or item.status eq '수령'}"><tr style="background-color: #eaeef2;">
 								</c:when>
 								<c:otherwise><tr></c:otherwise>
 							</c:choose>
@@ -326,9 +323,7 @@ $('#reset').click(function(){
 		var set;
 
 		function retPopupSetting(width, height){
-			// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
 			popupX = Math.ceil((window.screen.width - width) / 2);
-			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
 			popupY = Math.ceil((window.screen.height - height) / 2);
 
 			var setting = "";

@@ -6,9 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../include/head.jsp"%>
-<script src="https://code.jquery.com/jquery-3.7.1.js"
-	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-	crossorigin="anonymous"></script>
 <title>출하 등록</title>
 <style type="text/css">
 .con:hover{
@@ -30,18 +27,17 @@
 				<form action="/shipment/searchRequest" method="post" id="accordion-search">
 					<!-- 입력 구간 -->
 					<div class="row">
-						<div class="col-sm-12 mb-3">
-							<!-- 필수입력내역 -->
-							<div class="form-group">
-								<label>회사명</label> <input class="form-control" type="text"
+						<div class="col-sm-6 mb-3">
+								<label style="font-weight: bold;">회사명</label> <input class="form-control" type="text"
 									placeholder="업체코드를 입력하세요" name="clientName" id="manager"
 									value="${clientName }">
 							</div>
-							<div class="form-group">
-								<label>품명</label> <input class="form-control" type="text"
+						<div class="col-sm-6 mb-3">
+								<label style="font-weight: bold;">품명</label> <input class="form-control" type="text"
 									placeholder="업체이름을 입력하세요" name="productName" id="managerName"
 									value="${productName }">
 							</div>
+					</div>
 							<c:choose>
 								<c:when test="${!empty pageVO.cri.page}">
 									<input type="hidden" id="page" name="page" value="1">
@@ -69,8 +65,6 @@
 										<b>검색</b>
 									</button>
 								</div>
-							</div>
-						</div>
 					</div>
 					<!-- 버튼 -->
 				</form>
@@ -88,7 +82,7 @@
 				<tbody>
 					<c:forEach items="${List}" var="item">
 						<tr class="con" 
-						onclick="selectWork('${item.code}','${item.product}','${item.clientName}','${item.date}','${item.amount}','${item.ware_code}','${item.stock}','${item.unit }')">
+						onclick="selectWork('${item.code}','${item.product}','${item.clientName}','${item.date}','${item.amount}','${item.ware_code}','${item.stock}','${item.unit }','${item.deadline}')">
 							<th>${item.code }</th>
 							<th>${item.productName }</th>
 							<th>${item.date }</th>
@@ -133,7 +127,7 @@
 
 	<script type="text/javascript">
 		
-		function selectWork(a, b, c, d, e, f, g, h) { // 부모창으로 값 넘기기
+		function selectWork(a, b, c, d, e, f, g, h, i) { // 부모창으로 값 넘기기
 
 			opener.document.getElementById("reqs_code").value = a //수주번호
 			opener.document.getElementById("product").value = b //품번
@@ -143,6 +137,7 @@
 			opener.document.getElementById("ware_code").value = f // 창고코드
 			opener.document.getElementById("stock").value = g // 재고량
 			opener.document.getElementById("unit").value = h // 재고량
+			opener.document.getElementById("deadlineDate").value = i // 재고량
 
 			opener.document.getElementById("reqs_code").dispatchEvent(
 					new Event('input'));
@@ -159,6 +154,8 @@
 			opener.document.getElementById("stock").dispatchEvent(
 					new Event('input'));
 			opener.document.getElementById("unit").dispatchEvent(
+					new Event('input'));
+			opener.document.getElementById("deadlineDate").dispatchEvent(
 					new Event('input'));
 
 			self.close();

@@ -5,7 +5,6 @@
 <html>
 <head>
 <%@ include file="../include/head.jsp"%>
-<%-- <link href="${pageContext.requeset.contextPath }/resources/css/default.css" rel="stylesheet" type"text/css"> --%>
 <title>출하 관리</title>
 </head>
 <body>
@@ -39,7 +38,7 @@
 						<div class="card-header">
 							<button class="btn btn-block collapsed" data-toggle="collapse"
 								data-target="#faq1" aria-expanded="false">
-								<b>검색</b>
+								<b>출하 검색</b>
 							</button>
 						</div>
 						<div id="faq1" class="collapse" data-parent="#accordion" style="">
@@ -48,62 +47,48 @@
 									<div class="col-md-12">
 										<div class="form-group">
 										
-										
-											<div class="row">
-												<h4 class="text-blue h4">출하 검색</h4>
-											</div>
-											<div class="row">
-												<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
-													<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>업체명</b></label> 
+										<div class="row">
+												<div class="col-md-2 col-sm-12 btn-group" style="margin-left: 20px;">
+													<label class="col-md-4" style="padding: 10px 0px 10px 0px; "><b>업체명</b></label> 
 													<input type="hidden" id="client_code" > 
 													<input type="text" name="clientName" class="form-control" 
-													id="searchCompany" style="width: 50%;" 
+													id="searchCompany" style="width: 100%;" 
 													autocomplete="off" readonly value="${paramMap.clientName }">
 												</div>
-												<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
-													<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>품명</b></label> 
+												<div class="col-md-2 col-sm-12 btn-group" style="margin-left: 20px;">
+													<label class="col-md-3" style="padding: 10px 0px 10px 0px; "><b>품명</b></label> 
 													<input type="hidden" name="product" id="product" value="${paramMap.product }"> 
 														<input type="text" name="reqsdate" 
 														class="form-control" id="searchProduct"
-														style="width: 50%;" 
 														autocomplete="off" readonly value="${paramMap.reqsdate }">
 												</div>
-												<label class="col-md-1 col-sm-12"><b>출하 상태</b></label>
-												<div class="col-md-1 col-sm-12" >
-													<div class="custom-control custom-checkbox mb-3">
-														<input type="checkbox" class="custom-control-input"
-															id="formCheck1" name="statusList" value="출하대기"
-															<c:if test="${paramMap.statusList.contains('출하대기')}">checked</c:if>> 
+											<div class="col-md-4 col-sm-12">
+												<div class="col-md-12 col-sm-12" style="display: flex; align-items: center;">
+													<label class="col-md-3"><b>출하 일자</b></label>
+													<span style="display: flex; justify-content: space-between; width: 100%; margin-left: 10px;">
+														<input class="form-control date-picker" type="text" name="startDate" autocomplete="off" id="startDate" readonly value="${paramMap.startDate}">
+														<span style="padding:0px 10px; padding-top:10px; text-align : center;">~</span>
+														<input class="form-control date-picker" type="text" name="endDate" autocomplete="off" id="endDate" readonly value="${paramMap.endDate}">
+													</span>
+												</div>
+											</div>
+											<div class="col-md-3 col-sm-12" style="margin-left: 20px; padding-left: 10px; display: flex; flex-direction: row; align-items: center;">
+												<label style="margin-right: 20px;"><b>출하 상태</b></label>
+												<div style="display: flex;">
+													<div style="padding-top: 7px;" class="custom-control custom-checkbox mb-3 col-sm-12 col-md-6">
+														<input type="checkbox" class="custom-control-input" id="formCheck1" name="statusList" value="출하대기"
+															<c:if test="${paramMap.statusList.contains('출하대기')}">checked</c:if>>
 														<label class="custom-control-label" for="formCheck1">출하대기</label>
 													</div>
-												</div>
-												<div class="col-md-2 col-sm-12" >
-													<div class="custom-control custom-checkbox mb-5">
-														<input type="checkbox" class="custom-control-input"
-															id="formCheck2" name="statusList" value="출하완료"
-															<c:if test="${paramMap.statusList.contains('출하완료')}">checked</c:if>> <label
-															class="custom-control-label" for="formCheck2">출하완료</label>
-													</div>
-												</div>
-												<label class="col-md-1 col-sm-12"><b>출하 일자</b></label>
-												<div class="col-md-4 col-sm-12">
-													<div class="form-group md-4" style="margin-top : auto;">
-															<span style="display : flex; justify-content:space-between;">
-															<input class="form-control date-picker" 
-															type="text" name="startDate" autocomplete="off" id="startDate"
-															style="width:50%;" readonly value = "${paramMap.startDate }">
-															<span style="padding:0px 10px; padding-top:10px; text-align : center;"> ~ </span>
-															<input class="form-control date-picker"
-															type="text" name="endDate" autocomplete="off" id="endDate" style="width:50%;"
-															readonly value = "${paramMap.endDate }">
-															</span>
+													<div style="padding-top: 7px;" class="custom-control custom-checkbox mb-5 col-sm-12 col-md-6">
+														<input type="checkbox" class="custom-control-input" id="formCheck2" name="statusList" value="출하완료"
+															<c:if test="${paramMap.statusList.contains('출하완료')}">checked</c:if>>
+														<label class="custom-control-label" for="formCheck2">출하완료</label>
 													</div>
 												</div>
 											</div>
-												
-											
-											
 										</div>
+									</div>
 									</div>
 									
 										<!-- 정렬, asc, desc -->
@@ -199,8 +184,11 @@
 								</thead>
 								<tbody>
 									<c:forEach items="${List}" var="List" varStatus="status">
-										<tr id="colorCheck">
-											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
+									<c:choose>
+									<c:when test="${List.status eq '출하완료'}"><tr style="background-color: #eaeef2;">
+									</c:when>
+									<c:otherwise><tr></c:otherwise>
+									</c:choose>											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<c:choose>
 												<c:when test="${List.status eq '출하대기'}">
 													<td>
@@ -305,15 +293,12 @@ $('#reset').click(function(){
   	  }
 		});
 	</script>
-	<!-- 추가, 수정, 삭제, 상세보기 -->
 	<script type="text/javascript">
 		var popupWidth, popupHeight, popupX, popupY, link;
 		var set;
 
 		function retPopupSetting(width, height) {
-			// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주기
 			popupX = Math.ceil((window.screen.width - width) / 2);
-			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주기
 			popupY = Math.ceil((window.screen.height - height) / 2);
 
 			var setting = "";
@@ -331,18 +316,15 @@ $('#reset').click(function(){
 
 		function openPage(i, width, height) {
 			set = retPopupSetting(width, height);
-			return window.open(i, 'Popup_Window', set); // 가운데거가 이름이 똑같으면 같은창에서 열림
+			return window.open(i, 'Popup_Window', set); 
 		}
 
 		
 
 		$(document).ready(function() {
 			
-			
-			    	
-					// 추가
 					$("#add").click(function() {
-						openPage("/shipment/add", 400, 700);
+						openPage("/shipment/add", 600, 700);
 					});
 
 					$("#update").click(function() {
@@ -351,20 +333,19 @@ $('#reset').click(function(){
 					        alert("수정할 항목을 하나만 선택하세요!");
 					    } else {
 					        var code = check.val();
-					        openPage("/shipment/update?code=" + code, 400, 700);
+					        openPage("/shipment/update?code=" + code, 600, 700);
 					    }
 					});
 					
-					// 삭제
 					$("#delete").click(function() {
 								var deleteList = [];
 								$("input:checkbox[name=tableCheck]:checked").each(function() {
 											deleteList.push($(this).val());
 										});
 								if (deleteList.length > 0) {
-									openPage("/shipment/delete?code="+ deleteList.join(','), 600, 500);
+									openPage("/shipment/delete?code="+ deleteList.join(','), 700, 500);
 								} else {
-									alert('관리자에게 문의하세요');
+									alert('삭제 실패');
 								}
 							});
 					
@@ -410,15 +391,15 @@ $('#reset').click(function(){
 						
 					$('body').on('click', '[class^="info"]', function() {
 						var code = $(this).text().trim();
-						openPage("/shipment/info?code=" + code, 400, 700);
+						openPage("/shipment/info?code=" + code, 600, 795);
 					});
 
 					$("#searchCompany").click(function() {
-						openPage("/request/searchClient", 400, 700);
+						openPage("/request/searchClient", 420, 700);
 					});
 
 					$("#searchProduct").click(function() {
-						openPage("/request/searchProduct", 400, 700);
+						openPage("/request/searchProduct", 420, 700);
 					});
 
 					

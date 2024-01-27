@@ -41,7 +41,7 @@
 						<div class="card-header">
 							<button class="btn btn-block collapsed" data-toggle="collapse"
 								data-target="#faq1" aria-expanded="false">
-								<b>검색</b>
+								<b>반품 검색</b>
 							</button>
 						</div>
 						<div id="faq1" class="collapse" data-parent="#accordion" style="">
@@ -51,72 +51,54 @@
 									<div class="col-md-12">
 										<div class="form-group">
 										
-										
-											<div class="row">
-												<h4 class="text-blue h4">반품 검색</h4>
-											</div>
-											<div class="row">
-											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
-												<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>업체명</b></label> 
+										<div class="row">
+											<div class="col-md-2 col-sm-12 btn-group" style="margin-left: 20px; padding-top : 15px;">
+												<label class="col-md-4" style="padding: 10px 0px 10px 0px; "><b>업체명</b></label> 
 												<input type="hidden" name="client_code" id="client_code"> 
 												<input type="text"
 												name="clientName" class="form-control" id="searchCompany"
 												style="width: 100%;" 
 												autocomplete="off" readonly value="${paramMap.clientName }">
 											</div>
-											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
-												<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>품명</b></label> 
+											<div class="col-md-2 col-sm-12 btn-group" style="margin-left: 20px; padding : 15px;">
+												<label class="col-md-3" style="padding: 10px 0px 10px 0px; "><b>품명</b></label> 
 												<input type="hidden" name="product" id="product">
 												<input type="text" name="productName" class="form-control" 
 												id="searchProduct" style="width: 100%;"
 												autocomplete="off" readonly value="${paramMap.productName}">
 											</div>
-											<div class="col-md-4 col-sm-12 btn-group ml-auto" style="margin-left: auto;">
-												<label class="col-md-2" style="padding: 10px 0px 10px 0px; "><b>담당자</b></label> 
-												<input type="hidden" name="manager" id="manager"> 
-												<input type="text" name="managerName" class="form-control" 
-												id="searchManager" style="width: 100%;" autocomplete="off"
-												readonly value="${paramMap.managerName }">
-											</div>
-											</div>
-											<br>
-											<div class="row">
-												<label class="col-md-4 col-sm-12"><b>반품 상태</b></label>
-												<label class="col-md-4 col-sm-12"><b>반품 일자</b></label>
-												<label class="col-md-4 col-sm-12"></label>
-											</div>
-											<div class="row">
-											<div class="col-md-2 col-sm-12" style="margin-top: 10px;">
-													<div class="custom-control custom-checkbox mb-5">
-														<input type="checkbox" class="custom-control-input"
-															id="formCheck1" name="statusList" value="반품등록"
-															<c:if test="${paramMap.statusList.contains('반품등록')}">checked</c:if>> <label
-															class="custom-control-label" for="formCheck1">반품등록</label>
-													</div>
-											</div>
-											<div class="col-md-2 col-sm-12" style="margin-top: 10px;">
-													<div class="custom-control custom-checkbox mb-5">
-														<input type="checkbox" class="custom-control-input"
-															id="formCheck2" name="statusList" value="폐기"
-															<c:if test="${paramMap.statusList.contains('폐기')}">checked</c:if>> 
-															<label class="custom-control-label" for="formCheck2">폐기</label>
-													</div>
-											</div>
-											<div class="col-md-4 col-sm-12" style="margin-top: auto;">
-												<div class="form-group">
-												<span style="display : flex; justify-content:space-between;">
-													<input class="form-control date-picker" style="width: 50%;" readonly
+											<div class="col-md-4 col-sm-12 btn-group">
+												<div class="col-md-12 col-sm-12" style="display: flex; align-items: center;">
+												<label class="col-md-3"><b>반품 일자</b></label>
+												<span style="display: flex; justify-content: space-between; width: 100%; margin-left: 10px;">
+													<input class="form-control date-picker" readonly
 														type="text" name="startDate" autocomplete="off" id="startDate"
 														value="${paramMap.startDate }"> 
-													<span style="padding:0px 10px;"> ~ </span> 
-													<input class="form-control date-picker" style="width: 50%;"
+													<span style="padding:0px 10px; padding-top:10px; text-align : center;"> ~ </span>
+													<input class="form-control date-picker"
 														type="text" name="endDate" autocomplete="off"
 														id="endDate" value="${paramMap.endDate }" readonly>
 												</span>
 												</div>
-												</div>
-											
 											</div>
+										<div class="col-md-3 col-sm-12 btn-group" style="margin-left: 20px; padding-left: 10px; display: flex; flex-direction: row; align-items: center;">
+										    <label style="margin-right: 20px;"><b>반품 상태</b></label>
+										    <div style="display: flex;">
+										        <div style="padding-top: 7px;" class="custom-control custom-checkbox mb-3 col-sm-12 col-md-7">
+										            <input type="checkbox" class="custom-control-input"
+										                id="formCheck1" name="statusList" value="반품등록"
+										                <c:if test="${paramMap.statusList.contains('반품등록')}">checked</c:if>>
+										            <label class="custom-control-label" for="formCheck1">반품등록</label>
+										        </div>
+										        <div style="padding-top: 7px;" class="custom-control custom-checkbox mb-3 col-sm-12 col-md-6">
+										            <input type="checkbox" class="custom-control-input"
+										                id="formCheck2" name="statusList" value="폐기"
+										                <c:if test="${paramMap.statusList.contains('폐기')}">checked</c:if>>
+										            <label class="custom-control-label" for="formCheck2">폐기</label>
+										        </div>
+										    </div>
+										</div>
+										</div>
 											</div>
 											
 									</div>
@@ -202,13 +184,16 @@
 										<th>LOT</th>
 										<th>반품일자</th>
 										<th>반품수량</th>
-										<th>반품사유</th>
 										<th>반품상태</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${List}" var="List" varStatus="status">
-										<tr>
+									<c:choose>
+									<c:when test="${List.status eq '폐기'}"><tr style="background-color: #eaeef2;">
+									</c:when>
+									<c:otherwise><tr></c:otherwise>
+									</c:choose>
 											<!-- 리스트 표, 1페이지에 몇개 조회 가능하게 할 지는 정해도 될 거 같음 -->
 											<c:choose>
 												<c:when test="${List.status eq '반품등록'}">
@@ -242,8 +227,7 @@
 											<th>${List.lot }</th>
 											<th>${List.date }</th>
 											<th>${List.amount }</th>
-											<th>${List.reason }</th>
-											<th>${List.status }</th>
+											<th class="diff">${List.status }</th>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -293,7 +277,6 @@
 			<%@ include file="../include/footer.jsp"%>
 			<%@ include file="../include/datatable.jsp"%>
 		</div>
-	</div>
 
 	<!-- list 내 처리 -->
 <script type="text/javascript">
@@ -329,13 +312,20 @@ $('#reset').click(function(){
 			set = retPopupSetting(width, height);
 			return window.open(i, 'Popup_Window', set); 
 		}
+		
+		$(".diff").each(function() {
+		    var diff = $(this).text();
+		    if (diff == '폐기') {
+		      $(this).css("color", "red");
+		    }
+		  });
 	</script>
 	<script>
 
 		$(document).ready(function() {
 
 					$("#add").click(function() {
-						openPage("/returns/add", 400, 700);
+						openPage("/returns/add", 600, 700);
 					});
 
 					$("#update").click(function() {
@@ -344,7 +334,7 @@ $('#reset').click(function(){
 					        alert("수정할 항목을 하나만 선택하세요!");
 					    } else {
 					        var code = check.val();
-					        openPage("/returns/update?code=" + code, 400, 700);
+					        openPage("/returns/update?code=" + code, 650, 650);
 					    }
 					});
 
@@ -357,7 +347,7 @@ $('#reset').click(function(){
 										});
 								if (deleteList.length > 0) {
 									openPage("/returns/delete?code="
-											+ deleteList.join(','), 600, 700);
+											+ deleteList.join(','), 700, 600);
 								} else {
 									alert('삭제 실패');
 								}
@@ -372,7 +362,7 @@ $('#reset').click(function(){
 										});
 								if (disposeList.length > 0) {
 									openPage("/returns/dispose?code="
-											+ disposeList.join(','), 600, 500);
+											+ disposeList.join(','), 650, 500);
 								} else {
 									alert('관리자에게 문의하세요');
 								}
@@ -380,19 +370,19 @@ $('#reset').click(function(){
 
 					$('body').on('click', '[class^="info"]', function() {
 						var code = $(this).text().trim();
-						openPage("/returns/info?code=" + code, 400, 700);
+						openPage("/returns/info?code=" + code, 650, 730);
 					});
 
 					$("#searchCompany").click(function() {
-						openPage("/request/searchClient", 400, 700);
+						openPage("/request/searchClient", 420, 700);
 					});
 
 					$("#searchProduct").click(function() {
-						openPage("/request/searchProduct", 400, 700);
+						openPage("/request/searchProduct", 420, 700);
 					});
 					
 					$("#searchManager").click(function() {
-						openPage("/request/searchManager", 400, 700);
+						openPage("/request/searchManager", 420, 700);
 					});
 
 				});
