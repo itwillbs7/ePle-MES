@@ -45,7 +45,7 @@ font-weight: bold;
 									<input class="form-control" type="hidden" id="mapdCode" name="mapd_code" placeholder="자재코드" readonly value="${inInfo.mapd_code }">
 								</div>
 								<div class="form-group">
-									<input class="form-control" type="number" id="orderAmount" name="amount" required min="1" max="2000" placeholder="수량" value="${inInfo.amount }">
+									<input class="form-control" type="number" id="orderAmount" name="amount" required readonly min="1" max="2000" placeholder="수량" value="${inInfo.amount }">
 								</div>
 
 									<label>창고 정보</label> 

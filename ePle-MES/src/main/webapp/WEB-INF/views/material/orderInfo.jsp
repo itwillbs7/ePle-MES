@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,11 +36,11 @@ font-weight: bold;
 								<input class="form-control" type="text" name="code" id="code" value="${List.code }" readonly>
 								</div>
 
-									<label>발주 일자</label> 
+									<label>등록 일시</label> 
 								<div class="form-group">
-									<input class="form-control" type="text" id="" name="" value="${List.reg_date}" readonly>
+    								<input class="form-control" type="text" id="" name="" value="<fmt:formatDate value='${List.reg_date}' pattern='yyyy-MM-dd HH:mm' />" readonly>
 								</div>
-								
+
 									<label>납기 일자</label> 
 								<div class="form-group">
 									<input class="form-control" type="text" id="" name="" value="${List.order_date}" readonly>

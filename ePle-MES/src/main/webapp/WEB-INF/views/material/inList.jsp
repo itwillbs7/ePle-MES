@@ -64,14 +64,15 @@ margin-right:20px;
 				<div id="faq1" class="collapse" data-parent="#accordion" style="">
 					<div class="card-body">
 								
-								<div class="form-inline">
-											<div class="col-md-12 col-sm-12 btn-group" >
-											<input type="text" name="searchCode" id="whCode" class="form-control back" placeholder="입고코드" autocomplete="off" >
-											<label>품목</label> 
-											<input type="text" name="searchName" id="selectF" class="form-control back" placeholder="품목코드" autocomplete="off" readonly>
-											<input type="text" id="selectG" class="form-control back" placeholder="품명" autocomplete="off" readonly>
-											</div>
+							<div class="form-inline">
+								<div class="col-md-12 col-sm-12 btn-group" >
+									<input type="text" name="searchCode" id="whCode" class="form-control back" placeholder="입고코드" autocomplete="off" >
+									
+									<label>품목</label> 
+									<input type="text" name="searchName" id="selectF" class="form-control back" placeholder="품목코드" autocomplete="off" readonly>
+									<input type="text" id="selectG" class="form-control back" placeholder="품명" autocomplete="off" readonly>
 								</div>
+							</div>
 							
 							<div class="btn-group pull-right" style="margin-bottom: 10px">
 								<button type="submit" class="btn btn-primary" id="search" onclick="doSearch()"> <b>검색</b> </button>
@@ -92,10 +93,8 @@ margin-right:20px;
 		<c:if test="${sessionScope.pos_id.equals('005') or sessionScope.dep_group.equals('자재')}">
 		
 			<div class="btn-group pull-right" style="margin-bottom: 10px; margin-left: 10px;">
-				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
-			</div>
-			<div class="btn-group pull-right" style="margin-bottom: 10px">
 				<button type="button" class="btn btn-success" id="add"><b>입고등록</b></button>
+				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
 			</div>
 		</c:if>	
 
@@ -105,9 +104,9 @@ margin-right:20px;
 
 	<!----------------------------- 입고 리스트 출력 ---------------------------->
 		<div class="pb-20">
-			<div class="col-sm-30">
+			<div class="col-sm-30" id="pageTable">
 				<form class="table" id="table">
-					<table class="table table-striped">
+					<table class="table">
 					<!-- 체크박스 / 입고코드 / 발주실적코드 / 창고코드 / 구분 / 품명 / 수량+단위 / 담당자 / 입고일자 / 입고상태 -->
 						<tr>
 							<td style="width: 100px;">
@@ -159,18 +158,69 @@ margin-right:20px;
 
 				<!--------------------------------- 페이징 ---------------------------------->
 				<div class="btn-toolbar justify-content-center mb-15">
-					<div class="btn-group">
-						<c:if test="${pageVO.prev}">
-							<a href="/material/inList?page=${pageVO.startPage - 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
-						</c:if>
-						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/material/inList?page=${i}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
-						</c:forEach>
-						<c:if test="${pageVO.next}">
-							<a href="/material/inList?page=${pageVO.endPage + 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
-						</c:if>
-					</div>
+    				<div class="btn-group">
+        				<c:if test="${pageVO.prev}">
+            				<a href="#" data-page="${pageVO.startPage - 1}" class="btn btn-outline-primary page-btn prev"><i class="fa fa-angle-double-left"></i></a>
+        				</c:if>
+        
+        				<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+            				<a href="#" data-page="${i}" class="btn btn-outline-primary page-btn ${pageVO.cri.page == i ? 'active' : ''}">${i}</a>
+        				</c:forEach>
+        
+        				<c:if test="${pageVO.next}">
+            				<a href="#" data-page="${pageVO.endPage + 1}" class="btn btn-outline-primary page-btn next"><i class="fa fa-angle-double-right"></i></a>
+       				 </c:if>
+    				</div>
 				</div>
+
+				<script>
+				$(document).ready(function() {
+    				$('.page-btn').click(function(e) {
+        				e.preventDefault();
+        				var pageNum = $(this).data('page');
+        		        var searchCode = "${param.searchCode}";
+        				var searchName = "${param.searchName}";
+        				
+        				var dataObject = {
+            				"page": pageNum
+        				};
+        
+        				if (searchCode) {
+        				    dataObject.searchCode = searchCode;
+        				}
+        				if (searchName) {
+        				    dataObject.searchName = searchName;
+        				}
+        				
+        				$.ajax({
+            				url: "/material/inList",
+            				type: "GET",
+            				data: dataObject,
+            				success: function(data) {
+                				$("#pageTable").html($(data).find("#pageTable").html());
+            				},
+            				error: function(error) {
+                				console.error(error);
+            				}
+        				});
+    				});
+				});
+
+				$(document).ready(function() {
+    				$("#tableCheckAll").click(function() {
+    					$(".checkCode").prop("checked", $(this).prop("checked"));
+    				});
+
+    				$(".checkCode").click(function() {
+    					if ($(".checkCode:checked").length === $(".checkCode").length) {
+    						$("#tableCheckAll").prop("checked", true);
+    					} else {
+    						$("#tableCheckAll").prop("checked", false);
+    						}
+    					});
+    				});
+				
+			</script>
 
 
 			</div>
@@ -354,5 +404,7 @@ margin-right:20px;
 			}
 		});
 	</script>
+	
+	
 </body>
 </html>

@@ -97,17 +97,10 @@ margin-right:20px;
 		<c:if test="${sessionScope.pos_id.equals('005') or sessionScope.dep_group.equals('자재')}">
 		
 			<div class="btn-group pull-right" style="margin-bottom: 10px; margin-left: 10px;">
+				<button type="button" class="btn btn-success" id="add"><b>요청서 불러오기</b></button>
 				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
 			</div>
-			<div class="btn-group pull-right" style="margin-bottom: 10px">
-				<button type="button" class="btn btn-success" id="add"><b>요청서 불러오기</b></button>
-			</div>
 			
-<!-- 		<ul class="nav nav-pills">
-			<li class="nav-item"><a class="nav-link text-blue active" href="/material/orderList">발주 관리</a></li>
-			<li class="nav-item"><a class="nav-link text-pink" href="/material/askOrderList">요청 목록</a></li>
-		</ul>  -->
-		
 		</c:if>
 		
 		</div>
@@ -116,9 +109,9 @@ margin-right:20px;
 
 	<!----------------------------- 발주 리스트 출력 ---------------------------->
 		<div class="pb-20">
-			<div class="col-sm-30">
+			<div class="col-sm-30" id="pageTable">
 				<form class="table" id="table">
-					<table class="table table-striped">
+					<table class="table">
 					<!-- 체크박스 / 발주코드 / 거래처명 / 품목코드 / 품명 / 발주량+단위 / 발주금액 / 납기일 / 담당자 / 발주상태 -->
 						<tr> <!-- 등록일 수정일 --> 
 							<td style="width: 100px;">
@@ -133,17 +126,26 @@ margin-right:20px;
 							<th>품명</th>
 							<th>발주량</th>
 							<th>발주금액</th>
-							<th>납기일</th>
-							<th>담당자</th>
+							<th>등록일시</th>
+							<th>납기일자</th>
+							<th>등록자</th>
 							<th>발주상태</th>
 						</tr>
 					<c:if test="${not empty orderList}">
 						<c:forEach items="${orderList }" var="vo">
-						<tr>
+						<tr style="background-color: ${vo.complete eq 1 ? '#eaeef2' : 'inherit'};">
 							<td>
 								<div class="custom-control custom-checkbox mb-5">
-									<input type="checkbox" class="custom-control-input checkCode" id="${vo.code }" name="tableCheck" value="${vo.code }"> 
-									<label class="custom-control-label" for="${vo.code }"></label>
+								<c:choose>
+									<c:when test="${vo.complete eq 1}">
+										<input type="checkbox" class="custom-control-input" id="${vo.code }" value="${vo.code }" disabled> 
+										<label class="custom-control-label" for="${vo.code }"></label>
+									</c:when>
+									<c:otherwise>
+										<input type="checkbox" class="custom-control-input checkCode" id="${vo.code }" name="tableCheck" value="${vo.code }" > 
+										<label class="custom-control-label" for="${vo.code }"></label>
+									</c:otherwise>
+								</c:choose>
 								</div>
 							</td>
 							<th class="inInfo${vo.code}" style="color: #FF1493; cursor:pointer;">${vo.code }</th>
@@ -154,17 +156,24 @@ margin-right:20px;
 							<th>
             					<fmt:formatNumber value="${vo.price}" pattern="#,##0"/> 
         					</th>
+							<th>
+							<fmt:formatDate value="${vo.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
+							</th>
 							<th>${vo.order_date }</th>
 							<th>${vo.reg_name }</th>
-							<th style="color: blue;">${vo.status }</th>
-
+							<c:if test="${vo.complete eq 1}">
+    							<th style="color: blue;">입고</th>
+							</c:if>
+							<c:if test="${vo.complete ne 1}">
+    							<th style="color: green;">${vo.status}</th>
+							</c:if>
 
 						</tr>
 						</c:forEach>
 					</c:if>
 					<c:if test="${empty orderList}">
 						<tr>
-							<td colspan="10" style="text-align: center; vertical-align: middle;">데이터가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
+							<td colspan="11" style="text-align: center; vertical-align: middle;">데이터가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
 						</tr>
 					</c:if>
 							
@@ -172,21 +181,71 @@ margin-right:20px;
 				</form>
 
 
-
-				<!--------------------------------- 페이징 ---------------------------------->
 				<div class="btn-toolbar justify-content-center mb-15">
-					<div class="btn-group">
-						<c:if test="${pageVO.prev}">
-							<a href="/material/orderList?page=${pageVO.startPage - 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
-						</c:if>
-						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/material/orderList?page=${i}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
-						</c:forEach>
-						<c:if test="${pageVO.next}">
-							<a href="/material/orderList?page=${pageVO.endPage + 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
-						</c:if>
-					</div>
+    				<div class="btn-group">
+        				<c:if test="${pageVO.prev}">
+            				<a href="#" data-page="${pageVO.startPage - 1}" class="btn btn-outline-primary page-btn prev"><i class="fa fa-angle-double-left"></i></a>
+        				</c:if>
+        
+        				<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+            				<a href="#" data-page="${i}" class="btn btn-outline-primary page-btn ${pageVO.cri.page == i ? 'active' : ''}">${i}</a>
+        				</c:forEach>
+        
+        				<c:if test="${pageVO.next}">
+            				<a href="#" data-page="${pageVO.endPage + 1}" class="btn btn-outline-primary page-btn next"><i class="fa fa-angle-double-right"></i></a>
+       				 </c:if>
+    				</div>
 				</div>
+
+				<script>
+				$(document).ready(function() {
+    				$('.page-btn').click(function(e) {
+        				e.preventDefault();
+        				var pageNum = $(this).data('page');
+        		        var searchCode = "${param.searchCode}";
+        				var searchName = "${param.searchName}";
+        				
+        				var dataObject = {
+            				"page": pageNum
+        				};
+        
+        				if (searchCode) {
+        				    dataObject.searchCode = searchCode;
+        				}
+        				if (searchName) {
+        				    dataObject.searchName = searchName;
+        				}
+        				
+        				$.ajax({
+            				url: "/material/orderList",
+            				type: "GET",
+            				data: dataObject,
+            				success: function(data) {
+                				$("#pageTable").html($(data).find("#pageTable").html());
+            				},
+            				error: function(error) {
+                				console.error(error);
+            				}
+        				});
+    				});
+				});
+
+				
+				$(document).ready(function() {
+    				$("#tableCheckAll").click(function() {
+    					$(".checkCode").prop("checked", $(this).prop("checked"));
+    				});
+
+    				$(".checkCode").click(function() {
+    					if ($(".checkCode:checked").length === $(".checkCode").length) {
+    						$("#tableCheckAll").prop("checked", true);
+    					} else {
+    						$("#tableCheckAll").prop("checked", false);
+    						}
+    					});
+    				});
+				
+				</script>
 
 
 			</div>
@@ -369,5 +428,7 @@ margin-right:20px;
   	    });
 		
 	</script>
+
+	
 </body>
 </html>

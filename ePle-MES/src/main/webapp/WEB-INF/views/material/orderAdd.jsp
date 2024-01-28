@@ -38,20 +38,6 @@ font-weight: bold;
 									<input class="form-control" type="text" name="code" id="code" value="${List.code }" readonly>
 								</div>
 								
-								<div class="form-group">
-									<!-- <label>자재 유형</label>  -->
-								</div>
-									
-									<label>발주 일자</label> 
-								<div class="form-group">
-									<input class="form-control back" type="text" id="reg_date" name="reg_date" placeholder="발주 일자" readonly required>
-								</div>
-
-									<label>납기 일자</label> 
-								<div class="form-group">
-									<input class="form-control back" type="text" id="order_date" name="order_date" placeholder="납기 일자" readonly required>
-								</div>
-								
 									<label>품목 정보</label> 
 								<div class="form-group">
 									<input class="form-control" type="text" id="mapdCode" name="material" value="${List.material}" required readonly>
@@ -81,6 +67,16 @@ font-weight: bold;
 									<input class="form-control back" type="text" id="selectE" placeholder="거래처 이름" required readonly>
 								</div>
 
+									<label>등록 일시</label> 
+								<div class="form-group">
+									<input class="form-control back" type="text" id="reg_date" name="reg_date" placeholder="등록 일시" readonly required>
+								</div>
+
+									<label>납기 일자</label> 
+								<div class="form-group">
+									<input class="form-control back date" type="date" id="order_date" name="order_date" placeholder="납기 일자" required>
+								</div>
+								
 									<label>담당자</label> 
 								<div class="form-group">
 									<input class="form-control" type="text" readonly value="${sessionScope.name }">
@@ -171,7 +167,7 @@ font-weight: bold;
 
 
 	<script>
-    document.addEventListener('DOMContentLoaded', function () {
+     document.addEventListener('DOMContentLoaded', function () {
         var todayInput = document.getElementById("reg_date");
 
         todayInput.addEventListener("click", function () {
@@ -189,7 +185,7 @@ font-weight: bold;
             todayInput.placeholder = "";
 
 
-			var threeDaysLater = new Date();
+/* 			var threeDaysLater = new Date();
 				threeDaysLater.setDate(today.getDate() + 3);
 
 			var orderDateInput = document.getElementById("order_date");
@@ -199,10 +195,24 @@ font-weight: bold;
 			//          minDate: new Date(),
 						dateFormat : "yyyy-mm-dd",
 					
-					});
+					}); */
 					
 			});
-		});
+		}); 
+    
+    
+    
+	var now_utc = Date.now(); 
+	var timeOff = new Date().getTimezoneOffset() * 60000; 
+//	var today = new Date(now_utc - timeOff).toISOString().split("T")[0];
+	var tomorrow = new Date(now_utc + 24 * 60 * 60 * 1000 - timeOff).toISOString().split("T")[0]; 
+
+
+	document.querySelectorAll('.date').forEach(function(input) {
+		input.setAttribute('min', tomorrow); 
+	});
+	
+	
 	</script>
 
 	<script>

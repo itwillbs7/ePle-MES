@@ -37,15 +37,22 @@ margin-right:20px;
 	<%@ include file="../include/left-side-bar.jsp"%>
 	
 	<!------------------------------ 메인 컨테이너 ------------------------------>
-	<div class="main-container">
+	<div class="main-container" id="main-container">
 	<div class="pd-ltr-20 xs-pd-20-10">
-	<div class="title" style="margin-bottom: 10px;">
-		<a href="${pageContext.request.contextPath}/stock/warehouseList"><h1>창고 목록</h1></a>
-	</div>
-		<div class="min-height-200px">
-	<br>
-				
-				
+	<div class="row">
+           <div class="col-md-12">
+               <a href="${pageContext.request.contextPath}/stock/warehouseList"><h1>창고 목록</h1></a>
+            </div>
+            
+            <div class="col-md-12">
+               <nav aria-label="breadcrumb" role="navigation">
+                  <ol class="breadcrumb">
+                     <li class="breadcrumb-item">자재 관리</li>
+                     <li class="breadcrumb-item active" aria-current="page"><b>창고 관리</b></li>
+                  </ol>
+               </nav>
+            </div>
+	</div>					
 	<!------------------------------ 창고 검색 시작 ----------------------------->
 	<div class="faq-wrap">
 		<div id="accordion">
@@ -84,11 +91,13 @@ margin-right:20px;
 	<!------------------------- 추가 / 수정 / 삭제 버튼 ------------------------->
 	<div class="card-box mb-30">
 		<div class="pd-20">
+		<c:if test="${sessionScope.pos_id.equals('005') or sessionScope.dep_group.equals('자재')}">
 			<div class="btn-group pull-right" style="margin-bottom: 10px">
 				<button type="button" class="btn btn-success" id="add"><b>추가</b></button>
 				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
 				<!-- <button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button> -->
 			</div>
+		</c:if>
 		</div>
 
 
@@ -97,7 +106,7 @@ margin-right:20px;
 		<div class="pb-20">
 			<div class="col-sm-30">
 				<form class="table" id="table">
-					<table class="table table-striped">
+					<table class="table">
 					<!--- 체크박스 / 창고코드 / 위치 / 창고유형(원자재.완제품.설비) / 창고명 / 담당자 / 연락처 --->
 						<tr>
 							<td style="width: 100px;">
@@ -140,7 +149,7 @@ margin-right:20px;
 					</c:if>
 					<c:if test="${empty warehouseList}">
 						<tr>
-							<td colspan="7" >검색 결과가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
+							<td colspan="7" >데이터가 없습니다 ❀ܓ(｡◠ _ ◠｡ )</td>
 						</tr>
 					</c:if>		
 					</table>
@@ -176,7 +185,6 @@ margin-right:20px;
 				
 			</div>
 		</div>
-	</div>
 	<!-- 메인 컨테이너 끝 -->
 
 
@@ -279,7 +287,7 @@ margin-right:20px;
 			    });
 			    
 			    if (codes.length > 0) { 
-			        openPage("/stock/warehouseDel?codes=" + codes.join(','), 600, 500);
+			        openPage("/stock/warehouseDel?codes=" + codes.join(','), 420, 450);
 			    } else {
 			    	alert("선택된 항목이 없습니다!"); 
 			    }
@@ -345,7 +353,19 @@ margin-right:20px;
 			}
 		});
 
+		$(document).ready(function() {
+			$("#tableCheckAll").click(function() {
+				$(".checkCode").prop("checked", $(this).prop("checked"));
+			});
 
+			$(".checkCode").click(function() {
+				if ($(".checkCode:checked").length === $(".checkCode").length) {
+					$("#tableCheckAll").prop("checked", true);
+				} else {
+					$("#tableCheckAll").prop("checked", false);
+					}
+				});
+			});
 		
 	</script>
 </body>

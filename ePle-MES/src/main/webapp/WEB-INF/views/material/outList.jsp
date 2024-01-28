@@ -97,9 +97,9 @@ margin-right:20px;
 
 	<!----------------------------- 출고 리스트 출력 ---------------------------->
 		<div class="pb-20">
-			<div class="col-sm-30">
+			<div class="col-sm-30" id="pageTable">
 				<form class="table" id="table">
-					<table class="table table-striped">
+					<table class="table">
 					<!-- 체크박스 / 출고코드 / 출하코드 / 창고코드 / 구분 / 품명 / 수량+단위 / 담당자 / 출고일자 -->
 						<tr>
 							<td style="width: 100px;">
@@ -158,18 +158,69 @@ margin-right:20px;
 
 				<!--------------------------------- 페이징 ---------------------------------->
 				<div class="btn-toolbar justify-content-center mb-15">
-					<div class="btn-group">
-						<c:if test="${pageVO.prev}">
-							<a href="/material/outList?page=${pageVO.startPage - 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
-						</c:if>
-						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/material/outList?page=${i}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
-						</c:forEach>
-						<c:if test="${pageVO.next}">
-							<a href="/material/outList?page=${pageVO.endPage + 1}&searchCode=${param.searchCode}&searchName=${param.searchName}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
-						</c:if>
-					</div>
+    				<div class="btn-group">
+        				<c:if test="${pageVO.prev}">
+            				<a href="#" data-page="${pageVO.startPage - 1}" class="btn btn-outline-primary page-btn prev"><i class="fa fa-angle-double-left"></i></a>
+        				</c:if>
+        
+        				<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+            				<a href="#" data-page="${i}" class="btn btn-outline-primary page-btn ${pageVO.cri.page == i ? 'active' : ''}">${i}</a>
+        				</c:forEach>
+        
+        				<c:if test="${pageVO.next}">
+            				<a href="#" data-page="${pageVO.endPage + 1}" class="btn btn-outline-primary page-btn next"><i class="fa fa-angle-double-right"></i></a>
+       				 </c:if>
+    				</div>
 				</div>
+
+				<script>
+				$(document).ready(function() {
+    				$('.page-btn').click(function(e) {
+        				e.preventDefault();
+        				var pageNum = $(this).data('page');
+        		        var searchCode = "${param.searchCode}";
+        				var searchName = "${param.searchName}";
+        				
+        				var dataObject = {
+            				"page": pageNum
+        				};
+        
+        				if (searchCode) {
+        				    dataObject.searchCode = searchCode;
+        				}
+        				if (searchName) {
+        				    dataObject.searchName = searchName;
+        				}
+        				
+        				$.ajax({
+            				url: "/material/outList",
+            				type: "GET",
+            				data: dataObject,
+            				success: function(data) {
+                				$("#pageTable").html($(data).find("#pageTable").html());
+            				},
+            				error: function(error) {
+                				console.error(error);
+            				}
+        				});
+    				});
+				});
+
+				$(document).ready(function() {
+    				$("#tableCheckAll").click(function() {
+    					$(".checkCode").prop("checked", $(this).prop("checked"));
+    				});
+
+    				$(".checkCode").click(function() {
+    					if ($(".checkCode:checked").length === $(".checkCode").length) {
+    						$("#tableCheckAll").prop("checked", true);
+    					} else {
+    						$("#tableCheckAll").prop("checked", false);
+    						}
+    					});
+    				});
+				
+				</script>
 
 
 			</div>
@@ -186,7 +237,6 @@ margin-right:20px;
 				
 			</div>
 		</div>
-	</div>
 	<!-- 메인 컨테이너 끝 -->
 
 

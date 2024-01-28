@@ -22,11 +22,8 @@
 		<if test="searchCode != null">
 			AND wh.code LIKE CONCAT('%', #{searchCode}, '%')
 		</if>
-		<if test="searchCode != null and searchName != null">
-				AND
-		</if>
 		<if test="searchName != null">
-			m.code LIKE CONCAT('%', #{searchName}, '%')
+			AND m.code LIKE CONCAT('%', #{searchName}, '%')
 		</if>
 		</if>
 		ORDER BY wh.code DESC
@@ -44,15 +41,12 @@
         LEFT OUTER JOIN EMPLOYEES e
         ON wh.emp_code = e.code
         WHERE wh.io = 'IN'
-		<if test="searchCode != null or searchName != null" >
+       <if test="searchCode != null or searchName != null" >
 		<if test="searchCode != null">
 			AND wh.code LIKE CONCAT('%', #{searchCode}, '%')
 		</if>
-		<if test="searchCode != null and searchName != null">
-				AND
-		</if>
 		<if test="searchName != null">
-			m.code LIKE CONCAT('%', #{searchName}, '%')
+			AND m.code LIKE CONCAT('%', #{searchName}, '%')
 		</if>
 		</if>
 	</select>
@@ -171,13 +165,13 @@
 	<!-- 발주관리 등록 update -->
 	<update id="orderAdd">
 		UPDATE ORDERS 
-		SET client_code=#{client_code}, amount=#{amount}, price=#{price}, order_date=#{order_date}, reg_date=#{reg_date}, reg_emp=#{reg_emp}, update_date=now(), update_emp=#{reg_emp}, status='완료'
+		SET client_code=#{client_code}, amount=#{amount}, price=#{price}, order_date=#{order_date}, reg_date=#{reg_date}, reg_emp=#{reg_emp}, update_date=now(), update_emp=#{reg_emp}, status='등록'
 		WHERE code = #{code} AND status = '신청'
 	</update>
 	
 	<!-- 발주관리 목록 -->
 	<select id="orderList" resultType="OrderVO">
-		SELECT o.code, o.material, m.name, o.amount, cl.code, cl.name client_name, m.unit, o.price, o.order_date, o.status, e.name reg_name, o.reg_emp
+		SELECT o.code, o.material, m.name, o.amount, cl.code, cl.name client_name, m.unit, o.price, o.order_date, o.status, e.name reg_name, o.reg_emp, o.reg_date, o.complete
 		FROM ORDERS o
 		LEFT OUTER JOIN MAPD m
 		ON o.material = m.code
@@ -185,7 +179,7 @@
 		ON o.client_code = cl.code
 		LEFT OUTER JOIN EMPLOYEES e
 		ON e.code = o.reg_emp
-		WHERE status = '완료' 
+		WHERE status = '등록' 
 			<if test="searchCode != null or searchName != null">
 			<if test="searchCode != null">
 				AND o.code LIKE CONCAT('%', #{searchCode}, '%')
@@ -206,7 +200,7 @@
 		ON o.material = m.code
 		LEFT OUTER JOIN EMPLOYEES e
 		ON e.code = o.reg_emp
-		WHERE status = '완료'
+		WHERE status = '등록'
 			<if test="searchCode != null or searchName != null" >
 			<if test="searchCode != null">
 				AND o.code LIKE CONCAT('%', #{searchCode}, '%')
@@ -227,7 +221,7 @@
         ON o.reg_emp = e.code
         LEFT OUTER JOIN CLIENT c
         ON o.client_code = c.code
-        WHERE o.status = '완료' AND o.code = #{code}
+        WHERE o.status = '등록' AND o.code = #{code}
 	</select>
 	
 	<!-- 발주관리 삭제 -->
@@ -236,14 +230,14 @@
     	FROM ORDERS o
 		LEFT OUTER JOIN MAPD m
         ON o.material = m.code
-        WHERE o.status = '완료' AND o.code IN
+        WHERE o.status = '등록' AND o.code IN
 		<foreach collection="code_arr" item="item" open="(" close=")" separator=",">
 			#{item}
 		 </foreach>
 	</select>
 	
 	<delete id="orderDel" parameterType="hashmap">
-		DELETE FROM ORDERS WHERE status = '완료' AND code IN
+		DELETE FROM ORDERS WHERE status = '등록' AND code IN
 		<foreach collection="code_arr" item="item" open="(" close=")" separator=",">
 			#{item}
 		</foreach>
@@ -265,7 +259,7 @@
 		ON o.client_code = cl.code
 		LEFT OUTER JOIN EMPLOYEES e
 		ON e.code = o.reg_emp
-		WHERE complete = 0 AND status = '완료' 
+		WHERE complete = 0 AND status = '등록' 
 			<if test="searchCode != null or searchName != null">
 			<if test="searchCode != null">
 				AND o.code LIKE CONCAT('%', #{searchCode}, '%')
@@ -283,7 +277,7 @@
 		FROM ORDERS o
 		LEFT OUTER JOIN MAPD m
 		ON o.material = m.code
-		WHERE complete = 0 AND status = '완료'
+		WHERE complete = 0 AND status = '등록'
 			<if test="searchCode != null or searchName != null" >
 			<if test="searchCode != null">
 				AND o.code LIKE CONCAT('%', #{searchCode}, '%')
@@ -294,7 +288,7 @@
 			</if>
 	</select>
 	
-	<!-- 입고등록) 창고 목록 (원 -->
+	<!-- 입고등록) 창고 목록 -->
 	<select id="orderWarehouse" resultType="WarehouseVO">
 		SELECT w.code, w.name wh_name, w.manager, e.name, w.category
 		FROM WAREHOUSE w
@@ -312,7 +306,7 @@
     	LIMIT #{cri.startPage}, #{cri.pageSize}
 	</select>	
 	
-	<!-- 입고등록) 창고 데이터 수 (원자재) -->
+	<!-- 입고등록) 창고 데이터 수 -->
 	<select id="warehouseListCount" resultType="int">
 		SELECT count(*) 
 		FROM WAREHOUSE w
@@ -418,11 +412,8 @@
 		<if test="searchCode != null">
 			AND wh.code LIKE CONCAT('%', #{searchCode}, '%')
 		</if>
-		<if test="searchCode != null and searchName != null">
-				AND
-		</if>
 		<if test="searchName != null">
-			m.code LIKE CONCAT('%', #{searchName}, '%')
+			AND m.code LIKE CONCAT('%', #{searchName}, '%')
 		</if>
 		</if>
 		ORDER BY wh.code DESC
@@ -444,11 +435,8 @@
 		<if test="searchCode != null">
 			AND wh.code LIKE CONCAT('%', #{searchCode}, '%')
 		</if>
-		<if test="searchCode != null and searchName != null">
-				AND
-		</if>
 		<if test="searchName != null">
-			m.code LIKE CONCAT('%', #{searchName}, '%')
+			AND m.code LIKE CONCAT('%', #{searchName}, '%')
 		</if>
 		</if>
 	</select>

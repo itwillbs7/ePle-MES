@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,8 +10,17 @@
     <%@ include file="../include/head.jsp"%>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <title>창고 삭제</title>
+<style>
+  .table th,
+  .table td {
+    text-align: center;
+  }
+</style>
 </head>
 <body>
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
     <!-- 콘텐츠 시작 -->
     <div class="modal-content">
         <div class="login-box bg-white box-shadow border-radius-10">

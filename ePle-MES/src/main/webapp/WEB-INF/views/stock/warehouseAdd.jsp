@@ -17,7 +17,9 @@ font-weight: bold;
 <title>창고 등록</title>
 </head>
 <body>
-
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
 		<button type="button" class="close" onclick="window.close();">×</button>
@@ -32,13 +34,13 @@ font-weight: bold;
 
 					<!------------------------------ 첫번째 폼 ------------------------------>
 					<div class="tab-pane fade active show" id="ord-Warehousing" role="tabpanel">
-						<form method="post" id="pro-form">
+						<form method="post" id="pro-form" onsubmit="return validateForm()">
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
 								
     								<label>창고 정보</label>
 									<div class="form-group">
-    									<select class="form-control" name="category" required>
+    									<select class="form-control" name="category" id="category">
         									<option value="" disabled selected hidden>창고 유형을 선택하세요</option>
         									<option value="원자재">원자재</option>
         									<option value="완제품">완제품</option>
@@ -46,20 +48,20 @@ font-weight: bold;
     									</select>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="text" name="name" placeholder="창고이름" required>
+										<input class="form-control" type="text" name="name" id="name" placeholder="창고이름">
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="text" name="location" placeholder="창고위치 (ex A동 5구역)" required>
+										<input class="form-control" type="text" name="location" id="location" placeholder="창고위치 (ex A동 5구역)">
 									</div>
 								
 									
 									<label>담당자 정보</label> 
 									<div class="form-group">
 										<input class="form-control" type="hidden" name="manager" id="selectA">
-										<input class="form-control" type="text" id="selectB" placeholder="사원이름" readonly required>
+										<input class="form-control" type="text" id="selectB" placeholder="사원이름" readonly>
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="text" id="selectC" name="mng_phone" placeholder="사원연락처" readonly required>
+										<input class="form-control" type="text" id="selectC" name="mng_phone" placeholder="사원연락처" readonly>
 									</div>
 
 									
@@ -89,7 +91,7 @@ font-weight: bold;
 
 	<%@ include file="../include/footer.jsp"%>
 	<script type="text/javascript">
-	window.resizeTo(outerWidth - innerWidth + 550, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
+	window.resizeTo(outerWidth - innerWidth + 480, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
 	
 	
 	
@@ -111,7 +113,20 @@ font-weight: bold;
 	 
 	});
 		
-	
+	function validateForm() {
+	    
+	    var category = document.getElementById("category").value;
+	    var name = document.getElementById("name").value;
+	    var location = document.getElementById("location").value;
+	    var selectA = document.getElementById("selectA").value;
+	    var selectC = document.getElementById("selectC").value;
+	  
+	    if (category === "" || name === "" || location === "" || selectA === "" || selectC === "") {
+	        alert("모든 내용을 입력해주세요!");
+	        return false; 
+	    }
+	    return true;
+	}
 	
 	</script>
 </body>

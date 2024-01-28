@@ -73,7 +73,7 @@
 	<!-- 창고 수정 -->
 	<update id="warehouseEdit">
 		UPDATE WAREHOUSE 
-		SET manager = #{manager}, mng_phone = #{mng_phone}, name = #{name}
+		SET manager = #{manager}, mng_phone = #{mng_phone}, name = #{name}, location = #{location}
 		WHERE code = #{code}
 	</update>
 	
@@ -147,6 +147,14 @@
 		FROM STOCK_VIEW sv
   		JOIN MAPD m ON sv.code = m.code
   		JOIN COMMON_CODE c ON m.group_id = c.group_id AND m.code_id = c.code_id
+  		<where>
+		<if test="searchCode == '원자재' || searchCode == '완제품'">
+			c.code_name = #{searchCode}
+		</if>
+		<if test="searchName == '설비'">
+			c.group_name LIKE CONCAT('%', #{searchName}, '%')
+		</if>
+		</where>
 		GROUP BY code, name, group_display
     	LIMIT #{cri.startPage}, #{cri.pageSize}
 	</select>
@@ -159,6 +167,14 @@
   			FROM STOCK_VIEW sv
     		JOIN MAPD m ON sv.code = m.code
     		JOIN COMMON_CODE c ON m.group_id = c.group_id AND m.code_id = c.code_id
+    		<where>
+			<if test="searchCode == '원자재' || searchCode == '완제품'">
+				c.code_name = #{searchCode}
+			</if>
+			<if test="searchName == '설비'">
+				c.group_name LIKE CONCAT('%', #{searchName}, '%')
+			</if>
+			</where>
   		GROUP BY sv.code, sv.name,
     		CASE 
     			WHEN m.group_id = 'PROD' THEN c.code_name

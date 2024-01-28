@@ -44,30 +44,22 @@
 	<div class="card-box mb-30">
 		<div class="pd-20">
 		
-		<c:if test="${sessionScope.pos_id.equals('005') or sessionScope.dep_group.equals('자재')}">
 				
 			<div class="btn-group pull-right" style="margin-bottom: 10px; margin-left: 10px;">
-				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
-			</div>
-			
-		</c:if>
-		
-			<div class="btn-group pull-right" style="margin-bottom: 10px; margin-left: 10px;">
 				<button type="button" class="btn btn-warning" id="update"><b>수정</b></button>
+
+				<c:if test="${sessionScope.pos_id.equals('005') or sessionScope.dep_group.equals('자재')}">
+				<button type="button" class="btn btn-danger" id="delete"><b>삭제</b></button>
+				</c:if>
 			</div>
 			
-<!-- 		<ul class="nav nav-pills">
-			<li class="nav-item"><a class="nav-link text-blue" href="/material/orderList">발주 관리</a></li>
-			<li class="nav-item"><a class="nav-link text-blue active" href="/material/askOrderList">요청 목록</a></li>
-		</ul>  -->
-		
 		</div>
 
 	<!----------------------------- 요청 리스트 출력 ---------------------------->
 		<div class="pb-20">
-			<div class="col-sm-30">
+			<div class="col-sm-30" id="pageTable">
 				<form class="table" id="table">
-					<table class="table table-striped">
+					<table class="table">
 					<!-- 체크박스 / 발주코드 / 품목코드 / 구분 / 품명 / 요청량+단위 / 신청일 / 발주상태 -->
 						<tr>
 							<td style="width: 100px;">
@@ -101,7 +93,7 @@
 							<th>${vo.name }</th>
 							<th>${vo.amount } ${vo.unit }</th>
 							<th><fmt:formatDate value="${vo.date }" dateStyle="short" pattern="yyyy-MM-dd"/></th>
-							<th>${vo.empName }</th>
+							<th class="empNameColumn">${vo.empName }</th>
 							<th style="color: red;">${vo.status }</th>
 						</tr>
 						</c:forEach>
@@ -116,20 +108,62 @@
 				</form>
 
 
-				<!--------------------------------- 페이징 ---------------------------------->
 				<div class="btn-toolbar justify-content-center mb-15">
-					<div class="btn-group">
-						<c:if test="${pageVO.prev}">
-							<a href="/material/askOrderList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
-						</c:if>
-						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/material/askOrderList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
-						</c:forEach>
-						<c:if test="${pageVO.next}">
-							<a href="/material/askOrderList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
-						</c:if>
-					</div>
+    				<div class="btn-group">
+        				<c:if test="${pageVO.prev}">
+            				<a href="#" data-page="${pageVO.startPage - 1}" class="btn btn-outline-primary page-btn prev"><i class="fa fa-angle-double-left"></i></a>
+        				</c:if>
+        
+        				<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+            				<a href="#" data-page="${i}" class="btn btn-outline-primary page-btn ${pageVO.cri.page == i ? 'active' : ''}">${i}</a>
+        				</c:forEach>
+        
+        				<c:if test="${pageVO.next}">
+            				<a href="#" data-page="${pageVO.endPage + 1}" class="btn btn-outline-primary page-btn next"><i class="fa fa-angle-double-right"></i></a>
+       				 </c:if>
+    				</div>
 				</div>
+
+				<script>
+				$(document).ready(function() {
+    				$('.page-btn').click(function(e) {
+        				e.preventDefault();
+        				var pageNum = $(this).data('page');
+
+        				var dataObject = {
+            				"page": pageNum
+        				};
+        
+        				$.ajax({
+            				url: "/material/askOrderList",
+            				type: "GET",
+            				data: dataObject,
+            				success: function(data) {
+                				$("#pageTable").html($(data).find("#pageTable").html());
+            				},
+            				error: function(error) {
+                				console.error(error);
+            				}
+        				});
+    				});
+				});
+
+				
+				$(document).ready(function() {
+    				$("#tableCheckAll").click(function() {
+    					$(".checkCode").prop("checked", $(this).prop("checked"));
+    				});
+
+    				$(".checkCode").click(function() {
+    					if ($(".checkCode:checked").length === $(".checkCode").length) {
+    						$("#tableCheckAll").prop("checked", true);
+    					} else {
+    						$("#tableCheckAll").prop("checked", false);
+    						}
+    					});
+    				});
+				
+				</script>
 
 
 			</div>
@@ -217,7 +251,7 @@
 				openPage("/material/askOrderAdd", 350, 700);
 			});
 
-		 	// 수정 O
+/* 		 	// 수정 O
 			$("#update").click(function() {
 			    var check = $("input:checkbox[name=tableCheck]:checked");
 			    if (check.length === 0 || check.length > 1) {
@@ -226,8 +260,32 @@
 			        var code = check.val();
 			        openPage("/material/askOrderEdit?code=" + code, 450, 700);
 			    }
-			});
+			}); */
 
+		    $(document).ready(function() {
+		        $(".empNameColumn").click(function() {
+		            var empNameInTable = $(this).text();
+		        });
+
+		        $("#update").click(function() {
+		            var check = $("input:checkbox[name=tableCheck]:checked");
+
+		            if (check.length === 0 || check.length > 1) {
+		                alert("수정할 항목을 하나만 선택하세요!");
+		            } else {
+		                var code = check.val();
+		                var empNameInTable = $(".inInfo" + code).siblings(".empNameColumn").text();
+
+		                if (empNameInTable === "${sessionScope.name}") {
+		                    openPage("/material/askOrderEdit?code=" + code, 450, 700);
+		                } else {
+		                    alert("요청자만 수정이 가능합니다!");
+		                }
+		            }
+		        });
+		    });
+			
+			
 			// 삭제 O
  			$("#delete,#optDelete").click(function() {
 				var codes = [];

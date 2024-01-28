@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,10 +12,16 @@
 label {
 font-weight: bold;
 }
+.back {
+  background-color: white !important;
+}
 </style>
 <title>창고 수정</title>
 </head>
 <body>
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
 <!-- 콘텐츠 시작 -->
 	<div class="modal-content">
 		<div class="login-box bg-white box-shadow border-radius-10">
@@ -21,7 +30,7 @@ font-weight: bold;
 				<h1 class="text-center" style="color: #7CB342;">창고 수정</h1>
 			</div>
 			<!-- 폼 -->
-			<form action="/stock/warehouseEdit" method="post" id="editForm">
+			<form action="/stock/warehouseEdit" method="post" id="editForm" onsubmit="return validateForm()">
 				<!-- 비입력 구간 -->
 				<!-- 입력 구간 -->
 				<div class="row">
@@ -35,22 +44,22 @@ font-weight: bold;
 								
 									<label>창고 정보</label> 
 								<div class="form-group">
-									<input class="form-control" type="text" name="category"  readonly value="${List.category}">
+									<input class="form-control" type="text" name="category"  id="category" readonly value="${List.category}">
 								</div>
 								<div class="form-group">
-									<input class="form-control" type="text" name="name"  value="${List.wh_name}">
+									<input class="form-control" type="text" name="name"  id="name" value="${List.wh_name}">
 								</div>
 								<div class="form-group">
-									<input class="form-control" type="text" name="location"  readonly value="${List.location}">
+									<input class="form-control" type="text" name="location" id="location" value="${List.location}">
 								</div>
 
 									<label>담당자 정보</label> 
 								<div class="form-group">
 									<input class="form-control" type="hidden" id="selectA" name="manager" value="${List.empCode}">
-									<input class="form-control" type="text" id="selectB" value="${List.name}">
+									<input class="form-control back" type="text" id="selectB" value="${List.name}" readonly>
 								</div>
 								<div class="form-group">
-									<input class="form-control" type="text" id="selectC" name="mng_phone" value="${List.phone}">
+									<input class="form-control back" type="text" id="selectC" name="mng_phone" value="${List.phone}" readonly>
 								</div>
 
 
@@ -70,6 +79,8 @@ font-weight: bold;
 	</div>
 	<!-- 콘텐츠 끝> -->
 	<script type="text/javascript">
+	window.resizeTo(outerWidth - innerWidth + 500, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
+	
 	function openPopup(url) {
 	    var width = 550;
 	    var height = 550;
@@ -86,6 +97,22 @@ font-weight: bold;
 	    });
 	 
 	});
+
+	
+	function validateForm() {
+	    
+	    var category = document.getElementById("category").value;
+	    var name = document.getElementById("name").value;
+	    var location = document.getElementById("location").value;
+	    var selectA = document.getElementById("selectA").value;
+	    var selectC = document.getElementById("selectC").value;
+	  
+	    if (category === "" || name === "" || location === "" || selectA === "" || selectC === "") {
+	        alert("모든 내용을 입력해주세요!");
+	        return false; 
+	    }
+	    return true;
+	}
 	
 	</script>
 	<%@ include file="../include/footer.jsp"%>

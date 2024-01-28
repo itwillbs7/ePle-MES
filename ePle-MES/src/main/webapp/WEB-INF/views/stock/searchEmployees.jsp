@@ -27,6 +27,9 @@
 
 </head>
 <body>
+<c:if test="${sessionScope.id eq null}">
+	<c:redirect url="/" />
+</c:if>
 	<div class="modal-content">
 	<div class="login-box bg-white box-shadow border-radius-10">
 			
@@ -121,6 +124,8 @@
 							</div>
 
 			<script type="text/javascript">
+			window.resizeTo(outerWidth - innerWidth + 400, outerHeight - innerHeight + $(".login-box").outerHeight() + 13);
+			
 				function selectWork(a, b, c) { // 부모창으로 값 넘기기
 
 					opener.document.getElementById("selectA").value = a

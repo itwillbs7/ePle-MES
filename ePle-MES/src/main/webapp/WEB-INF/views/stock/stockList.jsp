@@ -33,40 +33,82 @@ margin-right:20px;
 	<%@ include file="../include/left-side-bar.jsp"%>
 	
 	<!------------------------------ 메인 컨테이너 ------------------------------>
-	<div class="main-container">
+	<div class="main-container" id="main-container">
 	<div class="pd-ltr-20 xs-pd-20-10">
-	<div class="title" style="margin-bottom: 10px;">
-		<a href="${pageContext.request.contextPath}/stock/stockList"><h1>재고 관리</h1></a>
-	</div>
-		<div class="min-height-200px">
-			
-	<br>
-				
-				
-				
+	<div class="row">
+           <div class="col-md-12">
+               <a href="${pageContext.request.contextPath}/stock/stockList"><h1>재고 관리</h1></a>
+            </div>
+            
+            <div class="col-md-12">
+               <nav aria-label="breadcrumb" role="navigation">
+                  <ol class="breadcrumb">
+                     <li class="breadcrumb-item">자재 관리</li>
+                     <li class="breadcrumb-item active" aria-current="page"><b>재고 관리</b></li>
+                  </ol>
+               </nav>
+            </div>
+	</div>				
 				
 	<!------------------------- 추가 / 수정 / 삭제 버튼 ------------------------->
-	<div class="card-box mb-30">
-		<div class="pd-20">
-			<div class="btn-group pull-right" style="margin-bottom: 10px">
-				<!-- <button type="button" class="btn btn-warning" id="update"><b>수정</b></button> -->
-			</div>
-		</div>
+	<div class="pd-20 mb-20 card-box">
+		<div class="tab">
+		<ul class="nav nav-pills mb-20" role="tablist">
+			<li class="nav-item"><a class="nav-link text-blue active" data-toggle="tab" href="#materialTab" role="tab" id="mat" aria-selected="true">원자재</a></li>
+			<li class="nav-item" id="fac"><a class="nav-link text-blue" data-toggle="tab" href="#facilityTab" role="tab" id="fac" aria-selected="false">설비</a></li>
+			<li class="nav-item" id="pro"><a class="nav-link text-blue" data-toggle="tab" href="#productTab" role="tab" id="pro" aria-selected="false">완제품</a></li>
+		</ul>
+				
+<script>
+$(document).ready(function() {
 
+	fetchData("원자재"); //초기화
+	
+	$("#mat").click(function() {
+        fetchData("원자재");
+        console.log("원자재 탭 클릭됨");
+    });
 
+	$("#fac").click(function() {
+        fetchData("설비");
+        console.log("설비 탭 클릭됨");
+    });
+	
+	$("#pro").click(function() {
+        fetchData("완제품");
+        console.log("완제품 탭 클릭됨");
+    });
+
+});
+
+function fetchData(searchValue) {
+	
+    $.ajax({
+        url: "/stock/stockList",
+        type: "GET",
+        data: {
+            searchCode: searchValue,
+            searchName: searchValue
+        },
+        success: function(data) {
+            console.log(searchValue)
+        	$("#materialTab").html($(data).find("#materialTab").html());
+        	$("#facilityTab").html($(data).find("#facilityTab").html());
+        	$("#productTab").html($(data).find("#productTab").html());
+        },
+        error: function(error) {
+            console.error(error);
+        }
+    });
+}
+</script>
 	<!----------------------------- 재고 리스트 출력 ---------------------------->
-		<div class="pb-20">
-			<div class="col-sm-30">
-				<form class="table" id="table">
-					<table class="table table-striped">
-					<!-- 체크박스 / 품목코드 / 품명 / 현재고 / -->
+		<div class="tab-content">
+	
+				<!----------------------------- 자재탭 ---------------------------->
+				<div class="tab-pane fade active show" id="materialTab" role="tabpanel">
+					<table class="table" id="content">
 						<tr>
-							<td style="width: 100px;">
-								<div class="custom-control custom-checkbox mb-5">
-									<input type="checkbox" class="custom-control-input" id="tableCheckAll"> 
-									<label class="custom-control-label" for="tableCheckAll"></label>
-								</div>
-							</td>
 							<th>구분</th>
 							<th>품목코드</th>
 							<th>품명</th>
@@ -74,61 +116,276 @@ margin-right:20px;
 							<th>발주요청</th>
 						</tr>
 
-						<c:forEach items="${stockList }" var="vo">
+						<c:forEach items="${stockList}" var="vo">
+						<c:if test="${vo.group_display eq '원자재'}">
 						<tr>
-							<td>
-								<div class="custom-control custom-checkbox mb-5">
-									<input type="checkbox" class="custom-control-input checkCode" id="${vo.code }" name="tableCheck" value="${vo.code }"> 
-									<label class="custom-control-label" for="${vo.code }"></label>
-								</div>
-							</td>
 							<th>${vo.group_display }</th>
 							<th style="color: #FF1493; ">${vo.code }</th>
 							<th>${vo.name }</th>
 							<th>
-								<c:if test="${vo.total < 11 }">
+								<c:if test="${vo.total < 100 and vo.total >= 0}">
 									<b style="color: red;">${vo.total }</b>
 								</c:if>
-								<c:if test="${vo.total >= 11 }">
+								<c:if test="${vo.total >= 100 }">
 									${vo.total }
+								</c:if>
+								<c:if test="${vo.total < 0 }">
+									<b style="color: red;">0</b>
 								</c:if>
 							</th>
 							
 							<th class="inInfo" data-code="${vo.code}">
     							<c:if test="${vo.total < 11}">
-        							<button type="button" class="btn btn-primary" value="${vo.code}"><b>발주요청</b></button>
+        							<button type="button" class="btn btn-primary btn-sm" value="${vo.code}"><b>발주요청</b></button>
     							</c:if>
 							</th>
 
-                        	
 						</tr>
+						</c:if>
 						</c:forEach>
 							
 					</table>
-				</form>
 
-
-
-				<!--------------------------------- 페이징 ---------------------------------->
 				<div class="btn-toolbar justify-content-center mb-15">
-					<div class="btn-group">
-						<c:if test="${pageVO.prev}">
-							<a href="/stock/stockList?page=${pageVO.startPage - 1}" class="btn btn-outline-primary prev"> <i class="fa fa-angle-double-left"> </i> </a>
-						</c:if>
-						<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
-							<a href="/stock/stockList?page=${i}" class="btn btn-outline-primary ${pageVO.cri.page == i ? 'active' : ''}"> ${i} </a>
-						</c:forEach>
-						<c:if test="${pageVO.next}">
-							<a href="/stock/stockList?page=${pageVO.endPage + 1}" class="btn btn-outline-primary next"> <i class="fa fa-angle-double-right"> </i> </a>
-						</c:if>
-					</div>
+    				<div class="btn-group">
+        				<c:if test="${pageVO.prev}">
+            				<a href="#" data-page="${pageVO.startPage - 1}" class="btn btn-outline-primary page-btn prev"><i class="fa fa-angle-double-left"></i></a>
+        				</c:if>
+        
+        				<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+            				<a href="#" data-page="${i}" class="btn btn-outline-primary page-btn ${pageVO.cri.page == i ? 'active' : ''}">${i}</a>
+        				</c:forEach>
+        
+        				<c:if test="${pageVO.next}">
+            				<a href="#" data-page="${pageVO.endPage + 1}" class="btn btn-outline-primary page-btn next"><i class="fa fa-angle-double-right"></i></a>
+       				 </c:if>
+    				</div>
 				</div>
 
+				<script>
+				$(document).ready(function() {
+    				$('.page-btn').click(function(e) {
+        				e.preventDefault();
+        				var pageNum = $(this).data('page');
+        		        var searchCode = "${param.searchCode}";
+        				var searchName = "${param.searchName}";
+        				
+        				var dataObject = {
+            				"page": pageNum
+        				};
+        
+        				if (searchCode) {
+        				    dataObject.searchCode = searchCode;
+        				}
+        				if (searchName) {
+        				    dataObject.searchName = searchName;
+        				}
+        				
+        				$.ajax({
+            				url: "/stock/stockList",
+            				type: "GET",
+            				data: dataObject,
+            				success: function(data) {
+                				$("#materialTab").html($(data).find("#materialTab").html());
+            				},
+            				error: function(error) {
+                				console.error(error);
+            				}
+        				});
+    				});
+				});
 
+				</script>
+						
+		</div>
+				
+				<!----------------------------- 설비탭 ---------------------------->
+				<div class="tab-pane fade" id="facilityTab" role="tabpanel">
+					<table class="table">
+						<tr>
+							<th>구분</th>
+							<th>품목코드</th>
+							<th>품명</th>
+							<th>현재고</th>
+							<th>발주요청</th>
+						</tr>
+
+						<c:forEach items="${stockList}" var="vo">
+						<c:if test="${vo.group_display eq '생산설비' or vo.group_display eq '비생산설비' or vo.group_display eq '기타설비'}">
+						<tr>
+							<th>${vo.group_display }</th>
+							<th style="color: #FF1493; ">${vo.code }</th>
+							<th>${vo.name }</th>
+							<th>
+								<c:if test="${vo.total < 11 and vo.total >= 0}">
+									<b style="color: red;">${vo.total }</b>
+								</c:if>
+								<c:if test="${vo.total >= 11 }">
+									${vo.total }
+								</c:if>
+								<c:if test="${vo.total < 0 }">
+									<b style="color: red;">0</b>
+								</c:if>
+							</th>
+							
+							<th class="inInfo" data-code="${vo.code}">
+    							<c:if test="${vo.total < 11}">
+        							<button type="button" class="btn btn-primary btn-sm" value="${vo.code}"><b>발주요청</b></button>
+    							</c:if>
+							</th>
+
+						</tr>
+						</c:if>
+						</c:forEach>
+							
+					</table>
+
+				<div class="btn-toolbar justify-content-center mb-15">
+    				<div class="btn-group">
+        				<c:if test="${pageVO.prev}">
+            				<a href="#" data-page="${pageVO.startPage - 1}" class="btn btn-outline-primary page-btn prev"><i class="fa fa-angle-double-left"></i></a>
+        				</c:if>
+        
+        				<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+            				<a href="#" data-page="${i}" class="btn btn-outline-primary page-btn ${pageVO.cri.page == i ? 'active' : ''}">${i}</a>
+        				</c:forEach>
+        
+        				<c:if test="${pageVO.next}">
+            				<a href="#" data-page="${pageVO.endPage + 1}" class="btn btn-outline-primary page-btn next"><i class="fa fa-angle-double-right"></i></a>
+       				 </c:if>
+    				</div>
+				</div>
+
+				<script>
+				$(document).ready(function() {
+    				$('.page-btn').click(function(e) {
+        				e.preventDefault();
+        				var pageNum = $(this).data('page');
+        		        var searchCode = "${param.searchCode}";
+        				var searchName = "${param.searchName}";
+        				
+        				var dataObject = {
+            				"page": pageNum
+        				};
+        
+        				if (searchCode) {
+        				    dataObject.searchCode = searchCode;
+        				}
+        				if (searchName) {
+        				    dataObject.searchName = searchName;
+        				}
+        				
+        				$.ajax({
+            				url: "/stock/stockList",
+            				type: "GET",
+            				data: dataObject,
+            				success: function(data) {
+                				$("#facilityTab").html($(data).find("#facilityTab").html());
+            				},
+            				error: function(error) {
+                				console.error(error);
+            				}
+        				});
+    				});
+				});
+
+				</script>
+						
+		</div>
+				<!----------------------------- 완제탭 ---------------------------->
+				<div class="tab-pane fade" id="productTab" role="tabpanel">
+					<table class="table">
+						<tr>
+							<th>구분</th>
+							<th>품목코드</th>
+							<th>품명</th>
+							<th>현재고</th>
+						</tr>
+
+						<c:forEach items="${stockList}" var="vo">
+						<c:if test="${vo.group_display eq '완제품'}">
+						<tr>
+							<th>${vo.group_display }</th>
+							<th style="color: #FF1493; ">${vo.code }</th>
+							<th>${vo.name }</th>
+							<th>
+								<c:if test="${vo.total < 11 and vo.total >= 0}">
+									<b style="color: red;">${vo.total }</b>
+								</c:if>
+								<c:if test="${vo.total >= 11 }">
+									${vo.total }
+								</c:if>
+								<c:if test="${vo.total < 0 }">
+									<b style="color: red;">0</b>
+								</c:if>
+							</th>
+							
+						</tr>
+						</c:if>
+						</c:forEach>
+							
+					</table>
+
+				<div class="btn-toolbar justify-content-center mb-15">
+    				<div class="btn-group">
+        				<c:if test="${pageVO.prev}">
+            				<a href="#" data-page="${pageVO.startPage - 1}" class="btn btn-outline-primary page-btn prev"><i class="fa fa-angle-double-left"></i></a>
+        				</c:if>
+        
+        				<c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="i">
+            				<a href="#" data-page="${i}" class="btn btn-outline-primary page-btn ${pageVO.cri.page == i ? 'active' : ''}">${i}</a>
+        				</c:forEach>
+        
+        				<c:if test="${pageVO.next}">
+            				<a href="#" data-page="${pageVO.endPage + 1}" class="btn btn-outline-primary page-btn next"><i class="fa fa-angle-double-right"></i></a>
+       				 </c:if>
+    				</div>
+				</div>
+
+				<script>
+				$(document).ready(function() {
+    				$('.page-btn').click(function(e) {
+        				e.preventDefault();
+        				var pageNum = $(this).data('page');
+        		        var searchCode = "${param.searchCode}";
+        				var searchName = "${param.searchName}";
+        				
+        				var dataObject = {
+            				"page": pageNum
+        				};
+        
+        				if (searchCode) {
+        				    dataObject.searchCode = searchCode;
+        				}
+        				if (searchName) {
+        				    dataObject.searchName = searchName;
+        				}
+        				
+        				$.ajax({
+            				url: "/stock/stockList",
+            				type: "GET",
+            				data: dataObject,
+            				success: function(data) {
+                				$("#productTab").html($(data).find("#productTab").html());
+            				},
+            				error: function(error) {
+                				console.error(error);
+            				}
+        				});
+    				});
+				});
+
+				</script>
+						
+		</div>
+				
+				
+				
+				
 			</div>
 		</div>
 	</div>
-
+</div>
 				<!---------------------------------- 푸터 ----------------------------------->
 				<div class="footer-wrap pd-20 mb-20 card-box"> ePle MES made by 
 					<a href="https://github.com/dropways" target="_blank">아이티윌 부산 2023년 7월 프로젝트 2차 1조</a>
@@ -138,8 +395,6 @@ margin-right:20px;
 				
 				
 			</div>
-		</div>
-	</div>
 	<!-- 메인 컨테이너 끝 -->
 
 
@@ -270,5 +525,7 @@ margin-right:20px;
 
 		    
 	</script>
+	
+	
 </body>
 </html>

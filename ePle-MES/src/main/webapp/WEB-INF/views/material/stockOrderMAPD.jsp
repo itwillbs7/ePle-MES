@@ -32,7 +32,7 @@ font-weight: bold;
 				
 					<!------------------------------ 첫번째 폼 ------------------------------>
 					<div class="tab-pane fade active show" id="ord-Warehousing" role="tabpanel">
-						<form method="post" id="pro-form">
+						<form method="post" id="pro-form" >
 							<div class="pd-20">
 								<div class="col-sm-12 mb-3">
 									
@@ -46,17 +46,17 @@ font-weight: bold;
 
 										<label>발주량</label> 
 									<div class="form-group">
-										<input class="form-control" type="number" name="amount" required min="1" max="999" required oninput="{(e:any) ->{if(e.target.value > 0){if(e.target.value > 100) e.target.value = 99;}else{e.target.value = 1;}}}">
+										<input class="form-control" type="number" name="amount" required min="1" max="2000" required>
 									</div>
 									
-										<label>요청자</label> 
+										<label>요청자 정보</label> 
 									<div class="form-group">
-										<input class="form-control back" type="text" id="selectA" name="ask_emp" value="${List.ask_emp }" placeholder="사원코드" required readonly>
+										<input class="form-control" type="text" readonly value="${sessionScope.dep_group }팀 (${sessionScope.pos_group })">
 									</div>
 									<div class="form-group">
-										<input class="form-control back" type="text" id="selectB" placeholder="사원명" required readonly>
-										<input class="form-control" type="hidden" id="selectC" readonly>
+										<input class="form-control" type="text" readonly value="${sessionScope.name }">
 									</div>
+										<input class="form-control" type="hidden" readonly value="${sessionScope.code }" name="ask_emp">
 								</div>
 							</div>
 							<!-- 버튼 -->
@@ -88,7 +88,7 @@ font-weight: bold;
 	
 	
 	function openPopup(url) {
-	    var width = 550;
+	    var width = 420;
 	    var height = 550;
 	    var left = (screen.width - width) / 2;
 	    var top = (screen.height - height) / 2;
@@ -114,7 +114,6 @@ font-weight: bold;
 	});
 		
 		
-	
 	
 	
 	</script>
