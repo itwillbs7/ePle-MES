@@ -29,7 +29,7 @@
 					</div>
 					<div class="pb-20">
 						<div class="col-sm-30">
-							<table class="table table-striped">
+							<table class="table">
 								<tr>
 									<th>#</th>
 									<th>품명</th>
@@ -69,7 +69,7 @@
 											</tr>
 											<tr class="tog ${i.code}">
 												<th colspan="4">
-													<table class="table">
+													<table class="table table-bordered">
 														<thead>
 															<tr>
 																<th>코드</th>

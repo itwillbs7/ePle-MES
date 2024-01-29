@@ -282,7 +282,7 @@
 		            });
 
 		            // Here, you can call openPage or perform any other actions before deletion
-		            openPage("/facility/mapd/delete?code=" + selectedCodes.join(","), 400, 300);
+		            openPage("/facility/mapd/delete?code=" + selectedCodes.join(","), 400, 600);
 		            
 		            // Note: Use window.location.replace() for a more reliable redirect after confirmation
 		            // window.location.replace(deleteUrl);
