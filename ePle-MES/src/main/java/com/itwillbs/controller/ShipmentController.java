@@ -378,7 +378,7 @@ public class ShipmentController {
         byte[] pngData = pngOutputStream.toByteArray();
         String base64String = Base64.getEncoder().encodeToString(pngData);
       
-        model.addAttribute("qrCodeImage", base64String); // 이미지가 넘어가는건 확인함 데이터도 확인함
+        model.addAttribute("qrCodeImage", base64String); 
         
         code = String.join(",", reqsArr);
         encodedCode = URLEncoder.encode(code, "UTF-8");
