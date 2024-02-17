@@ -13,7 +13,6 @@
 </head>
 <body>
 	<%@ include file="include/header.jsp"%>
-	<%@ include file="include/right-side-bar.jsp"%>
 	<%@ include file="include/left-side-bar.jsp"%>
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">

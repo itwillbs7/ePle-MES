@@ -28,7 +28,6 @@ margin-right:20px;
 <body>
 	<!----------------- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 ----------------->
 	<%@ include file="../include/header.jsp"%>
-	<%@ include file="../include/right-side-bar.jsp"%>
 	<%@ include file="../include/left-side-bar.jsp"%>
 	
 	<!------------------------------ 메인 컨테이너 ------------------------------>

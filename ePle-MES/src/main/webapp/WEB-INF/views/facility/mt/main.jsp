@@ -16,7 +16,6 @@
 <!-- 관리자의 경우 보전 등록 및 전체 조회 가능, 보전 작업 실시 -->
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
 	<%@ include file="../../include/header.jsp"%>
-	<%@ include file="../../include/right-side-bar.jsp"%>
 	<%@ include file="../../include/left-side-bar.jsp"%>
 	<!-- 메인 컨테이너 -->
 	<div class="main-container">

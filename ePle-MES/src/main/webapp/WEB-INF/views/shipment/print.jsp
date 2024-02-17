@@ -11,7 +11,6 @@
 	<!-- 공통, css 및 js 추가 시 /include/header, footer에서 삽입 -->
 	<div class="header" style='display :none;'>
 	<%@ include file="../include/header.jsp"%>
-	<%@ include file="../include/right-side-bar.jsp"%>
 	<%@ include file="../include/left-side-bar.jsp"%>
 	</div>
 	<!-- 비로그인 거름망 -->
